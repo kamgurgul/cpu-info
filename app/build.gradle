@@ -124,20 +124,30 @@ repositories {
 }
 
 def getReleaseSigningConfig() {
-    Properties properties = new Properties()
     try {
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        Properties localProp = new Properties()
+        localProp.load(project.rootProject.file('local.properties').newDataInputStream())
+        if (localProp.getProperty('keyPath') == null
+            || localProp.getProperty('keyPass') == null
+            || localProp.getProperty('keyAlias') == null) {
+            return getDebugSigningConfig()
+        } else {
+            return localProp;
+        }
     } catch (FileNotFoundException e) {
-        def debugKeyDir = System.getenv('HOME') + "/.android/debug.keystore"
-        properties.setProperty('keyPath', debugKeyDir)
-        properties.setProperty('keyPass', 'android')
-        properties.setProperty('keyAlias', 'androiddebugkey')
-        properties.setProperty('keyPass', 'android')
-
-        logger.warn("Using default debug key instead of release key!")
+        return getDebugSigningConfig()
     }
-    return properties
 }
 
+def getDebugSigningConfig() {
+    logger.warn("Using default debug key instead of release key!")
+    Properties properties = new Properties()
+    def debugKeyDir = System.getenv('HOME') + "/.android/debug.keystore"
+    properties.setProperty('keyPath', debugKeyDir)
+    properties.setProperty('keyPass', 'android')
+    properties.setProperty('keyAlias', 'androiddebugkey')
+    properties.setProperty('keyPass', 'android')
+    return properties
+}
 
 apply plugin: 'com.google.gms.google-services'
