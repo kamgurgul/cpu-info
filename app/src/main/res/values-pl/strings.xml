@@ -1,0 +1,141 @@
+<!--
+  ~ Copyright 2017 KG Soft
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <string name="app_name">CPU Info</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="action_sorting">Sortuj</string>
+    <string name="action_refresh">Odśwież</string>
+
+    <string name="open_drawer">Otwórz panel</string>
+    <string name="close_drawer">Zamknij panel</string>
+
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="ok">OK</string>
+    <string name="permission_rationale">Uprawnienia kamery są wymagane do uzyskania informacji</string>
+
+    <!--Tabs-->
+    <string name="cpu">CPU</string>
+    <string name="gpu">GPU</string>
+    <string name="ram">RAM</string>
+    <string name="storage">Pamięć</string>
+    <string name="screen">Ekran</string>
+    <string name="android">Android</string>
+    <string name="hardware">Sprzęt</string>
+    <string name="sensors">Sensory</string>
+
+    <string name="processes">Procesy</string>
+    <string name="applications">Aplikacje</string>
+    <string name="temp">Temperatura</string>
+    <string name="settings">Ustawienia</string>
+
+    <string name="running_gc">Uruchamianie Garbage Collector</string>
+
+    <!--Apps-->
+    <string name="app_open">Nie można otworzyć tej aplikacji</string>
+    <string name="cpu_open">Już otwarty :-)</string>
+    <string name="cpu_uninstall">Nie mogę tego zrobić :-(</string>
+    <string name="native_libs">Biblioteki natywne</string>
+    <string name="storage_used">Użyta pamięć:</string>
+    <string name="calculating">obliczanie…</string>
+
+    <!--GPU-->
+    <string name="gles_version">Wersja GLES</string>
+    <string name="vendor">Producent</string>
+    <string name="version">Wersja</string>
+    <string name="renderer">Renderer</string>
+    <string name="extensions">Rozszerzenia</string>
+
+    <!--RAM-->
+    <string name="total_memory">Całkowita pamięć</string>
+    <string name="available_memory">Dostępna pamięć</string>
+    <string name="threshold">Próg</string>
+
+    <!--Storage-->
+    <string name="storage_hint">Pamięć wewnętrzna może być taka sama jak zewnętrzna</string>
+    <string name="internal">Wewnętrzna</string>
+    <string name="external">Zewnętrzna</string>
+    <string name="sd_card">Karta SD</string>
+
+    <!--Screen-->
+    <string name="screen_class">Klasa ekranu</string>
+    <string name="small">Mały</string>
+    <string name="normal">Normalny</string>
+    <string name="large">Duży</string>
+    <string name="unknown">Nieznany</string>
+    <string name="density_class">Klasa gęstości</string>
+    <string name="width">Szerokość</string>
+    <string name="height">Wysokość</string>
+    <string name="dp_width">Szerokość Dp</string>
+    <string name="dp_height">Wysokość Dp</string>
+    <string name="density">Gęstość</string>
+    <string name="absolute_width">Dostępna szerokość</string>
+    <string name="absolute_height">Dostępna wysokość</string>
+    <string name="refresh_rate">Odświeżanie</string>
+    <string name="orientation">Orientacja</string>
+
+    <!--Android-->
+    <string name="codename">Nazwa kodowa</string>
+    <string name="brand">Marka</string>
+    <string name="model">Model</string>
+    <string name="manufacturer">Producent</string>
+    <string name="board">Płyta główna</string>
+    <string name="serial">Serial</string>
+    <string name="rooted">Rooted</string>
+    <string name="security_providers">Dostawcy zabezpieczeń</string>
+
+    <!--Hardware-->
+    <string name="battery">Bateria</string>
+    <string name="wireless">Komunikacja bezprzewodowa</string>
+    <string name="sound_card">Karta dźwiękowa</string>
+    <string name="level">Poziom</string>
+    <string name="voltage">Napięcie</string>
+    <string name="temperature">Temperatura</string>
+    <string name="capacity">Pojemność</string>
+    <string name="technology">Technologia</string>
+    <string name="is_charging">Ładowany</string>
+    <string name="charging_type">Typ ładowania</string>
+    <string name="wifi_mac">Wi-Fi Mac</string>
+    <string name="bluetooth_mac">Bluetooth Mac</string>
+    <string name="amount">Ilość</string>
+    <string name="card">Karta</string>
+    <string name="cameras">Aparaty</string>
+    <string name="camera">Aparat</string>
+    <string name="type">Typ</string>
+    <string name="front">Frontowy</string>
+    <string name="back">Tylny</string>
+    <string name="battery_health">Stan</string>
+    <string name="battery_cold">Zimna</string>
+    <string name="battery_good">Zdrowa</string>
+    <string name="battery_dead">Martwa</string>
+    <string name="battery_overheat">Przegrzana</string>
+    <string name="battery_overvoltage">Przepięcie</string>
+    <string name="battery_unknown">Nieznana</string>
+    <string name="battery_unspecified_failure">Nieznana usterka</string>
+
+    <!--Prefs-->
+    <string name="default_refreshing">Domyślna wartość Androida</string>
+    <string name="ram_refreshing">Odświeżanie widgetu</string>
+    <string name="general">Ogólne</string>
+    <string name="temperature_unit">Jednostka temperatury</string>
+
+    <!--Temp-->
+    <string name="cpu_temperature">Temperatura CPU</string>
+    <string name="battery_temperature">Temperatura baterii</string>
+    <string name="no_temp_data">Przepraszam, nie mogłem znaleźć sensorów temperatury :-(</string>
+
+</resources>

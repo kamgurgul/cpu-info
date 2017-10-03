@@ -1,0 +1,143 @@
+<!--
+  ~ Copyright 2017 KG Soft
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="app_name">CPU Info</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_sorting">Sorting</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_gc" translatable="false">Garbage collector</string>
+
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+    <string name="permission_rationale">Camera permission is required for getting camera spec</string>
+
+    <!--Tabs-->
+    <string name="cpu">CPU</string>
+    <string name="gpu">GPU</string>
+    <string name="ram">RAM</string>
+    <string name="storage">Storage</string>
+    <string name="screen">Screen</string>
+    <string name="android">Android</string>
+    <string name="hardware">Hardware</string>
+    <string name="sensors">Sensors</string>
+
+    <string name="processes">Processes</string>
+    <string name="applications">Applications</string>
+    <string name="temp">Temperature</string>
+    <string name="settings">Settings</string>
+
+    <string name="running_gc">Running Garbage Collector</string>
+
+    <!--Apps-->
+    <string name="app_open">Cannot open this application</string>
+    <string name="cpu_open">Don\'t open me twice :-)</string>
+    <string name="cpu_uninstall">Can\'t do that :-(</string>
+    <string name="native_libs">Native libs</string>
+    <string name="storage_used">Storage used:</string>
+    <string name="calculating">calculating…</string>
+
+    <!--GPU-->
+    <string name="gles_version">GLES Version</string>
+    <string name="vendor">Vendor</string>
+    <string name="version">Version</string>
+    <string name="renderer">Renderer</string>
+    <string name="extensions">Extensions</string>
+
+    <!--RAM-->
+    <string name="total_memory">Total memory</string>
+    <string name="available_memory">Available memory</string>
+    <string name="threshold">Threshold</string>
+
+    <!--Storage-->
+    <string name="storage_hint">External memory could be the same as internal</string>
+    <string name="internal">Internal</string>
+    <string name="external">External</string>
+    <string name="sd_card">SD Card</string>
+
+    <!--Screen-->
+    <string name="screen_class">Screen class</string>
+    <string name="small">Small</string>
+    <string name="normal">Normal</string>
+    <string name="large">Large</string>
+    <string name="unknown">Unknown</string>
+    <string name="density_class">Density class</string>
+    <string name="width">Width</string>
+    <string name="height">Height</string>
+    <string name="dp_width">Dp Width</string>
+    <string name="dp_height">Dp Height</string>
+    <string name="density">Density</string>
+    <string name="absolute_width">Absolute Width</string>
+    <string name="absolute_height">Absolute Height</string>
+    <string name="refresh_rate">Refresh rate</string>
+    <string name="orientation">Orientation</string>
+
+    <!--Android-->
+    <string name="codename">Codename</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="board">Board</string>
+    <string name="serial">Serial</string>
+    <string name="rooted">Rooted</string>
+    <string name="security_providers">Security providers</string>
+
+    <!--Hardware-->
+    <string name="battery">Battery</string>
+    <string name="wireless">Wireless</string>
+    <string name="sound_card">Sound card</string>
+    <string name="level">Level</string>
+    <string name="voltage">Voltage</string>
+    <string name="temperature">Temperature</string>
+    <string name="capacity">Capacity</string>
+    <string name="technology">Technology</string>
+    <string name="is_charging">Is charging</string>
+    <string name="charging_type">Charging type</string>
+    <string name="wifi_mac">Wi-Fi Mac</string>
+    <string name="bluetooth_mac">Bluetooth Mac</string>
+    <string name="amount">Amount</string>
+    <string name="card">Card</string>
+    <string name="cameras">Cameras</string>
+    <string name="camera">Camera</string>
+    <string name="type">Type</string>
+    <string name="front">Front</string>
+    <string name="back">Back</string>
+    <string name="battery_health">Health</string>
+    <string name="battery_cold">Cold</string>
+    <string name="battery_good">Good</string>
+    <string name="battery_dead">Dead</string>
+    <string name="battery_overheat">Overheat</string>
+    <string name="battery_overvoltage">Overvoltage</string>
+    <string name="battery_unknown">Unknown</string>
+    <string name="battery_unspecified_failure">Unspecified failure</string>
+
+    <!--Prefs-->
+    <string name="default_refreshing">Android default value</string>
+    <string name="ram_refreshing">Widget refreshing</string>
+    <string name="general">General</string>
+    <string name="temperature_unit">Temperature unit</string>
+
+    <!--Temp-->
+    <string name="cpu_temperature">CPU temperature</string>
+    <string name="battery_temperature">Battery temperature</string>
+    <string name="no_temp_data">Sorry I can\'t find temperature sensors :-(</string>
+
+</resources>

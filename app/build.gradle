@@ -1,0 +1,143 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+Properties signingProperties = getReleaseSigningConfig()
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+
+    defaultConfig {
+        applicationId "com.kgurgul.cpuinfo"
+        minSdkVersion 14
+        targetSdkVersion 26
+        versionCode 30
+        versionName "3.0"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    signingConfigs {
+        releaseVersion {
+            storeFile file(signingProperties.getProperty('keyPath'))
+            storePassword signingProperties.getProperty('keyPass')
+            keyAlias signingProperties.getProperty('keyAlias')
+            keyPassword signingProperties.getProperty('keyPass')
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            signingConfig signingConfigs.releaseVersion
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            applicationIdSuffix ".debug"
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions.incremental = true
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+kapt {
+    generateStubs = true
+}
+
+ext {
+    supportVersion = "26.1.0"
+    playServicesVersion = "11.4.0"
+    androidPluginVersion = "2.3.0"
+    archLifecycleVersion = "1.0.0-beta1"
+    daggerVersion = "2.11"
+    ankoVersion = "0.10.1"
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    testCompile 'junit:junit:4.12'
+
+    compile "com.android.support:appcompat-v7:$supportVersion"
+    compile "com.android.support:design:$supportVersion"
+    compile "com.android.support:preference-v14:$supportVersion"
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.anko:anko-coroutines:$ankoVersion"
+
+    // Android data binding
+    kapt "com.android.databinding:compiler:$androidPluginVersion"
+
+    // Play services and Firebase
+    compile "com.google.android.gms:play-services-analytics:$playServicesVersion"
+    releaseCompile "com.google.firebase:firebase-crash:$playServicesVersion"
+
+    // Bus
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    // Rx
+    compile 'io.reactivex.rxjava2:rxjava:2.1.3'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxkotlin:2.0.0'
+
+    // GSON
+    compile 'com.google.code.gson:gson:2.8.0'
+
+    // Dagger
+    compile "com.google.dagger:dagger:$daggerVersion"
+    compile "com.google.dagger:dagger-android-support:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    // Timber
+    compile 'com.jakewharton.timber:timber:4.5.1'
+
+    // Google arch
+    compile "android.arch.lifecycle:extensions:$archLifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$archLifecycleVersion"
+
+    // Leak canary
+/*    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.3'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.3'*/
+}
+
+buildscript {
+    ext.kotlin_version = '1.1.51'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+repositories {
+    mavenCentral()
+}
+
+def getReleaseSigningConfig() {
+    Properties properties = new Properties()
+    try {
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    } catch (FileNotFoundException e) {
+        def debugKeyDir = System.getenv('HOME') + "/.android/debug.keystore"
+        properties.setProperty('keyPath', debugKeyDir)
+        properties.setProperty('keyPass', 'android')
+        properties.setProperty('keyAlias', 'androiddebugkey')
+        properties.setProperty('keyPass', 'android')
+
+        logger.warn("Using default debug key instead of release key!")
+    }
+    return properties
+}
+
+
+apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2017 KG Soft
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <color name="round_corner_progress_bar_background_default">#5f5f5f</color>
+    <color name="round_corner_progress_bar_progress_default">#7f7f7f</color>
+    <color name="round_corner_progress_bar_secondary_progress_default">@android:color/transparent
+    </color>
+    <declare-styleable name="IconRoundCornerProgress">
+        <attr name="rcIconSrc" format="integer" />
+        <attr name="rcIconSize" format="dimension" />
+        <attr name="rcIconWidth" format="dimension" />
+        <attr name="rcIconHeight" format="dimension" />
+        <attr name="rcIconPadding" format="dimension" />
+        <attr name="rcIconPaddingLeft" format="dimension" />
+        <attr name="rcIconPaddingRight" format="dimension" />
+        <attr name="rcIconPaddingTop" format="dimension" />
+        <attr name="rcIconPaddingBottom" format="dimension" />
+        <attr name="rcIconBackgroundColor" format="color" />
+    </declare-styleable>
+    <declare-styleable name="RoundCornerProgress">
+        <attr name="rcReverse" format="boolean" />
+        <attr name="rcProgress" format="float" />
+        <attr name="rcMax" format="float" />
+        <attr name="rcSecondaryProgress" format="float" />
+        <attr name="rcBackgroundPadding" format="dimension" />
+        <attr name="rcRadius" format="dimension" />
+        <attr name="rcProgressColor" format="color" />
+        <attr name="rcSecondaryProgressColor" format="color" />
+        <attr name="rcBackgroundColor" format="color" />
+    </declare-styleable>
+    <declare-styleable name="TextRoundCornerProgress">
+        <attr name="rcTextProgressColor" format="color" />
+        <attr name="rcTextProgressSize" format="dimension" />
+        <attr name="rcTextProgressMargin" format="dimension" />
+        <attr name="rcTextProgress" format="string" />
+    </declare-styleable>
+</resources>
