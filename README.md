@@ -35,7 +35,7 @@ Still TODO
 * Migration all heavy lifting into coroutines (remove AsyncTask)
 * Tests
 * Travis integration
-* Fix for RAM widget for Android O - or drop it for completely
+* Fix for RAM widget on Android O - or drop it completely
 
 License
 -------
