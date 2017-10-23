@@ -52,9 +52,11 @@
 
         <service android:name="com.kgurgul.cpuinfo.features.applications.StorageUsageService" />
 
-        <service android:name=".widgets.ramwidget.RefreshService" />
+        <service android:name=".features.ramwidget.RefreshService" />
 
-        <receiver android:name=".widgets.ramwidget.RamUsageWidgetProvider">
+        <receiver
+            android:name=".features.ramwidget.RamUsageWidgetProvider"
+            android:enabled="@bool/belowOreo">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

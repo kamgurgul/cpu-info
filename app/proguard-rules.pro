@@ -34,3 +34,6 @@
     public <methods>;
 }
 -keep interface android.content.pm.IPackageStatsObserver$** {*;}
+
+# Arch TODO: remove with 1.0.0 stable release
+-keep class * implements android.arch.lifecycle.GeneratedAdapter {<init>(...);}

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.widgets.ramwidget
+package com.kgurgul.cpuinfo.features.ramwidget
 
 import android.app.Service
 import android.appwidget.AppWidgetManager
@@ -28,7 +28,6 @@ import android.os.IBinder
 import android.os.PowerManager
 import android.preference.PreferenceManager
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
-import com.kgurgul.cpuinfo.widgets.ramwidget.events.KillRefreshServiceEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
@@ -36,6 +35,8 @@ import timber.log.Timber
 /**
  * Really messy implementation to hack refreshing of the ram widget. TBH it should be refactored.
  * With new Android O it should be migrated to the foreground service.
+ * </p>
+ * Current implementation will hide widget on Android O!
  *
  * @author kgurgul
  */
@@ -77,7 +78,7 @@ class RefreshService : Service() {
                 Timber.d("Device is active: $isDeviceActive")
 
                 if (isDeviceActive) {
-                    Timber.d("Request for ram widget update - delay $ramUpdateDelay")
+                    Timber.d("Request for ram widget update - delay ${ramUpdateDelay}")
                     val intent = Intent(this@RefreshService,
                             RamUsageWidgetProvider::class.java)
                     intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
@@ -115,4 +116,6 @@ class RefreshService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
+
+    class KillRefreshServiceEvent
 }

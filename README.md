@@ -26,7 +26,6 @@ Used libraries
 
 Must have before 3.0 release
 ============================
-* Fix or deletion of RAM widget for Android O
 * Code cleanup
 * Android Architecture Components stable version
 * Global testing
@@ -36,6 +35,7 @@ Still TODO
 * Migration all heavy lifting into coroutines (remove AsyncTask)
 * Tests
 * Travis integration
+* Fix for RAM widget for Android O - or drop it for completely
 
 License
 -------

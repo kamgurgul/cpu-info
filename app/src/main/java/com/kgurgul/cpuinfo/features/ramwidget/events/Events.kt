@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.widgets.ramwidget.events
+package com.kgurgul.cpuinfo.features.ramwidget.events
 
 /**
  * Created by kgurgul on 05/08/16.

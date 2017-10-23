@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.widgets.ramwidget
+package com.kgurgul.cpuinfo.features.ramwidget
 
 import android.app.ActivityManager
 import android.app.PendingIntent
@@ -31,14 +31,14 @@ import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.HostActivity
 import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import com.kgurgul.cpuinfo.widgets.arc.ArcProgress
-import com.kgurgul.cpuinfo.widgets.ramwidget.events.KillRefreshServiceEvent
 import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
 import java.io.RandomAccessFile
 import java.util.regex.Pattern
 
 /**
- * Displays current usage of the RAM memory
+ * Displays current usage of the RAM memory. Won't work on Android O!
+ * All refreshing logic can be migrated into foreground service but IMO it is not worth it.
  *
  * @author kgurgul
  */
@@ -69,7 +69,7 @@ class RamUsageWidgetProvider : AppWidgetProvider() {
                 pushWidgetUpdates(context.applicationContext, remoteViews)
             }
 
-            // TODO: switch into foreground service
+            // Won't work on Android O!
             runOnApiBelow(Build.VERSION_CODES.O, {
                 val intent = Intent(context, RefreshService::class.java)
                 context.startService(intent)
@@ -87,7 +87,7 @@ class RamUsageWidgetProvider : AppWidgetProvider() {
 
     override fun onDisabled(context: Context) {
         Timber.d("Widget disabled")
-        EventBus.getDefault().post(KillRefreshServiceEvent())
+        EventBus.getDefault().post(RefreshService.KillRefreshServiceEvent())
         previousRamState = -1
 
         super.onDisabled(context)

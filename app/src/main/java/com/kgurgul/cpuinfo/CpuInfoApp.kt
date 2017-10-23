@@ -18,7 +18,12 @@ package com.kgurgul.cpuinfo
 
 import android.app.Activity
 import android.app.Application
+import android.appwidget.AppWidgetManager
+import android.content.Intent
+import android.os.Build
 import com.kgurgul.cpuinfo.di.AppInjector
+import com.kgurgul.cpuinfo.features.ramwidget.RamUsageWidgetProvider
+import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import timber.log.Timber
@@ -47,18 +52,22 @@ class CpuInfoApp : Application(), HasActivityInjector {
         }
 
         AppInjector.init(this)
+        tryToUpdateRamWidget()
     }
 
-    // TODO: Fix widget
-/*    fun updateRamWidget(app: Application) {
-        Timber.d("Broadcast with ram widget update sent")
-
-        val intent = Intent(app, RamUsageWidgetProvider::class.java)
-        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-        val ids = intArrayOf(R.xml.ram_widget_provider)
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-        app.sendBroadcast(intent)
-    }*/
+    /**
+     * Try to create refresh service for ram widget. Currently it will work only on API below 26
+     */
+    private fun tryToUpdateRamWidget() {
+        runOnApiBelow(Build.VERSION_CODES.O, {
+            Timber.d("updateRamWidget()")
+            val intent = Intent(this, RamUsageWidgetProvider::class.java)
+            intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            val ids = intArrayOf(R.xml.ram_widget_provider)
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            sendBroadcast(intent)
+        }, {})
+    }
 
     override fun activityInjector(): DispatchingAndroidInjector<Activity>
             = dispatchingAndroidInjector
