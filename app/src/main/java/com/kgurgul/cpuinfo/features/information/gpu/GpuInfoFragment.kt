@@ -47,6 +47,11 @@ class GpuInfoFragment : BaseRvFragment() {
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<GpuInfoViewModel>
     private lateinit var viewModel: GpuInfoViewModel
 
+    private val infoItemsAdapter: InfoItemsAdapter by lazy {
+        InfoItemsAdapter(context, viewModel.dataObservableList,
+                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
+    }
+
     private val gpuInfoList = ArrayList<Pair<String, String>>()
     private var glSurfaceView: GLSurfaceView? = null
     private lateinit var handler: Handler
@@ -94,12 +99,18 @@ class GpuInfoFragment : BaseRvFragment() {
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+        infoItemsAdapter.registerListChangeNotifier()
+    }
+
+    override fun onStop() {
+        infoItemsAdapter.unregisterListChangeNotifier()
+        super.onStop()
+    }
+
     override fun setupRecyclerViewAdapter() {
         recyclerView.addItemDecoration(DividerItemDecoration(context))
-
-        val infoItemsAdapter = InfoItemsAdapter(context, viewModel.dataObservableList,
-                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
         recyclerView.adapter = infoItemsAdapter
-        lifecycle.addObserver(infoItemsAdapter)
     }
 }

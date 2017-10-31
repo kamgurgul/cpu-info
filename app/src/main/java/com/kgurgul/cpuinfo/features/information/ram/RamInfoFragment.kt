@@ -43,6 +43,11 @@ class RamInfoFragment : BaseRvFragment() {
                 .get(RamInfoViewModel::class.java)
     }
 
+    private val infoItemsAdapter: InfoItemsAdapter by lazy {
+        InfoItemsAdapter(context, viewModel.dataObservableList,
+                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
+    }
+
     private lateinit var mainContainer: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,11 +64,13 @@ class RamInfoFragment : BaseRvFragment() {
 
     override fun onStart() {
         super.onStart()
+        infoItemsAdapter.registerListChangeNotifier()
         viewModel.startProvidingData()
     }
 
     override fun onStop() {
         viewModel.stopProvidingData()
+        infoItemsAdapter.unregisterListChangeNotifier()
         super.onStop()
     }
 
@@ -89,10 +96,6 @@ class RamInfoFragment : BaseRvFragment() {
 
     override fun setupRecyclerViewAdapter() {
         recyclerView.addItemDecoration(DividerItemDecoration(context))
-
-        val infoItemsAdapter = InfoItemsAdapter(context, viewModel.dataObservableList,
-                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
         recyclerView.adapter = infoItemsAdapter
-        lifecycle.addObserver(infoItemsAdapter)
     }
 }

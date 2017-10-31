@@ -32,7 +32,7 @@ import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 class TemperatureAdapter(private val temperatureFormatter: TemperatureFormatter)
     : RecyclerView.Adapter<TemperatureAdapter.BindingViewHolder>() {
 
-    var temperatureItems: List<TemperatureItem>? = null
+    private var temperatureItems: List<TemperatureItem>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder {
         val viewHolderBinding = DataBindingUtil.inflate<ItemTemperatureBinding>(

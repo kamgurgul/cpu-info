@@ -38,22 +38,25 @@ class SensorsInfoFragment : BaseRvFragment() {
                 .get(SensorsInfoViewModel::class.java)
     }
 
+    private val infoItemsAdapter: InfoItemsAdapter by lazy {
+        InfoItemsAdapter(context, viewModel.dataObservableList,
+                InfoItemsAdapter.LayoutType.VERTICAL_LAYOUT)
+    }
+
     override fun onStart() {
         super.onStart()
+        infoItemsAdapter.registerListChangeNotifier()
         viewModel.startProvidingData()
     }
 
     override fun onStop() {
         viewModel.stopProvidingData()
+        infoItemsAdapter.unregisterListChangeNotifier()
         super.onStop()
     }
 
     override fun setupRecyclerViewAdapter() {
         recyclerView.addItemDecoration(DividerItemDecoration(context))
-
-        val infoItemsAdapter = InfoItemsAdapter(context, viewModel.dataObservableList,
-                InfoItemsAdapter.LayoutType.VERTICAL_LAYOUT)
         recyclerView.adapter = infoItemsAdapter
-        lifecycle.addObserver(infoItemsAdapter)
     }
 }

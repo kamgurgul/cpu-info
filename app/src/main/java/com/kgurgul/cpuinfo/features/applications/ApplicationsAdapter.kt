@@ -17,9 +17,6 @@
 package com.kgurgul.cpuinfo.features.applications
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.content.pm.PackageManager
 import android.databinding.ObservableList
@@ -32,12 +29,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.SimpleListChangeNotifier
+import com.kgurgul.cpuinfo.common.list.ObservableListAdapter
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import com.kgurgul.cpuinfo.widgets.swiperv.SwipeHorizontalMenuLayout
 import java.io.File
-import java.lang.ref.WeakReference
 
 /**
  * Adapter for application list with sliding items
@@ -47,14 +43,12 @@ import java.lang.ref.WeakReference
 class ApplicationsAdapter(context: Context,
                           private val appList: ObservableList<ExtendedAppInfo>,
                           private val appClickListener: ItemClickListener)
-    : RecyclerView.Adapter<ApplicationsAdapter.ApplicationViewHolder>(), LifecycleObserver {
+    : ObservableListAdapter<ExtendedAppInfo,
+        ApplicationsAdapter.ApplicationViewHolder>(appList) {
 
     private val packageManager: PackageManager = context.packageManager
     private val storageLabel: String = context.getString(R.string.storage_used)
     private val calculatingLabel: String = context.getString(R.string.calculating)
-
-    private val simpleListChangeNotifier =
-            SimpleListChangeNotifier<ExtendedAppInfo>(WeakReference(this))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApplicationViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -129,16 +123,6 @@ class ApplicationsAdapter(context: Context,
         val settingsV: View = itemView.findViewById(R.id.settings)
         val deleteView: View = itemView.findViewById(R.id.delete)
         val nativeButtonIV: ImageView = itemView.findViewById(R.id.native_button)
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
-        appList.addOnListChangedCallback(simpleListChangeNotifier)
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
-        appList.removeOnListChangedCallback(simpleListChangeNotifier)
     }
 
     /**

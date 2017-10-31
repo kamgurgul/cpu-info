@@ -6,7 +6,7 @@ Properties signingProperties = getReleaseSigningConfig()
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.kgurgul.cpuinfo"
@@ -57,7 +57,7 @@ ext {
     supportVersion = "26.1.0"
     playServicesVersion = "11.4.2"
     androidPluginVersion = "2.3.0"
-    archLifecycleVersion = "1.0.0-beta2"
+    archLifecycleVersion = "1.0.0-rc1"
     daggerVersion = "2.12"
     ankoVersion = "0.10.1"
 }

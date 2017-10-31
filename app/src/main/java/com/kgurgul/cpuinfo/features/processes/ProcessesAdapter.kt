@@ -17,9 +17,6 @@
 package com.kgurgul.cpuinfo.features.processes
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
 import android.databinding.ObservableList
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -27,9 +24,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.SimpleListChangeNotifier
+import com.kgurgul.cpuinfo.common.list.ObservableListAdapter
 import com.kgurgul.cpuinfo.utils.Utils
-import java.lang.ref.WeakReference
 
 /**
  * Simple adapter for processes
@@ -37,10 +33,7 @@ import java.lang.ref.WeakReference
  * @author kgurgul
  */
 class ProcessesAdapter(private val processList: ObservableList<ProcessItem>)
-    : RecyclerView.Adapter<ProcessesAdapter.ViewHolder>(), LifecycleObserver {
-
-    private val simpleListChangeNotifier =
-            SimpleListChangeNotifier<ProcessItem>(WeakReference(this))
+    : ObservableListAdapter<ProcessItem, ProcessesAdapter.ViewHolder>(processList) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder? {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_process, parent, false)
@@ -61,16 +54,6 @@ class ProcessesAdapter(private val processList: ObservableList<ProcessItem>)
 
     override fun getItemCount(): Int {
         return processList.size
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
-        processList.addOnListChangedCallback(simpleListChangeNotifier)
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
-        processList.removeOnListChangedCallback(simpleListChangeNotifier)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

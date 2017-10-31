@@ -74,16 +74,17 @@ class ProcessesFragment : Fragment(), Injectable {
         binding.get().recyclerView.adapter = processesAdapter.get()
         binding.get().recyclerView.addItemDecoration(DividerItemDecoration(context))
         (binding.get().recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
-        lifecycle.addObserver(processesAdapter.get())
     }
 
     override fun onStart() {
         super.onStart()
+        processesAdapter.get().registerListChangeNotifier()
         viewModel.startProcessRefreshing()
     }
 
     override fun onStop() {
         viewModel.stopProcessRefreshing()
+        processesAdapter.get().unregisterListChangeNotifier()
         super.onStop()
     }
 

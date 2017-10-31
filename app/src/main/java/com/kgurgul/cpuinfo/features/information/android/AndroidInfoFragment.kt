@@ -38,12 +38,23 @@ class AndroidInfoFragment : BaseRvFragment() {
                 .get(AndroidInfoViewModel::class.java)
     }
 
+    private val infoItemsAdapter: InfoItemsAdapter by lazy {
+        InfoItemsAdapter(context, viewModel.dataObservableList,
+                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        infoItemsAdapter.registerListChangeNotifier()
+    }
+
+    override fun onStop() {
+        infoItemsAdapter.unregisterListChangeNotifier()
+        super.onStop()
+    }
+
     override fun setupRecyclerViewAdapter() {
         recyclerView.addItemDecoration(DividerItemDecoration(context))
-
-        val infoItemsAdapter = InfoItemsAdapter(context, viewModel.dataObservableList,
-                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
         recyclerView.adapter = infoItemsAdapter
-        lifecycle.addObserver(infoItemsAdapter)
     }
 }

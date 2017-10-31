@@ -16,9 +16,6 @@
 
 package com.kgurgul.cpuinfo.features.information.base
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.databinding.ObservableList
 import android.support.v4.content.ContextCompat
@@ -28,8 +25,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.SimpleListChangeNotifier
-import java.lang.ref.WeakReference
+import com.kgurgul.cpuinfo.common.list.ObservableListAdapter
 
 /**
  * Adapter for all info items inside [BaseRvFragment]. It should support two types of layouts:
@@ -41,14 +37,12 @@ import java.lang.ref.WeakReference
 class InfoItemsAdapter(private val context: Context,
                        private val itemsObservableList: ObservableList<Pair<String, String>>,
                        private val layoutType: LayoutType = InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT) :
-        RecyclerView.Adapter<InfoItemsAdapter.SingleItemViewHolder>(), LifecycleObserver {
+        ObservableListAdapter<Pair<String, String>,
+                InfoItemsAdapter.SingleItemViewHolder>(itemsObservableList) {
 
     enum class LayoutType {
         HORIZONTAL_LAYOUT, VERTICAL_LAYOUT
     }
-
-    private val simpleListChangeNotifier =
-            SimpleListChangeNotifier<Pair<String, String>>(WeakReference(this))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleItemViewHolder {
         val layout = if (layoutType == LayoutType.HORIZONTAL_LAYOUT)
@@ -73,16 +67,6 @@ class InfoItemsAdapter(private val context: Context,
 
     override fun getItemCount(): Int {
         return itemsObservableList.size
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
-        itemsObservableList.addOnListChangedCallback(simpleListChangeNotifier)
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
-        itemsObservableList.removeOnListChangedCallback(simpleListChangeNotifier)
     }
 
     class SingleItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

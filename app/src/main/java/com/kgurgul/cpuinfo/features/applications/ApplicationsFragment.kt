@@ -89,10 +89,12 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
     override fun onStart() {
         super.onStart()
         registerUninstallBroadcast()
+        applicationsAdapter.get().registerListChangeNotifier()
     }
 
     override fun onStop() {
         activity.unregisterReceiver(uninstallReceiver)
+        applicationsAdapter.get().unregisterListChangeNotifier()
         super.onStop()
     }
 
@@ -114,8 +116,8 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
 
         binding.get().recyclerView.adapter = applicationsAdapter.get()
         binding.get().recyclerView.addItemDecoration(DividerItemDecoration(context))
-        (binding.get().recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
-        lifecycle.addObserver(applicationsAdapter.get())
+        (binding.get().recyclerView.itemAnimator as? SimpleItemAnimator)
+                ?.supportsChangeAnimations = false
     }
 
     /**

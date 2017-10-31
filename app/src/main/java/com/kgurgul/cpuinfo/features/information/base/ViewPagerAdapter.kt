@@ -19,7 +19,7 @@ package com.kgurgul.cpuinfo.features.information.base
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.information.android.AndroidInfoFragment
 import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoFragment
@@ -34,7 +34,7 @@ import com.kgurgul.cpuinfo.features.information.storage.StorageInfoFragment
  * Simple view pager for info fragments
  */
 class ViewPagerAdapter(val context: Context, manager: FragmentManager) :
-        FragmentPagerAdapter(manager) {
+        FragmentStatePagerAdapter(manager) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {

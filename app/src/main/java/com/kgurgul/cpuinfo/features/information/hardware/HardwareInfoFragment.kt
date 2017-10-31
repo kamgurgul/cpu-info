@@ -42,11 +42,21 @@ class HardwareInfoFragment : BaseRvFragment() {
                 .get(HardwareInfoViewModel::class.java)
     }
 
+    private val infoItemsAdapter: InfoItemsAdapter by lazy {
+        InfoItemsAdapter(context, viewModel.dataObservableList,
+                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
+    }
+
     private val powerReceiver = object : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
             viewModel.refreshHardwareInfo()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        infoItemsAdapter.registerListChangeNotifier()
     }
 
     override fun onResume() {
@@ -64,12 +74,13 @@ class HardwareInfoFragment : BaseRvFragment() {
         activity.unregisterReceiver(powerReceiver)
     }
 
+    override fun onStop() {
+        infoItemsAdapter.unregisterListChangeNotifier()
+        super.onStop()
+    }
+
     override fun setupRecyclerViewAdapter() {
         recyclerView.addItemDecoration(DividerItemDecoration(context))
-
-        val infoItemsAdapter = InfoItemsAdapter(context, viewModel.dataObservableList,
-                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
         recyclerView.adapter = infoItemsAdapter
-        lifecycle.addObserver(infoItemsAdapter)
     }
 }

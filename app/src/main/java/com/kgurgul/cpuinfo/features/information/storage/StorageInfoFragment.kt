@@ -52,10 +52,19 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
 
     private lateinit var viewModel: StorageInfoViewModel
 
+    private val storageAdapter: StorageAdapter by lazy {
+        StorageAdapter(viewModel.storageItemList)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
                 .get(StorageInfoViewModel::class.java)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        storageAdapter.registerListChangeNotifier()
     }
 
     override fun onResume() {
@@ -89,11 +98,13 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
         super.onPause()
     }
 
+    override fun onStop() {
+        storageAdapter.unregisterListChangeNotifier()
+        super.onStop()
+    }
+
     override fun setupRecyclerViewAdapter() {
         recyclerView.addItemDecoration(DividerItemDecoration(context))
-
-        val storageAdapter = StorageAdapter(viewModel.storageItemList)
         recyclerView.adapter = storageAdapter
-        lifecycle.addObserver(storageAdapter)
     }
 }

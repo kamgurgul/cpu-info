@@ -16,9 +16,6 @@
 
 package com.kgurgul.cpuinfo.features.information.storage
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
 import android.databinding.ObservableList
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -26,11 +23,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.SimpleListChangeNotifier
+import com.kgurgul.cpuinfo.common.list.ObservableListAdapter
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.round2
 import com.kgurgul.cpuinfo.widgets.progress.IconRoundCornerProgressBar
-import java.lang.ref.WeakReference
 
 /**
  * Adpter for items in [StorageInfoFragment]. It is copy from
@@ -39,15 +35,8 @@ import java.lang.ref.WeakReference
  *
  * @author kgurgul
  */
-class StorageAdapter(private val storageObservableList: ObservableList<StorageItem>) :
-        RecyclerView.Adapter<StorageAdapter.ViewHolder>(), LifecycleObserver {
-
-    private val simpleListChangeNotifier =
-            SimpleListChangeNotifier<StorageItem>(WeakReference(this))
-
-    init {
-        storageObservableList.addOnListChangedCallback(simpleListChangeNotifier)
-    }
+class StorageAdapter(private val storageObservableList: ObservableList<StorageItem>)
+    : ObservableListAdapter<StorageItem, StorageAdapter.ViewHolder>(storageObservableList) {
 
     override fun getItemCount(): Int {
         return storageObservableList.size
@@ -60,11 +49,6 @@ class StorageAdapter(private val storageObservableList: ObservableList<StorageIt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindViewHolder(storageObservableList[position])
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy() {
-        storageObservableList.removeOnListChangedCallback(simpleListChangeNotifier)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
