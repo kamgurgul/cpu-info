@@ -19,13 +19,16 @@ package com.kgurgul.cpuinfo.features.temperature
 import com.kgurgul.cpuinfo.common.Prefs
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import com.kgurgul.cpuinfo.utils.round2
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Format temperature using user settings
  *
  * @author kgurgul
  */
-class TemperatureFormatter constructor(val prefs: Prefs) {
+@Singleton
+class TemperatureFormatter @Inject constructor(val prefs: Prefs) {
 
     private val CELSIUS = 0
     private val FAHRENHEIT = 1

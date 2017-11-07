@@ -21,9 +21,9 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import com.kgurgul.cpuinfo.di.FragmentScope
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Return battery status from ACTION_BATTERY_CHANGED broadcast receiver and capacity from
@@ -31,7 +31,7 @@ import javax.inject.Inject
  *
  * @author kgurgul
  */
-@FragmentScope
+@Singleton
 class BatteryStatusProvider @Inject constructor(private val app: Application) {
 
     /**

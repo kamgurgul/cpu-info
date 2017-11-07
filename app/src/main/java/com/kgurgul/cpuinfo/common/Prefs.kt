@@ -20,11 +20,14 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.google.gson.Gson
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Simple wrapper for [SharedPreferences] which can also serialize and deserialize object from JSON
  */
-class Prefs(var app: Application) {
+@Singleton
+class Prefs @Inject constructor(var app: Application) {
 
     fun contains(key: String): Boolean {
         return prefs().contains(key)

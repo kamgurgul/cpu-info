@@ -25,13 +25,16 @@ import com.kgurgul.cpuinfo.utils.Utils
 import io.reactivex.Maybe
 import io.reactivex.rxkotlin.toObservable
 import java.io.File
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Custom provider which provides all temperatures
  *
  * @author kgurgul
  */
-class TemperatureProvider(val app: Application) {
+@Singleton
+class TemperatureProvider @Inject constructor(val app: Application) {
 
     /**
      * @return battery temperature

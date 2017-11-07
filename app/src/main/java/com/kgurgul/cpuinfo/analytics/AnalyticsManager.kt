@@ -23,13 +23,16 @@ import com.google.android.gms.analytics.HitBuilders
 import com.google.android.gms.analytics.Tracker
 import com.kgurgul.cpuinfo.R
 import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Implementation of Google Analytics
  *
  * @author kgurgul
  */
-class AnalyticsManager(app: Application) {
+@Singleton
+class AnalyticsManager @Inject constructor(app: Application) {
 
     private lateinit var tracker: Tracker
 

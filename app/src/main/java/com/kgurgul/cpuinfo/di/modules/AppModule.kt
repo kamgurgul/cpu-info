@@ -51,7 +51,6 @@ class AppModule {
     fun provideActivityManager(app: Application): ActivityManager =
             app.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
-
     @Provides
     @Singleton
     fun providePackageManager(app: Application): PackageManager =
@@ -71,29 +70,4 @@ class AppModule {
     @Singleton
     fun provideSensorManager(app: Application): SensorManager =
             app.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-
-    @Provides
-    @Singleton
-    fun providePrefs(app: Application): Prefs =
-            Prefs(app)
-
-    @Provides
-    @Singleton
-    fun provideAnalyticsManager(app: Application): AnalyticsManager =
-            AnalyticsManager(app)
-
-    @Provides
-    @Singleton
-    fun provideTemperatureFormatter(prefs: Prefs): TemperatureFormatter =
-            TemperatureFormatter(prefs)
-
-    @Provides
-    @Singleton
-    fun provideTemperatureProvider(app: Application): TemperatureProvider =
-            TemperatureProvider(app)
-
-    @Provides
-    @Singleton
-    fun provideBatteryStatusProvider(app: Application): BatteryStatusProvider =
-            BatteryStatusProvider(app)
 }
