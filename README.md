@@ -27,7 +27,6 @@ Used libraries
 Must have before 3.0 release
 ============================
 * Code cleanup
-* Android Architecture Components stable version
 * Global testing
 
 Still TODO
