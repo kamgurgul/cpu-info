@@ -7,7 +7,6 @@ import junit.framework.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
 /**
@@ -49,7 +48,7 @@ class PrefsTest {
         val sharedPreferences = mock<SharedPreferences> {
             on { edit() } doReturn editor
         }
-        val order = Mockito.inOrder(editor)
+        val order = inOrder(editor)
         val prefs = Prefs(sharedPreferences)
 
         /* When */
@@ -75,7 +74,7 @@ class PrefsTest {
         val sharedPreferences = mock<SharedPreferences> {
             on { getString(eq("TestData"), any()) } doReturn "{\"name\": \"test\"}"
         }
-        val order = Mockito.inOrder(sharedPreferences)
+        val order = inOrder(sharedPreferences)
         val prefs = Prefs(sharedPreferences)
 
         /* When */
