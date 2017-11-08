@@ -20,7 +20,6 @@ import android.app.Application
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
-import android.text.TextUtils
 import com.kgurgul.cpuinfo.utils.Utils
 import io.reactivex.Maybe
 import io.reactivex.rxkotlin.toObservable
@@ -79,7 +78,7 @@ class TemperatureProvider @Inject constructor(val app: Application) {
                     }
                     CpuTemperatureResult(validPath, currentTemp.toInt())
                 }
-                .filter { (filePath) -> !TextUtils.isEmpty(filePath) }
+                .filter { (filePath) -> !filePath.isEmpty() }
                 .firstElement()
     }
 

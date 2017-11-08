@@ -20,15 +20,12 @@ import android.app.ActivityManager
 import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.SensorManager
+import android.preference.PreferenceManager
 import android.view.WindowManager
-import com.kgurgul.cpuinfo.analytics.AnalyticsManager
-import com.kgurgul.cpuinfo.common.Prefs
-import com.kgurgul.cpuinfo.features.information.hardware.BatteryStatusProvider
-import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
-import com.kgurgul.cpuinfo.features.temperature.TemperatureProvider
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -70,4 +67,9 @@ class AppModule {
     @Singleton
     fun provideSensorManager(app: Application): SensorManager =
             app.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(app: Application): SharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(app)
 }

@@ -108,6 +108,8 @@ class RefreshService : Service() {
         super.onDestroy()
     }
 
+
+    @Suppress("UNUSED_PARAMETER")
     @Subscribe
     fun killServiceEvent(event: KillRefreshServiceEvent) {
         stopSelf()

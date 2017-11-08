@@ -19,7 +19,6 @@ package com.kgurgul.cpuinfo.features.information.gpu
 import android.app.ActivityManager
 import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
-import android.text.TextUtils
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.common.list.AdapterArrayList
 import javax.inject.Inject
@@ -45,7 +44,7 @@ class GpuInfoViewModel @Inject constructor(private val activityManager: Activity
         if (dataObservableList.isEmpty()) {
             val configurationInfo = activityManager.deviceConfigurationInfo
             val version = configurationInfo.glEsVersion
-            if (!TextUtils.isEmpty(version)) {
+            if (!version.isNullOrEmpty()) {
                 // Add GLES version on the first position because this ViewModel doesn't contains
                 // synchronization with "addGlInfo" method
                 dataObservableList.add(0, Pair(resources.getString(R.string.gles_version),

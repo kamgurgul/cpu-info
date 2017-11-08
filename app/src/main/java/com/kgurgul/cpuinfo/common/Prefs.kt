@@ -16,9 +16,7 @@
 
 package com.kgurgul.cpuinfo.common
 
-import android.app.Application
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import com.google.gson.Gson
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,22 +25,22 @@ import javax.inject.Singleton
  * Simple wrapper for [SharedPreferences] which can also serialize and deserialize object from JSON
  */
 @Singleton
-class Prefs @Inject constructor(var app: Application) {
+class Prefs @Inject constructor(private val sharedPreferences: SharedPreferences) {
 
     fun contains(key: String): Boolean {
-        return prefs().contains(key)
+        return sharedPreferences.contains(key)
     }
 
     fun insert(key: String, value: Any) {
         when (value) {
-            is Int -> prefs().edit().putInt(key, value).apply()
-            is Float -> prefs().edit().putFloat(key, value).apply()
-            is String -> prefs().edit().putString(key, value).apply()
-            is Boolean -> prefs().edit().putBoolean(key, value).apply()
-            is Long -> prefs().edit().putLong(key, value).apply()
+            is Int -> sharedPreferences.edit().putInt(key, value).apply()
+            is Float -> sharedPreferences.edit().putFloat(key, value).apply()
+            is String -> sharedPreferences.edit().putString(key, value).apply()
+            is Boolean -> sharedPreferences.edit().putBoolean(key, value).apply()
+            is Long -> sharedPreferences.edit().putLong(key, value).apply()
             else -> {
                 val s = Gson().toJson(value)
-                prefs().edit().putString(key, s).apply()
+                sharedPreferences.edit().putString(key, s).apply()
             }
         }
     }
@@ -50,13 +48,13 @@ class Prefs @Inject constructor(var app: Application) {
     @Suppress("UNCHECKED_CAST")
     fun <T> get(key: String, default: T): T {
         when (default) {
-            is Int -> return prefs().getInt(key, default) as T
-            is Float -> return prefs().getFloat(key, default) as T
-            is String -> return prefs().getString(key, default) as T
-            is Boolean -> return prefs().getBoolean(key, default) as T
-            is Long -> return prefs().getLong(key, default) as T
+            is Int -> return sharedPreferences.getInt(key, default) as T
+            is Float -> return sharedPreferences.getFloat(key, default) as T
+            is String -> return sharedPreferences.getString(key, default) as T
+            is Boolean -> return sharedPreferences.getBoolean(key, default) as T
+            is Long -> return sharedPreferences.getLong(key, default) as T
             else -> {
-                val value = prefs().getString(key, "")
+                val value = sharedPreferences.getString(key, "")
                 if (value.isNotEmpty()) {
                     val typedObject = default as Any
                     return Gson().fromJson(value, typedObject.javaClass) as T
@@ -67,11 +65,7 @@ class Prefs @Inject constructor(var app: Application) {
     }
 
     fun remove(key: String) {
-        prefs().edit().remove(key).apply()
-    }
-
-    fun prefs(): SharedPreferences {
-        return PreferenceManager.getDefaultSharedPreferences(app)
+        sharedPreferences.edit().remove(key).apply()
     }
 }
 
