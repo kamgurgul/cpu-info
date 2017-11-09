@@ -26,6 +26,7 @@ import android.content.res.Resources
 import android.hardware.SensorManager
 import android.preference.PreferenceManager
 import android.view.WindowManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -72,4 +73,9 @@ class AppModule {
     @Singleton
     fun provideSharedPreferences(app: Application): SharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(app)
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAnalytics(app: Application): FirebaseAnalytics =
+            FirebaseAnalytics.getInstance(app)
 }

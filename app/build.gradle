@@ -79,8 +79,8 @@ dependencies {
     // Android data binding
     kapt "com.android.databinding:compiler:$androidPluginVersion"
 
-    // Play services and Firebase
-    compile "com.google.android.gms:play-services-analytics:$playServicesVersion"
+    // Firebase
+    compile "com.google.firebase:firebase-core:$playServicesVersion"
     releaseCompile "com.google.firebase:firebase-crash:$playServicesVersion"
 
     // Bus

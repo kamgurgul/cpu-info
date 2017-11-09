@@ -1,4 +1,3 @@
 /build
 src/debug/google-services.json
 src/release/google-services.json
-src/main/res/xml/app_tracker.xml

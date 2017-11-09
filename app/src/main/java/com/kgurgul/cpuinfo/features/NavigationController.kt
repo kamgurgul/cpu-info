@@ -16,9 +16,9 @@
 
 package com.kgurgul.cpuinfo.features
 
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.analytics.AnalyticsEvents
-import com.kgurgul.cpuinfo.analytics.AnalyticsManager
 import com.kgurgul.cpuinfo.features.applications.ApplicationsFragment
 import com.kgurgul.cpuinfo.features.information.ContainerInfoFragment
 import com.kgurgul.cpuinfo.features.processes.ProcessesFragment
@@ -31,8 +31,8 @@ import javax.inject.Inject
  *
  * @author kgurgul
  */
-class NavigationController @Inject constructor(hostActivity: HostActivity,
-                                               private val analyticsManager: AnalyticsManager) {
+class NavigationController @Inject constructor(private val hostActivity: HostActivity,
+                                               private val firebaseAnalytics: FirebaseAnalytics) {
 
     companion object {
         val HOME_FRAGMENT_TAG = "HOME_FRAGMENT_TAG"
@@ -43,7 +43,7 @@ class NavigationController @Inject constructor(hostActivity: HostActivity,
     private val containerId = R.id.fragment_container
 
     fun navigateToInfo() {
-        analyticsManager.setScreenName(AnalyticsEvents.INFO_SCREEN)
+        firebaseAnalytics.setCurrentScreen(hostActivity, AnalyticsEvents.INFO_SCREEN, null)
         val infoFragment = ContainerInfoFragment()
         if (fragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG) != null) {
             val currentFragment = fragmentManager.findFragmentByTag(SECOND_FRAGMENT_TAG)
@@ -59,7 +59,7 @@ class NavigationController @Inject constructor(hostActivity: HostActivity,
     }
 
     fun navigateToTemperature() {
-        analyticsManager.setScreenName(AnalyticsEvents.TEMPERATURE_SCREEN)
+        firebaseAnalytics.setCurrentScreen(hostActivity, AnalyticsEvents.TEMPERATURE_SCREEN, null)
         val temperatureFragment = TemperatureFragment()
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(containerId, temperatureFragment, SECOND_FRAGMENT_TAG)
@@ -70,7 +70,7 @@ class NavigationController @Inject constructor(hostActivity: HostActivity,
     }
 
     fun navigateToApplications() {
-        analyticsManager.setScreenName(AnalyticsEvents.APPLICATIONS_SCREEN)
+        firebaseAnalytics.setCurrentScreen(hostActivity, AnalyticsEvents.APPLICATIONS_SCREEN, null)
         val applicationsFragment = ApplicationsFragment()
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(containerId, applicationsFragment, SECOND_FRAGMENT_TAG)
@@ -81,7 +81,7 @@ class NavigationController @Inject constructor(hostActivity: HostActivity,
     }
 
     fun navigateToProcesses() {
-        analyticsManager.setScreenName(AnalyticsEvents.PROCESSES_SCREEN)
+        firebaseAnalytics.setCurrentScreen(hostActivity, AnalyticsEvents.PROCESSES_SCREEN, null)
         val processesFragment = ProcessesFragment()
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(containerId, processesFragment, SECOND_FRAGMENT_TAG)
@@ -92,7 +92,7 @@ class NavigationController @Inject constructor(hostActivity: HostActivity,
     }
 
     fun navigateToSettings() {
-        analyticsManager.setScreenName(AnalyticsEvents.SETTINGS_SCREEN)
+        firebaseAnalytics.setCurrentScreen(hostActivity, AnalyticsEvents.SETTINGS_SCREEN, null)
         val settingsFragment = SettingsFragment()
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(containerId, settingsFragment, SECOND_FRAGMENT_TAG)
