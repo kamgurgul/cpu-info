@@ -1,4 +1,6 @@
-<img src="info/icon_glow.png" width="100" height="100" /> <br/>
+<img src="info/icon_glow.png" width="100" height="100" />
+
+[![Build Status](https://travis-ci.org/kamgurgul/cpu-info.svg?branch=master)](https://travis-ci.org/kamgurgul/cpu-info)<br/>
 CPU Info
 ========
 CPU Info provides information about Android device hardware and software.
@@ -27,13 +29,11 @@ Used libraries
 Must have before 3.0 release
 ============================
 * Code cleanup
-* Global testing
 
 Still TODO
 ==========
 * Migration all heavy lifting into coroutines (remove AsyncTask)
 * Tests
-* Travis integration
 * Fix for RAM widget on Android O - or drop it completely
 
 License
