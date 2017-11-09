@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "",
         "android_client_info": {
-          "package_name": "com.kgurgul.cpuinfo"
+          "package_name": "com.kgurgul.cpuinfo.debug"
         }
       },
       "oauth_client": [

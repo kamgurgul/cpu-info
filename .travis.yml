@@ -8,4 +8,7 @@ android:
     - android-26
 
 script:
-    - ./gradlew test
+    - ./gradlew testDebugUnitTest
+
+notifications:
+  email: false
