@@ -11,11 +11,6 @@ still in Java.
 Current version can be found on Google Play:<br />
 [![Get it on Google Play](info/google-play-badge.png)](https://play.google.com/store/apps/details?id=com.kgurgul.cpuinfo)
 
-Building requirements
-=====================
-* *res/xml/app_tracker.xml* for Google Analytics
-* *google-services.json* file with Firebase configuration
-
 Used libraries
 ==============
 * [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html)
