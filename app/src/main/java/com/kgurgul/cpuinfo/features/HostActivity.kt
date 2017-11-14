@@ -42,6 +42,7 @@ import javax.inject.Inject
 class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     private val CURRENT_PAGE_ID_KEY = "CURRENT_PAGE_ID_KEY"
+    private val CURRENT_PAGE_NAME_KEY = "CURRENT_PAGE_NAME_KEY"
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
@@ -73,11 +74,13 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
             navigationController.navigateToInfo()
         } else {
             currentItemId = savedInstanceState.getInt(CURRENT_PAGE_ID_KEY)
+            setToolbarTitleAndElevation(savedInstanceState.getString(CURRENT_PAGE_NAME_KEY))
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(CURRENT_PAGE_ID_KEY, currentItemId)
+        outState.putString(CURRENT_PAGE_NAME_KEY, binding.toolbar.title.toString())
         super.onSaveInstanceState(outState)
     }
 

@@ -109,9 +109,8 @@ class ApplicationsAdapter(context: Context,
         }
     }
 
-    override fun getItemCount(): Int {
-        return appList.size
-    }
+    override fun getItemCount(): Int =
+            appList.size
 
     class ApplicationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val iconIv: ImageView = itemView.findViewById(R.id.app_icon)

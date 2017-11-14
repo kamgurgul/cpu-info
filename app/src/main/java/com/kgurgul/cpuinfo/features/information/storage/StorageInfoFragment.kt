@@ -23,7 +23,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
-import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
@@ -51,10 +50,7 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<StorageInfoViewModel>
 
     private lateinit var viewModel: StorageInfoViewModel
-
-    private val storageAdapter: StorageAdapter by lazy {
-        StorageAdapter(viewModel.storageItemList)
-    }
+    private lateinit var storageAdapter: StorageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,7 +100,7 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
     }
 
     override fun setupRecyclerViewAdapter() {
-        recyclerView.addItemDecoration(DividerItemDecoration(context))
+        storageAdapter = StorageAdapter(viewModel.storageItemList)
         recyclerView.adapter = storageAdapter
     }
 }

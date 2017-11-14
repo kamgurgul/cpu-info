@@ -29,18 +29,15 @@ import com.kgurgul.cpuinfo.utils.round2
 import com.kgurgul.cpuinfo.widgets.progress.IconRoundCornerProgressBar
 
 /**
- * Adpter for items in [StorageInfoFragment]. It is copy from
- * [com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter] because storage has
- * another data container. It can be replaced with something more generic.
+ * Adapter for items in [StorageInfoFragment]
  *
  * @author kgurgul
  */
 class StorageAdapter(private val storageObservableList: ObservableList<StorageItem>)
     : ObservableListAdapter<StorageItem, StorageAdapter.ViewHolder>(storageObservableList) {
 
-    override fun getItemCount(): Int {
-        return storageObservableList.size
-    }
+    override fun getItemCount(): Int =
+            storageObservableList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_storage, parent, false)

@@ -17,28 +17,28 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="@string/general"
-        android:key="pref_key_storage_settings">
+        android:key="pref_key_storage_settings"
+        android:title="@string/general">
 
         <ListPreference
-            android:title="@string/temperature_unit"
-            android:key="temperature_unit"
             android:defaultValue="0"
             android:entries="@array/prefTemperatureNames"
-            android:entryValues="@array/prefTemperatureValues" />
+            android:entryValues="@array/prefTemperatureValues"
+            android:key="temperature_unit"
+            android:title="@string/temperature_unit" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/ram"
-        android:key="pref_key_storage_settings">
+        android:key="pref_key_ram_settings"
+        android:title="@string/ram">
 
         <ListPreference
-            android:title="@string/ram_refreshing"
-            android:key="ram_refreshing"
             android:defaultValue="10000"
             android:entries="@array/prefRamNames"
-            android:entryValues="@array/prefRamValues" />
+            android:entryValues="@array/prefRamValues"
+            android:key="ram_refreshing"
+            android:title="@string/ram_refreshing" />
 
     </PreferenceCategory>
 

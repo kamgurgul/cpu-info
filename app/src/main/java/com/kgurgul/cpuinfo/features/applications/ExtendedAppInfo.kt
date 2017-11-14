@@ -16,39 +16,18 @@
 
 package com.kgurgul.cpuinfo.features.applications
 
-import android.os.Parcel
+import android.annotation.SuppressLint
 import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Model for [ApplicationsAdapter]
  *
  * @author kgurgul
  */
+@SuppressLint("ParcelCreator")
+@Parcelize
 data class ExtendedAppInfo(val name: String,
                            val packageName: String,
                            val nativeLibraryDir: String?,
-                           var appSize: Long = 0) : Parcelable {
-    constructor(source: Parcel) : this(
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            source.readLong()
-    )
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeString(name)
-        writeString(packageName)
-        writeString(nativeLibraryDir)
-        writeLong(appSize)
-    }
-
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<ExtendedAppInfo> = object : Parcelable.Creator<ExtendedAppInfo> {
-            override fun createFromParcel(source: Parcel): ExtendedAppInfo = ExtendedAppInfo(source)
-            override fun newArray(size: Int): Array<ExtendedAppInfo?> = arrayOfNulls(size)
-        }
-    }
-}
+                           var appSize: Long = 0) : Parcelable

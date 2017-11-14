@@ -71,6 +71,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         setHasOptionsMenu(true)
         viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
                 .get(ApplicationsViewModel::class.java)
+        viewModel.refreshApplicationsList()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -144,15 +145,14 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_sorting -> {
-                viewModel.changeAppsSorting()
-                true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+            when (item.itemId) {
+                R.id.action_sorting -> {
+                    viewModel.changeAppsSorting()
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
             }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 
     /**
      * Try to open clicked app. In case of error show [Snackbar].

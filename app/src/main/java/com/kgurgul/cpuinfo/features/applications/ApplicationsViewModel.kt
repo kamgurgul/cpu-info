@@ -35,6 +35,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.coroutines.experimental.asReference
 import org.jetbrains.anko.coroutines.experimental.bg
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -57,7 +58,6 @@ class ApplicationsViewModel @Inject constructor(
     private var refreshingDisposable: Disposable? = null
 
     init {
-        refreshApplicationsList()
         EventBus.getDefault().register(this)
     }
 
@@ -74,6 +74,8 @@ class ApplicationsViewModel @Inject constructor(
                         runOnApiBelow(Build.VERSION_CODES.O, {
                             shouldStartStorageService.call()
                         }, {})
+                    }, { throwable ->
+                        Timber.e(throwable)
                     })
         }
     }
@@ -81,7 +83,7 @@ class ApplicationsViewModel @Inject constructor(
     /**
      * Get all user applications
      */
-    private fun getApplicationsListSingle(): Single<List<ExtendedAppInfo>> {
+    internal fun getApplicationsListSingle(): Single<List<ExtendedAppInfo>> {
         return Single.fromCallable({
             val extendedAppList = ArrayList<ExtendedAppInfo>()
             try {
@@ -113,20 +115,22 @@ class ApplicationsViewModel @Inject constructor(
      */
     fun changeAppsSorting() {
         async(UI) {
-            val result = bg { getAppSortedList() }
+            val result = bg { getAppSortedList(!isSortingAsc) }
             val sortedAppList = result.await()
             ref().applicationList.replace(sortedAppList)
         }
     }
 
     /**
+     * Store passed sorting method into [Prefs] and return sorted list (copy from [applicationList])
+     *
      * @return sorted list of the apps from [applicationList]
      */
-    private fun getAppSortedList(): List<ExtendedAppInfo> {
+    internal fun getAppSortedList(sortingAsc: Boolean): List<ExtendedAppInfo> {
         val appListCopy = ArrayList<ExtendedAppInfo>(applicationList)
-        isSortingAsc = !isSortingAsc
-        prefs.insert(SORTING_APPS_KEY, isSortingAsc)
-        if (isSortingAsc) {
+        isSortingAsc = sortingAsc
+        prefs.insert(SORTING_APPS_KEY, sortingAsc)
+        if (sortingAsc) {
             appListCopy.sortBy { it.name.toUpperCase() }
         } else {
             appListCopy.sortByDescending { it.name.toUpperCase() }

@@ -17,10 +17,12 @@
 package com.kgurgul.cpuinfo.features.settings
 
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.PreferenceFragmentCompat
 import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.utils.runOnApiAbove
 
 /**
  * Provides possibility to change RAM widget refreshing time and temperature units
@@ -33,6 +35,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
     companion object {
         val KEY_TEMPERATURE_UNIT = "temperature_unit"
         val KEY_RAM_REFRESHING = "ram_refreshing"
+
+        private val KEY_RAM_CATEGORIES = "pref_key_ram_settings"
     }
 
     private lateinit var temperatureUnitPreference: ListPreference
@@ -45,6 +49,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 as ListPreference
         ramRefreshingPreference = preferenceScreen.findPreference(KEY_RAM_REFRESHING)
                 as ListPreference
+
+        // RAM widget isn't supported currently on O and above
+        runOnApiAbove(Build.VERSION_CODES.N_MR1, {
+            preferenceScreen.removePreference(preferenceScreen.findPreference(KEY_RAM_CATEGORIES))
+        }, {})
     }
 
     override fun onResume() {
