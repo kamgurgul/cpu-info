@@ -24,7 +24,6 @@ import io.reactivex.plugins.RxJavaPlugins
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
-import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 
 /**
@@ -39,7 +38,7 @@ class RxImmediateSchedulerRule : TestRule {
                 super.scheduleDirect(run, 0, unit)
 
         override fun createWorker(): Scheduler.Worker =
-                ExecutorScheduler.ExecutorWorker(Executor { it.run() })
+                ExecutorScheduler.ExecutorWorker(Runnable::run)
     }
 
     override fun apply(base: Statement, description: Description): Statement {
