@@ -82,17 +82,16 @@ class RamInfoFragment : BaseRvFragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_gc -> {
-                viewModel.clearRam()
-                Snackbar.make(mainContainer, getString(R.string.running_gc), Snackbar.LENGTH_SHORT)
-                        .show()
-                true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+            when (item.itemId) {
+                R.id.action_gc -> {
+                    viewModel.clearRam()
+                    Snackbar.make(mainContainer, getString(R.string.running_gc),
+                            Snackbar.LENGTH_SHORT).show()
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
             }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 
     override fun setupRecyclerViewAdapter() {
         recyclerView.addItemDecoration(DividerItemDecoration(context))

@@ -43,7 +43,7 @@ import timber.log.Timber
 class RefreshService : Service() {
 
     companion object {
-        val RAM_BACKGROUND_DELAY = 60000L
+        const val RAM_BACKGROUND_DELAY = 60000L
         var ramUpdateDelay = 10000L
     }
 
@@ -115,9 +115,8 @@ class RefreshService : Service() {
         stopSelf()
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent?): IBinder? =
+            null
 
     class KillRefreshServiceEvent
 }

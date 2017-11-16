@@ -47,7 +47,9 @@ class ApplicationsViewModel @Inject constructor(
         private val prefs: Prefs,
         private val packageManager: PackageManager) : ViewModel() {
 
-    private val SORTING_APPS_KEY = "SORTING_APPS_KEY"
+    companion object {
+        private const val SORTING_APPS_KEY = "SORTING_APPS_KEY"
+    }
 
     val isLoading = ObservableBoolean(false)
     val applicationList = AdapterArrayList<ExtendedAppInfo>()
@@ -86,25 +88,21 @@ class ApplicationsViewModel @Inject constructor(
     internal fun getApplicationsListSingle(): Single<List<ExtendedAppInfo>> {
         return Single.fromCallable({
             val extendedAppList = ArrayList<ExtendedAppInfo>()
-            try {
-                var appsList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
-                        .filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }
-                appsList = if (isSortingAsc) {
-                    appsList.sortedBy {
-                        it.loadLabel(packageManager).toString().toUpperCase()
-                    }
-                } else {
-                    appsList.sortedByDescending {
-                        it.loadLabel(packageManager).toString().toUpperCase()
-                    }
+            var appsList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+                    .filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }
+            appsList = if (isSortingAsc) {
+                appsList.sortedBy {
+                    it.loadLabel(packageManager).toString().toUpperCase()
                 }
-                appsList.map {
-                    extendedAppList.add(
-                            ExtendedAppInfo(it.loadLabel(packageManager).toString(),
-                                    it.packageName, it.nativeLibraryDir))
+            } else {
+                appsList.sortedByDescending {
+                    it.loadLabel(packageManager).toString().toUpperCase()
                 }
-            } catch (e: Exception) {
-                // Do nothing
+            }
+            appsList.map {
+                extendedAppList.add(
+                        ExtendedAppInfo(it.loadLabel(packageManager).toString(),
+                                it.packageName, it.nativeLibraryDir))
             }
             extendedAppList
         })

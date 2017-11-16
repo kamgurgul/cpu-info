@@ -37,7 +37,7 @@ import java.util.*
 class StorageUsageService : IntentService("StorageUsageService") {
 
     companion object {
-        val PACKAGES_LIST_TAG = "packages_list_tag"
+        private const val PACKAGES_LIST_TAG = "packages_list_tag"
 
         fun startService(context: Context, packagesList: ArrayList<ExtendedAppInfo>) {
             val intent = Intent(context, StorageUsageService::class.java)

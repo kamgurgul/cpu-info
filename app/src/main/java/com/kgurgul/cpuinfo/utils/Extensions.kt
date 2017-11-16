@@ -23,21 +23,17 @@ import android.os.Build
  *
  * @author kgurgul
  */
-fun Float.round1(): Float {
-    return Math.round(this * 10.0) / 10.0f
-}
+fun Float.round1(): Float =
+        Math.round(this * 10.0) / 10.0f
 
-fun Double.round1(): Double {
-    return Math.round(this * 10.0) / 10.0
-}
+fun Double.round1(): Double =
+        Math.round(this * 10.0) / 10.0
 
-fun Float.round2(): Float {
-    return Math.round(this * 100.0) / 100.0f
-}
+fun Float.round2(): Float =
+        Math.round(this * 100.0) / 100.0f
 
-fun Double.round2(): Double {
-    return Math.round(this * 100.0) / 100.0
-}
+fun Double.round2(): Double =
+        Math.round(this * 100.0) / 100.0
 
 inline fun runOnApi(api: Int, f: () -> Unit, otherwise: () -> Unit) {
     if (Build.VERSION.SDK_INT == api) {

@@ -42,7 +42,10 @@ import javax.inject.Inject
 class RamInfoViewModel @Inject constructor(private val activityManager: ActivityManager,
                                            private val resources: Resources) : ViewModel() {
 
-    private val REFRESHING_INTERVAL = 5L
+    companion object {
+        private const val REFRESHING_INTERVAL = 5L
+    }
+
     private val memoryInfo = ActivityManager.MemoryInfo()
     private var ramRefreshingDisposable: Disposable? = null
     private var clearRamAsyncTask: ClearRamAsyncTask? = null

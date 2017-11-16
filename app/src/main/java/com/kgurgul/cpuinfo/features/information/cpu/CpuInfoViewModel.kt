@@ -38,8 +38,11 @@ import kotlin.collections.HashMap
  */
 class CpuInfoViewModel @Inject constructor() : ViewModel() {
 
-    private val REFRESHING_INTERVAL = 1L
-    private val FREQUENCY_OFFSET = 1
+    companion object {
+        private const val REFRESHING_INTERVAL = 1L
+        private const val FREQUENCY_OFFSET = 1
+    }
+
     private val excludedTags = listOf("processor", "BogoMIPS")
     private val minMaxFreqMap = HashMap<Int, Pair<Long, Long>>()
     private var refreshingDisposable: Disposable? = null

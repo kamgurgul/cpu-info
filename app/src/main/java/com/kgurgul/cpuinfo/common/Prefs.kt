@@ -27,9 +27,8 @@ import javax.inject.Singleton
 @Singleton
 class Prefs @Inject constructor(private val sharedPreferences: SharedPreferences) {
 
-    fun contains(key: String): Boolean {
-        return sharedPreferences.contains(key)
-    }
+    fun contains(key: String): Boolean =
+            sharedPreferences.contains(key)
 
     fun insert(key: String, value: Any) {
         when (value) {

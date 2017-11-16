@@ -87,9 +87,8 @@ class TemperatureProvider @Inject constructor(val app: Application) {
      *
      * @param temp current temperature
      */
-    private fun isTemperatureValid(temp: Double): Boolean {
-        return temp >= -30.0 && temp <= 250.0
-    }
+    private fun isTemperatureValid(temp: Double): Boolean =
+            temp >= -30.0 && temp <= 250.0
 
     /**
      * Container for temperature value and path

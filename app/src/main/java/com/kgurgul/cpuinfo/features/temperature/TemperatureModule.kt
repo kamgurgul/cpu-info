@@ -34,7 +34,6 @@ class TemperatureModule {
     @Provides
     fun provideAutoClearedTempAdapter(temperatureFragment: TemperatureFragment,
                                       temperatureFormatter: TemperatureFormatter):
-            AutoClearedValue<TemperatureAdapter> {
-        return AutoClearedValue(temperatureFragment, TemperatureAdapter(temperatureFormatter))
-    }
+            AutoClearedValue<TemperatureAdapter> =
+            AutoClearedValue(temperatureFragment, TemperatureAdapter(temperatureFormatter))
 }

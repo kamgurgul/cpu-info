@@ -52,9 +52,8 @@ class ProcessesAdapter(private val processList: ObservableList<ProcessItem>)
         holder.vsizeTv.text = "VSZ: ${Utils.humanReadableByteCount(process.vsize.toLong() * 1024)}"
     }
 
-    override fun getItemCount(): Int {
-        return processList.size
-    }
+    override fun getItemCount(): Int =
+            processList.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTv: TextView = itemView.findViewById(R.id.proc_name_tv)

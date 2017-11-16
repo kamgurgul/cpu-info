@@ -206,10 +206,9 @@ class HardwareInfoViewModel @Inject constructor(
      */
     private fun getSoundCardNumber(): Int {
         class AudioFilter : FileFilter {
-            override fun accept(pathname: File): Boolean {
-                // http://alsa.opensrc.org/Proc_asound_documentation
-                return Pattern.matches("card[0-7]+", pathname.name)
-            }
+            override fun accept(pathname: File): Boolean =
+                    // http://alsa.opensrc.org/Proc_asound_documentation
+                    Pattern.matches("card[0-7]+", pathname.name)
         }
 
         return try {
@@ -291,9 +290,8 @@ class HardwareInfoViewModel @Inject constructor(
     /**
      * @return true if device has at least 1 camera, otherwise false
      */
-    private fun hasCamera(): Boolean {
-        return packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
-    }
+    private fun hasCamera(): Boolean =
+            packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
 
     /**
      * Get number, type and orientation of the cameras
@@ -332,11 +330,10 @@ class HardwareInfoViewModel @Inject constructor(
     /**
      * Detect camera type using old API
      */
-    private fun getCameraType(info: Camera.CameraInfo): String {
-        return when (info.facing) {
-            Camera.CameraInfo.CAMERA_FACING_FRONT -> resources.getString(R.string.front)
-            Camera.CameraInfo.CAMERA_FACING_BACK -> resources.getString(R.string.back)
-            else -> resources.getString(R.string.unknown)
-        }
-    }
+    private fun getCameraType(info: Camera.CameraInfo): String =
+            when (info.facing) {
+                Camera.CameraInfo.CAMERA_FACING_FRONT -> resources.getString(R.string.front)
+                Camera.CameraInfo.CAMERA_FACING_BACK -> resources.getString(R.string.back)
+                else -> resources.getString(R.string.unknown)
+            }
 }

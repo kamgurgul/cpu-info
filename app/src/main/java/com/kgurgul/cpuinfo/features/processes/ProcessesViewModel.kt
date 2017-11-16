@@ -41,7 +41,9 @@ import javax.inject.Inject
  */
 class ProcessesViewModel @Inject constructor(private val prefs: Prefs) : ViewModel() {
 
-    private val SORTING_PROCESSES_KEY = "SORTING_PROCESSES_KEY"
+    companion object {
+        private const val SORTING_PROCESSES_KEY = "SORTING_PROCESSES_KEY"
+    }
 
     val processList = AdapterArrayList<ProcessItem>()
 

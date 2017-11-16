@@ -35,8 +35,8 @@ class NavigationController @Inject constructor(private val hostActivity: HostAct
                                                private val firebaseAnalytics: FirebaseAnalytics) {
 
     companion object {
-        val HOME_FRAGMENT_TAG = "HOME_FRAGMENT_TAG"
-        val SECOND_FRAGMENT_TAG = "SECOND_FRAGMENT_TAG"
+        const val HOME_FRAGMENT_TAG = "HOME_FRAGMENT_TAG"
+        const val SECOND_FRAGMENT_TAG = "SECOND_FRAGMENT_TAG"
     }
 
     private val fragmentManager = hostActivity.supportFragmentManager

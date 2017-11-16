@@ -65,9 +65,8 @@ class InfoItemsAdapter(private val context: Context,
         }
     }
 
-    override fun getItemCount(): Int {
-        return itemsObservableList.size
-    }
+    override fun getItemCount(): Int =
+            itemsObservableList.size
 
     class SingleItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTv: TextView = itemView.findViewById(R.id.title_tv)

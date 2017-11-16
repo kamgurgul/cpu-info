@@ -93,13 +93,12 @@ class ProcessesFragment : Fragment(), Injectable {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_sorting -> {
-                viewModel.changeProcessSorting()
-                true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+            when (item.itemId) {
+                R.id.action_sorting -> {
+                    viewModel.changeProcessSorting()
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
             }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 }

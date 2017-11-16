@@ -41,8 +41,10 @@ import javax.inject.Inject
  */
 class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
-    private val CURRENT_PAGE_ID_KEY = "CURRENT_PAGE_ID_KEY"
-    private val CURRENT_PAGE_NAME_KEY = "CURRENT_PAGE_NAME_KEY"
+    companion object {
+        private const val CURRENT_PAGE_ID_KEY = "CURRENT_PAGE_ID_KEY"
+        private const val CURRENT_PAGE_NAME_KEY = "CURRENT_PAGE_NAME_KEY"
+    }
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>

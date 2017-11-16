@@ -36,35 +36,32 @@ import com.kgurgul.cpuinfo.features.information.storage.StorageInfoFragment
 class ViewPagerAdapter(val context: Context, manager: FragmentManager) :
         FragmentStatePagerAdapter(manager) {
 
-    override fun getItem(position: Int): Fragment {
-        return when (position) {
-            0 -> CpuInfoFragment()
-            1 -> GpuInfoFragment()
-            2 -> RamInfoFragment()
-            3 -> StorageInfoFragment()
-            4 -> ScreenInfoFragment()
-            5 -> AndroidInfoFragment()
-            6 -> HardwareInfoFragment()
-            7 -> SensorsInfoFragment()
-            else -> throw IllegalArgumentException("Unknown position for ViewPager")
-        }
-    }
+    override fun getItem(position: Int): Fragment =
+            when (position) {
+                0 -> CpuInfoFragment()
+                1 -> GpuInfoFragment()
+                2 -> RamInfoFragment()
+                3 -> StorageInfoFragment()
+                4 -> ScreenInfoFragment()
+                5 -> AndroidInfoFragment()
+                6 -> HardwareInfoFragment()
+                7 -> SensorsInfoFragment()
+                else -> throw IllegalArgumentException("Unknown position for ViewPager")
+            }
 
-    override fun getCount(): Int {
-        return 8
-    }
+    override fun getCount(): Int =
+            8
 
-    override fun getPageTitle(position: Int): CharSequence {
-        return when (position) {
-            0 -> context.getString(R.string.cpu)
-            1 -> context.getString(R.string.gpu)
-            2 -> context.getString(R.string.ram)
-            3 -> context.getString(R.string.storage)
-            4 -> context.getString(R.string.screen)
-            5 -> context.getString(R.string.android)
-            6 -> context.getString(R.string.hardware)
-            7 -> context.getString(R.string.sensors)
-            else -> throw IllegalArgumentException("Unknown position for ViewPager")
-        }
-    }
+    override fun getPageTitle(position: Int): CharSequence =
+            when (position) {
+                0 -> context.getString(R.string.cpu)
+                1 -> context.getString(R.string.gpu)
+                2 -> context.getString(R.string.ram)
+                3 -> context.getString(R.string.storage)
+                4 -> context.getString(R.string.screen)
+                5 -> context.getString(R.string.android)
+                6 -> context.getString(R.string.hardware)
+                7 -> context.getString(R.string.sensors)
+                else -> throw IllegalArgumentException("Unknown position for ViewPager")
+            }
 }

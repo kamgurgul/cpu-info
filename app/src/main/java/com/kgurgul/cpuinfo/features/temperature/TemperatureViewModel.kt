@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
- * ViewModel for [TemperatureActivity]
+ * ViewModel for [TemperatureFragment]
  *
  * @author kgurgul
  */
@@ -42,7 +42,10 @@ class TemperatureViewModel @Inject constructor(
         private val resources: Resources,
         private val temperatureProvider: TemperatureProvider)
     : ViewModel() {
-    private val CPU_TEMP_RESULT_KEY = "temp_result_key"
+
+    companion object {
+        private const val CPU_TEMP_RESULT_KEY = "temp_result_key"
+    }
 
     // Binding fields
     val isLoading = ObservableBoolean(false)
