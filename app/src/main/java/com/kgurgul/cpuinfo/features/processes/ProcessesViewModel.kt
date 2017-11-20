@@ -17,6 +17,7 @@
 package com.kgurgul.cpuinfo.features.processes
 
 import android.arch.lifecycle.ViewModel
+import android.support.annotation.VisibleForTesting
 import com.kgurgul.cpuinfo.common.Prefs
 import com.kgurgul.cpuinfo.common.list.AdapterArrayList
 import io.reactivex.Flowable
@@ -29,8 +30,6 @@ import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.asReference
 import org.jetbrains.anko.coroutines.experimental.bg
 import timber.log.Timber
-import java.io.IOException
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -39,7 +38,8 @@ import javax.inject.Inject
  *
  * @author kgurgul
  */
-class ProcessesViewModel @Inject constructor(private val prefs: Prefs) : ViewModel() {
+class ProcessesViewModel @Inject constructor(private val prefs: Prefs,
+                                             private val psProvider: PsProvider) : ViewModel() {
 
     companion object {
         private const val SORTING_PROCESSES_KEY = "SORTING_PROCESSES_KEY"
@@ -57,9 +57,9 @@ class ProcessesViewModel @Inject constructor(private val prefs: Prefs) : ViewMod
     @Synchronized
     fun startProcessRefreshing() {
         if (refreshingDisposable == null || refreshingDisposable?.isDisposed == true) {
-            refreshingDisposable = Flowable.interval(0, 5, TimeUnit.SECONDS)
+            refreshingDisposable = getRefreshingFlowable()
                     .onBackpressureDrop()
-                    .flatMapSingle { getProcessListSingle() }
+                    .flatMapSingle { getSortedProcessListSingle() }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ newProcessList ->
@@ -79,24 +79,35 @@ class ProcessesViewModel @Inject constructor(private val prefs: Prefs) : ViewMod
     }
 
     /**
+     * Return refreshing invoker
+     */
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+    internal fun getRefreshingFlowable(): Flowable<Long> =
+            Flowable.interval(0, 5, TimeUnit.SECONDS)
+
+    /**
      * Change process list sorting type from ascending to descending or or vice versa
      */
     fun changeProcessSorting() {
         async(UI) {
-            val result = bg { getAppSortedList() }
+            val result = bg { getProcessSortedList(!isSortingAsc) }
             val sortedAppList = result.await()
             ref().processList.replace(sortedAppList)
         }
     }
 
     /**
-     * @return sorted list of the apps from [processList]
+     * Save sorting order into [Prefs] and return sorted list of the [ProcessItem]
+     *
+     * @return sorted list of the processes from [processList]
      */
-    private fun getAppSortedList(): List<ProcessItem> {
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+    @Synchronized
+    internal fun getProcessSortedList(sortingAsc: Boolean): List<ProcessItem> {
         val processListCopy = ArrayList<ProcessItem>(processList)
-        isSortingAsc = !isSortingAsc
-        prefs.insert(SORTING_PROCESSES_KEY, isSortingAsc)
-        if (isSortingAsc) {
+        isSortingAsc = sortingAsc
+        prefs.insert(SORTING_PROCESSES_KEY, sortingAsc)
+        if (sortingAsc) {
             processListCopy.sortBy { it.name.toUpperCase() }
         } else {
             processListCopy.sortByDescending { it.name.toUpperCase() }
@@ -107,71 +118,18 @@ class ProcessesViewModel @Inject constructor(private val prefs: Prefs) : ViewMod
     /**
      * Return [Single] with process list
      */
-    private fun getProcessListSingle(): Single<List<ProcessItem>> {
-        return Single.fromCallable({
-            val processesList = ArrayList<ProcessItem>()
-            processesList.addAll(readPs())
-            if (isSortingAsc) {
-                processesList.sortBy { it.name.toUpperCase() }
-            } else {
-                processesList.sortByDescending { it.name.toUpperCase() }
-            }
-            processesList
-        })
-    }
-
-    /**
-     * Old method for reading ps output. Should be rewritten.
-     */
-    private fun readPs(): List<ProcessItem> {
-        val processesList = ArrayList<ProcessItem>()
-
-        try {
-            val args = arrayListOf("/system/bin/ps", "-p")
-            val cmd = ProcessBuilder(args)
-
-            val process = cmd.start()
-            val bis = process.inputStream.bufferedReader()
-
-            val lines = bis.readLines()
-            lines.forEachIndexed { i, line ->
-                if (i > 0) {
-                    val st = StringTokenizer(line)
-
-                    // It is bad. Refactor this!
-                    var iterator = 0
-                    var user = ""
-                    var name = ""
-                    var pid = ""
-                    var ppid = ""
-                    var niceness = ""
-                    var rss = ""
-                    var vsize = ""
-
-                    while (st.hasMoreTokens()) {
-                        when (iterator) {
-                            0 -> user = st.nextToken()
-                            1 -> pid = st.nextToken()
-                            2 -> ppid = st.nextToken()
-                            3 -> vsize = st.nextToken()
-                            4 -> rss = st.nextToken()
-                            6 -> niceness = st.nextToken()
-                            12 -> name = st.nextToken()
-                            else -> st.nextToken()
+    private fun getSortedProcessListSingle(): Single<List<ProcessItem>> {
+        return psProvider.getPsList()
+                .map { processList ->
+                    if (processList is ArrayList) {
+                        if (isSortingAsc) {
+                            processList.sortBy { it.name.toUpperCase() }
+                        } else {
+                            processList.sortByDescending { it.name.toUpperCase() }
                         }
-                        iterator++
                     }
-
-                    processesList.add(ProcessItem(name, pid, ppid, niceness, user, rss, vsize))
+                    processList
                 }
-            }
-
-            bis.close()
-        } catch (e: IOException) {
-            Timber.e(e)
-        }
-
-        return processesList
     }
 
     override fun onCleared() {

@@ -21,6 +21,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.databinding.ObservableBoolean
 import android.os.Build
+import android.support.annotation.VisibleForTesting
 import com.kgurgul.cpuinfo.common.Prefs
 import com.kgurgul.cpuinfo.common.list.AdapterArrayList
 import com.kgurgul.cpuinfo.utils.SingleLiveEvent
@@ -85,6 +86,7 @@ class ApplicationsViewModel @Inject constructor(
     /**
      * Get all user applications
      */
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun getApplicationsListSingle(): Single<List<ExtendedAppInfo>> {
         return Single.fromCallable({
             val extendedAppList = ArrayList<ExtendedAppInfo>()
@@ -124,6 +126,7 @@ class ApplicationsViewModel @Inject constructor(
      *
      * @return sorted list of the apps from [applicationList]
      */
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun getAppSortedList(sortingAsc: Boolean): List<ExtendedAppInfo> {
         val appListCopy = ArrayList<ExtendedAppInfo>(applicationList)
         isSortingAsc = sortingAsc
