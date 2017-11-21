@@ -67,7 +67,7 @@ ext {
     playServicesVersion = "11.6.0"
     androidPluginVersion = "2.3.0"
     archLifecycleVersion = "1.0.0"
-    daggerVersion = "2.12"
+    daggerVersion = "2.13"
     ankoVersion = "0.10.1"
 }
 

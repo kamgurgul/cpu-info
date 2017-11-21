@@ -31,8 +31,8 @@ import javax.inject.Singleton
 class TemperatureFormatter @Inject constructor(val prefs: Prefs) {
 
     companion object {
-        private const val CELSIUS = 0
-        private const val FAHRENHEIT = 1
+        const val CELSIUS = 0
+        const val FAHRENHEIT = 1
     }
 
     /**
