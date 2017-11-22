@@ -20,6 +20,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
 import android.databinding.ObservableBoolean
+import android.support.annotation.VisibleForTesting
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.common.Prefs
 import com.kgurgul.cpuinfo.features.temperature.list.TemperatureItem
@@ -40,6 +41,7 @@ import javax.inject.Inject
 class TemperatureViewModel @Inject constructor(
         private val prefs: Prefs,
         private val resources: Resources,
+        private val temperatureIconProvider: TemperatureIconProvider,
         private val temperatureProvider: TemperatureProvider)
     : ViewModel() {
 
@@ -137,7 +139,7 @@ class TemperatureViewModel @Inject constructor(
             refreshingDisposable!!.dispose()
         }
 
-        refreshingDisposable = Observable.interval(0, 3, TimeUnit.SECONDS)
+        refreshingDisposable = getRefreshingInvoker()
                 .map {
                     var batteryTemp: Int? = null
                     if (isBatteryTemperatureAvailable) {
@@ -155,11 +157,15 @@ class TemperatureViewModel @Inject constructor(
                         { (cpuTemp, batteryTemp) ->
                             val temporaryTempList = ArrayList<TemperatureItem>()
                             if (cpuTemp != null) {
-                                temporaryTempList.add(TemperatureItem(R.drawable.ic_cpu_temp,
+                                temporaryTempList.add(TemperatureItem(
+                                        temperatureIconProvider.getIcon(
+                                                TemperatureIconProvider.Type.CPU),
                                         resources.getString(R.string.cpu), cpuTemp))
                             }
                             if (batteryTemp != null) {
-                                temporaryTempList.add(TemperatureItem(R.drawable.ic_battery,
+                                temporaryTempList.add(TemperatureItem(
+                                        temperatureIconProvider.getIcon(
+                                                TemperatureIconProvider.Type.BATTERY),
                                         resources.getString(R.string.battery),
                                         batteryTemp.toFloat()))
                             }
@@ -171,6 +177,13 @@ class TemperatureViewModel @Inject constructor(
                         }
                 )
     }
+
+    /**
+     * Return refreshing invoker
+     */
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+    internal fun getRefreshingInvoker(): Observable<Long> =
+            Observable.interval(0, 3, TimeUnit.SECONDS)
 
     override fun onCleared() {
         super.onCleared()

@@ -89,9 +89,8 @@ class AndroidInfoViewModel @Inject constructor(
      * Check if device is rooted. Source:
      * https://stackoverflow.com/questions/1101380/determine-if-running-on-a-rooted-device
      */
-    private fun isDeviceRooted(): Boolean {
-        return checkRootMethod1() || checkRootMethod2() || checkRootMethod3()
-    }
+    private fun isDeviceRooted(): Boolean =
+            checkRootMethod1() || checkRootMethod2() || checkRootMethod3()
 
     private fun checkRootMethod1(): Boolean {
         val buildTags = Build.TAGS
@@ -125,9 +124,8 @@ class AndroidInfoViewModel @Inject constructor(
      * Get AndroidID. Keep in mind that from Android O it is unique per app.
      */
     @SuppressLint("HardwareIds")
-    private fun getAndroidId(): String? {
-        return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
-    }
+    private fun getAndroidId(): String? =
+            Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
 
     /**
      * Specify if device is using ART or Dalvik

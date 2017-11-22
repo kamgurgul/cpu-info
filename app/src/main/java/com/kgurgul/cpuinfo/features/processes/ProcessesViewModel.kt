@@ -57,7 +57,7 @@ class ProcessesViewModel @Inject constructor(private val prefs: Prefs,
     @Synchronized
     fun startProcessRefreshing() {
         if (refreshingDisposable == null || refreshingDisposable?.isDisposed == true) {
-            refreshingDisposable = getRefreshingFlowable()
+            refreshingDisposable = getRefreshingInvoker()
                     .onBackpressureDrop()
                     .flatMapSingle { getSortedProcessListSingle() }
                     .subscribeOn(Schedulers.io())
@@ -82,7 +82,7 @@ class ProcessesViewModel @Inject constructor(private val prefs: Prefs,
      * Return refreshing invoker
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
-    internal fun getRefreshingFlowable(): Flowable<Long> =
+    internal fun getRefreshingInvoker(): Flowable<Long> =
             Flowable.interval(0, 5, TimeUnit.SECONDS)
 
     /**

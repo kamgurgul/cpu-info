@@ -57,7 +57,7 @@ class ProcessesViewModelTest {
             on { getPsList() } doReturn Single.just(generatedProcessItems)
         }
         val viewModel = spy(ProcessesViewModel(prefs, psProvider))
-        doReturn(Flowable.just(1L)).whenever(viewModel).getRefreshingFlowable()
+        doReturn(Flowable.just(1L)).whenever(viewModel).getRefreshingInvoker()
 
         /* When */
         viewModel.startProcessRefreshing()
@@ -78,7 +78,7 @@ class ProcessesViewModelTest {
         val psProvider = mock<PsProvider>()
         whenever(psProvider.getPsList()).thenReturn(Single.error(NullPointerException()))
         val viewModel = spy(ProcessesViewModel(prefs, psProvider))
-        doReturn(Flowable.just(1L)).whenever(viewModel).getRefreshingFlowable()
+        doReturn(Flowable.just(1L)).whenever(viewModel).getRefreshingInvoker()
 
         /* When */
         viewModel.startProcessRefreshing()
@@ -99,7 +99,7 @@ class ProcessesViewModelTest {
             on { getPsList() } doReturn Single.just(generatedProcessItems)
         }
         val viewModel = spy(ProcessesViewModel(prefs, psProvider))
-        doReturn(Flowable.just(1L)).whenever(viewModel).getRefreshingFlowable()
+        doReturn(Flowable.just(1L)).whenever(viewModel).getRefreshingInvoker()
 
         /* When */
         viewModel.startProcessRefreshing()
