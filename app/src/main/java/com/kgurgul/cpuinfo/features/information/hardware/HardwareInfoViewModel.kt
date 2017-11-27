@@ -20,12 +20,14 @@ package com.kgurgul.cpuinfo.features.information.hardware
 
 import android.arch.lifecycle.ViewModel
 import android.content.ContentResolver
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.Camera
 import android.os.BatteryManager
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.common.list.AdapterArrayList
+import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.round2
@@ -45,14 +47,16 @@ import javax.inject.Inject
 class HardwareInfoViewModel @Inject constructor(
         private val resources: Resources,
         private val temperatureFormatter: TemperatureFormatter,
+        private val sharedPreferences: SharedPreferences,
         private val packageManager: PackageManager,
         private val contentResolver: ContentResolver,
         private val batteryStatusProvider: BatteryStatusProvider)
-    : ViewModel() {
+    : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     val dataObservableList = AdapterArrayList<Pair<String, String>>()
 
     init {
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
         refreshHardwareInfo()
     }
 
@@ -336,4 +340,15 @@ class HardwareInfoViewModel @Inject constructor(
                 Camera.CameraInfo.CAMERA_FACING_BACK -> resources.getString(R.string.back)
                 else -> resources.getString(R.string.unknown)
             }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        if (key == SettingsFragment.KEY_TEMPERATURE_UNIT) {
+            refreshHardwareInfo()
+        }
+    }
+
+    override fun onCleared() {
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        super.onCleared()
+    }
 }
