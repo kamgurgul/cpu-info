@@ -117,7 +117,10 @@ class ApplicationsViewModelTest {
 
     private fun getDummyAppInfo(amount: Int): List<ExtendedAppInfo> {
         val list = ArrayList<ExtendedAppInfo>()
-        (0 until amount).mapTo(list) { ExtendedAppInfo("test$it", "test.$it", null, 0) }
+        (0 until amount).mapTo(list) {
+            ExtendedAppInfo("test$it", "test.$it",
+                    "test,$it", null, 0)
+        }
         return list
     }
 }
