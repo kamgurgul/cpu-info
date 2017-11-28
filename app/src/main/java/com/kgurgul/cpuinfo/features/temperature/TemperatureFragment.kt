@@ -62,12 +62,8 @@ class TemperatureFragment : Fragment(), Injectable {
         binding = AutoClearedValue(this,
                 DataBindingUtil.inflate(inflater, R.layout.fragment_temperature, container, false))
         binding.get().viewModel = viewModel
-        return binding.value?.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         setupRecycleView()
+        return binding.value?.root
     }
 
     override fun onStart() {

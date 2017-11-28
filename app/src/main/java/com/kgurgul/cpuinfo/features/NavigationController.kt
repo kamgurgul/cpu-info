@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.features
 
+import android.support.v4.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.analytics.AnalyticsEvents
@@ -34,9 +35,9 @@ import javax.inject.Inject
 class NavigationController @Inject constructor(private val hostActivity: HostActivity,
                                                private val firebaseAnalytics: FirebaseAnalytics) {
 
-    companion object {
-        const val HOME_FRAGMENT_TAG = "HOME_FRAGMENT_TAG"
-        const val SECOND_FRAGMENT_TAG = "SECOND_FRAGMENT_TAG"
+    enum class FragmentTag(val tag: String) {
+        PARENT_FRAGMENT_TAG("PARENT_FRAGMENT_TAG"),
+        SINGLE_CHILD_FRAGMENT_TAG("SINGLE_CHILD_FRAGMENT_TAG")
     }
 
     private val fragmentManager = hostActivity.supportFragmentManager
@@ -45,60 +46,60 @@ class NavigationController @Inject constructor(private val hostActivity: HostAct
     fun navigateToInfo() {
         firebaseAnalytics.setCurrentScreen(hostActivity, AnalyticsEvents.INFO_SCREEN, null)
         val infoFragment = ContainerInfoFragment()
-        if (fragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG) != null) {
-            val currentFragment = fragmentManager.findFragmentByTag(SECOND_FRAGMENT_TAG)
-            if (currentFragment != null) {
-                fragmentManager.beginTransaction().remove(currentFragment).commitNow()
-            }
-            fragmentManager.popBackStackImmediate()
-        } else {
-            fragmentManager.beginTransaction()
-                    .replace(containerId, infoFragment, HOME_FRAGMENT_TAG)
-                    .commitAllowingStateLoss()
-        }
+        addToSingleChildStack(infoFragment, FragmentTag.PARENT_FRAGMENT_TAG)
     }
 
     fun navigateToTemperature() {
         firebaseAnalytics.setCurrentScreen(hostActivity, AnalyticsEvents.TEMPERATURE_SCREEN, null)
         val temperatureFragment = TemperatureFragment()
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(containerId, temperatureFragment, SECOND_FRAGMENT_TAG)
-        if (fragmentManager.backStackEntryCount == 0) {
-            fragmentTransaction.addToBackStack(null)
-        }
-        fragmentTransaction.commitAllowingStateLoss()
+        addToSingleChildStack(temperatureFragment, FragmentTag.SINGLE_CHILD_FRAGMENT_TAG)
     }
 
     fun navigateToApplications() {
         firebaseAnalytics.setCurrentScreen(hostActivity, AnalyticsEvents.APPLICATIONS_SCREEN, null)
         val applicationsFragment = ApplicationsFragment()
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(containerId, applicationsFragment, SECOND_FRAGMENT_TAG)
-        if (fragmentManager.backStackEntryCount == 0) {
-            fragmentTransaction.addToBackStack(null)
-        }
-        fragmentTransaction.commitAllowingStateLoss()
+        addToSingleChildStack(applicationsFragment, FragmentTag.SINGLE_CHILD_FRAGMENT_TAG)
     }
 
     fun navigateToProcesses() {
         firebaseAnalytics.setCurrentScreen(hostActivity, AnalyticsEvents.PROCESSES_SCREEN, null)
         val processesFragment = ProcessesFragment()
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(containerId, processesFragment, SECOND_FRAGMENT_TAG)
-        if (fragmentManager.backStackEntryCount == 0) {
-            fragmentTransaction.addToBackStack(null)
-        }
-        fragmentTransaction.commitAllowingStateLoss()
+        addToSingleChildStack(processesFragment, FragmentTag.SINGLE_CHILD_FRAGMENT_TAG)
     }
 
     fun navigateToSettings() {
         firebaseAnalytics.setCurrentScreen(hostActivity, AnalyticsEvents.SETTINGS_SCREEN, null)
         val settingsFragment = SettingsFragment()
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(containerId, settingsFragment, SECOND_FRAGMENT_TAG)
-        if (fragmentManager.backStackEntryCount == 0) {
-            fragmentTransaction.addToBackStack(null)
+        addToSingleChildStack(settingsFragment, FragmentTag.SINGLE_CHILD_FRAGMENT_TAG)
+    }
+
+    /**
+     * App navigation will currently build stack with [ContainerInfoFragment] on the top and all
+     * others fragments as a single child.
+     */
+    private fun addToSingleChildStack(fragment: Fragment, fragmentTag: FragmentTag) {
+        if (fragmentTag == FragmentTag.PARENT_FRAGMENT_TAG) {
+            if (fragmentManager.findFragmentByTag(FragmentTag.PARENT_FRAGMENT_TAG.tag) != null) {
+                val currentFragment =
+                        fragmentManager.findFragmentByTag(FragmentTag.SINGLE_CHILD_FRAGMENT_TAG.tag)
+                if (currentFragment != null) {
+                    fragmentManager.beginTransaction().remove(currentFragment).commitNow()
+                }
+                fragmentManager.popBackStackImmediate()
+            } else {
+                fragmentManager.beginTransaction()
+                        .replace(containerId, fragment, fragmentTag.tag)
+                        .commitAllowingStateLoss()
+            }
+        } else {
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            val hasOnlyParentFragment = fragmentManager.findFragmentByTag(
+                    FragmentTag.SINGLE_CHILD_FRAGMENT_TAG.tag) == null
+            fragmentTransaction.replace(containerId, fragment, fragmentTag.tag)
+            if (hasOnlyParentFragment) {
+                fragmentTransaction.addToBackStack(null)
+            }
+            fragmentTransaction.commitAllowingStateLoss()
         }
-        fragmentTransaction.commitAllowingStateLoss()
     }
 }

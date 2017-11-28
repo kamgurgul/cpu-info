@@ -22,6 +22,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -142,9 +143,13 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     }
 
     override fun onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawers()
+            return
+        }
         super.onBackPressed()
         val homeFragment = supportFragmentManager
-                .findFragmentByTag(NavigationController.HOME_FRAGMENT_TAG)
+                .findFragmentByTag(NavigationController.FragmentTag.PARENT_FRAGMENT_TAG.tag)
         if (homeFragment != null && homeFragment.isVisible) {
             currentItemId = R.id.hardware
             setToolbarTitleAndElevation(getString(R.string.hardware))

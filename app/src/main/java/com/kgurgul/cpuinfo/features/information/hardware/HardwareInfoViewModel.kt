@@ -29,6 +29,7 @@ import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.common.list.AdapterArrayList
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
+import com.kgurgul.cpuinfo.features.temperature.TemperatureProvider
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.round2
 import timber.log.Timber
@@ -46,6 +47,7 @@ import javax.inject.Inject
  */
 class HardwareInfoViewModel @Inject constructor(
         private val resources: Resources,
+        private val temperatureProvider: TemperatureProvider,
         private val temperatureFormatter: TemperatureFormatter,
         private val sharedPreferences: SharedPreferences,
         private val packageManager: PackageManager,
@@ -120,10 +122,10 @@ class HardwareInfoViewModel @Inject constructor(
         }
 
         // Temperature
-        val temperature = batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1)
+        val temperature = temperatureProvider.getBatteryTemperature()
         if (temperature > 0) {
             functionsList.add(Pair(resources.getString(R.string.temperature),
-                    temperatureFormatter.format(temperature / 10.0f)))
+                    temperatureFormatter.format(temperature.toFloat())))
         }
 
         // Capacity
