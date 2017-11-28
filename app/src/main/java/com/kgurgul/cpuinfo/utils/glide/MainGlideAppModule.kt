@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.features.applications
+package com.kgurgul.cpuinfo.utils.glide
 
-import android.annotation.SuppressLint
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.module.AppGlideModule
 
 /**
- * Model for [ApplicationsAdapter]
+ * Base class for GlideApp generation process
  *
  * @author kgurgul
  */
-@SuppressLint("ParcelCreator")
-@Parcelize
-data class ExtendedAppInfo(val name: String,
-                           val packageName: String,
-                           val sourceDir: String,
-                           val nativeLibraryDir: String?,
-                           var appSize: Long = 0) : Parcelable
+@GlideModule
+class MainGlideAppModule : AppGlideModule()

@@ -103,8 +103,8 @@ class ApplicationsViewModel @Inject constructor(
             }
             appsList.map {
                 extendedAppList.add(
-                        ExtendedAppInfo(it.loadLabel(packageManager).toString(),
-                                it.packageName, it.nativeLibraryDir))
+                        ExtendedAppInfo(it.loadLabel(packageManager).toString(), it.packageName,
+                                it.sourceDir, it.nativeLibraryDir))
             }
             extendedAppList
         })

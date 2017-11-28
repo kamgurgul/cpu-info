@@ -18,9 +18,10 @@ package com.kgurgul.cpuinfo.features.applications
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.databinding.ObservableList
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -31,16 +32,18 @@ import android.widget.TextView
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.common.list.ObservableListAdapter
 import com.kgurgul.cpuinfo.utils.Utils
+import com.kgurgul.cpuinfo.utils.glide.GlideApp
 import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import com.kgurgul.cpuinfo.widgets.swiperv.SwipeHorizontalMenuLayout
 import java.io.File
+
 
 /**
  * Adapter for application list with sliding items
  *
  * @author kgurgul
  */
-class ApplicationsAdapter(context: Context,
+class ApplicationsAdapter(private val context: Context,
                           private val appList: ObservableList<ExtendedAppInfo>,
                           private val appClickListener: ItemClickListener)
     : ObservableListAdapter<ExtendedAppInfo,
@@ -60,13 +63,10 @@ class ApplicationsAdapter(context: Context,
     override fun onBindViewHolder(holder: ApplicationViewHolder, position: Int) {
         val app = appList[position]
 
-        var appIcon: Drawable? = null
-        try {
-            appIcon = packageManager.getApplicationIcon(app.packageName)
-        } catch (e: PackageManager.NameNotFoundException) {
-            // Do nothing
-        }
-        holder.iconIv.setImageDrawable(appIcon)
+        GlideApp.with(context)
+                .load(getApplicationInfo(app.sourceDir))
+                .fitCenter()
+                .into(holder.iconIv)
 
         holder.nameTv.text = app.name
         holder.packageTv.text = app.packageName
@@ -122,6 +122,20 @@ class ApplicationsAdapter(context: Context,
         val settingsV: View = itemView.findViewById(R.id.settings)
         val deleteView: View = itemView.findViewById(R.id.delete)
         val nativeButtonIV: ImageView = itemView.findViewById(R.id.native_button)
+    }
+
+    /**
+     * Generate [ApplicationInfo] from [PackageInfo]
+     */
+    private fun getApplicationInfo(path: String): ApplicationInfo? {
+        val info = packageManager.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES)
+        var appInfo: ApplicationInfo? = null
+        if (info != null) {
+            appInfo = info.applicationInfo
+            appInfo!!.sourceDir = path
+            appInfo.publicSourceDir = path
+        }
+        return appInfo
     }
 
     /**

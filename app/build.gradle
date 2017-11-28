@@ -69,6 +69,7 @@ ext {
     archLifecycleVersion = "1.0.0"
     daggerVersion = "2.13"
     ankoVersion = "0.10.1"
+    glideVersion = "4.3.1"
 }
 
 dependencies {
@@ -112,6 +113,10 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$archLifecycleVersion"
     annotationProcessor "android.arch.lifecycle:compiler:$archLifecycleVersion"
     testImplementation "android.arch.core:core-testing:$archLifecycleVersion"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
     // Leak canary
 /*    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.3'
