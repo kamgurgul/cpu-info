@@ -68,7 +68,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
             // Processes cannot be listed above M
             val menu = binding.navigationView.menu
             menu.findItem(R.id.processes).isVisible = false
-        }, {})
+        })
         val actionBarDrawerToggle = getDrawerToggle()
         binding.drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
@@ -168,7 +168,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
             } else {
                 binding.toolbar.elevation = resources.getDimension(R.dimen.elevation_height)
             }
-        }, {})
+        })
     }
 
     /**

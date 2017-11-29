@@ -53,7 +53,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         // RAM widget isn't supported currently on O and above
         runOnApiAbove(Build.VERSION_CODES.N_MR1, {
             preferenceScreen.removePreference(preferenceScreen.findPreference(KEY_RAM_CATEGORIES))
-        }, {})
+        })
     }
 
     override fun onResume() {

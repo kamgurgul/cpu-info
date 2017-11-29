@@ -28,6 +28,6 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityModule {
 
-    @ContributesAndroidInjector(modules = arrayOf(FragmentBuildersModule::class))
+    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributeFragmentHostActivity(): HostActivity
 }

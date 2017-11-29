@@ -76,7 +76,7 @@ class ApplicationsViewModel @Inject constructor(
                         applicationList.replace(appList)
                         runOnApiBelow(Build.VERSION_CODES.O, {
                             shouldStartStorageService.call()
-                        }, {})
+                        })
                     }, { throwable ->
                         Timber.e(throwable)
                     })

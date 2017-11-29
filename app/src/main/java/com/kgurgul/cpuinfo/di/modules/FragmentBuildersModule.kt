@@ -77,6 +77,6 @@ abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
     abstract fun contributeProcessesFragment(): ProcessesFragment
 
-    @ContributesAndroidInjector(modules = arrayOf(TemperatureModule::class))
+    @ContributesAndroidInjector(modules = [TemperatureModule::class])
     abstract fun contributeTemperatureFragment(): TemperatureFragment
 }

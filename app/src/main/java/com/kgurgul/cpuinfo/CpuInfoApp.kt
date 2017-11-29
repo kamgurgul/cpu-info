@@ -66,7 +66,7 @@ class CpuInfoApp : Application(), HasActivityInjector {
             val ids = intArrayOf(R.xml.ram_widget_provider)
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
             sendBroadcast(intent)
-        }, {})
+        })
     }
 
     override fun activityInjector(): DispatchingAndroidInjector<Activity>

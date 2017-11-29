@@ -35,7 +35,7 @@ fun Float.round2(): Float =
 fun Double.round2(): Double =
         Math.round(this * 100.0) / 100.0
 
-inline fun runOnApi(api: Int, f: () -> Unit, otherwise: () -> Unit) {
+inline fun runOnApi(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
     if (Build.VERSION.SDK_INT == api) {
         f()
     } else {
@@ -43,7 +43,7 @@ inline fun runOnApi(api: Int, f: () -> Unit, otherwise: () -> Unit) {
     }
 }
 
-inline fun runOnApiBelow(api: Int, f: () -> Unit, otherwise: () -> Unit) {
+inline fun runOnApiBelow(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
     if (Build.VERSION.SDK_INT < api) {
         f()
     } else {
@@ -51,7 +51,7 @@ inline fun runOnApiBelow(api: Int, f: () -> Unit, otherwise: () -> Unit) {
     }
 }
 
-inline fun runOnApiAbove(api: Int, f: () -> Unit, otherwise: () -> Unit) {
+inline fun runOnApiAbove(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
     if (Build.VERSION.SDK_INT > api) {
         f()
     } else {
