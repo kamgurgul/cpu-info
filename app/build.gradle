@@ -90,7 +90,7 @@ dependencies {
     releaseImplementation "com.google.firebase:firebase-crash:$playServicesVersion"
 
     // Bus
-    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 
     // Rx
     implementation 'io.reactivex.rxjava2:rxjava:2.1.4'

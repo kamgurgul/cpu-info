@@ -45,6 +45,8 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     companion object {
         private const val CURRENT_PAGE_ID_KEY = "CURRENT_PAGE_ID_KEY"
         private const val CURRENT_PAGE_NAME_KEY = "CURRENT_PAGE_NAME_KEY"
+
+        private const val FRAGMENT_OPEN_DELAY_MILLIS = 500L
     }
 
     @Inject
@@ -104,35 +106,35 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 Handler().postDelayed({
                     navigationController.navigateToInfo()
                     setToolbarTitleAndElevation(getString(R.string.hardware))
-                }, 500)
+                }, FRAGMENT_OPEN_DELAY_MILLIS)
                 return true
             }
             R.id.applications -> {
                 Handler().postDelayed({
                     navigationController.navigateToApplications()
                     setToolbarTitleAndElevation(getString(R.string.applications))
-                }, 500)
+                }, FRAGMENT_OPEN_DELAY_MILLIS)
                 return true
             }
             R.id.processes -> {
                 Handler().postDelayed({
                     navigationController.navigateToProcesses()
                     setToolbarTitleAndElevation(getString(R.string.processes))
-                }, 500)
+                }, FRAGMENT_OPEN_DELAY_MILLIS)
                 return true
             }
             R.id.temp -> {
                 Handler().postDelayed({
                     navigationController.navigateToTemperature()
                     setToolbarTitleAndElevation(getString(R.string.temperature))
-                }, 500)
+                }, FRAGMENT_OPEN_DELAY_MILLIS)
                 return true
             }
             R.id.settings -> {
                 Handler().postDelayed({
                     navigationController.navigateToSettings()
                     setToolbarTitleAndElevation(getString(R.string.settings))
-                }, 500)
+                }, FRAGMENT_OPEN_DELAY_MILLIS)
                 return true
             }
             else -> {
