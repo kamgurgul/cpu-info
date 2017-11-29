@@ -18,6 +18,7 @@ Used libraries
 * [Dagger 2](https://github.com/google/dagger)
 * [Gson](https://github.com/google/gson)
 * [EventBus](https://github.com/greenrobot/EventBus)
+* [Glide](https://github.com/bumptech/glide)
 * Small parts from [1](https://github.com/lzyzsd/CircleProgress), [2](https://github.com/akexorcist/Android-RoundCornerProgressBar),
 [3](https://github.com/jaredrummler/AndroidProcesses), [4](https://github.com/TUBB/SwipeMenu)
 

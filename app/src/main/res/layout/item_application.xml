@@ -27,8 +27,7 @@
         android:id="@+id/app_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:contentDescription="@string/app_name"
-        android:scaleType="centerCrop" />
+        android:contentDescription="@string/app_name" />
 
     <LinearLayout
         android:layout_width="0dp"

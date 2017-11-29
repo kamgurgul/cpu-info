@@ -29,6 +29,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.common.list.ObservableListAdapter
 import com.kgurgul.cpuinfo.utils.Utils
@@ -65,6 +66,7 @@ class ApplicationsAdapter(private val context: Context,
 
         GlideApp.with(context)
                 .load(getApplicationInfo(app.sourceDir))
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .fitCenter()
                 .into(holder.iconIv)
 
