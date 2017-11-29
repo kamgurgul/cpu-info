@@ -65,9 +65,7 @@ class ProcessesViewModel @Inject constructor(private val prefs: Prefs,
                     .subscribe({ newProcessList ->
                         Timber.i("Processes refreshed")
                         processList.replace(newProcessList)
-                    }, { throwable ->
-                        Timber.e(throwable)
-                    })
+                    }, Timber::e)
         }
     }
 

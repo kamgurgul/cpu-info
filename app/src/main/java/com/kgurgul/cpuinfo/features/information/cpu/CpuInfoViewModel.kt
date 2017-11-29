@@ -63,8 +63,7 @@ class CpuInfoViewModel @Inject constructor() : ViewModel() {
             refreshingDisposable = Flowable.interval(REFRESHING_INTERVAL, TimeUnit.SECONDS)
                     .onBackpressureDrop()
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ _ -> refreshFrequencies() },
-                            { e -> Timber.e(e) })
+                    .subscribe({ refreshFrequencies() }, Timber::e)
         }
     }
 

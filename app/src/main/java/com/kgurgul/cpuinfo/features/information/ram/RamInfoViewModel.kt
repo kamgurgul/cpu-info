@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.features.information.ram
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
@@ -24,6 +25,7 @@ import android.os.Build
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.common.list.AdapterArrayList
 import com.kgurgul.cpuinfo.utils.Utils
+import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -58,8 +60,7 @@ class RamInfoViewModel @Inject constructor(private val activityManager: Activity
             ramRefreshingDisposable = Flowable.interval(0, REFRESHING_INTERVAL, TimeUnit.SECONDS)
                     .onBackpressureDrop()
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ _ -> refreshRamData() },
-                            { e -> Timber.e(e) })
+                    .subscribe({ refreshRamData() }, Timber::e)
         }
     }
 
@@ -70,12 +71,13 @@ class RamInfoViewModel @Inject constructor(private val activityManager: Activity
     /**
      * Get RAM info: all, available and threshold
      */
+    @SuppressLint("InlinedApi")
     private fun refreshRamData() {
         Timber.i("refreshRamData()")
         val memoryInfoList = ArrayList<Pair<String, String>>()
         activityManager.getMemoryInfo(memoryInfo)
 
-        if (Build.VERSION.SDK_INT >= 16) {
+        runOnApiAbove(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1, {
             val availableMemoryPercent = (memoryInfo.availMem.toDouble()
                     / memoryInfo.totalMem.toDouble() * 100.0).toInt()
 
@@ -83,7 +85,7 @@ class RamInfoViewModel @Inject constructor(private val activityManager: Activity
                     Utils.convertBytesToMega(memoryInfo.totalMem)))
             memoryInfoList.add(Pair(resources.getString(R.string.available_memory),
                     "${Utils.convertBytesToMega(memoryInfo.availMem)} ($availableMemoryPercent%)"))
-        } else {
+        }, {
             val totalRam = getTotalRamForOldApi()
             val availableMemoryPercent = (memoryInfo.availMem.toDouble()
                     / totalRam.toDouble() * 100.0).toInt()
@@ -92,7 +94,7 @@ class RamInfoViewModel @Inject constructor(private val activityManager: Activity
                     Utils.convertBytesToMega(totalRam)))
             memoryInfoList.add(Pair(resources.getString(R.string.available_memory),
                     "${Utils.convertBytesToMega(memoryInfo.availMem)} ($availableMemoryPercent%)"))
-        }
+        })
 
         memoryInfoList.add(Pair(resources.getString(R.string.threshold),
                 Utils.humanReadableByteCount(memoryInfo.threshold)))

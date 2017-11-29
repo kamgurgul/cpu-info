@@ -27,7 +27,6 @@ import com.kgurgul.cpuinfo.features.temperature.list.TemperatureItem
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -98,18 +97,10 @@ class TemperatureViewModel @Inject constructor(
                     isLoading.set(false)
                     verifyTemperaturesAvailability()
                 }
-                .subscribeBy(
-                        onSuccess = { temperatureResult ->
-                            prefs.insert(CPU_TEMP_RESULT_KEY, temperatureResult)
-                            cpuTemperatureResult = temperatureResult
-                        },
-                        onError = { throwable ->
-                            Timber.e(throwable)
-                        },
-                        onComplete = {
-                            Timber.i("List scan complete")
-                        }
-                )
+                .subscribe({ temperatureResult ->
+                    prefs.insert(CPU_TEMP_RESULT_KEY, temperatureResult)
+                    cpuTemperatureResult = temperatureResult
+                }, Timber::e, { Timber.i("List scan complete") })
     }
 
     /**
@@ -153,29 +144,24 @@ class TemperatureViewModel @Inject constructor(
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(
-                        { (cpuTemp, batteryTemp) ->
-                            val temporaryTempList = ArrayList<TemperatureItem>()
-                            if (cpuTemp != null) {
-                                temporaryTempList.add(TemperatureItem(
-                                        temperatureIconProvider.getIcon(
-                                                TemperatureIconProvider.Type.CPU),
-                                        resources.getString(R.string.cpu), cpuTemp))
-                            }
-                            if (batteryTemp != null) {
-                                temporaryTempList.add(TemperatureItem(
-                                        temperatureIconProvider.getIcon(
-                                                TemperatureIconProvider.Type.BATTERY),
-                                        resources.getString(R.string.battery),
-                                        batteryTemp.toFloat()))
-                            }
+                .subscribe({ (cpuTemp, batteryTemp) ->
+                    val temporaryTempList = ArrayList<TemperatureItem>()
+                    if (cpuTemp != null) {
+                        temporaryTempList.add(TemperatureItem(
+                                temperatureIconProvider.getIcon(
+                                        TemperatureIconProvider.Type.CPU),
+                                resources.getString(R.string.cpu), cpuTemp))
+                    }
+                    if (batteryTemp != null) {
+                        temporaryTempList.add(TemperatureItem(
+                                temperatureIconProvider.getIcon(
+                                        TemperatureIconProvider.Type.BATTERY),
+                                resources.getString(R.string.battery),
+                                batteryTemp.toFloat()))
+                    }
 
-                            temperatureItemsLiveData.value = temporaryTempList
-                        },
-                        { throwable ->
-                            Timber.e(throwable)
-                        }
-                )
+                    temperatureItemsLiveData.value = temporaryTempList
+                }, Timber::e)
     }
 
     /**

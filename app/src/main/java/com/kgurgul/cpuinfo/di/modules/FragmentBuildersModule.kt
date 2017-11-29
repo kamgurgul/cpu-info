@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.di.modules
 
+import com.kgurgul.cpuinfo.di.FragmentScope
 import com.kgurgul.cpuinfo.features.applications.ApplicationsFragment
 import com.kgurgul.cpuinfo.features.information.ContainerInfoFragment
 import com.kgurgul.cpuinfo.features.information.android.AndroidInfoFragment
@@ -41,42 +42,55 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class FragmentBuildersModule {
 
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeAndroidInfoFragment(): AndroidInfoFragment
 
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeCpuInfoFragment(): CpuInfoFragment
 
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeInfoFragment(): ContainerInfoFragment
 
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeBaseInfoFragment(): BaseRvFragment
 
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeGpuInfoFragment(): GpuInfoFragment
 
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeRamInfoFragment(): RamInfoFragment
 
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeSensorsInfoFragment(): SensorsInfoFragment
 
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeStorageInfoFragment(): StorageInfoFragment
 
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeScreenInfoFragment(): ScreenInfoFragment
 
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeHardwareInfoFragment(): HardwareInfoFragment
 
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeApplicationsFragment(): ApplicationsFragment
 
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun contributeProcessesFragment(): ProcessesFragment
 
+    @FragmentScope
     @ContributesAndroidInjector(modules = [TemperatureModule::class])
     abstract fun contributeTemperatureFragment(): TemperatureFragment
 }

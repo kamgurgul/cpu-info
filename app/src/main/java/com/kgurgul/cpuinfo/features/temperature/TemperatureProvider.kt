@@ -22,7 +22,7 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import com.kgurgul.cpuinfo.utils.Utils
 import io.reactivex.Maybe
-import io.reactivex.rxkotlin.toObservable
+import io.reactivex.Observable
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -63,7 +63,7 @@ class TemperatureProvider @Inject constructor(val app: Application) {
      * Scan device looking for CPU temperature in all well known locations
      */
     fun getCpuTemperatureFinder(): Maybe<CpuTemperatureResult> {
-        return CPU_TEMP_FILE_PATHS.toObservable()
+        return Observable.fromIterable(CPU_TEMP_FILE_PATHS)
                 .map { path ->
                     val temp = Utils.readOneLine(File(path))
                     var validPath = ""

@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.di.modules
 
+import com.kgurgul.cpuinfo.di.ActivityScope
 import com.kgurgul.cpuinfo.features.HostActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -28,6 +29,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityModule {
 
+    @ActivityScope
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributeFragmentHostActivity(): HostActivity
 }
