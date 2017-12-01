@@ -64,7 +64,7 @@ kapt {
 
 ext {
     supportVersion = "26.1.0"
-    playServicesVersion = "11.6.0"
+    playServicesVersion = "11.6.2"
     androidPluginVersion = "2.3.0"
     archLifecycleVersion = "1.0.0"
     daggerVersion = "2.13"
