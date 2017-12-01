@@ -20,8 +20,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,8 +28,6 @@ import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
-import com.kgurgul.cpuinfo.utils.Utils
-import java.util.*
 import javax.inject.Inject
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -52,18 +48,22 @@ class GpuInfoFragment : BaseRvFragment() {
                 InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
     }
 
-    private val gpuInfoList = ArrayList<Pair<String, String>>()
     private var glSurfaceView: GLSurfaceView? = null
-    private lateinit var handler: Handler
+    private val handler = Handler()
+
     private val glRenderer = object : GLSurfaceView.Renderer {
-
         override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
-            Utils.addPairIfExists(gpuInfoList, getString(R.string.vendor), gl.glGetString(GL10.GL_VENDOR))
-            Utils.addPairIfExists(gpuInfoList, getString(R.string.version), gl.glGetString(GL10.GL_VERSION))
-            Utils.addPairIfExists(gpuInfoList, getString(R.string.renderer), gl.glGetString(GL10.GL_RENDERER))
-            Utils.addPairIfExists(gpuInfoList, getString(R.string.extensions), gl.glGetString(GL10.GL_EXTENSIONS))
-
-            handler.sendEmptyMessage(0)
+            val gpuInfoMap = HashMap<GpuInfoViewModel.GlInfoType, String?>()
+            gpuInfoMap.put(GpuInfoViewModel.GlInfoType.GL_VENDOR, gl.glGetString(GL10.GL_VENDOR))
+            gpuInfoMap.put(GpuInfoViewModel.GlInfoType.GL_VERSION, gl.glGetString(GL10.GL_VERSION))
+            gpuInfoMap.put(GpuInfoViewModel.GlInfoType.GL_RENDERER,
+                    gl.glGetString(GL10.GL_RENDERER))
+            gpuInfoMap.put(GpuInfoViewModel.GlInfoType.GL_EXTENSIONS,
+                    gl.glGetString(GL10.GL_EXTENSIONS))
+            handler.post {
+                glSurfaceView?.visibility = View.GONE
+                viewModel.addGlInfo(gpuInfoMap)
+            }
         }
 
         override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
@@ -77,12 +77,6 @@ class GpuInfoFragment : BaseRvFragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
                 .get(GpuInfoViewModel::class.java)
-        handler = object : Handler(Looper.getMainLooper()) {
-            override fun handleMessage(msg: Message?) {
-                glSurfaceView?.visibility = View.GONE
-                viewModel.addGlInfo(gpuInfoList)
-            }
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

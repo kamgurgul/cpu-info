@@ -21,6 +21,7 @@ import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.common.list.AdapterArrayList
+import com.kgurgul.cpuinfo.utils.Utils
 import javax.inject.Inject
 
 /**
@@ -62,11 +63,24 @@ class GpuInfoViewModel @Inject constructor(private val activityManager: Activity
     /**
      * Add additional GPU info from OpenGL if it wasn't added previously
      *
-     * @param gpuInfoList list of additional data like version, render etc.
+     * @param gpuInfoMap map of additional data like version, render etc.
      */
-    fun addGlInfo(gpuInfoList: List<Pair<String, String>>) {
+    fun addGlInfo(gpuInfoMap: Map<GlInfoType, String?>) {
         if (dataObservableList.size <= 1) {
-            dataObservableList.addAll(gpuInfoList)
+            val gpuInfoPairs = ArrayList<Pair<String, String>>()
+            Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.vendor),
+                    gpuInfoMap[GlInfoType.GL_VENDOR])
+            Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.version),
+                    gpuInfoMap[GlInfoType.GL_VERSION])
+            Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.renderer),
+                    gpuInfoMap[GlInfoType.GL_RENDERER])
+            Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.extensions),
+                    gpuInfoMap[GlInfoType.GL_EXTENSIONS])
+            dataObservableList.addAll(gpuInfoPairs)
         }
+    }
+
+    enum class GlInfoType {
+        GL_VENDOR, GL_VERSION, GL_RENDERER, GL_EXTENSIONS
     }
 }
