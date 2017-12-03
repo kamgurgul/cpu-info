@@ -4,9 +4,8 @@
 CPU Info
 ========
 CPU Info provides information about Android device hardware and software.
-This project will be next release version after full migration into new MVVM
-architecture. Most of the code is written in Kotlin but some old widgets are
-still in Java.
+This project is currently in staging rollout process. Most of the code
+is written in Kotlin but some old widgets are still in Java.
 
 Current version can be found on Google Play:<br />
 [![Get it on Google Play](info/google-play-badge.png)](https://play.google.com/store/apps/details?id=com.kgurgul.cpuinfo)
@@ -22,15 +21,12 @@ Used libraries
 * Small parts from [1](https://github.com/lzyzsd/CircleProgress), [2](https://github.com/akexorcist/Android-RoundCornerProgressBar),
 [3](https://github.com/jaredrummler/AndroidProcesses), [4](https://github.com/TUBB/SwipeMenu)
 
-Must have before 3.0 release
-============================
-* Code cleanup
-
 Still TODO
 ==========
 * Migration all heavy lifting into coroutines (remove AsyncTask)
 * Tests
-* Fix for RAM widget on Android O - or drop it completely
+* Fix for RAM widget on Android O
+* Add benchmarks
 
 License
 -------
