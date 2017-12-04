@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:JvmName("Extensions")
+
 package com.kgurgul.cpuinfo.utils
 
 import android.os.Build

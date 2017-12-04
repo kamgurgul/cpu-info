@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:JvmName("Annotations")
+
 package com.kgurgul.cpuinfo.di
 
 import javax.inject.Scope

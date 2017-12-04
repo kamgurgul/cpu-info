@@ -32,7 +32,8 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * ViewModel for Android OS info
+ * ViewModel for Android OS info. It is simple container for a lot of static data from Android so
+ * it won't required any public methods.
  *
  * @author kgurgul
  */
@@ -53,7 +54,16 @@ class AndroidInfoViewModel @Inject constructor(
         if (dataObservableList.isNotEmpty()) {
             return
         }
+        getBuildData()
+        getAndroidIdData()
+        getRootData()
+        getSecurityData()
+    }
 
+    /**
+     * Retrieve data from static Build class and system property "java.vm.version"
+     */
+    private fun getBuildData() {
         dataObservableList.add(Pair(resources.getString(R.string.version), Build.VERSION.RELEASE))
         dataObservableList.add(Pair("SDK", Build.VERSION.SDK_INT.toString()))
         dataObservableList.add(Pair(resources.getString(R.string.codename), Build.VERSION.CODENAME))
@@ -66,23 +76,26 @@ class AndroidInfoViewModel @Inject constructor(
         dataObservableList.add(Pair("Kernel", System.getProperty("os.version") ?: ""))
         @Suppress("DEPRECATION")
         dataObservableList.add(Pair(resources.getString(R.string.serial), Build.SERIAL))
+    }
 
-        val androidId = getAndroidId()
+    /**
+     * Get AndroidID. Keep in mind that from Android O it is unique per app.
+     */
+    @SuppressLint("HardwareIds")
+    private fun getAndroidIdData() {
+        val androidId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
         if (androidId != null) {
             dataObservableList.add(Pair("Android ID", androidId))
         }
+    }
 
-        val rooted = isDeviceRooted()
-        val root = if (rooted) resources.getString(R.string.yes)
-        else resources.getString(R.string.no)
-        dataObservableList.add(Pair(resources.getString(R.string.rooted), root))
-
-        // Security category
-        val securityProviders = getSecurityProviders()
-        if (!securityProviders.isEmpty()) {
-            dataObservableList.add(Pair(resources.getString(R.string.security_providers), ""))
-            dataObservableList.addAll(securityProviders)
-        }
+    /**
+     * Add information if device is rooted
+     */
+    private fun getRootData() {
+        val isRootedStr = if (isDeviceRooted()) resources.getString(R.string.yes) else
+            resources.getString(R.string.no)
+        dataObservableList.add(Pair(resources.getString(R.string.rooted), isRootedStr))
     }
 
     /**
@@ -102,7 +115,6 @@ class AndroidInfoViewModel @Inject constructor(
                 "/system/app/Superuser.apk", "/sbin/su", "/system/bin/su", "/system/xbin/su",
                 "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
                 "/system/bin/failsafe/su", "/data/local/su")
-
         return paths.any { File(it).exists() }
     }
 
@@ -121,13 +133,6 @@ class AndroidInfoViewModel @Inject constructor(
     }
 
     /**
-     * Get AndroidID. Keep in mind that from Android O it is unique per app.
-     */
-    @SuppressLint("HardwareIds")
-    private fun getAndroidId(): String? =
-            Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
-
-    /**
      * Specify if device is using ART or Dalvik
      */
     private fun getVmVersion(): String {
@@ -136,13 +141,20 @@ class AndroidInfoViewModel @Inject constructor(
         if (vmVersion != null && vmVersion.startsWith("2")) {
             vm = "ART"
         }
-
         return vm
     }
 
     /**
-     * Get all security providers
+     * Get information about security providers
      */
+    private fun getSecurityData() {
+        val securityProviders = getSecurityProviders()
+        if (!securityProviders.isEmpty()) {
+            dataObservableList.add(Pair(resources.getString(R.string.security_providers), ""))
+            dataObservableList.addAll(securityProviders)
+        }
+    }
+
     private fun getSecurityProviders(): ArrayList<Pair<String, String>> {
         val functionsList = ArrayList<Pair<String, String>>()
 
