@@ -112,6 +112,8 @@
     <string name="is_charging">Is charging</string>
     <string name="charging_type">Charging type</string>
     <string name="wifi_mac">Wi-Fi Mac</string>
+    <string name="bluetooth" translatable="false">Bluetooth</string>
+    <string name="bluetooth_le" translatable="false">Bluetooth LE</string>
     <string name="bluetooth_mac">Bluetooth Mac</string>
     <string name="amount">Amount</string>
     <string name="card">Card</string>

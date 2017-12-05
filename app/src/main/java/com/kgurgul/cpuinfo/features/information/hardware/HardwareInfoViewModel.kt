@@ -18,6 +18,7 @@
 
 package com.kgurgul.cpuinfo.features.information.hardware
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModel
 import android.content.ContentResolver
 import android.content.SharedPreferences
@@ -25,6 +26,7 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.Camera
 import android.os.BatteryManager
+import android.os.Build
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.common.list.AdapterArrayList
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
@@ -32,6 +34,7 @@ import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.features.temperature.TemperatureProvider
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.round2
+import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import timber.log.Timber
 import java.io.File
 import java.io.FileFilter
@@ -75,19 +78,18 @@ class HardwareInfoViewModel @Inject constructor(
         dataObservableList.add(Pair(resources.getString(R.string.battery), ""))
         dataObservableList.addAll(getBatteryStatus())
 
-        val wirelessInfo = getWirelessInfo()
-        if (wirelessInfo.size > 0) {
-            dataObservableList.add(Pair(resources.getString(R.string.wireless), ""))
-            dataObservableList.addAll(wirelessInfo)
+        if (hasCamera()) {
+            dataObservableList.add(Pair(resources.getString(R.string.cameras), ""))
+            dataObservableList.addAll(getCameraInfo())
         }
 
         dataObservableList.add(Pair(resources.getString(R.string.sound_card), ""))
         dataObservableList.addAll(getSoundCardInfo())
 
-        // Camera
-        if (hasCamera()) {
-            dataObservableList.add(Pair(resources.getString(R.string.cameras), ""))
-            dataObservableList.addAll(getCameraInfo())
+        val wirelessInfo = getWirelessInfo()
+        if (wirelessInfo.size > 0) {
+            dataObservableList.add(Pair(resources.getString(R.string.wireless), ""))
+            dataObservableList.addAll(wirelessInfo)
         }
     }
 
@@ -181,10 +183,28 @@ class HardwareInfoViewModel @Inject constructor(
     }
 
     /**
-     * Get Wi-Fi and Bluetooth mac address
+     * Get Wi-Fi and Bluetooth mac address and Bluetooth LE support
      */
+    @SuppressLint("InlinedApi")
     private fun getWirelessInfo(): ArrayList<Pair<String, String>> {
         val functionsList = ArrayList<Pair<String, String>>()
+
+        // Bluetooth
+        val hasBluetooth = if (packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH))
+            resources.getString(R.string.yes) else resources.getString(R.string.no)
+        functionsList.add(Pair(resources.getString(R.string.bluetooth), hasBluetooth))
+        runOnApiAbove(Build.VERSION_CODES.JELLY_BEAN_MR1, {
+            val hasBluetoothLe =
+                    if (packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE))
+                        resources.getString(R.string.yes) else resources.getString(R.string.no)
+            functionsList.add(Pair(resources.getString(R.string.bluetooth_le), hasBluetoothLe))
+        })
+
+
+        val bluetoothMac = android.provider.Settings.Secure.getString(contentResolver,
+                "bluetooth_address")
+        if (bluetoothMac != null && !bluetoothMac.isEmpty())
+            functionsList.add(Pair(resources.getString(R.string.bluetooth_mac), bluetoothMac))
 
         // Wi-Fi mac
         val filePath = "/sys/class/net/wlan0/address"
@@ -197,12 +217,6 @@ class HardwareInfoViewModel @Inject constructor(
             e.printStackTrace()
         } catch (e: Exception) {
         }
-
-        // Bluetooth mac
-        val bluetoothMac = android.provider.Settings.Secure.getString(contentResolver,
-                "bluetooth_address")
-        if (bluetoothMac != null && !bluetoothMac.isEmpty())
-            functionsList.add(Pair(resources.getString(R.string.bluetooth_mac), bluetoothMac))
 
         return functionsList
     }

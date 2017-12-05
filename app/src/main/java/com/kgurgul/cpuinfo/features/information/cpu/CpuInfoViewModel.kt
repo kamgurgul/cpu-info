@@ -232,7 +232,7 @@ class CpuInfoViewModel @Inject constructor() : ViewModel() {
             val files = dir.listFiles(CpuFilter())
             // Return the number of cores (virtual CPU devices)
             files.size
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             // Default is 1 core
             1
         }
