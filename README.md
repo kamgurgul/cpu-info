@@ -4,8 +4,8 @@
 CPU Info
 ========
 CPU Info provides information about Android device hardware and software.
-This project is currently in staging rollout process. Most of the code
-is written in Kotlin but some old widgets are still in Java.
+Most of the code is written in Kotlin but some old widgets are still in
+Java.
 
 Current version can be found on Google Play:<br />
 [![Get it on Google Play](info/google-play-badge.png)](https://play.google.com/store/apps/details?id=com.kgurgul.cpuinfo)
