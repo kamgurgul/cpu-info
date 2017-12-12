@@ -25,6 +25,8 @@ import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
+import com.kgurgul.cpuinfo.utils.nonNullActivity
+import com.kgurgul.cpuinfo.utils.nonNullContext
 import javax.inject.Inject
 
 /**
@@ -43,7 +45,7 @@ class HardwareInfoFragment : BaseRvFragment() {
     }
 
     private val infoItemsAdapter: InfoItemsAdapter by lazy {
-        InfoItemsAdapter(context, viewModel.dataObservableList,
+        InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
                 InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
     }
 
@@ -66,12 +68,12 @@ class HardwareInfoFragment : BaseRvFragment() {
         intentFilter.addAction("android.intent.action.ACTION_POWER_CONNECTED")
         intentFilter.addAction("android.intent.action.ACTION_POWER_DISCONNECTED")
 
-        activity.registerReceiver(powerReceiver, intentFilter)
+        nonNullActivity().registerReceiver(powerReceiver, intentFilter)
     }
 
     override fun onPause() {
         super.onPause()
-        activity.unregisterReceiver(powerReceiver)
+        nonNullActivity().unregisterReceiver(powerReceiver)
     }
 
     override fun onStop() {
@@ -80,7 +82,7 @@ class HardwareInfoFragment : BaseRvFragment() {
     }
 
     override fun setupRecyclerViewAdapter() {
-        recyclerView.addItemDecoration(DividerItemDecoration(context))
+        recyclerView.addItemDecoration(DividerItemDecoration(nonNullContext()))
         recyclerView.adapter = infoItemsAdapter
     }
 }

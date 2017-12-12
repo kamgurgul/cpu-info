@@ -28,6 +28,7 @@ import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
+import com.kgurgul.cpuinfo.utils.nonNullContext
 import javax.inject.Inject
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -44,7 +45,7 @@ class GpuInfoFragment : BaseRvFragment() {
     private lateinit var viewModel: GpuInfoViewModel
 
     private val infoItemsAdapter: InfoItemsAdapter by lazy {
-        InfoItemsAdapter(context, viewModel.dataObservableList,
+        InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
                 InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
     }
 
@@ -104,7 +105,7 @@ class GpuInfoFragment : BaseRvFragment() {
     }
 
     override fun setupRecyclerViewAdapter() {
-        recyclerView.addItemDecoration(DividerItemDecoration(context))
+        recyclerView.addItemDecoration(DividerItemDecoration(nonNullContext()))
         recyclerView.adapter = infoItemsAdapter
     }
 }

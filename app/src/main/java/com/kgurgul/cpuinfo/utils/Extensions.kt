@@ -18,24 +18,23 @@
 
 package com.kgurgul.cpuinfo.utils
 
+import android.app.Activity
+import android.content.Context
 import android.os.Build
+import android.support.v4.app.Fragment
 
 /**
  * All basic extensions
  *
  * @author kgurgul
  */
-fun Float.round1(): Float =
-        Math.round(this * 10.0) / 10.0f
+fun Float.round1(): Float = Math.round(this * 10.0) / 10.0f
 
-fun Double.round1(): Double =
-        Math.round(this * 10.0) / 10.0
+fun Double.round1(): Double = Math.round(this * 10.0) / 10.0
 
-fun Float.round2(): Float =
-        Math.round(this * 100.0) / 100.0f
+fun Float.round2(): Float = Math.round(this * 100.0) / 100.0f
 
-fun Double.round2(): Double =
-        Math.round(this * 100.0) / 100.0
+fun Double.round2(): Double = Math.round(this * 100.0) / 100.0
 
 inline fun runOnApi(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
     if (Build.VERSION.SDK_INT == api) {
@@ -60,3 +59,15 @@ inline fun runOnApiAbove(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
         otherwise()
     }
 }
+
+/**
+ * Returns not null context or throws exception. Use it only between [Fragment.onAttach] and
+ * [Fragment.onDetach]
+ */
+fun Fragment.nonNullContext(): Context = context!!
+
+/**
+ * Returns not null activity or throws exception. Use it only between [Fragment.onAttach] and
+ * [Fragment.onDetach]
+ */
+fun Fragment.nonNullActivity(): Activity = activity!!

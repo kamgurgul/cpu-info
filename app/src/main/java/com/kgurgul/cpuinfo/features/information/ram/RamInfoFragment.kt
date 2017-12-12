@@ -26,6 +26,7 @@ import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
+import com.kgurgul.cpuinfo.utils.nonNullContext
 import javax.inject.Inject
 
 /**
@@ -44,7 +45,7 @@ class RamInfoFragment : BaseRvFragment() {
     }
 
     private val infoItemsAdapter: InfoItemsAdapter by lazy {
-        InfoItemsAdapter(context, viewModel.dataObservableList,
+        InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
                 InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
     }
 
@@ -94,7 +95,7 @@ class RamInfoFragment : BaseRvFragment() {
             }
 
     override fun setupRecyclerViewAdapter() {
-        recyclerView.addItemDecoration(DividerItemDecoration(context))
+        recyclerView.addItemDecoration(DividerItemDecoration(nonNullContext()))
         recyclerView.adapter = infoItemsAdapter
     }
 }

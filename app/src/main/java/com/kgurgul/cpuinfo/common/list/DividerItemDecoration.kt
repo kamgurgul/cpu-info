@@ -48,7 +48,7 @@ class DividerItemDecoration : RecyclerView.ItemDecoration {
      * Custom divider will be used
      */
     constructor(context: Context, resId: Int) {
-        mDivider = ContextCompat.getDrawable(context, resId)
+        mDivider = ContextCompat.getDrawable(context, resId)!!
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {

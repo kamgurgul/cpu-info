@@ -42,6 +42,8 @@ import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.utils.AutoClearedValue
 import com.kgurgul.cpuinfo.utils.Utils
+import com.kgurgul.cpuinfo.utils.nonNullActivity
+import com.kgurgul.cpuinfo.utils.nonNullContext
 import com.kgurgul.cpuinfo.widgets.swiperv.SwipeMenuRecyclerView
 import java.io.File
 import javax.inject.Inject
@@ -94,7 +96,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
     }
 
     override fun onStop() {
-        activity.unregisterReceiver(uninstallReceiver)
+        nonNullActivity().unregisterReceiver(uninstallReceiver)
         applicationsAdapter.get().unregisterListChangeNotifier()
         super.onStop()
     }
@@ -110,13 +112,13 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
      */
     private fun setupRecyclerView() {
         applicationsAdapter = AutoClearedValue(this,
-                ApplicationsAdapter(context, viewModel.applicationList, this))
+                ApplicationsAdapter(nonNullContext(), viewModel.applicationList, this))
 
         val rvLayoutManager = LinearLayoutManager(context)
         binding.get().recyclerView.layoutManager = rvLayoutManager
 
         binding.get().recyclerView.adapter = applicationsAdapter.get()
-        binding.get().recyclerView.addItemDecoration(DividerItemDecoration(context))
+        binding.get().recyclerView.addItemDecoration(DividerItemDecoration(nonNullContext()))
         (binding.get().recyclerView.itemAnimator as? SimpleItemAnimator)
                 ?.supportsChangeAnimations = false
     }
@@ -126,7 +128,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
      */
     private fun initObservables() {
         viewModel.shouldStartStorageService.observe(this, Observer {
-            StorageUsageService.startService(context, viewModel.applicationList)
+            StorageUsageService.startService(nonNullContext(), viewModel.applicationList)
         })
     }
 
@@ -137,7 +139,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         val intentFilter = IntentFilter()
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
         intentFilter.addDataScheme("package")
-        activity.registerReceiver(uninstallReceiver, intentFilter)
+        nonNullActivity().registerReceiver(uninstallReceiver, intentFilter)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -160,13 +162,13 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
     override fun appOpenClicked(position: Int) {
         val appInfo = viewModel.applicationList[position]
         // Block self opening
-        if (appInfo.packageName == context.packageName) {
+        if (appInfo.packageName == nonNullContext().packageName) {
             Snackbar.make(binding.get().mainContainer, getString(R.string.cpu_open),
                     Snackbar.LENGTH_SHORT).show()
             return
         }
 
-        val intent = context.packageManager.getLaunchIntentForPackage(appInfo.packageName)
+        val intent = nonNullContext().packageManager.getLaunchIntentForPackage(appInfo.packageName)
         if (intent != null) {
             try {
                 startActivity(intent)
@@ -195,7 +197,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
      */
     override fun appUninstallClicked(position: Int) {
         val appInfo = viewModel.applicationList[position]
-        if (appInfo.packageName == context.packageName) {
+        if (appInfo.packageName == nonNullContext().packageName) {
             Snackbar.make(binding.get().mainContainer, getString(R.string.cpu_uninstall),
                     Snackbar.LENGTH_SHORT).show()
             return
@@ -217,7 +219,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
      * Create dialog with native libraries list
      */
     private fun showNativeListDialog(nativeLibsDir: File) {
-        val builder = AlertDialog.Builder(context, R.style.CustomAppCompatAlertDialogStyle)
+        val builder = AlertDialog.Builder(nonNullContext(), R.style.CustomAppCompatAlertDialogStyle)
         val inflater = LayoutInflater.from(context)
         val dialogLayout = inflater.inflate(R.layout.dialog_native_libs, null)
         val libs = nativeLibsDir.listFiles().map { it.name }
@@ -227,7 +229,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
                 R.id.native_name_tv, libs)
         listView.adapter = arrayAdapter
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            Utils.searchInGoogle(context, libs[position])
+            Utils.searchInGoogle(nonNullContext(), libs[position])
         }
         builder.setPositiveButton(R.string.ok) { dialog, _ ->
             dialog.cancel()

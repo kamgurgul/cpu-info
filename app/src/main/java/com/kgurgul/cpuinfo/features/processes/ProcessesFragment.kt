@@ -30,6 +30,7 @@ import com.kgurgul.cpuinfo.databinding.FragmentProcessesBinding
 import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.utils.AutoClearedValue
+import com.kgurgul.cpuinfo.utils.nonNullContext
 import javax.inject.Inject
 
 /**
@@ -72,7 +73,7 @@ class ProcessesFragment : Fragment(), Injectable {
         binding.get().recyclerView.layoutManager = rvLayoutManager
 
         binding.get().recyclerView.adapter = processesAdapter.get()
-        binding.get().recyclerView.addItemDecoration(DividerItemDecoration(context))
+        binding.get().recyclerView.addItemDecoration(DividerItemDecoration(nonNullContext()))
         (binding.get().recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
     }
 

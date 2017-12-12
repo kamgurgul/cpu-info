@@ -26,6 +26,7 @@ import android.os.Handler
 import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
+import com.kgurgul.cpuinfo.utils.nonNullActivity
 import javax.inject.Inject
 
 /**
@@ -80,14 +81,14 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
             filter.addAction(Intent.ACTION_MEDIA_UNMOUNTABLE)
             filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED)
             filter.addDataScheme("file")
-            activity.registerReceiver(mountedReceiver, filter)
+            nonNullActivity().registerReceiver(mountedReceiver, filter)
         }
     }
 
     override fun onPause() {
         if (receiverRegistered) {
             receiverRegistered = false
-            activity.unregisterReceiver(mountedReceiver)
+            nonNullActivity().unregisterReceiver(mountedReceiver)
             handler.removeCallbacksAndMessages(null)
         }
 

@@ -1,20 +1,21 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: "org.jetbrains.kotlin.android.extensions"
+apply plugin: 'org.jetbrains.kotlin.android.extensions'
+apply plugin: 'io.fabric'
 
 Properties signingProperties = getReleaseSigningConfig()
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.0'
 
     defaultConfig {
         applicationId "com.kgurgul.cpuinfo"
         minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 30
-        versionName "3.0"
+        targetSdkVersion 27
+        versionCode 31
+        versionName "3.1"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -63,7 +64,7 @@ kapt {
 }
 
 ext {
-    supportVersion = "26.1.0"
+    supportVersion = "27.0.2"
     playServicesVersion = "11.6.2"
     androidPluginVersion = "2.3.0"
     archLifecycleVersion = "1.0.0"
@@ -86,8 +87,8 @@ dependencies {
     kapt "com.android.databinding:compiler:$androidPluginVersion"
 
     // Firebase
+    releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.8.0'
     implementation "com.google.firebase:firebase-core:$playServicesVersion"
-    releaseImplementation "com.google.firebase:firebase-crash:$playServicesVersion"
 
     // Bus
     implementation 'org.greenrobot:eventbus:3.1.1'
