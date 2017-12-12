@@ -111,7 +111,7 @@ dependencies {
 
     // Google arch
     implementation "android.arch.lifecycle:extensions:$archLifecycleVersion"
-    annotationProcessor "android.arch.lifecycle:compiler:$archLifecycleVersion"
+    kapt "android.arch.lifecycle:compiler:$archLifecycleVersion"
     testImplementation "android.arch.core:core-testing:$archLifecycleVersion"
 
     // Glide
