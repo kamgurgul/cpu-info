@@ -1,6 +1,6 @@
 {
   "project_info": {
-    "project_number": "",
+    "project_number": "1",
     "firebase_url": "",
     "project_id": "cpu-info",
     "storage_bucket": ""
@@ -8,27 +8,27 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "",
+        "mobilesdk_app_id": "1",
         "android_client_info": {
-          "package_name": "com.kgurgul.cpuinfo.debug"
+          "package_name": "com.kgurgul.cpuinfo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "",
+          "client_id": "1",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": ""
+          "current_key": "a"
         }
       ],
       "services": {
         "analytics_service": {
           "status": 2,
           "analytics_property": {
-            "tracking_id": ""
+            "tracking_id": "UA-1"
           }
         },
         "appinvite_service": {
@@ -42,20 +42,20 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "",
+        "mobilesdk_app_id": "1",
         "android_client_info": {
-          "package_name": ""
+          "package_name": "com.kgurgul.cpuinfo.debug"
         }
       },
       "oauth_client": [
         {
-          "client_id": "",
+          "client_id": "1",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": ""
+          "current_key": "a"
         }
       ],
       "services": {
