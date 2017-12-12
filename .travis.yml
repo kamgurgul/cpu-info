@@ -5,7 +5,7 @@ android:
     - tools
     - platform-tools
     - tools
-    - build-tools-27.0.0
+    - build-tools-27.0.2
     - android-27
   licenses:
     - 'android-sdk-preview-license-.+'
@@ -19,6 +19,9 @@ cache:
   directories:
     -$HOME/.gradle/caches/
     -$HOME/.gradle/wrapper/
+
+before_install:
+  - yes | sdkmanager "platforms;android-27"
 
 script:
   - ./gradlew testDebugUnitTest
