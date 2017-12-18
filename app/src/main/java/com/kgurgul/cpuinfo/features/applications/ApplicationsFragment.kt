@@ -80,10 +80,12 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
                               savedInstanceState: Bundle?): View {
         binding = AutoClearedValue(this,
                 DataBindingUtil.inflate(inflater, R.layout.fragment_applications, container, false))
-        binding.get().viewModel = viewModel
-        binding.get().swipeRefreshLayout.setOnRefreshListener { viewModel.refreshApplicationsList() }
-        binding.get().swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
-                R.color.colorPrimaryDark)
+        binding.get().apply {
+            viewModel = viewModel
+            swipeRefreshLayout.setOnRefreshListener { viewModel.refreshApplicationsList() }
+            swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
+                    R.color.colorPrimaryDark)
+        }
         initObservables()
         setupRecyclerView()
         return binding.get().root
@@ -115,12 +117,12 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
                 ApplicationsAdapter(nonNullContext(), viewModel.applicationList, this))
 
         val rvLayoutManager = LinearLayoutManager(context)
-        binding.get().recyclerView.layoutManager = rvLayoutManager
-
-        binding.get().recyclerView.adapter = applicationsAdapter.get()
-        binding.get().recyclerView.addItemDecoration(DividerItemDecoration(nonNullContext()))
-        (binding.get().recyclerView.itemAnimator as? SimpleItemAnimator)
-                ?.supportsChangeAnimations = false
+        binding.get().apply {
+            recyclerView.layoutManager = rvLayoutManager
+            recyclerView.adapter = applicationsAdapter.get()
+            recyclerView.addItemDecoration(DividerItemDecoration(nonNullContext()))
+            (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        }
     }
 
     /**

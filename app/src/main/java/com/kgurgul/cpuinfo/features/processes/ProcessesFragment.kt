@@ -70,11 +70,12 @@ class ProcessesFragment : Fragment(), Injectable {
         processesAdapter = AutoClearedValue(this, ProcessesAdapter(viewModel.processList))
 
         val rvLayoutManager = LinearLayoutManager(context)
-        binding.get().recyclerView.layoutManager = rvLayoutManager
-
-        binding.get().recyclerView.adapter = processesAdapter.get()
-        binding.get().recyclerView.addItemDecoration(DividerItemDecoration(nonNullContext()))
-        (binding.get().recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        binding.get().apply {
+            recyclerView.layoutManager = rvLayoutManager
+            recyclerView.adapter = processesAdapter.get()
+            recyclerView.addItemDecoration(DividerItemDecoration(nonNullContext()))
+            (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        }
     }
 
     override fun onStart() {

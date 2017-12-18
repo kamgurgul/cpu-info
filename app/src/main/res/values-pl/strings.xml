@@ -15,7 +15,6 @@
   -->
 
 <resources>
-    <string name="app_name">CPU Info</string>
     <string name="action_settings">Ustawienia</string>
     <string name="action_sorting">Sortuj</string>
     <string name="action_refresh">Odśwież</string>

@@ -81,18 +81,15 @@ class TemperatureFragment : Fragment(), Injectable {
      */
     private fun setupRecycleView() {
         val layoutManager = LinearLayoutManager(context)
-        binding.get().tempRv.layoutManager = layoutManager
-        binding.get().tempRv.adapter = temperatureAdapter.get()
+        binding.get().apply {
+            tempRv.layoutManager = layoutManager
+            tempRv.adapter = temperatureAdapter.get()
+            (tempRv.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        }
 
         viewModel.temperatureItemsLiveData.observe(this, Observer<List<TemperatureItem>> { tempList ->
             Timber.i("temperatureItemsLiveData observer refreshed")
             temperatureAdapter.get().setTempItems(tempList)
         })
-
-        // Remove change animation
-        val animator = binding.get().tempRv.itemAnimator
-        if (animator is SimpleItemAnimator) {
-            animator.supportsChangeAnimations = false
-        }
     }
 }

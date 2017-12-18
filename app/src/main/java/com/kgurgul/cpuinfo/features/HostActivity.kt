@@ -84,8 +84,10 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(CURRENT_PAGE_ID_KEY, currentItemId)
-        outState.putString(CURRENT_PAGE_NAME_KEY, binding.toolbar.title.toString())
+        outState.apply {
+            putInt(CURRENT_PAGE_ID_KEY, currentItemId)
+            putString(CURRENT_PAGE_NAME_KEY, binding.toolbar.title.toString())
+        }
         super.onSaveInstanceState(outState)
     }
 

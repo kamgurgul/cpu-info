@@ -21,7 +21,9 @@ import android.arch.lifecycle.ViewModelProvider
 import javax.inject.Inject
 
 /**
- * Helper class which handle ViewModel factory creation
+ * Helper class which handle ViewModel factory creation. Because of lazy initialization it is
+ * possible to provide Dagger scopes. ViewModels lives in retained fragments so only way to separate
+ * scopes is to provide dependencies via [ViewModelProvider.Factory].
  *
  * @author kgurgul
  */
