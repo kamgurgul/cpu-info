@@ -65,7 +65,7 @@ kapt {
 
 ext {
     supportVersion = "27.0.2"
-    firebaseVersion = "11.6.2"
+    firebaseVersion = "11.8.0"
     androidPluginVersion = "2.3.0"
     archLifecycleVersion = "1.0.0"
     daggerVersion = "2.13"
@@ -128,7 +128,7 @@ dependencies {
 }
 
 buildscript {
-    ext.kotlin_version = '1.2.10'
+    ext.kotlin_version = '1.2.20'
     repositories {
         mavenCentral()
     }
