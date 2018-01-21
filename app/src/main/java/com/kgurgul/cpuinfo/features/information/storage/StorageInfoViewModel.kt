@@ -178,7 +178,7 @@ class StorageInfoViewModel @Inject constructor(private val resources: Resources)
                 } else {
                     emitter.onError(FileNotFoundException("Cannot find SD card file"))
                 }
-            } else {
+            } else if (!emitter.isDisposed) {
                 emitter.onError(FileNotFoundException("Cannot find SD card file"))
             }
         })
