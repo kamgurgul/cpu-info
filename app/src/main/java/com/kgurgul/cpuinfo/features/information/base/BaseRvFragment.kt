@@ -39,7 +39,7 @@ abstract class BaseRvFragment : Fragment(), Injectable {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_rv, container, false)
-        recyclerView = view.findViewById(R.id.recycle_view)
+        recyclerView = view.findViewById(R.id.recycler_view)
         setupRecyclerView()
         setupRecyclerViewAdapter()
         return view

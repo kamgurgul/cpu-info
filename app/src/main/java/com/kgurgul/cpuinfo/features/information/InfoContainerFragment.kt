@@ -34,7 +34,7 @@ import com.kgurgul.cpuinfo.utils.nonNullContext
  *
  * @author kgurgul
  */
-class ContainerInfoFragment : Fragment(), Injectable {
+class InfoContainerFragment : Fragment(), Injectable {
 
     private lateinit var binding: AutoClearedValue<FragmentInfoBinding>
 
