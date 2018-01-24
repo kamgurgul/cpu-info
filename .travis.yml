@@ -6,11 +6,9 @@ android:
     - platform-tools
     - tools
     - build-tools-27.0.2
-    - android-16
-    - android-22
+    - android-19
     - android-27
-    - sys-img-armeabi-v7a-android-16
-    - sys-img-armeabi-v7a-android-22
+    - sys-img-armeabi-v7a-android-19
   licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
@@ -25,14 +23,13 @@ cache:
     -$HOME/.gradle/wrapper/
 
 before_script:
-  - echo no | android create avd --force -n test1 -t android-16 --abi armeabi-v7a
-  - echo no | android create avd --force -n test2 -t android-22 --abi armeabi-v7a
-  - emulator -avd test1 -no-audio -no-window &
+  - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
+  - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
-  - emulator -avd test2 -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb -s emulator-5554 shell input keyevent 82 &
-  - adb -s emulator-5556 shell input keyevent 82 &
+  - adb shell settings put global window_animation_scale 0 &
+  - adb shell settings put global transition_animation_scale 0 &
+  - adb shell settings put global animator_duration_scale 0 &
+  - adb shell input keyevent 82 &
 
 before_install:
   - yes | sdkmanager "platforms;android-27"
