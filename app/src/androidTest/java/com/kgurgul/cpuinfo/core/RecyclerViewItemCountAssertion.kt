@@ -25,7 +25,7 @@ import org.hamcrest.Matcher
 
 /**
  * Assertion for item count on [RecyclerView].
- * Examples use:
+ * Examples:
  *  - .check(RecyclerViewItemCountAssertion(5))
  *  - .check(RecyclerViewItemCountAssertion(greaterThan(5)))
  *  - .check(RecyclerViewItemCountAssertion(lessThan(5)))
