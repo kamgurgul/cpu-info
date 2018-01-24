@@ -7,9 +7,10 @@ android:
     - tools
     - build-tools-27.0.2
     - android-16
+    - android-26
     - android-27
     - sys-img-armeabi-v7a-android-16
-    - sys-img-armeabi-v7a-android-27
+    - sys-img-armeabi-v7a-android-26
   licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
@@ -25,7 +26,7 @@ cache:
 
 before_script:
   - echo no | android create avd --force -n test1 -t android-16 --abi armeabi-v7a
-  - echo no | android create avd --force -n test2 -t android-27 --abi armeabi-v7a
+  - echo no | android create avd --force -n test2 -t android-26 --abi armeabi-v7a
   - emulator -avd test1 -no-audio -no-window &
   - android-wait-for-emulator
   - emulator -avd test2 -no-audio -no-window &
