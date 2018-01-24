@@ -7,6 +7,8 @@ android:
     - tools
     - build-tools-27.0.2
     - android-27
+    - sys-img-armeabi-v7a-android-27
+    - sys-img-armeabi-v7a-android-16
   licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
@@ -20,11 +22,23 @@ cache:
     -$HOME/.gradle/caches/
     -$HOME/.gradle/wrapper/
 
+before_script:
+  - echo no | android create avd --force -n test1 -t android-16 --abi armeabi-v7a
+  - echo no | android create avd --force -n test2 -t android-27 --abi armeabi-v7a
+  - emulator -avd test1 -no-audio -no-window &
+  - android-wait-for-emulator
+  - emulator -avd test2 -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb -s emulator-5554 shell input keyevent 82 &
+  - adb -s emulator-5556 shell input keyevent 82 &
+
 before_install:
   - yes | sdkmanager "platforms;android-27"
 
 script:
+  - ./gradlew clean assembleDebug
   - ./gradlew testDebugUnitTest
+  - ./gradlew connectedDebugAndroidTest
 
 notifications:
   email: false

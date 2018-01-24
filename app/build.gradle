@@ -70,7 +70,7 @@ ext {
     supportVersion = "27.0.2"
     firebaseVersion = "11.8.0"
     androidPluginVersion = "2.3.0"
-    archLifecycleVersion = "1.0.0"
+    archLifecycleVersion = "1.1.0"
     daggerVersion = "2.13"
     ankoVersion = "0.10.1"
     glideVersion = "4.3.1"
