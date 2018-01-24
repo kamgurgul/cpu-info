@@ -21,6 +21,17 @@ Used libraries
 * Small parts from [1](https://github.com/lzyzsd/CircleProgress), [2](https://github.com/akexorcist/Android-RoundCornerProgressBar),
 [3](https://github.com/jaredrummler/AndroidProcesses), [4](https://github.com/TUBB/SwipeMenu)
 
+Testing tools
+=============
+* [Mockito](http://site.mockito.org/)
+* [mockito-kotlin](https://github.com/nhaarman/mockito-kotlin)
+* [Espresso](https://developer.android.com/training/testing/ui-testing/espresso-testing.html)
+* [Jacoco (for coverage)](http://www.eclemma.org/jacoco/)
+
+CI
+===
+* Travis
+
 Still TODO
 ==========
 * Migration all heavy lifting into coroutines (remove AsyncTask)
