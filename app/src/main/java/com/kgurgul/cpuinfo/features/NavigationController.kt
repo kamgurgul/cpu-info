@@ -22,7 +22,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.analytics.AnalyticsEvents
 import com.kgurgul.cpuinfo.features.applications.ApplicationsFragment
-import com.kgurgul.cpuinfo.features.information.ContainerInfoFragment
+import com.kgurgul.cpuinfo.features.information.InfoContainerFragment
 import com.kgurgul.cpuinfo.features.processes.ProcessesFragment
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFragment
@@ -46,7 +46,7 @@ class NavigationController @Inject constructor(private val hostActivity: HostAct
 
     fun navigateToInfo() {
         firebaseAnalytics.setCurrentScreen(hostActivity, AnalyticsEvents.INFO_SCREEN, null)
-        val infoFragment = ContainerInfoFragment()
+        val infoFragment = InfoContainerFragment()
         addToSingleChildStack(infoFragment, FragmentTag.PARENT_FRAGMENT_TAG)
     }
 
@@ -75,7 +75,7 @@ class NavigationController @Inject constructor(private val hostActivity: HostAct
     }
 
     /**
-     * App navigation will currently build stack with [ContainerInfoFragment] on the top and all
+     * App navigation will currently build stack with [InfoContainerFragment] on the top and all
      * others fragments as a single child.
      */
     private fun addToSingleChildStack(fragment: Fragment, fragmentTag: FragmentTag) {

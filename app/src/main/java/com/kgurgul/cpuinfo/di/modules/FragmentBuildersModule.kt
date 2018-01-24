@@ -18,7 +18,7 @@ package com.kgurgul.cpuinfo.di.modules
 
 import com.kgurgul.cpuinfo.di.FragmentScope
 import com.kgurgul.cpuinfo.features.applications.ApplicationsFragment
-import com.kgurgul.cpuinfo.features.information.ContainerInfoFragment
+import com.kgurgul.cpuinfo.features.information.InfoContainerFragment
 import com.kgurgul.cpuinfo.features.information.android.AndroidInfoFragment
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoFragment
@@ -52,7 +52,7 @@ abstract class FragmentBuildersModule {
 
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun contributeInfoFragment(): ContainerInfoFragment
+    abstract fun contributeInfoFragment(): InfoContainerFragment
 
     @FragmentScope
     @ContributesAndroidInjector
