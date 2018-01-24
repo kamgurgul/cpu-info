@@ -71,7 +71,7 @@ class InfoTestSuit {
     @Test
     fun checkStorageTab() {
         hardwareScreen.tapTabWithTitle(activityRule.getString(R.string.storage))
-        hardwareScreen.hasAtLeastRvElements(2)
+        hardwareScreen.hasAtLeastRvElements(1)
     }
 
     @Test
