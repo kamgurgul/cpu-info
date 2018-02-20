@@ -4,19 +4,19 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.kotlin.android.extensions'
 apply plugin: 'io.fabric'
 apply from: "$rootDir/reports/jacoco.gradle"
+apply from: "$rootDir/versioning.gradle"
 
 Properties signingProperties = getReleaseSigningConfig()
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.2'
+    compileSdkVersion Versions.compiledSdk
 
     defaultConfig {
         applicationId "com.kgurgul.cpuinfo"
-        minSdkVersion 14
-        targetSdkVersion 27
-        versionCode 31
-        versionName "3.1"
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode generatedVersionCode
+        versionName generatedVersionName
 
         vectorDrawables.useSupportLibrary = true
 
@@ -40,6 +40,7 @@ android {
         }
         debug {
             minifyEnabled false
+            testCoverageEnabled true
             applicationIdSuffix ".debug"
         }
     }
@@ -67,33 +68,22 @@ kapt {
     generateStubs = true
 }
 
-ext {
-    supportVersion = "27.0.2"
-    firebaseVersion = "11.8.0"
-    androidPluginVersion = "2.3.0"
-    archLifecycleVersion = "1.1.0"
-    daggerVersion = "2.13"
-    ankoVersion = "0.10.1"
-    glideVersion = "4.3.1"
-    espressoVersion = "3.0.1"
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "com.android.support:appcompat-v7:$supportVersion"
-    implementation "com.android.support:design:$supportVersion"
-    implementation "com.android.support:preference-v14:$supportVersion"
+    implementation "com.android.support:appcompat-v7:${Versions.androidSupport}"
+    implementation "com.android.support:design:${Versions.androidSupport}"
+    implementation "com.android.support:preference-v14:${Versions.androidSupport}"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "org.jetbrains.anko:anko-coroutines:$ankoVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+    implementation "org.jetbrains.anko:anko-coroutines:${Versions.anko}"
 
     // Android data binding
-    kapt "com.android.databinding:compiler:$androidPluginVersion"
+    kapt "com.android.databinding:compiler:${Versions.androidDatabinding}"
 
     // Firebase
-    releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.8.0'
-    implementation "com.google.firebase:firebase-core:$firebaseVersion"
+    releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.9.0'
+    implementation "com.google.firebase:firebase-core:${Versions.firebase}"
 
     // Bus
     implementation 'org.greenrobot:eventbus:3.1.1'
@@ -106,47 +96,30 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.0'
 
     // Dagger
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+    implementation "com.google.dagger:dagger:${Versions.dagger}"
+    implementation "com.google.dagger:dagger-android-support:${Versions.dagger}"
+    kapt "com.google.dagger:dagger-compiler:${Versions.dagger}"
+    kapt "com.google.dagger:dagger-android-processor:${Versions.dagger}"
 
     // Timber
     implementation 'com.jakewharton.timber:timber:4.5.1'
 
     // Google arch
-    implementation "android.arch.lifecycle:extensions:$archLifecycleVersion"
-    kapt "android.arch.lifecycle:compiler:$archLifecycleVersion"
+    implementation "android.arch.lifecycle:extensions:${Versions.archLifecycle}"
+    kapt "android.arch.lifecycle:compiler:${Versions.archLifecycle}"
 
     // Glide
-    implementation "com.github.bumptech.glide:glide:$glideVersion"
-    kapt "com.github.bumptech.glide:compiler:$glideVersion"
-
-    // Leak canary
-/*    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.3'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.3'*/
+    implementation "com.github.bumptech.glide:glide:${Versions.glide}"
+    kapt "com.github.bumptech.glide:compiler:${Versions.glide}"
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:2.11.0"
     testImplementation "com.nhaarman:mockito-kotlin-kt1.1:1.5.0"
-    testImplementation "android.arch.core:core-testing:$archLifecycleVersion"
+    testImplementation "android.arch.core:core-testing:${Versions.archLifecycle}"
 
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
-}
-
-buildscript {
-    ext.kotlin_version = '1.2.21'
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-repositories {
-    mavenCentral()
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${Versions.espresso}"
 }
 
 def getReleaseSigningConfig() {
@@ -154,8 +127,8 @@ def getReleaseSigningConfig() {
         Properties localProp = new Properties()
         localProp.load(project.rootProject.file('local.properties').newDataInputStream())
         if (localProp.getProperty('keyPath') == null
-            || localProp.getProperty('keyPass') == null
-            || localProp.getProperty('keyAlias') == null) {
+                || localProp.getProperty('keyPass') == null
+                || localProp.getProperty('keyAlias') == null) {
             return getDebugSigningConfig()
         } else {
             return localProp
