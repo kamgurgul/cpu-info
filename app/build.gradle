@@ -10,6 +10,7 @@ Properties signingProperties = getReleaseSigningConfig()
 
 android {
     compileSdkVersion Versions.compiledSdk
+    buildToolsVersion Versions.buildTools
 
     defaultConfig {
         applicationId "com.kgurgul.cpuinfo"

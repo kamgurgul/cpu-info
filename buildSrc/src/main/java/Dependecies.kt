@@ -19,6 +19,7 @@ object Versions {
     val minSdk = 14
     val targetSdk = 27
     val compiledSdk = 27
+    val buildTools = "27.0.2"
 
     // Kotlin
     val kotlin = "1.2.21"
