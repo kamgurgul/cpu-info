@@ -13,8 +13,7 @@ import java.lang.ref.WeakReference
  */
 @Suppress("LeakingThis")
 abstract class ObservableListAdapter<T, VH : RecyclerView.ViewHolder>(
-        private val observableList: ObservableList<T>
-) : RecyclerView.Adapter<VH>() {
+        private val observableList: ObservableList<T>) : RecyclerView.Adapter<VH>() {
 
     private val simpleListChangeNotifier =
             SimpleListChangeNotifier<T>(WeakReference(this))

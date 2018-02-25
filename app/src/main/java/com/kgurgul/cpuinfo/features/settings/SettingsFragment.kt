@@ -33,10 +33,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
-        val KEY_TEMPERATURE_UNIT = "temperature_unit"
-        val KEY_RAM_REFRESHING = "ram_refreshing"
+        const val KEY_TEMPERATURE_UNIT = "temperature_unit"
+        const val KEY_RAM_REFRESHING = "ram_refreshing"
 
-        private val KEY_RAM_CATEGORIES = "pref_key_ram_settings"
+        private const val KEY_RAM_CATEGORIES = "pref_key_ram_settings"
     }
 
     private lateinit var temperatureUnitPreference: ListPreference

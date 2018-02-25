@@ -50,12 +50,14 @@ class TemperatureFragment : Fragment(), Injectable {
     @Inject
     lateinit var temperatureAdapter: AutoClearedValue<TemperatureAdapter>
 
-    private val viewModel by lazy {
-        ViewModelProviders.of(this, viewModelInjectionFactory)
+    private lateinit var viewModel: TemperatureViewModel
+    private lateinit var binding: AutoClearedValue<FragmentTemperatureBinding>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
                 .get(TemperatureViewModel::class.java)
     }
-
-    private lateinit var binding: AutoClearedValue<FragmentTemperatureBinding>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

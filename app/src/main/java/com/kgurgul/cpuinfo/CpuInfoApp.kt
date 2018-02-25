@@ -23,6 +23,7 @@ import android.content.Intent
 import android.os.Build
 import com.kgurgul.cpuinfo.di.AppInjector
 import com.kgurgul.cpuinfo.features.ramwidget.RamUsageWidgetProvider
+import com.kgurgul.cpuinfo.utils.isDebugBuild
 import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -47,7 +48,7 @@ class CpuInfoApp : Application(), HasActivityInjector {
         super.onCreate()
         instance = this
 
-        if (BuildConfig.DEBUG) {
+        if (isDebugBuild()) {
             Timber.plant(Timber.DebugTree())
         }
 

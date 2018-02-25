@@ -42,12 +42,9 @@ class GpuInfoFragment : BaseRvFragment() {
 
     @Inject
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<GpuInfoViewModel>
-    private lateinit var viewModel: GpuInfoViewModel
 
-    private val infoItemsAdapter: InfoItemsAdapter by lazy {
-        InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
-                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
-    }
+    private lateinit var viewModel: GpuInfoViewModel
+    private lateinit var infoItemsAdapter: InfoItemsAdapter
 
     private var glSurfaceView: GLSurfaceView? = null
     private val handler = Handler()
@@ -55,12 +52,10 @@ class GpuInfoFragment : BaseRvFragment() {
     private val glRenderer = object : GLSurfaceView.Renderer {
         override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
             val gpuInfoMap = HashMap<GpuInfoViewModel.GlInfoType, String?>()
-            gpuInfoMap.put(GpuInfoViewModel.GlInfoType.GL_VENDOR, gl.glGetString(GL10.GL_VENDOR))
-            gpuInfoMap.put(GpuInfoViewModel.GlInfoType.GL_VERSION, gl.glGetString(GL10.GL_VERSION))
-            gpuInfoMap.put(GpuInfoViewModel.GlInfoType.GL_RENDERER,
-                    gl.glGetString(GL10.GL_RENDERER))
-            gpuInfoMap.put(GpuInfoViewModel.GlInfoType.GL_EXTENSIONS,
-                    gl.glGetString(GL10.GL_EXTENSIONS))
+            gpuInfoMap[GpuInfoViewModel.GlInfoType.GL_VENDOR] = gl.glGetString(GL10.GL_VENDOR)
+            gpuInfoMap[GpuInfoViewModel.GlInfoType.GL_VERSION] = gl.glGetString(GL10.GL_VERSION)
+            gpuInfoMap[GpuInfoViewModel.GlInfoType.GL_RENDERER] = gl.glGetString(GL10.GL_RENDERER)
+            gpuInfoMap[GpuInfoViewModel.GlInfoType.GL_EXTENSIONS] = gl.glGetString(GL10.GL_EXTENSIONS)
             handler.post {
                 glSurfaceView?.visibility = View.GONE
                 viewModel.addGlInfo(gpuInfoMap)
@@ -78,6 +73,8 @@ class GpuInfoFragment : BaseRvFragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
                 .get(GpuInfoViewModel::class.java)
+        infoItemsAdapter = InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
+                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

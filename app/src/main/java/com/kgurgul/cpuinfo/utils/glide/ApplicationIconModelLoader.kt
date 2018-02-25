@@ -48,13 +48,10 @@ class ApplicationIconModelLoader : ModelLoader<ApplicationInfo, ApplicationInfo>
                     override fun cancel() {
                     }
 
-                    override fun getDataClass(): Class<ApplicationInfo> {
-                        return ApplicationInfo::class.java
-                    }
+                    override fun getDataClass(): Class<ApplicationInfo> =
+                            ApplicationInfo::class.java
 
-                    override fun getDataSource(): DataSource {
-                        return DataSource.LOCAL
-                    }
+                    override fun getDataSource(): DataSource = DataSource.LOCAL
                 })
     }
 

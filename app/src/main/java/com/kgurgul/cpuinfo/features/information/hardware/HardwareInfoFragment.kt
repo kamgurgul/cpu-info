@@ -21,6 +21,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Bundle
 import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
@@ -39,21 +40,21 @@ class HardwareInfoFragment : BaseRvFragment() {
     @Inject
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<HardwareInfoViewModel>
 
-    private val viewModel: HardwareInfoViewModel by lazy {
-        ViewModelProviders.of(this, viewModelInjectionFactory)
-                .get(HardwareInfoViewModel::class.java)
-    }
-
-    private val infoItemsAdapter: InfoItemsAdapter by lazy {
-        InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
-                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
-    }
+    private lateinit var viewModel: HardwareInfoViewModel
+    private lateinit var infoItemsAdapter: InfoItemsAdapter
 
     private val powerReceiver = object : BroadcastReceiver() {
-
         override fun onReceive(context: Context, intent: Intent) {
             viewModel.refreshHardwareInfo()
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
+                .get(HardwareInfoViewModel::class.java)
+        infoItemsAdapter = InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
+                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
     }
 
     override fun onStart() {

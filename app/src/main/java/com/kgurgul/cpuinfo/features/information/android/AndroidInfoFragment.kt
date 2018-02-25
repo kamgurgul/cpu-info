@@ -17,6 +17,7 @@
 package com.kgurgul.cpuinfo.features.information.android
 
 import android.arch.lifecycle.ViewModelProviders
+import android.os.Bundle
 import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
@@ -34,13 +35,14 @@ class AndroidInfoFragment : BaseRvFragment() {
     @Inject
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<AndroidInfoViewModel>
 
-    private val viewModel: AndroidInfoViewModel by lazy {
-        ViewModelProviders.of(this, viewModelInjectionFactory)
-                .get(AndroidInfoViewModel::class.java)
-    }
+    private lateinit var viewModel: AndroidInfoViewModel
+    private lateinit var infoItemsAdapter: InfoItemsAdapter
 
-    private val infoItemsAdapter: InfoItemsAdapter by lazy {
-        InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
+                .get(AndroidInfoViewModel::class.java)
+        infoItemsAdapter = InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
                 InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
     }
 

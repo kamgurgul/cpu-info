@@ -39,21 +39,18 @@ class RamInfoFragment : BaseRvFragment() {
     @Inject
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<RamInfoViewModel>
 
-    private val viewModel: RamInfoViewModel by lazy {
-        ViewModelProviders.of(this, viewModelInjectionFactory)
-                .get(RamInfoViewModel::class.java)
-    }
-
-    private val infoItemsAdapter: InfoItemsAdapter by lazy {
-        InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
-                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
-    }
+    private lateinit var viewModel: RamInfoViewModel
+    private lateinit var infoItemsAdapter: InfoItemsAdapter
 
     private lateinit var mainContainer: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
+                .get(RamInfoViewModel::class.java)
+        infoItemsAdapter = InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
+                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

@@ -40,9 +40,7 @@ class ApplicationIconDecoder(private val context: Context) :
             Resource<Drawable> {
         val icon = source.loadIcon(context.packageManager)
         return object : DrawableResource<Drawable>(icon) {
-            override fun getResourceClass(): Class<Drawable> {
-                return Drawable::class.java
-            }
+            override fun getResourceClass(): Class<Drawable> = Drawable::class.java
 
             override fun getSize(): Int {
                 return if (drawable is BitmapDrawable) {

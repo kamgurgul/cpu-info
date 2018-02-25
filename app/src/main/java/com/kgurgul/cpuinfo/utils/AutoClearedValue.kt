@@ -39,6 +39,5 @@ class AutoClearedValue<T>(fragment: Fragment, var value: T?) {
                 }, false)
     }
 
-    fun get(): T =
-            value!!
+    fun get(): T = value!!
 }

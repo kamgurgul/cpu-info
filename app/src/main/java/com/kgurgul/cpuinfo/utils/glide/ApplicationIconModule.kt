@@ -42,9 +42,8 @@ class ApplicationIconModule : LibraryGlideModule() {
                 object : ModelLoaderFactory<ApplicationInfo, ApplicationInfo> {
                     override fun build(
                             multiFactory: MultiModelLoaderFactory):
-                            ModelLoader<ApplicationInfo, ApplicationInfo> {
-                        return ApplicationIconModelLoader()
-                    }
+                            ModelLoader<ApplicationInfo, ApplicationInfo> =
+                            ApplicationIconModelLoader()
 
                     override fun teardown() {
                     }

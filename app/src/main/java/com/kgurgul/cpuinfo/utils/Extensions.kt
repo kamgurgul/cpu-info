@@ -22,6 +22,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.support.v4.app.Fragment
+import com.kgurgul.cpuinfo.BuildConfig
 
 /**
  * All basic extensions
@@ -71,3 +72,8 @@ fun Fragment.nonNullContext(): Context = context!!
  * [Fragment.onDetach]
  */
 fun Fragment.nonNullActivity(): Activity = activity!!
+
+/**
+ * @return true for Debug build, otherwise false
+ */
+fun isDebugBuild(): Boolean = BuildConfig.DEBUG
