@@ -35,7 +35,7 @@ import com.kgurgul.cpuinfo.utils.Utils
 class ProcessesAdapter(private val processList: ObservableList<ProcessItem>)
     : ObservableListAdapter<ProcessItem, ProcessesAdapter.ViewHolder>(processList) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_process, parent, false)
         return ViewHolder(v)
     }

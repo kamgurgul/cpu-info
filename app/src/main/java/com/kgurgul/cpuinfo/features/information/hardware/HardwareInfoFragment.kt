@@ -16,7 +16,7 @@
 
 package com.kgurgul.cpuinfo.features.information.hardware
 
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.ViewModelProvider
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -26,8 +26,6 @@ import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
-import com.kgurgul.cpuinfo.utils.nonNullActivity
-import com.kgurgul.cpuinfo.utils.nonNullContext
 import javax.inject.Inject
 
 /**
@@ -51,9 +49,9 @@ class HardwareInfoFragment : BaseRvFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
+        viewModel = ViewModelProvider(this, viewModelInjectionFactory)
                 .get(HardwareInfoViewModel::class.java)
-        infoItemsAdapter = InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
+        infoItemsAdapter = InfoItemsAdapter(requireContext(), viewModel.dataObservableList,
                 InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
     }
 
@@ -69,12 +67,12 @@ class HardwareInfoFragment : BaseRvFragment() {
         intentFilter.addAction("android.intent.action.ACTION_POWER_CONNECTED")
         intentFilter.addAction("android.intent.action.ACTION_POWER_DISCONNECTED")
 
-        nonNullActivity().registerReceiver(powerReceiver, intentFilter)
+        requireActivity().registerReceiver(powerReceiver, intentFilter)
     }
 
     override fun onPause() {
         super.onPause()
-        nonNullActivity().unregisterReceiver(powerReceiver)
+        requireActivity().unregisterReceiver(powerReceiver)
     }
 
     override fun onStop() {
@@ -83,7 +81,7 @@ class HardwareInfoFragment : BaseRvFragment() {
     }
 
     override fun setupRecyclerViewAdapter() {
-        recyclerView.addItemDecoration(DividerItemDecoration(nonNullContext()))
+        recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
         recyclerView.adapter = infoItemsAdapter
     }
 }

@@ -16,7 +16,7 @@
 
 package com.kgurgul.cpuinfo.features.information.storage
 
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.ViewModelProvider
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -26,7 +26,6 @@ import android.os.Handler
 import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
-import com.kgurgul.cpuinfo.utils.nonNullActivity
 import javax.inject.Inject
 
 /**
@@ -55,7 +54,7 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
+        viewModel = ViewModelProvider(this, viewModelInjectionFactory)
                 .get(StorageInfoViewModel::class.java)
     }
 
@@ -81,14 +80,14 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
             filter.addAction(Intent.ACTION_MEDIA_UNMOUNTABLE)
             filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED)
             filter.addDataScheme("file")
-            nonNullActivity().registerReceiver(mountedReceiver, filter)
+            requireActivity().registerReceiver(mountedReceiver, filter)
         }
     }
 
     override fun onPause() {
         if (receiverRegistered) {
             receiverRegistered = false
-            nonNullActivity().unregisterReceiver(mountedReceiver)
+            requireActivity().unregisterReceiver(mountedReceiver)
             handler.removeCallbacksAndMessages(null)
         }
 

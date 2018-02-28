@@ -16,7 +16,7 @@
 
 package com.kgurgul.cpuinfo.features.processes
 
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.ViewModelProvider
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -30,7 +30,6 @@ import com.kgurgul.cpuinfo.databinding.FragmentProcessesBinding
 import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.utils.AutoClearedValue
-import com.kgurgul.cpuinfo.utils.nonNullContext
 import javax.inject.Inject
 
 /**
@@ -49,7 +48,7 @@ class ProcessesFragment : Fragment(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
+        viewModel = ViewModelProvider(this, viewModelInjectionFactory)
                 .get(ProcessesViewModel::class.java)
         setHasOptionsMenu(true)
     }
@@ -73,7 +72,7 @@ class ProcessesFragment : Fragment(), Injectable {
         binding.get().apply {
             recyclerView.layoutManager = rvLayoutManager
             recyclerView.adapter = processesAdapter.get()
-            recyclerView.addItemDecoration(DividerItemDecoration(nonNullContext()))
+            recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
             (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
     }

@@ -17,7 +17,7 @@
 package com.kgurgul.cpuinfo.features.temperature
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.ViewModelProvider
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -55,7 +55,7 @@ class TemperatureFragment : Fragment(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
+        viewModel = ViewModelProvider(this, viewModelInjectionFactory)
                 .get(TemperatureViewModel::class.java)
     }
 

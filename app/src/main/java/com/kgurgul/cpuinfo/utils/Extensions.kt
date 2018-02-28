@@ -18,10 +18,7 @@
 
 package com.kgurgul.cpuinfo.utils
 
-import android.app.Activity
-import android.content.Context
 import android.os.Build
-import android.support.v4.app.Fragment
 import com.kgurgul.cpuinfo.BuildConfig
 
 /**
@@ -60,18 +57,6 @@ inline fun runOnApiAbove(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
         otherwise()
     }
 }
-
-/**
- * Returns not null context or throws exception. Use it only between [Fragment.onAttach] and
- * [Fragment.onDetach]
- */
-fun Fragment.nonNullContext(): Context = context!!
-
-/**
- * Returns not null activity or throws exception. Use it only between [Fragment.onAttach] and
- * [Fragment.onDetach]
- */
-fun Fragment.nonNullActivity(): Activity = activity!!
 
 /**
  * @return true for Debug build, otherwise false

@@ -16,7 +16,7 @@
 
 package com.kgurgul.cpuinfo.features.information.gpu
 
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.ViewModelProvider
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.os.Handler
@@ -28,7 +28,6 @@ import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
-import com.kgurgul.cpuinfo.utils.nonNullContext
 import javax.inject.Inject
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -71,9 +70,9 @@ class GpuInfoFragment : BaseRvFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelInjectionFactory)
+        viewModel = ViewModelProvider(this, viewModelInjectionFactory)
                 .get(GpuInfoViewModel::class.java)
-        infoItemsAdapter = InfoItemsAdapter(nonNullContext(), viewModel.dataObservableList,
+        infoItemsAdapter = InfoItemsAdapter(requireContext(), viewModel.dataObservableList,
                 InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
     }
 
@@ -102,7 +101,7 @@ class GpuInfoFragment : BaseRvFragment() {
     }
 
     override fun setupRecyclerViewAdapter() {
-        recyclerView.addItemDecoration(DividerItemDecoration(nonNullContext()))
+        recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
         recyclerView.adapter = infoItemsAdapter
     }
 }
