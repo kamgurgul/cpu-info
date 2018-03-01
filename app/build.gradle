@@ -67,6 +67,7 @@ androidExtensions {
 
 kapt {
     generateStubs = true
+    mapDiagnosticLocations = true
 }
 
 dependencies {
