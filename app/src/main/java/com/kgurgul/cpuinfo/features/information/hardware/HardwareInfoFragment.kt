@@ -84,4 +84,17 @@ class HardwareInfoFragment : BaseRvFragment() {
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
         recyclerView.adapter = infoItemsAdapter
     }
+
+    /**
+     * Temporary fix for https://issuetracker.google.com/issues/74139250
+     */
+    override fun onDestroy() {
+        val activity = activity
+        if (activity != null
+                && activity.isFinishing
+                && !activity.isChangingConfigurations) {
+            viewModelStore.clear()
+        }
+        super.onDestroy()
+    }
 }

@@ -238,4 +238,17 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         val alert = builder.create()
         alert.show()
     }
+
+    /**
+     * Temporary fix for https://issuetracker.google.com/issues/74139250
+     */
+    override fun onDestroy() {
+        val activity = activity
+        if (activity != null
+                && activity.isFinishing
+                && !activity.isChangingConfigurations) {
+            viewModelStore.clear()
+        }
+        super.onDestroy()
+    }
 }

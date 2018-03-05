@@ -34,6 +34,7 @@ CI
 
 Still TODO
 ==========
+* Wait for critical issue fix from Support Library 27.1.0 [LINK](https://issuetracker.google.com/issues/74139250)
 * Migration all heavy lifting into coroutines (remove AsyncTask)
 * Tests
 * Fix for RAM widget on Android O
