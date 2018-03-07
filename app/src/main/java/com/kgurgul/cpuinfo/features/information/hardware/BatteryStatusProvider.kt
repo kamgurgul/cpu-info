@@ -37,7 +37,7 @@ class BatteryStatusProvider @Inject constructor(private val app: Application) {
     /**
      * @return [Intent] with battery information
      */
-    fun getBatteryStatusIntent(): Intent {
+    fun getBatteryStatusIntent(): Intent? {
         val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         return app.registerReceiver(null, iFilter)
     }

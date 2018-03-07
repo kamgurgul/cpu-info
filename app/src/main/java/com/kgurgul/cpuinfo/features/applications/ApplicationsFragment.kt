@@ -72,18 +72,16 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         viewModel = ViewModelProvider(this, viewModelInjectionFactory)
                 .get(ApplicationsViewModel::class.java)
         viewModel.refreshApplicationsList()
+        registerUninstallBroadcast()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = AutoClearedValue(this,
                 DataBindingUtil.inflate(inflater, R.layout.fragment_applications, container, false))
-        binding.get().apply {
-            viewModel = viewModel
-            swipeRefreshLayout.setOnRefreshListener { viewModel.refreshApplicationsList() }
-            swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
+        binding.get().viewModel = viewModel
+        binding.get().swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
                     R.color.colorPrimaryDark)
-        }
         initObservables()
         setupRecyclerView()
         return binding.get().root
@@ -91,12 +89,10 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
 
     override fun onStart() {
         super.onStart()
-        registerUninstallBroadcast()
         applicationsAdapter.get().registerListChangeNotifier()
     }
 
     override fun onStop() {
-        requireActivity().unregisterReceiver(uninstallReceiver)
         applicationsAdapter.get().unregisterListChangeNotifier()
         super.onStop()
     }
@@ -243,6 +239,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
      * Temporary fix for https://issuetracker.google.com/issues/74139250
      */
     override fun onDestroy() {
+        requireActivity().unregisterReceiver(uninstallReceiver)
         val activity = activity
         if (activity != null
                 && activity.isFinishing

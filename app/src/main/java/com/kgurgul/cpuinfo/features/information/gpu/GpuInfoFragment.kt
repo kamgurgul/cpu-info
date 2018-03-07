@@ -82,8 +82,10 @@ class GpuInfoFragment : BaseRvFragment() {
 
         if (!viewModel.isGlInfoStored()) {
             glSurfaceView = GLSurfaceView(activity)
-            glSurfaceView?.setRenderer(glRenderer)
-
+            glSurfaceView?.apply {
+                setEGLConfigChooser(8, 8, 8, 8, 16, 0)
+                setRenderer(glRenderer)
+            }
             val mainContainer: ViewGroup = view.findViewById(R.id.main_container)
             mainContainer.addView(glSurfaceView)
         }
@@ -93,6 +95,16 @@ class GpuInfoFragment : BaseRvFragment() {
     override fun onStart() {
         super.onStart()
         infoItemsAdapter.registerListChangeNotifier()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        glSurfaceView?.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        glSurfaceView?.onPause()
     }
 
     override fun onStop() {

@@ -83,14 +83,23 @@ class ApplicationsAdapter(private val context: Context,
         })
 
         holder.mainContainer.setOnClickListener {
-            appClickListener.appOpenClicked(holder.adapterPosition)
+            val pos = holder.adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                appClickListener.appOpenClicked(pos)
+            }
         }
         holder.settingsV.setOnClickListener {
-            appClickListener.appSettingsClicked(holder.adapterPosition)
+            val pos = holder.adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                appClickListener.appSettingsClicked(holder.adapterPosition)
+            }
         }
         holder.deleteView.setOnClickListener {
-            holder.sml.smoothCloseMenu()
-            appClickListener.appUninstallClicked(holder.adapterPosition)
+            val pos = holder.adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                holder.sml.smoothCloseMenu()
+                appClickListener.appUninstallClicked(holder.adapterPosition)
+            }
         }
 
         // Native libs

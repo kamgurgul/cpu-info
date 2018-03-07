@@ -101,26 +101,28 @@ class HardwareInfoViewModel @Inject constructor(
 
         val batteryStatus = batteryStatusProvider.getBatteryStatusIntent()
 
-        // Level
-        val level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
-        val scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+        if (batteryStatus != null) {
+            // Level
+            val level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+            val scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
 
-        if (level != -1 && scale != -1) {
-            val batteryPct = level / scale.toFloat() * 100.0
-            functionsList.add(Pair(resources.getString(R.string.level), "${batteryPct.round2()}%"))
-        }
+            if (level != -1 && scale != -1) {
+                val batteryPct = level / scale.toFloat() * 100.0
+                functionsList.add(Pair(resources.getString(R.string.level), "${batteryPct.round2()}%"))
+            }
 
-        // Health
-        val health = batteryStatus.getIntExtra(BatteryManager.EXTRA_HEALTH, -1)
-        if (health != -1) {
-            functionsList.add(Pair(resources.getString(R.string.battery_health),
-                    getBatteryHealthStatus(health)))
-        }
+            // Health
+            val health = batteryStatus.getIntExtra(BatteryManager.EXTRA_HEALTH, -1)
+            if (health != -1) {
+                functionsList.add(Pair(resources.getString(R.string.battery_health),
+                        getBatteryHealthStatus(health)))
+            }
 
-        // Voltage
-        val voltage = batteryStatus.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1)
-        if (voltage > 0) {
-            functionsList.add(Pair(resources.getString(R.string.voltage), "${voltage / 1000.0}V"))
+            // Voltage
+            val voltage = batteryStatus.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1)
+            if (voltage > 0) {
+                functionsList.add(Pair(resources.getString(R.string.voltage), "${voltage / 1000.0}V"))
+            }
         }
 
         // Temperature
@@ -136,31 +138,33 @@ class HardwareInfoViewModel @Inject constructor(
             functionsList.add(Pair(resources.getString(R.string.capacity), "${capacity}mAh"))
         }
 
-        // Technology
-        val technology = batteryStatus.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY)
-        Utils.addPairIfExists(functionsList, resources.getString(R.string.technology), technology)
+        if (batteryStatus != null) {
+            // Technology
+            val technology = batteryStatus.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY)
+            Utils.addPairIfExists(functionsList, resources.getString(R.string.technology), technology)
 
-        // Are we charging / is charged?
-        val status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
-        val isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                status == BatteryManager.BATTERY_STATUS_FULL
+            // Are we charging / is charged?
+            val status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+            val isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+                    status == BatteryManager.BATTERY_STATUS_FULL
 
-        // How we charging?
-        val chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
-        val usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB
-        val acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC
+            // How we charging?
+            val chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+            val usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB
+            val acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC
 
-        val charging =
-                if (isCharging) resources.getString(R.string.yes)
-                else resources.getString(R.string.no)
-        functionsList.add(Pair(resources.getString(R.string.is_charging), charging))
-        if (isCharging) {
-            val chargingType: String = when {
-                usbCharge -> "USB"
-                acCharge -> "AC"
-                else -> resources.getString(R.string.unknown)
+            val charging =
+                    if (isCharging) resources.getString(R.string.yes)
+                    else resources.getString(R.string.no)
+            functionsList.add(Pair(resources.getString(R.string.is_charging), charging))
+            if (isCharging) {
+                val chargingType: String = when {
+                    usbCharge -> "USB"
+                    acCharge -> "AC"
+                    else -> resources.getString(R.string.unknown)
+                }
+                functionsList.add(Pair(resources.getString(R.string.charging_type), chargingType))
             }
-            functionsList.add(Pair(resources.getString(R.string.charging_type), chargingType))
         }
 
         return functionsList
