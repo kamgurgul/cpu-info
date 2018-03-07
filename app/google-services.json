@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1",
-    "firebase_url": "",
+    "project_number": "11111111111",
+    "firebase_url": "https://cpu-info.firebaseio.com",
     "project_id": "cpu-info",
-    "storage_bucket": ""
+    "storage_bucket": "cpu-info.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1",
+        "mobilesdk_app_id": "1:111111111111:android:1111111111111111",
         "android_client_info": {
           "package_name": "com.kgurgul.cpuinfo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1",
+          "client_id": "111111111111-abcdjfkdfjhgkdhfkdfhjgdjkh22232w.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "a"
+          "current_key": "laksjdkldjfskljfklJklsJSdlKjfsdfjklsdjfl"
         }
       ],
       "services": {
         "analytics_service": {
           "status": 2,
           "analytics_property": {
-            "tracking_id": "UA-1"
+            "tracking_id": "UA-11111111-1"
           }
         },
         "appinvite_service": {
@@ -42,20 +42,20 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1",
+        "mobilesdk_app_id": "1:111111111111:android:1111111111111111",
         "android_client_info": {
           "package_name": "com.kgurgul.cpuinfo.debug"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1",
+          "client_id": "111111111111-abcdjfkdfjhgkdhfkdfhjgdjkh22232w.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "a"
+          "current_key": "laksjdkldjfskljfklJklsJSdlKjfsdfjklsdjfl"
         }
       ],
       "services": {
