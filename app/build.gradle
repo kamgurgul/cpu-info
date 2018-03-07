@@ -84,7 +84,7 @@ dependencies {
     kapt "com.android.databinding:compiler:${Versions.androidDatabinding}"
 
     // Firebase
-    releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.9.0'
+    releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.9.1'
     implementation "com.google.firebase:firebase-core:${Versions.firebase}"
 
     // Bus
