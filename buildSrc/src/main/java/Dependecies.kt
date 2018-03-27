@@ -19,17 +19,17 @@ object Versions {
     val minSdk = 14
     val targetSdk = 27
     val compiledSdk = 27
-    val buildTools = "27.0.2"
+    val buildTools = "27.0.3"
 
     // Kotlin
-    val kotlin = "1.2.30"
+    val kotlin = "1.2.31"
     val anko = "0.10.1"
 
     // Libs
     val androidSupport = "27.1.0"
     val androidDatabinding = "2.3.0"
-    val firebase = "11.8.0"
-    val archLifecycle = "1.1.0"
+    val firebase = "12.0.0"
+    val archLifecycle = "1.1.1"
     val dagger = "2.13"
     val glide = "4.3.1"
     val espresso = "3.0.1"

@@ -48,8 +48,7 @@ class TemperatureAdapter(private val temperatureFormatter: TemperatureFormatter)
         holder.bindTemperatureItem(temperatureItem, temperatureFormatter)
     }
 
-    override fun getItemCount(): Int =
-            temperatureItems?.size ?: 0
+    override fun getItemCount(): Int = temperatureItems?.size ?: 0
 
     fun setTempItems(tempItems: List<TemperatureItem>?) {
         temperatureItems = tempItems
@@ -64,7 +63,7 @@ class TemperatureAdapter(private val temperatureFormatter: TemperatureFormatter)
             if (binding.viewModel == null) {
                 binding.viewModel = TemperatureItemViewModel(temperatureItem, temperatureFormatter)
             } else {
-                binding.viewModel.setTempItem(temperatureItem)
+                binding.viewModel!!.setTempItem(temperatureItem)
             }
         }
     }

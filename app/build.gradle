@@ -80,9 +80,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
     implementation "org.jetbrains.anko:anko-coroutines:${Versions.anko}"
 
-    // Android data binding
-    kapt "com.android.databinding:compiler:${Versions.androidDatabinding}"
-
     // Firebase
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.9.1'
     implementation "com.google.firebase:firebase-core:${Versions.firebase}"
