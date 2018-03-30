@@ -27,11 +27,11 @@ import dagger.Provides
  *
  * @author kgurgul
  */
-@FragmentScope
 @Module
 class TemperatureModule {
 
     @Provides
+    @FragmentScope
     fun provideAutoClearedTempAdapter(temperatureFragment: TemperatureFragment,
                                       temperatureFormatter: TemperatureFormatter):
             AutoClearedValue<TemperatureAdapter> =

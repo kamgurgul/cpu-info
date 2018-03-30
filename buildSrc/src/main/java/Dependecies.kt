@@ -28,9 +28,9 @@ object Versions {
     // Libs
     val androidSupport = "27.1.0"
     val androidDatabinding = "2.3.0"
-    val firebase = "12.0.0"
+    val firebase = "12.0.1"
     val archLifecycle = "1.1.1"
-    val dagger = "2.13"
+    val dagger = "2.15"
     val glide = "4.3.1"
     val espresso = "3.0.1"
 }
