@@ -235,17 +235,8 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         alert.show()
     }
 
-    /**
-     * Temporary fix for https://issuetracker.google.com/issues/74139250
-     */
     override fun onDestroy() {
         requireActivity().unregisterReceiver(uninstallReceiver)
-        val activity = activity
-        if (activity != null
-                && activity.isFinishing
-                && !activity.isChangingConfigurations) {
-            viewModelStore.clear()
-        }
         super.onDestroy()
     }
 }
