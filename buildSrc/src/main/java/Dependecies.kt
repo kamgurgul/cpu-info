@@ -26,7 +26,7 @@ object Versions {
     val anko = "0.10.1"
 
     // Libs
-    val androidSupport = "27.1.0"
+    val androidSupport = "27.1.1"
     val androidDatabinding = "2.3.0"
     val firebase = "12.0.1"
     val archLifecycle = "1.1.1"

@@ -17,6 +17,7 @@
 package com.kgurgul.cpuinfo.features
 
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.analytics.AnalyticsEvents
@@ -85,12 +86,14 @@ class NavigationController @Inject constructor(private val hostActivity: HostAct
                 if (currentFragment != null) {
                     fragmentManager.beginTransaction()
                             .remove(currentFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .commitNow()
                 }
                 fragmentManager.popBackStackImmediate()
             } else {
                 fragmentManager.beginTransaction()
                         .replace(containerId, fragment, fragmentTag.tag)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commitAllowingStateLoss()
             }
         } else {
@@ -98,6 +101,7 @@ class NavigationController @Inject constructor(private val hostActivity: HostAct
             val hasOnlyParentFragment = fragmentManager.findFragmentByTag(
                     FragmentTag.SINGLE_CHILD_FRAGMENT_TAG.tag) == null
             fragmentTransaction.replace(containerId, fragment, fragmentTag.tag)
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             if (hasOnlyParentFragment) {
                 fragmentTransaction.addToBackStack(null)
             }
