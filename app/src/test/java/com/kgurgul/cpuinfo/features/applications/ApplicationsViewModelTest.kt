@@ -25,8 +25,8 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertFalse
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.ClassRule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -66,7 +66,7 @@ class ApplicationsViewModelTest {
         viewModel.refreshApplicationsList()
 
         /* Then */
-        assertFalse(viewModel.isLoading.get())
+        assertFalse(viewModel.isLoading.value)
         assertEquals(3, viewModel.applicationList.size)
     }
 
@@ -85,7 +85,7 @@ class ApplicationsViewModelTest {
         viewModel.refreshApplicationsList()
 
         /* Then */
-        assertFalse(viewModel.isLoading.get())
+        assertFalse(viewModel.isLoading.value)
         assertEquals(0, viewModel.applicationList.size)
     }
 
@@ -105,7 +105,7 @@ class ApplicationsViewModelTest {
         val sortedListDesc = viewModel.getAppSortedList(false)
 
         /* Then */
-        assertFalse(viewModel.isLoading.get())
+        assertFalse(viewModel.isLoading.value)
         assertEquals(3, viewModel.applicationList.size)
         assertEquals(3, sortedListAsc.size)
         assertEquals(3, sortedListDesc.size)

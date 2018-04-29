@@ -23,7 +23,7 @@ import com.kgurgul.cpuinfo.utils.RxImmediateSchedulerRule
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Maybe
 import io.reactivex.Observable
-import junit.framework.Assert.*
+import org.junit.Assert.*
 import org.junit.ClassRule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -72,8 +72,8 @@ class TemperatureViewModelTest {
         viewModel.startTemperatureRefreshing()
 
         /* Then */
-        assertFalse(viewModel.isLoading.get())
-        assertFalse(viewModel.isError.get())
+        assertFalse(viewModel.isLoading.value)
+        assertFalse(viewModel.isError.value)
         assertEquals(1, viewModel.temperatureItemsLiveData.value!!.size)
     }
 
@@ -100,8 +100,8 @@ class TemperatureViewModelTest {
         viewModel.startTemperatureRefreshing()
 
         /* Then */
-        assertFalse(viewModel.isLoading.get())
-        assertFalse(viewModel.isError.get())
+        assertFalse(viewModel.isLoading.value)
+        assertFalse(viewModel.isError.value)
         assertEquals(1, viewModel.temperatureItemsLiveData.value!!.size)
     }
 
@@ -129,8 +129,8 @@ class TemperatureViewModelTest {
         viewModel.startTemperatureRefreshing()
 
         /* Then */
-        assertFalse(viewModel.isLoading.get())
-        assertFalse(viewModel.isError.get())
+        assertFalse(viewModel.isLoading.value)
+        assertFalse(viewModel.isError.value)
         assertEquals(1, viewModel.temperatureItemsLiveData.value!!.size)
     }
 
@@ -152,8 +152,8 @@ class TemperatureViewModelTest {
         viewModel.startTemperatureRefreshing()
 
         /* Then */
-        assertFalse(viewModel.isLoading.get())
-        assertTrue(viewModel.isError.get())
+        assertFalse(viewModel.isLoading.value)
+        assertTrue(viewModel.isError.value)
         assertNull(viewModel.temperatureItemsLiveData.value)
     }
 }

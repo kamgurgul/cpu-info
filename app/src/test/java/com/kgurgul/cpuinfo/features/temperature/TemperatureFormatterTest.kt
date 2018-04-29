@@ -19,7 +19,7 @@ package com.kgurgul.cpuinfo.features.temperature
 import com.kgurgul.cpuinfo.common.Prefs
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyString

@@ -18,8 +18,8 @@ package com.kgurgul.cpuinfo.common
 
 import android.content.SharedPreferences
 import com.nhaarman.mockito_kotlin.*
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyString

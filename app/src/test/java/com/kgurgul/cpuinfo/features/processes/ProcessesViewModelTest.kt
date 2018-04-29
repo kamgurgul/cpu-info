@@ -24,7 +24,7 @@ import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Flowable
 import io.reactivex.Single
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.ClassRule
 import org.junit.Test
 import org.junit.runner.RunWith
