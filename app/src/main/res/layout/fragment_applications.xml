@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:onRefreshListener="@{() -> viewModel.refreshApplicationsList()}"
-            app:refreshing="@{viewModel.isLoading}">
+            app:refreshing="@{safeUnbox(viewModel.isLoading)}">
 
             <com.kgurgul.cpuinfo.widgets.swiperv.SwipeMenuRecyclerView
                 android:id="@+id/recycler_view"

@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE: View.GONE}" />
+            android:visibility="@{safeUnbox(viewModel.isLoading) ? View.VISIBLE: View.GONE}" />
 
         <!--No data-->
         <TextView
@@ -57,7 +57,7 @@
             android:text="@string/no_temp_data"
             android:textColor="@color/black"
             android:textSize="22sp"
-            android:visibility="@{viewModel.isError ? View.VISIBLE: View.GONE}"
+            android:visibility="@{safeUnbox(viewModel.isError) ? View.VISIBLE: View.GONE}"
             tools:visibility="visible" />
 
     </RelativeLayout>
