@@ -81,7 +81,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko-coroutines:${Versions.anko}"
 
     // Firebase
-    releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.9.1'
+    releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.9.2'
     implementation "com.google.firebase:firebase-core:${Versions.firebase}"
 
     // Bus
@@ -116,7 +116,7 @@ dependencies {
     testImplementation "com.nhaarman:mockito-kotlin-kt1.1:1.5.0"
     testImplementation "android.arch.core:core-testing:${Versions.archLifecycle}"
 
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${Versions.espresso}"
 }

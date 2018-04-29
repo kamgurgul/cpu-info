@@ -22,7 +22,7 @@ object Versions {
     val buildTools = "27.0.3"
 
     // Kotlin
-    val kotlin = "1.2.40"
+    val kotlin = "1.2.41"
     val anko = "0.10.1"
 
     // Libs
