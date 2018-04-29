@@ -19,11 +19,11 @@ package com.kgurgul.cpuinfo.features.temperature
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
-import android.databinding.ObservableBoolean
 import android.support.annotation.VisibleForTesting
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.common.Prefs
 import com.kgurgul.cpuinfo.features.temperature.list.TemperatureItem
+import com.kgurgul.cpuinfo.utils.NonNullMutableLiveData
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -49,8 +49,8 @@ class TemperatureViewModel @Inject constructor(
     }
 
     // Binding fields
-    val isLoading = ObservableBoolean(false)
-    val isError = ObservableBoolean(false)
+    val isLoading = NonNullMutableLiveData(false)
+    val isError = NonNullMutableLiveData(false)
 
     val temperatureItemsLiveData = MutableLiveData<List<TemperatureItem>>()
 
@@ -90,11 +90,11 @@ class TemperatureViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
-                    isLoading.set(true)
-                    isError.set(false)
+                    isLoading.value = true
+                    isError.value = false
                 }
                 .doFinally {
-                    isLoading.set(false)
+                    isLoading.value = false
                     verifyTemperaturesAvailability()
                 }
                 .subscribe({ temperatureResult ->
@@ -118,7 +118,7 @@ class TemperatureViewModel @Inject constructor(
         if (isBatteryTemperatureAvailable || cpuTemperatureResult != null) {
             scheduleRefreshing()
         } else {
-            isError.set(true)
+            isError.value = true
         }
     }
 

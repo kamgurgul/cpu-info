@@ -51,7 +51,7 @@ class TemperatureFragment : Fragment(), Injectable {
     lateinit var temperatureAdapter: AutoClearedValue<TemperatureAdapter>
 
     private lateinit var viewModel: TemperatureViewModel
-    private lateinit var binding: AutoClearedValue<FragmentTemperatureBinding>
+    private lateinit var binding: FragmentTemperatureBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,11 +61,12 @@ class TemperatureFragment : Fragment(), Injectable {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = AutoClearedValue(this,
-                DataBindingUtil.inflate(inflater, R.layout.fragment_temperature, container, false))
-        binding.get().viewModel = viewModel
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_temperature, container,
+                false)
+        binding.setLifecycleOwner(this)
+        binding.viewModel = viewModel
         setupRecycleView()
-        return binding.value?.root
+        return binding.root
     }
 
     override fun onStart() {
@@ -83,7 +84,7 @@ class TemperatureFragment : Fragment(), Injectable {
      */
     private fun setupRecycleView() {
         val layoutManager = LinearLayoutManager(context)
-        binding.get().apply {
+        binding.apply {
             tempRv.layoutManager = layoutManager
             tempRv.adapter = temperatureAdapter.get()
             (tempRv.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false

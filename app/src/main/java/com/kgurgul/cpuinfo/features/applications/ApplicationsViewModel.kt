@@ -19,11 +19,11 @@ package com.kgurgul.cpuinfo.features.applications
 import android.arch.lifecycle.ViewModel
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.databinding.ObservableBoolean
 import android.os.Build
 import android.support.annotation.VisibleForTesting
 import com.kgurgul.cpuinfo.common.Prefs
 import com.kgurgul.cpuinfo.common.list.AdapterArrayList
+import com.kgurgul.cpuinfo.utils.NonNullMutableLiveData
 import com.kgurgul.cpuinfo.utils.SingleLiveEvent
 import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import io.reactivex.Single
@@ -52,7 +52,7 @@ class ApplicationsViewModel @Inject constructor(
         private const val SORTING_APPS_KEY = "SORTING_APPS_KEY"
     }
 
-    val isLoading = ObservableBoolean(false)
+    val isLoading = NonNullMutableLiveData(false)
     val applicationList = AdapterArrayList<ExtendedAppInfo>()
     val shouldStartStorageService = SingleLiveEvent<Void>()
 
@@ -66,12 +66,12 @@ class ApplicationsViewModel @Inject constructor(
 
     @Synchronized
     fun refreshApplicationsList() {
-        if (refreshingDisposable == null || !isLoading.get()) {
+        if (refreshingDisposable == null || !isLoading.value) {
             refreshingDisposable = getApplicationsListSingle()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe({ _ -> isLoading.set(true) })
-                    .doFinally({ isLoading.set(false) })
+                    .doOnSubscribe({ _ -> isLoading.value = true })
+                    .doFinally({ isLoading.value = false })
                     .subscribe({ appList ->
                         applicationList.replace(appList)
                         runOnApiBelow(Build.VERSION_CODES.O, {

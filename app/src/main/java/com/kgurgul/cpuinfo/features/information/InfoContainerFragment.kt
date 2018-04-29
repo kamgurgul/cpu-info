@@ -26,7 +26,6 @@ import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentInfoBinding
 import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.features.information.base.ViewPagerAdapter
-import com.kgurgul.cpuinfo.utils.AutoClearedValue
 
 /**
  * Fragment which is base for all hardware and software information fragments
@@ -35,19 +34,18 @@ import com.kgurgul.cpuinfo.utils.AutoClearedValue
  */
 class InfoContainerFragment : Fragment(), Injectable {
 
-    private lateinit var binding: AutoClearedValue<FragmentInfoBinding>
+    private lateinit var binding: FragmentInfoBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = AutoClearedValue(this,
-                DataBindingUtil.inflate(inflater, R.layout.fragment_info, container, false))
-        return binding.get().root
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_info, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val viewPagerAdapter = ViewPagerAdapter(requireContext(), childFragmentManager)
-        binding.get().viewPager.adapter = viewPagerAdapter
-        binding.get().tabs.setupWithViewPager(binding.get().viewPager)
+        binding.viewPager.adapter = viewPagerAdapter
+        binding.tabs.setupWithViewPager(binding.viewPager)
     }
 }

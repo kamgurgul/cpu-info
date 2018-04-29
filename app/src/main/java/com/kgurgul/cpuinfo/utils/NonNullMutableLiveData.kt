@@ -14,23 +14,27 @@
  * limitations under the License.
  */
 
-object Versions {
-    // Build sdk
-    val minSdk = 14
-    val targetSdk = 27
-    val compiledSdk = 27
-    val buildTools = "27.0.3"
+package com.kgurgul.cpuinfo.utils
 
-    // Kotlin
-    val kotlin = "1.2.40"
-    val anko = "0.10.1"
+import android.arch.lifecycle.MutableLiveData
 
-    // Libs
-    val androidSupport = "27.1.1"
-    val androidDatabinding = "2.3.0"
-    val firebase = "12.0.1"
-    val archLifecycle = "1.1.1"
-    val dagger = "2.15"
-    val glide = "4.3.1"
-    val espresso = "3.0.1"
+/**
+ * [MutableLiveData] with default value support.
+ *
+ * @author kgurgul
+ */
+class NonNullMutableLiveData<T>(val defaultValue: T) : MutableLiveData<T>() {
+
+    init {
+        value = defaultValue
+    }
+
+    override fun getValue(): T {
+        return super.getValue()!!
+    }
+
+    override fun setValue(value: T) {
+        value ?: throw NullPointerException("Cannot set null value")
+        super.setValue(value)
+    }
 }

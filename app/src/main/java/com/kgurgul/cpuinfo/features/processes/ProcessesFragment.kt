@@ -43,7 +43,7 @@ class ProcessesFragment : Fragment(), Injectable {
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<ProcessesViewModel>
 
     private lateinit var viewModel: ProcessesViewModel
-    private lateinit var binding: AutoClearedValue<FragmentProcessesBinding>
+    private lateinit var binding: FragmentProcessesBinding
     private lateinit var processesAdapter: AutoClearedValue<ProcessesAdapter>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,11 +55,12 @@ class ProcessesFragment : Fragment(), Injectable {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = AutoClearedValue(this,
-                DataBindingUtil.inflate(inflater, R.layout.fragment_processes, container, false))
-        binding.get().viewModel = viewModel
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_processes, container,
+                false)
+        binding.setLifecycleOwner(this)
+        binding.viewModel = viewModel
         setupRecyclerView()
-        return binding.get().root
+        return binding.root
     }
 
     /**
@@ -69,7 +70,7 @@ class ProcessesFragment : Fragment(), Injectable {
         processesAdapter = AutoClearedValue(this, ProcessesAdapter(viewModel.processList))
 
         val rvLayoutManager = LinearLayoutManager(context)
-        binding.get().apply {
+        binding.apply {
             recyclerView.layoutManager = rvLayoutManager
             recyclerView.adapter = processesAdapter.get()
             recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))

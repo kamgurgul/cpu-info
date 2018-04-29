@@ -57,7 +57,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<ApplicationsViewModel>
 
     private lateinit var viewModel: ApplicationsViewModel
-    private lateinit var binding: AutoClearedValue<FragmentApplicationsBinding>
+    private lateinit var binding: FragmentApplicationsBinding
     private lateinit var applicationsAdapter: AutoClearedValue<ApplicationsAdapter>
 
     private val uninstallReceiver = object : BroadcastReceiver() {
@@ -77,14 +77,15 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = AutoClearedValue(this,
-                DataBindingUtil.inflate(inflater, R.layout.fragment_applications, container, false))
-        binding.get().viewModel = viewModel
-        binding.get().swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_applications, container,
+                false)
+        binding.setLifecycleOwner(this)
+        binding.viewModel = viewModel
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
                     R.color.colorPrimaryDark)
         initObservables()
         setupRecyclerView()
-        return binding.get().root
+        return binding.root
     }
 
     override fun onStart() {
@@ -97,12 +98,6 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         super.onStop()
     }
 
-    override fun onDestroyView() {
-        // Fix for buggy SwipeMenuRecyclerView which can leak. More investigation needed.
-        binding.get().recyclerView.adapter = null
-        super.onDestroyView()
-    }
-
     /**
      * Setup for [SwipeMenuRecyclerView]
      */
@@ -111,7 +106,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
                 ApplicationsAdapter(requireContext(), viewModel.applicationList, this))
 
         val rvLayoutManager = LinearLayoutManager(context)
-        binding.get().apply {
+        binding.apply {
             recyclerView.layoutManager = rvLayoutManager
             recyclerView.adapter = applicationsAdapter.get()
             recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
@@ -159,7 +154,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         val appInfo = viewModel.applicationList[position]
         // Block self opening
         if (appInfo.packageName == requireContext().packageName) {
-            Snackbar.make(binding.get().mainContainer, getString(R.string.cpu_open),
+            Snackbar.make(binding.mainContainer, getString(R.string.cpu_open),
                     Snackbar.LENGTH_SHORT).show()
             return
         }
@@ -169,11 +164,11 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
             try {
                 startActivity(intent)
             } catch (e: Exception) {
-                Snackbar.make(binding.get().mainContainer, getString(R.string.app_open),
+                Snackbar.make(binding.mainContainer, getString(R.string.app_open),
                         Snackbar.LENGTH_SHORT).show()
             }
         } else {
-            Snackbar.make(binding.get().mainContainer, getString(R.string.app_open),
+            Snackbar.make(binding.mainContainer, getString(R.string.app_open),
                     Snackbar.LENGTH_SHORT).show()
         }
     }
@@ -194,7 +189,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
     override fun appUninstallClicked(position: Int) {
         val appInfo = viewModel.applicationList[position]
         if (appInfo.packageName == requireContext().packageName) {
-            Snackbar.make(binding.get().mainContainer, getString(R.string.cpu_uninstall),
+            Snackbar.make(binding.mainContainer, getString(R.string.cpu_uninstall),
                     Snackbar.LENGTH_SHORT).show()
             return
         }
