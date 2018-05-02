@@ -18,8 +18,8 @@ package com.kgurgul.cpuinfo.features.processes
 
 import android.arch.lifecycle.ViewModel
 import android.support.annotation.VisibleForTesting
-import com.kgurgul.cpuinfo.common.Prefs
-import com.kgurgul.cpuinfo.common.list.AdapterArrayList
+import com.kgurgul.cpuinfo.utils.Prefs
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -45,7 +45,7 @@ class ProcessesViewModel @Inject constructor(private val prefs: Prefs,
         private const val SORTING_PROCESSES_KEY = "SORTING_PROCESSES_KEY"
     }
 
-    val processList = AdapterArrayList<ProcessItem>()
+    val processList = ListLiveData<ProcessItem>()
 
     private val ref = asReference()
     private var isSortingAsc = prefs.get(SORTING_PROCESSES_KEY, true)

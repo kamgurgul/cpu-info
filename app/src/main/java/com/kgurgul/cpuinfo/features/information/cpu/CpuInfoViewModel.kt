@@ -19,7 +19,7 @@ package com.kgurgul.cpuinfo.features.information.cpu
 import android.arch.lifecycle.ViewModel
 import android.os.Build
 import android.support.annotation.UiThread
-import com.kgurgul.cpuinfo.common.list.AdapterArrayList
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -47,16 +47,16 @@ class CpuInfoViewModel @Inject constructor() : ViewModel() {
     private val minMaxFreqMap = HashMap<Int, Pair<Long, Long>>()
     private var refreshingDisposable: Disposable? = null
 
-    val dataObservableList = AdapterArrayList<Pair<String, String>>()
+    val listLiveData = ListLiveData<Pair<String, String>>()
 
     @Synchronized
     fun startProvidingData() {
-        if (dataObservableList.isEmpty()) {
+        if (listLiveData.isEmpty()) {
             val cpuInfoList = ArrayList<Pair<String, String>>()
             cpuInfoList.add(getAbi())
             cpuInfoList.addAll(getCoresInfo())
             cpuInfoList.addAll(getCpuInfoFromFile())
-            dataObservableList.addAll(cpuInfoList)
+            listLiveData.addAll(cpuInfoList)
         }
 
         if (refreshingDisposable == null || refreshingDisposable?.isDisposed != false) {
@@ -72,13 +72,13 @@ class CpuInfoViewModel @Inject constructor() : ViewModel() {
     }
 
     /**
-     * Get current CPU frequency and refresh [dataObservableList]
+     * Get current CPU frequency and refresh [listLiveData]
      */
     @UiThread
     private fun refreshFrequencies() {
         Timber.i("refreshFrequencies()")
         val freqList = getCoresInfo()
-        freqList.forEachIndexed { i, pair -> dataObservableList[i + FREQUENCY_OFFSET] = pair }
+        freqList.forEachIndexed { i, pair -> listLiveData[i + FREQUENCY_OFFSET] = pair }
     }
 
     /**

@@ -25,14 +25,13 @@ import com.kgurgul.cpuinfo.databinding.ItemTemperatureBinding
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 
 /**
- * Temperature list adapter which observe temperatureItemsLiveData list
+ * Temperature list adapter which observe temperatureListLiveData
  *
  * @author kgurgul
  */
-class TemperatureAdapter(private val temperatureFormatter: TemperatureFormatter)
+class TemperatureAdapter(private val temperatureFormatter: TemperatureFormatter,
+                         private val temperatureList: List<TemperatureItem>)
     : RecyclerView.Adapter<TemperatureAdapter.BindingViewHolder>() {
-
-    private var temperatureItems: List<TemperatureItem>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder {
         val viewHolderBinding = DataBindingUtil.inflate<ItemTemperatureBinding>(
@@ -44,16 +43,11 @@ class TemperatureAdapter(private val temperatureFormatter: TemperatureFormatter)
     }
 
     override fun onBindViewHolder(holder: BindingViewHolder, position: Int) {
-        val temperatureItem = temperatureItems!![position]
+        val temperatureItem = temperatureList[position]
         holder.bindTemperatureItem(temperatureItem, temperatureFormatter)
     }
 
-    override fun getItemCount(): Int = temperatureItems?.size ?: 0
-
-    fun setTempItems(tempItems: List<TemperatureItem>?) {
-        temperatureItems = tempItems
-        notifyDataSetChanged()
-    }
+    override fun getItemCount(): Int = temperatureList.size
 
     class BindingViewHolder(private val binding: ItemTemperatureBinding)
         : RecyclerView.ViewHolder(binding.root) {

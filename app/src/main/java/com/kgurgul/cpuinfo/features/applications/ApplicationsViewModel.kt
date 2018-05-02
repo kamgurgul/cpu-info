@@ -21,10 +21,10 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.support.annotation.VisibleForTesting
-import com.kgurgul.cpuinfo.common.Prefs
-import com.kgurgul.cpuinfo.common.list.AdapterArrayList
 import com.kgurgul.cpuinfo.utils.NonNullMutableLiveData
+import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.SingleLiveEvent
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -53,7 +53,7 @@ class ApplicationsViewModel @Inject constructor(
     }
 
     val isLoading = NonNullMutableLiveData(false)
-    val applicationList = AdapterArrayList<ExtendedAppInfo>()
+    val applicationList = ListLiveData<ExtendedAppInfo>()
     val shouldStartStorageService = SingleLiveEvent<Void>()
 
     private val ref = asReference()

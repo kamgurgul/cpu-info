@@ -16,14 +16,12 @@
 
 package com.kgurgul.cpuinfo.features.information.storage
 
-import android.databinding.ObservableList
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.ObservableListAdapter
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.round2
 import com.kgurgul.cpuinfo.widgets.progress.IconRoundCornerProgressBar
@@ -33,11 +31,10 @@ import com.kgurgul.cpuinfo.widgets.progress.IconRoundCornerProgressBar
  *
  * @author kgurgul
  */
-class StorageAdapter(private val storageObservableList: ObservableList<StorageItem>)
-    : ObservableListAdapter<StorageItem, StorageAdapter.ViewHolder>(storageObservableList) {
+class StorageAdapter(private val storageList: List<StorageItem>)
+    : RecyclerView.Adapter<StorageAdapter.ViewHolder>() {
 
-    override fun getItemCount(): Int =
-            storageObservableList.size
+    override fun getItemCount(): Int = storageList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_storage, parent, false)
@@ -45,7 +42,7 @@ class StorageAdapter(private val storageObservableList: ObservableList<StorageIt
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindViewHolder(storageObservableList[position])
+        holder.bindViewHolder(storageList[position])
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

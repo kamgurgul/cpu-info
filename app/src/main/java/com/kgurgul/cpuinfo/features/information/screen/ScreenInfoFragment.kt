@@ -18,10 +18,11 @@ package com.kgurgul.cpuinfo.features.information.screen
 
 import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
-import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
+import com.kgurgul.cpuinfo.utils.DividerItemDecoration
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import javax.inject.Inject
 
 /**
@@ -41,21 +42,13 @@ class ScreenInfoFragment : BaseRvFragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelInjectionFactory)
                 .get(ScreenInfoViewModel::class.java)
-        infoItemsAdapter = InfoItemsAdapter(requireContext(), viewModel.dataObservableList,
-                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        infoItemsAdapter.registerListChangeNotifier()
-    }
-
-    override fun onStop() {
-        infoItemsAdapter.unregisterListChangeNotifier()
-        super.onStop()
     }
 
     override fun setupRecyclerViewAdapter() {
+        infoItemsAdapter = InfoItemsAdapter(requireContext(), viewModel.listLiveData,
+                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
+        viewModel.listLiveData.listStatusChangeNotificator.observe(this,
+                ListLiveDataObserver(infoItemsAdapter))
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
         recyclerView.adapter = infoItemsAdapter
     }

@@ -24,10 +24,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
+import com.kgurgul.cpuinfo.utils.DividerItemDecoration
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import javax.inject.Inject
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -72,8 +73,6 @@ class GpuInfoFragment : BaseRvFragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelInjectionFactory)
                 .get(GpuInfoViewModel::class.java)
-        infoItemsAdapter = InfoItemsAdapter(requireContext(), viewModel.dataObservableList,
-                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -92,11 +91,6 @@ class GpuInfoFragment : BaseRvFragment() {
         return view
     }
 
-    override fun onStart() {
-        super.onStart()
-        infoItemsAdapter.registerListChangeNotifier()
-    }
-
     override fun onResume() {
         super.onResume()
         glSurfaceView?.onResume()
@@ -107,12 +101,11 @@ class GpuInfoFragment : BaseRvFragment() {
         glSurfaceView?.onPause()
     }
 
-    override fun onStop() {
-        infoItemsAdapter.unregisterListChangeNotifier()
-        super.onStop()
-    }
-
     override fun setupRecyclerViewAdapter() {
+        infoItemsAdapter = InfoItemsAdapter(requireContext(), viewModel.listLiveData,
+                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
+        viewModel.listLiveData.listStatusChangeNotificator.observe(this,
+                ListLiveDataObserver(infoItemsAdapter))
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
         recyclerView.adapter = infoItemsAdapter
     }

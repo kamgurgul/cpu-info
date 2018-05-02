@@ -24,7 +24,7 @@ import android.util.DisplayMetrics
 import android.view.Display
 import android.view.WindowManager
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.AdapterArrayList
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round2
 import java.util.*
 import javax.inject.Inject
@@ -38,7 +38,7 @@ class ScreenInfoViewModel @Inject constructor(
         private val resources: Resources,
         private val windowManager: WindowManager) : ViewModel() {
 
-    val dataObservableList = AdapterArrayList<Pair<String, String>>()
+    val listLiveData = ListLiveData<Pair<String, String>>()
 
     init {
         getScreenData()
@@ -48,12 +48,12 @@ class ScreenInfoViewModel @Inject constructor(
      * Get all screen details
      */
     private fun getScreenData() {
-        if (dataObservableList.isNotEmpty()) {
-            dataObservableList.clear()
+        if (listLiveData.isNotEmpty()) {
+            listLiveData.clear()
         }
-        dataObservableList.add(getScreenClass())
-        dataObservableList.add(getDensityClass())
-        dataObservableList.addAll(getInfoFromDisplayMetrics())
+        listLiveData.add(getScreenClass())
+        listLiveData.add(getDensityClass())
+        listLiveData.addAll(getInfoFromDisplayMetrics())
     }
 
     /**

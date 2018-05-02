@@ -16,7 +16,7 @@
 
 package com.kgurgul.cpuinfo.features.temperature
 
-import com.kgurgul.cpuinfo.common.Prefs
+import com.kgurgul.cpuinfo.utils.Prefs
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import org.junit.Assert.assertEquals

@@ -26,6 +26,7 @@ import android.os.Handler
 import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import javax.inject.Inject
 
 /**
@@ -56,11 +57,6 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelInjectionFactory)
                 .get(StorageInfoViewModel::class.java)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        storageAdapter.registerListChangeNotifier()
     }
 
     override fun onResume() {
@@ -94,13 +90,10 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
         super.onPause()
     }
 
-    override fun onStop() {
-        storageAdapter.unregisterListChangeNotifier()
-        super.onStop()
-    }
-
     override fun setupRecyclerViewAdapter() {
-        storageAdapter = StorageAdapter(viewModel.storageItemList)
+        storageAdapter = StorageAdapter(viewModel.listLiveData)
+        viewModel.listLiveData.listStatusChangeNotificator.observe(this,
+                ListLiveDataObserver(storageAdapter))
         recyclerView.adapter = storageAdapter
     }
 }

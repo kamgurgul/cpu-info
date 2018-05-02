@@ -25,11 +25,11 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SimpleItemAnimator
 import android.view.*
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.databinding.FragmentProcessesBinding
 import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
-import com.kgurgul.cpuinfo.utils.AutoClearedValue
+import com.kgurgul.cpuinfo.utils.DividerItemDecoration
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import javax.inject.Inject
 
 /**
@@ -44,7 +44,7 @@ class ProcessesFragment : Fragment(), Injectable {
 
     private lateinit var viewModel: ProcessesViewModel
     private lateinit var binding: FragmentProcessesBinding
-    private lateinit var processesAdapter: AutoClearedValue<ProcessesAdapter>
+    private lateinit var processesAdapter: ProcessesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,12 +67,14 @@ class ProcessesFragment : Fragment(), Injectable {
      * Setup for [RecyclerView]
      */
     private fun setupRecyclerView() {
-        processesAdapter = AutoClearedValue(this, ProcessesAdapter(viewModel.processList))
+        processesAdapter = ProcessesAdapter(viewModel.processList)
+        viewModel.processList.listStatusChangeNotificator.observe(this,
+                ListLiveDataObserver(processesAdapter))
 
         val rvLayoutManager = LinearLayoutManager(context)
         binding.apply {
             recyclerView.layoutManager = rvLayoutManager
-            recyclerView.adapter = processesAdapter.get()
+            recyclerView.adapter = processesAdapter
             recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
             (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
@@ -80,13 +82,11 @@ class ProcessesFragment : Fragment(), Injectable {
 
     override fun onStart() {
         super.onStart()
-        processesAdapter.get().registerListChangeNotifier()
         viewModel.startProcessRefreshing()
     }
 
     override fun onStop() {
         viewModel.stopProcessRefreshing()
-        processesAdapter.get().unregisterListChangeNotifier()
         super.onStop()
     }
 

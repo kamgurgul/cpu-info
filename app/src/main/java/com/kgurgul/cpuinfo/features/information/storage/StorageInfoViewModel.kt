@@ -20,7 +20,7 @@ import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
 import android.os.Environment
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.AdapterArrayList
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -44,7 +44,7 @@ class StorageInfoViewModel @Inject constructor(private val resources: Resources)
 
     enum class MemoryType { INTERNAL, EXTERNAL }
 
-    val storageItemList = AdapterArrayList<StorageItem>()
+    val listLiveData = ListLiveData<StorageItem>()
 
     private val ref = asReference()
     private var sdCardFinderDisposable: Disposable? = null
@@ -60,9 +60,9 @@ class StorageInfoViewModel @Inject constructor(private val resources: Resources)
         async(UI) {
             val result = bg { getExternalAndInternalMemoryPair() }
             val memoryPair = result.await()
-            ref().storageItemList.add(memoryPair.first)
+            ref().listLiveData.add(memoryPair.first)
             if (memoryPair.second != null) {
-                ref().storageItemList.add(memoryPair.second as StorageItem)
+                ref().listLiveData.add(memoryPair.second as StorageItem)
             }
             refreshSdCard()
         }
@@ -103,15 +103,15 @@ class StorageInfoViewModel @Inject constructor(private val resources: Resources)
                             val sdUsed = sdTotal - sdCardFile.usableSpace
                             val sdMemory = StorageItem(resources.getString(R.string.external),
                                     R.drawable.sdcard, sdTotal, sdUsed)
-                            storageItemList.add(sdMemory)
+                            listLiveData.add(sdMemory)
                         }
                     }, {
                         Timber.i("Cannot find SD card file")
-                        val storageItem = storageItemList.find {
+                        val storageItem = listLiveData.find {
                             it.iconRes == R.drawable.sdcard
                         }
                         if (storageItem != null) {
-                            storageItemList.remove(storageItem)
+                            listLiveData.remove(storageItem)
                         }
                     })
         }

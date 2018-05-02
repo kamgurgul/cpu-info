@@ -16,9 +16,9 @@
 
 package com.kgurgul.cpuinfo.features.temperature
 
-import com.kgurgul.cpuinfo.common.Prefs
 import com.kgurgul.cpuinfo.di.FragmentScope
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
+import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.round2
 import javax.inject.Inject
 

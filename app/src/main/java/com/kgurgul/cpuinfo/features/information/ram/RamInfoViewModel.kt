@@ -23,8 +23,8 @@ import android.content.res.Resources
 import android.os.AsyncTask
 import android.os.Build
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.AdapterArrayList
 import com.kgurgul.cpuinfo.utils.Utils
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -52,7 +52,7 @@ class RamInfoViewModel @Inject constructor(private val activityManager: Activity
     private var ramRefreshingDisposable: Disposable? = null
     private var clearRamAsyncTask: ClearRamAsyncTask? = null
 
-    val dataObservableList = AdapterArrayList<Pair<String, String>>()
+    val listLiveData = ListLiveData<Pair<String, String>>()
 
     @Synchronized
     fun startProvidingData() {
@@ -99,7 +99,7 @@ class RamInfoViewModel @Inject constructor(private val activityManager: Activity
         memoryInfoList.add(Pair(resources.getString(R.string.threshold),
                 Utils.humanReadableByteCount(memoryInfo.threshold)))
 
-        dataObservableList.replace(memoryInfoList)
+        listLiveData.replace(memoryInfoList)
     }
 
     /**

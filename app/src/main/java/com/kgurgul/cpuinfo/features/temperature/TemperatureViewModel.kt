@@ -16,14 +16,14 @@
 
 package com.kgurgul.cpuinfo.features.temperature
 
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
 import android.support.annotation.VisibleForTesting
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.Prefs
 import com.kgurgul.cpuinfo.features.temperature.list.TemperatureItem
 import com.kgurgul.cpuinfo.utils.NonNullMutableLiveData
+import com.kgurgul.cpuinfo.utils.Prefs
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -52,7 +52,7 @@ class TemperatureViewModel @Inject constructor(
     val isLoading = NonNullMutableLiveData(false)
     val isError = NonNullMutableLiveData(false)
 
-    val temperatureItemsLiveData = MutableLiveData<List<TemperatureItem>>()
+    val temperatureListLiveData = ListLiveData<TemperatureItem>()
 
     private var temperatureDisposable: Disposable? = null
     private var refreshingDisposable: Disposable? = null
@@ -160,7 +160,7 @@ class TemperatureViewModel @Inject constructor(
                                 batteryTemp.toFloat()))
                     }
 
-                    temperatureItemsLiveData.value = temporaryTempList
+                    temperatureListLiveData.replace(temporaryTempList)
                 }, Timber::e)
     }
 

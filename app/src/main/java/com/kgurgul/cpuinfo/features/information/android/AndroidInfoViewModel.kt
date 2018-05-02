@@ -23,7 +23,7 @@ import android.content.res.Resources
 import android.os.Build
 import android.provider.Settings
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.AdapterArrayList
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -41,7 +41,7 @@ class AndroidInfoViewModel @Inject constructor(
         private val resources: Resources,
         private val contentResolver: ContentResolver) : ViewModel() {
 
-    val dataObservableList = AdapterArrayList<Pair<String, String>>()
+    val listLiveData = ListLiveData<Pair<String, String>>()
 
     init {
         getData()
@@ -51,7 +51,7 @@ class AndroidInfoViewModel @Inject constructor(
      * Get all data connected with Android OS
      */
     private fun getData() {
-        if (dataObservableList.isNotEmpty()) {
+        if (listLiveData.isNotEmpty()) {
             return
         }
         getBuildData()
@@ -64,18 +64,18 @@ class AndroidInfoViewModel @Inject constructor(
      * Retrieve data from static Build class and system property "java.vm.version"
      */
     private fun getBuildData() {
-        dataObservableList.add(Pair(resources.getString(R.string.version), Build.VERSION.RELEASE))
-        dataObservableList.add(Pair("SDK", Build.VERSION.SDK_INT.toString()))
-        dataObservableList.add(Pair(resources.getString(R.string.codename), Build.VERSION.CODENAME))
-        dataObservableList.add(Pair("Bootloader", Build.BOOTLOADER))
-        dataObservableList.add(Pair(resources.getString(R.string.brand), Build.BRAND))
-        dataObservableList.add(Pair(resources.getString(R.string.model), Build.MODEL))
-        dataObservableList.add(Pair(resources.getString(R.string.manufacturer), Build.MANUFACTURER))
-        dataObservableList.add(Pair(resources.getString(R.string.board), Build.BOARD))
-        dataObservableList.add(Pair("VM", getVmVersion()))
-        dataObservableList.add(Pair("Kernel", System.getProperty("os.version") ?: ""))
+        listLiveData.add(Pair(resources.getString(R.string.version), Build.VERSION.RELEASE))
+        listLiveData.add(Pair("SDK", Build.VERSION.SDK_INT.toString()))
+        listLiveData.add(Pair(resources.getString(R.string.codename), Build.VERSION.CODENAME))
+        listLiveData.add(Pair("Bootloader", Build.BOOTLOADER))
+        listLiveData.add(Pair(resources.getString(R.string.brand), Build.BRAND))
+        listLiveData.add(Pair(resources.getString(R.string.model), Build.MODEL))
+        listLiveData.add(Pair(resources.getString(R.string.manufacturer), Build.MANUFACTURER))
+        listLiveData.add(Pair(resources.getString(R.string.board), Build.BOARD))
+        listLiveData.add(Pair("VM", getVmVersion()))
+        listLiveData.add(Pair("Kernel", System.getProperty("os.version") ?: ""))
         @Suppress("DEPRECATION")
-        dataObservableList.add(Pair(resources.getString(R.string.serial), Build.SERIAL))
+        listLiveData.add(Pair(resources.getString(R.string.serial), Build.SERIAL))
     }
 
     /**
@@ -85,7 +85,7 @@ class AndroidInfoViewModel @Inject constructor(
     private fun getAndroidIdData() {
         val androidId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
         if (androidId != null) {
-            dataObservableList.add(Pair("Android ID", androidId))
+            listLiveData.add(Pair("Android ID", androidId))
         }
     }
 
@@ -95,7 +95,7 @@ class AndroidInfoViewModel @Inject constructor(
     private fun getRootData() {
         val isRootedStr = if (isDeviceRooted()) resources.getString(R.string.yes) else
             resources.getString(R.string.no)
-        dataObservableList.add(Pair(resources.getString(R.string.rooted), isRootedStr))
+        listLiveData.add(Pair(resources.getString(R.string.rooted), isRootedStr))
     }
 
     /**
@@ -150,8 +150,8 @@ class AndroidInfoViewModel @Inject constructor(
     private fun getSecurityData() {
         val securityProviders = getSecurityProviders()
         if (!securityProviders.isEmpty()) {
-            dataObservableList.add(Pair(resources.getString(R.string.security_providers), ""))
-            dataObservableList.addAll(securityProviders)
+            listLiveData.add(Pair(resources.getString(R.string.security_providers), ""))
+            listLiveData.addAll(securityProviders)
         }
     }
 

@@ -16,7 +16,7 @@
 
 package com.kgurgul.cpuinfo.features.processes
 
-import com.kgurgul.cpuinfo.common.Prefs
+import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.RxImmediateSchedulerRule
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
@@ -25,7 +25,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Flowable
 import io.reactivex.Single
 import org.junit.Assert.assertEquals
-import org.junit.ClassRule
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyBoolean
@@ -40,11 +40,9 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class ProcessesViewModelTest {
 
-    companion object {
-        @ClassRule
-        @JvmField
-        val rxSchedulersRule = RxImmediateSchedulerRule()
-    }
+    @Suppress("unused")
+    @get:Rule
+    val rxSchedulersRule = RxImmediateSchedulerRule()
 
     @Test
     fun startStopRefreshing() {

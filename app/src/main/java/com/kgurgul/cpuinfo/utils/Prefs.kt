@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.common
+package com.kgurgul.cpuinfo.utils
 
 import android.content.SharedPreferences
 import com.google.gson.Gson

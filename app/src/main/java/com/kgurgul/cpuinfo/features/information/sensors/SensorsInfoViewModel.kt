@@ -22,7 +22,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
-import com.kgurgul.cpuinfo.common.list.AdapterArrayList
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round1
 import java.util.*
 import javax.inject.Inject
@@ -35,17 +35,17 @@ import javax.inject.Inject
 class SensorsInfoViewModel @Inject constructor(
         private val sensorManager: SensorManager) : ViewModel(), SensorEventListener {
 
-    val dataObservableList = AdapterArrayList<Pair<String, String>>()
+    val listLiveData = ListLiveData<Pair<String, String>>()
 
     private val sensorList: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
 
     @Synchronized
     fun startProvidingData() {
-        if (dataObservableList.isEmpty()) {
+        if (listLiveData.isEmpty()) {
             val functionsList = sensorList.mapTo(ArrayList<Pair<String, String>>()) {
                 Pair(it.name, " ")
             }
-            dataObservableList.addAll(functionsList)
+            listLiveData.addAll(functionsList)
         }
 
         // Start register process on new Thread to avoid UI block
@@ -77,7 +77,7 @@ class SensorsInfoViewModel @Inject constructor(
     @Synchronized
     private fun updateSensorInfo(event: SensorEvent) {
         val updatedRowId = sensorList.indexOf(event.sensor)
-        dataObservableList[updatedRowId] = Pair(event.sensor.name, getSensorData(event))
+        listLiveData[updatedRowId] = Pair(event.sensor.name, getSensorData(event))
     }
 
     /**

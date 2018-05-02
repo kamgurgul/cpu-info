@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.features.applications
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.content.BroadcastReceiver
@@ -36,12 +37,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.DividerItemDecoration
 import com.kgurgul.cpuinfo.databinding.FragmentApplicationsBinding
 import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
-import com.kgurgul.cpuinfo.utils.AutoClearedValue
+import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.Utils
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import com.kgurgul.cpuinfo.widgets.swiperv.SwipeMenuRecyclerView
 import java.io.File
 import javax.inject.Inject
@@ -58,7 +59,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
 
     private lateinit var viewModel: ApplicationsViewModel
     private lateinit var binding: FragmentApplicationsBinding
-    private lateinit var applicationsAdapter: AutoClearedValue<ApplicationsAdapter>
+    private lateinit var applicationsAdapter: ApplicationsAdapter
 
     private val uninstallReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -88,27 +89,19 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        applicationsAdapter.get().registerListChangeNotifier()
-    }
-
-    override fun onStop() {
-        applicationsAdapter.get().unregisterListChangeNotifier()
-        super.onStop()
-    }
-
     /**
      * Setup for [SwipeMenuRecyclerView]
      */
     private fun setupRecyclerView() {
-        applicationsAdapter = AutoClearedValue(this,
-                ApplicationsAdapter(requireContext(), viewModel.applicationList, this))
+        applicationsAdapter = ApplicationsAdapter(requireContext(), viewModel.applicationList,
+                this)
+        viewModel.applicationList.listStatusChangeNotificator.observe(this,
+                ListLiveDataObserver(applicationsAdapter))
 
         val rvLayoutManager = LinearLayoutManager(context)
         binding.apply {
             recyclerView.layoutManager = rvLayoutManager
-            recyclerView.adapter = applicationsAdapter.get()
+            recyclerView.adapter = applicationsAdapter
             recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
             (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
@@ -209,6 +202,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
     /**
      * Create dialog with native libraries list
      */
+    @SuppressLint("InflateParams")
     private fun showNativeListDialog(nativeLibsDir: File) {
         val builder = AlertDialog.Builder(requireContext(), R.style.CustomAppCompatAlertDialogStyle)
         val inflater = LayoutInflater.from(context)

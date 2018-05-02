@@ -28,11 +28,11 @@ import android.hardware.Camera
 import android.os.BatteryManager
 import android.os.Build
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.AdapterArrayList
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.features.temperature.TemperatureProvider
 import com.kgurgul.cpuinfo.utils.Utils
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round2
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import timber.log.Timber
@@ -58,7 +58,7 @@ class HardwareInfoViewModel @Inject constructor(
         private val batteryStatusProvider: BatteryStatusProvider)
     : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    val dataObservableList = AdapterArrayList<Pair<String, String>>()
+    val listLiveData = ListLiveData<Pair<String, String>>()
 
     init {
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
@@ -71,25 +71,25 @@ class HardwareInfoViewModel @Inject constructor(
      */
     @Synchronized
     fun refreshHardwareInfo() {
-        if (dataObservableList.isNotEmpty()) {
-            dataObservableList.clear()
+        if (listLiveData.isNotEmpty()) {
+            listLiveData.clear()
         }
 
-        dataObservableList.add(Pair(resources.getString(R.string.battery), ""))
-        dataObservableList.addAll(getBatteryStatus())
+        listLiveData.add(Pair(resources.getString(R.string.battery), ""))
+        listLiveData.addAll(getBatteryStatus())
 
         if (hasCamera()) {
-            dataObservableList.add(Pair(resources.getString(R.string.cameras), ""))
-            dataObservableList.addAll(getCameraInfo())
+            listLiveData.add(Pair(resources.getString(R.string.cameras), ""))
+            listLiveData.addAll(getCameraInfo())
         }
 
-        dataObservableList.add(Pair(resources.getString(R.string.sound_card), ""))
-        dataObservableList.addAll(getSoundCardInfo())
+        listLiveData.add(Pair(resources.getString(R.string.sound_card), ""))
+        listLiveData.addAll(getSoundCardInfo())
 
         val wirelessInfo = getWirelessInfo()
         if (wirelessInfo.size > 0) {
-            dataObservableList.add(Pair(resources.getString(R.string.wireless), ""))
-            dataObservableList.addAll(wirelessInfo)
+            listLiveData.add(Pair(resources.getString(R.string.wireless), ""))
+            listLiveData.addAll(wirelessInfo)
         }
     }
 
@@ -231,7 +231,7 @@ class HardwareInfoViewModel @Inject constructor(
     private fun getSoundCardNumber(): Int {
         class AudioFilter : FileFilter {
             override fun accept(pathname: File): Boolean =
-                    // http://alsa.opensrc.org/Proc_asound_documentation
+            // http://alsa.opensrc.org/Proc_asound_documentation
                     Pattern.matches("card[0-7]+", pathname.name)
         }
 

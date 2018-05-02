@@ -17,7 +17,6 @@
 package com.kgurgul.cpuinfo.features.information.base
 
 import android.content.Context
-import android.databinding.ObservableList
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -25,7 +24,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.ObservableListAdapter
 
 /**
  * Adapter for all info items inside [BaseRvFragment]. It should support two types of layouts:
@@ -35,10 +33,9 @@ import com.kgurgul.cpuinfo.common.list.ObservableListAdapter
  * @author kgurgul
  */
 class InfoItemsAdapter(private val context: Context,
-                       private val itemsObservableList: ObservableList<Pair<String, String>>,
+                       private val itemsObservableList: List<Pair<String, String>>,
                        private val layoutType: LayoutType = InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT) :
-        ObservableListAdapter<Pair<String, String>,
-                InfoItemsAdapter.SingleItemViewHolder>(itemsObservableList) {
+        RecyclerView.Adapter<InfoItemsAdapter.SingleItemViewHolder>() {
 
     enum class LayoutType {
         HORIZONTAL_LAYOUT, VERTICAL_LAYOUT

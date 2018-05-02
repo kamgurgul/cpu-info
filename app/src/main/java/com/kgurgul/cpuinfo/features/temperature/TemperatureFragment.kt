@@ -16,7 +16,6 @@
 
 package com.kgurgul.cpuinfo.features.temperature
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -31,9 +30,7 @@ import com.kgurgul.cpuinfo.databinding.FragmentTemperatureBinding
 import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.temperature.list.TemperatureAdapter
-import com.kgurgul.cpuinfo.features.temperature.list.TemperatureItem
-import com.kgurgul.cpuinfo.utils.AutoClearedValue
-import timber.log.Timber
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import javax.inject.Inject
 
 /**
@@ -48,10 +45,11 @@ class TemperatureFragment : Fragment(), Injectable {
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<TemperatureViewModel>
 
     @Inject
-    lateinit var temperatureAdapter: AutoClearedValue<TemperatureAdapter>
+    lateinit var temperatureFormatter: TemperatureFormatter
 
     private lateinit var viewModel: TemperatureViewModel
     private lateinit var binding: FragmentTemperatureBinding
+    private lateinit var temperatureAdapter: TemperatureAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,16 +81,14 @@ class TemperatureFragment : Fragment(), Injectable {
      * Set all necessary data for [android.support.v7.widget.RecyclerView]
      */
     private fun setupRecycleView() {
-        val layoutManager = LinearLayoutManager(context)
+        temperatureAdapter = TemperatureAdapter(temperatureFormatter,
+                viewModel.temperatureListLiveData)
+        viewModel.temperatureListLiveData.listStatusChangeNotificator.observe(this,
+                ListLiveDataObserver(temperatureAdapter))
         binding.apply {
-            tempRv.layoutManager = layoutManager
-            tempRv.adapter = temperatureAdapter.get()
+            tempRv.layoutManager = LinearLayoutManager(context)
+            tempRv.adapter = temperatureAdapter
             (tempRv.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
-
-        viewModel.temperatureItemsLiveData.observe(this, Observer<List<TemperatureItem>> { tempList ->
-            Timber.i("temperatureItemsLiveData observer refreshed")
-            temperatureAdapter.get().setTempItems(tempList)
-        })
     }
 }

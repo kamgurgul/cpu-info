@@ -17,14 +17,12 @@
 package com.kgurgul.cpuinfo.features.processes
 
 import android.annotation.SuppressLint
-import android.databinding.ObservableList
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.ObservableListAdapter
 import com.kgurgul.cpuinfo.utils.Utils
 
 /**
@@ -32,8 +30,8 @@ import com.kgurgul.cpuinfo.utils.Utils
  *
  * @author kgurgul
  */
-class ProcessesAdapter(private val processList: ObservableList<ProcessItem>)
-    : ObservableListAdapter<ProcessItem, ProcessesAdapter.ViewHolder>(processList) {
+class ProcessesAdapter(private val processList: List<ProcessItem>)
+    : RecyclerView.Adapter<ProcessesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_process, parent, false)

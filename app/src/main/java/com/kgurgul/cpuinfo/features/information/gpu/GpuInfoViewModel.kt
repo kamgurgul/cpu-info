@@ -20,8 +20,8 @@ import android.app.ActivityManager
 import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.AdapterArrayList
 import com.kgurgul.cpuinfo.utils.Utils
+import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import javax.inject.Inject
 
 /**
@@ -32,7 +32,7 @@ import javax.inject.Inject
 class GpuInfoViewModel @Inject constructor(private val activityManager: ActivityManager,
                                            private val resources: Resources) : ViewModel() {
 
-    val dataObservableList = AdapterArrayList<Pair<String, String>>()
+    val listLiveData = ListLiveData<Pair<String, String>>()
 
     init {
         getGpuData()
@@ -42,23 +42,23 @@ class GpuInfoViewModel @Inject constructor(private val activityManager: Activity
      * Get all GPU information
      */
     private fun getGpuData() {
-        if (dataObservableList.isEmpty()) {
+        if (listLiveData.isEmpty()) {
             val configurationInfo = activityManager.deviceConfigurationInfo
             val version = configurationInfo.glEsVersion
             if (!version.isNullOrEmpty()) {
                 // Add GLES version on the first position because this ViewModel doesn't contains
                 // synchronization with "addGlInfo" method
-                dataObservableList.add(0, Pair(resources.getString(R.string.gles_version),
+                listLiveData.add(0, Pair(resources.getString(R.string.gles_version),
                         version))
             }
         }
     }
 
     /**
-     * Check if additional GPU info was already added into [dataObservableList]
+     * Check if additional GPU info was already added into [listLiveData]
      */
     fun isGlInfoStored(): Boolean =
-            dataObservableList.size > 1
+            listLiveData.size > 1
 
     /**
      * Add additional GPU info from OpenGL if it wasn't added previously
@@ -66,7 +66,7 @@ class GpuInfoViewModel @Inject constructor(private val activityManager: Activity
      * @param gpuInfoMap map of additional data like version, render etc.
      */
     fun addGlInfo(gpuInfoMap: Map<GlInfoType, String?>) {
-        if (dataObservableList.size <= 1) {
+        if (listLiveData.size <= 1) {
             val gpuInfoPairs = ArrayList<Pair<String, String>>()
             Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.vendor),
                     gpuInfoMap[GlInfoType.GL_VENDOR])
@@ -76,7 +76,7 @@ class GpuInfoViewModel @Inject constructor(private val activityManager: Activity
                     gpuInfoMap[GlInfoType.GL_RENDERER])
             Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.extensions),
                     gpuInfoMap[GlInfoType.GL_EXTENSIONS])
-            dataObservableList.addAll(gpuInfoPairs)
+            listLiveData.addAll(gpuInfoPairs)
         }
     }
 

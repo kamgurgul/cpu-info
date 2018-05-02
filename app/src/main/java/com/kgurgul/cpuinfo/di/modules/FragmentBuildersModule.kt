@@ -30,7 +30,6 @@ import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoFragment
 import com.kgurgul.cpuinfo.features.information.storage.StorageInfoFragment
 import com.kgurgul.cpuinfo.features.processes.ProcessesFragment
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFragment
-import com.kgurgul.cpuinfo.features.temperature.TemperatureModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -91,6 +90,6 @@ abstract class FragmentBuildersModule {
     abstract fun contributeProcessesFragment(): ProcessesFragment
 
     @FragmentScope
-    @ContributesAndroidInjector(modules = [TemperatureModule::class])
+    @ContributesAndroidInjector()
     abstract fun contributeTemperatureFragment(): TemperatureFragment
 }

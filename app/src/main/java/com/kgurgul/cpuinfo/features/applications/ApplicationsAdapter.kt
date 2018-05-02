@@ -21,7 +21,6 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.databinding.ObservableList
 import android.os.Build
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -31,7 +30,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.common.list.ObservableListAdapter
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.glide.GlideApp
 import com.kgurgul.cpuinfo.utils.runOnApiBelow
@@ -45,10 +43,9 @@ import java.io.File
  * @author kgurgul
  */
 class ApplicationsAdapter(private val context: Context,
-                          private val appList: ObservableList<ExtendedAppInfo>,
+                          private val appList: List<ExtendedAppInfo>,
                           private val appClickListener: ItemClickListener)
-    : ObservableListAdapter<ExtendedAppInfo,
-        ApplicationsAdapter.ApplicationViewHolder>(appList) {
+    : RecyclerView.Adapter<ApplicationsAdapter.ApplicationViewHolder>() {
 
     private val packageManager: PackageManager = context.packageManager
     private val storageLabel: String = context.getString(R.string.storage_used)
@@ -120,8 +117,7 @@ class ApplicationsAdapter(private val context: Context,
         }
     }
 
-    override fun getItemCount(): Int =
-            appList.size
+    override fun getItemCount(): Int = appList.size
 
     class ApplicationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val iconIv: ImageView = itemView.findViewById(R.id.app_icon)

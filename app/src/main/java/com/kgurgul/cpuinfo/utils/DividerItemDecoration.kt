@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.common.list
+package com.kgurgul.cpuinfo.utils
 
 import android.content.Context
 import android.graphics.Canvas

@@ -18,13 +18,13 @@ package com.kgurgul.cpuinfo.features.temperature
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.content.res.Resources
-import com.kgurgul.cpuinfo.common.Prefs
+import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.RxImmediateSchedulerRule
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import org.junit.Assert.*
-import org.junit.ClassRule
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyInt
@@ -39,15 +39,13 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class TemperatureViewModelTest {
 
-    companion object {
-        @ClassRule
-        @JvmField
-        val rxSchedulersRule = RxImmediateSchedulerRule()
+    @Suppress("unused")
+    @get:Rule
+    val rxSchedulersRule = RxImmediateSchedulerRule()
 
-        @ClassRule
-        @JvmField
-        val liveDataRule = InstantTaskExecutorRule()
-    }
+    @Suppress("unused")
+    @get:Rule
+    val liveDataRule = InstantTaskExecutorRule()
 
     @Test
     fun startTemperatureRefreshingNoCpuTempSaved() {
@@ -74,7 +72,7 @@ class TemperatureViewModelTest {
         /* Then */
         assertFalse(viewModel.isLoading.value)
         assertFalse(viewModel.isError.value)
-        assertEquals(1, viewModel.temperatureItemsLiveData.value!!.size)
+        assertEquals(1, viewModel.temperatureListLiveData.size)
     }
 
     @Test
@@ -102,7 +100,7 @@ class TemperatureViewModelTest {
         /* Then */
         assertFalse(viewModel.isLoading.value)
         assertFalse(viewModel.isError.value)
-        assertEquals(1, viewModel.temperatureItemsLiveData.value!!.size)
+        assertEquals(1, viewModel.temperatureListLiveData.size)
     }
 
     @Test
@@ -131,7 +129,7 @@ class TemperatureViewModelTest {
         /* Then */
         assertFalse(viewModel.isLoading.value)
         assertFalse(viewModel.isError.value)
-        assertEquals(1, viewModel.temperatureItemsLiveData.value!!.size)
+        assertEquals(1, viewModel.temperatureListLiveData.size)
     }
 
     @Test
@@ -154,6 +152,6 @@ class TemperatureViewModelTest {
         /* Then */
         assertFalse(viewModel.isLoading.value)
         assertTrue(viewModel.isError.value)
-        assertNull(viewModel.temperatureItemsLiveData.value)
+        assertEquals(0, viewModel.temperatureListLiveData.size)
     }
 }
