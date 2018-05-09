@@ -140,6 +140,7 @@ class ApplicationsViewModel @Inject constructor(
     /**
      * Update package size whit specific package name using coroutine
      */
+    @Suppress("unused")
     @Subscribe
     fun onUpdatePackageSizeEvent(event: StorageUsageService.UpdatePackageSizeEvent) {
         async(UI) {

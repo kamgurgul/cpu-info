@@ -18,9 +18,7 @@ android {
         targetSdkVersion Versions.targetSdk
         versionCode generatedVersionCode
         versionName generatedVersionName
-
         vectorDrawables.useSupportLibrary = true
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -81,18 +79,18 @@ dependencies {
     implementation "org.jetbrains.anko:anko-coroutines:${Versions.anko}"
 
     // Firebase
-    releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.9.2'
+    releaseImplementation "com.crashlytics.sdk.android:crashlytics:${Versions.crashlitics}"
     implementation "com.google.firebase:firebase-core:${Versions.firebase}"
 
     // Bus
-    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation "org.greenrobot:eventbus:${Versions.eventBus}"
 
     // Rx
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.4'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid}"
 
     // GSON
-    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation "com.google.code.gson:gson:${Versions.gson}"
 
     // Dagger
     implementation "com.google.dagger:dagger:${Versions.dagger}"
@@ -101,7 +99,7 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:${Versions.dagger}"
 
     // Timber
-    implementation 'com.jakewharton.timber:timber:4.5.1'
+    implementation "com.jakewharton.timber:timber:${Versions.timber}"
 
     // Google arch
     implementation "android.arch.lifecycle:extensions:${Versions.archLifecycle}"
@@ -111,12 +109,12 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:${Versions.glide}"
     kapt "com.github.bumptech.glide:compiler:${Versions.glide}"
 
-    testImplementation 'junit:junit:4.12'
-    testImplementation "org.mockito:mockito-core:2.11.0"
-    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:1.5.0"
+    testImplementation "junit:junit:${Versions.jUnit}"
+    testImplementation "org.mockito:mockito-core:${Versions.mockito}"
+    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:${Versions.mockitoKotlin}"
     testImplementation "android.arch.core:core-testing:${Versions.archLifecycle}"
 
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation "com.android.support.test:runner:${Versions.testRunner}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${Versions.espresso}"
 }

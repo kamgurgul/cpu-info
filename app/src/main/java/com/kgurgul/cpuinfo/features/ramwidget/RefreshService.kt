@@ -62,7 +62,7 @@ class RefreshService : Service() {
         ramUpdateDelay = prefs.getString(SettingsFragment.KEY_RAM_REFRESHING, "10000").toLong()
 
         refreshHandler = Handler()
-        refreshHandler!!.postDelayed(object : Runnable {
+        refreshHandler?.postDelayed(object : Runnable {
             override fun run() {
                 ramUpdateDelay =
                         prefs.getString(SettingsFragment.KEY_RAM_REFRESHING, "10000").toLong()
@@ -88,9 +88,9 @@ class RefreshService : Service() {
                     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetId)
                     this@RefreshService.sendBroadcast(intent)
 
-                    refreshHandler!!.postDelayed(this, ramUpdateDelay)
+                    refreshHandler?.postDelayed(this, ramUpdateDelay)
                 } else {
-                    refreshHandler!!.postDelayed(this, RAM_BACKGROUND_DELAY)
+                    refreshHandler?.postDelayed(this, RAM_BACKGROUND_DELAY)
                 }
             }
         }, ramUpdateDelay)
@@ -109,14 +109,13 @@ class RefreshService : Service() {
     }
 
 
-    @Suppress("UNUSED_PARAMETER")
+    @Suppress("unused", "UNUSED_PARAMETER")
     @Subscribe
     fun killServiceEvent(event: KillRefreshServiceEvent) {
         stopSelf()
     }
 
-    override fun onBind(intent: Intent?): IBinder? =
-            null
+    override fun onBind(intent: Intent?): IBinder? = null
 
     class KillRefreshServiceEvent
 }
