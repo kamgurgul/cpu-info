@@ -105,6 +105,10 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:${Versions.archLifecycle}"
     kapt "android.arch.lifecycle:compiler:${Versions.archLifecycle}"
 
+    // Navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:${Versions.navigation}"
+    implementation "android.arch.navigation:navigation-ui-ktx:${Versions.navigation}"
+
     // Glide
     implementation "com.github.bumptech.glide:glide:${Versions.glide}"
     kapt "com.github.bumptech.glide:compiler:${Versions.glide}"
@@ -117,6 +121,7 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:${Versions.testRunner}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${Versions.espresso}"
+    androidTestImplementation "android.arch.navigation:navigation-testing-ktx:${Versions.navigation}"
 }
 
 def getReleaseSigningConfig() {

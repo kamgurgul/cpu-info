@@ -38,7 +38,7 @@
         android:title="@string/processes" />
 
     <item
-        android:id="@+id/temp"
+        android:id="@+id/temperature"
         android:checkable="false"
         android:checked="false"
         android:icon="@drawable/ic_temperature"
