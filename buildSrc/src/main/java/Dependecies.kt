@@ -28,10 +28,10 @@ object Versions {
     // Libs
     val androidSupport = "27.1.1"
     val androidDatabinding = "2.3.0"
-    val firebase = "15.0.2"
+    val firebase = "16.0.0"
     val crashlitics = "2.9.2"
     val archLifecycle = "1.1.1"
-    val navigation = "1.0.0-alpha01"
+    val navigation = "1.0.0-alpha02"
     val eventBus = "3.1.1"
     val rxJava = "2.1.4"
     val rxAndroid = "2.0.1"
