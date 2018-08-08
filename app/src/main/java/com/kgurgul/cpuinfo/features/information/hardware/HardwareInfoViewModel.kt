@@ -197,12 +197,12 @@ class HardwareInfoViewModel @Inject constructor(
         val hasBluetooth = if (packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH))
             resources.getString(R.string.yes) else resources.getString(R.string.no)
         functionsList.add(Pair(resources.getString(R.string.bluetooth), hasBluetooth))
-        runOnApiAbove(Build.VERSION_CODES.JELLY_BEAN_MR1, {
+        runOnApiAbove(Build.VERSION_CODES.JELLY_BEAN_MR1) {
             val hasBluetoothLe =
                     if (packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE))
                         resources.getString(R.string.yes) else resources.getString(R.string.no)
             functionsList.add(Pair(resources.getString(R.string.bluetooth_le), hasBluetoothLe))
-        })
+        }
 
 
         val bluetoothMac = android.provider.Settings.Secure.getString(contentResolver,
@@ -217,9 +217,7 @@ class HardwareInfoViewModel @Inject constructor(
             val value = reader.readLine()
             reader.close()
             functionsList.add(Pair(resources.getString(R.string.wifi_mac), value))
-        } catch (e: NumberFormatException) {
-            e.printStackTrace()
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
         }
 
         return functionsList
@@ -230,8 +228,8 @@ class HardwareInfoViewModel @Inject constructor(
      */
     private fun getSoundCardNumber(): Int {
         class AudioFilter : FileFilter {
-            override fun accept(pathname: File): Boolean =
             // http://alsa.opensrc.org/Proc_asound_documentation
+            override fun accept(pathname: File): Boolean =
                     Pattern.matches("card[0-7]+", pathname.name)
         }
 
@@ -247,19 +245,14 @@ class HardwareInfoViewModel @Inject constructor(
     /**
      * Get available data connected with sound card like ALSA version etc.
      */
-    private fun getSoundCardInfo(): ArrayList<Pair<String, String>> {
-        val functionsList = ArrayList<Pair<String, String>>()
+    private fun getSoundCardInfo(): List<Pair<String, String>> {
+        val functionsList = mutableListOf<Pair<String, String>>()
 
         val soundCardNumber = getSoundCardNumber()
         functionsList.add(Pair(resources.getString(R.string.amount), soundCardNumber.toString()))
-
-        var iterator = 0
-        while (iterator < soundCardNumber) {
-            functionsList.add(Pair("     ${resources.getString(R.string.card)} $iterator",
-                    tryToGetSoundCardId(iterator)))
-            iterator++
+        for (i in 0 until soundCardNumber) {
+            functionsList.add(Pair("     ${resources.getString(R.string.card)} $i", tryToGetSoundCardId(i)))
         }
-
         // ALSA
         val alsa = tryToGetAlsa()
         Utils.addPairIfExists(functionsList, "ALSA", alsa)
@@ -281,8 +274,7 @@ class HardwareInfoViewModel @Inject constructor(
         try {
             reader = RandomAccessFile(filePath, "r")
             id = reader.readLine()
-        } catch (e: Exception) {
-            // Do nothing
+        } catch (ignored: Exception) {
         } finally {
             reader?.close()
         }
@@ -302,8 +294,7 @@ class HardwareInfoViewModel @Inject constructor(
             reader = RandomAccessFile(filePath, "r")
             val version = reader.readLine()
             alsa = version
-        } catch (e: Exception) {
-            // Do nothing
+        } catch (ignored: Exception) {
         } finally {
             reader?.close()
         }
@@ -321,8 +312,8 @@ class HardwareInfoViewModel @Inject constructor(
      * Get number, type and orientation of the cameras
      */
     @Suppress("DEPRECATION")
-    private fun getCameraInfo(): ArrayList<Pair<String, String>> {
-        val functionsList = ArrayList<Pair<String, String>>()
+    private fun getCameraInfo(): List<Pair<String, String>> {
+        val functionsList = mutableListOf<Pair<String, String>>()
 
         val numbersOfCameras = Camera.getNumberOfCameras()
         functionsList.add(Pair(resources.getString(R.string.amount), numbersOfCameras.toString()))
@@ -330,22 +321,17 @@ class HardwareInfoViewModel @Inject constructor(
         val cameraName = resources.getString(R.string.camera)
         val cameraType = resources.getString(R.string.type)
         val cameraOrientation = resources.getString(R.string.orientation)
-        var iterator = 0
-        while (iterator < numbersOfCameras) {
-            functionsList.add(Pair("     $cameraName $iterator", " "))
-
-            // Strange error on some SM-G930F with getCameraInfo
+        for (i in 0 until numbersOfCameras) {
+            functionsList.add(Pair("     $cameraName $i", " "))
             try {
                 val info = Camera.CameraInfo()
-                Camera.getCameraInfo(iterator, info)
+                Camera.getCameraInfo(i, info)
                 val type = getCameraType(info)
                 functionsList.add(Pair("         $cameraType", type))
                 functionsList.add(Pair("         $cameraOrientation", info.orientation.toString()))
             } catch (e: Exception) {
                 Timber.e(e)
             }
-
-            iterator++
         }
 
         return functionsList

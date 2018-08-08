@@ -57,11 +57,11 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
         setSupportActionBar(binding.toolbar)
         binding.navigationView.setupWithNavController(navController)
-        runOnApiAbove(Build.VERSION_CODES.M, {
+        runOnApiAbove(Build.VERSION_CODES.M) {
             // Processes cannot be listed above M
             val menu = binding.navigationView.menu
             menu.findItem(R.id.processes).isVisible = false
-        })
+        }
         val actionBarDrawerToggle = getDrawerToggle()
         binding.drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
@@ -83,13 +83,13 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @SuppressLint("NewApi")
     private fun setToolbarTitleAndElevation(title: String) {
         binding.toolbar.title = title
-        runOnApiAbove(Build.VERSION_CODES.KITKAT_WATCH, {
+        runOnApiAbove(Build.VERSION_CODES.KITKAT_WATCH) {
             if (navController.currentDestination.id == R.id.hardware) {
                 binding.toolbar.elevation = 0f
             } else {
                 binding.toolbar.elevation = resources.getDimension(R.dimen.elevation_height)
             }
-        })
+        }
     }
 
     /**

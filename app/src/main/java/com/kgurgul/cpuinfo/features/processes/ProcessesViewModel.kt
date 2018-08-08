@@ -26,7 +26,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.coroutines.experimental.asReference
 import org.jetbrains.anko.coroutines.experimental.bg
 import timber.log.Timber
@@ -87,7 +87,7 @@ class ProcessesViewModel @Inject constructor(private val prefs: Prefs,
      * Change process list sorting type from ascending to descending or or vice versa
      */
     fun changeProcessSorting() {
-        async(UI) {
+        launch(UI) {
             val result = bg { getProcessSortedList(!isSortingAsc) }
             val sortedAppList = result.await()
             ref().processList.replace(sortedAppList)

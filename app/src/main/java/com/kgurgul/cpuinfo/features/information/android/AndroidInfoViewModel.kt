@@ -28,7 +28,6 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.security.Security
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -148,21 +147,10 @@ class AndroidInfoViewModel @Inject constructor(
      * Get information about security providers
      */
     private fun getSecurityData() {
-        val securityProviders = getSecurityProviders()
+        val securityProviders = Security.getProviders().map { Pair(it.name, it.version.toString()) }
         if (!securityProviders.isEmpty()) {
             listLiveData.add(Pair(resources.getString(R.string.security_providers), ""))
             listLiveData.addAll(securityProviders)
         }
-    }
-
-    private fun getSecurityProviders(): ArrayList<Pair<String, String>> {
-        val functionsList = ArrayList<Pair<String, String>>()
-
-        val providersList = Security.getProviders()
-        providersList.forEach {
-            functionsList.add(Pair(it.name, it.version.toString()))
-        }
-
-        return functionsList
     }
 }

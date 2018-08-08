@@ -22,21 +22,21 @@ object Versions {
     val buildTools = "27.0.3"
 
     // Kotlin
-    val kotlin = "1.2.41"
+    val kotlin = "1.2.60"
     val anko = "0.10.1"
 
     // Libs
     val androidSupport = "27.1.1"
     val androidDatabinding = "2.3.0"
-    val firebase = "15.0.2"
+    val firebase = "16.0.1"
     val crashlitics = "2.9.2"
     val archLifecycle = "1.1.1"
-    val navigation = "1.0.0-alpha01"
+    val navigation = "1.0.0-alpha04"
     val eventBus = "3.1.1"
     val rxJava = "2.1.4"
-    val rxAndroid = "2.0.1"
+    val rxAndroid = "2.0.2"
     val gson = "2.8.2"
-    val dagger = "2.16"
+    val dagger = "2.17"
     val glide = "4.3.1"
     val timber = "4.5.1"
     val jUnit = "4.12"

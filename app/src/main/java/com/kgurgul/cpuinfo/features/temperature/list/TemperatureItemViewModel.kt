@@ -43,12 +43,9 @@ class TemperatureItemViewModel(
         notifyChange()
     }
 
-    fun getUnitIcon(): Int =
-            temperatureItem.iconRes
+    fun getUnitIcon(): Int = temperatureItem.iconRes
 
-    fun getUnitName(): String =
-            temperatureItem.name
+    fun getUnitName(): String = temperatureItem.name
 
-    fun getTempValue(): String =
-            temperatureFormatter.format(temperatureItem.temperature)
+    fun getTempValue(): String = temperatureFormatter.format(temperatureItem.temperature)
 }

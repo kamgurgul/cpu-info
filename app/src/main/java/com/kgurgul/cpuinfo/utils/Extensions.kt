@@ -42,6 +42,18 @@ inline fun runOnApi(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
     }
 }
 
+inline fun runOnApiBelow(api: Int, f: () -> Unit) {
+    if (Build.VERSION.SDK_INT < api) {
+        f()
+    }
+}
+
+inline fun runOnApiAbove(api: Int, f: () -> Unit) {
+    if (Build.VERSION.SDK_INT > api) {
+        f()
+    }
+}
+
 inline fun runOnApiBelow(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
     if (Build.VERSION.SDK_INT < api) {
         f()

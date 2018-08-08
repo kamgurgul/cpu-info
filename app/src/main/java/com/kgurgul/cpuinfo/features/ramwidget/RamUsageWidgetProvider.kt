@@ -70,10 +70,10 @@ class RamUsageWidgetProvider : AppWidgetProvider() {
             }
 
             // Won't work on Android O!
-            runOnApiBelow(Build.VERSION_CODES.O, {
+            runOnApiBelow(Build.VERSION_CODES.O) {
                 val intent = Intent(context, RefreshService::class.java)
                 context.startService(intent)
-            })
+            }
         }
 
         super.onUpdate(context, appWidgetManager, appWidgetIds)

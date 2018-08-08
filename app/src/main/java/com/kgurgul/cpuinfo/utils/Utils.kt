@@ -19,7 +19,6 @@ package com.kgurgul.cpuinfo.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
@@ -38,9 +37,9 @@ object Utils {
     /**
      * Helper which adds item to list if value is not null and not empty
      */
-    fun addPairIfExists(array: ArrayList<Pair<String, String>>, key: String, value: String?) {
+    fun addPairIfExists(list: MutableList<Pair<String, String>>, key: String, value: String?) {
         if (value != null && !value.isEmpty()) {
-            array.add(Pair(key, value))
+            list.add(Pair(key, value))
         }
     }
 
@@ -100,17 +99,5 @@ object Utils {
         }
 
         return value
-    }
-
-    /**
-     * Get device hardware info like: Manufacturer, Brand, Model, Serial
-     *
-     * @return ID concatenated hardware info
-     */
-    fun getHardwareInfo(): String {
-        return Build.MANUFACTURER + " " +
-                Build.BRAND + " " +
-                Build.MODEL + " " +
-                Build.VERSION.SDK_INT
     }
 }

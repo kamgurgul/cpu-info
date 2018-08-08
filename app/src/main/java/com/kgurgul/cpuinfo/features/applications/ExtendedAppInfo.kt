@@ -16,7 +16,6 @@
 
 package com.kgurgul.cpuinfo.features.applications
 
-import android.annotation.SuppressLint
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
@@ -25,7 +24,6 @@ import kotlinx.android.parcel.Parcelize
  *
  * @author kgurgul
  */
-@SuppressLint("ParcelCreator")
 @Parcelize
 data class ExtendedAppInfo(val name: String,
                            val packageName: String,

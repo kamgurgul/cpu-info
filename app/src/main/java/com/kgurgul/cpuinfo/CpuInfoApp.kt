@@ -60,14 +60,14 @@ class CpuInfoApp : Application(), HasActivityInjector {
      * Try to create refresh service for ram widget. Currently it will work only on API below 26
      */
     private fun tryToUpdateRamWidget() {
-        runOnApiBelow(Build.VERSION_CODES.O, {
+        runOnApiBelow(Build.VERSION_CODES.O) {
             Timber.d("updateRamWidget()")
             val intent = Intent(this, RamUsageWidgetProvider::class.java)
             intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             val ids = intArrayOf(R.xml.ram_widget_provider)
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
             sendBroadcast(intent)
-        })
+        }
     }
 
     override fun activityInjector(): DispatchingAndroidInjector<Activity>

@@ -25,11 +25,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
 import java.io.*
-import java.util.ArrayList
+import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 import javax.inject.Inject
-import kotlin.collections.HashMap
 
 /**
  * ViewModel for CPU information
@@ -44,7 +43,7 @@ class CpuInfoViewModel @Inject constructor() : ViewModel() {
     }
 
     private val excludedTags = listOf("processor", "BogoMIPS")
-    private val minMaxFreqMap = HashMap<Int, Pair<Long, Long>>()
+    private val minMaxFreqMap = mutableMapOf<Int, Pair<Long, Long>>()
     private var refreshingDisposable: Disposable? = null
 
     val listLiveData = ListLiveData<Pair<String, String>>()
@@ -101,11 +100,9 @@ class CpuInfoViewModel @Inject constructor() : ViewModel() {
     private fun getCoresInfo(): ArrayList<Pair<String, String>> {
         val coresList = ArrayList<Pair<String, String>>()
         val numbersOfCores = getNumberOfCores()
-        var i = 0
         coresList.add(Pair("Cores", numbersOfCores.toString()))
-        while (i < numbersOfCores) {
+        for (i in 0 until numbersOfCores) {
             coresList.add(Pair("     Core $i", tryToGetCurrentFreq(i)))
-            i++
         }
         return coresList
     }
@@ -166,8 +163,7 @@ class CpuInfoViewModel @Inject constructor() : ViewModel() {
                     frequency += "\n(${minMaxPair.first}MHz - ${minMaxPair.second}MHz)"
                 }
             }
-        } catch (e: Exception) {
-            // Timber.e(e)
+        } catch (ignored: Exception) {
         }
 
         return frequency
@@ -188,7 +184,7 @@ class CpuInfoViewModel @Inject constructor() : ViewModel() {
             val maxMhz = reader.readLine().toLong() / 1000
             reader.close()
             val values = Pair(minMhz, maxMhz)
-            minMaxFreqMap.put(coreNumber, values)
+            minMaxFreqMap[coreNumber] = values
             return values
         } catch (e: Exception) {
             Timber.e(e)

@@ -27,7 +27,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.coroutines.experimental.asReference
 import org.jetbrains.anko.coroutines.experimental.bg
 import timber.log.Timber
@@ -57,7 +57,7 @@ class StorageInfoViewModel @Inject constructor(private val resources: Resources)
      * Get all available details about internal, external and secondary (SD card) storage
      */
     private fun getStorageInfo() {
-        async(UI) {
+        launch(UI) {
             val result = bg { getExternalAndInternalMemoryPair() }
             val memoryPair = result.await()
             ref().listLiveData.add(memoryPair.first)
@@ -107,8 +107,8 @@ class StorageInfoViewModel @Inject constructor(private val resources: Resources)
                         }
                     }, {
                         Timber.i("Cannot find SD card file")
-                        val storageItem = listLiveData.find {
-                            it.iconRes == R.drawable.sdcard
+                        val storageItem = listLiveData.find { storageItem ->
+                            storageItem.iconRes == R.drawable.sdcard
                         }
                         if (storageItem != null) {
                             listLiveData.remove(storageItem)
@@ -158,7 +158,7 @@ class StorageInfoViewModel @Inject constructor(private val resources: Resources)
      * @return [Single] with the SD card file or onError in case of missing that one.
      */
     private fun getSDCardFinder(): Single<File> {
-        return Single.create({ emitter: SingleEmitter<File> ->
+        return Single.create { emitter: SingleEmitter<File> ->
             val mountedList = getExternalSDMounts()
 
             var strSDCardPath: String? = null
@@ -173,15 +173,15 @@ class StorageInfoViewModel @Inject constructor(private val resources: Resources)
 
                 val externalFilePath = File(strSDCardPath)
 
-                if (externalFilePath.exists()) {
+                if (externalFilePath.exists() && !emitter.isDisposed) {
                     emitter.onSuccess(externalFilePath)
-                } else {
+                } else if (!emitter.isDisposed) {
                     emitter.onError(FileNotFoundException("Cannot find SD card file"))
                 }
             } else if (!emitter.isDisposed) {
                 emitter.onError(FileNotFoundException("Cannot find SD card file"))
             }
-        })
+        }
     }
 
     /**

@@ -21,10 +21,9 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.os.Build
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round1
-import java.util.*
+import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import javax.inject.Inject
 
 /**
@@ -37,15 +36,12 @@ class SensorsInfoViewModel @Inject constructor(
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
-    private val sensorList: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
+    private val sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL)
 
     @Synchronized
     fun startProvidingData() {
         if (listLiveData.isEmpty()) {
-            val functionsList = sensorList.mapTo(ArrayList<Pair<String, String>>()) {
-                Pair(it.name, " ")
-            }
-            listLiveData.addAll(functionsList)
+            listLiveData.addAll(sensorList.map { Pair(it.name, " ") })
         }
 
         // Start register process on new Thread to avoid UI block
@@ -119,7 +115,7 @@ class SensorsInfoViewModel @Inject constructor(
         }
 
         // TODO: Multiline support for this kind of data is necessary
-        if (Build.VERSION.SDK_INT >= 18) {
+        runOnApiAbove(17) {
             when (sensorType) {
                 Sensor.TYPE_GYROSCOPE_UNCALIBRATED ->
                     data = "X=${event.values[0].round1()}rad/s  Y=${
@@ -141,7 +137,7 @@ class SensorsInfoViewModel @Inject constructor(
             }
         }
 
-        if (Build.VERSION.SDK_INT >= 19) {
+        runOnApiAbove(18) {
             when (sensorType) {
                 Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR ->
                     data = "X=${event.values[0].round1()}  Y=${

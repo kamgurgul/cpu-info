@@ -26,7 +26,6 @@ import android.view.WindowManager
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round2
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -115,8 +114,8 @@ class ScreenInfoViewModel @Inject constructor(
         return Pair(resources.getString(R.string.density_class), densityClass)
     }
 
-    private fun getInfoFromDisplayMetrics(): ArrayList<Pair<String, String>> {
-        val functionsList = ArrayList<Pair<String, String>>()
+    private fun getInfoFromDisplayMetrics(): List<Pair<String, String>> {
+        val functionsList = mutableListOf<Pair<String, String>>()
 
         val display = windowManager.defaultDisplay
 

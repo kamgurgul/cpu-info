@@ -31,7 +31,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
 import java.io.RandomAccessFile
-import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -74,7 +73,7 @@ class RamInfoViewModel @Inject constructor(private val activityManager: Activity
     @SuppressLint("InlinedApi")
     private fun refreshRamData() {
         Timber.i("refreshRamData()")
-        val memoryInfoList = ArrayList<Pair<String, String>>()
+        val memoryInfoList = mutableListOf<Pair<String, String>>()
         activityManager.getMemoryInfo(memoryInfo)
 
         runOnApiAbove(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1, {

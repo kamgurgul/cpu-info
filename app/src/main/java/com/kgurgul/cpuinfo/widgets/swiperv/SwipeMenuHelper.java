@@ -30,6 +30,7 @@ import java.util.List;
  * Created by tubingbing on 16/8/11.
  */
 
+@SuppressWarnings("WeakerAccess")
 public class SwipeMenuHelper {
 
     public static final int INVALID_POSITION = -1;

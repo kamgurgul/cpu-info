@@ -17,7 +17,6 @@
 package com.kgurgul.cpuinfo.features.information.ram
 
 import android.arch.lifecycle.ViewModelProvider
-import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.*
@@ -27,6 +26,7 @@ import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import javax.inject.Inject
 
 /**
@@ -70,7 +70,7 @@ class RamInfoFragment : BaseRvFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         // Cleaning options works only for old Android
-        if (Build.VERSION.SDK_INT < 24) {
+        runOnApiBelow(24) {
             inflater.inflate(R.menu.ram_menu, menu)
         }
         super.onCreateOptionsMenu(menu, inflater)

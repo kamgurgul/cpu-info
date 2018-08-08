@@ -98,12 +98,11 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         viewModel.applicationList.listStatusChangeNotificator.observe(this,
                 ListLiveDataObserver(applicationsAdapter))
 
-        val rvLayoutManager = LinearLayoutManager(context)
-        binding.apply {
-            recyclerView.layoutManager = rvLayoutManager
-            recyclerView.adapter = applicationsAdapter
-            recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
-            (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = applicationsAdapter
+            addItemDecoration(DividerItemDecoration(requireContext()))
+            (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
     }
 

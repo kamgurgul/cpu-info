@@ -31,7 +31,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.coroutines.experimental.asReference
@@ -70,13 +70,13 @@ class ApplicationsViewModel @Inject constructor(
             refreshingDisposable = getApplicationsListSingle()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe({ _ -> isLoading.value = true })
-                    .doFinally({ isLoading.value = false })
+                    .doOnSubscribe { _ -> isLoading.value = true }
+                    .doFinally { isLoading.value = false }
                     .subscribe({ appList ->
                         applicationList.replace(appList)
-                        runOnApiBelow(Build.VERSION_CODES.O, {
+                        runOnApiBelow(Build.VERSION_CODES.O) {
                             shouldStartStorageService.call()
-                        })
+                        }
                     }, Timber::e)
         }
     }
@@ -86,33 +86,27 @@ class ApplicationsViewModel @Inject constructor(
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun getApplicationsListSingle(): Single<List<ExtendedAppInfo>> {
-        return Single.fromCallable({
-            val extendedAppList = ArrayList<ExtendedAppInfo>()
-            var appsList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+        return Single.fromCallable {
+            val appsList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
                     .filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }
-            appsList = if (isSortingAsc) {
-                appsList.sortedBy {
-                    it.loadLabel(packageManager).toString().toUpperCase()
-                }
-            } else {
-                appsList.sortedByDescending {
-                    it.loadLabel(packageManager).toString().toUpperCase()
-                }
-            }
-            appsList.map {
-                extendedAppList.add(
+                    .map {
                         ExtendedAppInfo(it.loadLabel(packageManager).toString(), it.packageName,
-                                it.sourceDir, it.nativeLibraryDir))
+                                it.sourceDir, it.nativeLibraryDir)
+                    }
+
+            return@fromCallable if (isSortingAsc) {
+                appsList.sortedBy { it.name.toUpperCase() }
+            } else {
+                appsList.sortedByDescending { it.name.toUpperCase() }
             }
-            extendedAppList
-        })
+        }
     }
 
     /**
      * Change apps list sorting type from ascending to descending or or vice versa
      */
     fun changeAppsSorting() {
-        async(UI) {
+        launch(UI) {
             val result = bg { getAppSortedList(!isSortingAsc) }
             val sortedAppList = result.await()
             ref().applicationList.replace(sortedAppList)
@@ -126,15 +120,13 @@ class ApplicationsViewModel @Inject constructor(
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun getAppSortedList(sortingAsc: Boolean): List<ExtendedAppInfo> {
-        val appListCopy = ArrayList<ExtendedAppInfo>(applicationList)
         isSortingAsc = sortingAsc
         prefs.insert(SORTING_APPS_KEY, sortingAsc)
-        if (sortingAsc) {
-            appListCopy.sortBy { it.name.toUpperCase() }
+        return if (sortingAsc) {
+            applicationList.sortedBy { it.name.toUpperCase() }
         } else {
-            appListCopy.sortByDescending { it.name.toUpperCase() }
+            applicationList.sortedByDescending { it.name.toUpperCase() }
         }
-        return appListCopy
     }
 
     /**
@@ -143,7 +135,7 @@ class ApplicationsViewModel @Inject constructor(
     @Suppress("unused")
     @Subscribe
     fun onUpdatePackageSizeEvent(event: StorageUsageService.UpdatePackageSizeEvent) {
-        async(UI) {
+        launch(UI) {
             val result = bg { getUpdatedApp(event) }
             val newAppPair = result.await()
             if (newAppPair.first != -1) {

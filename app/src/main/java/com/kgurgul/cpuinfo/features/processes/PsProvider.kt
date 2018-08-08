@@ -47,10 +47,10 @@ class PsProvider @Inject constructor() {
      * exception
      */
     fun getPsList(): Single<List<ProcessItem>> {
-        return Single.fromCallable({
+        return Single.fromCallable {
             val psCmdList = readPsCmd()
             return@fromCallable parsePs(psCmdList)
-        })
+        }
     }
 
     /**

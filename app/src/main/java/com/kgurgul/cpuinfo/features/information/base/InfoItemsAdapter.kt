@@ -32,10 +32,11 @@ import com.kgurgul.cpuinfo.R
  *
  * @author kgurgul
  */
-class InfoItemsAdapter(private val context: Context,
-                       private val itemsObservableList: List<Pair<String, String>>,
-                       private val layoutType: LayoutType = InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT) :
-        RecyclerView.Adapter<InfoItemsAdapter.SingleItemViewHolder>() {
+class InfoItemsAdapter(
+        private val context: Context,
+        private val itemsObservableList: List<Pair<String, String>>,
+        private val layoutType: LayoutType = InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
+    : RecyclerView.Adapter<InfoItemsAdapter.SingleItemViewHolder>() {
 
     enum class LayoutType {
         HORIZONTAL_LAYOUT, VERTICAL_LAYOUT
@@ -44,8 +45,8 @@ class InfoItemsAdapter(private val context: Context,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleItemViewHolder {
         val layout = if (layoutType == LayoutType.HORIZONTAL_LAYOUT)
             R.layout.item_value else R.layout.item_value_vertical
-        val v = LayoutInflater.from(parent.context).inflate(layout, parent, false)
-        return SingleItemViewHolder(v)
+        return SingleItemViewHolder(LayoutInflater.from(parent.context).inflate(layout, parent,
+                false))
     }
 
     override fun onBindViewHolder(holder: SingleItemViewHolder, position: Int) {

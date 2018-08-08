@@ -56,11 +56,9 @@ class HardwareInfoFragment : BaseRvFragment() {
 
     override fun onResume() {
         super.onResume()
-
         val intentFilter = IntentFilter()
         intentFilter.addAction("android.intent.action.ACTION_POWER_CONNECTED")
         intentFilter.addAction("android.intent.action.ACTION_POWER_DISCONNECTED")
-
         requireActivity().registerReceiver(powerReceiver, intentFilter)
     }
 

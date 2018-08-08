@@ -21,9 +21,9 @@ import android.app.Application
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.os.AsyncTask
-import android.os.Build
 import com.kgurgul.cpuinfo.CpuInfoApp
 import com.kgurgul.cpuinfo.utils.processmanager.AndroidProcesses
+import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import java.util.*
 
 /**
@@ -44,9 +44,9 @@ class ClearRamAsyncTask : AsyncTask<Void, Void, Void?>() {
         Runtime.getRuntime().gc()
         System.gc()
 
-        // Not my solution - really bad idea but user wants ram :-)
+        // Not my solution - imo bad idea but user wants ram :-)
         // For SDK 24 we can't get running processes list
-        if (Build.VERSION.SDK_INT < 24) {
+        runOnApiBelow(24) {
             freeMemoryUsingVoodoo(CpuInfoApp.instance)
         }
     }

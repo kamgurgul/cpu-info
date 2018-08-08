@@ -27,7 +27,7 @@ import javax.inject.Singleton
 
 /**
  * Return battery status from ACTION_BATTERY_CHANGED broadcast receiver and capacity from
- * com.android.internal.os.PowerProfile
+ * [com.android.internal.os.PowerProfile]
  *
  * @author kgurgul
  */
@@ -48,7 +48,6 @@ class BatteryStatusProvider @Inject constructor(private val app: Application) {
     @SuppressLint("PrivateApi")
     fun getBatteryCapacity(): Double {
         var capacity = -1.0
-
         try {
             val powerProfile = Class.forName("com.android.internal.os.PowerProfile")
                     .getConstructor(Context::class.java).newInstance(app)
@@ -59,7 +58,6 @@ class BatteryStatusProvider @Inject constructor(private val app: Application) {
         } catch (e: Exception) {
             Timber.e(e)
         }
-
         return capacity
     }
 }

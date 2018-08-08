@@ -57,8 +57,7 @@ class GpuInfoViewModel @Inject constructor(private val activityManager: Activity
     /**
      * Check if additional GPU info was already added into [listLiveData]
      */
-    fun isGlInfoStored(): Boolean =
-            listLiveData.size > 1
+    fun isGlInfoStored(): Boolean = listLiveData.size > 1
 
     /**
      * Add additional GPU info from OpenGL if it wasn't added previously
