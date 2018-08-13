@@ -29,6 +29,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.ActivityHostLayoutBinding
+import com.kgurgul.cpuinfo.utils.isTablet
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -62,16 +63,18 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
             val menu = binding.navigationView.menu
             menu.findItem(R.id.processes).isVisible = false
         }
-        val actionBarDrawerToggle = getDrawerToggle()
-        binding.drawerLayout.addDrawerListener(actionBarDrawerToggle)
-        actionBarDrawerToggle.syncState()
+        if (!isTablet()) {
+            val actionBarDrawerToggle = getDrawerToggle()
+            binding.drawerLayout?.addDrawerListener(actionBarDrawerToggle)
+            actionBarDrawerToggle.syncState()
+        }
     }
 
     override fun onSupportNavigateUp() = navController.navigateUp()
 
     override fun onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawers()
+        if (binding.drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
+            binding.drawerLayout?.closeDrawers()
             return
         }
         super.onBackPressed()

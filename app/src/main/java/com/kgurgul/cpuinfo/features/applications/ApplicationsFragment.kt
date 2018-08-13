@@ -203,7 +203,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
      */
     @SuppressLint("InflateParams")
     private fun showNativeListDialog(nativeLibsDir: File) {
-        val builder = AlertDialog.Builder(requireContext(), R.style.CustomAppCompatAlertDialogStyle)
+        val builder = AlertDialog.Builder(requireContext())
         val inflater = LayoutInflater.from(context)
         val dialogLayout = inflater.inflate(R.layout.dialog_native_libs, null)
         val libs = nativeLibsDir.listFiles().map { it.name }

@@ -29,7 +29,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/temp_rv"
@@ -55,7 +56,6 @@
             android:layout_margin="@dimen/temp_item_margin"
             android:gravity="center"
             android:text="@string/no_temp_data"
-            android:textColor="@color/black"
             android:textSize="22sp"
             android:visibility="@{safeUnbox(viewModel.isError) ? View.VISIBLE: View.GONE}"
             tools:visibility="visible" />

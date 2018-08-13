@@ -39,6 +39,7 @@
             android:layout_height="@dimen/temp_image_size"
             android:contentDescription="@string/cpu"
             android:scaleType="fitCenter"
+            android:tint="@color/textColorPrimary"
             app:srcCompat="@{viewModel.unitIcon}"
             tools:src="@mipmap/ic_launcher" />
 
@@ -64,7 +65,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.tempValue}"
-                android:textColor="@color/black"
                 android:textSize="@dimen/temp_text_size"
                 android:textStyle="bold"
                 tools:text="50" />

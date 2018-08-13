@@ -15,16 +15,21 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#424242</color>
-    <color name="colorPrimaryDark">#323232</color>
-    <color name="colorAccent">#D84315</color>
-    <color name="textColorPrimary">#EEEEEE</color>
-    <color name="textColorSecondary">#3B3B3B</color>
-    <color name="statusBarColor">#323232</color>
+    <color name="colorPrimary">#3E50B4</color>
+    <color name="colorPrimaryDark">#303E9F</color>
+    <color name="colorAccent">#ED4138</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="textColorSecondary">#FFFFFF</color>
+    <color name="background">#2F3136</color>
+    <color name="backgroundDark">#202225</color>
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="red">#FF0000</color>
+
+    <color name="drawerNoShadow">#00000000</color>
+
     <color name="blueLight">#2979FF</color>
     <color name="progressBackground">#E4E5E7</color>
+    <color name="greyText">#EEEEEE</color>
 </resources>

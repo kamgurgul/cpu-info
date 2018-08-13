@@ -17,11 +17,22 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:orientation="horizontal">
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/backgroundDark"
+            android:maxWidth="240dp"
+            app:headerLayout="@layout/header_nav_drawer"
+            app:itemIconTint="@color/nav_drawer_tint_color"
+            app:itemTextColor="@color/nav_drawer_tint_color"
+            app:menu="@menu/navigation_menu" />
 
         <LinearLayout
             android:id="@+id/content_container"
@@ -49,17 +60,6 @@
 
         </LinearLayout>
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/navigation_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@color/backgroundDark"
-            app:headerLayout="@layout/header_nav_drawer"
-            app:itemIconTint="@color/nav_drawer_tint_color"
-            app:itemTextColor="@color/nav_drawer_tint_color"
-            app:menu="@menu/navigation_menu" />
-
-    </android.support.v4.widget.DrawerLayout>
+    </LinearLayout>
 
 </layout>

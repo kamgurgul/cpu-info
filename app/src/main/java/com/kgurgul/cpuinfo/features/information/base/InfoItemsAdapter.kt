@@ -58,7 +58,7 @@ class InfoItemsAdapter(
             holder.titleTv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
             holder.valueTv.visibility = View.GONE
         } else {
-            holder.titleTv.setTextColor(ContextCompat.getColor(context, R.color.textColorSecondary))
+            holder.titleTv.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary))
             holder.valueTv.visibility = View.VISIBLE
         }
     }

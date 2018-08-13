@@ -2,5 +2,6 @@
 <resources>
 
     <bool name="belowOreo">true</bool>
+    <bool name="isTablet">false</bool>
 
 </resources>

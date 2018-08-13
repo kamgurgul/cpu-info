@@ -20,17 +20,18 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="preferenceTheme">@style/PreferenceMaterial</item>
+        <item name="alertDialogTheme">@style/CustomAppCompatAlertDialogStyle</item>
     </style>
-
-    <style name="AppThemeBase.Material" />
 
     <style name="PreferenceMaterial" parent="PreferenceThemeOverlay.v14.Material">
         <item name="preferenceCategoryStyle">@style/PreferenceCategoryMaterial</item>
+        <item name="android:background">@color/background</item>
     </style>
 
     <style name="PreferenceCategoryMaterial" parent="Preference.Category.Material">
@@ -46,15 +47,20 @@
         <item name="android:layout_margin">10dp</item>
     </style>
 
-    <!-- TODO remove -->
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="TintedAppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="TintedAppCompatAlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="CustomAppCompatAlertDialogStyle" parent="TintedAppCompatAlertDialogStyle">
         <item name="android:windowContentOverlay">@null</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:textColorHighlight">@color/textColorPrimary</item>
+        <item name="android:textColorTertiary">@color/textColorPrimary</item>
+        <item name="textColorAlertDialogListItem">@color/textColorPrimary</item>
     </style>
 
 </resources>
