@@ -31,7 +31,7 @@ object Versions {
     val firebase = "16.0.1"
     val crashlitics = "2.9.2"
     val archLifecycle = "1.1.1"
-    val navigation = "1.0.0-alpha04"
+    val navigation = "1.0.0-alpha05"
     val eventBus = "3.1.1"
     val rxJava = "2.1.4"
     val rxAndroid = "2.0.2"

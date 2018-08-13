@@ -87,7 +87,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private fun setToolbarTitleAndElevation(title: String) {
         binding.toolbar.title = title
         runOnApiAbove(Build.VERSION_CODES.KITKAT_WATCH) {
-            if (navController.currentDestination.id == R.id.hardware) {
+            if (navController.currentDestination?.id == R.id.hardware) {
                 binding.toolbar.elevation = 0f
             } else {
                 binding.toolbar.elevation = resources.getDimension(R.dimen.elevation_height)
