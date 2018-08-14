@@ -14,63 +14,47 @@
   ~ limitations under the License.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/temp_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/temp_item_margin">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.kgurgul.cpuinfo.features.temperature.list.TemperatureItemViewModel" />
-
-    </data>
+    <ImageView
+        android:id="@+id/temperatureIv"
+        android:layout_width="@dimen/temp_image_size"
+        android:layout_height="@dimen/temp_image_size"
+        android:contentDescription="@string/cpu"
+        android:scaleType="fitCenter"
+        android:tint="@color/textColorPrimary"
+        tools:src="@mipmap/ic_launcher" />
 
     <LinearLayout
-        android:id="@+id/temp_item_container"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/temp_item_margin">
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="14dp"
+        android:orientation="vertical"
+        tools:ignore="RtlHardcoded">
 
-        <ImageView
-            android:id="@+id/unit_icon_iv"
-            android:layout_width="@dimen/temp_image_size"
-            android:layout_height="@dimen/temp_image_size"
-            android:contentDescription="@string/cpu"
-            android:scaleType="fitCenter"
-            android:tint="@color/textColorPrimary"
-            app:srcCompat="@{viewModel.unitIcon}"
-            tools:src="@mipmap/ic_launcher" />
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/temperatureTypeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="14dp"
-            android:orientation="vertical"
-            tools:ignore="RtlHardcoded">
+            android:layout_marginBottom="4dp"
+            android:textSize="@dimen/temp_header_size"
+            tools:text="@string/cpu_temperature" />
 
-            <TextView
-                android:id="@+id/unit_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:text="@{viewModel.unitName}"
-                android:textSize="@dimen/temp_header_size"
-                tools:text="@string/cpu_temperature" />
-
-            <TextView
-                android:id="@+id/temp_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.tempValue}"
-                android:textSize="@dimen/temp_text_size"
-                android:textStyle="bold"
-                tools:text="50" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/temperatureTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/temp_text_size"
+            android:textStyle="bold"
+            tools:text="50" />
 
     </LinearLayout>
 
-</layout>
+</LinearLayout>

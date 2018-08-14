@@ -16,13 +16,13 @@
 
 package com.kgurgul.cpuinfo.features.temperature.list
 
-import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.databinding.ItemTemperatureBinding
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
+import kotlinx.android.synthetic.main.item_temperature.view.*
 
 /**
  * Temperature list adapter which observe temperatureListLiveData
@@ -31,34 +31,29 @@ import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
  */
 class TemperatureAdapter(private val temperatureFormatter: TemperatureFormatter,
                          private val temperatureList: List<TemperatureItem>)
-    : RecyclerView.Adapter<TemperatureAdapter.BindingViewHolder>() {
+    : RecyclerView.Adapter<TemperatureAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder {
-        val viewHolderBinding = DataBindingUtil.inflate<ItemTemperatureBinding>(
-                LayoutInflater.from(parent.context),
-                R.layout.item_temperature,
-                parent,
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_temperature, parent,
                 false)
-        return BindingViewHolder(viewHolderBinding)
+        return ViewHolder(view, temperatureFormatter)
     }
 
-    override fun onBindViewHolder(holder: BindingViewHolder, position: Int) {
-        val temperatureItem = temperatureList[position]
-        holder.bindTemperatureItem(temperatureItem, temperatureFormatter)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(temperatureList[position])
     }
 
     override fun getItemCount(): Int = temperatureList.size
 
-    class BindingViewHolder(private val binding: ItemTemperatureBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+            private val view: View,
+            private val temperatureFormatter: TemperatureFormatter)
+        : RecyclerView.ViewHolder(view) {
 
-        fun bindTemperatureItem(temperatureItem: TemperatureItem,
-                                temperatureFormatter: TemperatureFormatter) {
-            if (binding.viewModel == null) {
-                binding.viewModel = TemperatureItemViewModel(temperatureItem, temperatureFormatter)
-            } else {
-                binding.viewModel!!.setTempItem(temperatureItem)
-            }
+        fun bind(temperatureItem: TemperatureItem) {
+            view.temperatureIv.setImageResource(temperatureItem.iconRes)
+            view.temperatureTypeTv.text = temperatureItem.name
+            view.temperatureTv.text = temperatureFormatter.format(temperatureItem.temperature)
         }
     }
 }
