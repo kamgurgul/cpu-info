@@ -46,6 +46,7 @@
     <string name="settings">Settings</string>
 
     <string name="running_gc">Running Garbage Collector</string>
+    <string name="text_copied">Value copied</string>
 
     <!--Apps-->
     <string name="app_open">Cannot open this application</string>

@@ -16,7 +16,11 @@
 
 package com.kgurgul.cpuinfo.features.information.base
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -27,18 +31,21 @@ import android.view.ViewGroup
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.di.Injectable
 
+
 /**
  * Simple base for all info fragments which displays data on [RecyclerView]
  *
  * @author kgurgul
  */
-abstract class BaseRvFragment : Fragment(), Injectable {
+abstract class BaseRvFragment : Fragment(), Injectable, InfoItemsAdapter.OnClickListener {
 
+    protected lateinit var mainContainer: View
     protected lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_rv, container, false)
+        mainContainer = view.findViewById(R.id.main_container)
         recyclerView = view.findViewById(R.id.recycler_view)
         setupRecyclerView()
         setupRecyclerViewAdapter()
@@ -60,4 +67,13 @@ abstract class BaseRvFragment : Fragment(), Injectable {
      * Setup adapter for [RecyclerView]. Use this method to set adapter and refreshing logic.
      */
     abstract fun setupRecyclerViewAdapter()
+
+    override fun onItemLongPressed(item: Pair<String, String>) {
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE)
+                as ClipboardManager
+        val clip = ClipData.newPlainText(requireContext().getString(R.string.app_name),
+                item.second)
+        clipboard.primaryClip = clip
+        Snackbar.make(mainContainer, R.string.text_copied, Snackbar.LENGTH_SHORT).show()
+    }
 }

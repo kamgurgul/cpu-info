@@ -43,6 +43,7 @@
     <string name="settings">Ustawienia</string>
 
     <string name="running_gc">Uruchamianie Garbage Collector</string>
+    <string name="text_copied">Wartość skopiowana</string>
 
     <!--Apps-->
     <string name="app_open">Nie można otworzyć tej aplikacji</string>

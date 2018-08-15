@@ -19,7 +19,9 @@ package com.kgurgul.cpuinfo.features.information.ram
 import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
@@ -42,20 +44,11 @@ class RamInfoFragment : BaseRvFragment() {
     private lateinit var viewModel: RamInfoViewModel
     private lateinit var infoItemsAdapter: InfoItemsAdapter
 
-    private lateinit var mainContainer: View
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(this, viewModelInjectionFactory)
                 .get(RamInfoViewModel::class.java)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-        mainContainer = view.findViewById(R.id.main_container)
-        return view
     }
 
     override fun onStart() {
@@ -88,8 +81,8 @@ class RamInfoFragment : BaseRvFragment() {
             }
 
     override fun setupRecyclerViewAdapter() {
-        infoItemsAdapter = InfoItemsAdapter(requireContext(), viewModel.listLiveData,
-                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
+        infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,
+                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT, onClickListener = this)
         viewModel.listLiveData.listStatusChangeNotificator.observe(this,
                 ListLiveDataObserver(infoItemsAdapter))
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))

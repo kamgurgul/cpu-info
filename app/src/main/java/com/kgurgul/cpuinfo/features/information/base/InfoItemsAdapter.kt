@@ -16,12 +16,12 @@
 
 package com.kgurgul.cpuinfo.features.information.base
 
-import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.kgurgul.cpuinfo.R
 
@@ -33,9 +33,9 @@ import com.kgurgul.cpuinfo.R
  * @author kgurgul
  */
 class InfoItemsAdapter(
-        private val context: Context,
         private val itemsObservableList: List<Pair<String, String>>,
-        private val layoutType: LayoutType = InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT)
+        private val layoutType: LayoutType = InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT,
+        private val onClickListener: OnClickListener? = null)
     : RecyclerView.Adapter<InfoItemsAdapter.SingleItemViewHolder>() {
 
     enum class LayoutType {
@@ -46,27 +46,56 @@ class InfoItemsAdapter(
         val layout = if (layoutType == LayoutType.HORIZONTAL_LAYOUT)
             R.layout.item_value else R.layout.item_value_vertical
         return SingleItemViewHolder(LayoutInflater.from(parent.context).inflate(layout, parent,
-                false))
+                false), onClickListener)
     }
 
     override fun onBindViewHolder(holder: SingleItemViewHolder, position: Int) {
-        val item = itemsObservableList[position]
-        holder.titleTv.text = item.first
-        holder.valueTv.text = item.second
-
-        if (item.second.isEmpty()) {
-            holder.titleTv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
-            holder.valueTv.visibility = View.GONE
-        } else {
-            holder.titleTv.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary))
-            holder.valueTv.visibility = View.VISIBLE
-        }
+        holder.bind(itemsObservableList[position])
     }
 
     override fun getItemCount(): Int = itemsObservableList.size
 
-    class SingleItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTv: TextView = itemView.findViewById(R.id.title_tv)
-        val valueTv: TextView = itemView.findViewById(R.id.value_tv)
+    class SingleItemViewHolder(
+            itemView: View,
+            onClickListener: OnClickListener?) : RecyclerView.ViewHolder(itemView) {
+
+        private val titleTv: TextView = itemView.findViewById(R.id.title_tv)
+        private val valueTv: TextView = itemView.findViewById(R.id.value_tv)
+        private var item: Pair<String, String>? = null
+
+        init {
+            itemView.findViewById<LinearLayout>(R.id.item_container).setOnLongClickListener { _ ->
+                item?.let {
+                    if (it.second.isNotEmpty()) {
+                        onClickListener?.onItemLongPressed(it)
+                        return@setOnLongClickListener true
+                    }
+                }
+                false
+            }
+        }
+
+        fun bind(item: Pair<String, String>) {
+            this.item = item
+            titleTv.text = item.first
+            valueTv.text = item.second
+
+            if (item.second.isEmpty()) {
+                titleTv.setTextColor(ContextCompat.getColor(titleTv.context, R.color.colorAccent))
+                valueTv.visibility = View.GONE
+            } else {
+                titleTv.setTextColor(ContextCompat.getColor(titleTv.context,
+                        R.color.textColorPrimary))
+                valueTv.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    interface OnClickListener {
+
+        /**
+         * Invoked when user use long press on item
+         */
+        fun onItemLongPressed(item: Pair<String, String>)
     }
 }
