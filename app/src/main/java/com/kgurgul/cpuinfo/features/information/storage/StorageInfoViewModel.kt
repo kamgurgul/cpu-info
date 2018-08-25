@@ -16,9 +16,9 @@
 
 package com.kgurgul.cpuinfo.features.information.storage
 
-import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
 import android.os.Environment
+import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import io.reactivex.Single

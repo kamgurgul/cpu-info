@@ -17,9 +17,8 @@
 package com.kgurgul.cpuinfo.features.information.base
 
 import android.content.Context
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.information.android.AndroidInfoFragment
 import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoFragment
@@ -49,7 +48,7 @@ class ViewPagerAdapter(val context: Context, manager: FragmentManager) :
         const val INFO_PAGE_AMOUNT = 8
     }
 
-    override fun getItem(position: Int): Fragment =
+    override fun getItem(position: Int): androidx.fragment.app.Fragment =
             when (position) {
                 CPU_POS -> CpuInfoFragment()
                 GPU_POS -> GpuInfoFragment()

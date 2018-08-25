@@ -19,9 +19,9 @@ package com.kgurgul.cpuinfo.di
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import com.kgurgul.cpuinfo.CpuInfoApp
 import com.kgurgul.cpuinfo.di.components.DaggerAppComponent
 import dagger.android.AndroidInjection
@@ -37,8 +37,8 @@ import dagger.android.support.HasSupportFragmentInjector
 object AppInjector {
     fun init(cpuInfoApp: CpuInfoApp) {
         DaggerAppComponent.builder().application(cpuInfoApp).build().inject(cpuInfoApp)
-        cpuInfoApp
-                .registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+        cpuInfoApp.registerActivityLifecycleCallbacks(
+                object : Application.ActivityLifecycleCallbacks {
                     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                         handleActivity(activity)
                     }

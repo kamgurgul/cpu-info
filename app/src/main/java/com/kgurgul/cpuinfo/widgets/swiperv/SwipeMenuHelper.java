@@ -17,7 +17,6 @@
 package com.kgurgul.cpuinfo.widgets.swiperv;
 
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -25,6 +24,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.core.view.ViewCompat;
 
 /**
  * Created by tubingbing on 16/8/11.

@@ -16,13 +16,13 @@
 
 package com.kgurgul.cpuinfo.features.information.screen
 
-import android.arch.lifecycle.ViewModel
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.Display
 import android.view.WindowManager
+import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round2

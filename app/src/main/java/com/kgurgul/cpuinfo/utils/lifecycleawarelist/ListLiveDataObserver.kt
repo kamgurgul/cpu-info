@@ -16,8 +16,8 @@
 
 package com.kgurgul.cpuinfo.utils.lifecycleawarelist
 
-import android.arch.lifecycle.Observer
-import android.support.v7.widget.RecyclerView
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * [android.arch.lifecycle.LiveData] observer for [ListLiveData] which will notify [adapter] about

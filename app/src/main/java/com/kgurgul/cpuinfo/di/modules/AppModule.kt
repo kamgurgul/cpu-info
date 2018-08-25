@@ -24,8 +24,8 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.SensorManager
-import android.support.v7.preference.PreferenceManager
 import android.view.WindowManager
+import androidx.preference.PreferenceManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.Module
 import dagger.Provides

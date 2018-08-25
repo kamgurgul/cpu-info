@@ -16,11 +16,11 @@
 
 package com.kgurgul.cpuinfo.features.applications
 
-import android.arch.lifecycle.ViewModel
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.utils.NonNullMutableLiveData
 import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.SingleLiveEvent

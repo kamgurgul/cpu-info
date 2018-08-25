@@ -16,8 +16,8 @@
 
 package com.kgurgul.cpuinfo.features.information.screen
 
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter

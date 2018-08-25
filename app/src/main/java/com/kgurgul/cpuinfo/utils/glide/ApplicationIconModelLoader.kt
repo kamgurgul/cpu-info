@@ -32,14 +32,13 @@ import com.bumptech.glide.signature.ObjectKey
  * @author kgurgul
  */
 class ApplicationIconModelLoader : ModelLoader<ApplicationInfo, ApplicationInfo> {
-
-    override fun buildLoadData(applicationInfo: ApplicationInfo?, width: Int, height: Int,
-                               options: Options?): ModelLoader.LoadData<ApplicationInfo>? {
-        return ModelLoader.LoadData(ObjectKey(applicationInfo),
+    override fun buildLoadData(model: ApplicationInfo, width: Int, height: Int, options: Options):
+            ModelLoader.LoadData<ApplicationInfo>? {
+        return ModelLoader.LoadData(ObjectKey(model),
                 object : DataFetcher<ApplicationInfo> {
                     override fun loadData(priority: Priority,
                                           callback: DataFetcher.DataCallback<in ApplicationInfo>) {
-                        callback.onDataReady(applicationInfo)
+                        callback.onDataReady(model)
                     }
 
                     override fun cleanup() {
@@ -55,6 +54,5 @@ class ApplicationIconModelLoader : ModelLoader<ApplicationInfo, ApplicationInfo>
                 })
     }
 
-    override fun handles(model: ApplicationInfo?): Boolean =
-            true
+    override fun handles(model: ApplicationInfo) = true
 }

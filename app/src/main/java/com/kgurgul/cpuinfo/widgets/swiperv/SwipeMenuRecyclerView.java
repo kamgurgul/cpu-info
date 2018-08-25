@@ -17,10 +17,11 @@
 package com.kgurgul.cpuinfo.widgets.swiperv;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SwipeMenuRecyclerView extends RecyclerView implements SwipeMenuHelper.Callback {
 

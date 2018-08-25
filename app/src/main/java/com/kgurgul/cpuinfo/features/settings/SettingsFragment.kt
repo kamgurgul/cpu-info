@@ -19,8 +19,8 @@ package com.kgurgul.cpuinfo.features.settings
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.preference.ListPreference
-import android.support.v7.preference.PreferenceFragmentCompat
+import androidx.preference.ListPreference
+import androidx.preference.PreferenceFragmentCompat
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
 

@@ -16,7 +16,7 @@
 
 package com.kgurgul.cpuinfo.utils.lifecycleawarelist
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import java.util.*
 
 /**

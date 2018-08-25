@@ -17,7 +17,6 @@
 package com.kgurgul.cpuinfo.widgets.swiperv;
 
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -29,6 +28,8 @@ import com.kgurgul.cpuinfo.widgets.swiperv.listener.SwipeSwitchListener;
 import com.kgurgul.cpuinfo.widgets.swiperv.swiper.LeftHorizontalSwiper;
 import com.kgurgul.cpuinfo.widgets.swiperv.swiper.RightHorizontalSwiper;
 import com.kgurgul.cpuinfo.widgets.swiperv.swiper.Swiper;
+
+import androidx.core.view.ViewCompat;
 
 public class SwipeHorizontalMenuLayout extends SwipeMenuLayout {
 

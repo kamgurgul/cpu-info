@@ -17,11 +17,11 @@
 package com.kgurgul.cpuinfo.features.information.android
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.ViewModel
 import android.content.ContentResolver
 import android.content.res.Resources
 import android.os.Build
 import android.provider.Settings
+import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import java.io.BufferedReader

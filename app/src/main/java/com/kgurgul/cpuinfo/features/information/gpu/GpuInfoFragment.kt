@@ -16,13 +16,13 @@
 
 package com.kgurgul.cpuinfo.features.information.gpu
 
-import android.arch.lifecycle.ViewModelProvider
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment

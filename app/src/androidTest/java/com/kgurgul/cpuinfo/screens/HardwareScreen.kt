@@ -16,14 +16,14 @@
 
 package com.kgurgul.cpuinfo.screens
 
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.click
-import android.support.test.espresso.action.ViewActions.scrollTo
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition
-import android.support.test.espresso.matcher.ViewMatchers.*
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
+import androidx.test.espresso.matcher.ViewMatchers.*
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.core.CustomMatchers.atPosition
 import com.kgurgul.cpuinfo.core.CustomMatchers.withToolbarTitle
@@ -65,7 +65,7 @@ class HardwareScreen {
      */
     fun hasTextOnPosition(text: String, position: Int) {
         onView(allOf(isDisplayed(), recyclerView))
-                .perform(scrollToPosition<RecyclerView.ViewHolder>(position))
+                .perform(scrollToPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(position))
                 .check(matches(atPosition(position, hasDescendant(withText(text)))))
     }
 

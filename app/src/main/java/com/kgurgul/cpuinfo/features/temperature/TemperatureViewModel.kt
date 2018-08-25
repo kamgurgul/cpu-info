@@ -16,9 +16,9 @@
 
 package com.kgurgul.cpuinfo.features.temperature
 
-import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.temperature.list.TemperatureItem
 import com.kgurgul.cpuinfo.utils.NonNullMutableLiveData

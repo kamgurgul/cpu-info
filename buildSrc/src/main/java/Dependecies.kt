@@ -17,18 +17,18 @@
 object Versions {
     // Build sdk
     val minSdk = 14
-    val targetSdk = 27
-    val compiledSdk = 27
-    val buildTools = "27.0.3"
+    val targetSdk = 28
+    val compiledSdk = 28
+    val buildTools = "28.0.2"
 
     // Kotlin
-    val kotlin = "1.2.60"
+    val kotlin = "1.2.61"
     val anko = "0.10.1"
 
     // Libs
     val androidSupport = "27.1.1"
     val androidDatabinding = "2.3.0"
-    val firebase = "16.0.1"
+    val firebase = "16.0.3"
     val crashlitics = "2.9.2"
     val archLifecycle = "1.1.1"
     val navigation = "1.0.0-alpha05"
@@ -36,9 +36,9 @@ object Versions {
     val rxJava = "2.1.4"
     val rxAndroid = "2.0.2"
     val gson = "2.8.2"
-    val dagger = "2.17"
-    val glide = "4.3.1"
-    val timber = "4.5.1"
+    val dagger = "2.16"
+    val glide = "4.8.0"
+    val timber = "4.7.0"
     val jUnit = "4.12"
     val mockito = "2.11.0"
     val mockitoKotlin = "1.5.0"

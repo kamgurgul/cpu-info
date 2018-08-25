@@ -16,15 +16,15 @@
 
 package com.kgurgul.cpuinfo.features.temperature
 
-import android.arch.lifecycle.ViewModelProvider
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SimpleItemAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentTemperatureBinding
 import com.kgurgul.cpuinfo.di.Injectable

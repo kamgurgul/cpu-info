@@ -17,8 +17,8 @@
 package com.kgurgul.cpuinfo.features.information.gpu
 
 import android.app.ActivityManager
-import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
+import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
@@ -29,8 +29,9 @@ import javax.inject.Inject
  *
  * @author kgurgul
  */
-class GpuInfoViewModel @Inject constructor(private val activityManager: ActivityManager,
-                                           private val resources: Resources) : ViewModel() {
+class GpuInfoViewModel @Inject constructor(
+        private val activityManager: ActivityManager,
+        private val resources: Resources) : ViewModel() {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 

@@ -16,12 +16,12 @@
 
 package com.kgurgul.cpuinfo.features.information.hardware
 
-import android.arch.lifecycle.ViewModelProvider
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter

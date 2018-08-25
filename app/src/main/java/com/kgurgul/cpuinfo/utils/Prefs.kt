@@ -65,7 +65,7 @@ class Prefs @Inject constructor(private val sharedPreferences: SharedPreferences
             is Long -> return sharedPreferences.getLong(key, default) as T
             else -> {
                 val value = sharedPreferences.getString(key, "")
-                if (value.isNotEmpty()) {
+                if (!value.isNullOrEmpty()) {
                     val typedObject = default as Any
                     return Gson().fromJson(value, typedObject.javaClass) as T
                 }

@@ -17,25 +17,24 @@
 package com.kgurgul.cpuinfo.features.applications
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SimpleItemAnimator
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import androidx.appcompat.app.AlertDialog
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentApplicationsBinding
 import com.kgurgul.cpuinfo.di.Injectable
@@ -99,7 +98,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
                 ListLiveDataObserver(applicationsAdapter))
 
         binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
             adapter = applicationsAdapter
             addItemDecoration(DividerItemDecoration(requireContext()))
             (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
@@ -209,7 +208,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         val libs = nativeLibsDir.listFiles().map { it.name }
 
         val listView: ListView = dialogLayout.findViewById(R.id.dialog_lv)
-        val arrayAdapter = ArrayAdapter<String>(context, R.layout.item_native_libs,
+        val arrayAdapter = ArrayAdapter<String>(requireContext(), R.layout.item_native_libs,
                 R.id.native_name_tv, libs)
         listView.adapter = arrayAdapter
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->

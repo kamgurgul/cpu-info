@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:key="pref_key_storage_settings"
@@ -25,7 +26,8 @@
             android:entries="@array/prefTemperatureNames"
             android:entryValues="@array/prefTemperatureValues"
             android:key="temperature_unit"
-            android:title="@string/temperature_unit" />
+            android:title="@string/temperature_unit"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
@@ -38,7 +40,8 @@
             android:entries="@array/prefRamNames"
             android:entryValues="@array/prefRamValues"
             android:key="ram_refreshing"
-            android:title="@string/ram_refreshing" />
+            android:title="@string/ram_refreshing"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 

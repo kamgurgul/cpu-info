@@ -19,7 +19,7 @@
 package com.kgurgul.cpuinfo.core
 
 import android.app.Activity
-import android.support.test.rule.ActivityTestRule
+import androidx.test.rule.ActivityTestRule
 import org.hamcrest.CoreMatchers
 
 /**

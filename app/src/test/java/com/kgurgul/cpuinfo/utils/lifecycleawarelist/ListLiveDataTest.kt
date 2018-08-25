@@ -16,7 +16,7 @@
 
 package com.kgurgul.cpuinfo.utils.lifecycleawarelist
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test

@@ -16,7 +16,7 @@
 
 package com.kgurgul.cpuinfo.features.processes
 
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import io.reactivex.Single
 import timber.log.Timber
 import java.util.*

@@ -10,8 +10,8 @@ apply from: "$rootDir/versioning.gradle"
 Properties signingProperties = getReleaseSigningConfig()
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion Versions.compiledSdk
+    buildToolsVersion Versions.buildTools
 
     defaultConfig {
         applicationId "com.kgurgul.cpuinfo"
@@ -20,7 +20,7 @@ android {
         versionCode generatedVersionCode
         versionName generatedVersionName
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -70,9 +70,9 @@ kapt {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.android.support:appcompat-v7:${Versions.androidSupport}"
-    implementation "com.android.support:design:${Versions.androidSupport}"
-    implementation "com.android.support:preference-v14:${Versions.androidSupport}"
+    implementation "androidx.appcompat:appcompat:1.0.0-rc01"
+    implementation "com.google.android.material:material:1.0.0-rc01"
+    implementation "androidx.legacy:legacy-preference-v14:1.0.0-rc01"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
     implementation "org.jetbrains.anko:anko-coroutines:${Versions.anko}"
 
@@ -100,8 +100,8 @@ dependencies {
     implementation "com.jakewharton.timber:timber:${Versions.timber}"
 
     // Google arch
-    implementation "android.arch.lifecycle:extensions:${Versions.archLifecycle}"
-    kapt "android.arch.lifecycle:compiler:${Versions.archLifecycle}"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0-rc01"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.0.0-rc01"
 
     // Navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:${Versions.navigation}"
@@ -110,13 +110,15 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:${Versions.glide}"
     kapt "com.github.bumptech.glide:compiler:${Versions.glide}"
+
     testImplementation "junit:junit:${Versions.jUnit}"
     testImplementation "org.mockito:mockito-core:${Versions.mockito}"
     testImplementation "com.nhaarman:mockito-kotlin-kt1.1:${Versions.mockitoKotlin}"
-    testImplementation "android.arch.core:core-testing:${Versions.archLifecycle}"
-    androidTestImplementation "com.android.support.test:runner:${Versions.testRunner}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${Versions.espresso}"
+    testImplementation "androidx.arch.core:core-testing:2.0.0-rc01"
+    androidTestImplementation "androidx.test:runner:1.1.0-alpha4"
+    androidTestImplementation "androidx.test:rules:1.1.0-alpha4"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0-alpha4"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.1.0-alpha4"
     androidTestImplementation "android.arch.navigation:navigation-testing-ktx:${Versions.navigation}"
 }
 

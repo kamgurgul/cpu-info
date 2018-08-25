@@ -16,7 +16,7 @@
 
 package com.kgurgul.cpuinfo.utils
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 
 /**
  * [MutableLiveData] with default value support.

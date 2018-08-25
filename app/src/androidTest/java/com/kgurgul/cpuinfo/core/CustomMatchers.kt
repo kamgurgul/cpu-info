@@ -16,10 +16,10 @@
 
 package com.kgurgul.cpuinfo.core
 
-import android.support.test.espresso.matcher.BoundedMatcher
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.view.View
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.matcher.BoundedMatcher
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 
@@ -54,14 +54,14 @@ object CustomMatchers {
      */
     fun atPosition(position: Int, itemMatcher: Matcher<View>): Matcher<View> {
         checkNotNull(itemMatcher)
-        return object : BoundedMatcher<View, RecyclerView>(RecyclerView::class.java) {
+        return object : BoundedMatcher<View, androidx.recyclerview.widget.RecyclerView>(androidx.recyclerview.widget.RecyclerView::class.java) {
 
             override fun describeTo(description: Description) {
                 description.appendText("has item at position $position: ")
                 itemMatcher.describeTo(description)
             }
 
-            override fun matchesSafely(view: RecyclerView): Boolean {
+            override fun matchesSafely(view: androidx.recyclerview.widget.RecyclerView): Boolean {
                 val viewHolder = view.findViewHolderForAdapterPosition(position) ?: return false
                 return itemMatcher.matches(viewHolder.itemView)
             }

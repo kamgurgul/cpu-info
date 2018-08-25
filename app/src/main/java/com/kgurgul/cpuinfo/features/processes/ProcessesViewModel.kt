@@ -16,8 +16,8 @@
 
 package com.kgurgul.cpuinfo.features.processes
 
-import android.arch.lifecycle.ViewModel
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import io.reactivex.Flowable
@@ -38,8 +38,9 @@ import javax.inject.Inject
  *
  * @author kgurgul
  */
-class ProcessesViewModel @Inject constructor(private val prefs: Prefs,
-                                             private val psProvider: PsProvider) : ViewModel() {
+class ProcessesViewModel @Inject constructor(
+        private val prefs: Prefs,
+        private val psProvider: PsProvider) : ViewModel() {
 
     companion object {
         private const val SORTING_PROCESSES_KEY = "SORTING_PROCESSES_KEY"

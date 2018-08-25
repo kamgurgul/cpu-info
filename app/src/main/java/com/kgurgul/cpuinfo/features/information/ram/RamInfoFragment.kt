@@ -16,12 +16,12 @@
 
 package com.kgurgul.cpuinfo.features.information.ram
 
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment

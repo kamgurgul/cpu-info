@@ -19,7 +19,6 @@
 package com.kgurgul.cpuinfo.features.information.hardware
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.ViewModel
 import android.content.ContentResolver
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -27,6 +26,7 @@ import android.content.res.Resources
 import android.hardware.Camera
 import android.os.BatteryManager
 import android.os.Build
+import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter

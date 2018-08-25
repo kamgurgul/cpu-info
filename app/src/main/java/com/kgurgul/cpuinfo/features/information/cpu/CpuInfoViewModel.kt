@@ -16,9 +16,9 @@
 
 package com.kgurgul.cpuinfo.features.information.cpu
 
-import android.arch.lifecycle.ViewModel
 import android.os.Build
-import android.support.annotation.UiThread
+import androidx.annotation.UiThread
+import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers

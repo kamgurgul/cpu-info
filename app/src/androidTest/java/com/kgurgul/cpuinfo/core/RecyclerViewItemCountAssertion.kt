@@ -16,11 +16,11 @@
 
 package com.kgurgul.cpuinfo.core
 
-import android.support.test.espresso.NoMatchingViewException
-import android.support.test.espresso.ViewAssertion
-import android.support.test.espresso.matcher.ViewMatchers.assertThat
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.ViewAssertion
+import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import org.hamcrest.Matcher
 
 /**
@@ -49,8 +49,8 @@ class RecyclerViewItemCountAssertion : ViewAssertion {
             throw noViewFoundException
         }
 
-        val recyclerView = view as RecyclerView
+        val recyclerView = view as androidx.recyclerview.widget.RecyclerView
         val adapter = recyclerView.adapter
-        assertThat(adapter.itemCount, matcher)
+        assertThat(adapter?.itemCount, matcher)
     }
 }

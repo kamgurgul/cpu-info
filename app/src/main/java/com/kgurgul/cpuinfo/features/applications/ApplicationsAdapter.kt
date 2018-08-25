@@ -22,12 +22,12 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.Utils
@@ -81,19 +81,19 @@ class ApplicationsAdapter(private val context: Context,
 
         holder.mainContainer.setOnClickListener {
             val pos = holder.adapterPosition
-            if (pos != RecyclerView.NO_POSITION) {
+            if (pos != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
                 appClickListener.appOpenClicked(pos)
             }
         }
         holder.settingsV.setOnClickListener {
             val pos = holder.adapterPosition
-            if (pos != RecyclerView.NO_POSITION) {
+            if (pos != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
                 appClickListener.appSettingsClicked(holder.adapterPosition)
             }
         }
         holder.deleteView.setOnClickListener {
             val pos = holder.adapterPosition
-            if (pos != RecyclerView.NO_POSITION) {
+            if (pos != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
                 holder.sml.smoothCloseMenu()
                 appClickListener.appUninstallClicked(holder.adapterPosition)
             }

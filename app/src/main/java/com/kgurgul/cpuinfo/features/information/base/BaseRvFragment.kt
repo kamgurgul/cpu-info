@@ -20,14 +20,14 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SimpleItemAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.di.Injectable
 
@@ -56,7 +56,7 @@ abstract class BaseRvFragment : Fragment(), Injectable, InfoItemsAdapter.OnClick
      * Basic [RecyclerView] configuration with [LinearLayoutManager] and disabled animations
      */
     private fun setupRecyclerView() {
-        val layoutManager = LinearLayoutManager(context)
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
 
         // Remove change animation

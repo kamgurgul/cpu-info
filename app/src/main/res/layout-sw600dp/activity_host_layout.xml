@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <android.support.design.widget.NavigationView
+        <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigation_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"

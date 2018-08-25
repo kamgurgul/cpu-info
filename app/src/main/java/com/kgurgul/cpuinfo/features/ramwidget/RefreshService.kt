@@ -59,14 +59,14 @@ class RefreshService : Service() {
 
         powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        ramUpdateDelay = prefs.getString(SettingsFragment.KEY_RAM_REFRESHING, "10000").toLong()
+        ramUpdateDelay = prefs.getString(SettingsFragment.KEY_RAM_REFRESHING,
+                "10000")!!.toLong()
 
         refreshHandler = Handler()
         refreshHandler?.postDelayed(object : Runnable {
             override fun run() {
-                ramUpdateDelay =
-                        prefs.getString(SettingsFragment.KEY_RAM_REFRESHING, "10000").toLong()
-
+                ramUpdateDelay = prefs.getString(SettingsFragment.KEY_RAM_REFRESHING,
+                        "10000")!!.toLong()
                 val isDeviceActive: Boolean =
                         if (Build.VERSION.SDK_INT >= 20) {
                             powerManager.isInteractive

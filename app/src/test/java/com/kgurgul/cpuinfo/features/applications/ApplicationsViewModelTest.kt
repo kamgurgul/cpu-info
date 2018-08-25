@@ -16,8 +16,8 @@
 
 package com.kgurgul.cpuinfo.features.applications
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.content.pm.PackageManager
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.RxImmediateSchedulerRule
 import com.nhaarman.mockito_kotlin.doReturn

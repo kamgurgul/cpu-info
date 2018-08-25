@@ -41,7 +41,8 @@ class TemperatureProvider @Inject constructor(val app: Application) {
     fun getBatteryTemperature(): Int {
         val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         val batteryStatus = app.registerReceiver(null, iFilter)
-        return batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0) / 10
+        return (batteryStatus?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE,
+                0) ?: 0) / 10
     }
 
     /**

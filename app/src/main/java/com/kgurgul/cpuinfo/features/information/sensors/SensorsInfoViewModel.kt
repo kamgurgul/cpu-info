@@ -16,11 +16,11 @@
 
 package com.kgurgul.cpuinfo.features.information.sensors
 
-import android.arch.lifecycle.ViewModel
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round1
 import com.kgurgul.cpuinfo.utils.runOnApiAbove

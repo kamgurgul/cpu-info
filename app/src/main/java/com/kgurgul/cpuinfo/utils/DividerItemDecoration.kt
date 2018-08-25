@@ -19,8 +19,8 @@ package com.kgurgul.cpuinfo.utils
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Customized version of internal [RecyclerView] decorator
@@ -40,7 +40,7 @@ class DividerItemDecoration : RecyclerView.ItemDecoration {
      */
     constructor(context: Context) {
         val styledAttributes = context.obtainStyledAttributes(ATTRS)
-        mDivider = styledAttributes.getDrawable(0)
+        mDivider = styledAttributes.getDrawable(0)!!
         styledAttributes.recycle()
     }
 
@@ -51,7 +51,7 @@ class DividerItemDecoration : RecyclerView.ItemDecoration {
         mDivider = ContextCompat.getDrawable(context, resId)!!
     }
 
-    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val left = parent.paddingLeft
         val right = parent.width - parent.paddingRight
 
