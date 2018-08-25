@@ -79,7 +79,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
                               savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_applications, container,
                 false)
-        binding.setLifecycleOwner(this)
+        binding.setLifecycleOwner(viewLifecycleOwner)
         binding.viewModel = viewModel
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
                     R.color.colorPrimaryDark)
@@ -94,7 +94,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
     private fun setupRecyclerView() {
         applicationsAdapter = ApplicationsAdapter(requireContext(), viewModel.applicationList,
                 this)
-        viewModel.applicationList.listStatusChangeNotificator.observe(this,
+        viewModel.applicationList.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(applicationsAdapter))
 
         binding.recyclerView.apply {
@@ -109,7 +109,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
      * Register all fields from [ApplicationsViewModel] which should be observed
      */
     private fun initObservables() {
-        viewModel.shouldStartStorageService.observe(this, Observer {
+        viewModel.shouldStartStorageService.observe(viewLifecycleOwner, Observer {
             StorageUsageService.startService(requireContext(), viewModel.applicationList)
         })
     }

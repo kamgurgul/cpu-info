@@ -57,7 +57,7 @@ class ProcessesFragment : Fragment(), Injectable {
                               savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_processes, container,
                 false)
-        binding.setLifecycleOwner(this)
+        binding.setLifecycleOwner(viewLifecycleOwner)
         binding.viewModel = viewModel
         setupRecyclerView()
         return binding.root
@@ -68,7 +68,7 @@ class ProcessesFragment : Fragment(), Injectable {
      */
     private fun setupRecyclerView() {
         processesAdapter = ProcessesAdapter(viewModel.processList)
-        viewModel.processList.listStatusChangeNotificator.observe(this,
+        viewModel.processList.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(processesAdapter))
 
         val rvLayoutManager = LinearLayoutManager(context)

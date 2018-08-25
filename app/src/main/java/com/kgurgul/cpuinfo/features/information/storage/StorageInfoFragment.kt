@@ -92,7 +92,7 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
 
     override fun setupRecyclerViewAdapter() {
         storageAdapter = StorageAdapter(viewModel.listLiveData)
-        viewModel.listLiveData.listStatusChangeNotificator.observe(this,
+        viewModel.listLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(storageAdapter))
         recyclerView.adapter = storageAdapter
     }

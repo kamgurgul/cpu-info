@@ -61,7 +61,7 @@ class TemperatureFragment : Fragment(), Injectable {
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_temperature, container,
                 false)
-        binding.setLifecycleOwner(this)
+        binding.setLifecycleOwner(viewLifecycleOwner)
         binding.viewModel = viewModel
         setupRecycleView()
         return binding.root
@@ -83,7 +83,7 @@ class TemperatureFragment : Fragment(), Injectable {
     private fun setupRecycleView() {
         temperatureAdapter = TemperatureAdapter(temperatureFormatter,
                 viewModel.temperatureListLiveData)
-        viewModel.temperatureListLiveData.listStatusChangeNotificator.observe(this,
+        viewModel.temperatureListLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(temperatureAdapter))
         binding.apply {
             tempRv.layoutManager = LinearLayoutManager(context)

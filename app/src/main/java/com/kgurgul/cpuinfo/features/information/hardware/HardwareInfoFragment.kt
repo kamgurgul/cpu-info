@@ -70,7 +70,7 @@ class HardwareInfoFragment : BaseRvFragment() {
     override fun setupRecyclerViewAdapter() {
         infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,
                 InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT, onClickListener = this)
-        viewModel.listLiveData.listStatusChangeNotificator.observe(this,
+        viewModel.listLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(infoItemsAdapter))
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
         recyclerView.adapter = infoItemsAdapter

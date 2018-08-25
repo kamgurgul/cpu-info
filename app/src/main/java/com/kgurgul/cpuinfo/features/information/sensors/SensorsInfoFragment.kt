@@ -57,7 +57,7 @@ class SensorsInfoFragment : BaseRvFragment() {
     override fun setupRecyclerViewAdapter() {
         infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,
                 InfoItemsAdapter.LayoutType.VERTICAL_LAYOUT, onClickListener = this)
-        viewModel.listLiveData.listStatusChangeNotificator.observe(this,
+        viewModel.listLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(infoItemsAdapter))
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
         recyclerView.adapter = infoItemsAdapter
