@@ -18,7 +18,7 @@ package com.kgurgul.cpuinfo.di.components
 
 import android.app.Application
 import com.kgurgul.cpuinfo.CpuInfoApp
-import com.kgurgul.cpuinfo.di.modules.ActivityModule
+import com.kgurgul.cpuinfo.di.modules.ActivityBuildersModule
 import com.kgurgul.cpuinfo.di.modules.AppModule
 import dagger.BindsInstance
 import dagger.Component
@@ -31,7 +31,7 @@ import javax.inject.Singleton
  * @author kgurgul
  */
 @Singleton
-@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityModule::class])
+@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityBuildersModule::class])
 interface AppComponent {
 
     @Component.Builder

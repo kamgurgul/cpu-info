@@ -20,7 +20,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
@@ -29,6 +28,7 @@ import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import com.kgurgul.cpuinfo.utils.runOnApiBelow
+import com.kgurgul.cpuinfo.utils.viewModelProvider
 import javax.inject.Inject
 
 /**
@@ -47,8 +47,7 @@ class RamInfoFragment : BaseRvFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProvider(this, viewModelInjectionFactory)
-                .get(RamInfoViewModel::class.java)
+        viewModel = viewModelProvider(viewModelInjectionFactory)
     }
 
     override fun onStart() {

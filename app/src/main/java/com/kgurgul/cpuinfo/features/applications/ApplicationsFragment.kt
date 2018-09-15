@@ -32,7 +32,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
@@ -42,6 +41,7 @@ import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.utils.viewModelProvider
 import com.kgurgul.cpuinfo.widgets.swiperv.SwipeMenuRecyclerView
 import java.io.File
 import javax.inject.Inject
@@ -69,8 +69,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProvider(this, viewModelInjectionFactory)
-                .get(ApplicationsViewModel::class.java)
+        viewModel = viewModelProvider(viewModelInjectionFactory)
         viewModel.refreshApplicationsList()
         registerUninstallBroadcast()
     }

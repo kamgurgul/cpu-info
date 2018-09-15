@@ -27,7 +27,7 @@ import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import javax.inject.Inject
 
 /**
- * ViewModel for reading sensors data
+ * ViewModel for sensors data
  *
  * @author kgurgul
  */
@@ -47,7 +47,7 @@ class SensorsInfoViewModel @Inject constructor(
         // Start register process on new Thread to avoid UI block
         Thread {
             for (sensor in sensorList) {
-                sensorManager.registerListener(SensorsViewModel@ this, sensor,
+                sensorManager.registerListener(this, sensor,
                         SensorManager.SENSOR_DELAY_NORMAL)
             }
         }.start()
@@ -55,7 +55,7 @@ class SensorsInfoViewModel @Inject constructor(
 
     fun stopProvidingData() {
         Thread {
-            sensorManager.unregisterListener(SensorsFragment@ this)
+            sensorManager.unregisterListener(this)
         }.start()
     }
 

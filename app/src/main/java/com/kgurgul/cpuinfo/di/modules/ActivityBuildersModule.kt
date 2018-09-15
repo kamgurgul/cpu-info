@@ -27,7 +27,7 @@ import dagger.android.ContributesAndroidInjector
  * @author kgurgul
  */
 @Module
-abstract class ActivityModule {
+abstract class ActivityBuildersModule {
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])

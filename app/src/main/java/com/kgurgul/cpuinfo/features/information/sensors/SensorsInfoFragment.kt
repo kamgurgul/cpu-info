@@ -17,12 +17,12 @@
 package com.kgurgul.cpuinfo.features.information.sensors
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.utils.viewModelProvider
 import javax.inject.Inject
 
 /**
@@ -40,8 +40,7 @@ class SensorsInfoFragment : BaseRvFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelInjectionFactory)
-                .get(SensorsInfoViewModel::class.java)
+        viewModel = viewModelProvider(viewModelInjectionFactory)
     }
 
     override fun onStart() {

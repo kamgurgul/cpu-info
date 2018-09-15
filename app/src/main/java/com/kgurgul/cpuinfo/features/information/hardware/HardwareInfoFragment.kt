@@ -21,12 +21,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.utils.viewModelProvider
 import javax.inject.Inject
 
 /**
@@ -50,8 +50,7 @@ class HardwareInfoFragment : BaseRvFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelInjectionFactory)
-                .get(HardwareInfoViewModel::class.java)
+        viewModel = viewModelProvider(viewModelInjectionFactory)
     }
 
     override fun onResume() {

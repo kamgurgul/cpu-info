@@ -20,6 +20,11 @@ package com.kgurgul.cpuinfo.utils
 
 import android.content.Context
 import android.os.Build
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.kgurgul.cpuinfo.BuildConfig
 import com.kgurgul.cpuinfo.R
 
@@ -81,3 +86,23 @@ fun isDebugBuild(): Boolean = BuildConfig.DEBUG
  * @return true if used device is tablet
  */
 fun Context.isTablet(): Boolean = this.resources.getBoolean(R.bool.isTablet)
+
+/**
+ * For Actvities, allows declarations like
+ * ```
+ * val myViewModel = viewModelProvider(myViewModelFactory)
+ * ```
+ */
+inline fun <reified VM : ViewModel> FragmentActivity.viewModelProvider(
+        provider: ViewModelProvider.Factory) =
+        ViewModelProviders.of(this, provider).get(VM::class.java)
+
+/**
+ * For Fragments, allows declarations like
+ * ```
+ * val myViewModel = viewModelProvider(myViewModelFactory)
+ * ```
+ */
+inline fun <reified VM : ViewModel> Fragment.viewModelProvider(
+        provider: ViewModelProvider.Factory) =
+        ViewModelProviders.of(this, provider).get(VM::class.java)

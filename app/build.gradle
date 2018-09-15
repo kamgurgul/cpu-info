@@ -10,13 +10,13 @@ apply from: "$rootDir/versioning.gradle"
 Properties signingProperties = getReleaseSigningConfig()
 
 android {
-    compileSdkVersion Versions.compiledSdk
-    buildToolsVersion Versions.buildTools
+    compileSdkVersion project.compiledSdk
+    buildToolsVersion project.buildTools
 
     defaultConfig {
         applicationId "com.kgurgul.cpuinfo"
-        minSdkVersion Versions.minSdk
-        targetSdkVersion Versions.targetSdk
+        minSdkVersion project.minSdk
+        targetSdkVersion project.targetSdk
         versionCode generatedVersionCode
         versionName generatedVersionName
         vectorDrawables.useSupportLibrary = true
@@ -70,56 +70,56 @@ kapt {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "androidx.appcompat:appcompat:1.0.0-rc01"
-    implementation "com.google.android.material:material:1.0.0-rc01"
-    implementation "androidx.legacy:legacy-preference-v14:1.0.0-rc01"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
-    implementation "org.jetbrains.anko:anko-coroutines:${Versions.anko}"
+    implementation "androidx.appcompat:appcompat:$project.androidX"
+    implementation "com.google.android.material:material:$project.androidX"
+    implementation "androidx.legacy:legacy-preference-v14:$project.androidX"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$project.kotlin"
+    implementation "org.jetbrains.anko:anko-coroutines:$project.anko"
 
     // Firebase
-    releaseImplementation "com.crashlytics.sdk.android:crashlytics:${Versions.crashlitics}"
-    implementation "com.google.firebase:firebase-core:${Versions.firebase}"
+    releaseImplementation "com.crashlytics.sdk.android:crashlytics:$project.crashlitics"
+    implementation "com.google.firebase:firebase-core:$project.firebase"
 
     // Bus
-    implementation "org.greenrobot:eventbus:${Versions.eventBus}"
+    implementation "org.greenrobot:eventbus:$project.eventBus"
 
     // Rx
-    implementation "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
-    implementation "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid}"
+    implementation "io.reactivex.rxjava2:rxjava:$project.rxJava"
+    implementation "io.reactivex.rxjava2:rxandroid:$project.rxAndroid"
 
     // GSON
-    implementation "com.google.code.gson:gson:${Versions.gson}"
+    implementation "com.google.code.gson:gson:$project.gson"
 
     // Dagger
-    implementation "com.google.dagger:dagger:${Versions.dagger}"
-    implementation "com.google.dagger:dagger-android-support:${Versions.dagger}"
-    kapt "com.google.dagger:dagger-compiler:${Versions.dagger}"
-    kapt "com.google.dagger:dagger-android-processor:${Versions.dagger}"
+    implementation "com.google.dagger:dagger:$project.dagger"
+    implementation "com.google.dagger:dagger-android-support:$project.dagger"
+    kapt "com.google.dagger:dagger-compiler:$project.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$project.dagger"
 
     // Timber
-    implementation "com.jakewharton.timber:timber:${Versions.timber}"
+    implementation "com.jakewharton.timber:timber:$project.timber"
 
     // Google arch
-    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0-rc01"
-    kapt "androidx.lifecycle:lifecycle-compiler:2.0.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-extensions:$project.archLifecycle"
+    kapt "androidx.lifecycle:lifecycle-compiler:$project.archLifecycle"
 
     // Navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:${Versions.navigation}"
-    implementation "android.arch.navigation:navigation-ui-ktx:${Versions.navigation}"
+    implementation "android.arch.navigation:navigation-fragment-ktx:$project.navigation"
+    implementation "android.arch.navigation:navigation-ui-ktx:$project.navigation"
 
     // Glide
-    implementation "com.github.bumptech.glide:glide:${Versions.glide}"
-    kapt "com.github.bumptech.glide:compiler:${Versions.glide}"
+    implementation "com.github.bumptech.glide:glide:$project.glide"
+    kapt "com.github.bumptech.glide:compiler:$project.glide"
 
-    testImplementation "junit:junit:${Versions.jUnit}"
-    testImplementation "org.mockito:mockito-core:${Versions.mockito}"
-    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:${Versions.mockitoKotlin}"
-    testImplementation "androidx.arch.core:core-testing:2.0.0-rc01"
-    androidTestImplementation "androidx.test:runner:1.1.0-alpha4"
-    androidTestImplementation "androidx.test:rules:1.1.0-alpha4"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0-alpha4"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.1.0-alpha4"
-    androidTestImplementation "android.arch.navigation:navigation-testing-ktx:${Versions.navigation}"
+    testImplementation "junit:junit:$project.jUnit"
+    testImplementation "org.mockito:mockito-core:$project.mockito"
+    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:$project.mockitoKotlin"
+    testImplementation "androidx.arch.core:core-testing:$project.coreTesting"
+    androidTestImplementation "androidx.test:runner:$project.testRunner"
+    androidTestImplementation "androidx.test:rules:$project.testRunner"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$project.espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$project.espresso"
+    androidTestImplementation "android.arch.navigation:navigation-testing-ktx:$project.navigation"
 }
 
 def getReleaseSigningConfig() {

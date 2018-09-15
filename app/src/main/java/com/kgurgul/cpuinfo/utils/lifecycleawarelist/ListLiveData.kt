@@ -24,7 +24,7 @@ import java.util.*
  * changes in that list. All operations MUST be invoked from main thread to avoid inconsistency.
  *
  * In addition to normal [ArrayList] it contains [replace] method to make nicer animations with
- * [android.support.v7.widget.RecyclerView].
+ * [androidx.recyclerview.widget.RecyclerView].
  *
  * @author kgurgul
  */
