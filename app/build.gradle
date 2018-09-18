@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.kotlin.android.extensions'
-apply plugin: 'io.fabric'
 apply from: "$rootDir/reports/jacoco.gradle"
 apply from: "$rootDir/versioning.gradle"
 
@@ -76,10 +75,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$project.kotlin"
     implementation "org.jetbrains.anko:anko-coroutines:$project.anko"
 
-    // Firebase
-    releaseImplementation "com.crashlytics.sdk.android:crashlytics:$project.crashlitics"
-    implementation "com.google.firebase:firebase-core:$project.firebase"
-
     // Bus
     implementation "org.greenrobot:eventbus:$project.eventBus"
 
@@ -148,5 +143,3 @@ def getDebugSigningConfig() {
     properties.setProperty('keyPass', 'android')
     return properties
 }
-
-apply plugin: 'com.google.gms.google-services'

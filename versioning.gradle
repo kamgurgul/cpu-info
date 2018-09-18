@@ -16,8 +16,8 @@
 
 ext {
     /* Version variables */
-    versionMajor = 3
-    versionMinor = 1
+    versionMajor = 4
+    versionMinor = 0
     versionPatch = 0
 
     /* Useful info and generated versions */
