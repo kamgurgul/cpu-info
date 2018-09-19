@@ -16,12 +16,10 @@
 
 <resources>
 
-    <string name="app_name" translatable="false">CPU Info</string>
     <string name="action_settings">Nastavení</string>
     <string name="action_sorting">Řazení</string>
     <string name="action_refresh">Interval opětovného načítání</string>
-    <string name="action_gc" translatable="false">Garbage collector</string>
-
+    
     <string name="open_drawer">Otevřít panel</string>
     <string name="close_drawer">Zavřít panel</string>
 
@@ -113,8 +111,6 @@
     <string name="is_charging">Nabíjí se</string>
     <string name="charging_type">Typ nabíjení</string>
     <string name="wifi_mac">MAC adr. WiFi</string>
-    <string name="bluetooth" translatable="false">Bluetooth</string>
-    <string name="bluetooth_le" translatable="false">Bluetooth LE</string>
     <string name="bluetooth_mac">MAC adr. Bluetooth</string>
     <string name="amount">Počet</string>
     <string name="card">Karta</string>
