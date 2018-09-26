@@ -9,8 +9,8 @@ apply from: "$rootDir/versioning.gradle"
 Properties signingProperties = getReleaseSigningConfig()
 
 android {
-    compileSdkVersion project.compiledSdk
-    buildToolsVersion project.buildTools
+    compileSdkVersion compiledSdk
+    buildToolsVersion buildTools
 
     defaultConfig {
         applicationId "com.kgurgul.cpuinfo"

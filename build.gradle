@@ -8,23 +8,23 @@ buildscript {
         buildTools = "28.0.2"
 
         // Kotlin
-        kotlin = "1.2.70"
+        kotlin = "1.2.71"
         anko = "0.10.1"
 
         // Libs
-        androidX = "1.0.0-rc02"
+        androidX = "1.0.0"
         androidDatabinding = "2.3.0"
         firebase = "16.0.3"
         crashlitics = "2.9.2"
-        archLifecycle = "2.0.0-rc01"
-        navigation = "1.0.0-alpha05"
+        archLifecycle = "2.0.0"
+        navigation = "1.0.0-alpha06"
         eventBus = "3.1.1"
         rxJava = "2.1.4"
         rxAndroid = "2.0.2"
         gson = "2.8.2"
         dagger = "2.16"
         glide = "4.8.0"
-        timber = "4.7.0"
+        timber = "4.7.1"
         coreTesting = "2.0.0-rc01"
         jUnit = "4.12"
         mockito = "2.11.0"
@@ -38,7 +38,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0-alpha10'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin"
     }
 }
