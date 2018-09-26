@@ -1,0 +1,142 @@
+<!--
+  ~ Copyright 2017 KG Soft
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="action_settings">Nastavení</string>
+    <string name="action_sorting">Řazení</string>
+    <string name="action_refresh">Interval opětovného načítání</string>
+    
+    <string name="open_drawer">Otevřít panel</string>
+    <string name="close_drawer">Zavřít panel</string>
+
+    <string name="yes">Ano</string>
+    <string name="no">Ne</string>
+    <string name="ok">OK</string>
+    <string name="permission_rationale">Přístup ke kameře je potřeba pro zjištění jejích parametrů</string>
+
+    <!--Tabs-->
+    <string name="cpu">Procesor</string>
+    <string name="gpu">Grafický čip</string>
+    <string name="ram">Oper. paměť</string>
+    <string name="storage">Úložiště</string>
+    <string name="screen">Obrazovka</string>
+    <string name="android">Android</string>
+    <string name="hardware">Hardware</string>
+    <string name="sensors">Sensory</string>
+
+    <string name="processes">Procesy</string>
+    <string name="applications">Applikace</string>
+    <string name="temp">Teplota</string>
+    <string name="settings">Nastavení</string>
+
+    <string name="running_gc">Spouštění čištění</string>
+    <string name="text_copied">Hodnota zkopírována</string>
+
+    <!--Apps-->
+    <string name="app_open">Tuto aplikaci se nedaří spustit</string>
+    <string name="cpu_open">Nespouštějte tuto aplikaci vícekrát naráz :-)</string>
+    <string name="cpu_uninstall">Toto nelze udělat :-(</string>
+    <string name="native_libs">Nativní knihovny</string>
+    <string name="storage_used">Využití úložiště:</string>
+    <string name="calculating">počítá se…</string>
+
+    <!--GPU-->
+    <string name="gles_version">Verze GLES</string>
+    <string name="vendor">Výrobce</string>
+    <string name="version">Verze</string>
+    <string name="renderer">Vykreslovač</string>
+    <string name="extensions">Rozšíření</string>
+
+    <!--RAM-->
+    <string name="total_memory">Paměť celkem</string>
+    <string name="available_memory">Volná paměť</string>
+    <string name="threshold">Hranice minima</string>
+
+    <!--Storage-->
+    <string name="storage_hint">Při nepřítomnosti rozšiřujícího úložiště může být zobrazováno dvakrát to vestavěné</string>
+    <string name="internal">Vestavěné</string>
+    <string name="external">Rozšiřující</string>
+    <string name="sd_card">SD karta</string>
+
+    <!--Screen-->
+    <string name="screen_class">Třída obrazovky</string>
+    <string name="small">Malá</string>
+    <string name="normal">Běžná</string>
+    <string name="large">Velká</string>
+    <string name="unknown">Neznámá</string>
+    <string name="density_class">Třída jemnosti zobrazení</string>
+    <string name="width">Šířka</string>
+    <string name="height">Výška</string>
+    <string name="dp_width">Dp šířka</string>
+    <string name="dp_height">Dp výška</string>
+    <string name="density">Jemnost zobrazení</string>
+    <string name="absolute_width">Šířka absolutně</string>
+    <string name="absolute_height">Výška absolutně</string>
+    <string name="refresh_rate">Obnovovací frekvence</string>
+    <string name="orientation">Orientace</string>
+
+    <!--Android-->
+    <string name="codename">Kódové označení</string>
+    <string name="brand">Značka</string>
+    <string name="model">Model</string>
+    <string name="manufacturer">Výrobce</string>
+    <string name="board">Základní deska</string>
+    <string name="serial">Sériové číslo</string>
+    <string name="rooted">Odemčený účet správce (root)</string>
+    <string name="security_providers">Poskytovatelé zabezpečení</string>
+
+    <!--Hardware-->
+    <string name="battery">Akumulátor</string>
+    <string name="wireless">Bezdrátová rozhraní</string>
+    <string name="sound_card">Zvuková karta</string>
+    <string name="level">Nabití</string>
+    <string name="voltage">Napětí</string>
+    <string name="temperature">Teplota</string>
+    <string name="capacity">Kapacita</string>
+    <string name="technology">Technologie</string>
+    <string name="is_charging">Nabíjí se</string>
+    <string name="charging_type">Typ nabíjení</string>
+    <string name="wifi_mac">MAC adr. WiFi</string>
+    <string name="bluetooth_mac">MAC adr. Bluetooth</string>
+    <string name="amount">Počet</string>
+    <string name="card">Karta</string>
+    <string name="cameras">Kamery</string>
+    <string name="camera">Kamera</string>
+    <string name="type">Typ</string>
+    <string name="front">Přední</string>
+    <string name="back">Zadní</string>
+    <string name="battery_health">Stav</string>
+    <string name="battery_cold">Podchlazená</string>
+    <string name="battery_good">Dobrá</string>
+    <string name="battery_dead">Nefunkční</string>
+    <string name="battery_overheat">Přehřátá</string>
+    <string name="battery_overvoltage">Příliš vysoké napětí</string>
+    <string name="battery_unknown">Neznámý</string>
+    <string name="battery_unspecified_failure">Neurčený nezdar</string>
+
+    <!--Prefs-->
+    <string name="default_refreshing">Výchozí hodnota z Android</string>
+    <string name="ram_refreshing">Interval opakování načítání hodnot</string>
+    <string name="general">Obecné</string>
+    <string name="temperature_unit">Jednotka teploty</string>
+
+    <!--Temp-->
+    <string name="cpu_temperature">Teplota procesoru</string>
+    <string name="battery_temperature">Teplota akumulátoru</string>
+    <string name="no_temp_data">Je nám líto, ale nedaří se najít čidla teploty :-(</string>
+
+</resources>
