@@ -1,0 +1,133 @@
+<!--
+  ~ Copyright 2017 KG Soft
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="action_settings">設定</string>
+    <string name="action_sorting">排序</string>
+    <string name="action_refresh">重新整理</string>
+
+
+    <string name="yes">好</string>
+    <string name="no">不</string>
+    <string name="ok">好</string>
+    <string name="permission_rationale">需要相機權限以取得相機規格</string>
+
+    <!--Tabs-->
+    <string name="ram">記憶體</string>
+    <string name="storage">儲存空間</string>
+    <string name="screen">螢幕</string>
+    <string name="hardware">硬體</string>
+    <string name="sensors">感測器</string>
+
+    <string name="processes">處理程序</string>
+    <string name="applications">應用程式</string>
+    <string name="temp">溫度</string>
+    <string name="settings">設定</string>
+
+    <string name="running_gc">正在清理記憶體</string>
+    <string name="text_copied">數值已複製</string>
+
+    <!--Apps-->
+    <string name="app_open">無法開啟這個應用程式</string>
+    <string name="cpu_open">不要打開我兩次 :-)</string>
+    <string name="cpu_uninstall">無法執行 :-(</string>
+    <string name="storage_used">儲存空間已使用:</string>
+    <string name="calculating">計算中...</string>
+
+    <!--GPU-->
+    <string name="gles_version">GLES版本</string>
+    <string name="vendor">供應商</string>
+    <string name="version">版本</string>
+    <string name="renderer">渲染器</string>
+    <string name="extensions">擴充</string>
+
+    <!--RAM-->
+    <string name="total_memory">記憶體總量</string>
+    <string name="available_memory">可用的記憶體</string>
+
+    <!--Storage-->
+    <string name="storage_hint">外部記憶體可能和內部的一樣</string>
+    <string name="internal">內部</string>
+    <string name="external">外部</string>
+    <string name="sd_card">SD卡</string>
+
+    <!--Screen-->
+    <string name="screen_class">螢幕等級</string>
+    <string name="small">小</string>
+    <string name="normal">一般</string>
+    <string name="large">大</string>
+    <string name="unknown">未知</string>
+    <string name="density_class">密度等級</string>
+    <string name="width">寬度</string>
+    <string name="height">高度</string>
+    <string name="dp_width">Dp寬度</string>
+    <string name="dp_height">Dp高度</string>
+    <string name="density">密度</string>
+    <string name="refresh_rate">更新頻率</string>
+    <string name="orientation">方向</string>
+
+    <!--Android-->
+    <string name="codename">代碼名稱</string>
+    <string name="brand">品牌</string>
+    <string name="model">型號</string>
+    <string name="manufacturer">製造商</string>
+    <string name="board">機板</string>
+    <string name="serial">序號</string>
+    <string name="rooted">已root</string>
+    <string name="security_providers">安全性提供者</string>
+
+    <!--Hardware-->
+    <string name="battery">電池</string>
+    <string name="wireless">無線</string>
+    <string name="sound_card">音效卡</string>
+    <string name="level">電量</string>
+    <string name="voltage">電壓</string>
+    <string name="temperature">溫度</string>
+    <string name="capacity">容量</string>
+    <string name="technology">技術</string>
+    <string name="is_charging">充電中</string>
+    <string name="charging_type">充電類型</string>
+    <string name="wifi_mac">Wi-Fi Mac位址</string>
+    <string name="bluetooth_mac">藍牙位址</string>
+    <string name="amount">數量</string>
+    <string name="card">卡</string>
+    <string name="cameras">相機</string>
+    <string name="camera">相機</string>
+    <string name="type">種類</string>
+    <string name="front">前</string>
+    <string name="back">返回</string>
+    <string name="battery_health">健康狀況</string>
+    <string name="battery_cold">冷</string>
+    <string name="battery_good">好</string>
+    <string name="battery_dead">壞了</string>
+    <string name="battery_overheat">過熱</string>
+    <string name="battery_overvoltage">電壓過高</string>
+    <string name="battery_unknown">未知</string>
+    <string name="battery_unspecified_failure">不明確的問題發生</string>
+
+    <!--Prefs-->
+    <string name="default_refreshing">Android預設值</string>
+    <string name="ram_refreshing">小工具更新頻率</string>
+    <string name="general">一般</string>
+    <string name="temperature_unit">溫度單位</string>
+
+    <!--Temp-->
+    <string name="cpu_temperature">處理器溫度</string>
+    <string name="battery_temperature">電池溫度</string>
+    <string name="no_temp_data">抱歉我找不到溫度感測器 :-(</string>
+
+</resources>
