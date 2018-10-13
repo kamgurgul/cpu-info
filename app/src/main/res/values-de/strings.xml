@@ -1,0 +1,145 @@
+<!--
+  ~ Copyright 2018 FliegendeWurst
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_sorting">Sortierung</string>
+    <string name="action_refresh">Aktualisieren</string>
+
+    <string name="open_drawer">Menü öffnen</string>
+    <string name="close_drawer">Menü schließen</string>
+
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="ok">OK</string>
+    <string name="permission_rationale">Kamera-Berechtigungen werden benötigt um Kameraeigenschaften anzuzeigen</string>
+
+    <!--Tabs-->
+    <string name="cpu">CPU</string>
+    <string name="gpu">GPU</string>
+    <string name="ram">RAM</string>
+    <string name="storage">Speicher</string>
+    <string name="screen">Bildschirm</string>
+    <string name="android">Android</string>
+    <string name="hardware">Hardware</string>
+    <string name="sensors">Sensoren</string>
+
+    <string name="processes">Prozesse</string>
+    <string name="applications">Apps</string>
+    <string name="temp">Temperatur</string>
+    <string name="settings">Einstellungen</string>
+
+    <string name="running_gc">Führe Garbage Collector aus</string>
+    <string name="text_copied">Wert kopiert</string>
+
+    <!--Apps-->
+    <string name="app_open">Konnte App nicht öffnen</string>
+    <string name="cpu_open">Öffne mich nicht zweimal :-)</string>
+    <string name="cpu_uninstall">Das kann ich nicht tun :-(</string>
+    <string name="native_libs">Plattform-spezifische Programmbibliotheken</string>
+    <string name="storage_used">Benutzter Speicher:</string>
+    <string name="calculating">berechne…</string>
+
+    <!--GPU-->
+    <string name="gles_version">GLES-Version</string>
+    <!-- should not be translated: -->
+    <string name="vendor">Vendor</string>
+    <string name="version">Version</string>
+    <string name="renderer">Renderer</string>
+    <string name="extensions">Extensions</string>
+
+    <!--RAM-->
+    <string name="total_memory">Speichergröße</string>
+    <string name="available_memory">Verfügbarer Speicher</string>
+    <string name="threshold">Grenzwert</string>
+
+    <!--Storage-->
+    <string name="storage_hint">Externer Speicher könnte interner Speicher sein</string>
+    <string name="internal">Intern</string>
+    <string name="external">Extern</string>
+    <string name="sd_card">SD-Karte</string>
+
+    <!--Screen-->
+    <string name="screen_class">Bildschirmklasse</string>
+    <string name="small">Klein</string>
+    <string name="normal">Normal</string>
+    <string name="large">Groß</string>
+    <string name="unknown">Unbekannt</string>
+    <string name="density_class">Dichteklasse</string>
+    <string name="width">Breite</string>
+    <string name="height">Höhe</string>
+    <string name="dp_width">Breite in dp</string>
+    <string name="dp_height">Höhe in dp</string>
+    <string name="density">Pixeldichte</string>
+    <string name="absolute_width">Absolute Breite</string>
+    <string name="absolute_height">Absolute Höhe</string>
+    <string name="refresh_rate">Bildwiederholrate</string>
+    <string name="orientation">Rotation</string>
+
+    <!--Android-->
+    <string name="codename">Codename</string>
+    <string name="brand">Marke</string>
+    <string name="model">Modell</string>
+    <string name="manufacturer">Hersteller</string>
+    <string name="board">Board</string>
+    <string name="serial">Seriennummer</string>
+    <string name="rooted">Rooted</string>
+    <string name="security_providers">Sicherheitsprovider</string>
+
+    <!--Hardware-->
+    <string name="battery">Batterie</string>
+    <string name="wireless">Kabellos</string>
+    <string name="sound_card">Soundkarte</string>
+    <string name="level">Ladestand</string>
+    <string name="voltage">Spannung</string>
+    <string name="temperature">Temperatur</string>
+    <string name="capacity">Kapazität</string>
+    <string name="technology">Technologie</string>
+    <string name="is_charging">Lädt auf</string>
+    <string name="charging_type">Auflade-Typ</string>
+    <string name="wifi_mac">WLAN MAC</string>
+    <string name="bluetooth" translatable="false">Bluetooth</string>
+    <string name="bluetooth_le" translatable="false">Bluetooth LE</string>
+    <string name="bluetooth_mac">Bluetooth MAC</string>
+    <string name="amount">Anzahl</string>
+    <string name="card">Karte</string>
+    <string name="cameras">Kameras</string>
+    <string name="camera">Kamera</string>
+    <string name="type">Typ</string>
+    <string name="front">Vorderseite</string>
+    <string name="back">Rückseite</string>
+    <string name="battery_health">Gesundheit</string>
+    <string name="battery_cold">Kalt</string>
+    <string name="battery_good">Gut</string>
+    <string name="battery_dead">Tot</string>
+    <string name="battery_overheat">Überhitzung</string>
+    <string name="battery_overvoltage">Überspannung</string>
+    <string name="battery_unknown">Unbekannt</string>
+    <string name="battery_unspecified_failure">Unspezifizierter Fehler</string>
+
+    <!--Prefs-->
+    <string name="default_refreshing">Android-Standard</string>
+    <string name="ram_refreshing">Widget-Aktualisierung alle</string>
+    <string name="general">Generell</string>
+    <string name="temperature_unit">Temperatur-Einheit</string>
+
+    <!--Temp-->
+    <string name="cpu_temperature">CPU-Temperatur</string>
+    <string name="battery_temperature">Batterie-Temperatur</string>
+    <string name="no_temp_data">Temperatur-Sensoren konnten nicht gefunden werden :-(</string>
+
+</resources>
