@@ -20,22 +20,16 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.ViewModel
-import com.kgurgul.cpuinfo.utils.NonNullMutableLiveData
-import com.kgurgul.cpuinfo.utils.Prefs
-import com.kgurgul.cpuinfo.utils.SingleLiveEvent
+import com.kgurgul.cpuinfo.utils.*
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
-import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.jetbrains.anko.coroutines.experimental.asReference
-import org.jetbrains.anko.coroutines.experimental.bg
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -45,8 +39,9 @@ import javax.inject.Inject
  * @author kgurgul
  */
 class ApplicationsViewModel @Inject constructor(
+        private val dispatchersProvider: DispatchersProvider,
         private val prefs: Prefs,
-        private val packageManager: PackageManager) : ViewModel() {
+        private val packageManager: PackageManager) : ScopedViewModel(dispatchersProvider) {
 
     companion object {
         private const val SORTING_APPS_KEY = "SORTING_APPS_KEY"
@@ -56,7 +51,6 @@ class ApplicationsViewModel @Inject constructor(
     val applicationList = ListLiveData<ExtendedAppInfo>()
     val shouldStartStorageService = SingleLiveEvent<Void>()
 
-    private val ref = asReference()
     private var isSortingAsc = prefs.get(SORTING_APPS_KEY, true)
     private var refreshingDisposable: Disposable? = null
 
@@ -106,10 +100,11 @@ class ApplicationsViewModel @Inject constructor(
      * Change apps list sorting type from ascending to descending or or vice versa
      */
     fun changeAppsSorting() {
-        launch(UI) {
-            val result = bg { getAppSortedList(!isSortingAsc) }
-            val sortedAppList = result.await()
-            ref().applicationList.replace(sortedAppList)
+        launch {
+            val sortedAppList = withContext(dispatchersProvider.ioDispatcher) {
+                getAppSortedList(!isSortingAsc)
+            }
+            applicationList.replace(sortedAppList)
         }
     }
 
@@ -135,11 +130,12 @@ class ApplicationsViewModel @Inject constructor(
     @Suppress("unused")
     @Subscribe
     fun onUpdatePackageSizeEvent(event: StorageUsageService.UpdatePackageSizeEvent) {
-        launch(UI) {
-            val result = bg { getUpdatedApp(event) }
-            val newAppPair = result.await()
+        launch {
+            val newAppPair = withContext(dispatchersProvider.ioDispatcher) {
+                getUpdatedApp(event)
+            }
             if (newAppPair.first != -1) {
-                ref().applicationList[newAppPair.first] = newAppPair.second!!
+                applicationList[newAppPair.first] = newAppPair.second!!
             }
         }
     }

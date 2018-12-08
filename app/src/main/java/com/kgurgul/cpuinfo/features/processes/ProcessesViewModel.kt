@@ -17,18 +17,17 @@
 package com.kgurgul.cpuinfo.features.processes
 
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.ViewModel
+import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.Prefs
+import com.kgurgul.cpuinfo.utils.ScopedViewModel
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.coroutines.experimental.asReference
-import org.jetbrains.anko.coroutines.experimental.bg
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -39,8 +38,9 @@ import javax.inject.Inject
  * @author kgurgul
  */
 class ProcessesViewModel @Inject constructor(
+        private val dispatchersProvider: DispatchersProvider,
         private val prefs: Prefs,
-        private val psProvider: PsProvider) : ViewModel() {
+        private val psProvider: PsProvider) : ScopedViewModel(dispatchersProvider) {
 
     companion object {
         private const val SORTING_PROCESSES_KEY = "SORTING_PROCESSES_KEY"
@@ -48,7 +48,6 @@ class ProcessesViewModel @Inject constructor(
 
     val processList = ListLiveData<ProcessItem>()
 
-    private val ref = asReference()
     private var isSortingAsc = prefs.get(SORTING_PROCESSES_KEY, true)
     private var refreshingDisposable: Disposable? = null
 
@@ -88,10 +87,11 @@ class ProcessesViewModel @Inject constructor(
      * Change process list sorting type from ascending to descending or or vice versa
      */
     fun changeProcessSorting() {
-        launch(UI) {
-            val result = bg { getProcessSortedList(!isSortingAsc) }
-            val sortedAppList = result.await()
-            ref().processList.replace(sortedAppList)
+        launch {
+            val sortedAppList = withContext(dispatchersProvider.ioDispatcher) {
+                getProcessSortedList(!isSortingAsc)
+            }
+            processList.replace(sortedAppList)
         }
     }
 

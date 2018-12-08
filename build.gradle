@@ -5,19 +5,20 @@ buildscript {
         minSdk = 14
         targetSdk = 28
         compiledSdk = 28
-        buildTools = "28.0.2"
+        buildTools = "28.0.3"
 
         // Kotlin
-        kotlin = "1.2.71"
-        anko = "0.10.1"
+        kotlinVersion = "1.3.11"
+        coroutines = "1.0.1"
 
         // Libs
+        appCompat = "1.0.2"
         androidX = "1.0.0"
         androidDatabinding = "2.3.0"
         firebase = "16.0.3"
         crashlitics = "2.9.2"
         archLifecycle = "2.0.0"
-        navigation = "1.0.0-alpha06"
+        navigation = "1.0.0-alpha08"
         eventBus = "3.1.1"
         rxJava = "2.2.3"
         rxAndroid = "2.1.0"
@@ -28,9 +29,10 @@ buildscript {
         coreTesting = "2.0.0-rc01"
         jUnit = "4.12"
         mockito = "2.11.0"
-        mockitoKotlin = "1.5.0"
+        mockitoKotlin = "2.0.0"
         testRunner = "1.1.0-alpha4"
         espresso = "3.1.0-alpha4"
+        robolectric = "4.0"
     }
 
     repositories {
@@ -39,7 +41,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 

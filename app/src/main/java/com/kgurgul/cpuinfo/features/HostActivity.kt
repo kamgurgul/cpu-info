@@ -53,7 +53,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_host_layout)
         navController = findNavController(R.id.nav_host_fragment)
-        navController.addOnNavigatedListener { _, destination ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             setToolbarTitleAndElevation(destination.label.toString())
         }
         setSupportActionBar(binding.toolbar)

@@ -16,33 +16,48 @@
 
 package com.kgurgul.cpuinfo.features.processes
 
+import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.RxImmediateSchedulerRule
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.spy
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.spy
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Flowable
 import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.junit.MockitoJUnitRunner
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 /**
  * Tests for [ProcessesViewModel]
  *
  * @author kgurgul
  */
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(RobolectricTestRunner::class)
+@Config(manifest = Config.NONE)
 class ProcessesViewModelTest {
 
     @Suppress("unused")
     @get:Rule
     val rxSchedulersRule = RxImmediateSchedulerRule()
+
+    private lateinit var dispatchersProvider: DispatchersProvider
+
+    @Before
+    fun setup() {
+        dispatchersProvider = mock {
+            on { ioDispatcher } doReturn Dispatchers.Main
+            on { mainDispatcher } doReturn Dispatchers.Main
+        }
+    }
 
     @Test
     fun startStopRefreshing() {
@@ -54,7 +69,7 @@ class ProcessesViewModelTest {
         val psProvider = mock<PsProvider> {
             on { getPsList() } doReturn Single.just(generatedProcessItems)
         }
-        val viewModel = spy(ProcessesViewModel(prefs, psProvider))
+        val viewModel = spy(ProcessesViewModel(dispatchersProvider, prefs, psProvider))
         doReturn(Flowable.just(1L)).whenever(viewModel).getRefreshingInvoker()
 
         /* When */
@@ -75,7 +90,7 @@ class ProcessesViewModelTest {
         }
         val psProvider = mock<PsProvider>()
         whenever(psProvider.getPsList()).thenReturn(Single.error(NullPointerException()))
-        val viewModel = spy(ProcessesViewModel(prefs, psProvider))
+        val viewModel = spy(ProcessesViewModel(dispatchersProvider, prefs, psProvider))
         doReturn(Flowable.just(1L)).whenever(viewModel).getRefreshingInvoker()
 
         /* When */
@@ -96,7 +111,7 @@ class ProcessesViewModelTest {
         val psProvider = mock<PsProvider> {
             on { getPsList() } doReturn Single.just(generatedProcessItems)
         }
-        val viewModel = spy(ProcessesViewModel(prefs, psProvider))
+        val viewModel = spy(ProcessesViewModel(dispatchersProvider, prefs, psProvider))
         doReturn(Flowable.just(1L)).whenever(viewModel).getRefreshingInvoker()
 
         /* When */

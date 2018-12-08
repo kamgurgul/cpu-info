@@ -18,28 +18,33 @@ package com.kgurgul.cpuinfo.features.applications
 
 import android.content.pm.PackageManager
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.RxImmediateSchedulerRule
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.spy
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.spy
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.junit.MockitoJUnitRunner
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 /**
  * Tests for [ApplicationsViewModel]
  *
  * @author kgurgul
  */
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(RobolectricTestRunner::class)
+@Config(manifest = Config.NONE)
 class ApplicationsViewModelTest {
 
     @Suppress("unused")
@@ -50,6 +55,16 @@ class ApplicationsViewModelTest {
     @get:Rule
     val liveDataRule = InstantTaskExecutorRule()
 
+    private lateinit var dispatchersProvider: DispatchersProvider
+
+    @Before
+    fun setup() {
+        dispatchersProvider = mock {
+            on { ioDispatcher } doReturn Dispatchers.Main
+            on { mainDispatcher } doReturn Dispatchers.Main
+        }
+    }
+
     @Test
     fun refreshApplicationsListSuccess() {
         /* Given */
@@ -57,7 +72,7 @@ class ApplicationsViewModelTest {
             onGeneric { get(anyString(), anyBoolean()) } doReturn true
         }
         val packageManager = mock<PackageManager>()
-        val viewModel = spy(ApplicationsViewModel(prefs, packageManager))
+        val viewModel = spy(ApplicationsViewModel(dispatchersProvider, prefs, packageManager))
         doReturn(Single.just(getDummyAppInfo(3))).whenever(viewModel).getApplicationsListSingle()
 
         /* When */
@@ -75,7 +90,7 @@ class ApplicationsViewModelTest {
             onGeneric { get(anyString(), anyBoolean()) } doReturn true
         }
         val packageManager = mock<PackageManager>()
-        val viewModel = spy(ApplicationsViewModel(prefs, packageManager))
+        val viewModel = spy(ApplicationsViewModel(dispatchersProvider, prefs, packageManager))
         doReturn(Single.error<NullPointerException>(NullPointerException()))
                 .whenever(viewModel).getApplicationsListSingle()
 
@@ -94,7 +109,7 @@ class ApplicationsViewModelTest {
             onGeneric { get(anyString(), anyBoolean()) } doReturn true
         }
         val packageManager = mock<PackageManager>()
-        val viewModel = spy(ApplicationsViewModel(prefs, packageManager))
+        val viewModel = spy(ApplicationsViewModel(dispatchersProvider, prefs, packageManager))
         doReturn(Single.just(getDummyAppInfo(3))).whenever(viewModel).getApplicationsListSingle()
 
         /* When */

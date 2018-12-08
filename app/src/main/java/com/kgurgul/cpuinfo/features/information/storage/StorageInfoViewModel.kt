@@ -18,18 +18,17 @@ package com.kgurgul.cpuinfo.features.information.storage
 
 import android.content.res.Resources
 import android.os.Environment
-import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.ScopedViewModel
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.coroutines.experimental.asReference
-import org.jetbrains.anko.coroutines.experimental.bg
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.*
 import java.util.*
@@ -40,13 +39,15 @@ import javax.inject.Inject
  *
  * @author kgurgul
  */
-class StorageInfoViewModel @Inject constructor(private val resources: Resources) : ViewModel() {
+class StorageInfoViewModel @Inject constructor(
+        private val dispatchersProvider: DispatchersProvider,
+        private val resources: Resources
+) : ScopedViewModel(dispatchersProvider) {
 
     enum class MemoryType { INTERNAL, EXTERNAL }
 
     val listLiveData = ListLiveData<StorageItem>()
 
-    private val ref = asReference()
     private var sdCardFinderDisposable: Disposable? = null
 
     init {
@@ -57,12 +58,13 @@ class StorageInfoViewModel @Inject constructor(private val resources: Resources)
      * Get all available details about internal, external and secondary (SD card) storage
      */
     private fun getStorageInfo() {
-        launch(UI) {
-            val result = bg { getExternalAndInternalMemoryPair() }
-            val memoryPair = result.await()
-            ref().listLiveData.add(memoryPair.first)
+        launch {
+            val memoryPair = withContext(dispatchersProvider.ioDispatcher) {
+                getExternalAndInternalMemoryPair()
+            }
+            listLiveData.add(memoryPair.first)
             if (memoryPair.second != null) {
-                ref().listLiveData.add(memoryPair.second as StorageItem)
+                listLiveData.add(memoryPair.second as StorageItem)
             }
             refreshSdCard()
         }

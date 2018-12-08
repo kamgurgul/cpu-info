@@ -17,7 +17,7 @@
 package com.kgurgul.cpuinfo.utils
 
 import android.content.SharedPreferences
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test

@@ -69,11 +69,12 @@ kapt {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "androidx.appcompat:appcompat:$project.androidX"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$project.kotlinVersion"
+
+    implementation "androidx.appcompat:appcompat:$project.appCompat"
     implementation "com.google.android.material:material:$project.androidX"
     implementation "androidx.legacy:legacy-preference-v14:$project.androidX"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$project.kotlin"
-    implementation "org.jetbrains.anko:anko-coroutines:$project.anko"
 
     // Bus
     implementation "org.greenrobot:eventbus:$project.eventBus"
@@ -106,15 +107,19 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$project.glide"
     kapt "com.github.bumptech.glide:compiler:$project.glide"
 
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$project.coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$project.coroutines"
+
     testImplementation "junit:junit:$project.jUnit"
     testImplementation "org.mockito:mockito-core:$project.mockito"
-    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:$project.mockitoKotlin"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$project.mockitoKotlin"
     testImplementation "androidx.arch.core:core-testing:$project.coreTesting"
+    testImplementation "org.robolectric:robolectric:$project.robolectric"
     androidTestImplementation "androidx.test:runner:$project.testRunner"
     androidTestImplementation "androidx.test:rules:$project.testRunner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$project.espresso"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$project.espresso"
-    androidTestImplementation "android.arch.navigation:navigation-testing-ktx:$project.navigation"
 }
 
 def getReleaseSigningConfig() {
