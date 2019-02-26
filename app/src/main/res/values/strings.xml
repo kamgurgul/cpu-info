@@ -99,6 +99,7 @@
     <string name="board">Board</string>
     <string name="serial">Serial</string>
     <string name="rooted">Rooted</string>
+    <string name="encrypted_storage">Encrypted Storage</string>
     <string name="security_providers">Security providers</string>
 
     <!--Hardware-->

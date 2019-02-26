@@ -17,6 +17,7 @@
 package com.kgurgul.cpuinfo.features.information.android
 
 import android.annotation.SuppressLint
+import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
 import android.content.res.Resources
 import android.os.Build
@@ -38,7 +39,8 @@ import javax.inject.Inject
  */
 class AndroidInfoViewModel @Inject constructor(
         private val resources: Resources,
-        private val contentResolver: ContentResolver) : ViewModel() {
+        private val contentResolver: ContentResolver,
+        private val devicePolicyManager: DevicePolicyManager) : ViewModel() {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
@@ -56,6 +58,7 @@ class AndroidInfoViewModel @Inject constructor(
         getBuildData()
         getAndroidIdData()
         getRootData()
+        getDeviceEncryptionStatus()
         getSecurityData()
     }
 
@@ -95,6 +98,26 @@ class AndroidInfoViewModel @Inject constructor(
         val isRootedStr = if (isDeviceRooted()) resources.getString(R.string.yes) else
             resources.getString(R.string.no)
         listLiveData.add(Pair(resources.getString(R.string.rooted), isRootedStr))
+    }
+
+    /**
+     * Add information about device encrypted storage status
+     */
+    private fun getDeviceEncryptionStatus() {
+        try {
+            val status = devicePolicyManager.storageEncryptionStatus
+            val statusText = when (status) {
+                DevicePolicyManager.ENCRYPTION_STATUS_UNSUPPORTED -> ENCRYPTION_STATUS_UNSUPPORTED
+                DevicePolicyManager.ENCRYPTION_STATUS_INACTIVE -> ENCRYPTION_STATUS_INACTIVE
+                DevicePolicyManager.ENCRYPTION_STATUS_ACTIVATING -> ENCRYPTION_STATUS_ACTIVATING
+                DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE -> ENCRYPTION_STATUS_ACTIVE
+                DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE_PER_USER ->
+                    ENCRYPTION_STATUS_ACTIVE_PER_USER
+                else -> resources.getString(R.string.unknown)
+            }
+            listLiveData.add(Pair(resources.getString(R.string.encrypted_storage), statusText))
+        } catch (ignored: Exception) {
+        }
     }
 
     /**
@@ -152,5 +175,13 @@ class AndroidInfoViewModel @Inject constructor(
             listLiveData.add(Pair(resources.getString(R.string.security_providers), ""))
             listLiveData.addAll(securityProviders)
         }
+    }
+
+    companion object {
+        private const val ENCRYPTION_STATUS_UNSUPPORTED = "UNSUPPORTED"
+        private const val ENCRYPTION_STATUS_INACTIVE = "INACTIVE"
+        private const val ENCRYPTION_STATUS_ACTIVATING = "ACTIVATING"
+        private const val ENCRYPTION_STATUS_ACTIVE = "ACTIVE"
+        private const val ENCRYPTION_STATUS_ACTIVE_PER_USER = "ACTIVE_PER_USER"
     }
 }

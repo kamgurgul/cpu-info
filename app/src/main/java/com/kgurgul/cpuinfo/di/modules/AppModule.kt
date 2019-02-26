@@ -18,6 +18,7 @@ package com.kgurgul.cpuinfo.di.modules
 
 import android.app.ActivityManager
 import android.app.Application
+import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
 import android.content.Context
 import android.content.SharedPreferences
@@ -47,6 +48,11 @@ class AppModule {
     @Singleton
     fun provideActivityManager(app: Application): ActivityManager =
             app.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+    @Provides
+    @Singleton
+    fun provideDevicePolicyManager(app: Application): DevicePolicyManager =
+            app.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
     @Provides
     @Singleton

@@ -96,6 +96,7 @@
     <string name="board">Płyta główna</string>
     <string name="serial">Serial</string>
     <string name="rooted">Rooted</string>
+    <string name="encrypted_storage">Encrypted Storage</string>
     <string name="security_providers">Dostawcy zabezpieczeń</string>
 
     <!--Hardware-->

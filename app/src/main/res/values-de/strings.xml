@@ -98,6 +98,7 @@
     <string name="board">Board</string>
     <string name="serial">Seriennummer</string>
     <string name="rooted">Rooted</string>
+    <string name="encrypted_storage">Encrypted Storage</string>
     <string name="security_providers">Sicherheitsprovider</string>
 
     <!--Hardware-->

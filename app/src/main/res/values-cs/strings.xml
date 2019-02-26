@@ -96,7 +96,8 @@
     <string name="manufacturer">Výrobce</string>
     <string name="board">Základní deska</string>
     <string name="serial">Sériové číslo</string>
-    <string name="rooted">Odemčený účet správce (root)</string>
+    <string name="rooted">Rooted</string>
+    <string name="encrypted_storage">Encrypted Storage</string>
     <string name="security_providers">Poskytovatelé zabezpečení</string>
 
     <!--Hardware-->
