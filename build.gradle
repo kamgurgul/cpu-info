@@ -8,7 +8,7 @@ buildscript {
         buildTools = "28.0.3"
 
         // Kotlin
-        kotlinVersion = "1.3.11"
+        kotlinVersion = "1.3.21"
         coroutines = "1.0.1"
 
         // Libs
@@ -18,12 +18,12 @@ buildscript {
         firebase = "16.0.3"
         crashlitics = "2.9.2"
         archLifecycle = "2.0.0"
-        navigation = "1.0.0-alpha08"
+        navigation = "1.0.0-rc01"
         eventBus = "3.1.1"
         rxJava = "2.2.3"
         rxAndroid = "2.1.0"
         gson = "2.8.2"
-        dagger = "2.16"
+        dagger = "2.21"
         glide = "4.8.0"
         timber = "4.7.1"
         coreTesting = "2.0.0-rc01"
