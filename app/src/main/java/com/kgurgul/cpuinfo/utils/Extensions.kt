@@ -18,7 +18,9 @@
 
 package com.kgurgul.cpuinfo.utils
 
+import android.annotation.TargetApi
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -106,3 +108,13 @@ inline fun <reified VM : ViewModel> FragmentActivity.viewModelProvider(
 inline fun <reified VM : ViewModel> Fragment.viewModelProvider(
         provider: ViewModelProvider.Factory) =
         ViewModelProviders.of(this, provider).get(VM::class.java)
+
+@TargetApi(19)
+fun Fragment.createSafFile(mimeType: String, fileName: String, requestCode: Int) {
+    val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+        addCategory(Intent.CATEGORY_OPENABLE)
+        type = mimeType
+        putExtra(Intent.EXTRA_TITLE, fileName)
+    }
+    startActivityForResult(intent, requestCode)
+}

@@ -19,6 +19,7 @@
     <string name="action_settings">Nastavení</string>
     <string name="action_sorting">Řazení</string>
     <string name="action_refresh">Interval opětovného načítání</string>
+    <string name="action_export_to_csv">Export to CSV</string>
     
     <string name="open_drawer">Otevřít panel</string>
     <string name="close_drawer">Zavřít panel</string>

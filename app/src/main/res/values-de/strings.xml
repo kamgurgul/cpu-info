@@ -19,6 +19,7 @@
     <string name="action_settings">Einstellungen</string>
     <string name="action_sorting">Sortierung</string>
     <string name="action_refresh">Aktualisieren</string>
+    <string name="action_export_to_csv">Export to CSV</string>
 
     <string name="open_drawer">Menü öffnen</string>
     <string name="close_drawer">Menü schließen</string>

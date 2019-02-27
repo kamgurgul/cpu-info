@@ -20,13 +20,19 @@ import android.annotation.SuppressLint
 import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.ScopedViewModel
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
+import com.opencsv.CSVWriter
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.BufferedReader
 import java.io.File
+import java.io.FileWriter
 import java.io.InputStreamReader
 import java.security.Security
 import javax.inject.Inject
@@ -40,12 +46,33 @@ import javax.inject.Inject
 class AndroidInfoViewModel @Inject constructor(
         private val resources: Resources,
         private val contentResolver: ContentResolver,
-        private val devicePolicyManager: DevicePolicyManager) : ViewModel() {
+        private val devicePolicyManager: DevicePolicyManager,
+        private val dispatchersProvider: DispatchersProvider
+) : ScopedViewModel(dispatchersProvider) {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
     init {
         getData()
+    }
+
+    /**
+     * Invoked when user wants to export whole list to the CSV file
+     */
+    fun saveListToFile(uri: Uri) {
+        launch(context = dispatchersProvider.ioDispatcher) {
+            try {
+                contentResolver.openFileDescriptor(uri, "w")?.use {
+                    CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->
+                        listLiveData.forEach { pair ->
+                            csvWriter.writeNext(pair.toList().toTypedArray())
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
     }
 
     /**

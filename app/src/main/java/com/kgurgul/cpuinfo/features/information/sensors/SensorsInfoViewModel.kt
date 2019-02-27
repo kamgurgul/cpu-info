@@ -16,14 +16,21 @@
 
 package com.kgurgul.cpuinfo.features.information.sensors
 
+import android.content.ContentResolver
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import androidx.lifecycle.ViewModel
+import android.net.Uri
+import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.ScopedViewModel
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round1
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
+import com.opencsv.CSVWriter
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.io.FileWriter
 import javax.inject.Inject
 
 /**
@@ -32,7 +39,10 @@ import javax.inject.Inject
  * @author kgurgul
  */
 class SensorsInfoViewModel @Inject constructor(
-        private val sensorManager: SensorManager) : ViewModel(), SensorEventListener {
+        private val sensorManager: SensorManager,
+        private val dispatchersProvider: DispatchersProvider,
+        private val contentResolver: ContentResolver
+) : ScopedViewModel(dispatchersProvider), SensorEventListener {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
@@ -57,6 +67,25 @@ class SensorsInfoViewModel @Inject constructor(
         Thread {
             sensorManager.unregisterListener(this)
         }.start()
+    }
+
+    /**
+     * Invoked when user wants to export whole list to the CSV file
+     */
+    fun saveListToFile(uri: Uri) {
+        launch(context = dispatchersProvider.ioDispatcher) {
+            try {
+                contentResolver.openFileDescriptor(uri, "w")?.use {
+                    CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->
+                        listLiveData.forEach { pair ->
+                            csvWriter.writeNext(pair.toList().toTypedArray())
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {

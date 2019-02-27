@@ -24,20 +24,21 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.Camera
+import android.net.Uri
 import android.os.BatteryManager
 import android.os.Build
-import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.features.temperature.TemperatureProvider
-import com.kgurgul.cpuinfo.utils.Utils
+import com.kgurgul.cpuinfo.utils.*
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
-import com.kgurgul.cpuinfo.utils.round2
-import com.kgurgul.cpuinfo.utils.runOnApiAbove
+import com.opencsv.CSVWriter
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import java.io.FileFilter
+import java.io.FileWriter
 import java.io.RandomAccessFile
 import java.util.*
 import java.util.regex.Pattern
@@ -55,8 +56,9 @@ class HardwareInfoViewModel @Inject constructor(
         private val sharedPreferences: SharedPreferences,
         private val packageManager: PackageManager,
         private val contentResolver: ContentResolver,
-        private val batteryStatusProvider: BatteryStatusProvider)
-    : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
+        private val batteryStatusProvider: BatteryStatusProvider,
+        private val dispatchersProvider: DispatchersProvider
+) : ScopedViewModel(dispatchersProvider), SharedPreferences.OnSharedPreferenceChangeListener {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
@@ -90,6 +92,25 @@ class HardwareInfoViewModel @Inject constructor(
         if (wirelessInfo.size > 0) {
             listLiveData.add(Pair(resources.getString(R.string.wireless), ""))
             listLiveData.addAll(wirelessInfo)
+        }
+    }
+
+    /**
+     * Invoked when user wants to export whole list to the CSV file
+     */
+    fun saveListToFile(uri: Uri) {
+        launch(context = dispatchersProvider.ioDispatcher) {
+            try {
+                contentResolver.openFileDescriptor(uri, "w")?.use {
+                    CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->
+                        listLiveData.forEach { pair ->
+                            csvWriter.writeNext(pair.toList().toTypedArray())
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
         }
     }
 

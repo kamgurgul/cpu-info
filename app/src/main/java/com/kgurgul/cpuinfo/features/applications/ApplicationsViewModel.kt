@@ -20,8 +20,11 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.kgurgul.cpuinfo.utils.*
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
+import com.kgurgul.cpuinfo.utils.wrappers.Event
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -49,7 +52,10 @@ class ApplicationsViewModel @Inject constructor(
 
     val isLoading = NonNullMutableLiveData(false)
     val applicationList = ListLiveData<ExtendedAppInfo>()
-    val shouldStartStorageService = SingleLiveEvent<Void>()
+
+    private val _shouldStartStorageServiceEvent = MutableLiveData<Event<Unit>>()
+    val shouldStartStorageServiceEvent: LiveData<Event<Unit>>
+        get() = _shouldStartStorageServiceEvent
 
     private var isSortingAsc = prefs.get(SORTING_APPS_KEY, true)
     private var refreshingDisposable: Disposable? = null
@@ -64,12 +70,12 @@ class ApplicationsViewModel @Inject constructor(
             refreshingDisposable = getApplicationsListSingle()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe { _ -> isLoading.value = true }
+                    .doOnSubscribe { isLoading.value = true }
                     .doFinally { isLoading.value = false }
                     .subscribe({ appList ->
                         applicationList.replace(appList)
                         runOnApiBelow(Build.VERSION_CODES.O) {
-                            shouldStartStorageService.call()
+                            _shouldStartStorageServiceEvent.value = Event(Unit)
                         }
                     }, Timber::e)
         }
