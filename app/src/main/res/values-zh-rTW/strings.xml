@@ -98,7 +98,7 @@
     <string name="board">機板</string>
     <string name="serial">序號</string>
     <string name="rooted">已 root</string>
-    <string name="encrypted_storage">Encrypted Storage</string>
+    <string name="encrypted_storage">儲存空間已加密</string>
     <string name="security_providers">安全性提供者</string>
 
     <!--Hardware-->
