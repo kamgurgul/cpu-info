@@ -17,11 +17,6 @@
 package com.kgurgul.cpuinfo.features.applications
 
 import android.annotation.SuppressLint
-import android.content.ContentResolver
-import android.content.Context
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -35,7 +30,6 @@ import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.glide.GlideApp
 import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import com.kgurgul.cpuinfo.widgets.swiperv.SwipeHorizontalMenuLayout
-import java.io.File
 
 
 /**
@@ -43,14 +37,10 @@ import java.io.File
  *
  * @author kgurgul
  */
-class ApplicationsAdapter(private val context: Context,
-                          private val appList: List<ExtendedAppInfo>,
-                          private val appClickListener: ItemClickListener)
-    : RecyclerView.Adapter<ApplicationsAdapter.ApplicationViewHolder>() {
-
-    private val packageManager: PackageManager = context.packageManager
-    private val storageLabel: String = context.getString(R.string.storage_used)
-    private val calculatingLabel: String = context.getString(R.string.calculating)
+class ApplicationsAdapter(
+        private val appList: List<ExtendedAppInfo>,
+        private val appClickListener: ItemClickListener
+) : RecyclerView.Adapter<ApplicationsAdapter.ApplicationViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApplicationViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -58,96 +48,75 @@ class ApplicationsAdapter(private val context: Context,
         return ApplicationViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ApplicationViewHolder, position: Int) {
         val app = appList[position]
-
-        val iconResourceId = getResourceId(app.packageName)
-        val uri = Uri.Builder()
-                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-                .authority(app.packageName)
-                .path(iconResourceId.toString())
-                .build()
-
-        GlideApp.with(context)
-                .load(uri)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .fitCenter()
-                .into(holder.iconIv)
-
-        holder.nameTv.text = app.name
-        holder.packageTv.text = app.packageName
-
-        runOnApiBelow(Build.VERSION_CODES.O, {
-            val size =
-                    if (app.appSize == 0L) calculatingLabel
-                    else Utils.humanReadableByteCount(app.appSize)
-            holder.storageTv.text = "$storageLabel $size"
-        }, {
-            holder.storageTv.visibility = View.GONE
-        })
-
-        holder.mainContainer.setOnClickListener {
-            val pos = holder.adapterPosition
-            if (pos != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
-                appClickListener.appOpenClicked(pos)
-            }
-        }
-        holder.settingsV.setOnClickListener {
-            val pos = holder.adapterPosition
-            if (pos != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
-                appClickListener.appSettingsClicked(holder.adapterPosition)
-            }
-        }
-        holder.deleteView.setOnClickListener {
-            val pos = holder.adapterPosition
-            if (pos != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
-                holder.sml.smoothCloseMenu()
-                appClickListener.appUninstallClicked(holder.adapterPosition)
-            }
-        }
-
-        // Native libs
-        if (app.nativeLibraryDir != null) {
-            val fileDir = File(app.nativeLibraryDir)
-            val list = fileDir.listFiles()
-
-            if (list != null && list.isNotEmpty()) {
-                holder.nativeButtonIV.visibility = View.VISIBLE
-                holder.nativeButtonIV.setOnClickListener {
-                    appClickListener.appNativeLibsClicked(fileDir)
-                }
-            } else {
-                holder.nativeButtonIV.visibility = View.GONE
-            }
-        } else {
-            holder.nativeButtonIV.visibility = View.GONE
-        }
+        holder.bind(app, appClickListener)
     }
 
     override fun getItemCount(): Int = appList.size
 
     class ApplicationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val iconIv: ImageView = itemView.findViewById(R.id.app_icon)
-        val nameTv: TextView = itemView.findViewById(R.id.app_name)
-        val packageTv: TextView = itemView.findViewById(R.id.app_package)
-        val storageTv: TextView = itemView.findViewById(R.id.storage_usage)
-        val sml: SwipeHorizontalMenuLayout = itemView.findViewById(R.id.sml)
-        val mainContainer: View = itemView.findViewById(R.id.smContentView)
-        val settingsV: View = itemView.findViewById(R.id.settings)
-        val deleteView: View = itemView.findViewById(R.id.delete)
-        val nativeButtonIV: ImageView = itemView.findViewById(R.id.native_button)
-    }
+        private val storageLabel: String = itemView.context.getString(R.string.storage_used)
+        private val calculatingLabel: String = itemView.context.getString(R.string.calculating)
 
-    private fun getResourceId(packageName: String): Int {
-        val packageInfo: PackageInfo
-        try {
-            packageInfo = packageManager.getPackageInfo(packageName, 0)
-        } catch (e: PackageManager.NameNotFoundException) {
-            return 0
+        private val iconIv: ImageView = itemView.findViewById(R.id.app_icon)
+        private val nameTv: TextView = itemView.findViewById(R.id.app_name)
+        private val packageTv: TextView = itemView.findViewById(R.id.app_package)
+        private val storageTv: TextView = itemView.findViewById(R.id.storage_usage)
+        private val sml: SwipeHorizontalMenuLayout = itemView.findViewById(R.id.sml)
+        private val mainContainer: View = itemView.findViewById(R.id.smContentView)
+        private val settingsV: View = itemView.findViewById(R.id.settings)
+        private val deleteView: View = itemView.findViewById(R.id.delete)
+        private val nativeButtonIV: ImageView = itemView.findViewById(R.id.native_button)
+
+        @SuppressLint("SetTextI18n")
+        fun bind(app: ExtendedAppInfo, appClickListener: ItemClickListener) {
+            GlideApp.with(iconIv.context)
+                    .load(app.appIconUri)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .fitCenter()
+                    .into(iconIv)
+
+            nameTv.text = app.name
+            packageTv.text = app.packageName
+
+            runOnApiBelow(Build.VERSION_CODES.O, {
+                val size =
+                        if (app.appSize == 0L) calculatingLabel
+                        else Utils.humanReadableByteCount(app.appSize)
+                storageTv.text = "$storageLabel $size"
+            }, {
+                storageTv.visibility = View.GONE
+            })
+
+            mainContainer.setOnClickListener {
+                val pos = adapterPosition
+                if (pos != RecyclerView.NO_POSITION) {
+                    appClickListener.appOpenClicked(pos)
+                }
+            }
+            settingsV.setOnClickListener {
+                val pos = adapterPosition
+                if (pos != RecyclerView.NO_POSITION) {
+                    appClickListener.appSettingsClicked(adapterPosition)
+                }
+            }
+            deleteView.setOnClickListener {
+                val pos = adapterPosition
+                if (pos != RecyclerView.NO_POSITION) {
+                    sml.smoothCloseMenu()
+                    appClickListener.appUninstallClicked(adapterPosition)
+                }
+            }
+            nativeButtonIV.setOnClickListener {
+                app.nativeLibraryDir?.let { appClickListener.appNativeLibsClicked(it) }
+            }
+            if (app.hasNativeLibs) {
+                nativeButtonIV.visibility = View.VISIBLE
+            } else {
+                nativeButtonIV.visibility = View.GONE
+            }
         }
-
-        return packageInfo.applicationInfo.icon
     }
 
     /**
@@ -157,6 +126,6 @@ class ApplicationsAdapter(private val context: Context,
         fun appOpenClicked(position: Int)
         fun appSettingsClicked(position: Int)
         fun appUninstallClicked(position: Int)
-        fun appNativeLibsClicked(nativeFile: File)
+        fun appNativeLibsClicked(nativeDir: String)
     }
 }

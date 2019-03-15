@@ -31,6 +31,7 @@ import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
@@ -40,6 +41,7 @@ import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.utils.setDelayedRefreshingState
 import com.kgurgul.cpuinfo.utils.viewModelProvider
 import com.kgurgul.cpuinfo.utils.wrappers.EventObserver
 import com.kgurgul.cpuinfo.widgets.swiperv.SwipeMenuRecyclerView
@@ -78,10 +80,10 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
                               savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_applications, container,
                 false)
-        binding.setLifecycleOwner(viewLifecycleOwner)
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
-                    R.color.colorPrimaryDark)
+                R.color.colorPrimaryDark)
         initObservables()
         setupRecyclerView()
         return binding.root
@@ -91,8 +93,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
      * Setup for [SwipeMenuRecyclerView]
      */
     private fun setupRecyclerView() {
-        applicationsAdapter = ApplicationsAdapter(requireContext(), viewModel.applicationList,
-                this)
+        applicationsAdapter = ApplicationsAdapter(viewModel.applicationList, this)
         viewModel.applicationList.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(applicationsAdapter))
 
@@ -110,6 +111,9 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
     private fun initObservables() {
         viewModel.shouldStartStorageServiceEvent.observe(viewLifecycleOwner, EventObserver {
             StorageUsageService.startService(requireContext(), viewModel.applicationList)
+        })
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer {
+            binding.swipeRefreshLayout.setDelayedRefreshingState(it)
         })
     }
 
@@ -192,19 +196,20 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
     /**
      * Open dialog with native lib list and open google if user taps on it
      */
-    override fun appNativeLibsClicked(nativeFile: File) {
-        showNativeListDialog(nativeFile)
+    override fun appNativeLibsClicked(nativeDir: String) {
+        showNativeListDialog(nativeDir)
     }
 
     /**
      * Create dialog with native libraries list
      */
     @SuppressLint("InflateParams")
-    private fun showNativeListDialog(nativeLibsDir: File) {
+    private fun showNativeListDialog(nativeLibsDir: String) {
         val builder = AlertDialog.Builder(requireContext())
         val inflater = LayoutInflater.from(context)
         val dialogLayout = inflater.inflate(R.layout.dialog_native_libs, null)
-        val libs = nativeLibsDir.listFiles().map { it.name }
+        val nativeDirFile = File(nativeLibsDir)
+        val libs = nativeDirFile.listFiles().map { it.name }
 
         val listView: ListView = dialogLayout.findViewById(R.id.dialog_lv)
         val arrayAdapter = ArrayAdapter<String>(requireContext(), R.layout.item_native_libs,

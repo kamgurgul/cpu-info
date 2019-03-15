@@ -16,8 +16,11 @@
 
 package com.kgurgul.cpuinfo.features.applications
 
+import android.content.ContentResolver
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
@@ -34,6 +37,7 @@ import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 /**
@@ -90,8 +94,14 @@ class ApplicationsViewModel @Inject constructor(
             val appsList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
                     .filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }
                     .map {
+                        val hasNativeLibs = if (it.nativeLibraryDir != null) {
+                            val fileDir = File(it.nativeLibraryDir)
+                            val list = fileDir.listFiles()
+                            list != null && list.isNotEmpty()
+                        } else false
                         ExtendedAppInfo(it.loadLabel(packageManager).toString(), it.packageName,
-                                it.sourceDir, it.nativeLibraryDir)
+                                it.sourceDir, it.nativeLibraryDir, hasNativeLibs,
+                                getAppIconUri(it.packageName))
                     }
 
             return@fromCallable if (isSortingAsc) {
@@ -158,6 +168,24 @@ class ApplicationsViewModel @Inject constructor(
             return Pair(index, app)
         }
         return Pair(-1, null)
+    }
+
+    private fun getAppIconUri(packageName: String): Uri {
+        return Uri.Builder()
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                .authority(packageName)
+                .path(getResourceId(packageName).toString())
+                .build()
+    }
+
+    private fun getResourceId(packageName: String): Int {
+        val packageInfo: PackageInfo
+        try {
+            packageInfo = packageManager.getPackageInfo(packageName, 0)
+        } catch (e: PackageManager.NameNotFoundException) {
+            return 0
+        }
+        return packageInfo.applicationInfo.icon
     }
 
     override fun onCleared() {

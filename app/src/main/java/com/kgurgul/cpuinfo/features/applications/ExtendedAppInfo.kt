@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.features.applications
 
+import android.net.Uri
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
@@ -25,8 +26,11 @@ import kotlinx.android.parcel.Parcelize
  * @author kgurgul
  */
 @Parcelize
-data class ExtendedAppInfo(val name: String,
-                           val packageName: String,
-                           val sourceDir: String,
-                           val nativeLibraryDir: String?,
-                           var appSize: Long = 0) : Parcelable
+data class ExtendedAppInfo(
+        val name: String,
+        val packageName: String,
+        val sourceDir: String,
+        val nativeLibraryDir: String?,
+        val hasNativeLibs: Boolean,
+        val appIconUri: Uri,
+        var appSize: Long = 0) : Parcelable

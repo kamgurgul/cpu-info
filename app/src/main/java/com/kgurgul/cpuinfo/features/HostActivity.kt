@@ -26,9 +26,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.ActivityHostLayoutBinding
+import com.kgurgul.cpuinfo.utils.NavigationUtils
 import com.kgurgul.cpuinfo.utils.isTablet
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import dagger.android.AndroidInjector
@@ -58,7 +58,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
             setToolbarTitleAndElevation(destination.label.toString())
         }
         setSupportActionBar(binding.toolbar)
-        binding.navigationView.setupWithNavController(navController)
+        NavigationUtils.setupNavigationView(binding.navigationView, navController)
         runOnApiAbove(Build.VERSION_CODES.M) {
             // Processes cannot be listed above M
             val menu = binding.navigationView.menu

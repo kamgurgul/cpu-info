@@ -17,6 +17,7 @@
 package com.kgurgul.cpuinfo.features.applications
 
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.Prefs
@@ -132,7 +133,7 @@ class ApplicationsViewModelTest {
         val list = ArrayList<ExtendedAppInfo>()
         (0 until amount).mapTo(list) {
             ExtendedAppInfo("test$it", "test.$it",
-                    "test,$it", null, 0)
+                    "test,$it", null, false, Uri.EMPTY, 0)
         }
         return list
     }

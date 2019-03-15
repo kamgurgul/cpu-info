@@ -27,6 +27,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.kgurgul.cpuinfo.BuildConfig
 import com.kgurgul.cpuinfo.R
 
@@ -117,4 +118,15 @@ fun Fragment.createSafFile(mimeType: String, fileName: String, requestCode: Int)
         putExtra(Intent.EXTRA_TITLE, fileName)
     }
     startActivityForResult(intent, requestCode)
+}
+
+/**
+ * Show progress indicator immediately but hide it with passed [delay] to avoid blinks
+ */
+fun SwipeRefreshLayout.setDelayedRefreshingState(newState: Boolean, delay: Long = 800) {
+    if (!isRefreshing && newState) {
+        isRefreshing = newState
+    } else {
+        postDelayed({ isRefreshing = newState }, delay)
+    }
 }
