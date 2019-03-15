@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
     <application
         android:name=".CpuInfoApp"
@@ -17,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppThemeBase"
-        tools:targetApi="n">
+        tools:targetApi="n"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <activity
             android:name="com.kgurgul.cpuinfo.features.HostActivity"
