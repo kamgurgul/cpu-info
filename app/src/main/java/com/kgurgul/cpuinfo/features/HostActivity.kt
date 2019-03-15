@@ -50,6 +50,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private lateinit var binding: ActivityHostLayoutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppThemeBase)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_host_layout)
         navController = findNavController(R.id.nav_host_fragment)

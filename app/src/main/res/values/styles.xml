@@ -30,6 +30,11 @@
         <item name="alertDialogTheme">@style/CustomAppCompatAlertDialogStyle</item>
     </style>
 
+    <style name="AppThemeBase.Launcher">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+        <item name="colorPrimaryDark">@color/background</item>
+    </style>
+
     <style name="PreferenceMaterial" parent="PreferenceThemeOverlay.v14.Material">
         <item name="preferenceCategoryStyle">@style/PreferenceCategoryMaterial</item>
         <item name="android:background">@color/background</item>

@@ -18,12 +18,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppThemeBase"
-        tools:targetApi="n"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:targetApi="n">
 
         <activity
             android:name="com.kgurgul.cpuinfo.features.HostActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/AppThemeBase.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

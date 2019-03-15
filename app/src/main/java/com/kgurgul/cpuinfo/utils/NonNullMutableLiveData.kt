@@ -23,7 +23,7 @@ import androidx.lifecycle.MutableLiveData
  *
  * @author kgurgul
  */
-class NonNullMutableLiveData<T>(val defaultValue: T) : MutableLiveData<T>() {
+class NonNullMutableLiveData<T>(defaultValue: T) : MutableLiveData<T>() {
 
     init {
         value = defaultValue
