@@ -61,7 +61,10 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
             '**/com/kgurgul/cpuinfo/di/**/*', // Dagger classes
             '**/com/kgurgul/cpuinfo/databinding/**/*', // Android Data Binding
             '**/android/databinding/**/*', // Android Data Binding
-            '**/com/bumptech/glide/**/*' // Glide
+            '**/com/bumptech/glide/**/*', // Glide
+            '**/*Activity*.class',
+            '**/*Fragment*.class',
+            '**/*Adapter*.class',
     ]
     //we use "debug" build type for test coverage (can be other)
     def debugTree = fileTree(

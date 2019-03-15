@@ -17,10 +17,11 @@
 package com.kgurgul.cpuinfo.features.applications
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.content.Context
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -61,8 +62,15 @@ class ApplicationsAdapter(private val context: Context,
     override fun onBindViewHolder(holder: ApplicationViewHolder, position: Int) {
         val app = appList[position]
 
+        val iconResourceId = getResourceId(app.packageName)
+        val uri = Uri.Builder()
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                .authority(app.packageName)
+                .path(iconResourceId.toString())
+                .build()
+
         GlideApp.with(context)
-                .load(getApplicationInfo(app.sourceDir))
+                .load(uri)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .fitCenter()
                 .into(holder.iconIv)
@@ -131,18 +139,15 @@ class ApplicationsAdapter(private val context: Context,
         val nativeButtonIV: ImageView = itemView.findViewById(R.id.native_button)
     }
 
-    /**
-     * Generate [ApplicationInfo] from [PackageInfo]
-     */
-    private fun getApplicationInfo(path: String): ApplicationInfo? {
-        val info = packageManager.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES)
-        var appInfo: ApplicationInfo? = null
-        if (info != null) {
-            appInfo = info.applicationInfo
-            appInfo!!.sourceDir = path
-            appInfo.publicSourceDir = path
+    private fun getResourceId(packageName: String): Int {
+        val packageInfo: PackageInfo
+        try {
+            packageInfo = packageManager.getPackageInfo(packageName, 0)
+        } catch (e: PackageManager.NameNotFoundException) {
+            return 0
         }
-        return appInfo
+
+        return packageInfo.applicationInfo.icon
     }
 
     /**

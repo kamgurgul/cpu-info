@@ -18,7 +18,7 @@ buildscript {
         firebase = "16.0.3"
         crashlitics = "2.9.2"
         archLifecycle = "2.0.0"
-        navigation = "1.0.0-rc01"
+        navigation = "1.0.0"
         eventBus = "3.1.1"
         rxJava = "2.2.3"
         rxAndroid = "2.1.0"
@@ -40,7 +40,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.1'
+        classpath 'com.android.tools.build:gradle:3.3.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
