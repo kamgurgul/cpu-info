@@ -31,8 +31,6 @@ import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentApplicationsBinding
@@ -41,7 +39,6 @@ import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
-import com.kgurgul.cpuinfo.utils.setDelayedRefreshingState
 import com.kgurgul.cpuinfo.utils.viewModelProvider
 import com.kgurgul.cpuinfo.utils.wrappers.EventObserver
 import com.kgurgul.cpuinfo.widgets.swiperv.SwipeMenuRecyclerView
@@ -101,7 +98,6 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
             layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
             adapter = applicationsAdapter
             addItemDecoration(DividerItemDecoration(requireContext()))
-            (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
     }
 
@@ -111,9 +107,6 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
     private fun initObservables() {
         viewModel.shouldStartStorageServiceEvent.observe(viewLifecycleOwner, EventObserver {
             StorageUsageService.startService(requireContext(), viewModel.applicationList)
-        })
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer {
-            binding.swipeRefreshLayout.setDelayedRefreshingState(it)
         })
     }
 
