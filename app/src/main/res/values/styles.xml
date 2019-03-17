@@ -24,6 +24,7 @@
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:itemBackground">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="preferenceTheme">@style/PreferenceMaterial</item>
@@ -37,7 +38,6 @@
 
     <style name="PreferenceMaterial" parent="PreferenceThemeOverlay.v14.Material">
         <item name="preferenceCategoryStyle">@style/PreferenceCategoryMaterial</item>
-        <item name="android:background">@color/background</item>
     </style>
 
     <style name="PreferenceCategoryMaterial" parent="Preference.Category.Material">
