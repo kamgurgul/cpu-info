@@ -42,6 +42,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private lateinit var temperatureUnitPreference: ListPreference
     private lateinit var ramRefreshingPreference: ListPreference
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
 

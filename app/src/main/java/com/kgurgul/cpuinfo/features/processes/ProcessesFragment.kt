@@ -56,7 +56,7 @@ class ProcessesFragment : Fragment(), Injectable {
                               savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_processes, container,
                 false)
-        binding.setLifecycleOwner(viewLifecycleOwner)
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         setupRecyclerView()
         return binding.root
