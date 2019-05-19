@@ -31,11 +31,9 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:title="@string/hardware" />
 
             <fragment
@@ -54,7 +52,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@color/backgroundDark"
             app:headerLayout="@layout/header_nav_drawer"
             app:itemIconTint="@color/nav_drawer_tint_color"
             app:itemTextColor="@color/nav_drawer_tint_color"

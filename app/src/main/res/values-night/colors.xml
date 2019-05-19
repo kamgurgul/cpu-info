@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primary">#181818</color>
+    <color name="primaryDark">#000000</color>
+    <color name="onPrimary">#FFFFFF</color>
+    <color name="error">#F44336</color>
+    <color name="onError">#FFFFFF</color>
+    <color name="accent">#D32F2F</color>
+    <color name="surface">#121212</color>
+    <color name="onSurface">#FFFFFF</color>
+    <color name="background">#121212</color>
+    <color name="onBackground">#FFFFFF</color>
+
+</resources>

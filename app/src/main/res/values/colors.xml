@@ -15,13 +15,16 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#3E50B4</color>
-    <color name="colorPrimaryDark">#303E9F</color>
-    <color name="colorAccent">#ED4138</color>
-    <color name="textColorPrimary">#FFFFFF</color>
-    <color name="textColorSecondary">#FFFFFF</color>
-    <color name="background">#2F3136</color>
-    <color name="backgroundDark">#202225</color>
+    <color name="primary">#3E50B4</color>
+    <color name="primaryDark">#303E9F</color>
+    <color name="onPrimary">#FFFFFF</color>
+    <color name="error">#F44336</color>
+    <color name="onError">#FFFFFF</color>
+    <color name="accent">#ED4138</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="onSurface">#212121</color>
+    <color name="background">#FFFFFF</color>
+    <color name="onBackground">#212121</color>
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>

@@ -28,7 +28,6 @@
         android:layout_height="@dimen/temp_image_size"
         android:contentDescription="@string/cpu"
         android:scaleType="fitCenter"
-        android:tint="@color/textColorPrimary"
         tools:src="@mipmap/ic_launcher" />
 
     <LinearLayout

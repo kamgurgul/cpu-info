@@ -20,9 +20,11 @@ import android.app.Activity
 import android.app.Application
 import android.appwidget.AppWidgetManager
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import com.kgurgul.cpuinfo.di.AppInjector
 import com.kgurgul.cpuinfo.features.ramwidget.RamUsageWidgetProvider
+import com.kgurgul.cpuinfo.utils.ThemeHelper
 import com.kgurgul.cpuinfo.utils.isDebugBuild
 import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import dagger.android.DispatchingAndroidInjector
@@ -44,6 +46,9 @@ class CpuInfoApp : Application(), HasActivityInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate() {
         super.onCreate()
         instance = this
@@ -53,6 +58,9 @@ class CpuInfoApp : Application(), HasActivityInjector {
         }
 
         AppInjector.init(this)
+        sharedPreferences.getString(ThemeHelper.KEY_THEME, ThemeHelper.DEFAULT_MODE)?.let {
+            ThemeHelper.applyTheme(it)
+        }
         tryToUpdateRamWidget()
     }
 

@@ -46,7 +46,7 @@
         app:rcIconSize="40dp"
         app:rcIconSrc="@drawable/root"
         app:rcMax="100.0"
-        app:rcProgressColor="@color/colorAccent"
+        app:rcProgressColor="@color/accent"
         app:rcRadius="10dp" />
 
 </LinearLayout>

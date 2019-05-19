@@ -19,9 +19,9 @@ package com.kgurgul.cpuinfo.features.settings
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.utils.ThemeHelper
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
 
 /**
@@ -35,12 +35,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
     companion object {
         const val KEY_TEMPERATURE_UNIT = "temperature_unit"
         const val KEY_RAM_REFRESHING = "ram_refreshing"
+        const val KEY_THEME_CONFIG = "key_theme"
 
         private const val KEY_RAM_CATEGORIES = "pref_key_ram_settings"
     }
-
-    private lateinit var temperatureUnitPreference: ListPreference
-    private lateinit var ramRefreshingPreference: ListPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,11 +48,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
 
-        temperatureUnitPreference = preferenceScreen.findPreference(KEY_TEMPERATURE_UNIT)
-                as ListPreference
-        ramRefreshingPreference = preferenceScreen.findPreference(KEY_RAM_REFRESHING)
-                as ListPreference
-
         // RAM widget isn't supported currently on O and above
         runOnApiAbove(Build.VERSION_CODES.N_MR1) {
             preferenceScreen.removePreference(preferenceScreen.findPreference(KEY_RAM_CATEGORIES))
@@ -63,9 +56,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onResume() {
         super.onResume()
-
-        temperatureUnitPreference.summary = temperatureUnitPreference.entry.toString()
-        ramRefreshingPreference.summary = ramRefreshingPreference.entry.toString()
 
         preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
@@ -78,10 +68,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            KEY_TEMPERATURE_UNIT ->
-                temperatureUnitPreference.summary = temperatureUnitPreference.entry.toString()
-            KEY_RAM_REFRESHING ->
-                ramRefreshingPreference.summary = ramRefreshingPreference.entry.toString()
+            KEY_THEME_CONFIG -> {
+                @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+                ThemeHelper.applyTheme(sharedPreferences.getString(ThemeHelper.KEY_THEME,
+                        ThemeHelper.DEFAULT_MODE))
+            }
         }
     }
 }
