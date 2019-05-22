@@ -15,6 +15,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/temp_item_container"
     android:layout_width="match_parent"
@@ -28,6 +29,7 @@
         android:layout_height="@dimen/temp_image_size"
         android:contentDescription="@string/cpu"
         android:scaleType="fitCenter"
+        app:tint="?attr/colorOnBackground"
         tools:src="@mipmap/ic_launcher" />
 
     <LinearLayout
@@ -40,17 +42,17 @@
 
         <TextView
             android:id="@+id/temperatureTypeTv"
+            style="@style/TextBody1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:textSize="@dimen/temp_header_size"
             tools:text="@string/cpu_temperature" />
 
         <TextView
             android:id="@+id/temperatureTv"
+            style="@style/TextH7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/temp_text_size"
             android:textStyle="bold"
             tools:text="50" />
 

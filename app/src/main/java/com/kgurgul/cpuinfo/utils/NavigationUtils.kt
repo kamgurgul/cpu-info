@@ -39,19 +39,16 @@ object NavigationUtils {
      * Setup [NavigationView] for passed [navController]
      */
     fun setupNavigationView(navigationView: NavigationView, navController: NavController) {
-        navigationView.setNavigationItemSelectedListener(
-                object : NavigationView.OnNavigationItemSelectedListener {
-                    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                        val handled = onNavDestinationSelected(item, navController)
-                        if (handled) {
-                            val parent = navigationView.parent
-                            if (parent is DrawerLayout) {
-                                parent.closeDrawer(navigationView)
-                            }
-                        }
-                        return handled
-                    }
-                })
+        navigationView.setNavigationItemSelectedListener { item ->
+            val handled = onNavDestinationSelected(item, navController)
+            if (handled) {
+                val parent = navigationView.parent
+                if (parent is DrawerLayout) {
+                    parent.closeDrawer(navigationView)
+                }
+            }
+            handled
+        }
         val weakReference = WeakReference<NavigationView>(navigationView)
         navController.addOnDestinationChangedListener(
                 object : NavController.OnDestinationChangedListener {
