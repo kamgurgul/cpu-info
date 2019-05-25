@@ -42,7 +42,7 @@
             android:id="@+id/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            style="@style/TextBody1"
             android:textStyle="bold"
             tools:text="CPU Info" />
 
@@ -51,8 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:textColor="@color/greyText"
-            android:textSize="12sp"
+            style="@style/TextAnnotation1"
             tools:text="com.kgurgulcom.kgurgulcom.kgurgulcom.kgurgulcom.kgurgulcom.kgurgulv" />
 
         <TextView
@@ -61,8 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center_vertical"
-            android:textColor="@color/greyText"
-            android:textSize="12sp"
+            style="@style/TextAnnotation1"
             android:textStyle="bold"
             tools:text="Storage usage: 60MB" />
 
@@ -77,6 +75,6 @@
         android:contentDescription="@string/app_name"
         android:focusable="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/c_plus_plus" />
+        android:src="@drawable/ic_c_plus_plus" />
 
 </LinearLayout>
