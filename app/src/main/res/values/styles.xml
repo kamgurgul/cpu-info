@@ -19,6 +19,7 @@
     <style name="AppThemeBase" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primaryDark</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorOnPrimary">@color/onPrimary</item>
         <item name="colorOnSecondary">@color/onPrimary</item>
         <item name="colorAccent">@color/accent</item>
@@ -34,18 +35,6 @@
         <item name="alertDialogTheme">@style/CustomAppCompatAlertDialogStyle</item>
         <item name="materialAlertDialogTheme">@style/CustomAppCompatAlertDialogStyle</item>
 
-        <!--<item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primaryDark</item>
-        <item name="colorAccent">@color/accent</item>
-        <item name="colorSurface">@color/surface</item>--><!--
-        <item name="android:colorBackground">@color/background</item>-->
-        <!--        <item name="android:textColor">?attr/colorOnBackground</item>
-                <item name="android:textColorPrimary">?attr/colorOnBackground</item>
-                <item name="android:textColorSecondary">?attr/colorOnBackground</item>-->
-        <!--<item name="android:itemBackground">@color/background</item>
-        <item name="android:windowBackground">@color/background</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>-->
     </style>
 
     <style name="AppThemeBase.Launcher">
