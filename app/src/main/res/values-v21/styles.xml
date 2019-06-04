@@ -16,7 +16,7 @@
 
 <resources>
 
-    <style name="TintedAppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="TintedProgressBar" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/accent</item>
         <item name="android:indeterminateTint">?attr/colorAccent</item>
         <item name="android:indeterminateTintMode">src_in</item>

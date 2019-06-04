@@ -16,11 +16,11 @@
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/native_name_tv"
+    style="@style/TextBody2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:paddingBottom="20dp"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp"
     android:paddingTop="20dp"
-    android:textColor="@color/greyText" />
+    android:paddingRight="10dp"
+    android:paddingBottom="20dp" />

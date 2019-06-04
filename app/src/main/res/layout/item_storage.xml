@@ -28,8 +28,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/greyText"
-        android:textSize="14sp"
+        style="@style/TextBody2"
         android:textStyle="bold"
         tools:text="Internal: 1.3GB / 4GB" />
 

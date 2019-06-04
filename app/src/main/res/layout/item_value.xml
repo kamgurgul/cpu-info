@@ -19,14 +19,15 @@
     android:id="@+id/item_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
     android:orientation="horizontal"
     android:padding="10dp">
 
     <TextView
         android:id="@+id/title_tv"
+        style="@style/TextBody2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
@@ -37,10 +38,11 @@
 
     <TextView
         android:id="@+id/value_tv"
+        style="@style/TextBody2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.6"
-        android:textColor="@color/greyText"
+        android:alpha="0.7"
         android:visibility="gone" />
 
 </LinearLayout>

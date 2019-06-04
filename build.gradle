@@ -14,7 +14,7 @@ buildscript {
         // Libs
         appCompat = "1.1.0-alpha05"
         core = "1.2.0-alpha01"
-        material = "1.1.0-alpha06"
+        material = "1.1.0-alpha07"
         preference = "1.1.0-alpha05"
         androidDatabinding = "2.3.0"
         firebase = "16.0.3"
