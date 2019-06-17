@@ -36,7 +36,7 @@ import javax.inject.Singleton
  *
  * @author kgurgul
  */
-@Module
+@Module(includes = [AppModuleBinds::class])
 class AppModule {
 
     @Provides

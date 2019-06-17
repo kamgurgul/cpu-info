@@ -18,18 +18,12 @@ package com.kgurgul.cpuinfo
 
 import android.app.Activity
 import android.app.Application
-import android.appwidget.AppWidgetManager
-import android.content.Intent
-import android.content.SharedPreferences
-import android.os.Build
+import android.app.Service
+import com.kgurgul.cpuinfo.appinitializers.AppInitializers
 import com.kgurgul.cpuinfo.di.AppInjector
-import com.kgurgul.cpuinfo.features.ramwidget.RamUsageWidgetProvider
-import com.kgurgul.cpuinfo.utils.ThemeHelper
-import com.kgurgul.cpuinfo.utils.isDebugBuild
-import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
-import timber.log.Timber
+import dagger.android.HasServiceInjector
 import javax.inject.Inject
 
 /**
@@ -37,47 +31,24 @@ import javax.inject.Inject
  *
  * @author kgurgul
  */
-class CpuInfoApp : Application(), HasActivityInjector {
-
-    companion object {
-        lateinit var instance: CpuInfoApp
-    }
+class CpuInfoApp : Application(), HasActivityInjector, HasServiceInjector {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
     @Inject
-    lateinit var sharedPreferences: SharedPreferences
+    lateinit var dispatchingServiceInjector: DispatchingAndroidInjector<Service>
+
+    @Inject
+    lateinit var initializers: AppInitializers
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
-
-        if (isDebugBuild()) {
-            Timber.plant(Timber.DebugTree())
-        }
-
         AppInjector.init(this)
-        sharedPreferences.getString(ThemeHelper.KEY_THEME, ThemeHelper.DEFAULT_MODE)?.let {
-            ThemeHelper.applyTheme(it)
-        }
-        tryToUpdateRamWidget()
+        initializers.init(this)
     }
 
-    /**
-     * Try to create refresh service for ram widget. Currently it will work only on API below 26
-     */
-    private fun tryToUpdateRamWidget() {
-        runOnApiBelow(Build.VERSION_CODES.O) {
-            Timber.d("updateRamWidget()")
-            val intent = Intent(this, RamUsageWidgetProvider::class.java)
-            intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            val ids = intArrayOf(R.xml.ram_widget_provider)
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-            sendBroadcast(intent)
-        }
-    }
+    override fun activityInjector() = dispatchingAndroidInjector
 
-    override fun activityInjector(): DispatchingAndroidInjector<Activity>
-            = dispatchingAndroidInjector
+    override fun serviceInjector() = dispatchingServiceInjector
 }

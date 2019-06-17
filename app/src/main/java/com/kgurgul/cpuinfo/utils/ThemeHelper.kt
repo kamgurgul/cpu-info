@@ -11,11 +11,11 @@ import androidx.core.os.BuildCompat
  */
 object ThemeHelper {
 
-    val KEY_THEME = "key_theme"
+    const val KEY_THEME = "key_theme"
 
-    val LIGHT_MODE = "light"
-    val DARK_MODE = "dark"
-    val DEFAULT_MODE = "default"
+    const val LIGHT_MODE = "light"
+    const val DARK_MODE = "dark"
+    const val DEFAULT_MODE = "default"
 
     fun applyTheme(themePref: String) {
         when (themePref) {
