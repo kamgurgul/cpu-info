@@ -25,7 +25,7 @@ buildscript {
         rxJava = "2.2.3"
         rxAndroid = "2.1.1"
         gson = "2.8.2"
-        dagger = "2.22.1"
+        dagger = "2.23.1"
         glide = "4.9.0"
         timber = "4.7.1"
         coreTesting = "2.0.0-rc01"

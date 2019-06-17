@@ -37,7 +37,6 @@
             android:layout_height="match_parent"
             tools:listitem="@layout/item_temperature" />
 
-        <!--Progress bar-->
         <ProgressBar
             android:id="@+id/progress_bar"
             style="@style/TintedProgressBar"
@@ -49,13 +48,13 @@
         <!--No data-->
         <TextView
             android:id="@+id/no_data_tv"
+            style="@style/TextH6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_margin="@dimen/temp_item_margin"
             android:gravity="center"
             android:text="@string/no_temp_data"
-            android:textSize="22sp"
             android:visibility="@{safeUnbox(viewModel.isError) ? View.VISIBLE: View.GONE}"
             tools:visibility="visible" />
 

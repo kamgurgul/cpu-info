@@ -31,9 +31,9 @@
 
         <TextView
             android:id="@+id/proc_name_tv"
+            style="@style/TextBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
             android:textStyle="bold"
             tools:text="Killer process" />
 
@@ -45,20 +45,20 @@
 
             <TextView
                 android:id="@+id/proc_pid_tv"
+                style="@style/TextBody2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dp"
                 android:layout_weight="0.5"
-                android:textSize="12sp"
                 tools:text="PID: 25" />
 
             <TextView
                 android:id="@+id/proc_ppid_tv"
+                style="@style/TextBody2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_weight="0.5"
-                android:textSize="12sp"
                 tools:text="PPID: 1" />
 
         </LinearLayout>
@@ -71,20 +71,20 @@
 
             <TextView
                 android:id="@+id/proc_nic_tv"
+                style="@style/TextBody2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dp"
                 android:layout_weight="0.5"
-                android:textSize="12sp"
                 tools:text="NICENESS: 0" />
 
             <TextView
                 android:id="@+id/proc_user_tv"
+                style="@style/TextBody2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_weight="0.5"
-                android:textSize="12sp"
                 tools:text="USER: root" />
 
         </LinearLayout>
@@ -97,20 +97,20 @@
 
             <TextView
                 android:id="@+id/proc_rss_tv"
+                style="@style/TextBody2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dp"
                 android:layout_weight="0.5"
-                android:textSize="12sp"
                 tools:text="RSS: 0" />
 
             <TextView
                 android:id="@+id/proc_vsize_tv"
+                style="@style/TextBody2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_weight="0.5"
-                android:textSize="12sp"
                 tools:text="VSIZE: 0" />
 
         </LinearLayout>

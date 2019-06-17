@@ -17,6 +17,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -31,8 +32,8 @@
         style="@style/TextBody2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="0.7"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="Test" />
 
     <TextView
         android:id="@+id/value_tv"
@@ -41,6 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:alpha="0.7"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:text="Value"
+        tools:visibility="visible" />
 
 </LinearLayout>
