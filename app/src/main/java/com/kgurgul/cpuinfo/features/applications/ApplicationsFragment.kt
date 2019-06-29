@@ -28,9 +28,9 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentApplicationsBinding
@@ -79,8 +79,8 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
                 false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
-                R.color.colorPrimaryDark)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.accent,
+                R.color.primaryDark)
         initObservables()
         setupRecyclerView()
         return binding.root
@@ -198,7 +198,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
      */
     @SuppressLint("InflateParams")
     private fun showNativeListDialog(nativeLibsDir: String) {
-        val builder = AlertDialog.Builder(requireContext())
+        val builder = MaterialAlertDialogBuilder(requireContext())
         val inflater = LayoutInflater.from(context)
         val dialogLayout = inflater.inflate(R.layout.dialog_native_libs, null)
         val nativeDirFile = File(nativeLibsDir)

@@ -73,8 +73,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$project.kotlinVersion"
 
     implementation "androidx.appcompat:appcompat:$project.appCompat"
-    implementation "com.google.android.material:material:$project.androidX"
-    implementation "androidx.legacy:legacy-preference-v14:$project.androidX"
+    implementation "androidx.core:core:$project.core"
+    implementation "com.google.android.material:material:$project.material"
+    implementation "androidx.preference:preference:$project.preference"
 
     // Bus
     implementation "org.greenrobot:eventbus:$project.eventBus"

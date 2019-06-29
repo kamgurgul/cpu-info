@@ -56,7 +56,7 @@ abstract class BaseRvFragment : Fragment(), Injectable, InfoItemsAdapter.OnClick
      * Basic [RecyclerView] configuration with [LinearLayoutManager] and disabled animations
      */
     private fun setupRecyclerView() {
-        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
 
         // Remove change animation

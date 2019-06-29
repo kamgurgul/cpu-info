@@ -134,6 +134,12 @@
     <string name="ram_refreshing">Odświeżanie widgetu</string>
     <string name="general">Ogólne</string>
     <string name="temperature_unit">Jednostka temperatury</string>
+    <string name="pref_theme_dark">Ciemny</string>
+    <string name="pref_theme_light">Jasny</string>
+    <string name="pref_theme_battery">Kontrolowany przez system oszczędzania baterii</string>
+    <string name="pref_theme_default">Domyślny systemowy</string>
+    <string name="pref_theme">Motyw</string>
+    <string name="pref_theme_choose">Wybierz motyw</string>
 
     <!--Temp-->
     <string name="cpu_temperature">Temperatura CPU</string>

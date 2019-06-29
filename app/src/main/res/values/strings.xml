@@ -139,6 +139,12 @@
     <string name="ram_refreshing">Widget refreshing</string>
     <string name="general">General</string>
     <string name="temperature_unit">Temperature unit</string>
+    <string name="pref_theme_dark">Dark</string>
+    <string name="pref_theme_light">Light</string>
+    <string name="pref_theme_battery">Set by Battery Saver</string>
+    <string name="pref_theme_default">System default</string>
+    <string name="pref_theme">Theme</string>
+    <string name="pref_theme_choose">Choose theme</string>
 
     <!--Temp-->
     <string name="cpu_temperature">CPU temperature</string>

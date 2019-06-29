@@ -21,7 +21,5 @@
 
     <dimen name="temp_item_margin">16dp</dimen>
     <dimen name="temp_image_size">60dp</dimen>
-    <dimen name="temp_header_size">16sp</dimen>
-    <dimen name="temp_text_size">20sp</dimen>
 
 </resources>

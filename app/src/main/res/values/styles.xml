@@ -16,19 +16,23 @@
 
 <resources>
 
-    <style name="AppThemeBase" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">@color/textColorPrimary</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
-        <item name="android:textColorSecondary">@color/textColorSecondary</item>
-        <item name="android:itemBackground">@color/background</item>
-        <item name="android:windowBackground">@color/background</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="preferenceTheme">@style/PreferenceMaterial</item>
+    <style name="AppThemeBase" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primaryDark</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
+        <item name="colorOnSecondary">@color/onPrimary</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/onError</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/onSurface</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorOnBackground">@color/onBackground</item>
+
         <item name="alertDialogTheme">@style/CustomAppCompatAlertDialogStyle</item>
+        <item name="materialAlertDialogTheme">@style/CustomAppCompatAlertDialogStyle</item>
+
     </style>
 
     <style name="AppThemeBase.Launcher">
@@ -36,37 +40,61 @@
         <item name="colorPrimaryDark">@color/background</item>
     </style>
 
-    <style name="PreferenceMaterial" parent="PreferenceThemeOverlay.v14.Material">
-        <item name="preferenceCategoryStyle">@style/PreferenceCategoryMaterial</item>
+    <style name="TintedProgressBar" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/accent</item>
     </style>
 
-    <style name="PreferenceCategoryMaterial" parent="Preference.Category.Material">
-        <item name="android:layout">@layout/item_preference_category</item>
-        <item name="allowDividerAbove">true</item>
-        <item name="allowDividerBelow">false</item>
+    <style name="CustomAppCompatAlertDialogStyle" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="colorPrimary">@color/onBackground</item>
     </style>
 
-    <style name="PreferenceCategoryTextMaterial" parent="@android:style/Widget.TextView">
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
-        <item name="android:layout_margin">10dp</item>
+    <!-- Texts -->
+    <style name="BaseText">
+        <item name="android:textColor">?attr/colorOnBackground</item>
     </style>
 
-    <style name="TintedAppCompatAlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="TextH1" parent="BaseText">
+        <item name="android:textSize">96sp</item>
     </style>
 
-    <style name="CustomAppCompatAlertDialogStyle" parent="TintedAppCompatAlertDialogStyle">
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/background</item>
-        <item name="android:textColor">@color/textColorPrimary</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
-        <item name="android:textColorSecondary">@color/textColorSecondary</item>
-        <item name="android:textColorHighlight">@color/textColorPrimary</item>
-        <item name="android:textColorTertiary">@color/textColorPrimary</item>
-        <item name="textColorAlertDialogListItem">@color/textColorPrimary</item>
+    <style name="TextH2" parent="BaseText">
+        <item name="android:textSize">60sp</item>
+    </style>
+
+    <style name="TextH3" parent="BaseText">
+        <item name="android:textSize">48sp</item>
+    </style>
+
+    <style name="TextH4" parent="BaseText">
+        <item name="android:textSize">34sp</item>
+    </style>
+
+    <style name="TextH5" parent="BaseText">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextH6" parent="BaseText">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextH7" parent="BaseText">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextBody1" parent="BaseText">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextBody2" parent="BaseText">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAnnotation1" parent="BaseText">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAnnotation2" parent="BaseText">
+        <item name="android:textSize">10sp</item>
     </style>
 
 </resources>

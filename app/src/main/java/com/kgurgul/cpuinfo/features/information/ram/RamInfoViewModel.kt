@@ -21,7 +21,6 @@ import android.app.ActivityManager
 import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
@@ -59,7 +58,6 @@ class RamInfoViewModel @Inject constructor(
 
     private val memoryInfo = ActivityManager.MemoryInfo()
     private var ramRefreshingDisposable: Disposable? = null
-    private var clearRamAsyncTask: ClearRamAsyncTask? = null
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
@@ -144,10 +142,10 @@ class RamInfoViewModel @Inject constructor(
      * Run task to clear RAM memory
      */
     fun clearRam() {
-        if (clearRamAsyncTask == null || clearRamAsyncTask?.status != AsyncTask.Status.RUNNING) {
-            clearRamAsyncTask?.cancel(true)
-            clearRamAsyncTask = ClearRamAsyncTask()
-            clearRamAsyncTask?.execute()
+        launch(context = dispatchersProvider.ioDispatcher) {
+            System.runFinalization()
+            Runtime.getRuntime().gc()
+            System.gc()
         }
     }
 

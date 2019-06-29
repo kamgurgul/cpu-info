@@ -14,34 +14,48 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        android:key="pref_key_storage_settings"
-        android:title="@string/general">
+        app:key="pref_key_storage_settings"
+        app:title="@string/general">
 
         <ListPreference
-            android:defaultValue="0"
-            android:entries="@array/prefTemperatureNames"
-            android:entryValues="@array/prefTemperatureValues"
-            android:key="temperature_unit"
-            android:title="@string/temperature_unit"
-            app:iconSpaceReserved="false" />
+            app:defaultValue="0"
+            app:entries="@array/prefTemperatureNames"
+            app:entryValues="@array/prefTemperatureValues"
+            app:key="temperature_unit"
+            app:title="@string/temperature_unit"
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_key_ram_settings"
-        android:title="@string/ram">
+        app:key="pref_key_ram_settings"
+        app:title="@string/ram">
 
         <ListPreference
-            android:defaultValue="10000"
-            android:entries="@array/prefRamNames"
-            android:entryValues="@array/prefRamValues"
-            android:key="ram_refreshing"
-            android:title="@string/ram_refreshing"
-            app:iconSpaceReserved="false" />
+            app:defaultValue="10000"
+            app:entries="@array/prefRamNames"
+            app:entryValues="@array/prefRamValues"
+            app:key="ram_refreshing"
+            app:title="@string/ram_refreshing"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="pref_key_theme_category"
+        app:title="@string/pref_theme">
+
+        <ListPreference
+            app:defaultValue="default"
+            app:dialogTitle="@string/pref_theme_choose"
+            app:entries="@array/themeListArray"
+            app:entryValues="@array/themeEntryArray"
+            app:key="key_theme"
+            app:title="@string/pref_theme_choose"
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
