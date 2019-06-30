@@ -37,8 +37,8 @@ class RxImmediateSchedulerRule : TestRule {
         override fun scheduleDirect(run: Runnable, delay: Long, unit: TimeUnit): Disposable =
                 super.scheduleDirect(run, 0, unit)
 
-        override fun createWorker(): Scheduler.Worker =
-                ExecutorScheduler.ExecutorWorker(Runnable::run)
+        override fun createWorker(): Worker =
+                ExecutorScheduler.ExecutorWorker(Runnable::run, false)
     }
 
     override fun apply(base: Statement, description: Description): Statement {
