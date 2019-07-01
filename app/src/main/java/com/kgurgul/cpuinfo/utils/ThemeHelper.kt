@@ -1,8 +1,6 @@
 package com.kgurgul.cpuinfo.utils
 
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.BuildCompat
-
 
 /**
  * Helper class to set app theme
@@ -26,11 +24,11 @@ object ThemeHelper {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
             else -> {
-                if (BuildCompat.isAtLeastQ()) {
+                runOnApiAbove(28, {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                } else {
+                }, {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-                }
+                })
             }
         }
     }
