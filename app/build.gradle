@@ -73,7 +73,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$project.kotlinVersion"
 
     implementation "androidx.appcompat:appcompat:$project.appCompat"
-    implementation "androidx.core:core:$project.core"
     implementation "com.google.android.material:material:$project.material"
     implementation "androidx.preference:preference:$project.preference"
 

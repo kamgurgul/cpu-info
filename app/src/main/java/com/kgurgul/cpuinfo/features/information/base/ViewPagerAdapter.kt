@@ -33,7 +33,7 @@ import com.kgurgul.cpuinfo.features.information.storage.StorageInfoFragment
  * Simple view pager for info fragments
  */
 class ViewPagerAdapter(val context: Context, manager: FragmentManager) :
-        FragmentStatePagerAdapter(manager) {
+        FragmentStatePagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     companion object {
         const val CPU_POS = 0

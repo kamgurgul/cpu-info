@@ -17,7 +17,6 @@
 package com.kgurgul.cpuinfo.di.modules
 
 import android.app.ActivityManager
-import android.app.Application
 import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
 import android.content.Context
@@ -41,41 +40,41 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideResources(app: Application): Resources =
-            app.resources
+    fun provideResources(appContext: Context): Resources =
+            appContext.resources
 
     @Provides
     @Singleton
-    fun provideActivityManager(app: Application): ActivityManager =
-            app.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    fun provideActivityManager(appContext: Context): ActivityManager =
+            appContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
     @Provides
     @Singleton
-    fun provideDevicePolicyManager(app: Application): DevicePolicyManager =
-            app.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+    fun provideDevicePolicyManager(appContext: Context): DevicePolicyManager =
+            appContext.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
     @Provides
     @Singleton
-    fun providePackageManager(app: Application): PackageManager =
-            app.packageManager
+    fun providePackageManager(appContext: Context): PackageManager =
+            appContext.packageManager
 
     @Provides
     @Singleton
-    fun provideContentResolver(app: Application): ContentResolver =
-            app.contentResolver
+    fun provideContentResolver(appContext: Context): ContentResolver =
+            appContext.contentResolver
 
     @Provides
     @Singleton
-    fun provideWindowManager(app: Application): WindowManager =
-            app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    fun provideWindowManager(appContext: Context): WindowManager =
+            appContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
     @Provides
     @Singleton
-    fun provideSensorManager(app: Application): SensorManager =
-            app.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    fun provideSensorManager(appContext: Context): SensorManager =
+            appContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
     @Provides
     @Singleton
-    fun provideSharedPreferences(app: Application): SharedPreferences =
-            PreferenceManager.getDefaultSharedPreferences(app)
+    fun provideSharedPreferences(appContext: Context): SharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(appContext)
 }

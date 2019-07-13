@@ -16,14 +16,11 @@
 
 package com.kgurgul.cpuinfo
 
-import android.app.Activity
 import android.app.Application
-import android.app.Service
 import com.kgurgul.cpuinfo.appinitializers.AppInitializers
 import com.kgurgul.cpuinfo.di.AppInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import dagger.android.HasServiceInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 /**
@@ -31,13 +28,11 @@ import javax.inject.Inject
  *
  * @author kgurgul
  */
-class CpuInfoApp : Application(), HasActivityInjector, HasServiceInjector {
+class CpuInfoApp : Application(), HasAndroidInjector {
+
 
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
-
-    @Inject
-    lateinit var dispatchingServiceInjector: DispatchingAndroidInjector<Service>
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     @Inject
     lateinit var initializers: AppInitializers
@@ -48,7 +43,5 @@ class CpuInfoApp : Application(), HasActivityInjector, HasServiceInjector {
         initializers.init(this)
     }
 
-    override fun activityInjector() = dispatchingAndroidInjector
-
-    override fun serviceInjector() = dispatchingServiceInjector
+    override fun androidInjector() = androidInjector
 }

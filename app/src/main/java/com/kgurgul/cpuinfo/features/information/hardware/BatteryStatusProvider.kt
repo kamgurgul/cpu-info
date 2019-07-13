@@ -17,7 +17,6 @@
 package com.kgurgul.cpuinfo.features.information.hardware
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -32,14 +31,14 @@ import javax.inject.Singleton
  * @author kgurgul
  */
 @Singleton
-class BatteryStatusProvider @Inject constructor(private val app: Application) {
+class BatteryStatusProvider @Inject constructor(private val appContext: Context) {
 
     /**
      * @return [Intent] with battery information
      */
     fun getBatteryStatusIntent(): Intent? {
         val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        return app.registerReceiver(null, iFilter)
+        return appContext.registerReceiver(null, iFilter)
     }
 
     /**
@@ -50,7 +49,7 @@ class BatteryStatusProvider @Inject constructor(private val app: Application) {
         var capacity = -1.0
         try {
             val powerProfile = Class.forName("com.android.internal.os.PowerProfile")
-                    .getConstructor(Context::class.java).newInstance(app)
+                    .getConstructor(Context::class.java).newInstance(appContext)
             capacity = Class
                     .forName("com.android.internal.os.PowerProfile")
                     .getMethod("getAveragePower", String::class.java)

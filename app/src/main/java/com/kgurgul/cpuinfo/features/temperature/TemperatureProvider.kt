@@ -16,7 +16,7 @@
 
 package com.kgurgul.cpuinfo.features.temperature
 
-import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
@@ -33,14 +33,14 @@ import javax.inject.Singleton
  * @author kgurgul
  */
 @Singleton
-class TemperatureProvider @Inject constructor(val app: Application) {
+class TemperatureProvider @Inject constructor(val appContext: Context) {
 
     /**
      * @return battery temperature divided by 10 to get value in Celsius
      */
     fun getBatteryTemperature(): Int {
         val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        val batteryStatus = app.registerReceiver(null, iFilter)
+        val batteryStatus = appContext.registerReceiver(null, iFilter)
         return (batteryStatus?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE,
                 0) ?: 0) / 10
     }

@@ -36,7 +36,7 @@ import dagger.android.support.HasSupportFragmentInjector
  */
 object AppInjector {
     fun init(cpuInfoApp: CpuInfoApp) {
-        DaggerAppComponent.builder().application(cpuInfoApp).build().inject(cpuInfoApp)
+        DaggerAppComponent.factory().create(cpuInfoApp).inject(cpuInfoApp)
         cpuInfoApp.registerActivityLifecycleCallbacks(
                 object : Application.ActivityLifecycleCallbacks {
                     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {

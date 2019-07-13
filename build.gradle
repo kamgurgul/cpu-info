@@ -12,11 +12,9 @@ buildscript {
         coroutines = "1.0.1"
 
         // Libs
-        appCompat = "1.1.0-beta01"
-        core = "1.2.0-alpha01"
+        appCompat = "1.1.0-rc01"
         material = "1.1.0-alpha07"
-        preference = "1.1.0-beta01"
-        androidDatabinding = "2.3.0"
+        preference = "1.1.0-rc01"
         firebase = "16.0.3"
         crashlitics = "2.9.2"
         archLifecycle = "2.0.0"
@@ -25,7 +23,7 @@ buildscript {
         rxJava = "2.2.3"
         rxAndroid = "2.1.1"
         gson = "2.8.2"
-        dagger = "2.23.1"
+        dagger = "2.23.2"
         glide = "4.9.0"
         timber = "4.7.1"
         coreTesting = "2.0.0-rc01"
