@@ -75,6 +75,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$project.appCompat"
     implementation "com.google.android.material:material:$project.material"
     implementation "androidx.preference:preference:$project.preference"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$project.swiperefreshlayout"
 
     // Bus
     implementation "org.greenrobot:eventbus:$project.eventBus"

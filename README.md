@@ -37,7 +37,6 @@ CI
 
 Still TODO
 ==========
-* Migration all heavy lifting into coroutines (remove AsyncTask)
 * Tests
 * Fix for RAM widget on Android O
 * Add benchmarks

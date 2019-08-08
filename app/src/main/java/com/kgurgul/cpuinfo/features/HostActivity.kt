@@ -23,7 +23,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.kgurgul.cpuinfo.R
@@ -31,9 +30,8 @@ import com.kgurgul.cpuinfo.databinding.ActivityHostLayoutBinding
 import com.kgurgul.cpuinfo.utils.NavigationUtils
 import com.kgurgul.cpuinfo.utils.isTablet
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
-import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 /**
@@ -41,10 +39,10 @@ import javax.inject.Inject
  *
  * @author kgurgul
  */
-class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
+class HostActivity : AppCompatActivity(), HasAndroidInjector {
 
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     private lateinit var navController: NavController
     private lateinit var binding: ActivityHostLayoutBinding
@@ -104,5 +102,5 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 R.string.open_drawer, R.string.close_drawer)
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingAndroidInjector
+    override fun androidInjector() = dispatchingAndroidInjector
 }

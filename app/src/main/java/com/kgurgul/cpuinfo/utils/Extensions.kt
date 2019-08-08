@@ -22,6 +22,7 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
@@ -116,5 +117,9 @@ fun Fragment.createSafFile(mimeType: String, fileName: String, requestCode: Int)
         type = mimeType
         putExtra(Intent.EXTRA_TITLE, fileName)
     }
-    startActivityForResult(intent, requestCode)
+    try {
+        startActivityForResult(intent, requestCode)
+    } catch (e: Exception) {
+        Toast.makeText(context, R.string.action_not_supported, Toast.LENGTH_SHORT).show()
+    }
 }

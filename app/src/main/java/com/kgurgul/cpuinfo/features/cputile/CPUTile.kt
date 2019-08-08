@@ -1,11 +1,11 @@
 package com.kgurgul.cpuinfo.features.cputile
 
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Handler
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
-import android.graphics.drawable.Icon
 import com.kgurgul.cpuinfo.R
 import java.io.RandomAccessFile
 
@@ -42,7 +42,9 @@ class CPUTile : TileService() {
 
     override fun onTileAdded() {
         super.onTileAdded()
-        qsTile.state = Tile.STATE_ACTIVE
+        if (qsTile.state != Tile.STATE_ACTIVE) {
+            qsTile.state = Tile.STATE_ACTIVE
+        }
         qsTile.updateTile()
     }
 
@@ -60,7 +62,6 @@ class CPUTile : TileService() {
 
     override fun onStopListening() {
         super.onStopListening()
-        qsTile.updateTile()
         handler.removeCallbacks(runnable)
     }
 

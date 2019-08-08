@@ -28,6 +28,11 @@ ext {
     generatedVersionCode = generateVersionCode()
 }
 
+println "-----------"
+println "Version name: $generatedVersionName"
+println "Version code: $generatedVersionCode"
+println "-----------"
+
 def generateVersionName() {
     return versionMajor + '.' + versionMinor + '.' + versionPatch
 }
