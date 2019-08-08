@@ -45,7 +45,6 @@ class CPUTile : TileService() {
         if (qsTile.state != Tile.STATE_ACTIVE) {
             qsTile.state = Tile.STATE_ACTIVE
         }
-        qsTile.updateTile()
     }
 
     override fun onStartListening() {
