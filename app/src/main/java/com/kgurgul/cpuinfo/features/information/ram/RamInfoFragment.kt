@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
@@ -40,14 +41,13 @@ class RamInfoFragment : BaseRvFragment() {
 
     @Inject
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<RamInfoViewModel>
+    private val viewModel: RamInfoViewModel by viewModels { viewModelInjectionFactory }
 
-    private lateinit var viewModel: RamInfoViewModel
     private lateinit var infoItemsAdapter: InfoItemsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = viewModelProvider(viewModelInjectionFactory)
     }
 
     override fun onStart() {

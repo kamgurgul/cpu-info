@@ -30,6 +30,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
@@ -39,7 +40,6 @@ import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
-import com.kgurgul.cpuinfo.utils.viewModelProvider
 import com.kgurgul.cpuinfo.utils.wrappers.EventObserver
 import com.kgurgul.cpuinfo.widgets.swiperv.SwipeMenuRecyclerView
 import java.io.File
@@ -54,8 +54,8 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
 
     @Inject
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<ApplicationsViewModel>
+    private val viewModel: ApplicationsViewModel by viewModels { viewModelInjectionFactory }
 
-    private lateinit var viewModel: ApplicationsViewModel
     private lateinit var binding: FragmentApplicationsBinding
     private lateinit var applicationsAdapter: ApplicationsAdapter
 
@@ -68,7 +68,6 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = viewModelProvider(viewModelInjectionFactory)
         viewModel.refreshApplicationsList()
         registerUninstallBroadcast()
     }
@@ -84,6 +83,11 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         initObservables()
         setupRecyclerView()
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        binding.recyclerView.adapter = null
+        super.onDestroyView()
     }
 
     /**

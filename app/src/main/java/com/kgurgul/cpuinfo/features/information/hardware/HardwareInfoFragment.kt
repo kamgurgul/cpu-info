@@ -25,12 +25,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
-import com.kgurgul.cpuinfo.utils.*
+import com.kgurgul.cpuinfo.utils.DividerItemDecoration
+import com.kgurgul.cpuinfo.utils.MIME_TEXT_PLAIN
+import com.kgurgul.cpuinfo.utils.createSafFile
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import javax.inject.Inject
 
 /**
@@ -42,8 +46,8 @@ class HardwareInfoFragment : BaseRvFragment() {
 
     @Inject
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<HardwareInfoViewModel>
+    private val viewModel: HardwareInfoViewModel by viewModels { viewModelInjectionFactory }
 
-    private lateinit var viewModel: HardwareInfoViewModel
     private lateinit var infoItemsAdapter: InfoItemsAdapter
 
     private val powerReceiver = object : BroadcastReceiver() {
@@ -55,7 +59,6 @@ class HardwareInfoFragment : BaseRvFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = viewModelProvider(viewModelInjectionFactory)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

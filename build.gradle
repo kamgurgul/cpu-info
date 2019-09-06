@@ -12,13 +12,16 @@ buildscript {
         coroutines = "1.3.0-M2"
 
         // Libs
-        appCompat = "1.1.0-rc01"
-        material = "1.1.0-alpha09"
-        preference = "1.1.0-rc01"
+        coreVersion = "1.1.0"
+        activityVersion = "1.0.0"
+        fragmentVersion = "1.1.0"
+        appCompat = "1.1.0"
+        material = "1.1.0-alpha10"
+        preference = "1.1.0"
         swiperefreshlayout = "1.1.0-alpha02"
         firebase = "16.0.3"
         crashlitics = "2.9.2"
-        archLifecycle = "2.0.0"
+        archLifecycle = "2.1.0"
         navigation = "1.0.0"
         eventBus = "3.1.1"
         rxJava = "2.2.3"
@@ -41,7 +44,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.5.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }

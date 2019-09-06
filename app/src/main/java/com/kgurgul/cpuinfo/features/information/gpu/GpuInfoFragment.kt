@@ -22,12 +22,16 @@ import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
+import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
-import com.kgurgul.cpuinfo.utils.*
+import com.kgurgul.cpuinfo.utils.DividerItemDecoration
+import com.kgurgul.cpuinfo.utils.MIME_TEXT_PLAIN
+import com.kgurgul.cpuinfo.utils.createSafFile
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import javax.inject.Inject
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -41,8 +45,8 @@ class GpuInfoFragment : BaseRvFragment() {
 
     @Inject
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<GpuInfoViewModel>
+    private val viewModel: GpuInfoViewModel by viewModels { viewModelInjectionFactory }
 
-    private lateinit var viewModel: GpuInfoViewModel
     private lateinit var infoItemsAdapter: InfoItemsAdapter
 
     private var glSurfaceView: GLSurfaceView? = null
@@ -71,7 +75,6 @@ class GpuInfoFragment : BaseRvFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = viewModelProvider(viewModelInjectionFactory)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

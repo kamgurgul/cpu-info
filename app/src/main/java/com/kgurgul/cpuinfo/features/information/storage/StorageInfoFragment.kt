@@ -20,13 +20,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Bundle
 import android.os.Handler
+import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
-import com.kgurgul.cpuinfo.utils.viewModelProvider
 import javax.inject.Inject
 
 /**
@@ -49,14 +48,9 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
 
     @Inject
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<StorageInfoViewModel>
+    private val viewModel: StorageInfoViewModel by viewModels { viewModelInjectionFactory }
 
-    private lateinit var viewModel: StorageInfoViewModel
     private lateinit var storageAdapter: StorageAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = viewModelProvider(viewModelInjectionFactory)
-    }
 
     override fun onResume() {
         super.onResume()

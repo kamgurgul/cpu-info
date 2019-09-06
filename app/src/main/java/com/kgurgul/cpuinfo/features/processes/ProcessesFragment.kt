@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -29,7 +30,6 @@ import com.kgurgul.cpuinfo.di.Injectable
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
-import com.kgurgul.cpuinfo.utils.viewModelProvider
 import javax.inject.Inject
 
 /**
@@ -41,14 +41,13 @@ class ProcessesFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<ProcessesViewModel>
+    private val viewModel: ProcessesViewModel by viewModels { viewModelInjectionFactory }
 
-    private lateinit var viewModel: ProcessesViewModel
     private lateinit var binding: FragmentProcessesBinding
     private lateinit var processesAdapter: ProcessesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = viewModelProvider(viewModelInjectionFactory)
         setHasOptionsMenu(true)
     }
 
@@ -60,6 +59,11 @@ class ProcessesFragment : Fragment(), Injectable {
         binding.viewModel = viewModel
         setupRecyclerView()
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        binding.recyclerView.adapter = null
+        super.onDestroyView()
     }
 
     /**

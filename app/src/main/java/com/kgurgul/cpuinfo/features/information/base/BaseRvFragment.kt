@@ -52,6 +52,11 @@ abstract class BaseRvFragment : Fragment(), Injectable, InfoItemsAdapter.OnClick
         return view
     }
 
+    override fun onDestroyView() {
+        recyclerView.adapter = null
+        super.onDestroyView()
+    }
+
     /**
      * Basic [RecyclerView] configuration with [LinearLayoutManager] and disabled animations
      */
