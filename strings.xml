@@ -1,0 +1,152 @@
+<!--
+  ~ Copyright 2017 KG Soft
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <string name="action_settings"> سیٹنگز</string>
+    <string name="action_sorting">ترتیب دیں</string>
+    <string name="action_refresh">ریفریش</string>
+    <string name="action_export_to_csv">CSV برآمد</string>
+    <string name="action_not_supported">سہولت مہیا نہیں</string>
+
+    <string name="open_drawer">دراز کھولیں</string>
+    <string name="close_drawer">دراز بند</string>
+
+    <string name="yes">جی ہاں</string>
+    <string name="no">دستیاب نہیں ہے</string>
+    <string name="ok">ٹھیک ہے</string>
+    <string name="permission_rationale">اجازت کی دلیل</string>
+
+    <!--Tabs-->
+    <string name="cpu">سی پی یو</string>
+    <string name="gpu">جی پی یو</string>
+    <string name="ram">ریم</string>
+    <string name="storage">اسٹوریج</string>
+    <string name="screen">اسکرین</string>
+    <string name="android">Android</string>
+    <string name="hardware">ہارڈ ویئر</string>
+    <string name="sensors">سینسر</string>
+
+    <string name="processes">عمل</string>
+    <string name="applications">ایپلی کیشنز</string>
+    <string name="temp">درجہ حرارت</string>
+    <string name="settings">ترتیبات</string>
+
+    <string name="running_gc">کچرا کلیکٹر چلائیں</string>
+    <string name="text_copied">متن کاپی</string>
+
+    <!--Apps-->
+    <string name="app_open">ایپ کھولیں</string>
+    <string name="cpu_open">cpu کھولیں</string>
+    <string name="cpu_uninstall">غیر انسٹال سی پی یو</string>
+    <string name="native_libs">آبائی libs</string>
+    <string name="storage_used">استعمال شدہ اسٹوریج</string>
+    <string name="calculating">حساب لگانا…</string>
+
+    <!--GPU-->
+    <string name="gles_version">ورژن GLES</string>
+    <string name="vendor">فروش</string>
+    <string name="version">ورژن</string>
+    <string name="renderer">پیش کنندہ</string>
+    <string name="extensions">ایکسٹینشنز</string>
+
+    <!--RAM-->
+    <string name="total_memory">کل میموری</string>
+    <string name="available_memory">مہیا میموری </string>
+    <string name="threshold">دہلیز</string>
+
+    <!--Storage-->
+    <string name="storage_hint">اسٹوریج </string>
+    <string name="internal">اندرونی</string>
+    <string name="external">بیرونی</string>
+    <string name="sd_card">ایسڈی کارڈ</string>
+
+    <!--Screen-->
+    <string name="screen_class">اسکرین کلاس</string>
+    <string name="small">چھوٹا
+</string>
+    <string name="normal">عام</string>
+    <string name="large">بڑے</string>
+    <string name="unknown">نامعلوم</string>
+    <string name="density_class">کثافت کلاس۔
+</string>
+    <string name="width">چوڑائی</string>
+    <string name="height">اونچائی</string>
+    <string name="dp_width">ڈی پی چوڑائی۔</string>
+    <string name="dp_height">ڈی پی اونچائی</string>
+    <string name="density">کثافت</string>
+    <string name="absolute_width">مطلق چوڑائی</string>
+    <string name="absolute_height">مطلق اونچائی</string>
+    <string name="refresh_rate">تازہ کاری کی شرح</string>
+    <string name="orientation">واقفیت</string>
+
+    <!--Android-->
+    <string name="codename">خفیا نام</string>
+    <string name="brand">برانڈ</string>
+    <string name="model">ماڈل</string>
+    <string name="manufacturer">کارخانہ دار۔</string>
+    <string name="board">بورڈ</string>
+    <string name="serial">سیریل</string>
+    <string name="rooted">روٹ</string>
+    <string name="encrypted_storage">خفیہ اسٹوریج</string>
+    <string name="security_providers">سیکیورٹی فراہم کرنے والے</string>
+
+    <!--Hardware-->
+    <string name="battery">بیٹری</string>
+    <string name="wireless">وائرلیس</string>
+    <string name="sound_card">ساؤنڈ کارڈ</string>
+    <string name="level">سطح</string>
+    <string name="voltage">وولٹیج</string>
+    <string name="temperature">درجہ حرارت</string>
+    <string name="capacity">صلاحیت</string>
+    <string name="technology">ٹیکنالوجی</string>
+    <string name="is_charging">چارج کر رہا ہے?</string>
+    <string name="charging_type">چارجنگ کی قسم</string>
+    <string name="wifi_mac">وائی ​​فائی میک</string>
+    <string name="bluetooth_mac">بلوٹوتھ میک۔</string>
+    <string name="amount">رقم</string>
+    <string name="card">کارڈ</string>
+    <string name="cameras">کیمرے</string>
+    <string name="camera">کیمرہ</string>
+    <string name="type">قسم</string>
+    <string name="front">سامنے</string>
+    <string name="back">پیچھے</string>
+    <string name="battery_health">بیٹری صحت</string>
+    <string name="battery_cold">بیٹری سرد</string>
+    <string name="battery_good">بیٹری اچھی</string>
+    <string name="battery_dead">بیٹری مردہ</string>
+    <string name="battery_overheat">بیٹری زیادہ گرمی</string>
+    <string name="battery_overvoltage">بیٹری اوور وولٹیج</string>
+    <string name="battery_unknown">بیٹری نامعلوم</string>
+    <string name="battery_unspecified_failure">بیٹری غیر متعینہ ناکامی۔</string>
+
+    <!--Prefs-->
+    <string name="default_refreshing">طے شدہ ریفریش</string>
+    <string name="ram_refreshing">ریفریش ریم</string>
+    <string name="general">عام</string>
+    <string name="temperature_unit">درجہ حرارت یونٹ</string>
+    <string name="pref_theme_dark">ترجیحی تھیم سیاہ</string>
+    <string name="pref_theme_light">ترجیحی تھیم لائٹ</string>
+    <string name="pref_theme_battery">ترجیحی تھیم  بیٹری</string>
+    <string name="pref_theme_default">ترجیحی تھیم ڈیفالٹ</string>
+    <string name="pref_theme">ترجیحی تھیم</string>
+    <string name="pref_theme_choose"> ترجیحی تھیم کا انتخاب کریں۔ </string>
+
+    <!--Temp-->
+    <string name="cpu_temperature">cpu درجہ حرارت</string>
+    <string name="battery_temperature">بیٹری کا درجہ حرارت</string>
+    <string name="no_temp_data">کوئی عارضی ڈیٹا نہیں ہے۔</string>
+
+</resources>
