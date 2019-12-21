@@ -17,8 +17,8 @@
 ext {
     /* Version variables */
     versionMajor = 4
-    versionMinor = 3
-    versionPatch = 4
+    versionMinor = 4
+    versionPatch = 0
 
     /* Useful info and generated versions */
     versionCommit = getCommitHash()
