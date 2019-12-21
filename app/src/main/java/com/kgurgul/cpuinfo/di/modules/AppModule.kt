@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.di.modules
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
@@ -24,6 +25,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.SensorManager
+import android.net.wifi.WifiManager
 import android.view.WindowManager
 import androidx.preference.PreferenceManager
 import dagger.Module
@@ -72,6 +74,12 @@ class AppModule {
     @Singleton
     fun provideSensorManager(appContext: Context): SensorManager =
             appContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+    @SuppressLint("WifiManagerPotentialLeak")
+    @Provides
+    @Singleton
+    fun provideWifiManager(appContext: Context): WifiManager =
+            appContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
     @Provides
     @Singleton

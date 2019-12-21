@@ -25,6 +25,7 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.Camera
 import android.net.Uri
+import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
 import com.kgurgul.cpuinfo.R
@@ -57,7 +58,8 @@ class HardwareInfoViewModel @Inject constructor(
         private val packageManager: PackageManager,
         private val contentResolver: ContentResolver,
         private val batteryStatusProvider: BatteryStatusProvider,
-        private val dispatchersProvider: DispatchersProvider
+        private val dispatchersProvider: DispatchersProvider,
+        private val wifiManager: WifiManager
 ) : ScopedViewModel(dispatchersProvider), SharedPreferences.OnSharedPreferenceChangeListener {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
@@ -87,12 +89,8 @@ class HardwareInfoViewModel @Inject constructor(
 
         listLiveData.add(Pair(resources.getString(R.string.sound_card), ""))
         listLiveData.addAll(getSoundCardInfo())
-
-        val wirelessInfo = getWirelessInfo()
-        if (wirelessInfo.size > 0) {
-            listLiveData.add(Pair(resources.getString(R.string.wireless), ""))
-            listLiveData.addAll(wirelessInfo)
-        }
+        listLiveData.addAll(getWirelessInfo())
+        listLiveData.addAll(getUsbInfo())
     }
 
     /**
@@ -211,25 +209,51 @@ class HardwareInfoViewModel @Inject constructor(
      * Get Wi-Fi and Bluetooth mac address and Bluetooth LE support
      */
     @SuppressLint("InlinedApi")
-    private fun getWirelessInfo(): ArrayList<Pair<String, String>> {
-        val functionsList = ArrayList<Pair<String, String>>()
-
+    private fun getWirelessInfo(): List<Pair<String, String>> {
+        val functionsList = mutableListOf<Pair<String, String>>()
+        functionsList.add(resources.getString(R.string.wireless) to "")
         // Bluetooth
-        val hasBluetooth = if (packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH))
-            resources.getString(R.string.yes) else resources.getString(R.string.no)
-        functionsList.add(Pair(resources.getString(R.string.bluetooth), hasBluetooth))
+        functionsList.add(resources.getString(R.string.bluetooth) to getYesNoString(
+                packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH))
+        )
         runOnApiAbove(Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            val hasBluetoothLe =
-                    if (packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE))
-                        resources.getString(R.string.yes) else resources.getString(R.string.no)
-            functionsList.add(Pair(resources.getString(R.string.bluetooth_le), hasBluetoothLe))
+            val hasBluetoothLe = getYesNoString(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)
+            )
+            functionsList.add(resources.getString(R.string.bluetooth_le) to hasBluetoothLe)
         }
-
+        // GPS
+        functionsList.add("GPS" to getYesNoString(
+                packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS))
+        )
+        // NFC
+        functionsList.add("NFC" to getYesNoString(
+                packageManager.hasSystemFeature(PackageManager.FEATURE_NFC))
+        )
+        functionsList.add("NFC Card Emulation" to getYesNoString(
+                packageManager.hasSystemFeature(PackageManager.FEATURE_NFC_HOST_CARD_EMULATION))
+        )
+        // Wi-Fi
+        val hasWiFi = packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)
+        functionsList.add("Wi-Fi" to getYesNoString(hasWiFi))
+        if (hasWiFi) {
+            functionsList.add("Wi-Fi Aware" to getYesNoString(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE))
+            )
+            functionsList.add("Wi-Fi Direct" to getYesNoString(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT))
+            )
+            functionsList.add("Wi-Fi Passpoint" to getYesNoString(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_PASSPOINT))
+            )
+            functionsList.add("Wi-Fi 5Ghz" to getYesNoString(wifiManager.is5GHzBandSupported))
+            functionsList.add("Wi-Fi P2P" to getYesNoString(wifiManager.isP2pSupported))
+        }
 
         val bluetoothMac = android.provider.Settings.Secure.getString(contentResolver,
                 "bluetooth_address")
-        if (bluetoothMac != null && !bluetoothMac.isEmpty())
-            functionsList.add(Pair(resources.getString(R.string.bluetooth_mac), bluetoothMac))
+        if (bluetoothMac != null && bluetoothMac.isNotEmpty())
+            functionsList.add(resources.getString(R.string.bluetooth_mac) to bluetoothMac)
 
         // Wi-Fi mac
         val filePath = "/sys/class/net/wlan0/address"
@@ -237,11 +261,20 @@ class HardwareInfoViewModel @Inject constructor(
             val reader = RandomAccessFile(filePath, "r")
             val value = reader.readLine()
             reader.close()
-            functionsList.add(Pair(resources.getString(R.string.wifi_mac), value))
+            functionsList.add(resources.getString(R.string.wifi_mac) to value)
         } catch (ignored: Exception) {
         }
 
         return functionsList
+    }
+
+    private fun getUsbInfo(): List<Pair<String, String>> {
+        val featureList = mutableListOf<Pair<String, String>>()
+        featureList.add("USB" to "")
+        featureList.add("OTG" to getYesNoString(
+                packageManager.hasSystemFeature(PackageManager.FEATURE_USB_HOST))
+        )
+        return featureList
     }
 
     /**
@@ -367,6 +400,12 @@ class HardwareInfoViewModel @Inject constructor(
                 Camera.CameraInfo.CAMERA_FACING_BACK -> resources.getString(R.string.back)
                 else -> resources.getString(R.string.unknown)
             }
+
+    private fun getYesNoString(yesValue: Boolean) = if (yesValue) {
+        resources.getString(R.string.yes)
+    } else {
+        resources.getString(R.string.no)
+    }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         if (key == SettingsFragment.KEY_TEMPERATURE_UNIT) {
