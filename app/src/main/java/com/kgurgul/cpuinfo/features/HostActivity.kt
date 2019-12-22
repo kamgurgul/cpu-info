@@ -19,16 +19,13 @@ package com.kgurgul.cpuinfo.features
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.ActivityHostLayoutBinding
-import com.kgurgul.cpuinfo.utils.NavigationUtils
-import com.kgurgul.cpuinfo.utils.isTablet
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -56,28 +53,20 @@ class HostActivity : AppCompatActivity(), HasAndroidInjector {
             setToolbarTitleAndElevation(destination.label.toString())
         }
         setSupportActionBar(binding.toolbar)
-        NavigationUtils.setupNavigationView(binding.navigationView, navController)
+        binding.bottomNavigation.apply {
+            setupWithNavController(navController)
+            setOnNavigationItemReselectedListener {
+                // Do nothing - TODO: scroll to top
+            }
+        }
         runOnApiAbove(Build.VERSION_CODES.M) {
             // Processes cannot be listed above M
-            val menu = binding.navigationView.menu
+            val menu = binding.bottomNavigation.menu
             menu.findItem(R.id.processes).isVisible = false
-        }
-        if (!isTablet()) {
-            val actionBarDrawerToggle = getDrawerToggle()
-            binding.drawerLayout?.addDrawerListener(actionBarDrawerToggle)
-            actionBarDrawerToggle.syncState()
         }
     }
 
     override fun onSupportNavigateUp() = navController.navigateUp()
-
-    override fun onBackPressed() {
-        if (binding.drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
-            binding.drawerLayout?.closeDrawers()
-            return
-        }
-        super.onBackPressed()
-    }
 
     /**
      * Set toolbar title and manage elevation in case of L+ devices and TabLayout
@@ -92,14 +81,6 @@ class HostActivity : AppCompatActivity(), HasAndroidInjector {
                 binding.toolbar.elevation = resources.getDimension(R.dimen.elevation_height)
             }
         }
-    }
-
-    /**
-     * Simple drawer toggle without extra logic
-     */
-    private fun getDrawerToggle(): ActionBarDrawerToggle {
-        return ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar,
-                R.string.open_drawer, R.string.close_drawer)
     }
 
     override fun androidInjector() = dispatchingAndroidInjector

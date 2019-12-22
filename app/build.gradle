@@ -79,6 +79,7 @@ dependencies {
     implementation "com.google.android.material:material:$project.material"
     implementation "androidx.preference:preference:$project.preference"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$project.swiperefreshlayout"
+    implementation "androidx.constraintlayout:constraintlayout:$project.constraintlayout"
 
     // Bus
     implementation "org.greenrobot:eventbus:$project.eventBus"
@@ -104,8 +105,8 @@ dependencies {
     kapt "androidx.lifecycle:lifecycle-compiler:$project.archLifecycle"
 
     // Navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:$project.navigation"
-    implementation "android.arch.navigation:navigation-ui-ktx:$project.navigation"
+    implementation "androidx.navigation:navigation-fragment-ktx:$project.navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$project.navigation"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$project.glide"
