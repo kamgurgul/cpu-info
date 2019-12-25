@@ -22,9 +22,10 @@ import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
-import com.kgurgul.cpuinfo.utils.ScopedViewModel
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
@@ -50,7 +51,7 @@ class RamInfoViewModel @Inject constructor(
         private val resources: Resources,
         private val dispatchersProvider: DispatchersProvider,
         private val contentResolver: ContentResolver
-) : ScopedViewModel(dispatchersProvider) {
+) : ViewModel() {
 
     companion object {
         private const val REFRESHING_INTERVAL = 5L
@@ -142,7 +143,7 @@ class RamInfoViewModel @Inject constructor(
      * Run task to clear RAM memory
      */
     fun clearRam() {
-        launch(context = dispatchersProvider.ioDispatcher) {
+        viewModelScope.launch(context = dispatchersProvider.ioDispatcher) {
             System.runFinalization()
             Runtime.getRuntime().gc()
             System.gc()
@@ -153,7 +154,7 @@ class RamInfoViewModel @Inject constructor(
      * Invoked when user wants to export whole list to the CSV file
      */
     fun saveListToFile(uri: Uri) {
-        launch(context = dispatchersProvider.ioDispatcher) {
+        viewModelScope.launch(context = dispatchersProvider.ioDispatcher) {
             try {
                 contentResolver.openFileDescriptor(uri, "w")?.use {
                     CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->

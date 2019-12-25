@@ -22,8 +22,9 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.net.Uri
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
-import com.kgurgul.cpuinfo.utils.ScopedViewModel
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round1
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
@@ -42,7 +43,7 @@ class SensorsInfoViewModel @Inject constructor(
         private val sensorManager: SensorManager,
         private val dispatchersProvider: DispatchersProvider,
         private val contentResolver: ContentResolver
-) : ScopedViewModel(dispatchersProvider), SensorEventListener {
+) : ViewModel(), SensorEventListener {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
@@ -73,7 +74,7 @@ class SensorsInfoViewModel @Inject constructor(
      * Invoked when user wants to export whole list to the CSV file
      */
     fun saveListToFile(uri: Uri) {
-        launch(context = dispatchersProvider.ioDispatcher) {
+        viewModelScope.launch(context = dispatchersProvider.ioDispatcher) {
             try {
                 contentResolver.openFileDescriptor(uri, "w")?.use {
                     CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->

@@ -24,9 +24,10 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.view.Display
 import android.view.WindowManager
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
-import com.kgurgul.cpuinfo.utils.ScopedViewModel
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round2
 import com.opencsv.CSVWriter
@@ -45,7 +46,7 @@ class ScreenInfoViewModel @Inject constructor(
         private val windowManager: WindowManager,
         private val dispatchersProvider: DispatchersProvider,
         private val contentResolver: ContentResolver
-) : ScopedViewModel(dispatchersProvider) {
+) : ViewModel() {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
@@ -173,7 +174,7 @@ class ScreenInfoViewModel @Inject constructor(
      * Invoked when user wants to export whole list to the CSV file
      */
     fun saveListToFile(uri: Uri) {
-        launch(context = dispatchersProvider.ioDispatcher) {
+        viewModelScope.launch(context = dispatchersProvider.ioDispatcher) {
             try {
                 contentResolver.openFileDescriptor(uri, "w")?.use {
                     CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->

@@ -25,8 +25,13 @@ import android.os.Build
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.kgurgul.cpuinfo.utils.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.NonNullMutableLiveData
+import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
+import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import com.kgurgul.cpuinfo.utils.wrappers.Event
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -48,7 +53,8 @@ import javax.inject.Inject
 class ApplicationsViewModel @Inject constructor(
         private val dispatchersProvider: DispatchersProvider,
         private val prefs: Prefs,
-        private val packageManager: PackageManager) : ScopedViewModel(dispatchersProvider) {
+        private val packageManager: PackageManager
+) : ViewModel() {
 
     companion object {
         private const val SORTING_APPS_KEY = "SORTING_APPS_KEY"
@@ -116,7 +122,7 @@ class ApplicationsViewModel @Inject constructor(
      * Change apps list sorting type from ascending to descending or or vice versa
      */
     fun changeAppsSorting() {
-        launch {
+        viewModelScope.launch {
             val sortedAppList = withContext(dispatchersProvider.ioDispatcher) {
                 getAppSortedList(!isSortingAsc)
             }
@@ -146,7 +152,7 @@ class ApplicationsViewModel @Inject constructor(
     @Suppress("unused")
     @Subscribe
     fun onUpdatePackageSizeEvent(event: StorageUsageService.UpdatePackageSizeEvent) {
-        launch {
+        viewModelScope.launch {
             val newAppPair = withContext(dispatchersProvider.ioDispatcher) {
                 getUpdatedApp(event)
             }

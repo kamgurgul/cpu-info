@@ -17,9 +17,10 @@
 package com.kgurgul.cpuinfo.features.processes
 
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.Prefs
-import com.kgurgul.cpuinfo.utils.ScopedViewModel
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -40,7 +41,8 @@ import javax.inject.Inject
 class ProcessesViewModel @Inject constructor(
         private val dispatchersProvider: DispatchersProvider,
         private val prefs: Prefs,
-        private val psProvider: PsProvider) : ScopedViewModel(dispatchersProvider) {
+        private val psProvider: PsProvider
+) : ViewModel() {
 
     companion object {
         private const val SORTING_PROCESSES_KEY = "SORTING_PROCESSES_KEY"
@@ -87,7 +89,7 @@ class ProcessesViewModel @Inject constructor(
      * Change process list sorting type from ascending to descending or or vice versa
      */
     fun changeProcessSorting() {
-        launch {
+        viewModelScope.launch {
             val sortedAppList = withContext(dispatchersProvider.ioDispatcher) {
                 getProcessSortedList(!isSortingAsc)
             }

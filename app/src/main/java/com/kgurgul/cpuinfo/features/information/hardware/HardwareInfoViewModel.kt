@@ -28,12 +28,17 @@ import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.features.temperature.TemperatureProvider
-import com.kgurgul.cpuinfo.utils.*
+import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
+import com.kgurgul.cpuinfo.utils.round2
+import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import com.opencsv.CSVWriter
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -60,7 +65,7 @@ class HardwareInfoViewModel @Inject constructor(
         private val batteryStatusProvider: BatteryStatusProvider,
         private val dispatchersProvider: DispatchersProvider,
         private val wifiManager: WifiManager
-) : ScopedViewModel(dispatchersProvider), SharedPreferences.OnSharedPreferenceChangeListener {
+) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
@@ -97,7 +102,7 @@ class HardwareInfoViewModel @Inject constructor(
      * Invoked when user wants to export whole list to the CSV file
      */
     fun saveListToFile(uri: Uri) {
-        launch(context = dispatchersProvider.ioDispatcher) {
+        viewModelScope.launch(context = dispatchersProvider.ioDispatcher) {
             try {
                 contentResolver.openFileDescriptor(uri, "w")?.use {
                     CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->

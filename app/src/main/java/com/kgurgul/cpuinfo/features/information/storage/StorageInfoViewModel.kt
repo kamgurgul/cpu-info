@@ -18,9 +18,10 @@ package com.kgurgul.cpuinfo.features.information.storage
 
 import android.content.res.Resources
 import android.os.Environment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
-import com.kgurgul.cpuinfo.utils.ScopedViewModel
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
@@ -42,7 +43,7 @@ import javax.inject.Inject
 class StorageInfoViewModel @Inject constructor(
         private val dispatchersProvider: DispatchersProvider,
         private val resources: Resources
-) : ScopedViewModel(dispatchersProvider) {
+) : ViewModel() {
 
     enum class MemoryType { INTERNAL, EXTERNAL }
 
@@ -58,7 +59,7 @@ class StorageInfoViewModel @Inject constructor(
      * Get all available details about internal, external and secondary (SD card) storage
      */
     private fun getStorageInfo() {
-        launch {
+        viewModelScope.launch {
             val memoryPair = withContext(dispatchersProvider.ioDispatcher) {
                 getExternalAndInternalMemoryPair()
             }

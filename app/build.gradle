@@ -102,6 +102,7 @@ dependencies {
 
     // Google arch
     implementation "androidx.lifecycle:lifecycle-extensions:$project.archLifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$project.archLifecycle"
     kapt "androidx.lifecycle:lifecycle-compiler:$project.archLifecycle"
 
     // Navigation

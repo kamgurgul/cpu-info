@@ -20,8 +20,9 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.UiThread
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
-import com.kgurgul.cpuinfo.utils.ScopedViewModel
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.opencsv.CSVWriter
 import io.reactivex.Flowable
@@ -44,7 +45,7 @@ import javax.inject.Inject
 class CpuInfoViewModel @Inject constructor(
         private val dispatchersProvider: DispatchersProvider,
         private val contentResolver: ContentResolver
-) : ScopedViewModel(dispatchersProvider) {
+) : ViewModel() {
 
     companion object {
         private const val REFRESHING_INTERVAL = 1L
@@ -83,7 +84,7 @@ class CpuInfoViewModel @Inject constructor(
      * Invoked when user wants to export whole list to the CSV file
      */
     fun saveListToFile(uri: Uri) {
-        launch(context = dispatchersProvider.ioDispatcher) {
+        viewModelScope.launch(context = dispatchersProvider.ioDispatcher) {
             try {
                 contentResolver.openFileDescriptor(uri, "w")?.use {
                     CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->
