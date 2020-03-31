@@ -48,8 +48,8 @@ class StorageUsageService : IntentService("StorageUsageService") {
         }
     }
 
-    override fun onHandleIntent(intent: Intent) {
-        val packagesList = intent.extras?.getParcelableArrayList<ExtendedAppInfo>(PACKAGES_LIST_TAG)
+    override fun onHandleIntent(intent: Intent?) {
+        val packagesList = intent?.extras?.getParcelableArrayList<ExtendedAppInfo>(PACKAGES_LIST_TAG)
         packagesList?.forEach {
             getPackageSize(it.packageName, packageManager)
         }

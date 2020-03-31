@@ -19,6 +19,7 @@ android {
         versionCode generatedVersionCode
         versionName generatedVersionName
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -55,12 +56,26 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+            all {
+                jacoco {
+                    includeNoLocationClasses = true
+                }
+            }
+        }
+        animationsDisabled = true
     }
-}
 
-androidExtensions {
-    experimental = true
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 kapt {
@@ -80,6 +95,7 @@ dependencies {
     implementation "androidx.preference:preference:$project.preference"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$project.swiperefreshlayout"
     implementation "androidx.constraintlayout:constraintlayout:$project.constraintlayout"
+    implementation "androidx.multidex:multidex:$project.multidex"
 
     // Bus
     implementation "org.greenrobot:eventbus:$project.eventBus"
@@ -103,7 +119,7 @@ dependencies {
     // Google arch
     implementation "androidx.lifecycle:lifecycle-extensions:$project.archLifecycle"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$project.archLifecycle"
-    kapt "androidx.lifecycle:lifecycle-compiler:$project.archLifecycle"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$project.archLifecycle"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$project.navigation"

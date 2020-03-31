@@ -56,7 +56,6 @@ class GpuInfoFragment : BaseRvFragment() {
         override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
             val gpuInfoMap = HashMap<GpuInfoViewModel.GlInfoType, String?>()
             gpuInfoMap[GpuInfoViewModel.GlInfoType.GL_VENDOR] = gl.glGetString(GL10.GL_VENDOR)
-            gpuInfoMap[GpuInfoViewModel.GlInfoType.GL_VERSION] = gl.glGetString(GL10.GL_VERSION)
             gpuInfoMap[GpuInfoViewModel.GlInfoType.GL_RENDERER] = gl.glGetString(GL10.GL_RENDERER)
             gpuInfoMap[GpuInfoViewModel.GlInfoType.GL_EXTENSIONS] = gl.glGetString(GL10.GL_EXTENSIONS)
             handler.post {

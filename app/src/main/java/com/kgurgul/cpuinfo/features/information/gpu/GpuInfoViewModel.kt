@@ -32,6 +32,7 @@ import timber.log.Timber
 import java.io.FileWriter
 import javax.inject.Inject
 
+
 /**
  * ViewModel for GPU information. It is using custom SurfaceView to get more GPU details from OpenGL
  *
@@ -81,8 +82,6 @@ class GpuInfoViewModel @Inject constructor(
             val gpuInfoPairs = ArrayList<Pair<String, String>>()
             Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.vendor),
                     gpuInfoMap[GlInfoType.GL_VENDOR])
-            Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.version),
-                    gpuInfoMap[GlInfoType.GL_VERSION])
             Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.renderer),
                     gpuInfoMap[GlInfoType.GL_RENDERER])
             Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.extensions),
@@ -111,6 +110,6 @@ class GpuInfoViewModel @Inject constructor(
     }
 
     enum class GlInfoType {
-        GL_VENDOR, GL_VERSION, GL_RENDERER, GL_EXTENSIONS
+        GL_VENDOR, GL_RENDERER, GL_EXTENSIONS
     }
 }

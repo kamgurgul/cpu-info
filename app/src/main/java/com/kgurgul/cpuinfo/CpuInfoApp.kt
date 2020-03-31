@@ -30,7 +30,6 @@ import javax.inject.Inject
  */
 class CpuInfoApp : Application(), HasAndroidInjector {
 
-
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
