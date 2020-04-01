@@ -37,7 +37,6 @@ import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyString
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 
 /**
  * Tests for [ApplicationsViewModel]
@@ -45,7 +44,6 @@ import org.robolectric.annotation.Config
  * @author kgurgul
  */
 @RunWith(RobolectricTestRunner::class)
-@Config(manifest = Config.NONE)
 class ApplicationsViewModelTest {
 
     @Suppress("unused")

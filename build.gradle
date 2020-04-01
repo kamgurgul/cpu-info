@@ -37,7 +37,7 @@ buildscript {
         mockitoKotlin = "2.0.0"
         testRunner = "1.1.0-alpha4"
         espresso = "3.1.0-alpha4"
-        robolectric = "4.0"
+        robolectric = "4.3"
         constraintlayout = "1.1.3"
     }
 
