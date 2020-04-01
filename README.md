@@ -6,6 +6,8 @@ CPU Info provides information about Android device hardware and software.
 Most of the code is written in Kotlin but some old widgets are still in
 Java.
 
+Due to lack of time, this project will be updated sporadically. Right now it is only a sandbox. 
+
 [<img src="https://f-droid.org/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/com.kgurgul.cpuinfo/)
