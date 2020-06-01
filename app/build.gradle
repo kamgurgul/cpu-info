@@ -1,8 +1,9 @@
+import com.kgurgul.cpuinfo.buildsrc.Libs
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'org.jetbrains.kotlin.android.extensions'
 apply from: "$rootDir/reports/jacoco.gradle"
 apply from: "$rootDir/versioning.gradle"
 
@@ -10,7 +11,6 @@ Properties signingProperties = getReleaseSigningConfig()
 
 android {
     compileSdkVersion compiledSdk
-    buildToolsVersion buildTools
 
     defaultConfig {
         applicationId "com.kgurgul.cpuinfo"
@@ -51,8 +51,8 @@ android {
 
     compileOptions.incremental = true
 
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding true
     }
 
     testOptions {
@@ -80,68 +80,62 @@ android {
 
 kapt {
     mapDiagnosticLocations = true
+    correctErrorTypes = true
+    useBuildCache = true
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$project.kotlinVersion"
+    implementation Libs.Kotlin.stdlib
 
-    implementation "androidx.core:core-ktx:$project.coreVersion"
-    implementation "androidx.activity:activity-ktx:$project.activityVersion"
-    implementation "androidx.fragment:fragment-ktx:$project.fragmentVersion"
-    implementation "androidx.appcompat:appcompat:$project.appCompat"
-    implementation "com.google.android.material:material:$project.material"
-    implementation "androidx.preference:preference:$project.preference"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$project.swiperefreshlayout"
-    implementation "androidx.constraintlayout:constraintlayout:$project.constraintlayout"
-    implementation "androidx.multidex:multidex:$project.multidex"
+    implementation Libs.AndroidX.coreKtx
+    implementation Libs.AndroidX.activityKtx
+    implementation Libs.AndroidX.fragmentKtx
+    implementation Libs.AndroidX.appCompat
+    implementation Libs.AndroidX.preference
+    implementation Libs.AndroidX.swipeRefreshLayout
+    implementation Libs.AndroidX.constraintLayout
+    implementation Libs.AndroidX.multiDex
 
-    // Bus
-    implementation "org.greenrobot:eventbus:$project.eventBus"
+    implementation Libs.AndroidX.Lifecycle.extensions
+    implementation Libs.AndroidX.Lifecycle.viewModelKtx
+    implementation Libs.AndroidX.Lifecycle.common
 
-    // Rx
-    implementation "io.reactivex.rxjava2:rxjava:$project.rxJava"
-    implementation "io.reactivex.rxjava2:rxandroid:$project.rxAndroid"
+    implementation Libs.AndroidX.Navigation.fragment
+    implementation Libs.AndroidX.Navigation.ui
 
-    // GSON
-    implementation "com.google.code.gson:gson:$project.gson"
+    implementation Libs.Google.material
+    implementation Libs.Google.gson
 
-    // Dagger
-    implementation "com.google.dagger:dagger:$project.dagger"
-    implementation "com.google.dagger:dagger-android-support:$project.dagger"
-    kapt "com.google.dagger:dagger-compiler:$project.dagger"
-    kapt "com.google.dagger:dagger-android-processor:$project.dagger"
+    implementation Libs.Rx.rxJava
+    implementation Libs.Rx.rxAndroid
 
-    // Timber
-    implementation "com.jakewharton.timber:timber:$project.timber"
+    implementation Libs.Coroutines.core
+    implementation Libs.Coroutines.android
 
-    // Google arch
-    implementation "androidx.lifecycle:lifecycle-extensions:$project.archLifecycle"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$project.archLifecycle"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$project.archLifecycle"
+    implementation Libs.Dagger.dagger
+    implementation Libs.Dagger.androidSupport
+    kapt Libs.Dagger.compiler
+    kapt Libs.Dagger.androidProcessor
 
-    // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$project.navigation"
-    implementation "androidx.navigation:navigation-ui-ktx:$project.navigation"
+    implementation Libs.Glide.glide
+    kapt Libs.Glide.compiler
 
-    // Glide
-    implementation "com.github.bumptech.glide:glide:$project.glide"
-    kapt "com.github.bumptech.glide:compiler:$project.glide"
+    implementation Libs.bus
+    implementation Libs.timber
 
-    // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$project.coroutines"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$project.coroutines"
+    testImplementation Libs.junit
+    testImplementation Libs.AndroidX.Test.core
+    testImplementation Libs.AndroidX.Test.archCoreTesting
+    testImplementation Libs.mockitoCore
+    testImplementation Libs.mockitoKotlin
+    testImplementation Libs.robolectric
 
-    testImplementation "junit:junit:$project.jUnit"
-    testImplementation "org.mockito:mockito-core:$project.mockito"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$project.mockitoKotlin"
-    testImplementation "androidx.arch.core:core-testing:$project.coreTesting"
-    testImplementation "org.robolectric:robolectric:$project.robolectric"
-    androidTestImplementation "androidx.test:runner:$project.testRunner"
-    androidTestImplementation "androidx.test:rules:$project.testRunner"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$project.espresso"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$project.espresso"
+    androidTestImplementation Libs.AndroidX.Test.runner
+    androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.Test.Espresso.core
+    androidTestImplementation Libs.AndroidX.Test.Espresso.contrib
 }
 
 def getReleaseSigningConfig() {
