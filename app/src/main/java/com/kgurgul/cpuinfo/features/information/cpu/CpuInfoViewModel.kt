@@ -61,7 +61,10 @@ class CpuInfoViewModel @Inject constructor(
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
-    val cpuData: LiveData<CpuData> = observableCpuData.observe().asLiveData().distinctUntilChanged()
+    val cpuData: LiveData<CpuData> = observableCpuData
+            .observe()
+            .asLiveData(viewModelScope.coroutineContext)
+            .distinctUntilChanged()
 
     @Synchronized
     fun startProvidingData() {
