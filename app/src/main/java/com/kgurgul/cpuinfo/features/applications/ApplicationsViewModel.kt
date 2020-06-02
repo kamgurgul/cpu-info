@@ -123,7 +123,7 @@ class ApplicationsViewModel @Inject constructor(
      */
     fun changeAppsSorting() {
         viewModelScope.launch {
-            val sortedAppList = withContext(dispatchersProvider.ioDispatcher) {
+            val sortedAppList = withContext(dispatchersProvider.io) {
                 getAppSortedList(!isSortingAsc)
             }
             applicationList.replace(sortedAppList)
@@ -153,7 +153,7 @@ class ApplicationsViewModel @Inject constructor(
     @Subscribe
     fun onUpdatePackageSizeEvent(event: StorageUsageService.UpdatePackageSizeEvent) {
         viewModelScope.launch {
-            val newAppPair = withContext(dispatchersProvider.ioDispatcher) {
+            val newAppPair = withContext(dispatchersProvider.io) {
                 getUpdatedApp(event)
             }
             if (newAppPair.first != -1) {

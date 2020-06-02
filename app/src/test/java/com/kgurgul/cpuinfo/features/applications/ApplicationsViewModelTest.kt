@@ -59,8 +59,8 @@ class ApplicationsViewModelTest {
     @Before
     fun setup() {
         dispatchersProvider = mock {
-            on { ioDispatcher } doReturn Dispatchers.Main
-            on { mainDispatcher } doReturn Dispatchers.Main
+            on { io } doReturn Dispatchers.Main
+            on { main } doReturn Dispatchers.Main
         }
     }
 

@@ -60,7 +60,7 @@ class StorageInfoViewModel @Inject constructor(
      */
     private fun getStorageInfo() {
         viewModelScope.launch {
-            val memoryPair = withContext(dispatchersProvider.ioDispatcher) {
+            val memoryPair = withContext(dispatchersProvider.io) {
                 getExternalAndInternalMemoryPair()
             }
             listLiveData.add(memoryPair.first)
