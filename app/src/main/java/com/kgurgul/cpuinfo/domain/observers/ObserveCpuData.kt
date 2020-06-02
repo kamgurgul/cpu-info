@@ -18,7 +18,14 @@ class ObserveCpuData @Inject constructor(
     override fun createObservable(params: Unit) = flow {
         while (true) {
             val abi = cpuDataProvider.getAbi()
-            emit(CpuData(abi))
+            val coreNumber = cpuDataProvider.getNumberOfCores()
+            val frequencies = mutableListOf<CpuData.Frequency>()
+            for (i in 0 until coreNumber) {
+                val (min, max) = cpuDataProvider.getMinMaxFreq(i)
+                val current = cpuDataProvider.getCurrentFreq(i)
+                frequencies.add(CpuData.Frequency(min, max, current))
+            }
+            emit(CpuData(abi, coreNumber, frequencies))
             delay(REFRESH_DELAY)
         }
     }

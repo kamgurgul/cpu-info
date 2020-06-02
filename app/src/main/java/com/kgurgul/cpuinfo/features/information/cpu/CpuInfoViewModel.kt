@@ -31,6 +31,7 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.*
@@ -64,7 +65,7 @@ class CpuInfoViewModel @Inject constructor(
 
     init {
         viewModelScope.launchObserve(observeCpuData) {
-            it.collect {
+            it.distinctUntilChanged().collect {
                 Timber.d("CpuData: $it")
             }
         }
