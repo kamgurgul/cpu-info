@@ -22,7 +22,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
@@ -32,6 +34,7 @@ import com.kgurgul.cpuinfo.utils.MIME_TEXT_PLAIN
 import com.kgurgul.cpuinfo.utils.createSafFile
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -50,6 +53,13 @@ class CpuInfoFragment : BaseRvFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.cpuData.observe(viewLifecycleOwner, Observer {
+            Timber.d("CpuData: $it")
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -20,18 +20,16 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.UiThread
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.kgurgul.cpuinfo.domain.launchObserve
-import com.kgurgul.cpuinfo.domain.observers.ObserveCpuData
+import androidx.lifecycle.*
+import com.kgurgul.cpuinfo.domain.model.CpuData
+import com.kgurgul.cpuinfo.domain.observable.ObservableCpuData
+import com.kgurgul.cpuinfo.domain.observe
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.opencsv.CSVWriter
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.*
@@ -49,7 +47,7 @@ import javax.inject.Inject
 class CpuInfoViewModel @Inject constructor(
         private val dispatchersProvider: DispatchersProvider,
         private val contentResolver: ContentResolver,
-        observeCpuData: ObserveCpuData
+        observableCpuData: ObservableCpuData
 ) : ViewModel() {
 
     companion object {
@@ -63,13 +61,7 @@ class CpuInfoViewModel @Inject constructor(
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
-    init {
-        viewModelScope.launchObserve(observeCpuData) {
-            it.distinctUntilChanged().collect {
-                Timber.d("CpuData: $it")
-            }
-        }
-    }
+    val cpuData: LiveData<CpuData> = observableCpuData.observe().asLiveData().distinctUntilChanged()
 
     @Synchronized
     fun startProvidingData() {

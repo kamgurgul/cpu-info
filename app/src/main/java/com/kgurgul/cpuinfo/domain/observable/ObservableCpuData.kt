@@ -1,17 +1,17 @@
-package com.kgurgul.cpuinfo.domain.observers
+package com.kgurgul.cpuinfo.domain.observable
 
 import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
-import com.kgurgul.cpuinfo.domain.SubjectInteractor
+import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class ObserveCpuData @Inject constructor(
+class ObservableCpuData @Inject constructor(
         dispatchersProvider: DispatchersProvider,
         private val cpuDataProvider: CpuDataProvider
-) : SubjectInteractor<Unit, CpuData>() {
+) : ImmutableInteractor<Unit, CpuData>() {
 
     override val dispatcher = dispatchersProvider.io
 

@@ -43,6 +43,7 @@ object Libs {
             private const val version = "2.2.0"
             const val extensions = "androidx.lifecycle:lifecycle-extensions:$version"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
+            const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$version"
             const val common = "androidx.lifecycle:lifecycle-common-java8:$version"
         }
 
