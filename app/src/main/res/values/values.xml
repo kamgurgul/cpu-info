@@ -20,32 +20,32 @@
     <color name="round_corner_progress_bar_secondary_progress_default">@android:color/transparent
     </color>
     <declare-styleable name="IconRoundCornerProgress">
-        <attr name="rcIconSrc" format="integer" />
-        <attr name="rcIconSize" format="dimension" />
-        <attr name="rcIconWidth" format="dimension" />
-        <attr name="rcIconHeight" format="dimension" />
-        <attr name="rcIconPadding" format="dimension" />
-        <attr name="rcIconPaddingLeft" format="dimension" />
-        <attr name="rcIconPaddingRight" format="dimension" />
-        <attr name="rcIconPaddingTop" format="dimension" />
-        <attr name="rcIconPaddingBottom" format="dimension" />
-        <attr name="rcIconBackgroundColor" format="color" />
+        <attr name="iconSrc" format="integer" />
+        <attr name="iconSize" format="dimension" />
+        <attr name="iconWidth" format="dimension" />
+        <attr name="iconHeight" format="dimension" />
+        <attr name="iconPadding" format="dimension" />
+        <attr name="iconPaddingLeft" format="dimension" />
+        <attr name="iconPaddingRight" format="dimension" />
+        <attr name="iconPaddingTop" format="dimension" />
+        <attr name="iconPaddingBottom" format="dimension" />
+        <attr name="iconBackgroundColor" format="color" />
     </declare-styleable>
     <declare-styleable name="RoundCornerProgress">
-        <attr name="rcReverse" format="boolean" />
-        <attr name="rcProgress" format="float" />
-        <attr name="rcMax" format="float" />
-        <attr name="rcSecondaryProgress" format="float" />
-        <attr name="rcBackgroundPadding" format="dimension" />
-        <attr name="rcRadius" format="dimension" />
-        <attr name="rcProgressColor" format="color" />
-        <attr name="rcSecondaryProgressColor" format="color" />
-        <attr name="rcBackgroundColor" format="color" />
+        <attr name="reverse" format="boolean" />
+        <attr name="progress" format="float" />
+        <attr name="max" format="float" />
+        <attr name="secondaryProgress" format="float" />
+        <attr name="backgroundPadding" format="dimension" />
+        <attr name="radius" format="dimension" />
+        <attr name="progressColor" format="color" />
+        <attr name="secondaryProgressColor" format="color" />
+        <attr name="backgroundColor" format="color" />
     </declare-styleable>
     <declare-styleable name="TextRoundCornerProgress">
-        <attr name="rcTextProgressColor" format="color" />
-        <attr name="rcTextProgressSize" format="dimension" />
-        <attr name="rcTextProgressMargin" format="dimension" />
-        <attr name="rcTextProgress" format="string" />
+        <attr name="textProgressColor" format="color" />
+        <attr name="textProgressSize" format="dimension" />
+        <attr name="textProgressMargin" format="dimension" />
+        <attr name="textProgress" format="string" />
     </declare-styleable>
 </resources>

@@ -123,6 +123,10 @@ dependencies {
     implementation Libs.Glide.glide
     kapt Libs.Glide.compiler
 
+    implementation Libs.Airbnb.epoxy
+    implementation Libs.Airbnb.dataBinding
+    kapt Libs.Airbnb.processor
+
     implementation Libs.bus
     implementation Libs.timber
 

@@ -39,13 +39,13 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        app:rcBackgroundColor="@color/progressBackground"
-        app:rcBackgroundPadding="5dp"
-        app:rcIconPadding="10dp"
-        app:rcIconSize="40dp"
-        app:rcIconSrc="@drawable/root"
-        app:rcMax="100.0"
-        app:rcProgressColor="@color/accent"
-        app:rcRadius="10dp" />
+        app:backgroundColor="@color/progressBackground"
+        app:backgroundPadding="5dp"
+        app:iconPadding="10dp"
+        app:iconSize="40dp"
+        app:iconSrc="@drawable/root"
+        app:max="100.0"
+        app:progressColor="@color/accent"
+        app:radius="10dp" />
 
 </LinearLayout>

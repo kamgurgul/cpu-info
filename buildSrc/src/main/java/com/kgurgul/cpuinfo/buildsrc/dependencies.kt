@@ -93,4 +93,11 @@ object Libs {
         const val glide = "com.github.bumptech.glide:glide:$version"
         const val compiler = "com.github.bumptech.glide:compiler:$version"
     }
+
+    object Airbnb {
+        private const val version = "4.0.0-beta4"
+        const val epoxy = "com.airbnb.android:epoxy:$version"
+        const val processor = "com.airbnb.android:epoxy-processor:$version"
+        const val dataBinding = "com.airbnb.android:epoxy-databinding:$version"
+    }
 }

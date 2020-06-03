@@ -50,6 +50,10 @@
     <string name="running_gc">Running Garbage Collector</string>
     <string name="text_copied">Value copied</string>
 
+    <!-- CPU -->
+    <string name="cpu_current_frequency">Core %1$d: %2$dMHz</string>
+    <string name="cpu_min_max_frequency">%1$dMhz - %2$dMhz</string>
+
     <!--Apps-->
     <string name="app_open">Cannot open this application</string>
     <string name="cpu_open">Don\'t open me twice :-)</string>

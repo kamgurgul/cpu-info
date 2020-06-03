@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="currentFrequency"
+            type="long" />
+
+        <variable
+            name="minFrequency"
+            type="long" />
+
+        <variable
+            name="maxFrequency"
+            type="long" />
+
+        <variable
+            name="currentFrequencyDescription"
+            type="String" />
+
+        <variable
+            name="minMaxFrequencyDescription"
+            type="String" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            style="@style/TextBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{currentFrequencyDescription}"
+            android:textStyle="bold"
+            tools:text="Core 0: 400MHz" />
+
+        <TextView
+            style="@style/TextBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{minMaxFrequencyDescription}"
+            tools:text="100Mhz - 25000Mhz" />
+
+        <com.kgurgul.cpuinfo.widgets.progress.IconRoundCornerProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:backgroundColor="@color/progressBackground"
+            app:backgroundPadding="5dp"
+            app:iconPadding="10dp"
+            app:max="@{maxFrequency}"
+            app:progress="@{currentFrequency}"
+            app:progressColor="@color/accent"
+            app:radius="10dp" />
+
+    </LinearLayout>
+
+</layout>
