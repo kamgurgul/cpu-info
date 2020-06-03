@@ -11,23 +11,28 @@ class CpuInfoEpoxyController(
 
     override fun buildModels(data: CpuInfoViewState) {
         data.cpuData.frequencies.forEachIndexed { i, frequency ->
-            val currentFreq = context.getString(
-                    R.string.cpu_current_frequency,
-                    i,
-                    frequency.current
-            )
-            val minMaxFreq = context.getString(
-                    R.string.cpu_min_max_frequency,
-                    frequency.min,
-                    frequency.max
-            )
+            val currentFreq = if (frequency.current != -1L) {
+                context.getString(R.string.cpu_current_frequency, i, frequency.current.toString())
+            } else {
+                context.getString(R.string.cpu_frequency_stopped, i)
+            }
+            val minFreq = if (frequency.min != -1L) {
+                context.getString(R.string.cpu_frequency, "0")
+            } else {
+                ""
+            }
+            val maxFreq = if (frequency.max != -1L) {
+                context.getString(R.string.cpu_frequency, frequency.max.toString())
+            } else {
+                ""
+            }
             cpuFrequency {
                 id("frequency$i")
-                minFrequency(frequency.min)
                 maxFrequency(frequency.max)
                 currentFrequency(frequency.current)
                 currentFrequencyDescription(currentFreq)
-                minMaxFrequencyDescription(minMaxFreq)
+                minFrequencyDescription(minFreq)
+                maxFrequencyDescription(maxFreq)
             }
         }
     }

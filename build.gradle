@@ -3,7 +3,7 @@ import com.kgurgul.cpuinfo.buildsrc.Libs
 buildscript {
 
     ext {
-        minSdk = 14
+        minSdk = 16
         targetSdk = 28
         compiledSdk = 28
     }

@@ -10,10 +10,6 @@
             type="long" />
 
         <variable
-            name="minFrequency"
-            type="long" />
-
-        <variable
             name="maxFrequency"
             type="long" />
 
@@ -22,7 +18,11 @@
             type="String" />
 
         <variable
-            name="minMaxFrequencyDescription"
+            name="minFrequencyDescription"
+            type="String" />
+
+        <variable
+            name="maxFrequencyDescription"
             type="String" />
 
     </data>
@@ -41,17 +41,12 @@
             android:textStyle="bold"
             tools:text="Core 0: 400MHz" />
 
-        <TextView
-            style="@style/TextBody2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{minMaxFrequencyDescription}"
-            tools:text="100Mhz - 25000Mhz" />
 
         <com.kgurgul.cpuinfo.widgets.progress.IconRoundCornerProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
+            app:animationEnable="true"
             app:backgroundColor="@color/progressBackground"
             app:backgroundPadding="5dp"
             app:iconPadding="10dp"
@@ -59,6 +54,33 @@
             app:progress="@{currentFrequency}"
             app:progressColor="@color/accent"
             app:radius="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextAnnotation2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{minFrequencyDescription}"
+                tools:text="100Mhz" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                style="@style/TextAnnotation2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{maxFrequencyDescription}"
+                tools:text="25000Mhz" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

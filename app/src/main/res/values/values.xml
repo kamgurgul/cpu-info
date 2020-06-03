@@ -19,7 +19,26 @@
     <color name="round_corner_progress_bar_progress_default">#7f7f7f</color>
     <color name="round_corner_progress_bar_secondary_progress_default">@android:color/transparent
     </color>
-    <declare-styleable name="IconRoundCornerProgress">
+    <declare-styleable name="BaseRoundCornerProgressBar">
+        <attr name="reverse" format="boolean" />
+        <attr name="progress" format="float" />
+        <attr name="max" format="float" />
+        <attr name="secondaryProgress" format="float" />
+        <attr name="backgroundPadding" format="dimension" />
+        <attr name="radius" format="dimension" />
+        <attr name="progressColor" format="color" />
+        <attr name="progressColors" format="reference" />
+        <attr name="secondaryProgressColor" format="color" />
+        <attr name="secondaryProgressColors" format="reference" />
+        <attr name="backgroundColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="AnimatedRoundCornerProgressBar">
+        <attr name="animationEnable" format="boolean" />
+        <attr name="animationSpeedScale" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="IconRoundCornerProgressBar">
         <attr name="iconSrc" format="integer" />
         <attr name="iconSize" format="dimension" />
         <attr name="iconWidth" format="dimension" />
@@ -31,21 +50,23 @@
         <attr name="iconPaddingBottom" format="dimension" />
         <attr name="iconBackgroundColor" format="color" />
     </declare-styleable>
-    <declare-styleable name="RoundCornerProgress">
-        <attr name="reverse" format="boolean" />
-        <attr name="progress" format="float" />
-        <attr name="max" format="float" />
-        <attr name="secondaryProgress" format="float" />
-        <attr name="backgroundPadding" format="dimension" />
-        <attr name="radius" format="dimension" />
-        <attr name="progressColor" format="color" />
-        <attr name="secondaryProgressColor" format="color" />
-        <attr name="backgroundColor" format="color" />
-    </declare-styleable>
-    <declare-styleable name="TextRoundCornerProgress">
+
+    <declare-styleable name="TextRoundCornerProgressBar">
         <attr name="textProgressColor" format="color" />
         <attr name="textProgressSize" format="dimension" />
         <attr name="textProgressMargin" format="dimension" />
         <attr name="textProgress" format="string" />
+        <attr name="textInsideGravity" format="enum">
+            <enum name="start" value="0" />
+            <enum name="end" value="1" />
+        </attr>
+        <attr name="textOutsideGravity" format="enum">
+            <enum name="start" value="0" />
+            <enum name="end" value="1" />
+        </attr>
+        <attr name="textPositionPriority" format="enum">
+            <enum name="inside" value="0" />
+            <enum name="outside" value="1" />
+        </attr>
     </declare-styleable>
 </resources>
