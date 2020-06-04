@@ -71,7 +71,7 @@ object Libs {
     }
 
     object Google {
-        const val material = "com.google.android.material:material:1.1.0"
+        const val material = "com.google.android.material:material:1.2.0-beta01"
         const val gson = "com.google.code.gson:gson:2.8.5"
     }
 
