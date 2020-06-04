@@ -8,6 +8,8 @@ object Libs {
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
 
+    const val relinker = "com.getkeepsafe.relinker:relinker:1.4.1"
+
     const val junit = "junit:junit:4.13"
 
     const val robolectric = "org.robolectric:robolectric:4.3.1"

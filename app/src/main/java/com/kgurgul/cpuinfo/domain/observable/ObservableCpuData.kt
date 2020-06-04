@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.domain.observable
 
+import com.kgurgul.cpuinfo.data.provider.CpuDataNativeProvider
 import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.CpuData
@@ -10,13 +11,15 @@ import javax.inject.Inject
 
 class ObservableCpuData @Inject constructor(
         dispatchersProvider: DispatchersProvider,
-        private val cpuDataProvider: CpuDataProvider
+        private val cpuDataProvider: CpuDataProvider,
+        private val cpuDataNativeProvider: CpuDataNativeProvider
 ) : ImmutableInteractor<Unit, CpuData>() {
 
     override val dispatcher = dispatchersProvider.io
 
     override fun createObservable(params: Unit) = flow {
         while (true) {
+            val processorName = cpuDataNativeProvider.getCpuName()
             val abi = cpuDataProvider.getAbi()
             val coreNumber = cpuDataProvider.getNumberOfCores()
             val frequencies = mutableListOf<CpuData.Frequency>()
@@ -25,7 +28,7 @@ class ObservableCpuData @Inject constructor(
                 val current = cpuDataProvider.getCurrentFreq(i)
                 frequencies.add(CpuData.Frequency(min, max, current))
             }
-            emit(CpuData(abi, coreNumber, frequencies))
+            emit(CpuData(processorName, abi, coreNumber, frequencies))
             delay(REFRESH_DELAY)
         }
     }

@@ -1,6 +1,7 @@
 package com.kgurgul.cpuinfo.domain.model
 
 data class CpuData(
+        val processorName: String,
         val abi: String,
         val coreNumber: Int,
         val frequencies: List<Frequency>

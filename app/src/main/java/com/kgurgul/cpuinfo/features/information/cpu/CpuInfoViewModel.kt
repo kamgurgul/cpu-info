@@ -25,6 +25,7 @@ import com.kgurgul.cpuinfo.domain.observe
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -40,6 +41,9 @@ class CpuInfoViewModel @Inject constructor(
 
     val viewState = cpuData
             .distinctUntilChanged()
-            .map { CpuInfoViewState(it) }
+            .map {
+                Timber.d("CpuData: $it")
+                CpuInfoViewState(it)
+            }
             .asLiveData(viewModelScope.coroutineContext)
 }

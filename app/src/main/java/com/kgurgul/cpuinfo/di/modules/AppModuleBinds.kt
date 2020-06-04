@@ -10,6 +10,10 @@ abstract class AppModuleBinds {
 
     @Binds
     @IntoSet
+    abstract fun provideNativeToolsInitializer(bind: NativeToolsInitializer): AppInitializer
+
+    @Binds
+    @IntoSet
     abstract fun provideRxInitializer(bind: RxInitializer): AppInitializer
 
     @Binds
