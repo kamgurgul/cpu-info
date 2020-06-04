@@ -9,4 +9,6 @@ class CpuDataNativeProvider @Inject constructor() {
     external fun initLibrary()
 
     external fun getCpuName(): String
+
+    external fun hasArmNeon(): Boolean
 }

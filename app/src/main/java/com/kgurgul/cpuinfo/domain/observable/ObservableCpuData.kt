@@ -22,13 +22,14 @@ class ObservableCpuData @Inject constructor(
             val processorName = cpuDataNativeProvider.getCpuName()
             val abi = cpuDataProvider.getAbi()
             val coreNumber = cpuDataProvider.getNumberOfCores()
+            val hasArmNeon = cpuDataNativeProvider.hasArmNeon()
             val frequencies = mutableListOf<CpuData.Frequency>()
             for (i in 0 until coreNumber) {
                 val (min, max) = cpuDataProvider.getMinMaxFreq(i)
                 val current = cpuDataProvider.getCurrentFreq(i)
                 frequencies.add(CpuData.Frequency(min, max, current))
             }
-            emit(CpuData(processorName, abi, coreNumber, frequencies))
+            emit(CpuData(processorName, abi, coreNumber, hasArmNeon, frequencies))
             delay(REFRESH_DELAY)
         }
     }

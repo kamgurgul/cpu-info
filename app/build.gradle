@@ -3,9 +3,14 @@ import com.kgurgul.cpuinfo.buildsrc.Libs
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 apply from: "$rootDir/reports/jacoco.gradle"
 apply from: "$rootDir/versioning.gradle"
+
+apply plugin: 'kotlin-kapt'
+kapt {
+    correctErrorTypes = true
+    useBuildCache = true
+}
 
 Properties signingProperties = getReleaseSigningConfig()
 
@@ -86,12 +91,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-}
-
-kapt {
-    mapDiagnosticLocations = true
-    correctErrorTypes = true
-    useBuildCache = true
 }
 
 dependencies {

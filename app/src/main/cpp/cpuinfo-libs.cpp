@@ -22,6 +22,14 @@ Java_com_kgurgul_cpuinfo_data_provider_CpuDataNativeProvider_getCpuName(JNIEnv *
     if (!cpuinfo_initialize()) {
         return env->NewStringUTF("");
     }
-    const char *soc_name = cpuinfo_get_package(0)->name;
-    return env->NewStringUTF(soc_name);
+    return env->NewStringUTF(cpuinfo_get_package(0)->name);
+}
+
+extern "C"
+JNIEXPORT jboolean JNICALL
+Java_com_kgurgul_cpuinfo_data_provider_CpuDataNativeProvider_hasArmNeon(JNIEnv *env, jobject thiz) {
+    if (!cpuinfo_initialize()) {
+        return false;
+    }
+    return cpuinfo_has_arm_neon();
 }
