@@ -10,7 +10,6 @@ kapt {
     useBuildCache = true
 }
 
-apply from: "$rootDir/reports/jacoco.gradle"
 apply from: "$rootDir/versioning.gradle"
 
 Properties signingProperties = getReleaseSigningConfig()
