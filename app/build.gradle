@@ -3,14 +3,15 @@ import com.kgurgul.cpuinfo.buildsrc.Libs
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply from: "$rootDir/reports/jacoco.gradle"
-apply from: "$rootDir/versioning.gradle"
 
 apply plugin: 'kotlin-kapt'
 kapt {
     correctErrorTypes = true
     useBuildCache = true
 }
+
+apply from: "$rootDir/reports/jacoco.gradle"
+apply from: "$rootDir/versioning.gradle"
 
 Properties signingProperties = getReleaseSigningConfig()
 

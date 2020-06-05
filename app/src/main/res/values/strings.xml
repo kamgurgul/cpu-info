@@ -54,6 +54,9 @@
     <string name="cpu_current_frequency">Core %1$d: %2$sMHz</string>
     <string name="cpu_frequency">%1$sMhz</string>
     <string name="cpu_frequency_stopped">Core %1$d: Stopped</string>
+    <string name="cpu_soc_name">SoC name</string>
+    <string name="cpu_cores">Cores</string>
+    <string name="cpu_has_neon">ARM Neon</string>
 
     <!--Apps-->
     <string name="app_open">Cannot open this application</string>

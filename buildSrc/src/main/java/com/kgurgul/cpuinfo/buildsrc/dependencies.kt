@@ -2,7 +2,7 @@ package com.kgurgul.cpuinfo.buildsrc
 
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:4.0.0"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:4.1.0-alpha10"
 
     const val bus = "org.greenrobot:eventbus:3.1.1"
 
@@ -97,7 +97,7 @@ object Libs {
     }
 
     object Airbnb {
-        private const val version = "4.0.0-beta4"
+        private const val version = "3.11.0"
         const val epoxy = "com.airbnb.android:epoxy:$version"
         const val processor = "com.airbnb.android:epoxy-processor:$version"
         const val dataBinding = "com.airbnb.android:epoxy-databinding:$version"
