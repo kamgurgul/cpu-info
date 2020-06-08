@@ -26,6 +26,8 @@ import java.io.InputStreamReader
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
+import kotlin.math.ln
+import kotlin.math.pow
 
 /**
  * General utility class
@@ -38,7 +40,7 @@ object Utils {
      * Helper which adds item to list if value is not null and not empty
      */
     fun addPairIfExists(list: MutableList<Pair<String, String>>, key: String, value: String?) {
-        if (value != null && !value.isEmpty()) {
+        if (value != null && value.isNotEmpty()) {
             list.add(Pair(key, value))
         }
     }
@@ -49,10 +51,9 @@ object Utils {
     fun humanReadableByteCount(bytes: Long): String {
         val unit = 1024
         if (bytes < unit) return "$bytes B"
-        val exp = (Math.log(bytes.toDouble()) / Math.log(unit.toDouble())).toInt()
+        val exp = (ln(bytes.toDouble()) / ln(unit.toDouble())).toInt()
         val pre = "KMGTPE"[exp - 1]
-        return String.format(Locale.US, "%.2f %sB", bytes / Math.pow(unit.toDouble(),
-                exp.toDouble()), pre)
+        return String.format(Locale.US, "%.2f %sB", bytes / unit.toDouble().pow(exp.toDouble()), pre)
     }
 
     /**

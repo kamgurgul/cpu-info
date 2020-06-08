@@ -57,6 +57,11 @@
     <string name="cpu_soc_name">SoC name</string>
     <string name="cpu_cores">Cores</string>
     <string name="cpu_has_neon">ARM Neon</string>
+    <string name="cpu_l1d">L1d cache</string>
+    <string name="cpu_l1i">L1i cache</string>
+    <string name="cpu_l2">L2 cache</string>
+    <string name="cpu_l3">L3 cache</string>
+    <string name="cpu_l4">L4 cache</string>
 
     <!--Apps-->
     <string name="app_open">Cannot open this application</string>

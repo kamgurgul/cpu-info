@@ -40,6 +40,7 @@ class CpuInfoEpoxyController(
                     }
             )
         }
+        buildCaches(data.cpuData)
     }
 
     private fun buildFrequencies(frequencies: List<CpuData.Frequency>) {
@@ -66,6 +67,50 @@ class CpuInfoEpoxyController(
                 currentFrequencyDescription(currentFreq)
                 minFrequencyDescription(minFreq)
                 maxFrequencyDescription(maxFreq)
+            }
+        }
+    }
+
+    private fun buildCaches(cpuData: CpuData) {
+        if (cpuData.l1dCaches.isNotEmpty()) {
+            verticalDivider { id("l1d_divider") }
+            itemValue {
+                id("l1d")
+                title(context.getString(R.string.cpu_l1d))
+                value(cpuData.l1dCaches)
+            }
+
+        }
+        if (cpuData.l1iCaches.isNotEmpty()) {
+            verticalDivider { id("l1i_divider") }
+            itemValue {
+                id("l1i")
+                title(context.getString(R.string.cpu_l1i))
+                value(cpuData.l1iCaches)
+            }
+        }
+        if (cpuData.l2Caches.isNotEmpty()) {
+            verticalDivider { id("l2_divider") }
+            itemValue {
+                id("l2")
+                title(context.getString(R.string.cpu_l2))
+                value(cpuData.l2Caches)
+            }
+        }
+        if (cpuData.l3Caches.isNotEmpty()) {
+            verticalDivider { id("l3_divider") }
+            itemValue {
+                id("l3")
+                title(context.getString(R.string.cpu_l3))
+                value(cpuData.l3Caches)
+            }
+        }
+        if (cpuData.l4Caches.isNotEmpty()) {
+            verticalDivider { id("l4_divider") }
+            itemValue {
+                id("l4")
+                title(context.getString(R.string.cpu_l4))
+                value(cpuData.l4Caches)
             }
         }
     }
