@@ -15,7 +15,7 @@ class ThemeInitializer @Inject constructor(
 ) : AppInitializer {
 
     override fun init(application: Application) {
-        sharedPreferences.getString(ThemeHelper.KEY_THEME, ThemeHelper.DARK_MODE)?.let {
+        sharedPreferences.getString(ThemeHelper.KEY_THEME, ThemeHelper.DEFAULT_MODE)?.let {
             ThemeHelper.applyTheme(it)
         }
     }
