@@ -2,11 +2,13 @@ package com.kgurgul.cpuinfo.buildsrc
 
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:4.0.0"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:4.1.0-alpha10"
 
     const val bus = "org.greenrobot:eventbus:3.1.1"
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
+
+    const val relinker = "com.getkeepsafe.relinker:relinker:1.4.1"
 
     const val junit = "junit:junit:4.13"
 
@@ -43,6 +45,7 @@ object Libs {
             private const val version = "2.2.0"
             const val extensions = "androidx.lifecycle:lifecycle-extensions:$version"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
+            const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$version"
             const val common = "androidx.lifecycle:lifecycle-common-java8:$version"
         }
 
@@ -70,7 +73,7 @@ object Libs {
     }
 
     object Google {
-        const val material = "com.google.android.material:material:1.1.0"
+        const val material = "com.google.android.material:material:1.2.0-beta01"
         const val gson = "com.google.code.gson:gson:2.8.5"
     }
 
@@ -91,5 +94,12 @@ object Libs {
         private const val version = "4.11.0"
         const val glide = "com.github.bumptech.glide:glide:$version"
         const val compiler = "com.github.bumptech.glide:compiler:$version"
+    }
+
+    object Airbnb {
+        private const val version = "3.11.0"
+        const val epoxy = "com.airbnb.android:epoxy:$version"
+        const val processor = "com.airbnb.android:epoxy-processor:$version"
+        const val dataBinding = "com.airbnb.android:epoxy-databinding:$version"
     }
 }

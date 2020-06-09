@@ -209,7 +209,7 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         val libs = nativeDirFile.listFiles().map { it.name }
 
         val listView: ListView = dialogLayout.findViewById(R.id.dialog_lv)
-        val arrayAdapter = ArrayAdapter<String>(requireContext(), R.layout.item_native_libs,
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_native_libs,
                 R.id.native_name_tv, libs)
         listView.adapter = arrayAdapter
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->

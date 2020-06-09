@@ -20,6 +20,7 @@
     <string name="action_sorting">Sortierung</string>
     <string name="action_refresh">Aktualisieren</string>
     <string name="action_export_to_csv">Export to CSV</string>
+    <string name="action_not_supported">Aktion nicht verfügbar</string>
 
     <string name="open_drawer">Menü öffnen</string>
     <string name="close_drawer">Menü schließen</string>
@@ -138,6 +139,12 @@
     <string name="ram_refreshing">Widget-Aktualisierung alle</string>
     <string name="general">Generell</string>
     <string name="temperature_unit">Temperatur-Einheit</string>
+    <string name="pref_theme_dark">Dunkel</string>
+    <string name="pref_theme_light">Licht</string>
+    <string name="pref_theme_battery">Wird vom Batteriesparmodus eingestellt</string>
+    <string name="pref_theme_default">Systemfehler</string>
+    <string name="pref_theme">Thema</string>
+    <string name="pref_theme_choose">Wähle das Thema</string>
 
     <!--Temp-->
     <string name="cpu_temperature">CPU-Temperatur</string>

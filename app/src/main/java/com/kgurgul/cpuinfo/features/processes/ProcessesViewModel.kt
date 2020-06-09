@@ -90,7 +90,7 @@ class ProcessesViewModel @Inject constructor(
      */
     fun changeProcessSorting() {
         viewModelScope.launch {
-            val sortedAppList = withContext(dispatchersProvider.ioDispatcher) {
+            val sortedAppList = withContext(dispatchersProvider.io) {
                 getProcessSortedList(!isSortingAsc)
             }
             processList.replace(sortedAppList)

@@ -50,11 +50,24 @@
     <string name="running_gc">Running Garbage Collector</string>
     <string name="text_copied">Value copied</string>
 
+    <!-- CPU -->
+    <string name="cpu_current_frequency" translatable="false">Core %1$d: %2$sMHz</string>
+    <string name="cpu_frequency" translatable="false">%1$sMhz</string>
+    <string name="cpu_frequency_stopped" translatable="false">Core %1$d: Stopped</string>
+    <string name="cpu_soc_name" translatable="false">SoC name</string>
+    <string name="cpu_cores" translatable="false">Cores</string>
+    <string name="cpu_has_neon" translatable="false">ARM Neon</string>
+    <string name="cpu_l1d" translatable="false">L1d cache</string>
+    <string name="cpu_l1i" translatable="false">L1i cache</string>
+    <string name="cpu_l2" translatable="false">L2 cache</string>
+    <string name="cpu_l3" translatable="false">L3 cache</string>
+    <string name="cpu_l4" translatable="false">L4 cache</string>
+
     <!--Apps-->
     <string name="app_open">Cannot open this application</string>
     <string name="cpu_open">Don\'t open me twice :-)</string>
     <string name="cpu_uninstall">Can\'t do that :-(</string>
-    <string name="native_libs">Native libs</string>
+    <string name="native_libs" translatable="false">Native libs</string>
     <string name="storage_used">Storage used:</string>
     <string name="calculating">calculating…</string>
 

@@ -17,14 +17,10 @@
 package com.kgurgul.cpuinfo.features.information
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentInfoBinding
-import com.kgurgul.cpuinfo.di.Injectable
+import com.kgurgul.cpuinfo.features.information.base.BaseFragment
 import com.kgurgul.cpuinfo.features.information.base.ViewPagerAdapter
 
 /**
@@ -32,18 +28,10 @@ import com.kgurgul.cpuinfo.features.information.base.ViewPagerAdapter
  *
  * @author kgurgul
  */
-class InfoContainerFragment : Fragment(), Injectable {
+class InfoContainerFragment : BaseFragment<FragmentInfoBinding>(R.layout.fragment_info) {
 
-    private lateinit var binding: FragmentInfoBinding
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_info, container, false)
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val viewPagerAdapter = ViewPagerAdapter(requireContext(), childFragmentManager)
         binding.viewPager.adapter = viewPagerAdapter
         binding.tabs.setupWithViewPager(binding.viewPager)

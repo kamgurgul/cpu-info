@@ -20,6 +20,7 @@
     <string name="action_sorting">Řazení</string>
     <string name="action_refresh">Interval opětovného načítání</string>
     <string name="action_export_to_csv">Export to CSV</string>
+    <string name="action_not_supported">Akce není k dispozici</string>
     
     <string name="open_drawer">Otevřít panel</string>
     <string name="close_drawer">Zavřít panel</string>
@@ -135,6 +136,12 @@
     <string name="ram_refreshing">Interval opakování načítání hodnot</string>
     <string name="general">Obecné</string>
     <string name="temperature_unit">Jednotka teploty</string>
+    <string name="pref_theme_dark">Temný</string>
+    <string name="pref_theme_light">Světlý</string>
+    <string name="pref_theme_battery">Nastaveno šetřičem baterie</string>
+    <string name="pref_theme_default">Výchozí systém</string>
+    <string name="pref_theme">Téma</string>
+    <string name="pref_theme_choose">Vyberte téma</string>
 
     <!--Temp-->
     <string name="cpu_temperature">Teplota procesoru</string>

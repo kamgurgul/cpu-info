@@ -20,6 +20,7 @@ import android.content.Context
 import com.kgurgul.cpuinfo.CpuInfoApp
 import com.kgurgul.cpuinfo.di.modules.ActivityBuildersModule
 import com.kgurgul.cpuinfo.di.modules.AppModule
+import com.kgurgul.cpuinfo.di.modules.ServiceModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -35,7 +36,8 @@ import javax.inject.Singleton
 @Component(modules = [
     AndroidSupportInjectionModule::class,
     AppModule::class,
-    ActivityBuildersModule::class
+    ActivityBuildersModule::class,
+    ServiceModule::class
 ])
 interface AppComponent : AndroidInjector<CpuInfoApp> {
 
