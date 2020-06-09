@@ -16,7 +16,7 @@
 
 package com.kgurgul.cpuinfo
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.kgurgul.cpuinfo.appinitializers.AppInitializers
 import com.kgurgul.cpuinfo.di.AppInjector
 import dagger.android.DispatchingAndroidInjector
@@ -28,7 +28,7 @@ import javax.inject.Inject
  *
  * @author kgurgul
  */
-class CpuInfoApp : Application(), HasAndroidInjector {
+class CpuInfoApp : MultiDexApplication(), HasAndroidInjector {
 
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>

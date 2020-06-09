@@ -9,17 +9,14 @@ import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.*
-import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 class CpuTileService : TileService(), CoroutineScope {
 
-    @Inject
-    lateinit var cpuDataProvider: CpuDataProvider
+    private val cpuDataProvider = CpuDataProvider()
 
-    @Inject
-    lateinit var dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider = DispatchersProvider()
 
     private val job = SupervisorJob()
     override val coroutineContext: CoroutineContext
