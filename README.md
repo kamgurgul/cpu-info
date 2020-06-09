@@ -15,32 +15,14 @@ Due to lack of time, this project will be updated sporadically. Right now it is 
      alt="Get it on Google Play"
      height="80">](https://play.google.com/store/apps/details?id=com.kgurgul.cpuinfo)
 
-Used libraries
-==============
-* [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html)
-* [RxJava 2](https://github.com/ReactiveX/RxJava)
-* [Dagger 2](https://github.com/google/dagger)
-* [Gson](https://github.com/google/gson)
-* [EventBus](https://github.com/greenrobot/EventBus)
-* [Glide](https://github.com/bumptech/glide)
-* Small parts from [1](https://github.com/lzyzsd/CircleProgress), [2](https://github.com/akexorcist/Android-RoundCornerProgressBar),
-[3](https://github.com/jaredrummler/AndroidProcesses), [4](https://github.com/TUBB/SwipeMenu)
-
-Testing tools
-=============
-* [Mockito](http://site.mockito.org/)
-* [mockito-kotlin](https://github.com/nhaarman/mockito-kotlin)
-* [Espresso](https://developer.android.com/training/testing/ui-testing/espresso-testing.html)
-* [Jacoco (for coverage)](http://www.eclemma.org/jacoco/)
-
 CI
 ===
 * Travis
 
 Still TODO
 ==========
+* Replace RxJava with coroutines
 * Tests
-* Fix for RAM widget on Android O
 * Add benchmarks
 
 License
