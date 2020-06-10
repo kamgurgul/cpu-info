@@ -7,7 +7,6 @@ import androidx.annotation.RequiresApi
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
-import dagger.android.AndroidInjection
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -44,11 +43,6 @@ class CpuTileService : TileService(), CoroutineScope {
         )
     }
     private val defaultIcon by lazy { Icon.createWithResource(this, R.drawable.ic_cpu_high) }
-
-    override fun onCreate() {
-        super.onCreate()
-        AndroidInjection.inject(this)
-    }
 
     override fun onStartListening() {
         super.onStartListening()

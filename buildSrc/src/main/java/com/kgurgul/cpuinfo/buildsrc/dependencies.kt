@@ -2,7 +2,7 @@ package com.kgurgul.cpuinfo.buildsrc
 
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:4.1.0-alpha10"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:4.0.0"
 
     const val bus = "org.greenrobot:eventbus:3.1.1"
 
