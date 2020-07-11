@@ -24,6 +24,7 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.view.Display
 import android.view.WindowManager
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
@@ -34,14 +35,13 @@ import com.opencsv.CSVWriter
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.FileWriter
-import javax.inject.Inject
 
 /**
  * ViewModel which is responsible for screen details
  *
  * @author kgurgul
  */
-class ScreenInfoViewModel @Inject constructor(
+class ScreenInfoViewModel @ViewModelInject constructor(
         private val resources: Resources,
         private val windowManager: WindowManager,
         private val dispatchersProvider: DispatchersProvider,

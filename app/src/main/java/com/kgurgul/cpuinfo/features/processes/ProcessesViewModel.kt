@@ -17,6 +17,7 @@
 package com.kgurgul.cpuinfo.features.processes
 
 import androidx.annotation.VisibleForTesting
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
@@ -31,14 +32,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 /**
  * ViewModel for [ProcessesFragment]
  *
  * @author kgurgul
  */
-class ProcessesViewModel @Inject constructor(
+class ProcessesViewModel @ViewModelInject constructor(
         private val dispatchersProvider: DispatchersProvider,
         private val prefs: Prefs,
         private val psProvider: PsProvider

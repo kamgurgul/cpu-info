@@ -23,6 +23,7 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
@@ -36,7 +37,6 @@ import java.io.File
 import java.io.FileWriter
 import java.io.InputStreamReader
 import java.security.Security
-import javax.inject.Inject
 
 /**
  * ViewModel for Android OS info. It is simple container for a lot of static data from Android so
@@ -44,7 +44,7 @@ import javax.inject.Inject
  *
  * @author kgurgul
  */
-class AndroidInfoViewModel @Inject constructor(
+class AndroidInfoViewModel @ViewModelInject constructor(
         private val resources: Resources,
         private val contentResolver: ContentResolver,
         private val devicePolicyManager: DevicePolicyManager,

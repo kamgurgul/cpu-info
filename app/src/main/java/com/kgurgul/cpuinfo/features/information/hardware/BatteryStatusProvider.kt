@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,7 +32,9 @@ import javax.inject.Singleton
  * @author kgurgul
  */
 @Singleton
-class BatteryStatusProvider @Inject constructor(private val appContext: Context) {
+class BatteryStatusProvider @Inject constructor(
+        @ApplicationContext private val appContext: Context
+) {
 
     /**
      * @return [Intent] with battery information

@@ -22,20 +22,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentCpuInfoBinding
-import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseFragment
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Displays information about device CPU taken form /proc/cpuinfo file
  *
  * @author kgurgul
  */
+@AndroidEntryPoint
 class CpuInfoFragment : BaseFragment<FragmentCpuInfoBinding>(R.layout.fragment_cpu_info) {
 
-    @Inject
-    lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<CpuInfoViewModel>
-    private val viewModel: CpuInfoViewModel by viewModels { viewModelInjectionFactory }
+    private val viewModel: CpuInfoViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

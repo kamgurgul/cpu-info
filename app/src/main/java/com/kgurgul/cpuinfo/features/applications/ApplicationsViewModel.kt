@@ -23,6 +23,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.VisibleForTesting
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -43,14 +44,13 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import java.io.File
-import javax.inject.Inject
 
 /**
  * ViewModel for [ApplicationsFragment]
  *
  * @author kgurgul
  */
-class ApplicationsViewModel @Inject constructor(
+class ApplicationsViewModel @ViewModelInject constructor(
         private val dispatchersProvider: DispatchersProvider,
         private val prefs: Prefs,
         private val packageManager: PackageManager

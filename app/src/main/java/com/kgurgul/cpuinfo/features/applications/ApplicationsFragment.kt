@@ -28,36 +28,30 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentApplicationsBinding
-import com.kgurgul.cpuinfo.di.Injectable
-import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
+import com.kgurgul.cpuinfo.features.information.base.BaseFragment
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import com.kgurgul.cpuinfo.utils.wrappers.EventObserver
 import com.kgurgul.cpuinfo.widgets.swiperv.SwipeMenuRecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
-import javax.inject.Inject
 
 /**
  * Activity for apps list.
  *
  * @author kgurgul
  */
-class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemClickListener {
+@AndroidEntryPoint
+class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
+        R.layout.fragment_applications), ApplicationsAdapter.ItemClickListener {
 
-    @Inject
-    lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<ApplicationsViewModel>
-    private val viewModel: ApplicationsViewModel by viewModels { viewModelInjectionFactory }
-
-    private lateinit var binding: FragmentApplicationsBinding
-    private lateinit var applicationsAdapter: ApplicationsAdapter
+    private val viewModel: ApplicationsViewModel by viewModels()
 
     private val uninstallReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -72,29 +66,21 @@ class ApplicationsFragment : Fragment(), Injectable, ApplicationsAdapter.ItemCli
         registerUninstallBroadcast()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_applications, container,
-                false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.accent,
                 R.color.primaryDark)
         initObservables()
         setupRecyclerView()
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        binding.recyclerView.adapter = null
-        super.onDestroyView()
     }
 
     /**
      * Setup for [SwipeMenuRecyclerView]
      */
     private fun setupRecyclerView() {
-        applicationsAdapter = ApplicationsAdapter(viewModel.applicationList, this)
+        val applicationsAdapter = ApplicationsAdapter(viewModel.applicationList, this)
         viewModel.applicationList.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(applicationsAdapter))
 

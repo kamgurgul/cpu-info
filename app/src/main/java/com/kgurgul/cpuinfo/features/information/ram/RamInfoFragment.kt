@@ -25,25 +25,21 @@ import android.view.MenuItem
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
 import com.kgurgul.cpuinfo.utils.*
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Fragment which contains RAM info. For older android there is also available cleaning option.
  *
  * @author kgurgul
  */
+@AndroidEntryPoint
 class RamInfoFragment : BaseRvFragment() {
 
-    @Inject
-    lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<RamInfoViewModel>
-    private val viewModel: RamInfoViewModel by viewModels { viewModelInjectionFactory }
-
-    private lateinit var infoItemsAdapter: InfoItemsAdapter
+    private val viewModel: RamInfoViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +83,7 @@ class RamInfoFragment : BaseRvFragment() {
             }
 
     override fun setupRecyclerViewAdapter() {
-        infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,
+        val infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,
                 InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT, onClickListener = this)
         viewModel.listLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(infoItemsAdapter))

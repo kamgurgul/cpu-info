@@ -17,48 +17,41 @@
 package com.kgurgul.cpuinfo.features.processes
 
 import android.os.Bundle
-import android.view.*
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentProcessesBinding
-import com.kgurgul.cpuinfo.di.Injectable
-import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
+import com.kgurgul.cpuinfo.features.information.base.BaseFragment
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Displays list of running processes (works only to the API 24)
  *
  * @author kgurgul
  */
-class ProcessesFragment : Fragment(), Injectable {
+@AndroidEntryPoint
+class ProcessesFragment : BaseFragment<FragmentProcessesBinding>(R.layout.fragment_processes) {
 
-    @Inject
-    lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<ProcessesViewModel>
-    private val viewModel: ProcessesViewModel by viewModels { viewModelInjectionFactory }
-
-    private lateinit var binding: FragmentProcessesBinding
-    private lateinit var processesAdapter: ProcessesAdapter
+    private val viewModel: ProcessesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_processes, container,
-                false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         setupRecyclerView()
-        return binding.root
     }
 
     override fun onDestroyView() {
@@ -70,7 +63,7 @@ class ProcessesFragment : Fragment(), Injectable {
      * Setup for [RecyclerView]
      */
     private fun setupRecyclerView() {
-        processesAdapter = ProcessesAdapter(viewModel.processList)
+        val processesAdapter = ProcessesAdapter(viewModel.processList)
         viewModel.processList.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(processesAdapter))
 

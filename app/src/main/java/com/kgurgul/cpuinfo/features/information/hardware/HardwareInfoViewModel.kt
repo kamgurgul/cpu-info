@@ -28,6 +28,7 @@ import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
@@ -48,14 +49,13 @@ import java.io.FileWriter
 import java.io.RandomAccessFile
 import java.util.*
 import java.util.regex.Pattern
-import javax.inject.Inject
 
 /**
  * ViewModel for [HardwareInfoFragment]
  *
  * @author kgurgul
  */
-class HardwareInfoViewModel @Inject constructor(
+class HardwareInfoViewModel @ViewModelInject constructor(
         private val resources: Resources,
         private val temperatureProvider: TemperatureProvider,
         private val temperatureFormatter: TemperatureFormatter,

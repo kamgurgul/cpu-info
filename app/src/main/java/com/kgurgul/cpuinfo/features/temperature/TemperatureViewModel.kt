@@ -18,6 +18,7 @@ package com.kgurgul.cpuinfo.features.temperature
 
 import android.content.res.Resources
 import androidx.annotation.VisibleForTesting
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.temperature.list.TemperatureItem
@@ -30,19 +31,18 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 /**
  * ViewModel for [TemperatureFragment]
  *
  * @author kgurgul
  */
-class TemperatureViewModel @Inject constructor(
+class TemperatureViewModel @ViewModelInject constructor(
         private val prefs: Prefs,
         private val resources: Resources,
         private val temperatureIconProvider: TemperatureIconProvider,
-        private val temperatureProvider: TemperatureProvider)
-    : ViewModel() {
+        private val temperatureProvider: TemperatureProvider
+) : ViewModel() {
 
     companion object {
         private const val CPU_TEMP_RESULT_KEY = "temp_result_key"

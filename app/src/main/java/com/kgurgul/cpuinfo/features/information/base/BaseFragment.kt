@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.kgurgul.cpuinfo.di.Injectable
 
 abstract class BaseFragment<VB : ViewDataBinding>(
         private val layoutRes: Int
-) : Fragment(), Injectable {
+) : Fragment() {
 
     private var _binding: VB? = null
     protected val binding: VB

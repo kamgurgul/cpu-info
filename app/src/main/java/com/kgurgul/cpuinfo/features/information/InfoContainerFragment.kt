@@ -22,12 +22,14 @@ import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentInfoBinding
 import com.kgurgul.cpuinfo.features.information.base.BaseFragment
 import com.kgurgul.cpuinfo.features.information.base.ViewPagerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Fragment which is base for all hardware and software information fragments
  *
  * @author kgurgul
  */
+@AndroidEntryPoint
 class InfoContainerFragment : BaseFragment<FragmentInfoBinding>(R.layout.fragment_info) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

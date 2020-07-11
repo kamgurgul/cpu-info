@@ -20,6 +20,7 @@ import android.app.ActivityManager
 import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
@@ -30,7 +31,6 @@ import com.opencsv.CSVWriter
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.FileWriter
-import javax.inject.Inject
 
 
 /**
@@ -38,7 +38,7 @@ import javax.inject.Inject
  *
  * @author kgurgul
  */
-class GpuInfoViewModel @Inject constructor(
+class GpuInfoViewModel @ViewModelInject constructor(
         private val activityManager: ActivityManager,
         private val resources: Resources,
         private val dispatchersProvider: DispatchersProvider,

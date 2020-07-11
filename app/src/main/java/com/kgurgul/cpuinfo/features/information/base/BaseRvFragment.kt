@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.di.Injectable
 
 
 /**
@@ -37,7 +36,7 @@ import com.kgurgul.cpuinfo.di.Injectable
  *
  * @author kgurgul
  */
-abstract class BaseRvFragment : Fragment(), Injectable, InfoItemsAdapter.OnClickListener {
+abstract class BaseRvFragment : Fragment(), InfoItemsAdapter.OnClickListener {
 
     protected lateinit var mainContainer: View
     protected lateinit var recyclerView: RecyclerView

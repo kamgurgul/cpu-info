@@ -22,6 +22,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.net.Uri
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
@@ -32,14 +33,13 @@ import com.opencsv.CSVWriter
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.FileWriter
-import javax.inject.Inject
 
 /**
  * ViewModel for sensors data
  *
  * @author kgurgul
  */
-class SensorsInfoViewModel @Inject constructor(
+class SensorsInfoViewModel @ViewModelInject constructor(
         private val sensorManager: SensorManager,
         private val dispatchersProvider: DispatchersProvider,
         private val contentResolver: ContentResolver

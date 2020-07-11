@@ -30,6 +30,9 @@ import android.view.WindowManager
 import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
 /**
@@ -37,52 +40,53 @@ import javax.inject.Singleton
  *
  * @author kgurgul
  */
-@Module(includes = [AppModuleBinds::class])
+@Module
+@InstallIn(ApplicationComponent::class)
 class AppModule {
 
     @Provides
     @Singleton
-    fun provideResources(appContext: Context): Resources =
+    fun provideResources(@ApplicationContext appContext: Context): Resources =
             appContext.resources
 
     @Provides
     @Singleton
-    fun provideActivityManager(appContext: Context): ActivityManager =
+    fun provideActivityManager(@ApplicationContext appContext: Context): ActivityManager =
             appContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
     @Provides
     @Singleton
-    fun provideDevicePolicyManager(appContext: Context): DevicePolicyManager =
+    fun provideDevicePolicyManager(@ApplicationContext appContext: Context): DevicePolicyManager =
             appContext.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
     @Provides
     @Singleton
-    fun providePackageManager(appContext: Context): PackageManager =
+    fun providePackageManager(@ApplicationContext appContext: Context): PackageManager =
             appContext.packageManager
 
     @Provides
     @Singleton
-    fun provideContentResolver(appContext: Context): ContentResolver =
+    fun provideContentResolver(@ApplicationContext appContext: Context): ContentResolver =
             appContext.contentResolver
 
     @Provides
     @Singleton
-    fun provideWindowManager(appContext: Context): WindowManager =
+    fun provideWindowManager(@ApplicationContext appContext: Context): WindowManager =
             appContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
     @Provides
     @Singleton
-    fun provideSensorManager(appContext: Context): SensorManager =
+    fun provideSensorManager(@ApplicationContext appContext: Context): SensorManager =
             appContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
     @SuppressLint("WifiManagerPotentialLeak")
     @Provides
     @Singleton
-    fun provideWifiManager(appContext: Context): WifiManager =
+    fun provideWifiManager(@ApplicationContext appContext: Context): WifiManager =
             appContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
     @Provides
     @Singleton
-    fun provideSharedPreferences(appContext: Context): SharedPreferences =
+    fun provideSharedPreferences(@ApplicationContext appContext: Context): SharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(appContext)
 }

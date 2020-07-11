@@ -18,6 +18,7 @@ package com.kgurgul.cpuinfo.features.information.storage
 
 import android.content.res.Resources
 import android.os.Environment
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
@@ -33,14 +34,13 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.*
 import java.util.*
-import javax.inject.Inject
 
 /**
  * ViewModel for [StorageInfoFragment]
  *
  * @author kgurgul
  */
-class StorageInfoViewModel @Inject constructor(
+class StorageInfoViewModel @ViewModelInject constructor(
         private val dispatchersProvider: DispatchersProvider,
         private val resources: Resources
 ) : ViewModel() {

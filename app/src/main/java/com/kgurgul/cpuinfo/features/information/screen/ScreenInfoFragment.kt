@@ -24,7 +24,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
@@ -32,20 +31,17 @@ import com.kgurgul.cpuinfo.utils.MIME_TEXT_PLAIN
 import com.kgurgul.cpuinfo.utils.createSafFile
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Displays information about device screen resolution, density etc.
  *
  * @author kgurgul
  */
+@AndroidEntryPoint
 class ScreenInfoFragment : BaseRvFragment() {
 
-    @Inject
-    lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<ScreenInfoViewModel>
-    private val viewModel: ScreenInfoViewModel by viewModels { viewModelInjectionFactory }
-
-    private lateinit var infoItemsAdapter: InfoItemsAdapter
+    private val viewModel: ScreenInfoViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +65,7 @@ class ScreenInfoFragment : BaseRvFragment() {
             }
 
     override fun setupRecyclerViewAdapter() {
-        infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,
+        val infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,
                 InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT, onClickListener = this)
         viewModel.listLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(infoItemsAdapter))

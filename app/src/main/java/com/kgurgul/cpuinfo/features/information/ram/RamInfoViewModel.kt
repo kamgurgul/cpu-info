@@ -22,6 +22,7 @@ import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
@@ -39,14 +40,13 @@ import java.io.FileWriter
 import java.io.RandomAccessFile
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
-import javax.inject.Inject
 
 /**
  * ViewModel for RAM info
  *
  * @author kgurgul
  */
-class RamInfoViewModel @Inject constructor(
+class RamInfoViewModel @ViewModelInject constructor(
         private val activityManager: ActivityManager,
         private val resources: Resources,
         private val dispatchersProvider: DispatchersProvider,

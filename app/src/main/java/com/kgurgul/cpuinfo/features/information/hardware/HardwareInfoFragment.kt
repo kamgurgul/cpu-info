@@ -27,7 +27,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
@@ -35,20 +34,17 @@ import com.kgurgul.cpuinfo.utils.MIME_TEXT_PLAIN
 import com.kgurgul.cpuinfo.utils.createSafFile
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Fragment responsible for hardware info. It also contains [BroadcastReceiver] for AC connection.
  *
  * @author kgurgul
  */
+@AndroidEntryPoint
 class HardwareInfoFragment : BaseRvFragment() {
 
-    @Inject
-    lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<HardwareInfoViewModel>
-    private val viewModel: HardwareInfoViewModel by viewModels { viewModelInjectionFactory }
-
-    private lateinit var infoItemsAdapter: InfoItemsAdapter
+    private val viewModel: HardwareInfoViewModel by viewModels()
 
     private val powerReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -91,7 +87,7 @@ class HardwareInfoFragment : BaseRvFragment() {
     }
 
     override fun setupRecyclerViewAdapter() {
-        infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,
+        val infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,
                 InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT, onClickListener = this)
         viewModel.listLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(infoItemsAdapter))

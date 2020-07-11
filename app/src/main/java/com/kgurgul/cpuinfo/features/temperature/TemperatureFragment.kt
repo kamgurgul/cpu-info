@@ -17,58 +17,43 @@
 package com.kgurgul.cpuinfo.features.temperature
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentTemperatureBinding
-import com.kgurgul.cpuinfo.di.Injectable
-import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
+import com.kgurgul.cpuinfo.features.information.base.BaseFragment
 import com.kgurgul.cpuinfo.features.temperature.list.TemperatureAdapter
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /**
- * Displays information about available temperatures. Remove activity wrappers when Lifecycle
- * components will be integrated with support library.
+ * Displays information about available temperatures
  *
  * @author kgurgul
  */
-class TemperatureFragment : Fragment(), Injectable {
+@AndroidEntryPoint
+class TemperatureFragment : BaseFragment<FragmentTemperatureBinding>(
+        R.layout.fragment_temperature
+) {
 
-    @Inject
-    lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<TemperatureViewModel>
-    private val viewModel: TemperatureViewModel by viewModels { viewModelInjectionFactory }
+    private val viewModel: TemperatureViewModel by viewModels()
 
     @Inject
     lateinit var temperatureFormatter: TemperatureFormatter
-
-    private lateinit var binding: FragmentTemperatureBinding
-    private lateinit var temperatureAdapter: TemperatureAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_temperature, container,
-                false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         setupRecycleView()
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        binding.tempRv.adapter = null
-        super.onDestroyView()
     }
 
     override fun onStart() {
@@ -81,11 +66,8 @@ class TemperatureFragment : Fragment(), Injectable {
         super.onStop()
     }
 
-    /**
-     * Set all necessary data for [android.support.v7.widget.RecyclerView]
-     */
     private fun setupRecycleView() {
-        temperatureAdapter = TemperatureAdapter(temperatureFormatter,
+        val temperatureAdapter = TemperatureAdapter(temperatureFormatter,
                 viewModel.temperatureListLiveData)
         viewModel.temperatureListLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(temperatureAdapter))

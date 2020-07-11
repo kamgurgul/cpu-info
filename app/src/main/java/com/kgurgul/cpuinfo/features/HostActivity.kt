@@ -27,19 +27,15 @@ import androidx.navigation.ui.setupWithNavController
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.ActivityHostLayoutBinding
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Base activity which is a host for whole application.
  *
  * @author kgurgul
  */
-class HostActivity : AppCompatActivity(), HasAndroidInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+@AndroidEntryPoint
+class HostActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private lateinit var binding: ActivityHostLayoutBinding
@@ -82,6 +78,4 @@ class HostActivity : AppCompatActivity(), HasAndroidInjector {
             }
         }
     }
-
-    override fun androidInjector() = dispatchingAndroidInjector
 }

@@ -22,18 +22,17 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Handler
 import androidx.fragment.app.viewModels
-import com.kgurgul.cpuinfo.di.Injectable
-import com.kgurgul.cpuinfo.di.ViewModelInjectionFactory
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Displays info about used and free storage on the device
  *
  * @author kgurgul
  */
-class StorageInfoFragment : BaseRvFragment(), Injectable {
+@AndroidEntryPoint
+class StorageInfoFragment : BaseRvFragment() {
 
     private var receiverRegistered = false
 
@@ -46,11 +45,7 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
         }
     }
 
-    @Inject
-    lateinit var viewModelInjectionFactory: ViewModelInjectionFactory<StorageInfoViewModel>
-    private val viewModel: StorageInfoViewModel by viewModels { viewModelInjectionFactory }
-
-    private lateinit var storageAdapter: StorageAdapter
+    private val viewModel: StorageInfoViewModel by viewModels()
 
     override fun onResume() {
         super.onResume()
@@ -84,7 +79,7 @@ class StorageInfoFragment : BaseRvFragment(), Injectable {
     }
 
     override fun setupRecyclerViewAdapter() {
-        storageAdapter = StorageAdapter(viewModel.listLiveData)
+        val storageAdapter = StorageAdapter(viewModel.listLiveData)
         viewModel.listLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(storageAdapter))
         recyclerView.adapter = storageAdapter

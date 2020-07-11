@@ -21,6 +21,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import com.kgurgul.cpuinfo.utils.Utils
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import java.io.File
@@ -33,7 +34,7 @@ import javax.inject.Singleton
  * @author kgurgul
  */
 @Singleton
-class TemperatureProvider @Inject constructor(val appContext: Context) {
+class TemperatureProvider @Inject constructor(@ApplicationContext val appContext: Context) {
 
     /**
      * @return battery temperature divided by 10 to get value in Celsius

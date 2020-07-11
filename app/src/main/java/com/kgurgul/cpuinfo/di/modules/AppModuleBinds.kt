@@ -3,9 +3,12 @@ package com.kgurgul.cpuinfo.di.modules
 import com.kgurgul.cpuinfo.appinitializers.*
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import dagger.multibindings.IntoSet
 
 @Module
+@InstallIn(ApplicationComponent::class)
 abstract class AppModuleBinds {
 
     @Binds

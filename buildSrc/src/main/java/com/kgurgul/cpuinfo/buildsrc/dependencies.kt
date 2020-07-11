@@ -83,11 +83,16 @@ object Libs {
     }
 
     object Dagger {
-        private const val version = "2.27"
-        const val dagger = "com.google.dagger:dagger:$version"
-        const val androidSupport = "com.google.dagger:dagger-android-support:$version"
-        const val compiler = "com.google.dagger:dagger-compiler:$version"
-        const val androidProcessor = "com.google.dagger:dagger-android-processor:$version"
+        private const val version = "2.28.1-alpha"
+        const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
+        const val android = "com.google.dagger:hilt-android:$version"
+        const val androidCompiler = "com.google.dagger:hilt-android-compiler:$version"
+        const val androidTesting = "com.google.dagger:hilt-android-testing:$version"
+
+        private const val extVersion = "1.0.0-alpha01"
+        const val viewModelExt = "androidx.hilt:hilt-lifecycle-viewmodel:$extVersion"
+        const val workManagerExt = "androidx.hilt:hilt-work:$extVersion"
+        const val hiltCompiler = "androidx.hilt:hilt-compiler:$extVersion"
     }
 
     object Glide {

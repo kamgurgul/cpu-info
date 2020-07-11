@@ -11,6 +11,7 @@ kapt {
 }
 
 apply from: "$rootDir/versioning.gradle"
+apply plugin: 'dagger.hilt.android.plugin'
 
 Properties signingProperties = getReleaseSigningConfig()
 
@@ -119,10 +120,11 @@ dependencies {
     implementation Libs.Coroutines.core
     implementation Libs.Coroutines.android
 
-    implementation Libs.Dagger.dagger
-    implementation Libs.Dagger.androidSupport
-    kapt Libs.Dagger.compiler
-    kapt Libs.Dagger.androidProcessor
+    implementation Libs.Dagger.android
+    implementation Libs.Dagger.viewModelExt
+    implementation Libs.Dagger.workManagerExt
+    kapt Libs.Dagger.androidCompiler
+    kapt Libs.Dagger.hiltCompiler
 
     implementation Libs.Glide.glide
     kapt Libs.Glide.compiler
