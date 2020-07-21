@@ -31,6 +31,7 @@ class TemperatureFormatter @Inject constructor(val prefs: Prefs) {
     companion object {
         const val CELSIUS = 0
         const val FAHRENHEIT = 1
+        const val KELVIN = 2
     }
 
     /**
@@ -44,7 +45,11 @@ class TemperatureFormatter @Inject constructor(val prefs: Prefs) {
         return if (tempUnit == FAHRENHEIT) {
             val fahrenheit = temp * 9 / 5 + 32
             "${fahrenheit.round2()}\u00B0F"
-        } else {
+        } else return if (tempUnit == KELVIN){
+            val kelvin = temp + 273.15
+            "${kelvin.round2()}\u00B0K"
+        }
+        else {
             val tempFormatted = "${temp.toInt()}\u00B0C"
             tempFormatted
         }
