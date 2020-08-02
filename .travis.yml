@@ -9,27 +9,38 @@ android:
     - android-19
     - android-28
     - sys-img-armeabi-v7a-android-19
+    - extra-google-m2repository
+    - extra-android-m2repository
   licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
 
+install:
+  - echo y | sdkmanager "ndk-bundle"
+  - echo y | sdkmanager "platforms;android-28"
+
 before_script:
+  - export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
   - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
-  - adb shell settings put global window_animation_scale 0 &
-  - adb shell settings put global transition_animation_scale 0 &
-  - adb shell settings put global animator_duration_scale 0 &
   - adb shell input keyevent 82 &
-
-before_install:
-  - yes | sdkmanager "platforms;android-27"
 
 script:
   - ./gradlew clean assembleDebug
   - ./gradlew testDebugUnitTest
   - ./gradlew connectedDebugAndroidTest
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
 
 notifications:
   email: false
