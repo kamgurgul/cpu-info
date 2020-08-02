@@ -43,7 +43,7 @@ class HardwareScreen {
 
     private val toolbar = withId(R.id.toolbar)
     private val tabLayout = withId(R.id.tabs)
-    private val recyclerView = withId(R.id.recycler_view)
+    val recyclerView = withId(R.id.recycler_view)
 
     /**
      * Check if toolbar title is equal with [title] param
@@ -65,7 +65,7 @@ class HardwareScreen {
      */
     fun hasTextOnPosition(text: String, position: Int) {
         onView(allOf(isDisplayed(), recyclerView))
-                .perform(scrollToPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(position))
+                .perform(scrollToPosition<RecyclerView.ViewHolder>(position))
                 .check(matches(atPosition(position, hasDescendant(withText(text)))))
     }
 

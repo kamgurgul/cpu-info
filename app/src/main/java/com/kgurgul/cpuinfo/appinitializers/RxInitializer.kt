@@ -1,8 +1,8 @@
 package com.kgurgul.cpuinfo.appinitializers
 
 import android.app.Application
-import io.reactivex.exceptions.UndeliverableException
-import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.rxjava3.exceptions.UndeliverableException
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import timber.log.Timber
 import javax.inject.Inject
 

@@ -2,7 +2,7 @@ package com.kgurgul.cpuinfo.buildsrc
 
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:4.0.0"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:4.0.1"
 
     const val bus = "org.greenrobot:eventbus:3.1.1"
 
@@ -25,16 +25,16 @@ object Libs {
     }
 
     object Coroutines {
-        private const val version = "1.3.7"
+        private const val version = "1.3.8"
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
         const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
     }
 
     object AndroidX {
-        const val coreKtx = "androidx.core:core-ktx:1.3.0"
+        const val coreKtx = "androidx.core:core-ktx:1.3.1"
         const val activityKtx = "androidx.activity:activity-ktx:1.1.0"
-        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.2.4"
+        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.2.5"
         const val appCompat = "androidx.appcompat:appcompat:1.1.0"
         const val preference = "androidx.preference:preference:1.1.1"
         const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
@@ -50,7 +50,7 @@ object Libs {
         }
 
         object Navigation {
-            private const val version = "2.2.2"
+            private const val version = "2.3.0"
             const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
             const val ui = "androidx.navigation:navigation-ui-ktx:$version"
             const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
@@ -63,6 +63,7 @@ object Libs {
             const val rules = "androidx.test:rules:$version"
 
             const val archCoreTesting = "androidx.arch.core:core-testing:2.1.0"
+            const val jUnitExt = "androidx.test.ext:junit:1.1.1"
 
             object Espresso {
                 private const val version = "3.2.0"
@@ -73,23 +74,23 @@ object Libs {
     }
 
     object Google {
-        const val material = "com.google.android.material:material:1.2.0-beta01"
+        const val material = "com.google.android.material:material:1.2.0-rc01"
         const val gson = "com.google.code.gson:gson:2.8.5"
     }
 
     object Rx {
-        const val rxJava = "io.reactivex.rxjava2:rxjava:2.2.17"
-        const val rxAndroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
+        const val rxJava = "io.reactivex.rxjava3:rxjava:3.0.5"
+        const val rxAndroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
     }
 
     object Dagger {
-        private const val version = "2.28.1-alpha"
+        private const val version = "2.28.3-alpha"
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$version"
         const val androidTesting = "com.google.dagger:hilt-android-testing:$version"
 
-        private const val extVersion = "1.0.0-alpha01"
+        private const val extVersion = "1.0.0-alpha02"
         const val viewModelExt = "androidx.hilt:hilt-lifecycle-viewmodel:$extVersion"
         const val workManagerExt = "androidx.hilt:hilt-work:$extVersion"
         const val hiltCompiler = "androidx.hilt:hilt-compiler:$extVersion"

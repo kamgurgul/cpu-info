@@ -30,4 +30,4 @@ fun <T> isk(value: T) = CoreMatchers.`is`(value)!!
 /**
  * Helpers for getting string from [ActivityTestRule]. Throws exception in case of missing string.
  */
-fun <T : Activity> ActivityTestRule<T>.getString(id: Int) = activity!!.resources.getString(id)!!
+fun <T : Activity> ActivityTestRule<T>.getString(id: Int): String = activity.resources.getString(id)

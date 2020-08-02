@@ -22,8 +22,8 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import com.kgurgul.cpuinfo.utils.Utils
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.reactivex.Maybe
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Observable
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton

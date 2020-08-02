@@ -49,7 +49,7 @@ class RecyclerViewItemCountAssertion : ViewAssertion {
             throw noViewFoundException
         }
 
-        val recyclerView = view as androidx.recyclerview.widget.RecyclerView
+        val recyclerView = view as RecyclerView
         val adapter = recyclerView.adapter
         assertThat(adapter?.itemCount, matcher)
     }

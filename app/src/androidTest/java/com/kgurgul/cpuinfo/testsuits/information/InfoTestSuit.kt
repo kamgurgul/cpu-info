@@ -16,13 +16,15 @@
 
 package com.kgurgul.cpuinfo.testsuits.information
 
+import androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
-import androidx.test.runner.AndroidJUnit4
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.core.getString
 import com.kgurgul.cpuinfo.features.HostActivity
 import com.kgurgul.cpuinfo.screens.HardwareScreen
+import com.kgurgul.cpuinfo.uitestutils.conditionwatcher.waitForView
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -51,7 +53,7 @@ class InfoTestSuit {
     @Test
     fun checkCpuTab() {
         hardwareScreen.tapTabWithTitle(activityRule.getString(R.string.cpu))
-        hardwareScreen.hasTextOnPosition("ABI", 0)
+        waitForView(hardwareScreen.recyclerView).toMatch(hasMinimumChildCount(3))
     }
 
     @Test

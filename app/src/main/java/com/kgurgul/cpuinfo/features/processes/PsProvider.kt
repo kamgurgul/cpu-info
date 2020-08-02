@@ -17,7 +17,7 @@
 package com.kgurgul.cpuinfo.features.processes
 
 import androidx.annotation.VisibleForTesting
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
