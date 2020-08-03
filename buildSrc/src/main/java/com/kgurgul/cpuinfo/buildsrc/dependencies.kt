@@ -64,6 +64,7 @@ object Libs {
 
             const val archCoreTesting = "androidx.arch.core:core-testing:2.1.0"
             const val jUnitExt = "androidx.test.ext:junit:1.1.1"
+            const val orchestrator = "androidx.test:orchestrator:1.3.0-rc02"
 
             object Espresso {
                 private const val version = "3.2.0"

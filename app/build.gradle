@@ -77,6 +77,7 @@ android {
             includeAndroidResources = true
         }
         animationsDisabled = true
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 
     compileOptions {
@@ -149,6 +150,8 @@ dependencies {
     androidTestImplementation Libs.AndroidX.Test.jUnitExt
     androidTestImplementation Libs.AndroidX.Test.Espresso.core
     androidTestImplementation Libs.AndroidX.Test.Espresso.contrib
+
+    androidTestUtil Libs.AndroidX.Test.orchestrator
 }
 
 def getReleaseSigningConfig() {
