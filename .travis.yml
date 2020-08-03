@@ -6,9 +6,9 @@ android:
     - platform-tools
     - tools
     - build-tools-28.0.2
-    - android-24
+    - android-22
     - android-28
-    - sys-img-armeabi-v7a-android-24
+    - sys-img-x86-android-22
     - extra-google-m2repository
     - extra-android-m2repository
   licenses:
@@ -22,7 +22,7 @@ install:
 
 before_script:
   - export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
-  - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-22 --abi x86 -c 100M
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
