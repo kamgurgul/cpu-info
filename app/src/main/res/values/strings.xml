@@ -62,6 +62,7 @@
     <string name="cpu_l2" translatable="false">L2 cache</string>
     <string name="cpu_l3" translatable="false">L3 cache</string>
     <string name="cpu_l4" translatable="false">L4 cache</string>
+    <string name="cpu_abi" translatable="false">ABI</string>
 
     <!--Apps-->
     <string name="app_open">Cannot open this application</string>

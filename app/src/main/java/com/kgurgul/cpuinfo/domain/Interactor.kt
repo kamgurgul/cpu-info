@@ -6,6 +6,7 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 interface Interactor {
     val dispatcher: CoroutineDispatcher
@@ -29,6 +30,15 @@ abstract class MutableInteractor<P : Any, T> : Interactor {
     fun observe(): Flow<T> = channel.asFlow()
             .distinctUntilChanged()
             .flatMapLatest { createObservable(it) }
+}
+
+abstract class ResultInteractor<in P, R> : Interactor {
+
+    suspend operator fun invoke(params: P): R {
+        return withContext(dispatcher) { doWork(params) }
+    }
+
+    protected abstract suspend fun doWork(params: P): R
 }
 
 fun <T> ImmutableInteractor<Unit, T>.observe() = observe(Unit)

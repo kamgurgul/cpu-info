@@ -19,7 +19,6 @@ package com.kgurgul.cpuinfo.features.information.cpu
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentCpuInfoBinding
 import com.kgurgul.cpuinfo.features.information.base.BaseFragment
@@ -39,7 +38,7 @@ class CpuInfoFragment : BaseFragment<FragmentCpuInfoBinding>(R.layout.fragment_c
         super.onViewCreated(view, savedInstanceState)
         val controller = CpuInfoEpoxyController(requireContext())
         binding.recyclerView.adapter = controller.adapter
-        viewModel.viewState.observe(viewLifecycleOwner, Observer {
+        viewModel.viewState.observe(viewLifecycleOwner, {
             controller.setData(it)
         })
     }

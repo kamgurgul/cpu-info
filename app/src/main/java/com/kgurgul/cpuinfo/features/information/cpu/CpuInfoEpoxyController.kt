@@ -24,6 +24,12 @@ class CpuInfoEpoxyController(
         }
         verticalDivider { id("soc_name_divider") }
         itemValue {
+            id("abi")
+            title(context.getString(R.string.cpu_abi))
+            value(data.cpuData.abi)
+        }
+        verticalDivider { id("abi_divider") }
+        itemValue {
             id("cores")
             title(context.getString(R.string.cpu_cores))
             value(data.cpuData.coreNumber.toString())
