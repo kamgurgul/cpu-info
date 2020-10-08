@@ -85,10 +85,10 @@ object Libs {
     }
 
     object Dagger {
-        private const val version = "2.28.3-alpha"
+        private const val version = "2.29.1-alpha"
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"
-        const val androidCompiler = "com.google.dagger:hilt-android-compiler:$version"
+        const val androidCompiler = "com.google.dagger:hilt-compiler:$version"
         const val androidTesting = "com.google.dagger:hilt-android-testing:$version"
 
         private const val extVersion = "1.0.0-alpha02"

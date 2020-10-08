@@ -37,6 +37,7 @@ import com.kgurgul.cpuinfo.features.information.base.BaseFragment
 import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.utils.uninstallApp
 import com.kgurgul.cpuinfo.utils.wrappers.EventObserver
 import com.kgurgul.cpuinfo.widgets.swiperv.SwipeMenuRecyclerView
 import dagger.hilt.android.AndroidEntryPoint
@@ -170,10 +171,7 @@ class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
                     Snackbar.LENGTH_SHORT).show()
             return
         }
-
-        val uri = Uri.fromParts("package", appInfo.packageName, null)
-        val uninstallIntent = Intent(Intent.ACTION_UNINSTALL_PACKAGE, uri)
-        startActivity(uninstallIntent)
+        requireActivity().uninstallApp(appInfo.packageName)
     }
 
     /**
@@ -192,7 +190,7 @@ class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
         val inflater = LayoutInflater.from(context)
         val dialogLayout = inflater.inflate(R.layout.dialog_native_libs, null)
         val nativeDirFile = File(nativeLibsDir)
-        val libs = nativeDirFile.listFiles().map { it.name }
+        val libs = nativeDirFile.listFiles()?.map { it.name } ?: emptyList()
 
         val listView: ListView = dialogLayout.findViewById(R.id.dialog_lv)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_native_libs,

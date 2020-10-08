@@ -293,9 +293,7 @@ class HardwareInfoViewModel @ViewModelInject constructor(
         }
 
         return try {
-            val dir = File("/proc/asound/")
-            val files = dir.listFiles(AudioFilter())
-            files.size
+            File("/proc/asound/").listFiles(AudioFilter())!!.size
         } catch (e: Exception) {
             1
         }

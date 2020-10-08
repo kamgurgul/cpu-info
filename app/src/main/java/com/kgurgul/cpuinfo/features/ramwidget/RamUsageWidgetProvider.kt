@@ -147,7 +147,7 @@ class RamUsageWidgetProvider : AppWidgetProvider() {
             val m = p.matcher(load)
             var value = ""
             while (m.find()) {
-                value = m.group(1)
+                value = m.group(1)!!
             }
             reader.close()
 

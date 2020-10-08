@@ -133,6 +133,7 @@ class StorageInfoViewModel @ViewModelInject constructor(
      * @param memoryType type of memory
      * @return full size of the storage
      */
+    @Suppress("DEPRECATION")
     private fun getTotalMemorySize(memoryType: MemoryType): Long {
         val path: File = when (memoryType) {
             MemoryType.INTERNAL -> Environment.getDataDirectory()
@@ -148,6 +149,7 @@ class StorageInfoViewModel @ViewModelInject constructor(
      * @param memoryType type of memory
      * @return available size of the storage
      */
+    @Suppress("DEPRECATION")
     private fun getAvailableMemorySize(memoryType: MemoryType): Long {
         val path: File = when (memoryType) {
             MemoryType.INTERNAL -> Environment.getDataDirectory()
@@ -191,6 +193,7 @@ class StorageInfoViewModel @ViewModelInject constructor(
      * And there the magic starts :) TBH I'm not so sure that this is the only good solution but
      * from my testing it is the working one for most of the phones.
      */
+    @Suppress("DEPRECATION")
     private fun getExternalSDMounts(): ArrayList<String> {
         val sdDirList = ArrayList<String>()
         try {

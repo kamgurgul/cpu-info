@@ -19,26 +19,28 @@
 package com.kgurgul.cpuinfo.utils
 
 import android.annotation.TargetApi
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.kgurgul.cpuinfo.BuildConfig
 import com.kgurgul.cpuinfo.R
+import kotlin.math.roundToLong
 
 /**
  * All basic extensions
  *
  * @author kgurgul
  */
-fun Float.round1(): Float = Math.round(this * 10.0) / 10.0f
+fun Float.round1(): Float = (this * 10.0).roundToLong() / 10.0f
 
-fun Double.round1(): Double = Math.round(this * 10.0) / 10.0
+fun Double.round1(): Double = (this * 10.0).roundToLong() / 10.0
 
-fun Float.round2(): Float = Math.round(this * 100.0) / 100.0f
+fun Float.round2(): Float = (this * 100.0).roundToLong() / 100.0f
 
-fun Double.round2(): Double = Math.round(this * 100.0) / 100.0
+fun Double.round2(): Double = (this * 100.0).roundToLong() / 100.0
 
 inline fun runOnApi(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
     if (Build.VERSION.SDK_INT == api) {
@@ -77,11 +79,6 @@ inline fun runOnApiAbove(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
 }
 
 /**
- * @return true for Debug build, otherwise false
- */
-fun isDebugBuild(): Boolean = BuildConfig.DEBUG
-
-/**
  * @return true if used device is tablet
  */
 fun Context.isTablet(): Boolean = this.resources.getBoolean(R.bool.isTablet)
@@ -98,4 +95,14 @@ fun Fragment.createSafFile(mimeType: String, fileName: String, requestCode: Int)
     } catch (e: Exception) {
         Toast.makeText(context, R.string.action_not_supported, Toast.LENGTH_SHORT).show()
     }
+}
+
+/**
+ * In the feature this method should be replaced with PackageManager
+ */
+@Suppress("DEPRECATION")
+fun Activity.uninstallApp(packageName: String) {
+    val uri = Uri.fromParts("package", packageName, null)
+    val uninstallIntent = Intent(Intent.ACTION_UNINSTALL_PACKAGE, uri)
+    startActivity(uninstallIntent)
 }

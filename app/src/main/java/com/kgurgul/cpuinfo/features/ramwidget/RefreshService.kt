@@ -26,7 +26,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.PowerManager
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

@@ -75,9 +75,7 @@ class CpuDataProvider @Inject constructor() {
             }
         }
         return try {
-            val dir = File(CPU_INFO_DIR)
-            val files = dir.listFiles(CpuFilter())
-            files.size
+            File(CPU_INFO_DIR).listFiles(CpuFilter())!!.size
         } catch (e: Exception) {
             1
         }

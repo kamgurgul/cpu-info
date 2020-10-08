@@ -77,7 +77,7 @@ abstract class BaseRvFragment : Fragment(), InfoItemsAdapter.OnClickListener {
                 as ClipboardManager
         val clip = ClipData.newPlainText(requireContext().getString(R.string.app_name),
                 item.second)
-        clipboard.primaryClip = clip
+        clipboard.setPrimaryClip(clip)
         Snackbar.make(mainContainer, R.string.text_copied, Snackbar.LENGTH_SHORT).show()
     }
 }
