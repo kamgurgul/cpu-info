@@ -29,7 +29,7 @@ abstract class MutableInteractor<P : Any, T> : Interactor {
 
     fun observe(): Flow<T> = channel.asFlow()
             .distinctUntilChanged()
-            .flatMapLatest { createObservable(it) }
+            .flatMapLatest { createObservable(it).flowOn(dispatcher) }
 }
 
 abstract class ResultInteractor<in P, R> : Interactor {

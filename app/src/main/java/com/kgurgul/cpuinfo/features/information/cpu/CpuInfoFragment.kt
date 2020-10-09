@@ -20,7 +20,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.databinding.FragmentCpuInfoBinding
+import com.kgurgul.cpuinfo.databinding.FragmentRecyclerViewBinding
 import com.kgurgul.cpuinfo.features.information.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * @author kgurgul
  */
 @AndroidEntryPoint
-class CpuInfoFragment : BaseFragment<FragmentCpuInfoBinding>(R.layout.fragment_cpu_info) {
+class CpuInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragment_recycler_view) {
 
     private val viewModel: CpuInfoViewModel by viewModels()
 
@@ -38,8 +38,6 @@ class CpuInfoFragment : BaseFragment<FragmentCpuInfoBinding>(R.layout.fragment_c
         super.onViewCreated(view, savedInstanceState)
         val controller = CpuInfoEpoxyController(requireContext())
         binding.recyclerView.adapter = controller.adapter
-        viewModel.viewState.observe(viewLifecycleOwner, {
-            controller.setData(it)
-        })
+        viewModel.viewState.observe(viewLifecycleOwner, { controller.setData(it) })
     }
 }
