@@ -5,7 +5,6 @@ import com.kgurgul.cpuinfo.domain.MutableInteractor
 import com.kgurgul.cpuinfo.domain.model.GpuData
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import kotlinx.coroutines.flow.flow
-import timber.log.Timber
 import javax.inject.Inject
 
 class ObservableGpuData @Inject constructor(
@@ -16,7 +15,6 @@ class ObservableGpuData @Inject constructor(
     override val dispatcher = dispatchersProvider.io
 
     override fun createObservable(params: Params) = flow {
-        Timber.d("Dupa: %s", Thread.currentThread())
         emit(GpuData(
                 gpuDataProvider.getGlEsVersion(),
                 params.glVendor,
