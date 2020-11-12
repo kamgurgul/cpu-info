@@ -22,11 +22,9 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.model.GpuData
 import com.kgurgul.cpuinfo.domain.observable.ObservableGpuData
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-
 
 /**
  * ViewModel for GPU information. It is using custom SurfaceView to get more GPU details from OpenGL
@@ -43,8 +41,6 @@ class GpuInfoViewModel @ViewModelInject constructor(
             .distinctUntilChanged()
             .map { GpuInfoViewState(it) }
             .asLiveData(viewModelScope.coroutineContext)
-
-    val listLiveData = ListLiveData<Pair<String, String>>()
 
     init {
         observableGpuData(ObservableGpuData.Params())

@@ -42,6 +42,7 @@ abstract class ResultInteractor<in P, R> : Interactor {
 }
 
 fun <T> ImmutableInteractor<Unit, T>.observe() = observe(Unit)
+
 operator fun <T> MutableInteractor<Unit, T>.invoke() = invoke(Unit)
 
 fun <I : MutableInteractor<P, T>, P, T> CoroutineScope.launchObserve(
