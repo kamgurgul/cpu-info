@@ -1,0 +1,150 @@
+<!--
+  ~ Copyright 2017 KG Soft
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="action_settings">Pengaturan</string>
+    <string name="action_sorting">Penyortiran</string>
+    <string name="action_refresh">Menyegarkan</string>
+    <string name="action_export_to_csv">Ekspor ke CSV</string>
+    <string name="action_not_supported">Tindakan tidak tersedia</string>
+
+    <string name="open_drawer">Buka laci</string>
+    <string name="close_drawer">Tutup laci</string>
+
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+    <string name="ok">Baik</string>
+    <string name="permission_rationale">Izin kamera diperlukan untuk mendapatkan spesifikasi kamera</string>
+
+    <!--Tabs-->
+    <string name="cpu">CPU</string>
+    <string name="gpu">GPU</string>
+    <string name="ram">RAM</string>
+    <string name="storage">Penyimpanan</string>
+    <string name="screen">Layar</string>
+    <string name="android">Android</string>
+    <string name="hardware">Perangkat keras</string>
+    <string name="sensors">Sensor</string>
+
+    <string name="processes">Proses</string>
+    <string name="applications">Aplikasi</string>
+    <string name="temp">Suhu</string>
+    <string name="settings">Pengaturan</string>
+
+    <string name="running_gc">Menjalankan Pengumpul Sampah</string>
+    <string name="text_copied">Nilai disalin</string>
+
+    <!--Apps-->
+    <string name="app_open">Tidak dapat membuka aplikasi ini</string>
+    <string name="cpu_open">Jangan buka saya dua kali :-)</string>
+    <string name="cpu_uninstall">Tidak bisa melakukan itu :-(</string>
+    <string name="storage_used">Penyimpanan terpakai:</string>
+    <string name="calculating">menghitung…</string>
+
+    <!--GPU-->
+    <string name="gles_version">Versi GLES</string>
+    <string name="vendor">Vendor</string>
+    <string name="version">Versi</string>
+    <string name="renderer">Perender</string>
+    <string name="extensions">Ekstensi</string>
+
+    <!--RAM-->
+    <string name="total_memory">Total memori</string>
+    <string name="available_memory">Memori yang tersedia</string>
+    <string name="threshold">Ambang</string>
+
+    <!--Storage-->
+    <string name="storage_hint">Memori eksternal bisa sama dengan internal</string>
+    <string name="internal">Internal</string>
+    <string name="external">Eksternal</string>
+    <string name="sd_card">Kartu SD</string>
+
+    <!--Screen-->
+    <string name="screen_class">Kelas layar</string>
+    <string name="small">Kecil</string>
+    <string name="normal">Normal</string>
+    <string name="large">Besar</string>
+    <string name="unknown">Tidak diketahui</string>
+    <string name="density_class">Kelas kepadatan</string>
+    <string name="width">Lebar</string>
+    <string name="height">Tinggi</string>
+    <string name="dp_width">Dp Lebar</string>
+    <string name="dp_height">Dp Tinggi</string>
+    <string name="density">Density</string>
+    <string name="absolute_width">Lebar Mutlak</string>
+    <string name="absolute_height">Ketinggian Mutlak</string>
+    <string name="refresh_rate">Refresh rate</string>
+    <string name="orientation">Orientasi</string>
+
+    <!--Android-->
+    <string name="codename">Codename</string>
+    <string name="brand">Merek</string>
+    <string name="model">Model</string>
+    <string name="manufacturer">Pabrikan</string>
+    <string name="board">Board</string>
+    <string name="serial">Serial</string>
+    <string name="rooted">Rooted</string>
+    <string name="encrypted_storage">Penyimpanan Terenkripsi</string>
+    <string name="security_providers">Penyedia keamanan</string>
+
+    <!--Hardware-->
+    <string name="battery">Baterai</string>
+    <string name="wireless">Nirkabel</string>
+    <string name="sound_card">Kartu suara</string>
+    <string name="level">Tingkat</string>
+    <string name="voltage">Tegangan</string>
+    <string name="temperature">Suhu</string>
+    <string name="capacity">Kapasitas</string>
+    <string name="technology">Teknologi</string>
+    <string name="is_charging">Sedang mengisi</string>
+    <string name="charging_type">Jenis pengisian daya</string>
+    <string name="wifi_mac">Wi-Fi Mac</string>
+    <string name="bluetooth_mac">Bluetooth Mac</string>
+    <string name="amount">Jumlah</string>
+    <string name="card">Kartu</string>
+    <string name="cameras">Kamera</string>
+    <string name="camera">Kamera</string>
+    <string name="type">Tipe</string>
+    <string name="front">Depan</string>
+    <string name="back">Belakang</string>
+    <string name="battery_health">Kesehatan</string>
+    <string name="battery_cold">Dingin</string>
+    <string name="battery_good">Baik</string>
+    <string name="battery_dead">Mati</string>
+    <string name="battery_overheat">Terlalu panas</string>
+    <string name="battery_overvoltage">Tegangan berlebih</string>
+    <string name="battery_unknown">Tidak diketahui</string>
+    <string name="battery_unspecified_failure">Kegagalan tidak ditentukan</string>
+
+    <!--Prefs-->
+    <string name="default_refreshing">Nilai default Android</string>
+    <string name="ram_refreshing">Widget menyegarkan</string>
+    <string name="general">Umum</string>
+    <string name="temperature_unit">Satuan suhu</string>
+    <string name="pref_theme_dark">Gelap</string>
+    <string name="pref_theme_light">Terang</string>
+    <string name="pref_theme_battery">Diatur oleh Penghemat Baterai</string>
+    <string name="pref_theme_default">Default sistem</string>
+    <string name="pref_theme">Tema</string>
+    <string name="pref_theme_choose">Pilih tema</string>
+
+    <!--Temp-->
+    <string name="cpu_temperature">Suhu CPU</string>
+    <string name="battery_temperature">Suhu baterai</string>
+    <string name="no_temp_data">Maaf, saya tidak bisa temukan sensor suhu :-(</string>
+
+</resources>
