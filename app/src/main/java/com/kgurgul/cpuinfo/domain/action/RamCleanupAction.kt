@@ -1,10 +1,10 @@
-package com.kgurgul.cpuinfo.domain.single
+package com.kgurgul.cpuinfo.domain.action
 
 import com.kgurgul.cpuinfo.domain.ResultInteractor
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import javax.inject.Inject
 
-class SingleRamCleanup @Inject constructor(
+class RamCleanupAction @Inject constructor(
         dispatchersProvider: DispatchersProvider
 ) : ResultInteractor<Unit, Unit>() {
 

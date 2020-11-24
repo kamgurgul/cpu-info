@@ -10,7 +10,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class ObservableCpuData @Inject constructor(
+class CpuDataObservable @Inject constructor(
         dispatchersProvider: DispatchersProvider,
         private val cpuDataProvider: CpuDataProvider,
         private val cpuDataNativeProvider: CpuDataNativeProvider

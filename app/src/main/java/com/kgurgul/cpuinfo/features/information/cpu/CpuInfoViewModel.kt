@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.model.CpuData
-import com.kgurgul.cpuinfo.domain.observable.ObservableCpuData
+import com.kgurgul.cpuinfo.domain.observable.CpuDataObservable
 import com.kgurgul.cpuinfo.domain.observe
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -33,10 +33,10 @@ import kotlinx.coroutines.flow.map
  * @author kgurgul
  */
 class CpuInfoViewModel @ViewModelInject constructor(
-        observableCpuData: ObservableCpuData
+        cpuDataObservable: CpuDataObservable
 ) : ViewModel() {
 
-    private val cpuData: Flow<CpuData> = observableCpuData.observe()
+    private val cpuData: Flow<CpuData> = cpuDataObservable.observe()
 
     val viewState = cpuData
             .distinctUntilChanged()

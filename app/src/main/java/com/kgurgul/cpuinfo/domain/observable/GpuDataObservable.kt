@@ -7,10 +7,10 @@ import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class ObservableGpuData @Inject constructor(
+class GpuDataObservable @Inject constructor(
         dispatchersProvider: DispatchersProvider,
         private val gpuDataProvider: GpuDataProvider
-) : MutableInteractor<ObservableGpuData.Params, GpuData>() {
+) : MutableInteractor<GpuDataObservable.Params, GpuData>() {
 
     override val dispatcher = dispatchersProvider.io
 

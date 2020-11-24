@@ -8,7 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class ObservableRamData @Inject constructor(
+class RamDataObservable @Inject constructor(
         dispatchersProvider: DispatchersProvider,
         private val ramDataProvider: RamDataProvider
 ) : ImmutableInteractor<Unit, RamData>() {

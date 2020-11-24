@@ -20,9 +20,9 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.kgurgul.cpuinfo.domain.observable.ObservableRamData
+import com.kgurgul.cpuinfo.domain.action.RamCleanupAction
+import com.kgurgul.cpuinfo.domain.observable.RamDataObservable
 import com.kgurgul.cpuinfo.domain.observe
-import com.kgurgul.cpuinfo.domain.single.SingleRamCleanup
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -33,11 +33,11 @@ import kotlinx.coroutines.launch
  * @author kgurgul
  */
 class RamInfoViewModel @ViewModelInject constructor(
-        observableRamData: ObservableRamData,
-        private val singleRamCleanup: SingleRamCleanup
+        ramDataObservable: RamDataObservable,
+        private val ramCleanupAction: RamCleanupAction
 ) : ViewModel() {
 
-    private val ramData = observableRamData.observe()
+    private val ramData = ramDataObservable.observe()
 
     val viewState = ramData
             .distinctUntilChanged()
@@ -45,6 +45,6 @@ class RamInfoViewModel @ViewModelInject constructor(
             .asLiveData(viewModelScope.coroutineContext)
 
     fun onClearRamClicked() {
-        viewModelScope.launch { singleRamCleanup(Unit) }
+        viewModelScope.launch { ramCleanupAction(Unit) }
     }
 }
