@@ -29,8 +29,6 @@ import com.kgurgul.cpuinfo.widgets.swiperv.swiper.LeftHorizontalSwiper;
 import com.kgurgul.cpuinfo.widgets.swiperv.swiper.RightHorizontalSwiper;
 import com.kgurgul.cpuinfo.widgets.swiperv.swiper.Swiper;
 
-import androidx.core.view.ViewCompat;
-
 public class SwipeHorizontalMenuLayout extends SwipeMenuLayout {
 
     protected int mPreScrollX;
@@ -155,7 +153,7 @@ public class SwipeHorizontalMenuLayout extends SwipeMenuLayout {
                                 smoothCloseMenu(duration);
                             }
                         }
-                        ViewCompat.postInvalidateOnAnimation(this);
+                        this.postInvalidateOnAnimation();
                     }
                 } else {
                     judgeOpenClose(dx, dy);
@@ -297,9 +295,9 @@ public class SwipeHorizontalMenuLayout extends SwipeMenuLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
-        int parentViewWidth = ViewCompat.getMeasuredWidthAndState(this);
-        int contentViewWidth = ViewCompat.getMeasuredWidthAndState(mContentView);
-        int contentViewHeight = ViewCompat.getMeasuredHeightAndState(mContentView);
+        int parentViewWidth = this.getMeasuredWidthAndState();
+        int contentViewWidth = mContentView.getMeasuredWidthAndState();
+        int contentViewHeight = mContentView.getMeasuredHeightAndState();
         LayoutParams lp = (LayoutParams) mContentView.getLayoutParams();
         int lGap = getPaddingLeft() + lp.leftMargin;
         int tGap = getPaddingTop() + lp.topMargin;
@@ -308,21 +306,23 @@ public class SwipeHorizontalMenuLayout extends SwipeMenuLayout {
                 lGap + contentViewWidth,
                 tGap + contentViewHeight);
         if (mEndSwiper != null) {
-            int menuViewWidth = ViewCompat.getMeasuredWidthAndState(mEndSwiper.getMenuView());
-            int menuViewHeight = ViewCompat.getMeasuredHeightAndState(mEndSwiper.getMenuView());
-            lp = (LayoutParams) mEndSwiper.getMenuView().getLayoutParams();
+            final View endSwiperMenuView = mEndSwiper.getMenuView();
+            int menuViewWidth = endSwiperMenuView.getMeasuredWidthAndState();
+            int menuViewHeight = endSwiperMenuView.getMeasuredHeightAndState();
+            lp = (LayoutParams) endSwiperMenuView.getLayoutParams();
             tGap = getPaddingTop() + lp.topMargin;
-            mEndSwiper.getMenuView().layout(parentViewWidth,
+            endSwiperMenuView.layout(parentViewWidth,
                     tGap,
                     parentViewWidth + menuViewWidth,
                     tGap + menuViewHeight);
         }
         if (mBeginSwiper != null) {
-            int menuViewWidth = ViewCompat.getMeasuredWidthAndState(mBeginSwiper.getMenuView());
-            int menuViewHeight = ViewCompat.getMeasuredHeightAndState(mBeginSwiper.getMenuView());
-            lp = (LayoutParams) mBeginSwiper.getMenuView().getLayoutParams();
+            final View beginSwiperMenuView = mBeginSwiper.getMenuView();
+            int menuViewWidth = beginSwiperMenuView.getMeasuredWidthAndState();
+            int menuViewHeight = beginSwiperMenuView.getMeasuredHeightAndState();
+            lp = (LayoutParams) beginSwiperMenuView.getLayoutParams();
             tGap = getPaddingTop() + lp.topMargin;
-            mBeginSwiper.getMenuView().layout(-menuViewWidth,
+            beginSwiperMenuView.layout(-menuViewWidth,
                     tGap,
                     0,
                     tGap + menuViewHeight);

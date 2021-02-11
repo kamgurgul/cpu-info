@@ -18,10 +18,12 @@ package com.kgurgul.cpuinfo.features.information
 
 import android.os.Bundle
 import android.view.View
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentInfoBinding
 import com.kgurgul.cpuinfo.features.information.base.BaseFragment
-import com.kgurgul.cpuinfo.features.information.base.ViewPagerAdapter
+import com.kgurgul.cpuinfo.features.information.base.ViewStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -32,10 +34,22 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class InfoContainerFragment : BaseFragment<FragmentInfoBinding>(R.layout.fragment_info) {
 
+    private val tabTitles = listOf(
+            R.string.cpu,
+            R.string.gpu,
+            R.string.ram,
+            R.string.storage,
+            R.string.screen,
+            R.string.android,
+            R.string.hardware,
+            R.string.sensors)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewPagerAdapter = ViewPagerAdapter(requireContext(), childFragmentManager)
-        binding.viewPager.adapter = viewPagerAdapter
-        binding.tabs.setupWithViewPager(binding.viewPager)
+        val vpAdapter = ViewStateAdapter(this)
+        binding.viewPager.adapter = vpAdapter
+        TabLayoutMediator(binding.tabs, binding.viewPager) { tab: TabLayout.Tab, position: Int ->
+            tab.text = resources.getText(tabTitles[position])
+        }.attach()
     }
 }
