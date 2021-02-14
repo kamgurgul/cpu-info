@@ -52,11 +52,6 @@
     volatile <fields>;
 }
 
-# OpenCSV
--dontwarn com.opencsv.**
--dontwarn org.apache.commons.beanutils.**
--dontwarn org.apache.commons.collections.**
-
 # Remove logs
 -assumenosideeffects class timber.log.Timber* {
     public static *** v(...);

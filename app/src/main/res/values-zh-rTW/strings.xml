@@ -20,7 +20,6 @@
     <string name="action_settings">設定</string>
     <string name="action_sorting">排序</string>
     <string name="action_refresh">重新整理</string>
-    <string name="action_export_to_csv">匯出為 CSV</string>
     <string name="action_not_supported">動作不可用</string>
     
     <string name="open_drawer">開啟應用程式抽屜</string>

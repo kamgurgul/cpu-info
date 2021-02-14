@@ -18,14 +18,11 @@
 
 package com.kgurgul.cpuinfo.utils
 
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.kgurgul.cpuinfo.R
 import kotlin.math.roundToLong
 
@@ -82,20 +79,6 @@ inline fun runOnApiAbove(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
  * @return true if used device is tablet
  */
 fun Context.isTablet(): Boolean = this.resources.getBoolean(R.bool.isTablet)
-
-@TargetApi(19)
-fun Fragment.createSafFile(mimeType: String, fileName: String, requestCode: Int) {
-    val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-        addCategory(Intent.CATEGORY_OPENABLE)
-        type = mimeType
-        putExtra(Intent.EXTRA_TITLE, fileName)
-    }
-    try {
-        startActivityForResult(intent, requestCode)
-    } catch (e: Exception) {
-        Toast.makeText(context, R.string.action_not_supported, Toast.LENGTH_SHORT).show()
-    }
-}
 
 /**
  * In the feature this method should be replaced with PackageManager

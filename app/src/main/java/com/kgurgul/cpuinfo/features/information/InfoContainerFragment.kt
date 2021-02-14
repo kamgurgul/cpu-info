@@ -23,7 +23,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentInfoBinding
 import com.kgurgul.cpuinfo.features.information.base.BaseFragment
-import com.kgurgul.cpuinfo.features.information.base.ViewStateAdapter
+import com.kgurgul.cpuinfo.features.information.base.InfoContainerStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -34,22 +34,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class InfoContainerFragment : BaseFragment<FragmentInfoBinding>(R.layout.fragment_info) {
 
-    private val tabTitles = listOf(
-            R.string.cpu,
-            R.string.gpu,
-            R.string.ram,
-            R.string.storage,
-            R.string.screen,
-            R.string.android,
-            R.string.hardware,
-            R.string.sensors)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val vpAdapter = ViewStateAdapter(this)
-        binding.viewPager.adapter = vpAdapter
+        val adapter = InfoContainerStateAdapter(this)
+        binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab: TabLayout.Tab, position: Int ->
-            tab.text = resources.getText(tabTitles[position])
+            tab.text = resources.getText(adapter.getTitleRes(position))
         }.attach()
     }
 }

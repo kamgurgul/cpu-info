@@ -19,7 +19,6 @@
     <string name="action_settings">Nastavení</string>
     <string name="action_sorting">Řazení</string>
     <string name="action_refresh">Interval opětovného načítání</string>
-    <string name="action_export_to_csv">Export to CSV</string>
     <string name="action_not_supported">Akce není k dispozici</string>
     
     <string name="open_drawer">Otevřít panel</string>

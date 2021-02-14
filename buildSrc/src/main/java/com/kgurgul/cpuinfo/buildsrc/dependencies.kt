@@ -4,17 +4,15 @@ object Libs {
 
     const val androidGradlePlugin = "com.android.tools.build:gradle:4.1.2"
 
+    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.36.0"
+
     const val bus = "org.greenrobot:eventbus:3.1.1"
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
 
     const val relinker = "com.getkeepsafe.relinker:relinker:1.4.1"
 
-    const val csv = "com.opencsv:opencsv:4.5"
-
     const val junit = "junit:junit:4.13"
-
-    const val robolectric = "org.robolectric:robolectric:4.3.1"
 
     const val mockitoCore = "org.mockito:mockito-core:3.2.4"
 
@@ -42,6 +40,7 @@ object Libs {
         const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:1.1.3"
         const val multiDex = "androidx.multidex:multidex:2.0.1"
+        const val viewPager2 = "androidx.viewpager2:viewpager2:1.0.0"
 
         object Lifecycle {
             private const val version = "2.2.0"
@@ -77,7 +76,7 @@ object Libs {
     }
 
     object Google {
-        const val material = "com.google.android.material:material:1.3.0"
+        const val material = "com.google.android.material:material:1.2.0"
         const val gson = "com.google.code.gson:gson:2.8.5"
     }
 

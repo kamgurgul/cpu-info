@@ -102,6 +102,7 @@ dependencies {
     implementation Libs.AndroidX.swipeRefreshLayout
     implementation Libs.AndroidX.constraintLayout
     implementation Libs.AndroidX.multiDex
+    implementation Libs.AndroidX.viewPager2
 
     implementation Libs.AndroidX.Lifecycle.extensions
     implementation Libs.AndroidX.Lifecycle.viewModelKtx
@@ -136,14 +137,12 @@ dependencies {
     implementation Libs.bus
     implementation Libs.timber
     implementation Libs.relinker
-    implementation Libs.csv
 
     testImplementation Libs.junit
     testImplementation Libs.AndroidX.Test.core
     testImplementation Libs.AndroidX.Test.archCoreTesting
     testImplementation Libs.mockitoCore
     testImplementation Libs.mockitoKotlin
-    testImplementation Libs.robolectric
 
     androidTestImplementation Libs.AndroidX.Test.runner
     androidTestImplementation Libs.AndroidX.Test.rules

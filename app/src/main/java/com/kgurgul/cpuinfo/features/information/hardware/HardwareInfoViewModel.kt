@@ -24,28 +24,22 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.Camera
-import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.features.temperature.TemperatureProvider
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round2
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
-import com.opencsv.CSVWriter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import java.io.FileFilter
-import java.io.FileWriter
 import java.io.RandomAccessFile
 import java.util.*
 import java.util.regex.Pattern
@@ -65,7 +59,6 @@ class HardwareInfoViewModel @Inject constructor(
         private val packageManager: PackageManager,
         private val contentResolver: ContentResolver,
         private val batteryStatusProvider: BatteryStatusProvider,
-        private val dispatchersProvider: DispatchersProvider,
         private val wifiManager: WifiManager
 ) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -98,25 +91,6 @@ class HardwareInfoViewModel @Inject constructor(
         listLiveData.addAll(getSoundCardInfo())
         listLiveData.addAll(getWirelessInfo())
         listLiveData.addAll(getUsbInfo())
-    }
-
-    /**
-     * Invoked when user wants to export whole list to the CSV file
-     */
-    fun saveListToFile(uri: Uri) {
-        viewModelScope.launch(context = dispatchersProvider.io) {
-            try {
-                contentResolver.openFileDescriptor(uri, "w")?.use {
-                    CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->
-                        listLiveData.forEach { pair ->
-                            csvWriter.writeNext(pair.toList().toTypedArray())
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
-        }
     }
 
     /**

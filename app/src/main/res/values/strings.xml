@@ -21,7 +21,6 @@
     <string name="action_sorting">Sorting</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_gc" translatable="false">Garbage collector</string>
-    <string name="action_export_to_csv">Export to CSV</string>
     <string name="action_not_supported">Action not available</string>
 
     <string name="open_drawer">Open drawer</string>

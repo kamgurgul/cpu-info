@@ -16,25 +16,17 @@
 
 package com.kgurgul.cpuinfo.features.information.screen
 
-import android.content.ContentResolver
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.net.Uri
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.Display
 import android.view.WindowManager
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round2
-import com.opencsv.CSVWriter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.io.FileWriter
 import javax.inject.Inject
 
 /**
@@ -45,9 +37,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ScreenInfoViewModel @Inject constructor(
         private val resources: Resources,
-        private val windowManager: WindowManager,
-        private val dispatchersProvider: DispatchersProvider,
-        private val contentResolver: ContentResolver
+        private val windowManager: WindowManager
 ) : ViewModel() {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
@@ -170,24 +160,5 @@ class ScreenInfoViewModel @Inject constructor(
         functionsList.add(Pair(resources.getString(R.string.orientation), "$orientation"))
 
         return functionsList
-    }
-
-    /**
-     * Invoked when user wants to export whole list to the CSV file
-     */
-    fun saveListToFile(uri: Uri) {
-        viewModelScope.launch(context = dispatchersProvider.io) {
-            try {
-                contentResolver.openFileDescriptor(uri, "w")?.use {
-                    CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->
-                        listLiveData.forEach { pair ->
-                            csvWriter.writeNext(pair.toList().toTypedArray())
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
-        }
     }
 }
