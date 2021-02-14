@@ -25,8 +25,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.core.view.ViewCompat;
-
 /**
  * Created by tubingbing on 16/8/11.
  */
@@ -119,8 +117,8 @@ public class SwipeMenuHelper {
         final int count = mCallback.getRealChildCount();
         for (int i = count - 1; i >= 0; i--) {
             final View child = mCallback.getRealChildAt(i);
-            final float translationX = ViewCompat.getTranslationX(child);
-            final float translationY = ViewCompat.getTranslationY(child);
+            final float translationX = child.getTranslationX();
+            final float translationY = child.getTranslationY();
             if (x >= child.getLeft() + translationX &&
                     x <= child.getRight() + translationX &&
                     y >= child.getTop() + translationY &&

@@ -10,6 +10,8 @@ object Libs {
 
     const val relinker = "com.getkeepsafe.relinker:relinker:1.4.1"
 
+    const val csv = "com.opencsv:opencsv:4.5"
+
     const val junit = "junit:junit:4.13"
 
     const val robolectric = "org.robolectric:robolectric:4.3.1"

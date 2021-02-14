@@ -92,8 +92,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation Libs.Kotlin.stdlib
 
     implementation Libs.AndroidX.coreKtx
@@ -138,6 +136,7 @@ dependencies {
     implementation Libs.bus
     implementation Libs.timber
     implementation Libs.relinker
+    implementation Libs.csv
 
     testImplementation Libs.junit
     testImplementation Libs.AndroidX.Test.core

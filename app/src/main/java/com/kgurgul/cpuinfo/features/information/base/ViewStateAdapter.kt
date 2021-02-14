@@ -16,10 +16,8 @@
 
 package com.kgurgul.cpuinfo.features.information.base
 
-import android.content.Context
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import com.kgurgul.cpuinfo.R
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.kgurgul.cpuinfo.features.information.android.AndroidInfoFragment
 import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoFragment
 import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoFragment
@@ -32,8 +30,8 @@ import com.kgurgul.cpuinfo.features.information.storage.StorageInfoFragment
 /**
  * Simple view pager for info fragments
  */
-class ViewPagerAdapter(val context: Context, manager: FragmentManager) :
-        FragmentStatePagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class ViewStateAdapter(fragment: Fragment) :
+        FragmentStateAdapter(fragment) {
 
     companion object {
         const val CPU_POS = 0
@@ -48,7 +46,7 @@ class ViewPagerAdapter(val context: Context, manager: FragmentManager) :
         const val INFO_PAGE_AMOUNT = 8
     }
 
-    override fun getItem(position: Int): androidx.fragment.app.Fragment =
+    override fun createFragment(position: Int): Fragment =
             when (position) {
                 CPU_POS -> CpuInfoFragment()
                 GPU_POS -> GpuInfoFragment()
@@ -58,21 +56,8 @@ class ViewPagerAdapter(val context: Context, manager: FragmentManager) :
                 ANDROID_POS -> AndroidInfoFragment()
                 HARDWARE_POS -> HardwareInfoFragment()
                 SENSORS_POS -> SensorsInfoFragment()
-                else -> throw IllegalArgumentException("Unknown position for ViewPager")
+                else -> throw IllegalArgumentException("Unknown position for ViewPager2")
             }
 
-    override fun getCount(): Int = INFO_PAGE_AMOUNT
-
-    override fun getPageTitle(position: Int): CharSequence =
-            when (position) {
-                CPU_POS -> context.getString(R.string.cpu)
-                GPU_POS -> context.getString(R.string.gpu)
-                RAM_POS -> context.getString(R.string.ram)
-                STORAGE_POS -> context.getString(R.string.storage)
-                SCREEN_POS -> context.getString(R.string.screen)
-                ANDROID_POS -> context.getString(R.string.android)
-                HARDWARE_POS -> context.getString(R.string.hardware)
-                SENSORS_POS -> context.getString(R.string.sensors)
-                else -> throw IllegalArgumentException("Unknown position for ViewPager")
-            }
+    override fun getItemCount(): Int = INFO_PAGE_AMOUNT
 }

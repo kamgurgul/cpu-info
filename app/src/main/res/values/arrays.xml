@@ -31,11 +31,14 @@
     <string-array name="prefTemperatureNames">
         <item>&#176;C</item>
         <item>&#176;F</item>
+        <item>&#176;K</item>
+
     </string-array>
 
     <string-array name="prefTemperatureValues">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="themeListArray">
