@@ -28,7 +28,6 @@ import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
@@ -41,6 +40,7 @@ import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round2
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import com.opencsv.CSVWriter
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -49,13 +49,15 @@ import java.io.FileWriter
 import java.io.RandomAccessFile
 import java.util.*
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 /**
  * ViewModel for [HardwareInfoFragment]
  *
  * @author kgurgul
  */
-class HardwareInfoViewModel @ViewModelInject constructor(
+@HiltViewModel
+class HardwareInfoViewModel @Inject constructor(
         private val resources: Resources,
         private val temperatureProvider: TemperatureProvider,
         private val temperatureFormatter: TemperatureFormatter,

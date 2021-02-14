@@ -16,23 +16,25 @@
 
 package com.kgurgul.cpuinfo.features.information.ram
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.action.RamCleanupAction
 import com.kgurgul.cpuinfo.domain.observable.RamDataObservable
 import com.kgurgul.cpuinfo.domain.observe
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * ViewModel for RAM info
  *
  * @author kgurgul
  */
-class RamInfoViewModel @ViewModelInject constructor(
+@HiltViewModel
+class RamInfoViewModel @Inject constructor(
         ramDataObservable: RamDataObservable,
         private val ramCleanupAction: RamCleanupAction
 ) : ViewModel() {

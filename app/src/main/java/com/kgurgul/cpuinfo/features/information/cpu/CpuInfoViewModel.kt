@@ -16,23 +16,25 @@
 
 package com.kgurgul.cpuinfo.features.information.cpu
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.domain.observable.CpuDataObservable
 import com.kgurgul.cpuinfo.domain.observe
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 /**
  * ViewModel for CPU information
  *
  * @author kgurgul
  */
-class CpuInfoViewModel @ViewModelInject constructor(
+@HiltViewModel
+class CpuInfoViewModel @Inject constructor(
         cpuDataObservable: CpuDataObservable
 ) : ViewModel() {
 

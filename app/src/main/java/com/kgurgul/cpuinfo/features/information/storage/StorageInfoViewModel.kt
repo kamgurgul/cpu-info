@@ -18,12 +18,12 @@ package com.kgurgul.cpuinfo.features.information.storage
 
 import android.content.res.Resources
 import android.os.Environment
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleEmitter
@@ -34,13 +34,15 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.*
 import java.util.*
+import javax.inject.Inject
 
 /**
  * ViewModel for [StorageInfoFragment]
  *
  * @author kgurgul
  */
-class StorageInfoViewModel @ViewModelInject constructor(
+@HiltViewModel
+class StorageInfoViewModel @Inject constructor(
         private val dispatchersProvider: DispatchersProvider,
         private val resources: Resources
 ) : ViewModel() {

@@ -22,7 +22,6 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.net.Uri
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
@@ -30,16 +29,19 @@ import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round1
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import com.opencsv.CSVWriter
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.FileWriter
+import javax.inject.Inject
 
 /**
  * ViewModel for sensors data
  *
  * @author kgurgul
  */
-class SensorsInfoViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SensorsInfoViewModel @Inject constructor(
         private val sensorManager: SensorManager,
         private val dispatchersProvider: DispatchersProvider,
         private val contentResolver: ContentResolver

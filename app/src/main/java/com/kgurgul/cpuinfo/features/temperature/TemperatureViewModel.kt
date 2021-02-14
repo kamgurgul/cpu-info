@@ -18,26 +18,28 @@ package com.kgurgul.cpuinfo.features.temperature
 
 import android.content.res.Resources
 import androidx.annotation.VisibleForTesting
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.temperature.list.TemperatureItem
 import com.kgurgul.cpuinfo.utils.NonNullMutableLiveData
 import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 /**
  * ViewModel for [TemperatureFragment]
  *
  * @author kgurgul
  */
-class TemperatureViewModel @ViewModelInject constructor(
+@HiltViewModel
+class TemperatureViewModel @Inject constructor(
         private val prefs: Prefs,
         private val resources: Resources,
         private val temperatureIconProvider: TemperatureIconProvider,

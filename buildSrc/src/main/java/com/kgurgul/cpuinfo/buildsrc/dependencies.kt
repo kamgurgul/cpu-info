@@ -2,7 +2,7 @@ package com.kgurgul.cpuinfo.buildsrc
 
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:4.0.1"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:4.1.2"
 
     const val bus = "org.greenrobot:eventbus:3.1.1"
 
@@ -19,7 +19,7 @@ object Libs {
     const val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 
     object Kotlin {
-        private const val version = "1.4.20"
+        private const val version = "1.4.30"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
@@ -33,8 +33,8 @@ object Libs {
 
     object AndroidX {
         const val coreKtx = "androidx.core:core-ktx:1.3.1"
-        const val activityKtx = "androidx.activity:activity-ktx:1.1.0"
-        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.2.5"
+        const val activityKtx = "androidx.activity:activity-ktx:1.2.0"
+        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.3.0"
         const val appCompat = "androidx.appcompat:appcompat:1.1.0"
         const val preference = "androidx.preference:preference:1.1.1"
         const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
@@ -50,7 +50,7 @@ object Libs {
         }
 
         object Navigation {
-            private const val version = "2.3.0"
+            private const val version = "2.3.3"
             const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
             const val ui = "androidx.navigation:navigation-ui-ktx:$version"
             const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
@@ -75,7 +75,7 @@ object Libs {
     }
 
     object Google {
-        const val material = "com.google.android.material:material:1.2.0-rc01"
+        const val material = "com.google.android.material:material:1.3.0"
         const val gson = "com.google.code.gson:gson:2.8.5"
     }
 
@@ -85,13 +85,13 @@ object Libs {
     }
 
     object Dagger {
-        private const val version = "2.29.1-alpha"
+        private const val version = "2.32-alpha"
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"
         const val androidCompiler = "com.google.dagger:hilt-compiler:$version"
         const val androidTesting = "com.google.dagger:hilt-android-testing:$version"
 
-        private const val extVersion = "1.0.0-alpha02"
+        private const val extVersion = "1.0.0-alpha03"
         const val viewModelExt = "androidx.hilt:hilt-lifecycle-viewmodel:$extVersion"
         const val workManagerExt = "androidx.hilt:hilt-work:$extVersion"
         const val hiltCompiler = "androidx.hilt:hilt-compiler:$extVersion"

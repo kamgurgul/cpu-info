@@ -16,22 +16,24 @@
 
 package com.kgurgul.cpuinfo.features.information.gpu
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.model.GpuData
 import com.kgurgul.cpuinfo.domain.observable.GpuDataObservable
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 /**
  * ViewModel for GPU information. It is using custom SurfaceView to get more GPU details from OpenGL
  *
  * @author kgurgul
  */
-class GpuInfoViewModel @ViewModelInject constructor(
+@HiltViewModel
+class GpuInfoViewModel @Inject constructor(
         private val observableGpuData: GpuDataObservable
 ) : ViewModel() {
 
