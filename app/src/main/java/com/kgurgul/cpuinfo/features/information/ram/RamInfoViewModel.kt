@@ -39,12 +39,10 @@ class RamInfoViewModel @Inject constructor(
         private val ramCleanupAction: RamCleanupAction
 ) : ViewModel() {
 
-    private val ramData = ramDataObservable.observe()
-
-    val viewState = ramData
-            .distinctUntilChanged()
-            .map { RamInfoViewState(it) }
-            .asLiveData(viewModelScope.coroutineContext)
+    val viewState = ramDataObservable.observe()
+        .distinctUntilChanged()
+        .map { RamInfoViewState(it) }
+        .asLiveData(viewModelScope.coroutineContext)
 
     fun onClearRamClicked() {
         viewModelScope.launch { ramCleanupAction(Unit) }

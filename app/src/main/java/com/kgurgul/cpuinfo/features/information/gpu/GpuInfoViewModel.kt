@@ -19,10 +19,8 @@ package com.kgurgul.cpuinfo.features.information.gpu
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.kgurgul.cpuinfo.domain.model.GpuData
 import com.kgurgul.cpuinfo.domain.observable.GpuDataObservable
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -37,12 +35,10 @@ class GpuInfoViewModel @Inject constructor(
         private val observableGpuData: GpuDataObservable
 ) : ViewModel() {
 
-    private val gpuData: Flow<GpuData> = observableGpuData.observe()
-
-    val viewState = gpuData
-            .distinctUntilChanged()
-            .map { GpuInfoViewState(it) }
-            .asLiveData(viewModelScope.coroutineContext)
+    val viewState = observableGpuData.observe()
+        .distinctUntilChanged()
+        .map { GpuInfoViewState(it) }
+        .asLiveData(viewModelScope.coroutineContext)
 
     init {
         observableGpuData(GpuDataObservable.Params())
