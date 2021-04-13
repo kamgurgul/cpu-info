@@ -20,6 +20,7 @@
     <string name="action_settings">設定</string>
     <string name="action_sorting">排序</string>
     <string name="action_refresh">重新整理</string>
+    <string name="action_gc" translatable="false">Garbage collector</string>
     <string name="action_export_to_csv">匯出為 CSV</string>
     <string name="action_not_supported">動作不可用</string>
     
@@ -48,11 +49,25 @@
 
     <string name="running_gc">正在清理記憶體</string>
     <string name="text_copied">數值已複製</string>
+    
+    <!-- CPU -->
+    <string name="cpu_current_frequency" translatable="false">Core %1$d: %2$sMHz</string>
+    <string name="cpu_frequency" translatable="false">%1$sMhz</string>
+    <string name="cpu_frequency_stopped" translatable="false">Core %1$d: Stopped</string>
+    <string name="cpu_soc_name" translatable="false">SoC name</string>
+    <string name="cpu_cores" translatable="false">Cores</string>
+    <string name="cpu_has_neon" translatable="false">ARM Neon</string>
+    <string name="cpu_l1d" translatable="false">L1d cache</string>
+    <string name="cpu_l1i" translatable="false">L1i cache</string>
+    <string name="cpu_l2" translatable="false">L2 cache</string>
+    <string name="cpu_l3" translatable="false">L3 cache</string>
+    <string name="cpu_l4" translatable="false">L4 cache</string>
 
     <!--Apps-->
     <string name="app_open">無法開啟這個應用程式</string>
     <string name="cpu_open">不要打開我兩次 :-)</string>
     <string name="cpu_uninstall">無法執行 :-(</string>
+    <string name="native_libs" translatable="false">Native libs</string>
     <string name="storage_used">儲存空間已使用:</string>
     <string name="calculating">計算中……</string>
 
@@ -141,7 +156,7 @@
     <string name="pref_theme_dark">暗</string>
     <string name="pref_theme_light">光</string>
     <string name="pref_theme_battery">由省電模式設定</string>
-    <string name="pref_theme_default">系統默認</string>
+    <string name="pref_theme_default">系統預設</string>
     <string name="pref_theme">主題</string>
     <string name="pref_theme_choose">選擇主題</string>
 
