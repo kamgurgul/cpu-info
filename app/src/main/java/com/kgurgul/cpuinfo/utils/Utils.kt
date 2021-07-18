@@ -70,7 +70,7 @@ object Utils {
      * Open google with passed query
      */
     fun searchInGoogle(context: Context, query: String) {
-        val uri = Uri.parse("http://www.google.com/#q=$query")
+        val uri = Uri.parse("http://www.google.com/search?q=$query")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         context.startActivity(intent)
     }
