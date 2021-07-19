@@ -34,6 +34,8 @@ android {
         }
     }
 
+    ndkVersion '22.1.7171670'
+
     signingConfigs {
         releaseVersion {
             storeFile file(signingProperties.getProperty('keyPath'))
@@ -121,11 +123,8 @@ dependencies {
     implementation Libs.Coroutines.core
     implementation Libs.Coroutines.android
 
-    implementation Libs.Dagger.android
-    implementation Libs.Dagger.viewModelExt
-    implementation Libs.Dagger.workManagerExt
-    kapt Libs.Dagger.androidCompiler
-    kapt Libs.Dagger.hiltCompiler
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.androidCompiler
 
     implementation Libs.Glide.glide
     kapt Libs.Glide.compiler
@@ -143,12 +142,16 @@ dependencies {
     testImplementation Libs.AndroidX.Test.archCoreTesting
     testImplementation Libs.mockitoCore
     testImplementation Libs.mockitoKotlin
+    testImplementation Libs.Hilt.androidTesting
+    kaptTest Libs.Hilt.androidCompiler
 
     androidTestImplementation Libs.AndroidX.Test.runner
     androidTestImplementation Libs.AndroidX.Test.rules
     androidTestImplementation Libs.AndroidX.Test.jUnitExt
     androidTestImplementation Libs.AndroidX.Test.Espresso.core
     androidTestImplementation Libs.AndroidX.Test.Espresso.contrib
+    androidTestImplementation Libs.Hilt.androidTesting
+    kaptAndroidTest Libs.Hilt.androidCompiler
 
     androidTestUtil Libs.AndroidX.Test.orchestrator
 }

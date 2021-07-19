@@ -8,26 +8,27 @@ buildscript {
 
     ext {
         minSdk = 16
-        targetSdk = 29
-        compiledSdk = 29
+        targetSdk = 30
+        compiledSdk = 30
     }
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
         classpath Libs.androidGradlePlugin
         classpath Libs.gradleVersionsPlugin
         classpath Libs.Kotlin.gradlePlugin
-        classpath Libs.Dagger.gradlePlugin
+        classpath Libs.Hilt.gradlePlugin
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -41,9 +42,6 @@ subprojects {
             freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
             freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
             freeCompilerArgs += "-Xopt-in=kotlin.Experimental"
-
-            // Set JVM target to 1.8
-            jvmTarget = "1.8"
         }
     }
 }

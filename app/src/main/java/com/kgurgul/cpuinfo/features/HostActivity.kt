@@ -51,7 +51,7 @@ class HostActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         binding.bottomNavigation.apply {
             setupWithNavController(navController)
-            setOnNavigationItemReselectedListener {
+            setOnItemReselectedListener {
                 // Do nothing - TODO: scroll to top
             }
         }

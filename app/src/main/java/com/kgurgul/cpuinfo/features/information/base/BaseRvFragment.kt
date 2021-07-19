@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
+import dagger.hilt.android.AndroidEntryPoint
 
 
 /**
@@ -36,6 +37,7 @@ import com.kgurgul.cpuinfo.R
  *
  * @author kgurgul
  */
+@AndroidEntryPoint
 abstract class BaseRvFragment : Fragment(), InfoItemsAdapter.OnClickListener {
 
     protected lateinit var mainContainer: View

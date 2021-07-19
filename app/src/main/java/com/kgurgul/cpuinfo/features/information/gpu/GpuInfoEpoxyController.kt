@@ -13,14 +13,14 @@ class GpuInfoEpoxyController(
     override fun buildModels(data: GpuInfoViewState) {
         itemValue {
             id("gles_version")
-            title(context.getString(R.string.gles_version))
+            title(this@GpuInfoEpoxyController.context.getString(R.string.gles_version))
             value(data.gpuData.glesVersio)
         }
         if (data.gpuData.glVendor != null) {
             verticalDivider { id("gl_vendor_divider") }
             itemValue {
                 id("gl_vendor")
-                title(context.getString(R.string.vendor))
+                title(this@GpuInfoEpoxyController.context.getString(R.string.vendor))
                 value(data.gpuData.glVendor)
             }
         }
@@ -28,7 +28,7 @@ class GpuInfoEpoxyController(
             verticalDivider { id("gl_renderer_divider") }
             itemValue {
                 id("gl_renderer")
-                title(context.getString(R.string.renderer))
+                title(this@GpuInfoEpoxyController.context.getString(R.string.renderer))
                 value(data.gpuData.glRenderer)
             }
         }
@@ -36,7 +36,7 @@ class GpuInfoEpoxyController(
             verticalDivider { id("gl_extensions_divider") }
             itemValue {
                 id("gl_extensions")
-                title(context.getString(R.string.extensions))
+                title(this@GpuInfoEpoxyController.context.getString(R.string.extensions))
                 value(data.gpuData.glExtensions)
             }
         }

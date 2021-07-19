@@ -19,6 +19,7 @@ package com.kgurgul.cpuinfo.features.information.gpu
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +42,7 @@ class GpuInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragm
     private val viewModel: GpuInfoViewModel by viewModels()
 
     private var glSurfaceView: GLSurfaceView? = null
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
 
     private val glRenderer = object : GLSurfaceView.Renderer {
         override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {

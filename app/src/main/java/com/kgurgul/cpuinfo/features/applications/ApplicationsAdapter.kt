@@ -90,22 +90,22 @@ class ApplicationsAdapter(
             })
 
             mainContainer.setOnClickListener {
-                val pos = adapterPosition
+                val pos = bindingAdapterPosition
                 if (pos != RecyclerView.NO_POSITION) {
                     appClickListener.appOpenClicked(pos)
                 }
             }
             settingsV.setOnClickListener {
-                val pos = adapterPosition
+                val pos = bindingAdapterPosition
                 if (pos != RecyclerView.NO_POSITION) {
-                    appClickListener.appSettingsClicked(adapterPosition)
+                    appClickListener.appSettingsClicked(bindingAdapterPosition)
                 }
             }
             deleteView.setOnClickListener {
-                val pos = adapterPosition
+                val pos = bindingAdapterPosition
                 if (pos != RecyclerView.NO_POSITION) {
                     sml.smoothCloseMenu()
-                    appClickListener.appUninstallClicked(adapterPosition)
+                    appClickListener.appUninstallClicked(bindingAdapterPosition)
                 }
             }
             nativeButtonIV.setOnClickListener {

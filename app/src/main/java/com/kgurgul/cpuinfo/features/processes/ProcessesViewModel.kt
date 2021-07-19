@@ -111,9 +111,9 @@ class ProcessesViewModel @Inject constructor(
         isSortingAsc = sortingAsc
         prefs.insert(SORTING_PROCESSES_KEY, sortingAsc)
         if (sortingAsc) {
-            processListCopy.sortBy { it.name.toUpperCase() }
+            processListCopy.sortBy { it.name.uppercase() }
         } else {
-            processListCopy.sortByDescending { it.name.toUpperCase() }
+            processListCopy.sortByDescending { it.name.uppercase() }
         }
         return processListCopy
     }
@@ -126,9 +126,9 @@ class ProcessesViewModel @Inject constructor(
                 .map { processList ->
                     if (processList is ArrayList) {
                         if (isSortingAsc) {
-                            processList.sortBy { it.name.toUpperCase() }
+                            processList.sortBy { it.name.uppercase() }
                         } else {
-                            processList.sortByDescending { it.name.toUpperCase() }
+                            processList.sortByDescending { it.name.uppercase() }
                         }
                     }
                     processList

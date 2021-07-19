@@ -44,6 +44,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import java.io.File
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -113,9 +114,9 @@ class ApplicationsViewModel @Inject constructor(
                     }
 
             return@fromCallable if (isSortingAsc) {
-                appsList.sortedBy { it.name.toUpperCase() }
+                appsList.sortedBy { it.name.uppercase() }
             } else {
-                appsList.sortedByDescending { it.name.toUpperCase() }
+                appsList.sortedByDescending { it.name.uppercase() }
             }
         }
     }
@@ -142,9 +143,9 @@ class ApplicationsViewModel @Inject constructor(
         isSortingAsc = sortingAsc
         prefs.insert(SORTING_APPS_KEY, sortingAsc)
         return if (sortingAsc) {
-            applicationList.sortedBy { it.name.toUpperCase() }
+            applicationList.sortedBy { it.name.uppercase() }
         } else {
-            applicationList.sortedByDescending { it.name.toUpperCase() }
+            applicationList.sortedByDescending { it.name.uppercase() }
         }
     }
 

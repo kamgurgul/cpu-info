@@ -14,13 +14,13 @@ class RamInfoEpoxyController(
     override fun buildModels(data: RamInfoViewState) {
         itemValue {
             id("total")
-            title(context.getString(R.string.total_memory))
+            title(this@RamInfoEpoxyController.context.getString(R.string.total_memory))
             value(Utils.convertBytesToMega(data.ramData.total))
         }
         verticalDivider { id("available_divider") }
         itemValue {
             id("available")
-            title(context.getString(R.string.available_memory))
+            title(this@RamInfoEpoxyController.context.getString(R.string.available_memory))
             value(
                     "${Utils.convertBytesToMega(data.ramData.available)} (${data.ramData.availablePercentage}%)"
             )
@@ -28,7 +28,7 @@ class RamInfoEpoxyController(
         verticalDivider { id("threshold_divider") }
         itemValue {
             id("threshold")
-            title(context.getString(R.string.threshold))
+            title(this@RamInfoEpoxyController.context.getString(R.string.threshold))
             value(Utils.convertBytesToMega(data.ramData.threshold))
         }
     }

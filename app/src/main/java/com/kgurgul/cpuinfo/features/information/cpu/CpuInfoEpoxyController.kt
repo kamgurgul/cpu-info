@@ -19,30 +19,30 @@ class CpuInfoEpoxyController(
         }
         itemValue {
             id("soc_name")
-            title(context.getString(R.string.cpu_soc_name))
+            title(this@CpuInfoEpoxyController.context.getString(R.string.cpu_soc_name))
             value(data.cpuData.processorName)
         }
         verticalDivider { id("soc_name_divider") }
         itemValue {
             id("abi")
-            title(context.getString(R.string.cpu_abi))
+            title(this@CpuInfoEpoxyController.context.getString(R.string.cpu_abi))
             value(data.cpuData.abi)
         }
         verticalDivider { id("abi_divider") }
         itemValue {
             id("cores")
-            title(context.getString(R.string.cpu_cores))
+            title(this@CpuInfoEpoxyController.context.getString(R.string.cpu_cores))
             value(data.cpuData.coreNumber.toString())
         }
         verticalDivider { id("cores_divider") }
         itemValue {
             id("has_neon")
-            title(context.getString(R.string.cpu_has_neon))
+            title(this@CpuInfoEpoxyController.context.getString(R.string.cpu_has_neon))
             value(
                     if (data.cpuData.hasArmNeon) {
-                        context.getString(R.string.yes)
+                        this@CpuInfoEpoxyController.context.getString(R.string.yes)
                     } else {
-                        context.getString(R.string.no)
+                        this@CpuInfoEpoxyController.context.getString(R.string.no)
                     }
             )
         }
@@ -82,7 +82,7 @@ class CpuInfoEpoxyController(
             verticalDivider { id("l1d_divider") }
             itemValue {
                 id("l1d")
-                title(context.getString(R.string.cpu_l1d))
+                title(this@CpuInfoEpoxyController.context.getString(R.string.cpu_l1d))
                 value(cpuData.l1dCaches)
             }
 
@@ -91,7 +91,7 @@ class CpuInfoEpoxyController(
             verticalDivider { id("l1i_divider") }
             itemValue {
                 id("l1i")
-                title(context.getString(R.string.cpu_l1i))
+                title(this@CpuInfoEpoxyController.context.getString(R.string.cpu_l1i))
                 value(cpuData.l1iCaches)
             }
         }
@@ -99,7 +99,7 @@ class CpuInfoEpoxyController(
             verticalDivider { id("l2_divider") }
             itemValue {
                 id("l2")
-                title(context.getString(R.string.cpu_l2))
+                title(this@CpuInfoEpoxyController.context.getString(R.string.cpu_l2))
                 value(cpuData.l2Caches)
             }
         }
@@ -107,7 +107,7 @@ class CpuInfoEpoxyController(
             verticalDivider { id("l3_divider") }
             itemValue {
                 id("l3")
-                title(context.getString(R.string.cpu_l3))
+                title(this@CpuInfoEpoxyController.context.getString(R.string.cpu_l3))
                 value(cpuData.l3Caches)
             }
         }
@@ -115,7 +115,7 @@ class CpuInfoEpoxyController(
             verticalDivider { id("l4_divider") }
             itemValue {
                 id("l4")
-                title(context.getString(R.string.cpu_l4))
+                title(this@CpuInfoEpoxyController.context.getString(R.string.cpu_l4))
                 value(cpuData.l4Caches)
             }
         }

@@ -117,6 +117,7 @@ class ScreenInfoViewModel @Inject constructor(
         return Pair(resources.getString(R.string.density_class), densityClass)
     }
 
+    @Suppress("DEPRECATION")
     private fun getInfoFromDisplayMetrics(): List<Pair<String, String>> {
         val functionsList = mutableListOf<Pair<String, String>>()
 

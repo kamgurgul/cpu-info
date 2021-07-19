@@ -21,6 +21,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
@@ -36,7 +37,7 @@ class StorageInfoFragment : BaseRvFragment() {
 
     private var receiverRegistered = false
 
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
     private val mountedReceiver = object : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
