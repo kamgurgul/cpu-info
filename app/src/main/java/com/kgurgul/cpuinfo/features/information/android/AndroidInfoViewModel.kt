@@ -17,12 +17,14 @@
 package com.kgurgul.cpuinfo.features.information.android
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,10 +42,11 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AndroidInfoViewModel @Inject constructor(
-        private val resources: Resources,
-        private val contentResolver: ContentResolver,
-        private val devicePolicyManager: DevicePolicyManager
-) : ViewModel() {
+    application: Application,
+    private val resources: Resources,
+    private val contentResolver: ContentResolver,
+    private val devicePolicyManager: DevicePolicyManager
+) : AndroidViewModel(application) {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
@@ -60,6 +63,7 @@ class AndroidInfoViewModel @Inject constructor(
         }
         getBuildData()
         getAndroidIdData()
+        getGsfAndroidId()
         getRootData()
         getDeviceEncryptionStatus()
         getSecurityData()
@@ -129,7 +133,7 @@ class AndroidInfoViewModel @Inject constructor(
      * https://stackoverflow.com/questions/1101380/determine-if-running-on-a-rooted-device
      */
     private fun isDeviceRooted(): Boolean =
-            checkRootMethod1() || checkRootMethod2() || checkRootMethod3()
+        checkRootMethod1() || checkRootMethod2() || checkRootMethod3()
 
     private fun checkRootMethod1(): Boolean {
         val buildTags = Build.TAGS
@@ -138,9 +142,10 @@ class AndroidInfoViewModel @Inject constructor(
 
     private fun checkRootMethod2(): Boolean {
         val paths = arrayOf(
-                "/system/app/Superuser.apk", "/sbin/su", "/system/bin/su", "/system/xbin/su",
-                "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
-                "/system/bin/failsafe/su", "/data/local/su")
+            "/system/app/Superuser.apk", "/sbin/su", "/system/bin/su", "/system/xbin/su",
+            "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
+            "/system/bin/failsafe/su", "/data/local/su"
+        )
         return paths.any { File(it).exists() }
     }
 
@@ -178,6 +183,23 @@ class AndroidInfoViewModel @Inject constructor(
         if (securityProviders.isNotEmpty()) {
             listLiveData.add(Pair(resources.getString(R.string.security_providers), ""))
             listLiveData.addAll(securityProviders)
+        }
+    }
+
+    private fun getGsfAndroidId() {
+        val uri = Uri.parse("content://com.google.android.gsf.gservices")
+        val idKey = "android_id"
+        val params = arrayOf(idKey)
+        try {
+            getApplication<Application>().contentResolver.query(
+                uri, null, null, params, null
+            )?.use {
+                it.moveToFirst()
+                val hexId = java.lang.Long.toHexString(it.getString(1).toLong())
+                listLiveData.add(Pair("Google Services Framework ID", hexId))
+            }
+        } catch (e: Exception) {
+            // Do nothing
         }
     }
 
