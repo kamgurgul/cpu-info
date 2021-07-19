@@ -16,19 +16,17 @@
 
 package com.kgurgul.cpuinfo.features.information.ram
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
-import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
-import com.kgurgul.cpuinfo.utils.*
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.databinding.FragmentRecyclerViewBinding
+import com.kgurgul.cpuinfo.features.information.base.BaseFragment
+import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -37,7 +35,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * @author kgurgul
  */
 @AndroidEntryPoint
-class RamInfoFragment : BaseRvFragment() {
+class RamInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragment_recycler_view) {
 
     private val viewModel: RamInfoViewModel by viewModels()
 
@@ -46,23 +44,16 @@ class RamInfoFragment : BaseRvFragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.startProvidingData()
-    }
-
-    override fun onStop() {
-        viewModel.stopProvidingData()
-        super.onStop()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val controller = RamInfoEpoxyController(requireContext())
+        binding.recyclerView.adapter = controller.adapter
+        viewModel.viewState.observe(viewLifecycleOwner, { controller.setData(it) })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        // Cleaning options works only for old Android
         runOnApiBelow(24) {
             inflater.inflate(R.menu.ram_menu, menu)
-        }
-        runOnApiAbove(18) {
-            inflater.inflate(R.menu.info_menu, menu)
         }
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -70,42 +61,11 @@ class RamInfoFragment : BaseRvFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
             when (item.itemId) {
                 R.id.action_gc -> {
-                    viewModel.clearRam()
-                    Snackbar.make(mainContainer, getString(R.string.running_gc),
+                    viewModel.onClearRamClicked()
+                    Snackbar.make(binding.mainContainer, getString(R.string.running_gc),
                             Snackbar.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.action_export_to_csv -> {
-                    createSafFile(MIME_TEXT_PLAIN, DUMP_FILENAME, RC_CREATE_FILE)
                     true
                 }
                 else -> super.onOptionsItemSelected(item)
             }
-
-    override fun setupRecyclerViewAdapter() {
-        val infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,
-                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT, onClickListener = this)
-        viewModel.listLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
-                ListLiveDataObserver(infoItemsAdapter))
-        recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
-        recyclerView.adapter = infoItemsAdapter
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            RC_CREATE_FILE -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    data?.data?.also { uri ->
-                        viewModel.saveListToFile(uri)
-                    }
-                }
-            }
-        }
-    }
-
-    companion object {
-        private const val RC_CREATE_FILE = 100
-        private const val DUMP_FILENAME = "ram_info.txt"
-    }
 }

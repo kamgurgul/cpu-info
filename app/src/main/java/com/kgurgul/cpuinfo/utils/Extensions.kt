@@ -18,27 +18,31 @@
 
 package com.kgurgul.cpuinfo.utils
 
-import android.annotation.TargetApi
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import com.kgurgul.cpuinfo.BuildConfig
+import androidx.annotation.IdRes
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.kgurgul.cpuinfo.R
+import kotlin.math.roundToLong
 
 /**
  * All basic extensions
  *
  * @author kgurgul
  */
-fun Float.round1(): Float = Math.round(this * 10.0) / 10.0f
+fun Float.round1(): Float = (this * 10.0).roundToLong() / 10.0f
 
-fun Double.round1(): Double = Math.round(this * 10.0) / 10.0
+fun Double.round1(): Double = (this * 10.0).roundToLong() / 10.0
 
-fun Float.round2(): Float = Math.round(this * 100.0) / 100.0f
+fun Float.round2(): Float = (this * 100.0).roundToLong() / 100.0f
 
-fun Double.round2(): Double = Math.round(this * 100.0) / 100.0
+fun Double.round2(): Double = (this * 100.0).roundToLong() / 100.0
 
 inline fun runOnApi(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
     if (Build.VERSION.SDK_INT == api) {
@@ -77,25 +81,34 @@ inline fun runOnApiAbove(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
 }
 
 /**
- * @return true for Debug build, otherwise false
- */
-fun isDebugBuild(): Boolean = BuildConfig.DEBUG
-
-/**
  * @return true if used device is tablet
  */
 fun Context.isTablet(): Boolean = this.resources.getBoolean(R.bool.isTablet)
 
-@TargetApi(19)
-fun Fragment.createSafFile(mimeType: String, fileName: String, requestCode: Int) {
-    val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-        addCategory(Intent.CATEGORY_OPENABLE)
-        type = mimeType
-        putExtra(Intent.EXTRA_TITLE, fileName)
-    }
-    try {
-        startActivityForResult(intent, requestCode)
-    } catch (e: Exception) {
-        Toast.makeText(context, R.string.action_not_supported, Toast.LENGTH_SHORT).show()
+/**
+ * In the feature this method should be replaced with PackageManager
+ */
+@Suppress("DEPRECATION")
+fun Activity.uninstallApp(packageName: String) {
+    val uri = Uri.fromParts("package", packageName, null)
+    val uninstallIntent = Intent(Intent.ACTION_UNINSTALL_PACKAGE, uri)
+    startActivity(uninstallIntent)
+}
+
+/**
+ * !Warning! It will control only top/left/right insets. Register your own one for bottom ones.
+ */
+fun Activity.setupEdgeToEdge(
+    @IdRes containerId: Int = android.R.id.content
+) {
+    WindowCompat.setDecorFitsSystemWindows(window, false)
+    ViewCompat.setOnApplyWindowInsetsListener(findViewById(containerId)) { v, insets ->
+        val systemInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        v.updatePadding(
+            top = systemInsets.top,
+            left = systemInsets.left,
+            right = systemInsets.right
+        )
+        insets
     }
 }

@@ -18,12 +18,12 @@ package com.kgurgul.cpuinfo.features.information.storage
 
 import android.content.res.Resources
 import android.os.Environment
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleEmitter
@@ -34,13 +34,15 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.*
 import java.util.*
+import javax.inject.Inject
 
 /**
  * ViewModel for [StorageInfoFragment]
  *
  * @author kgurgul
  */
-class StorageInfoViewModel @ViewModelInject constructor(
+@HiltViewModel
+class StorageInfoViewModel @Inject constructor(
         private val dispatchersProvider: DispatchersProvider,
         private val resources: Resources
 ) : ViewModel() {
@@ -133,6 +135,7 @@ class StorageInfoViewModel @ViewModelInject constructor(
      * @param memoryType type of memory
      * @return full size of the storage
      */
+    @Suppress("DEPRECATION")
     private fun getTotalMemorySize(memoryType: MemoryType): Long {
         val path: File = when (memoryType) {
             MemoryType.INTERNAL -> Environment.getDataDirectory()
@@ -148,6 +151,7 @@ class StorageInfoViewModel @ViewModelInject constructor(
      * @param memoryType type of memory
      * @return available size of the storage
      */
+    @Suppress("DEPRECATION")
     private fun getAvailableMemorySize(memoryType: MemoryType): Long {
         val path: File = when (memoryType) {
             MemoryType.INTERNAL -> Environment.getDataDirectory()
@@ -191,6 +195,7 @@ class StorageInfoViewModel @ViewModelInject constructor(
      * And there the magic starts :) TBH I'm not so sure that this is the only good solution but
      * from my testing it is the working one for most of the phones.
      */
+    @Suppress("DEPRECATION")
     private fun getExternalSDMounts(): ArrayList<String> {
         val sdDirList = ArrayList<String>()
         try {

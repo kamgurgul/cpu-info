@@ -17,12 +17,8 @@
 ext {
     /* Version variables */
     versionMajor = 4
-    versionMinor = 4
-    versionPatch = 3
-
-    /* Useful info and generated versions */
-    versionCommit = getCommitHash()
-    varsionBranchName = getBranchName()
+    versionMinor = 5
+    versionPatch = 0
 
     generatedVersionName = generateVersionName()
     generatedVersionCode = generateVersionCode()
@@ -39,16 +35,4 @@ def generateVersionName() {
 
 def generateVersionCode() {
     return versionMajor * 10000 + versionMinor * 100 + versionPatch
-}
-
-static def getCommitHash() {
-    def command = Runtime.getRuntime().exec("git rev-parse --short HEAD")
-    def result = command.waitFor()
-    return (result == 0) ? command.inputStream.text.trim() : "nogit"
-}
-
-static def getBranchName() {
-    def command = Runtime.getRuntime().exec("git rev-parse --abbrev-ref HEAD")
-    def result = command.waitFor()
-    return (result == 0) ? command.inputStream.text.trim() : "noBranchName"
 }

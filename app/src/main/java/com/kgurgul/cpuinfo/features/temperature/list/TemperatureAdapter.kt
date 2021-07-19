@@ -17,12 +17,10 @@
 package com.kgurgul.cpuinfo.features.temperature.list
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.databinding.ItemTemperatureBinding
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
-import kotlinx.android.synthetic.main.item_temperature.view.*
 
 /**
  * Temperature list adapter which observe temperatureListLiveData
@@ -31,13 +29,14 @@ import kotlinx.android.synthetic.main.item_temperature.view.*
  */
 class TemperatureAdapter(
         private val temperatureFormatter: TemperatureFormatter,
-        private val temperatureList: List<TemperatureItem>)
-    : RecyclerView.Adapter<TemperatureAdapter.ViewHolder>() {
+        private val temperatureList: List<TemperatureItem>
+) : RecyclerView.Adapter<TemperatureAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_temperature, parent,
-                false)
-        return ViewHolder(view, temperatureFormatter)
+        val binding = ItemTemperatureBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+        )
+        return ViewHolder(binding, temperatureFormatter)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -47,14 +46,16 @@ class TemperatureAdapter(
     override fun getItemCount(): Int = temperatureList.size
 
     class ViewHolder(
-            private val view: View,
-            private val temperatureFormatter: TemperatureFormatter)
-        : RecyclerView.ViewHolder(view) {
+            private val binding: ItemTemperatureBinding,
+            private val temperatureFormatter: TemperatureFormatter
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(temperatureItem: TemperatureItem) {
-            view.temperatureIv.setImageResource(temperatureItem.iconRes)
-            view.temperatureTypeTv.text = temperatureItem.name
-            view.temperatureTv.text = temperatureFormatter.format(temperatureItem.temperature)
+            with(binding) {
+                temperatureIv.setImageResource(temperatureItem.iconRes)
+                temperatureTypeTv.text = temperatureItem.name
+                temperatureTv.text = temperatureFormatter.format(temperatureItem.temperature)
+            }
         }
     }
 }

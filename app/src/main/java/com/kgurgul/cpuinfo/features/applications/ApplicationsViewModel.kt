@@ -23,7 +23,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.VisibleForTesting
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,6 +33,7 @@ import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import com.kgurgul.cpuinfo.utils.wrappers.Event
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
@@ -44,13 +44,16 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import java.io.File
+import java.util.*
+import javax.inject.Inject
 
 /**
  * ViewModel for [ApplicationsFragment]
  *
  * @author kgurgul
  */
-class ApplicationsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ApplicationsViewModel @Inject constructor(
         private val dispatchersProvider: DispatchersProvider,
         private val prefs: Prefs,
         private val packageManager: PackageManager
@@ -111,9 +114,9 @@ class ApplicationsViewModel @ViewModelInject constructor(
                     }
 
             return@fromCallable if (isSortingAsc) {
-                appsList.sortedBy { it.name.toUpperCase() }
+                appsList.sortedBy { it.name.uppercase() }
             } else {
-                appsList.sortedByDescending { it.name.toUpperCase() }
+                appsList.sortedByDescending { it.name.uppercase() }
             }
         }
     }
@@ -140,9 +143,9 @@ class ApplicationsViewModel @ViewModelInject constructor(
         isSortingAsc = sortingAsc
         prefs.insert(SORTING_APPS_KEY, sortingAsc)
         return if (sortingAsc) {
-            applicationList.sortedBy { it.name.toUpperCase() }
+            applicationList.sortedBy { it.name.uppercase() }
         } else {
-            applicationList.sortedByDescending { it.name.toUpperCase() }
+            applicationList.sortedByDescending { it.name.uppercase() }
         }
     }
 

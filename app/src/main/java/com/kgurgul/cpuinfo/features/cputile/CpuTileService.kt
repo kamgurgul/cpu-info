@@ -7,15 +7,20 @@ import androidx.annotation.RequiresApi
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 @RequiresApi(api = Build.VERSION_CODES.N)
+@AndroidEntryPoint
 class CpuTileService : TileService(), CoroutineScope {
 
-    private val cpuDataProvider = CpuDataProvider()
+    @Inject
+    lateinit var cpuDataProvider: CpuDataProvider
 
-    private val dispatchersProvider = DispatchersProvider()
+    @Inject
+    lateinit var dispatchersProvider: DispatchersProvider
 
     private val job = SupervisorJob()
     override val coroutineContext: CoroutineContext

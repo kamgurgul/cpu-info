@@ -16,156 +16,35 @@
 
 package com.kgurgul.cpuinfo.features.information.ram
 
-import android.annotation.SuppressLint
-import android.app.ActivityManager
-import android.content.ContentResolver
-import android.content.res.Resources
-import android.net.Uri
-import android.os.Build
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
-import com.kgurgul.cpuinfo.utils.Utils
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
-import com.kgurgul.cpuinfo.utils.runOnApiAbove
-import com.opencsv.CSVWriter
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.disposables.Disposable
+import com.kgurgul.cpuinfo.domain.action.RamCleanupAction
+import com.kgurgul.cpuinfo.domain.observable.RamDataObservable
+import com.kgurgul.cpuinfo.domain.observe
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.io.FileWriter
-import java.io.RandomAccessFile
-import java.util.concurrent.TimeUnit
-import java.util.regex.Pattern
+import javax.inject.Inject
 
 /**
  * ViewModel for RAM info
  *
  * @author kgurgul
  */
-class RamInfoViewModel @ViewModelInject constructor(
-        private val activityManager: ActivityManager,
-        private val resources: Resources,
-        private val dispatchersProvider: DispatchersProvider,
-        private val contentResolver: ContentResolver
+@HiltViewModel
+class RamInfoViewModel @Inject constructor(
+        ramDataObservable: RamDataObservable,
+        private val ramCleanupAction: RamCleanupAction
 ) : ViewModel() {
 
-    companion object {
-        private const val REFRESHING_INTERVAL = 5L
-    }
+    val viewState = ramDataObservable.observe()
+        .distinctUntilChanged()
+        .map { RamInfoViewState(it) }
+        .asLiveData(viewModelScope.coroutineContext)
 
-    private val memoryInfo = ActivityManager.MemoryInfo()
-    private var ramRefreshingDisposable: Disposable? = null
-
-    val listLiveData = ListLiveData<Pair<String, String>>()
-
-    @Synchronized
-    fun startProvidingData() {
-        if (ramRefreshingDisposable == null || ramRefreshingDisposable!!.isDisposed) {
-            ramRefreshingDisposable = Flowable.interval(0, REFRESHING_INTERVAL, TimeUnit.SECONDS)
-                    .onBackpressureDrop()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ refreshRamData() }, Timber::e)
-        }
-    }
-
-    fun stopProvidingData() {
-        ramRefreshingDisposable?.dispose()
-    }
-
-    /**
-     * Get RAM info: all, available and threshold
-     */
-    @SuppressLint("InlinedApi")
-    private fun refreshRamData() {
-        Timber.i("refreshRamData()")
-        val memoryInfoList = mutableListOf<Pair<String, String>>()
-        activityManager.getMemoryInfo(memoryInfo)
-
-        runOnApiAbove(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1, {
-            val availableMemoryPercent = (memoryInfo.availMem.toDouble()
-                    / memoryInfo.totalMem.toDouble() * 100.0).toInt()
-
-            memoryInfoList.add(Pair(resources.getString(R.string.total_memory),
-                    Utils.convertBytesToMega(memoryInfo.totalMem)))
-            memoryInfoList.add(Pair(resources.getString(R.string.available_memory),
-                    "${Utils.convertBytesToMega(memoryInfo.availMem)} ($availableMemoryPercent%)"))
-        }, {
-            val totalRam = getTotalRamForOldApi()
-            val availableMemoryPercent = (memoryInfo.availMem.toDouble()
-                    / totalRam.toDouble() * 100.0).toInt()
-
-            memoryInfoList.add(Pair(resources.getString(R.string.total_memory),
-                    Utils.convertBytesToMega(totalRam)))
-            memoryInfoList.add(Pair(resources.getString(R.string.available_memory),
-                    "${Utils.convertBytesToMega(memoryInfo.availMem)} ($availableMemoryPercent%)"))
-        })
-
-        memoryInfoList.add(Pair(resources.getString(R.string.threshold),
-                Utils.humanReadableByteCount(memoryInfo.threshold)))
-
-        listLiveData.replace(memoryInfoList)
-    }
-
-    /**
-     * Legacy method for old Android
-     */
-    private fun getTotalRamForOldApi(): Long {
-        var reader: RandomAccessFile? = null
-        var totRam: Long = -1
-        try {
-            reader = RandomAccessFile("/proc/meminfo", "r")
-            val load = reader.readLine()
-
-            // Get the Number value from the string
-            val p = Pattern.compile("(\\d+)")
-            val m = p.matcher(load)
-            var value = ""
-            while (m.find()) {
-                value = m.group(1)
-            }
-            reader.close()
-
-            totRam = value.toLong()
-        } catch (e: Exception) {
-            Timber.e(e)
-        } finally {
-            reader?.close()
-        }
-
-        return totRam * 1024 // bytes
-    }
-
-    /**
-     * Run task to clear RAM memory
-     */
-    fun clearRam() {
-        viewModelScope.launch(context = dispatchersProvider.io) {
-            System.runFinalization()
-            Runtime.getRuntime().gc()
-            System.gc()
-        }
-    }
-
-    /**
-     * Invoked when user wants to export whole list to the CSV file
-     */
-    fun saveListToFile(uri: Uri) {
-        viewModelScope.launch(context = dispatchersProvider.io) {
-            try {
-                contentResolver.openFileDescriptor(uri, "w")?.use {
-                    CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->
-                        listLiveData.forEach { pair ->
-                            csvWriter.writeNext(pair.toList().toTypedArray())
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
-        }
+    fun onClearRamClicked() {
+        viewModelScope.launch { ramCleanupAction(Unit) }
     }
 }

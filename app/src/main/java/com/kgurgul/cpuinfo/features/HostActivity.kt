@@ -22,11 +22,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.ActivityHostLayoutBinding
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
+import com.kgurgul.cpuinfo.utils.setupEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -44,17 +45,11 @@ class HostActivity : AppCompatActivity() {
         setTheme(R.style.AppThemeBase)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_host_layout)
-        navController = findNavController(R.id.nav_host_fragment)
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            setToolbarTitleAndElevation(destination.label.toString())
+        if (Build.VERSION.SDK_INT >= 21) {
+            setupEdgeToEdge()
         }
+        setupNavigation()
         setSupportActionBar(binding.toolbar)
-        binding.bottomNavigation.apply {
-            setupWithNavController(navController)
-            setOnNavigationItemReselectedListener {
-                // Do nothing - TODO: scroll to top
-            }
-        }
         runOnApiAbove(Build.VERSION_CODES.M) {
             // Processes cannot be listed above M
             val menu = binding.bottomNavigation.menu
@@ -63,6 +58,21 @@ class HostActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp() = navController.navigateUp()
+
+    private fun setupNavigation() {
+        navController =
+            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
+                .navController
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            setToolbarTitleAndElevation(destination.label.toString())
+        }
+        binding.bottomNavigation.apply {
+            setupWithNavController(navController)
+            setOnItemReselectedListener {
+                // Do nothing - TODO: scroll to top
+            }
+        }
+    }
 
     /**
      * Set toolbar title and manage elevation in case of L+ devices and TabLayout

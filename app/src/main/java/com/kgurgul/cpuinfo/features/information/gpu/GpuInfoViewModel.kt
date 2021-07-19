@@ -16,75 +16,35 @@
 
 package com.kgurgul.cpuinfo.features.information.gpu
 
-import android.app.ActivityManager
-import android.content.ContentResolver
-import android.content.res.Resources
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
-import com.kgurgul.cpuinfo.utils.Utils
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
-
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.domain.observable.GpuDataObservable
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 /**
  * ViewModel for GPU information. It is using custom SurfaceView to get more GPU details from OpenGL
  *
  * @author kgurgul
  */
-class GpuInfoViewModel @ViewModelInject constructor(
-        private val activityManager: ActivityManager,
-        private val resources: Resources,
-        private val dispatchersProvider: DispatchersProvider,
-        private val contentResolver: ContentResolver
+@HiltViewModel
+class GpuInfoViewModel @Inject constructor(
+        private val observableGpuData: GpuDataObservable
 ) : ViewModel() {
 
-    val listLiveData = ListLiveData<Pair<String, String>>()
+    val viewState = observableGpuData.observe()
+        .distinctUntilChanged()
+        .map { GpuInfoViewState(it) }
+        .asLiveData(viewModelScope.coroutineContext)
 
     init {
-        getGpuData()
+        observableGpuData(GpuDataObservable.Params())
     }
 
-    /**
-     * Get all GPU information
-     */
-    private fun getGpuData() {
-        if (listLiveData.isEmpty()) {
-            val configurationInfo = activityManager.deviceConfigurationInfo
-            val version = configurationInfo.glEsVersion
-            if (!version.isNullOrEmpty()) {
-                // Add GLES version on the first position because this ViewModel doesn't contains
-                // synchronization with "addGlInfo" method
-                listLiveData.add(0, Pair(resources.getString(R.string.gles_version),
-                        version))
-            }
-        }
-    }
-
-    /**
-     * Check if additional GPU info was already added into [listLiveData]
-     */
-    fun isGlInfoStored(): Boolean = listLiveData.size > 1
-
-    /**
-     * Add additional GPU info from OpenGL if it wasn't added previously
-     *
-     * @param gpuInfoMap map of additional data like version, render etc.
-     */
-    fun addGlInfo(gpuInfoMap: Map<GlInfoType, String?>) {
-        if (listLiveData.size <= 1) {
-            val gpuInfoPairs = ArrayList<Pair<String, String>>()
-            Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.vendor),
-                    gpuInfoMap[GlInfoType.GL_VENDOR])
-            Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.renderer),
-                    gpuInfoMap[GlInfoType.GL_RENDERER])
-            Utils.addPairIfExists(gpuInfoPairs, resources.getString(R.string.extensions),
-                    gpuInfoMap[GlInfoType.GL_EXTENSIONS])
-            listLiveData.addAll(gpuInfoPairs)
-        }
-    }
-
-    enum class GlInfoType {
-        GL_VENDOR, GL_RENDERER, GL_EXTENSIONS
+    fun onGlInfoReceived(glVendor: String?, glRenderer: String?, glExtensions: String?) {
+        observableGpuData(GpuDataObservable.Params(glVendor, glRenderer, glExtensions))
     }
 }

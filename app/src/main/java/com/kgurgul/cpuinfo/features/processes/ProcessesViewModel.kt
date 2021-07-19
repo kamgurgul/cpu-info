@@ -17,12 +17,12 @@
 package com.kgurgul.cpuinfo.features.processes
 
 import androidx.annotation.VisibleForTesting
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
@@ -32,13 +32,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 /**
  * ViewModel for [ProcessesFragment]
  *
  * @author kgurgul
  */
-class ProcessesViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ProcessesViewModel @Inject constructor(
         private val dispatchersProvider: DispatchersProvider,
         private val prefs: Prefs,
         private val psProvider: PsProvider
@@ -109,9 +111,9 @@ class ProcessesViewModel @ViewModelInject constructor(
         isSortingAsc = sortingAsc
         prefs.insert(SORTING_PROCESSES_KEY, sortingAsc)
         if (sortingAsc) {
-            processListCopy.sortBy { it.name.toUpperCase() }
+            processListCopy.sortBy { it.name.uppercase() }
         } else {
-            processListCopy.sortByDescending { it.name.toUpperCase() }
+            processListCopy.sortByDescending { it.name.uppercase() }
         }
         return processListCopy
     }
@@ -124,9 +126,9 @@ class ProcessesViewModel @ViewModelInject constructor(
                 .map { processList ->
                     if (processList is ArrayList) {
                         if (isSortingAsc) {
-                            processList.sortBy { it.name.toUpperCase() }
+                            processList.sortBy { it.name.uppercase() }
                         } else {
-                            processList.sortByDescending { it.name.toUpperCase() }
+                            processList.sortByDescending { it.name.uppercase() }
                         }
                     }
                     processList

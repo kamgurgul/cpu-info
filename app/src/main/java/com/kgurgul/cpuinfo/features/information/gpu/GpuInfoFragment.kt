@@ -19,15 +19,14 @@ package com.kgurgul.cpuinfo.features.information.gpu
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
-import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
-import com.kgurgul.cpuinfo.utils.DividerItemDecoration
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.databinding.FragmentRecyclerViewBinding
+import com.kgurgul.cpuinfo.features.information.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -38,23 +37,21 @@ import javax.microedition.khronos.opengles.GL10
  * @author kgurgul
  */
 @AndroidEntryPoint
-class GpuInfoFragment : BaseRvFragment() {
+class GpuInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragment_recycler_view) {
 
     private val viewModel: GpuInfoViewModel by viewModels()
 
     private var glSurfaceView: GLSurfaceView? = null
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
 
     private val glRenderer = object : GLSurfaceView.Renderer {
         override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
-            val gpuInfoMap = HashMap<GpuInfoViewModel.GlInfoType, String?>()
-            gpuInfoMap[GpuInfoViewModel.GlInfoType.GL_VENDOR] = gl.glGetString(GL10.GL_VENDOR)
-            gpuInfoMap[GpuInfoViewModel.GlInfoType.GL_RENDERER] = gl.glGetString(GL10.GL_RENDERER)
-            gpuInfoMap[GpuInfoViewModel.GlInfoType.GL_EXTENSIONS] = gl.glGetString(GL10.GL_EXTENSIONS)
-            handler.post {
-                glSurfaceView?.visibility = View.GONE
-                viewModel.addGlInfo(gpuInfoMap)
-            }
+            viewModel.onGlInfoReceived(
+                    gl.glGetString(GL10.GL_VENDOR),
+                    gl.glGetString(GL10.GL_RENDERER),
+                    gl.glGetString(GL10.GL_EXTENSIONS)
+            )
+            handler.post { glSurfaceView?.visibility = View.GONE }
         }
 
         override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
@@ -67,17 +64,19 @@ class GpuInfoFragment : BaseRvFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val view = super.onCreateView(inflater, container, savedInstanceState)
-
-        if (!viewModel.isGlInfoStored()) {
-            glSurfaceView = GLSurfaceView(activity)
-            glSurfaceView?.apply {
-                setEGLConfigChooser(8, 8, 8, 8, 16, 0)
-                setRenderer(glRenderer)
-            }
-            val mainContainer: ViewGroup = view.findViewById(R.id.main_container)
-            mainContainer.addView(glSurfaceView)
+        glSurfaceView = GLSurfaceView(requireActivity()).apply {
+            setEGLConfigChooser(8, 8, 8, 8, 16, 0)
+            setRenderer(glRenderer)
         }
+        binding.mainContainer.addView(glSurfaceView)
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val controller = GpuInfoEpoxyController(requireContext())
+        binding.recyclerView.adapter = controller.adapter
+        viewModel.viewState.observe(viewLifecycleOwner, { controller.setData(it) })
     }
 
     override fun onResume() {
@@ -86,16 +85,7 @@ class GpuInfoFragment : BaseRvFragment() {
     }
 
     override fun onPause() {
-        super.onPause()
         glSurfaceView?.onPause()
-    }
-
-    override fun setupRecyclerViewAdapter() {
-        val infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,
-                InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT, onClickListener = this)
-        viewModel.listLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
-                ListLiveDataObserver(infoItemsAdapter))
-        recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
-        recyclerView.adapter = infoItemsAdapter
+        super.onPause()
     }
 }

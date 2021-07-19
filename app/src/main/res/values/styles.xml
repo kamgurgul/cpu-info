@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppThemeBase" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
@@ -29,6 +29,9 @@
         <item name="colorOnSurface">@color/onSurface</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="colorOnBackground">@color/onBackground</item>
+
+        <item name="android:statusBarColor" tools:ignore="NewApi">@color/status_bar</item>
+        <item name="android:navigationBarColor" tools:ignore="NewApi">@color/nav_bar</item>
 
         <item name="alertDialogTheme">@style/CustomAppCompatAlertDialogStyle</item>
         <item name="materialAlertDialogTheme">@style/CustomAppCompatAlertDialogStyle</item>

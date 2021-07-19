@@ -1,4 +1,8 @@
 package com.kgurgul.cpuinfo.domain.model
 
-class GpuData {
-}
+data class GpuData(
+        val glesVersio: String,
+        val glVendor: String?,
+        val glRenderer: String?,
+        val glExtensions: String?
+)

@@ -24,38 +24,34 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.Camera
-import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.features.temperature.TemperatureProvider
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round2
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
-import com.opencsv.CSVWriter
-import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import java.io.File
 import java.io.FileFilter
-import java.io.FileWriter
 import java.io.RandomAccessFile
 import java.util.*
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 /**
  * ViewModel for [HardwareInfoFragment]
  *
  * @author kgurgul
  */
-class HardwareInfoViewModel @ViewModelInject constructor(
+@HiltViewModel
+class HardwareInfoViewModel @Inject constructor(
         private val resources: Resources,
         private val temperatureProvider: TemperatureProvider,
         private val temperatureFormatter: TemperatureFormatter,
@@ -63,7 +59,6 @@ class HardwareInfoViewModel @ViewModelInject constructor(
         private val packageManager: PackageManager,
         private val contentResolver: ContentResolver,
         private val batteryStatusProvider: BatteryStatusProvider,
-        private val dispatchersProvider: DispatchersProvider,
         private val wifiManager: WifiManager
 ) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -96,25 +91,6 @@ class HardwareInfoViewModel @ViewModelInject constructor(
         listLiveData.addAll(getSoundCardInfo())
         listLiveData.addAll(getWirelessInfo())
         listLiveData.addAll(getUsbInfo())
-    }
-
-    /**
-     * Invoked when user wants to export whole list to the CSV file
-     */
-    fun saveListToFile(uri: Uri) {
-        viewModelScope.launch(context = dispatchersProvider.io) {
-            try {
-                contentResolver.openFileDescriptor(uri, "w")?.use {
-                    CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->
-                        listLiveData.forEach { pair ->
-                            csvWriter.writeNext(pair.toList().toTypedArray())
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
-        }
     }
 
     /**
@@ -242,17 +218,25 @@ class HardwareInfoViewModel @ViewModelInject constructor(
         val hasWiFi = packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)
         functionsList.add("Wi-Fi" to getYesNoString(hasWiFi))
         if (hasWiFi) {
-            functionsList.add("Wi-Fi Aware" to getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE))
+            functionsList.add(
+                "Wi-Fi Aware" to getYesNoString(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)
+                )
             )
-            functionsList.add("Wi-Fi Direct" to getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT))
+            functionsList.add(
+                "Wi-Fi Direct" to getYesNoString(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT)
+                )
             )
-            functionsList.add("Wi-Fi Passpoint" to getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_PASSPOINT))
+            functionsList.add(
+                "Wi-Fi Passpoint" to getYesNoString(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_PASSPOINT)
+                )
             )
-            functionsList.add("Wi-Fi 5Ghz" to getYesNoString(wifiManager.is5GHzBandSupported))
-            functionsList.add("Wi-Fi P2P" to getYesNoString(wifiManager.isP2pSupported))
+            if (Build.VERSION.SDK_INT >= 21) {
+                functionsList.add("Wi-Fi 5Ghz" to getYesNoString(wifiManager.is5GHzBandSupported))
+                functionsList.add("Wi-Fi P2P" to getYesNoString(wifiManager.isP2pSupported))
+            }
         }
 
         val bluetoothMac = android.provider.Settings.Secure.getString(contentResolver,
@@ -293,9 +277,7 @@ class HardwareInfoViewModel @ViewModelInject constructor(
         }
 
         return try {
-            val dir = File("/proc/asound/")
-            val files = dir.listFiles(AudioFilter())
-            files.size
+            File("/proc/asound/").listFiles(AudioFilter())!!.size
         } catch (e: Exception) {
             1
         }

@@ -22,11 +22,8 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
-import android.os.Handler
-import android.os.IBinder
-import android.os.PowerManager
-import android.preference.PreferenceManager
+import android.os.*
+import androidx.preference.PreferenceManager
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -62,7 +59,7 @@ class RefreshService : Service() {
         ramUpdateDelay = prefs.getString(SettingsFragment.KEY_RAM_REFRESHING,
                 "10000")!!.toLong()
 
-        refreshHandler = Handler()
+        refreshHandler = Handler(Looper.getMainLooper())
         refreshHandler?.postDelayed(object : Runnable {
             override fun run() {
                 ramUpdateDelay = prefs.getString(SettingsFragment.KEY_RAM_REFRESHING,
@@ -78,7 +75,7 @@ class RefreshService : Service() {
                 Timber.d("Device is active: $isDeviceActive")
 
                 if (isDeviceActive) {
-                    Timber.d("Request for ram widget update - delay ${ramUpdateDelay}")
+                    Timber.d("Request for ram widget update - delay $ramUpdateDelay")
                     val intent = Intent(this@RefreshService,
                             RamUsageWidgetProvider::class.java)
                     intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE

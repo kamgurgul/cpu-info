@@ -26,6 +26,7 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.SensorManager
 import android.net.wifi.WifiManager
+import android.os.storage.StorageManager
 import android.view.WindowManager
 import androidx.preference.PreferenceManager
 import dagger.Module
@@ -89,4 +90,9 @@ class AppModule {
     @Singleton
     fun provideSharedPreferences(@ApplicationContext appContext: Context): SharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(appContext)
+
+    @Provides
+    @Singleton
+    fun provideStorageManager(@ApplicationContext appContext: Context): StorageManager =
+            appContext.getSystemService(Context.STORAGE_SERVICE) as StorageManager
 }

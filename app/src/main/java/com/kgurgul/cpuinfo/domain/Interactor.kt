@@ -2,9 +2,10 @@ package com.kgurgul.cpuinfo.domain
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.channels.sendBlocking
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -21,15 +22,14 @@ abstract class ImmutableInteractor<P : Any, T> : Interactor {
 
 abstract class MutableInteractor<P : Any, T> : Interactor {
 
-    private val channel = ConflatedBroadcastChannel<P>()
+    private val sharedFlow = MutableSharedFlow<P>(replay = 1)
 
-    operator fun invoke(params: P) = channel.sendBlocking(params)
+    operator fun invoke(params: P) = sharedFlow.tryEmit(params)
 
     protected abstract fun createObservable(params: P): Flow<T>
 
-    fun observe(): Flow<T> = channel.asFlow()
-            .distinctUntilChanged()
-            .flatMapLatest { createObservable(it) }
+    fun observe(): Flow<T> = sharedFlow
+            .flatMapLatest { createObservable(it).flowOn(dispatcher) }
 }
 
 abstract class ResultInteractor<in P, R> : Interactor {
@@ -42,6 +42,7 @@ abstract class ResultInteractor<in P, R> : Interactor {
 }
 
 fun <T> ImmutableInteractor<Unit, T>.observe() = observe(Unit)
+
 operator fun <T> MutableInteractor<Unit, T>.invoke() = invoke(Unit)
 
 fun <I : MutableInteractor<P, T>, P, T> CoroutineScope.launchObserve(

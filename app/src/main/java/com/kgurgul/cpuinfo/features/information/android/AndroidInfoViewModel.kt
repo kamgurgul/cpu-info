@@ -17,26 +17,22 @@
 package com.kgurgul.cpuinfo.features.information.android
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.AndroidViewModel
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
-import com.opencsv.CSVWriter
-import kotlinx.coroutines.launch
-import timber.log.Timber
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.BufferedReader
 import java.io.File
-import java.io.FileWriter
 import java.io.InputStreamReader
 import java.security.Security
+import javax.inject.Inject
 
 /**
  * ViewModel for Android OS info. It is simple container for a lot of static data from Android so
@@ -44,36 +40,18 @@ import java.security.Security
  *
  * @author kgurgul
  */
-class AndroidInfoViewModel @ViewModelInject constructor(
-        private val resources: Resources,
-        private val contentResolver: ContentResolver,
-        private val devicePolicyManager: DevicePolicyManager,
-        private val dispatchersProvider: DispatchersProvider
-) : ViewModel() {
+@HiltViewModel
+class AndroidInfoViewModel @Inject constructor(
+    application: Application,
+    private val resources: Resources,
+    private val contentResolver: ContentResolver,
+    private val devicePolicyManager: DevicePolicyManager
+) : AndroidViewModel(application) {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
 
     init {
         getData()
-    }
-
-    /**
-     * Invoked when user wants to export whole list to the CSV file
-     */
-    fun saveListToFile(uri: Uri) {
-        viewModelScope.launch(context = dispatchersProvider.io) {
-            try {
-                contentResolver.openFileDescriptor(uri, "w")?.use {
-                    CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->
-                        listLiveData.forEach { pair ->
-                            csvWriter.writeNext(pair.toList().toTypedArray())
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
-        }
     }
 
     /**
@@ -85,6 +63,7 @@ class AndroidInfoViewModel @ViewModelInject constructor(
         }
         getBuildData()
         getAndroidIdData()
+        getGsfAndroidId()
         getRootData()
         getDeviceEncryptionStatus()
         getSecurityData()
@@ -93,6 +72,7 @@ class AndroidInfoViewModel @ViewModelInject constructor(
     /**
      * Retrieve data from static Build class and system property "java.vm.version"
      */
+    @SuppressLint("HardwareIds")
     private fun getBuildData() {
         listLiveData.add(Pair(resources.getString(R.string.version), Build.VERSION.RELEASE))
         listLiveData.add(Pair("SDK", Build.VERSION.SDK_INT.toString()))
@@ -153,7 +133,7 @@ class AndroidInfoViewModel @ViewModelInject constructor(
      * https://stackoverflow.com/questions/1101380/determine-if-running-on-a-rooted-device
      */
     private fun isDeviceRooted(): Boolean =
-            checkRootMethod1() || checkRootMethod2() || checkRootMethod3()
+        checkRootMethod1() || checkRootMethod2() || checkRootMethod3()
 
     private fun checkRootMethod1(): Boolean {
         val buildTags = Build.TAGS
@@ -162,9 +142,10 @@ class AndroidInfoViewModel @ViewModelInject constructor(
 
     private fun checkRootMethod2(): Boolean {
         val paths = arrayOf(
-                "/system/app/Superuser.apk", "/sbin/su", "/system/bin/su", "/system/xbin/su",
-                "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
-                "/system/bin/failsafe/su", "/data/local/su")
+            "/system/app/Superuser.apk", "/sbin/su", "/system/bin/su", "/system/xbin/su",
+            "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
+            "/system/bin/failsafe/su", "/data/local/su"
+        )
         return paths.any { File(it).exists() }
     }
 
@@ -199,9 +180,26 @@ class AndroidInfoViewModel @ViewModelInject constructor(
      */
     private fun getSecurityData() {
         val securityProviders = Security.getProviders().map { Pair(it.name, it.version.toString()) }
-        if (!securityProviders.isEmpty()) {
+        if (securityProviders.isNotEmpty()) {
             listLiveData.add(Pair(resources.getString(R.string.security_providers), ""))
             listLiveData.addAll(securityProviders)
+        }
+    }
+
+    private fun getGsfAndroidId() {
+        val uri = Uri.parse("content://com.google.android.gsf.gservices")
+        val idKey = "android_id"
+        val params = arrayOf(idKey)
+        try {
+            getApplication<Application>().contentResolver.query(
+                uri, null, null, params, null
+            )?.use {
+                it.moveToFirst()
+                val hexId = java.lang.Long.toHexString(it.getString(1).toLong())
+                listLiveData.add(Pair("Google Services Framework ID", hexId))
+            }
+        } catch (e: Exception) {
+            // Do nothing
         }
     }
 

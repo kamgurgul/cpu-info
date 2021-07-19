@@ -40,10 +40,10 @@
 
 #if defined(__wasm__)
 #if defined(__wasm_simd128__)
-#define CPUINFO_ARCH_WASMSIMD 1
-#else
-#define CPUINFO_ARCH_WASM 1
-#endif
+		#define CPUINFO_ARCH_WASMSIMD 1
+	#else
+		#define CPUINFO_ARCH_WASM 1
+	#endif
 #endif
 
 /* Define other architecture-specific macros as 0 */
@@ -361,6 +361,8 @@ enum cpuinfo_uarch {
 	cpuinfo_uarch_zen = 0x00200109,
 	/** AMD Zen 2 microarchitecture (7 nm Ryzen and EPYC CPUs). */
 	cpuinfo_uarch_zen2 = 0x0020010A,
+	/** AMD Zen 3 microarchitecture. */
+	cpuinfo_uarch_zen3 = 0x0020010B,
 
 	/** NSC Geode and AMD Geode GX and LX. */
 	cpuinfo_uarch_geode = 0x00200200,
@@ -417,11 +419,16 @@ enum cpuinfo_uarch {
 	cpuinfo_uarch_cortex_a76 = 0x00300376,
 	/** ARM Cortex-A77. */
 	cpuinfo_uarch_cortex_a77 = 0x00300377,
+	/** ARM Cortex-A78. */
+	cpuinfo_uarch_cortex_a78 = 0x00300378,
 
 	/** ARM Neoverse N1. */
 	cpuinfo_uarch_neoverse_n1 = 0x00300400,
 	/** ARM Neoverse E1. */
 	cpuinfo_uarch_neoverse_e1 = 0x00300401,
+
+	/** ARM Cortex-X1. */
+	cpuinfo_uarch_cortex_x1 = 0x00300500,
 
 	/** Qualcomm Scorpion. */
 	cpuinfo_uarch_scorpion = 0x00400100,
@@ -482,6 +489,10 @@ enum cpuinfo_uarch {
 	cpuinfo_uarch_lightning = 0x00700109,
 	/** Apple A13 processor (little cores). */
 	cpuinfo_uarch_thunder = 0x0070010A,
+	/** Apple M1 processor (big cores). */
+	cpuinfo_uarch_firestorm = 0x0070010B,
+	/** Apple M1 processor (little cores). */
+	cpuinfo_uarch_icestorm = 0x0070010C,
 
 	/** Cavium ThunderX. */
 	cpuinfo_uarch_thunderx = 0x00800100,
@@ -1299,7 +1310,7 @@ static inline bool cpuinfo_has_x86_lahf_sahf(void) {
 #elif CPUINFO_ARCH_X86_64
     return cpuinfo_isa.lahf_sahf;
 #else
-    return false;
+        return false;
 #endif
 }
 
@@ -1423,46 +1434,49 @@ static inline bool cpuinfo_has_x86_sha(void) {
 
 #if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
 /* This structure is not a part of stable API. Use cpuinfo_has_arm_* functions instead. */
-struct cpuinfo_arm_isa {
+    struct cpuinfo_arm_isa {
 #if CPUINFO_ARCH_ARM
-        bool thumb;
-        bool thumb2;
-        bool thumbee;
-        bool jazelle;
-        bool armv5e;
-        bool armv6;
-        bool armv6k;
-        bool armv7;
-        bool armv7mp;
-        bool idiv;
+            bool thumb;
+            bool thumb2;
+            bool thumbee;
+            bool jazelle;
+            bool armv5e;
+            bool armv6;
+            bool armv6k;
+            bool armv7;
+            bool armv7mp;
+            bool armv8;
+            bool idiv;
 
-        bool vfpv2;
-        bool vfpv3;
-        bool d32;
-        bool fp16;
-        bool fma;
+            bool vfpv2;
+            bool vfpv3;
+            bool d32;
+            bool fp16;
+            bool fma;
 
-        bool wmmx;
-        bool wmmx2;
-        bool neon;
+            bool wmmx;
+            bool wmmx2;
+            bool neon;
 #endif
 #if CPUINFO_ARCH_ARM64
-        bool atomics;
+            bool atomics;
+            bool sve;
+            bool sve2;
 #endif
-    bool rdm;
-    bool fp16arith;
-    bool dot;
-    bool jscvt;
-    bool fcma;
+        bool rdm;
+        bool fp16arith;
+        bool dot;
+        bool jscvt;
+        bool fcma;
 
-    bool aes;
-    bool sha1;
-    bool sha2;
-    bool pmull;
-    bool crc32;
-};
+        bool aes;
+        bool sha1;
+        bool sha2;
+        bool pmull;
+        bool crc32;
+    };
 
-extern struct cpuinfo_arm_isa cpuinfo_isa;
+    extern struct cpuinfo_arm_isa cpuinfo_isa;
 #endif
 
 static inline bool cpuinfo_has_arm_thumb(void) {
@@ -1516,6 +1530,16 @@ static inline bool cpuinfo_has_arm_v7(void) {
 static inline bool cpuinfo_has_arm_v7mp(void) {
 #if CPUINFO_ARCH_ARM
 	return cpuinfo_isa.armv7mp;
+#else
+	return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_v8(void) {
+#if CPUINFO_ARCH_ARM64
+	return true;
+#elif CPUINFO_ARCH_ARM
+	return cpuinfo_isa.armv8;
 #else
 	return false;
 #endif
@@ -1645,6 +1669,16 @@ static inline bool cpuinfo_has_arm_neon_fma(void) {
 #endif
 }
 
+static inline bool cpuinfo_has_arm_neon_v8(void) {
+#if CPUINFO_ARCH_ARM64
+	return true;
+#elif CPUINFO_ARCH_ARM
+	return cpuinfo_isa.neon && cpuinfo_isa.armv8;
+#else
+	return false;
+#endif
+}
+
 static inline bool cpuinfo_has_arm_atomics(void) {
 #if CPUINFO_ARCH_ARM64
 	return cpuinfo_isa.atomics;
@@ -1738,6 +1772,22 @@ static inline bool cpuinfo_has_arm_pmull(void) {
 static inline bool cpuinfo_has_arm_crc32(void) {
 #if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
 	return cpuinfo_isa.crc32;
+#else
+	return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sve(void) {
+#if CPUINFO_ARCH_ARM64
+	return cpuinfo_isa.sve;
+#else
+	return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sve2(void) {
+#if CPUINFO_ARCH_ARM64
+	return cpuinfo_isa.sve2;
 #else
 	return false;
 #endif

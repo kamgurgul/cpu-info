@@ -16,33 +16,25 @@
 
 package com.kgurgul.cpuinfo.features.information.sensors
 
-import android.content.ContentResolver
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.net.Uri
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round1
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
-import com.opencsv.CSVWriter
-import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.io.FileWriter
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * ViewModel for sensors data
  *
  * @author kgurgul
  */
-class SensorsInfoViewModel @ViewModelInject constructor(
-        private val sensorManager: SensorManager,
-        private val dispatchersProvider: DispatchersProvider,
-        private val contentResolver: ContentResolver
+@HiltViewModel
+class SensorsInfoViewModel @Inject constructor(
+        private val sensorManager: SensorManager
 ) : ViewModel(), SensorEventListener {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
@@ -68,25 +60,6 @@ class SensorsInfoViewModel @ViewModelInject constructor(
         Thread {
             sensorManager.unregisterListener(this)
         }.start()
-    }
-
-    /**
-     * Invoked when user wants to export whole list to the CSV file
-     */
-    fun saveListToFile(uri: Uri) {
-        viewModelScope.launch(context = dispatchersProvider.io) {
-            try {
-                contentResolver.openFileDescriptor(uri, "w")?.use {
-                    CSVWriter(FileWriter(it.fileDescriptor)).use { csvWriter ->
-                        listLiveData.forEach { pair ->
-                            csvWriter.writeNext(pair.toList().toTypedArray())
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
-        }
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
