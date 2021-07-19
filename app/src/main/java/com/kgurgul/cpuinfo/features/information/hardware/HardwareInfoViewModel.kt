@@ -218,17 +218,25 @@ class HardwareInfoViewModel @Inject constructor(
         val hasWiFi = packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)
         functionsList.add("Wi-Fi" to getYesNoString(hasWiFi))
         if (hasWiFi) {
-            functionsList.add("Wi-Fi Aware" to getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE))
+            functionsList.add(
+                "Wi-Fi Aware" to getYesNoString(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)
+                )
             )
-            functionsList.add("Wi-Fi Direct" to getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT))
+            functionsList.add(
+                "Wi-Fi Direct" to getYesNoString(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT)
+                )
             )
-            functionsList.add("Wi-Fi Passpoint" to getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_PASSPOINT))
+            functionsList.add(
+                "Wi-Fi Passpoint" to getYesNoString(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_PASSPOINT)
+                )
             )
-            functionsList.add("Wi-Fi 5Ghz" to getYesNoString(wifiManager.is5GHzBandSupported))
-            functionsList.add("Wi-Fi P2P" to getYesNoString(wifiManager.isP2pSupported))
+            if (Build.VERSION.SDK_INT >= 21) {
+                functionsList.add("Wi-Fi 5Ghz" to getYesNoString(wifiManager.is5GHzBandSupported))
+                functionsList.add("Wi-Fi P2P" to getYesNoString(wifiManager.isP2pSupported))
+            }
         }
 
         val bluetoothMac = android.provider.Settings.Secure.getString(contentResolver,
