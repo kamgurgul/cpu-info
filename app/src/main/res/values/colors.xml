@@ -30,6 +30,9 @@
     <color name="white">#FFFFFF</color>
     <color name="red">#FF0000</color>
 
+    <color name="nav_bar">#B3000000</color>
+    <color name="status_bar">@color/primary</color>
+
     <color name="drawerNoShadow">#00000000</color>
 
     <color name="blueLight">#2979FF</color>

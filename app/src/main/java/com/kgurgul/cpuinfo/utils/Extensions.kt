@@ -23,6 +23,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import androidx.annotation.IdRes
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.kgurgul.cpuinfo.R
 import kotlin.math.roundToLong
 
@@ -88,4 +93,22 @@ fun Activity.uninstallApp(packageName: String) {
     val uri = Uri.fromParts("package", packageName, null)
     val uninstallIntent = Intent(Intent.ACTION_UNINSTALL_PACKAGE, uri)
     startActivity(uninstallIntent)
+}
+
+/**
+ * !Warning! It will control only top/left/right insets. Register your own one for bottom ones.
+ */
+fun Activity.setupEdgeToEdge(
+    @IdRes containerId: Int = android.R.id.content
+) {
+    WindowCompat.setDecorFitsSystemWindows(window, false)
+    ViewCompat.setOnApplyWindowInsetsListener(findViewById(containerId)) { v, insets ->
+        val systemInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        v.updatePadding(
+            top = systemInsets.top,
+            left = systemInsets.left,
+            right = systemInsets.right
+        )
+        insets
+    }
 }
