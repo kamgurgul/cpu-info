@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
@@ -66,6 +67,7 @@ class AndroidInfoViewModel @Inject constructor(
         getGsfAndroidId()
         getRootData()
         getDeviceEncryptionStatus()
+        getStrongBoxData()
         getSecurityData()
     }
 
@@ -201,6 +203,22 @@ class AndroidInfoViewModel @Inject constructor(
         } catch (e: Exception) {
             // Do nothing
         }
+    }
+
+    private fun getStrongBoxData() {
+        val hasStrongBox = if (Build.VERSION.SDK_INT >= 28) {
+            getApplication<Application>().packageManager
+                .hasSystemFeature(PackageManager.FEATURE_STRONGBOX_KEYSTORE)
+        } else {
+            false
+        }
+        listLiveData.add(Pair("StrongBox", getYesNoString(hasStrongBox)))
+    }
+
+    private fun getYesNoString(value: Boolean) = if (value) {
+        resources.getString(R.string.yes)
+    } else {
+        resources.getString(R.string.no)
     }
 
     companion object {
