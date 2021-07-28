@@ -2,7 +2,7 @@ package com.kgurgul.cpuinfo.buildsrc
 
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:4.2.2"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0"
 
     const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.39.0"
 
