@@ -1,0 +1,152 @@
+<!--
+  ~ Copyright 2017 KG Soft
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+
+    <string name="action_settings">Ajustes</string>
+    <string name="action_sorting">Ordenar</string>
+    <string name="action_refresh">Recargar</string>
+
+    <string name="action_not_supported">Acción no disponible</string>
+
+    <string name="open_drawer">Abrir menú</string>
+    <string name="close_drawer">Cerrar menú</string>
+
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+    <string name="permission_rationale">Para poder acceder a las especificaciones de la cámara, se necesitan los permisos correspondientes</string>
+
+    <!--Tabs-->
+    <string name="cpu">CPU</string>
+    <string name="gpu">GPU</string>
+    <string name="ram">RAM</string>
+    <string name="storage">Almacenamiento</string>
+    <string name="screen">Pantalla</string>
+    <string name="android">Android</string>
+    <string name="hardware">Hardware</string>
+    <string name="sensors">Sensores</string>
+
+    <string name="processes">Procesos</string>
+    <string name="applications">Aplicaciones</string>
+    <string name="temp">Temperatura</string>
+    <string name="settings">Ajustes</string>
+
+    <string name="running_gc">Ejecutando el Garbage Collector</string>
+    <string name="text_copied">Valor copiado</string>
+
+
+    <!--Apps-->
+    <string name="app_open">No se puede inicializar esta aplicación</string>
+    <string name="cpu_open">No me inicialices dos vez :-)</string>
+    <string name="cpu_uninstall">No puedo hacer eso :-(</string>
+    <string name="storage_used">Espacio usado:</string>
+    <string name="calculating">Calculando…</string>
+
+    <!--GPU-->
+    <string name="gles_version">Versión de OpenGL ES</string>
+    <string name="vendor">Vendedor</string>
+    <string name="version">Versión</string>
+    <string name="renderer">Renderizador</string>
+    <string name="extensions">Extensiones</string>
+
+    <!--RAM-->
+    <string name="total_memory">Memoria total</string>
+    <string name="available_memory">Memoria disponible</string>
+    <string name="threshold">Umbral</string>
+
+    <!--Storage-->
+    <string name="storage_hint">La memoria externa podría ser la misma que la interna</string>
+    <string name="internal">Interna</string>
+    <string name="external">Externa</string>
+    <string name="sd_card">Tarjeta SD</string>
+
+    <!--Screen-->
+    <string name="screen_class">Tipo de pantalla</string>
+    <string name="small">Pequeña</string>
+    <string name="normal">Normal</string>
+    <string name="large">Grande</string>
+    <string name="unknown">Desconocida</string>
+    <string name="density_class">Tipo de densidad</string>
+    <string name="width">Ancho</string>
+    <string name="height">Alto</string>
+    <string name="dp_width">Ancho en Dp</string>
+    <string name="dp_height">Altura en Dp</string>
+    <string name="density">Densidad</string>
+    <string name="absolute_width">Ancho Absoluto</string>
+    <string name="absolute_height">Altura Absoluta</string>
+    <string name="refresh_rate">Tasa de actualización</string>
+    <string name="orientation">Orientación</string>
+
+    <!--Android-->
+    <string name="codename">Nombre clave</string>
+    <string name="brand">Marca</string>
+    <string name="model">Modelo</string>
+    <string name="manufacturer">Fabricante</string>
+    <string name="board">Tarjeta madre</string>
+    <string name="serial">Serial</string>
+    <string name="rooted">Rooteado</string>
+    <string name="encrypted_storage">Almacenamiento encriptado</string>
+    <string name="security_providers">Proveedores de seguridad</string>
+
+    <!--Hardware-->
+    <string name="battery">Batería</string>
+    <string name="wireless">Inalámbrico</string>
+    <string name="sound_card">Tarjeta de sonido</string>
+    <string name="level">Nivel</string>
+    <string name="voltage">voltaje</string>
+    <string name="temperature">Temperatura</string>
+    <string name="capacity">Capacidad</string>
+    <string name="technology">Tecnología</string>
+    <string name="is_charging">¿Está cargando?</string>
+    <string name="charging_type">Tipo de carga</string>
+    <string name="wifi_mac">Wi-Fi Mac</string>
+    <string name="bluetooth_mac">Bluetooth Mac</string>
+    <string name="amount">Cantidad</string>
+    <string name="card">Tarjeta</string>
+    <string name="cameras">Cantidad de cámaras</string>
+    <string name="camera">Cámara</string>
+    <string name="type">Tipo</string>
+    <string name="front">Frontal</string>
+    <string name="back">Trasera</string>
+    <string name="battery_health">Estado</string>
+    <string name="battery_cold">Congelada</string>
+    <string name="battery_good">Buena</string>
+    <string name="battery_dead">Muerta</string>
+    <string name="battery_overheat">Recalentada</string>
+    <string name="battery_overvoltage">Sobrecargada</string>
+    <string name="battery_unknown">Desconocida</string>
+    <string name="battery_unspecified_failure">Falla no especificada</string>
+
+    <!--Prefs-->
+    <string name="default_refreshing">Valor predefinido de Android</string>
+    <string name="ram_refreshing">Intervalo de actualización</string>
+    <string name="general">General</string>
+    <string name="temperature_unit">Unidad de temperatura</string>
+    <string name="pref_theme_dark">Tema oscuro</string>
+    <string name="pref_theme_light">Tema claro</string>
+    <string name="pref_theme_battery">Tema ahorrador de batería</string>
+    <string name="pref_theme_default">Usar tema del sistema</string>
+    <string name="pref_theme">Tema</string>
+    <string name="pref_theme_choose">Seleccionar tema</string>
+
+    <!--Temp-->
+    <string name="cpu_temperature">Temperatura del CPU</string>
+    <string name="battery_temperature">Temperatura de la batería</string>
+    <string name="no_temp_data">Lo siento, No pude encontrar los sensores de temperatura :-(</string>
+
+</resources>
