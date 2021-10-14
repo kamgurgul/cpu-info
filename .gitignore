@@ -1,8 +1,30 @@
 *.iml
 .gradle/
 local.properties
-.idea/
-.DS_Store
+.idea/*
 build/
 captures/
 .cxx/
+.externalNativeBuild
+
+# Built application files
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+bin/
+gen/
+out/
+proguard/
+*.log
+.navigation/
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
