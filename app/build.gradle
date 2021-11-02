@@ -72,6 +72,7 @@ android {
     buildFeatures {
         dataBinding true
         viewBinding true
+        compose true
     }
 
     testOptions {
@@ -90,6 +91,10 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
     }
 }
 
@@ -110,6 +115,13 @@ dependencies {
     implementation Libs.AndroidX.Lifecycle.viewModelKtx
     implementation Libs.AndroidX.Lifecycle.liveDataKtx
     implementation Libs.AndroidX.Lifecycle.common
+
+    implementation Libs.AndroidX.Compose.activity
+    implementation Libs.AndroidX.Compose.material
+    implementation Libs.AndroidX.Compose.animations
+    implementation Libs.AndroidX.Compose.uiTooling
+    implementation Libs.AndroidX.Compose.viewModel
+    implementation Libs.AndroidX.Compose.themeAdapter
 
     implementation Libs.AndroidX.Navigation.fragment
     implementation Libs.AndroidX.Navigation.ui
@@ -152,6 +164,7 @@ dependencies {
     androidTestImplementation Libs.AndroidX.Test.Espresso.contrib
     androidTestImplementation Libs.Hilt.androidTesting
     kaptAndroidTest Libs.Hilt.androidCompiler
+    androidTestImplementation Libs.AndroidX.Compose.uiTests
 
     androidTestUtil Libs.AndroidX.Test.orchestrator
 }
