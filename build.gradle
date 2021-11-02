@@ -8,8 +8,8 @@ buildscript {
 
     ext {
         minSdk = 16
-        targetSdk = 30
-        compiledSdk = 30
+        targetSdk = 31
+        compiledSdk = 31
     }
 
     repositories {
