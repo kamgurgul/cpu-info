@@ -2,8 +2,6 @@ import com.kgurgul.cpuinfo.buildsrc.DependencyUpdates
 import com.kgurgul.cpuinfo.buildsrc.Libs
 import com.kgurgul.cpuinfo.buildsrc.ReleaseType
 
-apply plugin: "com.github.ben-manes.versions"
-
 buildscript {
 
     ext {
@@ -45,6 +43,8 @@ subprojects {
         }
     }
 }
+
+apply plugin: "com.github.ben-manes.versions"
 
 /**
  * Update dependencyUpdates task to reject versions which are more 'unstable' than our

@@ -58,12 +58,12 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.0.4"
+            const val version = "1.1.0-beta01"
             const val activity = "androidx.activity:activity-compose:1.4.0"
             const val material = "androidx.compose.material:material:$version"
             const val animations = "androidx.compose.animation:animation:$version"
             const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
-            const val themeAdapter = "com.google.android.material:compose-theme-adapter:$version"
+            const val themeAdapter = "com.google.android.material:compose-theme-adapter:1.0.4"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
             const val uiTests = "androidx.compose.ui:ui-test-junit4:$version"
         }

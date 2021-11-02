@@ -17,7 +17,6 @@
 package com.kgurgul.cpuinfo.utils.lifecycleawarelist
 
 import androidx.lifecycle.MutableLiveData
-import java.util.*
 
 /**
  * [ArrayList] with additional [listStatusChangeNotificator] which will notify all observers about
