@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.features.applications
+package com.kgurgul.cpuinfo.domain.model
 
 import android.net.Uri
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
-data class ExtendedAppInfo(
-        val name: String,
-        val packageName: String,
-        val sourceDir: String,
-        val nativeLibraryDir: String?,
-        val hasNativeLibs: Boolean,
-        val appIconUri: Uri,
-        var appSize: Long = 0
-) : Parcelable
+data class ExtendedApplicationData(
+    val name: String,
+    val packageName: String,
+    val sourceDir: String,
+    val nativeLibraryDir: String?,
+    val hasNativeLibs: Boolean,
+    val appIconUri: Uri,
+    val appSize: Long = 0
+)
