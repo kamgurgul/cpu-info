@@ -2,7 +2,6 @@ package com.kgurgul.cpuinfo.features.applications
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,14 +16,12 @@ import com.kgurgul.cpuinfo.utils.wrappers.Result
 @Composable
 fun ApplicationsScreen(viewModel: NewApplicationsViewModel = viewModel()) {
     val uiState by viewModel.applicationList.collectAsState()
-    Surface {
-        val isRefreshingState = uiState is Result.InProgress
-        SwipeRefresh(
-            state = rememberSwipeRefreshState(isRefreshingState),
-            onRefresh = { viewModel.refreshApplications() },
-        ) {
-            ApplicationsList(state = uiState)
-        }
+    val isRefreshingState = uiState is Result.InProgress
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshingState),
+        onRefresh = { viewModel.refreshApplications() },
+    ) {
+        ApplicationsList(state = uiState)
     }
 }
 
