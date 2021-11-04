@@ -63,6 +63,7 @@ object Libs {
             const val animations = "androidx.compose.animation:animation:$version"
             const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
             const val uiTests = "androidx.compose.ui:ui-test-junit4:$version"
+            const val swipeToRefresh = "com.google.accompanist:accompanist-swiperefresh:0.21.1-beta"
         }
 
         object Test {
