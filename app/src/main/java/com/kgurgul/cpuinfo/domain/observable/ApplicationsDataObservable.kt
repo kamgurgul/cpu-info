@@ -8,6 +8,7 @@ import android.net.Uri
 import com.kgurgul.cpuinfo.data.provider.ApplicationsDataProvider
 import com.kgurgul.cpuinfo.domain.MutableInteractor
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import com.kgurgul.cpuinfo.domain.model.SortOrder
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import com.kgurgul.cpuinfo.utils.wrapToResultFlow
 import com.kgurgul.cpuinfo.utils.wrappers.Result
@@ -19,21 +20,27 @@ class ApplicationsDataObservable @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     private val applicationsDataProvider: ApplicationsDataProvider,
     private val packageManager: PackageManager
-) : MutableInteractor<Boolean, Result<List<ExtendedApplicationData>>>() {
+) : MutableInteractor<ApplicationsDataObservable.Params, Result<List<ExtendedApplicationData>>>() {
 
     override val dispatcher = dispatchersProvider.io
 
-    override fun createObservable(params: Boolean): Flow<Result<List<ExtendedApplicationData>>> {
+    override fun createObservable(params: Params): Flow<Result<List<ExtendedApplicationData>>> {
         return wrapToResultFlow {
-            applicationsDataProvider.getInstalledApplications(params).map {
-                ExtendedApplicationData(
-                    it.loadLabel(packageManager).toString(),
-                    it.packageName,
-                    it.sourceDir,
-                    it.nativeLibraryDir,
-                    it.hasNativeLibs(),
-                    getAppIconUri(it.packageName)
-                )
+            val apps = applicationsDataProvider.getInstalledApplications(params.withSystemApps)
+                .map {
+                    ExtendedApplicationData(
+                        it.loadLabel(packageManager).toString(),
+                        it.packageName,
+                        it.sourceDir,
+                        it.nativeLibraryDir,
+                        it.hasNativeLibs(),
+                        getAppIconUri(it.packageName)
+                    )
+                }
+            when (params.sortOrder) {
+                SortOrder.ASCENDING -> apps.sortedBy { it.name.lowercase() }
+                SortOrder.DESCENDING -> apps.sortedByDescending { it.name.lowercase() }
+                else -> apps
             }
         }
     }
@@ -65,4 +72,9 @@ class ApplicationsDataObservable @Inject constructor(
         }
         return packageInfo.applicationInfo.icon
     }
+
+    data class Params(
+        val withSystemApps: Boolean,
+        val sortOrder: SortOrder = SortOrder.NONE
+    )
 }

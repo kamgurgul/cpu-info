@@ -28,6 +28,10 @@ import android.hardware.SensorManager
 import android.net.wifi.WifiManager
 import android.os.storage.StorageManager
 import android.view.WindowManager
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
@@ -89,10 +93,23 @@ class AppModule {
     @Provides
     @Singleton
     fun provideSharedPreferences(@ApplicationContext appContext: Context): SharedPreferences =
-            PreferenceManager.getDefaultSharedPreferences(appContext)
+        PreferenceManager.getDefaultSharedPreferences(appContext)
 
     @Provides
     @Singleton
     fun provideStorageManager(@ApplicationContext appContext: Context): StorageManager =
-            appContext.getSystemService(Context.STORAGE_SERVICE) as StorageManager
+        appContext.getSystemService(Context.STORAGE_SERVICE) as StorageManager
+
+    @Provides
+    @Singleton
+    fun providePreferencesDataStore(@ApplicationContext appContext: Context): DataStore<Preferences> =
+        PreferenceDataStoreFactory.create(
+            produceFile = {
+                appContext.preferencesDataStoreFile(USER_PREFERENCES_NAME)
+            }
+        )
+
+    companion object {
+        const val USER_PREFERENCES_NAME = "user_preferences"
+    }
 }

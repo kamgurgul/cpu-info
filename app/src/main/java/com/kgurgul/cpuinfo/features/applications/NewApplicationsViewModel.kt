@@ -2,6 +2,7 @@ package com.kgurgul.cpuinfo.features.applications
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.domain.model.sortOrderFromBoolean
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.utils.wrappers.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,13 +16,18 @@ class NewApplicationsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val applicationList = applicationsDataObservable.observe()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Result.InProgress)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Result.Loading)
 
     init {
         refreshApplications()
     }
 
     fun refreshApplications() {
-        applicationsDataObservable.invoke(false)
+        applicationsDataObservable.invoke(
+            ApplicationsDataObservable.Params(
+                withSystemApps = false,
+                sortOrderFromBoolean(true)
+            )
+        )
     }
 }

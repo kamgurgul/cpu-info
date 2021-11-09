@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
 /**
- * Wrap passed [block] with [Result]. Flow will always start with [Result.InProgress] and finish
+ * Wrap passed [block] with [Result]. Flow will always start with [Result.Loading] and finish
  * with [Result.Success] in case of success otherwise it will emit [Result.Error].
  */
 fun <T> wrapToResultFlow(block: suspend () -> T): Flow<Result<T>> = flow {
-    emit(Result.InProgress)
+    emit(Result.Loading)
     try {
         val result = block()
         emit(Result.Success(result))
@@ -22,11 +22,11 @@ fun <T> wrapToResultFlow(block: suspend () -> T): Flow<Result<T>> = flow {
 
 /**
  * Create flow from suspended function wrapped with [Result]. Flow will always start with
- * [Result.InProgress] and finish with [Result.Success] in case of success otherwise it will emit
+ * [Result.Loading] and finish with [Result.Success] in case of success otherwise it will emit
  * [Result.Error].
  */
 fun <T> (suspend () -> T).asResultFlow(): Flow<Result<T>> = flow {
-    emit(Result.InProgress)
+    emit(Result.Loading)
     try {
         val result = invoke()
         emit(Result.Success(result))

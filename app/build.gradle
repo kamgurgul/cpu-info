@@ -110,6 +110,7 @@ dependencies {
     implementation Libs.AndroidX.constraintLayout
     implementation Libs.AndroidX.multiDex
     implementation Libs.AndroidX.viewPager2
+    implementation Libs.AndroidX.datastorePreferences
 
     implementation Libs.AndroidX.Lifecycle.extensions
     implementation Libs.AndroidX.Lifecycle.viewModelKtx
@@ -146,6 +147,7 @@ dependencies {
     implementation Libs.bus
     implementation Libs.timber
     implementation Libs.relinker
+    implementation Libs.coil
 
     testImplementation Libs.junit
     testImplementation Libs.AndroidX.Test.core

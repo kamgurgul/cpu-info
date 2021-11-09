@@ -18,6 +18,8 @@ object Libs {
 
     const val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 
+    const val coil = "io.coil-kt:coil-compose:1.4.0"
+
     object Kotlin {
         private const val version = "1.5.31"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
@@ -41,6 +43,7 @@ object Libs {
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.1"
         const val multiDex = "androidx.multidex:multidex:2.0.1"
         const val viewPager2 = "androidx.viewpager2:viewpager2:1.0.0"
+        const val datastorePreferences = "androidx.datastore:datastore-preferences:1.0.0"
 
         object Lifecycle {
             private const val version = "2.4.0"
@@ -58,7 +61,7 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.1.0-beta01"
+            const val version = "1.1.0-beta02"
             const val material = "androidx.compose.material:material:$version"
             const val animations = "androidx.compose.animation:animation:$version"
             const val uiTooling = "androidx.compose.ui:ui-tooling:$version"

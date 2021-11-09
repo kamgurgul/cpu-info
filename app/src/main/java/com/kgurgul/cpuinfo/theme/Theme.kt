@@ -44,7 +44,7 @@ fun CpuInfoTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composabl
     }
     MaterialTheme(
         colors = colors,
-        typography = Typography,
+        typography = CpuInfoTypography,
         content = content
     )
 }
