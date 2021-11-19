@@ -3,12 +3,11 @@ package com.kgurgul.cpuinfo.features.applications
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,38 +24,61 @@ import com.kgurgul.cpuinfo.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.utils.wrappers.Result
 
 @Composable
-fun ApplicationsScreen(viewModel: NewApplicationsViewModel = viewModel()) {
+fun ApplicationsScreen(
+    viewModel: NewApplicationsViewModel = viewModel(),
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    onAppClicked: (packageName: String) -> Unit
+) {
     val uiState by viewModel.applicationList.collectAsState()
+
     val isRefreshingState = uiState is Result.Loading
-    Surface {
+
+    Scaffold(
+        scaffoldState = scaffoldState
+    ) {
         SwipeRefresh(
             state = rememberSwipeRefreshState(isRefreshingState),
             onRefresh = { viewModel.refreshApplications() },
         ) {
             (uiState as? Result.Success)?.let {
-                ApplicationsList(state = it)
+                ApplicationsList(
+                    appList = it.data,
+                    onAppClicked = onAppClicked
+                )
             }
         }
     }
 }
 
 @Composable
-fun ApplicationsList(state: Result.Success<List<ExtendedApplicationData>>) {
+fun ApplicationsList(
+    appList: List<ExtendedApplicationData>,
+    onAppClicked: (packageName: String) -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        items(state.data) {
-            ApplicationItem(appData = it)
+        items(appList) {
+            ApplicationItem(
+                appData = it,
+                onAppClicked = onAppClicked
+            )
         }
     }
 }
 
 @Composable
-fun ApplicationItem(appData: ExtendedApplicationData) {
+fun ApplicationItem(
+    appData: ExtendedApplicationData,
+    onAppClicked: (packageName: String) -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = { onAppClicked(appData.packageName) })
+            .padding(8.dp),
     ) {
         Image(
             painter = rememberImagePainter(
@@ -85,7 +107,7 @@ fun ApplicationItem(appData: ExtendedApplicationData) {
 fun ApplicationInfoPreviewLight() {
     CpuInfoTheme {
         Surface {
-            ApplicationItem(testAppData)
+            ApplicationItem(previewAppData) {}
         }
     }
 }
@@ -95,12 +117,12 @@ fun ApplicationInfoPreviewLight() {
 fun ApplicationInfoPreviewDark() {
     CpuInfoTheme {
         Surface {
-            ApplicationItem(testAppData)
+            ApplicationItem(previewAppData) {}
         }
     }
 }
 
-private val testAppData = ExtendedApplicationData(
+private val previewAppData = ExtendedApplicationData(
     "Cpu Info",
     "com.kgurgul.cpuinfo",
     "/testDir",

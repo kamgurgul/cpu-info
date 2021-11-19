@@ -1,12 +1,10 @@
 <img src="info/icon_glow.png" width="100" height="100" />
 
-CPU Info<br/>
-========
+CPU Info (refactor-in-progress ⛏)
+=================================
 CPU Info provides information about Android device hardware and software.
 Most of the code is written in Kotlin but some old widgets are still in
 Java.
-
-Due to lack of time, this project will be updated sporadically. Right now it is only a sandbox. 
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
      alt="Get it on F-Droid"
@@ -17,6 +15,7 @@ Due to lack of time, this project will be updated sporadically. Right now it is 
 
 Still TODO
 ==========
+* Unify architecture - add interactors and data providers
 * Replace layouts with Compose
 * Replace Travis
 * Replace RxJava with coroutines

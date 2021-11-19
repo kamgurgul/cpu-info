@@ -47,10 +47,10 @@ class UtilsTest {
     @Test
     fun humanReadableByteCountFormatting() {
         /* When */
-        val bytes = Utils.humanReadableByteCount(10)
-        val kilo = Utils.humanReadableByteCount(1500)
-        val mega = Utils.humanReadableByteCount(1500 * 1024)
-        val giga = Utils.humanReadableByteCount(1500 * 1024 * 1024)
+        val bytes = Utils.humanReadableByteCount(10L)
+        val kilo = Utils.humanReadableByteCount(1500L)
+        val mega = Utils.humanReadableByteCount(1500L * 1024L)
+        val giga = Utils.humanReadableByteCount(1500L * 1024L * 1024L)
         val teta = Utils.humanReadableByteCount(1500L * 1024L * 1024L * 1024L)
         val peta = Utils.humanReadableByteCount(1500L * 1024L * 1024L * 1024L * 1024L)
         val e = Utils.humanReadableByteCount(1500L * 1024L * 1024L * 1024L * 1024L * 1024L)
@@ -68,10 +68,10 @@ class UtilsTest {
     @Test
     fun bytesToMegaFormatting() {
         /* When */
-        val bytes = Utils.convertBytesToMega(10)
-        val kilo = Utils.convertBytesToMega(1500)
-        val mega = Utils.convertBytesToMega(1500 * 1024)
-        val giga = Utils.convertBytesToMega(1500 * 1024 * 1024)
+        val bytes = Utils.convertBytesToMega(10L)
+        val kilo = Utils.convertBytesToMega(1500L)
+        val mega = Utils.convertBytesToMega(1500L * 1024L)
+        val giga = Utils.convertBytesToMega(1500L * 1024L * 1024L)
 
         /* Then */
         assertEquals("0 MB", bytes)

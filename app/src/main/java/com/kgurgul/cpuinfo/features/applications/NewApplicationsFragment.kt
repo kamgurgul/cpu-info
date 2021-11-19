@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NewApplicationsFragment : Fragment() {
+
+    private val viewModel: NewApplicationsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +29,10 @@ class NewApplicationsFragment : Fragment() {
             )
             setContent {
                 CpuInfoTheme {
-                    ApplicationsScreen()
+                    ApplicationsScreen(
+                        viewModel = viewModel,
+                        onAppClicked = viewModel::onApplicationClicked
+                    )
                 }
             }
         }
