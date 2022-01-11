@@ -1,4 +1,4 @@
-package com.kgurgul.cpuinfo.buildsrc
+import java.util.*
 
 enum class ReleaseType(private val level: Int) {
     SNAPSHOT(0),
@@ -23,7 +23,7 @@ object DependencyUpdates {
 
     @JvmStatic
     fun versionToRelease(version: String): ReleaseType {
-        val stableKeyword = stableKeywords.any { version.toUpperCase().contains(it) }
+        val stableKeyword = stableKeywords.any { version.toUpperCase(Locale.ROOT).contains(it) }
         if (stableKeyword) return ReleaseType.RELEASE
 
         return when {

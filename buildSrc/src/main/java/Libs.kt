@@ -1,10 +1,8 @@
-package com.kgurgul.cpuinfo.buildsrc
-
 object Libs {
 
     const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.3"
 
-    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.39.0"
+    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.41.0"
 
     const val bus = "org.greenrobot:eventbus:3.2.0"
 
@@ -98,7 +96,7 @@ object Libs {
     }
 
     object Hilt {
-        private const val version = "2.40"
+        private const val version = "2.40.5"
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$version"
