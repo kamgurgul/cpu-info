@@ -16,10 +16,10 @@
 
 package com.kgurgul.cpuinfo.features.processes
 
-import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import kotlin.test.assertEquals
 
 /**
  * Tests for [PsProvider]

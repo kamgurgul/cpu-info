@@ -45,9 +45,7 @@ class HostActivity : AppCompatActivity() {
         setTheme(R.style.AppThemeBase)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_host_layout)
-        if (Build.VERSION.SDK_INT >= 21) {
-            setupEdgeToEdge()
-        }
+        setupEdgeToEdge()
         setupNavigation()
         setSupportActionBar(binding.toolbar)
         runOnApiAbove(Build.VERSION_CODES.M) {
@@ -80,12 +78,10 @@ class HostActivity : AppCompatActivity() {
     @SuppressLint("NewApi")
     private fun setToolbarTitleAndElevation(title: String) {
         binding.toolbar.title = title
-        runOnApiAbove(Build.VERSION_CODES.KITKAT_WATCH) {
-            if (navController.currentDestination?.id == R.id.hardware) {
-                binding.toolbar.elevation = 0f
-            } else {
-                binding.toolbar.elevation = resources.getDimension(R.dimen.elevation_height)
-            }
+        if (navController.currentDestination?.id == R.id.hardware) {
+            binding.toolbar.elevation = 0f
+        } else {
+            binding.toolbar.elevation = resources.getDimension(R.dimen.elevation_height)
         }
     }
 }

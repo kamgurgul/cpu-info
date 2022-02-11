@@ -26,7 +26,6 @@ import android.content.res.Resources
 import android.hardware.Camera
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
-import android.os.Build
 import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
@@ -35,13 +34,11 @@ import com.kgurgul.cpuinfo.features.temperature.TemperatureProvider
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round2
-import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import java.io.File
 import java.io.FileFilter
 import java.io.RandomAccessFile
-import java.util.*
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -52,14 +49,14 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class HardwareInfoViewModel @Inject constructor(
-        private val resources: Resources,
-        private val temperatureProvider: TemperatureProvider,
-        private val temperatureFormatter: TemperatureFormatter,
-        private val sharedPreferences: SharedPreferences,
-        private val packageManager: PackageManager,
-        private val contentResolver: ContentResolver,
-        private val batteryStatusProvider: BatteryStatusProvider,
-        private val wifiManager: WifiManager
+    private val resources: Resources,
+    private val temperatureProvider: TemperatureProvider,
+    private val temperatureFormatter: TemperatureFormatter,
+    private val sharedPreferences: SharedPreferences,
+    private val packageManager: PackageManager,
+    private val contentResolver: ContentResolver,
+    private val batteryStatusProvider: BatteryStatusProvider,
+    private val wifiManager: WifiManager
 ) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
@@ -108,28 +105,46 @@ class HardwareInfoViewModel @Inject constructor(
 
             if (level != -1 && scale != -1) {
                 val batteryPct = level / scale.toFloat() * 100.0
-                functionsList.add(Pair(resources.getString(R.string.level), "${batteryPct.round2()}%"))
+                functionsList.add(
+                    Pair(
+                        resources.getString(R.string.level),
+                        "${batteryPct.round2()}%"
+                    )
+                )
             }
 
             // Health
             val health = batteryStatus.getIntExtra(BatteryManager.EXTRA_HEALTH, -1)
             if (health != -1) {
-                functionsList.add(Pair(resources.getString(R.string.battery_health),
-                        getBatteryHealthStatus(health)))
+                functionsList.add(
+                    Pair(
+                        resources.getString(R.string.battery_health),
+                        getBatteryHealthStatus(health)
+                    )
+                )
             }
 
             // Voltage
             val voltage = batteryStatus.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1)
             if (voltage > 0) {
-                functionsList.add(Pair(resources.getString(R.string.voltage), "${voltage / 1000.0}V"))
+                functionsList.add(
+                    Pair(
+                        resources.getString(R.string.voltage),
+                        "${voltage / 1000.0}V"
+                    )
+                )
             }
         }
 
         // Temperature
         val temperature = temperatureProvider.getBatteryTemperature()
         if (temperature > 0) {
-            functionsList.add(Pair(resources.getString(R.string.temperature),
-                    temperatureFormatter.format(temperature.toFloat())))
+            functionsList.add(
+                Pair(
+                    resources.getString(R.string.temperature),
+                    temperatureFormatter.format(temperature.toFloat())
+                )
+            )
         }
 
         // Capacity
@@ -141,7 +156,11 @@ class HardwareInfoViewModel @Inject constructor(
         if (batteryStatus != null) {
             // Technology
             val technology = batteryStatus.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY)
-            Utils.addPairIfExists(functionsList, resources.getString(R.string.technology), technology)
+            Utils.addPairIfExists(
+                functionsList,
+                resources.getString(R.string.technology),
+                technology
+            )
 
             // Are we charging / is charged?
             val status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
@@ -154,8 +173,8 @@ class HardwareInfoViewModel @Inject constructor(
             val acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC
 
             val charging =
-                    if (isCharging) resources.getString(R.string.yes)
-                    else resources.getString(R.string.no)
+                if (isCharging) resources.getString(R.string.yes)
+                else resources.getString(R.string.no)
             functionsList.add(Pair(resources.getString(R.string.is_charging), charging))
             if (isCharging) {
                 val chargingType: String = when {
@@ -194,25 +213,31 @@ class HardwareInfoViewModel @Inject constructor(
         val functionsList = mutableListOf<Pair<String, String>>()
         functionsList.add(resources.getString(R.string.wireless) to "")
         // Bluetooth
-        functionsList.add(resources.getString(R.string.bluetooth) to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH))
-        )
-        runOnApiAbove(Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            val hasBluetoothLe = getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)
+        functionsList.add(
+            resources.getString(R.string.bluetooth) to getYesNoString(
+                packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)
             )
-            functionsList.add(resources.getString(R.string.bluetooth_le) to hasBluetoothLe)
-        }
+        )
+        val hasBluetoothLe = getYesNoString(
+            packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)
+        )
+        functionsList.add(resources.getString(R.string.bluetooth_le) to hasBluetoothLe)
         // GPS
-        functionsList.add("GPS" to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS))
+        functionsList.add(
+            "GPS" to getYesNoString(
+                packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)
+            )
         )
         // NFC
-        functionsList.add("NFC" to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_NFC))
+        functionsList.add(
+            "NFC" to getYesNoString(
+                packageManager.hasSystemFeature(PackageManager.FEATURE_NFC)
+            )
         )
-        functionsList.add("NFC Card Emulation" to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_NFC_HOST_CARD_EMULATION))
+        functionsList.add(
+            "NFC Card Emulation" to getYesNoString(
+                packageManager.hasSystemFeature(PackageManager.FEATURE_NFC_HOST_CARD_EMULATION)
+            )
         )
         // Wi-Fi
         val hasWiFi = packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)
@@ -233,14 +258,14 @@ class HardwareInfoViewModel @Inject constructor(
                     packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_PASSPOINT)
                 )
             )
-            if (Build.VERSION.SDK_INT >= 21) {
-                functionsList.add("Wi-Fi 5Ghz" to getYesNoString(wifiManager.is5GHzBandSupported))
-                functionsList.add("Wi-Fi P2P" to getYesNoString(wifiManager.isP2pSupported))
-            }
+            functionsList.add("Wi-Fi 5Ghz" to getYesNoString(wifiManager.is5GHzBandSupported))
+            functionsList.add("Wi-Fi P2P" to getYesNoString(wifiManager.isP2pSupported))
         }
 
-        val bluetoothMac = android.provider.Settings.Secure.getString(contentResolver,
-                "bluetooth_address")
+        val bluetoothMac = android.provider.Settings.Secure.getString(
+            contentResolver,
+            "bluetooth_address"
+        )
         if (bluetoothMac != null && bluetoothMac.isNotEmpty())
             functionsList.add(resources.getString(R.string.bluetooth_mac) to bluetoothMac)
 
@@ -260,8 +285,10 @@ class HardwareInfoViewModel @Inject constructor(
     private fun getUsbInfo(): List<Pair<String, String>> {
         val featureList = mutableListOf<Pair<String, String>>()
         featureList.add("USB" to "")
-        featureList.add("OTG" to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_USB_HOST))
+        featureList.add(
+            "OTG" to getYesNoString(
+                packageManager.hasSystemFeature(PackageManager.FEATURE_USB_HOST)
+            )
         )
         return featureList
     }
@@ -273,7 +300,7 @@ class HardwareInfoViewModel @Inject constructor(
         class AudioFilter : FileFilter {
             // http://alsa.opensrc.org/Proc_asound_documentation
             override fun accept(pathname: File): Boolean =
-                    Pattern.matches("card[0-7]+", pathname.name)
+                Pattern.matches("card[0-7]+", pathname.name)
         }
 
         return try {
@@ -292,7 +319,12 @@ class HardwareInfoViewModel @Inject constructor(
         val soundCardNumber = getSoundCardNumber()
         functionsList.add(Pair(resources.getString(R.string.amount), soundCardNumber.toString()))
         for (i in 0 until soundCardNumber) {
-            functionsList.add(Pair("     ${resources.getString(R.string.card)} $i", tryToGetSoundCardId(i)))
+            functionsList.add(
+                Pair(
+                    "     ${resources.getString(R.string.card)} $i",
+                    tryToGetSoundCardId(i)
+                )
+            )
         }
         // ALSA
         val alsa = tryToGetAlsa()
@@ -347,7 +379,7 @@ class HardwareInfoViewModel @Inject constructor(
      * @return true if device has at least 1 camera, otherwise false
      */
     private fun hasCamera(): Boolean =
-            packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
+        packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
 
     /**
      * Get number, type and orientation of the cameras
@@ -382,11 +414,11 @@ class HardwareInfoViewModel @Inject constructor(
      * Detect camera type using old API
      */
     private fun getCameraType(info: Camera.CameraInfo): String =
-            when (info.facing) {
-                Camera.CameraInfo.CAMERA_FACING_FRONT -> resources.getString(R.string.front)
-                Camera.CameraInfo.CAMERA_FACING_BACK -> resources.getString(R.string.back)
-                else -> resources.getString(R.string.unknown)
-            }
+        when (info.facing) {
+            Camera.CameraInfo.CAMERA_FACING_FRONT -> resources.getString(R.string.front)
+            Camera.CameraInfo.CAMERA_FACING_BACK -> resources.getString(R.string.back)
+            else -> resources.getString(R.string.unknown)
+        }
 
     private fun getYesNoString(yesValue: Boolean) = if (yesValue) {
         resources.getString(R.string.yes)

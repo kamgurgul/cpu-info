@@ -67,13 +67,8 @@ android {
 
     externalNativeBuild {
         cmake {
-            version = "3.10.2"
             path("src/main/cpp/CMakeLists.txt")
         }
-    }
-
-    lint {
-        isAbortOnError = false
     }
 
     buildFeatures {
@@ -155,9 +150,10 @@ dependencies {
     testImplementation(Libs.junit)
     testImplementation(Libs.AndroidX.Test.core)
     testImplementation(Libs.AndroidX.Test.archCoreTesting)
-    testImplementation(Libs.mockitoCore)
-    testImplementation(Libs.mockitoKotlin)
+    testImplementation(Libs.Mockito.core)
+    testImplementation(Libs.Mockito.kotlin)
     testImplementation(Libs.Hilt.androidTesting)
+    testImplementation(kotlin("test"))
     kaptTest(Libs.Hilt.androidCompiler)
 
     androidTestImplementation(Libs.AndroidX.Test.runner)

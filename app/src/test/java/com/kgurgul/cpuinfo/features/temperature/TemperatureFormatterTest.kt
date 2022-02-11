@@ -17,27 +17,19 @@
 package com.kgurgul.cpuinfo.features.temperature
 
 import com.kgurgul.cpuinfo.utils.Prefs
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 
-/**
- * Tests for [TemperatureFormatter]
- *
- * @author kgurgul
- */
-@RunWith(MockitoJUnitRunner::class)
 class TemperatureFormatterTest {
 
     @Test
     fun formatCelsius() {
         /* Given */
         val prefs = mock<Prefs> {
-            onGeneric { get(anyString(), anyString()) } doReturn
+            on { get(anyString(), anyString()) } doReturn
                     TemperatureFormatter.CELSIUS.toString()
         }
         val formatter = TemperatureFormatter(prefs)

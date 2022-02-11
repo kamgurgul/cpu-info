@@ -17,20 +17,12 @@
 package com.kgurgul.cpuinfo.utils
 
 import android.content.SharedPreferences
-import com.nhaarman.mockitokotlin2.*
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.*
 
-/**
- * Tests for [Prefs] wrapper
- *
- * @author kgurgul
- */
-@RunWith(MockitoJUnitRunner::class)
 class PrefsTest {
 
     @Test

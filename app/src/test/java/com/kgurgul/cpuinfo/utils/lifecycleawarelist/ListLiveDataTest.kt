@@ -20,18 +20,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.junit.MockitoJUnitRunner
 
-/**
- * Tests for
- *
- * @author kgurgul
- */
-@RunWith(MockitoJUnitRunner::class)
 class ListLiveDataTest {
 
-    @Suppress("unused")
     @get:Rule
     val liveDataRule = InstantTaskExecutorRule()
 

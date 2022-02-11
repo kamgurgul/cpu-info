@@ -20,30 +20,20 @@ import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.RxImmediateSchedulerRule
-import com.nhaarman.mockitokotlin2.*
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.*
 
-/**
- * Tests for [TemperatureViewModel]
- *
- * @author kgurgul
- */
-@RunWith(MockitoJUnitRunner::class)
 class TemperatureViewModelTest {
 
-    @Suppress("unused")
     @get:Rule
     val rxSchedulersRule = RxImmediateSchedulerRule()
 
-    @Suppress("unused")
     @get:Rule
     val liveDataRule = InstantTaskExecutorRule()
 
@@ -116,8 +106,7 @@ class TemperatureViewModelTest {
             on { getIcon(any()) } doReturn 1
         }
         val tempProvider = mock<TemperatureProvider> {
-            on { getCpuTemperatureFinder() } doReturn
-                    Maybe.empty<TemperatureProvider.CpuTemperatureResult>()
+            on { getCpuTemperatureFinder() } doReturn Maybe.empty()
             on { getBatteryTemperature() } doReturn 10
         }
         val viewModel = spy(TemperatureViewModel(prefs, resources, tempIconProvider, tempProvider))
@@ -141,8 +130,7 @@ class TemperatureViewModelTest {
         val resources = mock<Resources>()
         val tempIconProvider = mock<TemperatureIconProvider>()
         val tempProvider = mock<TemperatureProvider> {
-            on { getCpuTemperatureFinder() } doReturn
-                    Maybe.empty<TemperatureProvider.CpuTemperatureResult>()
+            on { getCpuTemperatureFinder() } doReturn Maybe.empty()
         }
         val viewModel = TemperatureViewModel(prefs, resources, tempIconProvider, tempProvider)
 

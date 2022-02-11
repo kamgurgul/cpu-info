@@ -18,15 +18,7 @@ package com.kgurgul.cpuinfo.utils
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.junit.MockitoJUnitRunner
 
-/**
- * Tests for [Utils] class
- *
- * @author kgurgul
- */
-@RunWith(MockitoJUnitRunner::class)
 class UtilsTest {
 
     @Test
