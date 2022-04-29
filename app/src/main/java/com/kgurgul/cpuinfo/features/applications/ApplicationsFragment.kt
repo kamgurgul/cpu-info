@@ -50,7 +50,8 @@ import java.io.File
  */
 @AndroidEntryPoint
 class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
-        R.layout.fragment_applications), ApplicationsAdapter.ItemClickListener {
+        R.layout.fragment_applications
+), ApplicationsAdapter.ItemClickListener {
 
     private val viewModel: ApplicationsViewModel by viewModels()
 

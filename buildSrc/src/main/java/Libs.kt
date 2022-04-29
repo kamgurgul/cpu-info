@@ -1,6 +1,6 @@
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.1"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.3"
 
     const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.42.0"
 
@@ -15,13 +15,13 @@ object Libs {
     const val coil = "io.coil-kt:coil-compose:1.4.0"
 
     object Kotlin {
-        private const val version = "1.6.10"
+        private const val version = "1.6.21"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
 
     object Coroutines {
-        private const val version = "1.6.0"
+        private const val version = "1.6.1"
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
         const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
@@ -48,19 +48,19 @@ object Libs {
         }
 
         object Navigation {
-            private const val version = "2.4.1"
+            private const val version = "2.4.2"
             const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
             const val ui = "androidx.navigation:navigation-ui-ktx:$version"
             const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
         }
 
         object Compose {
-            const val version = "1.1.0"
+            const val version = "1.2.0-alpha08"
             const val material = "androidx.compose.material:material:$version"
             const val animations = "androidx.compose.animation:animation:$version"
             const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
             const val uiTests = "androidx.compose.ui:ui-test-junit4:$version"
-            const val swipeToRefresh = "com.google.accompanist:accompanist-swiperefresh:0.23.0"
+            const val swipeToRefresh = "com.google.accompanist:accompanist-swiperefresh:0.23.1"
         }
 
         object Test {
@@ -83,16 +83,16 @@ object Libs {
 
     object Google {
         const val material = "com.google.android.material:material:1.5.0"
-        const val gson = "com.google.code.gson:gson:2.8.9"
+        const val gson = "com.google.code.gson:gson:2.9.0"
     }
 
     object Rx {
-        const val rxJava = "io.reactivex.rxjava3:rxjava:3.1.3"
+        const val rxJava = "io.reactivex.rxjava3:rxjava:3.1.4"
         const val rxAndroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
     }
 
     object Hilt {
-        private const val version = "2.40.5"
+        private const val version = "2.41"
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$version"
@@ -100,7 +100,7 @@ object Libs {
     }
 
     object Glide {
-        private const val version = "4.13.0"
+        private const val version = "4.13.1"
         const val glide = "com.github.bumptech.glide:glide:$version"
         const val compiler = "com.github.bumptech.glide:compiler:$version"
     }
@@ -113,7 +113,7 @@ object Libs {
     }
 
     object Mockito {
-        const val core = "org.mockito:mockito-core:4.3.1"
+        const val core = "org.mockito:mockito-core:4.5.1"
         const val kotlin = "org.mockito.kotlin:mockito-kotlin:4.0.0"
     }
 }

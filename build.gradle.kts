@@ -31,9 +31,11 @@ subprojects {
         kotlinOptions {
             @Suppress("SuspiciousCollectionReassignment")
             freeCompilerArgs += listOf(
-                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-Xopt-in=kotlinx.coroutines.FlowPreview",
-                "-Xopt-in=kotlin.Experimental"
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-opt-in=kotlinx.coroutines.FlowPreview",
+                "-opt-in=kotlin.Experimental",
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true",
             )
             allWarningsAsErrors = true
             jvmTarget = JavaVersion.VERSION_1_8.toString()

@@ -8,20 +8,23 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.utils.wrappers.Result
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun ApplicationsScreen(
@@ -29,18 +32,32 @@ fun ApplicationsScreen(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     onAppClicked: (packageName: String) -> Unit
 ) {
-    val uiState by viewModel.applicationList.collectAsState()
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val uiState by viewModel.uiStateFlow.collectAsState()
+    val isRefreshingState = uiState.applicationsResult is Result.Loading
 
-    val isRefreshingState = uiState is Result.Loading
-
+    LaunchedEffect(uiState.snackbarMessage) {
+        scope.launch {
+            if (uiState.snackbarMessage != -1) {
+                val result = scaffoldState.snackbarHostState.showSnackbar(
+                    context.getString(uiState.snackbarMessage)
+                )
+                if (result == SnackbarResult.Dismissed) {
+                    viewModel.onSnackbarDismissed()
+                }
+            }
+        }
+    }
     Scaffold(
-        scaffoldState = scaffoldState
-    ) {
+        scaffoldState = scaffoldState,
+    ) { innerPaddingModifier ->
         SwipeRefresh(
             state = rememberSwipeRefreshState(isRefreshingState),
             onRefresh = { viewModel.refreshApplications() },
+            modifier = Modifier.padding(innerPaddingModifier),
         ) {
-            (uiState as? Result.Success)?.let {
+            (uiState.applicationsResult as? Result.Success)?.let {
                 ApplicationsList(
                     appList = it.data,
                     onAppClicked = onAppClicked
