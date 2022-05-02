@@ -19,9 +19,9 @@ object SigningConfig {
         val releaseProperties = Properties().apply {
             load(FileInputStream(File(rootDir, "local.properties")))
         }
-        return if (releaseProperties.getProperty(KEY_PATH).isNotEmpty()
-            && releaseProperties.getProperty(KEY_PASS).isNotEmpty()
-            && releaseProperties.getProperty(KEY_ALIAS).isNotEmpty()
+        return if (releaseProperties.getProperty(KEY_PATH, "").isNotEmpty()
+            && releaseProperties.getProperty(KEY_PASS, "").isNotEmpty()
+            && releaseProperties.getProperty(KEY_ALIAS, "").isNotEmpty()
         ) {
             releaseProperties
         } else {
