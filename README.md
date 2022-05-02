@@ -17,7 +17,6 @@ Still TODO
 ==========
 * Unify architecture - add interactors and data providers
 * Replace layouts with Compose
-* Replace Travis
 * Replace RxJava with coroutines
 * Tests
 * Add benchmarks

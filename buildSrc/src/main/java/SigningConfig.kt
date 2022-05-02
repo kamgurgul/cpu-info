@@ -16,8 +16,11 @@ object SigningConfig {
     }
 
     fun getReleaseProperties(rootDir: File): Properties {
-        val releaseProperties = Properties().apply {
-            load(FileInputStream(File(rootDir, "local.properties")))
+        val releaseProperties = Properties()
+        try {
+            releaseProperties.load(FileInputStream(File(rootDir, "local.properties")))
+        } catch (e: Exception) {
+            println("!!!Warning: cannot load local.properties -> using debug!!!")
         }
         return if (releaseProperties.getProperty(KEY_PATH, "").isNotEmpty()
             && releaseProperties.getProperty(KEY_PASS, "").isNotEmpty()
