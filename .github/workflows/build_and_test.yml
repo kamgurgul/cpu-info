@@ -1,0 +1,13 @@
+name: Build and test
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+jobs:
+  unit_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Unit tests
+        run: ./gradlew testDebugUnitTest
