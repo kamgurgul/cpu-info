@@ -1,3 +1,4 @@
+![Build and test](https://github.com/kamgurgul/cpu-info/actions/workflows/build_and_test.yml/badge.svg)
 <img src="info/icon_glow.png" width="100" height="100" />
 
 CPU Info (refactor-in-progress ⛏)
@@ -7,11 +8,11 @@ Most of the code is written in Kotlin but some old widgets are still in
 Java.
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
-     alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/com.kgurgul.cpuinfo/)
+alt="Get it on F-Droid"
+height="80">](https://f-droid.org/packages/com.kgurgul.cpuinfo/)
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
-     alt="Get it on Google Play"
-     height="80">](https://play.google.com/store/apps/details?id=com.kgurgul.cpuinfo)
+alt="Get it on Google Play"
+height="80">](https://play.google.com/store/apps/details?id=com.kgurgul.cpuinfo)
 
 Still TODO
 ==========
