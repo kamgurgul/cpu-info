@@ -2,7 +2,6 @@ package com.kgurgul.cpuinfo.features.applications
 
 import android.content.res.Configuration
 import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,18 +11,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.theme.CpuInfoTheme
-import com.kgurgul.cpuinfo.utils.wrappers.Result
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -35,7 +31,6 @@ fun ApplicationsScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val uiState by viewModel.uiStateFlow.collectAsState()
-    val isRefreshingState = uiState.applicationsResult is Result.Loading
 
     LaunchedEffect(uiState.snackbarMessage) {
         scope.launch {
@@ -53,16 +48,14 @@ fun ApplicationsScreen(
         scaffoldState = scaffoldState,
     ) { innerPaddingModifier ->
         SwipeRefresh(
-            state = rememberSwipeRefreshState(isRefreshingState),
+            state = rememberSwipeRefreshState(uiState.isLoading),
             onRefresh = { viewModel.refreshApplications() },
             modifier = Modifier.padding(innerPaddingModifier),
         ) {
-            (uiState.applicationsResult as? Result.Success)?.let {
-                ApplicationsList(
-                    appList = it.data,
-                    onAppClicked = onAppClicked
-                )
-            }
+            ApplicationsList(
+                appList = uiState.applications,
+                onAppClicked = onAppClicked
+            )
         }
     }
 }
@@ -76,7 +69,10 @@ fun ApplicationsList(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        items(appList) {
+        items(
+            items = appList,
+            key = { app -> app.packageName }
+        ) {
             ApplicationItem(
                 appData = it,
                 onAppClicked = onAppClicked
@@ -97,15 +93,13 @@ fun ApplicationItem(
             .clickable(onClick = { onAppClicked(appData.packageName) })
             .padding(8.dp),
     ) {
-        Image(
-            painter = rememberImagePainter(
-                data = appData.appIconUri,
-                builder = {
-                    crossfade(true)
-                }
-            ),
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(appData.appIconUri)
+                .crossfade(true)
+                .build(),
             contentDescription = null,
-            modifier = Modifier.size(50.dp)
+            modifier = Modifier.size(50.dp),
         )
         Column(
             modifier = Modifier.padding(horizontal = 4.dp)

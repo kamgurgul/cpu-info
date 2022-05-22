@@ -32,6 +32,8 @@ android {
         }
     }
 
+    namespace = "com.kgurgul.cpuinfo"
+
     ndkVersion = Versions.NDK_VERSION
 
     signingConfigs {

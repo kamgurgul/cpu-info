@@ -1,7 +1,6 @@
 package com.kgurgul.cpuinfo.features.applications
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
@@ -10,10 +9,8 @@ import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
 import com.kgurgul.cpuinfo.utils.wrappers.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,9 +24,7 @@ class NewApplicationsViewModel @Inject constructor(
 
     init {
         applicationsDataObservable.observe()
-            .onEach { result ->
-                _uiStateFlow.update { it.copy(applicationsResult = result) }
-            }
+            .onEach(::handleApplicationsResult)
             .launchIn(viewModelScope)
         refreshApplications()
     }
@@ -55,8 +50,18 @@ class NewApplicationsViewModel @Inject constructor(
         _uiStateFlow.update { it.copy(snackbarMessage = -1) }
     }
 
+    private fun handleApplicationsResult(result: Result<List<ExtendedApplicationData>>) {
+        _uiStateFlow.update {
+            it.copy(
+                isLoading = result is Result.Loading,
+                applications = if (result is Result.Success) result.data else it.applications
+            )
+        }
+    }
+
     data class UiState(
-        val applicationsResult: Result<List<ExtendedApplicationData>> = Result.Loading,
+        val isLoading: Boolean = false,
+        val applications: List<ExtendedApplicationData> = emptyList(),
         val snackbarMessage: Int = -1
     )
 }

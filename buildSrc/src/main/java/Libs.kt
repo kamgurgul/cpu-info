@@ -1,6 +1,6 @@
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.3"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:7.2.0"
 
     const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.42.0"
 
@@ -12,7 +12,7 @@ object Libs {
 
     const val junit = "junit:junit:4.13.2"
 
-    const val coil = "io.coil-kt:coil-compose:1.4.0"
+    const val coil = "io.coil-kt:coil-compose:2.1.0"
 
     object Kotlin {
         private const val version = "1.6.21"
@@ -34,7 +34,7 @@ object Libs {
         const val appCompat = "androidx.appcompat:appcompat:1.4.1"
         const val preference = "androidx.preference:preference:1.2.0"
         const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-        const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.3"
+        const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
         const val multiDex = "androidx.multidex:multidex:2.0.1"
         const val viewPager2 = "androidx.viewpager2:viewpager2:1.0.0"
         const val datastorePreferences = "androidx.datastore:datastore-preferences:1.0.0"
@@ -55,7 +55,7 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.2.0-alpha08"
+            const val version = "1.2.0-beta02"
             const val material = "androidx.compose.material:material:$version"
             const val animations = "androidx.compose.animation:animation:$version"
             const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
@@ -82,7 +82,7 @@ object Libs {
     }
 
     object Google {
-        const val material = "com.google.android.material:material:1.5.0"
+        const val material = "com.google.android.material:material:1.6.0"
         const val gson = "com.google.code.gson:gson:2.9.0"
     }
 
@@ -92,7 +92,7 @@ object Libs {
     }
 
     object Hilt {
-        private const val version = "2.41"
+        private const val version = "2.42"
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$version"
@@ -100,7 +100,7 @@ object Libs {
     }
 
     object Glide {
-        private const val version = "4.13.1"
+        private const val version = "4.13.2"
         const val glide = "com.github.bumptech.glide:glide:$version"
         const val compiler = "com.github.bumptech.glide:compiler:$version"
     }
