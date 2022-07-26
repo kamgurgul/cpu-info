@@ -6,7 +6,7 @@ on:
       - master
 jobs:
   unit_tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
@@ -19,5 +19,4 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Unit tests
-        with:
-          script: testDebugUnitTest
+        run: ./gradlew testDebugUnitTest
