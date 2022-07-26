@@ -1,18 +1,14 @@
 #!/bin/sh
 
 #
-
 # Copyright © 2015-2021 the original authors.
 #
-
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-
 #      https://www.apache.org/licenses/LICENSE-2.0
 #
-
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -194,14 +190,24 @@ if [ -x "$JAVA_HOME/jre/sh/java" ];
 then
 # IBM's JDK on AIX uses strange locations for the executables
         JAVACMD = $JAVA_HOME / jre / sh / java
-    else
+else
 JAVACMD = $JAVA_HOME / bin / java
 fi
-    if [ ! -x "$JAVACMD" ] ; then
-        die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
+if [ ! -x "$JAVACMD" ];
+then
+        die
+"ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
 
-Please set the JAVA_HOME variable in your environment to match the
-location of your Java installation."
+Please set
+the JAVA_HOME
+variable in
+your environment
+to match
+the
+        location
+of your
+Java installation
+."
 fi
 else
 JAVACMD = java
@@ -314,6 +320,12 @@ set -- \
         -classpath "$CLASSPATH" \
         org.gradle.wrapper.GradleWrapperMain \
         "$@"
+
+# Stop when "xargs" is not available.
+if ! command -v xargs >/dev/null 2>&1
+then
+    die "xargs is not available"
+fi
 
 # Use "xargs" to parse quoted args.
 #
