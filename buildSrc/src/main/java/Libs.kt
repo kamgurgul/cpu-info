@@ -1,6 +1,6 @@
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:7.2.0"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:7.2.1"
 
     const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.42.0"
 
@@ -8,30 +8,30 @@ object Libs {
 
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 
-    const val relinker = "com.getkeepsafe.relinker:relinker:1.4.4"
+    const val relinker = "com.getkeepsafe.relinker:relinker:1.4.5"
 
     const val junit = "junit:junit:4.13.2"
 
     const val coil = "io.coil-kt:coil-compose:2.1.0"
 
     object Kotlin {
-        private const val version = "1.6.21"
+        private const val version = "1.7.10"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
 
     object Coroutines {
-        private const val version = "1.6.1"
+        private const val version = "1.6.4"
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
         const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
     }
 
     object AndroidX {
-        const val coreKtx = "androidx.core:core-ktx:1.7.0"
-        const val activityKtx = "androidx.activity:activity-compose:1.4.0"
-        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.4.1"
-        const val appCompat = "androidx.appcompat:appcompat:1.4.1"
+        const val coreKtx = "androidx.core:core-ktx:1.8.0"
+        const val activityKtx = "androidx.activity:activity-compose:1.5.0"
+        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.5.0"
+        const val appCompat = "androidx.appcompat:appcompat:1.4.2"
         const val preference = "androidx.preference:preference:1.2.0"
         const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
@@ -40,7 +40,7 @@ object Libs {
         const val datastorePreferences = "androidx.datastore:datastore-preferences:1.0.0"
 
         object Lifecycle {
-            private const val version = "2.4.1"
+            private const val version = "2.5.0"
             const val extensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
             const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$version"
@@ -48,14 +48,15 @@ object Libs {
         }
 
         object Navigation {
-            private const val version = "2.4.2"
+            private const val version = "2.5.0"
             const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
             const val ui = "androidx.navigation:navigation-ui-ktx:$version"
             const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
         }
 
         object Compose {
-            const val version = "1.2.0-beta02"
+            const val compilerVersion = "1.3.0-beta01"
+            private const val version = "1.2.0-rc03"
             const val material = "androidx.compose.material:material:$version"
             const val animations = "androidx.compose.animation:animation:$version"
             const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
@@ -82,17 +83,17 @@ object Libs {
     }
 
     object Google {
-        const val material = "com.google.android.material:material:1.6.0"
+        const val material = "com.google.android.material:material:1.6.1"
         const val gson = "com.google.code.gson:gson:2.9.0"
     }
 
     object Rx {
-        const val rxJava = "io.reactivex.rxjava3:rxjava:3.1.4"
+        const val rxJava = "io.reactivex.rxjava3:rxjava:3.1.5"
         const val rxAndroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
     }
 
     object Hilt {
-        private const val version = "2.42"
+        private const val version = "2.43"
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$version"
@@ -113,7 +114,7 @@ object Libs {
     }
 
     object Mockito {
-        const val core = "org.mockito:mockito-core:4.5.1"
+        const val core = "org.mockito:mockito-core:4.6.1"
         const val kotlin = "org.mockito.kotlin:mockito-kotlin:4.0.0"
     }
 }

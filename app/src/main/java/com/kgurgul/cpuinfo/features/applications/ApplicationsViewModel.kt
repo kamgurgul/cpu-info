@@ -44,7 +44,6 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import java.io.File
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -75,6 +74,7 @@ class ApplicationsViewModel @Inject constructor(
 
     init {
         EventBus.getDefault().register(this)
+        refreshApplicationsList()
     }
 
     @Synchronized

@@ -27,11 +27,6 @@ import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * Displays info about used and free storage on the device
- *
- * @author kgurgul
- */
 @AndroidEntryPoint
 class StorageInfoFragment : BaseRvFragment() {
 

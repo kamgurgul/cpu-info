@@ -21,7 +21,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentRecyclerViewBinding
@@ -29,43 +32,39 @@ import com.kgurgul.cpuinfo.features.information.base.BaseFragment
 import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * Fragment which contains RAM info. For older android there is also available cleaning option.
- *
- * @author kgurgul
- */
 @AndroidEntryPoint
 class RamInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragment_recycler_view) {
 
     private val viewModel: RamInfoViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val controller = RamInfoEpoxyController(requireContext())
         binding.recyclerView.adapter = controller.adapter
-        viewModel.viewState.observe(viewLifecycleOwner, { controller.setData(it) })
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        runOnApiBelow(24) {
-            inflater.inflate(R.menu.ram_menu, menu)
-        }
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-            when (item.itemId) {
-                R.id.action_gc -> {
-                    viewModel.onClearRamClicked()
-                    Snackbar.make(binding.mainContainer, getString(R.string.running_gc),
-                            Snackbar.LENGTH_SHORT).show()
-                    true
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                runOnApiBelow(24) {
+                    menuInflater.inflate(R.menu.ram_menu, menu)
                 }
-                else -> super.onOptionsItemSelected(item)
             }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_gc -> {
+                        viewModel.onClearRamClicked()
+                        Snackbar.make(
+                            binding.mainContainer, getString(R.string.running_gc),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        viewModel.viewState.observe(viewLifecycleOwner) { controller.setData(it) }
+    }
 }

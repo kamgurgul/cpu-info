@@ -21,7 +21,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -32,26 +35,33 @@ import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * Displays list of running processes (works only to the API 24)
- *
- * @author kgurgul
- */
 @AndroidEntryPoint
 class ProcessesFragment : BaseFragment<FragmentProcessesBinding>(R.layout.fragment_processes) {
 
     private val viewModel: ProcessesViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         setupRecyclerView()
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.process_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_sorting -> {
+                        viewModel.changeProcessSorting()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onDestroyView() {
@@ -64,8 +74,10 @@ class ProcessesFragment : BaseFragment<FragmentProcessesBinding>(R.layout.fragme
      */
     private fun setupRecyclerView() {
         val processesAdapter = ProcessesAdapter(viewModel.processList)
-        viewModel.processList.listStatusChangeNotificator.observe(viewLifecycleOwner,
-                ListLiveDataObserver(processesAdapter))
+        viewModel.processList.listStatusChangeNotificator.observe(
+            viewLifecycleOwner,
+            ListLiveDataObserver(processesAdapter)
+        )
 
         val rvLayoutManager = LinearLayoutManager(context)
         binding.apply {
@@ -85,18 +97,4 @@ class ProcessesFragment : BaseFragment<FragmentProcessesBinding>(R.layout.fragme
         viewModel.stopProcessRefreshing()
         super.onStop()
     }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.process_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-            when (item.itemId) {
-                R.id.action_sorting -> {
-                    viewModel.changeProcessSorting()
-                    true
-                }
-                else -> super.onOptionsItemSelected(item)
-            }
 }

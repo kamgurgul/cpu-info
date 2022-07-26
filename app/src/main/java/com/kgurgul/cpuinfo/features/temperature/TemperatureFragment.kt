@@ -29,11 +29,6 @@ import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-/**
- * Displays information about available temperatures
- *
- * @author kgurgul
- */
 @AndroidEntryPoint
 class TemperatureFragment : BaseFragment<FragmentTemperatureBinding>(
         R.layout.fragment_temperature
@@ -43,11 +38,6 @@ class TemperatureFragment : BaseFragment<FragmentTemperatureBinding>(
 
     @Inject
     lateinit var temperatureFormatter: TemperatureFormatter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

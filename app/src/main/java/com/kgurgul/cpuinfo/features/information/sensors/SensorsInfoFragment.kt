@@ -16,7 +16,6 @@
 
 package com.kgurgul.cpuinfo.features.information.sensors
 
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
@@ -24,20 +23,10 @@ import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * Displays all data from device sensors
- *
- * @author kgurgul
- */
 @AndroidEntryPoint
 class SensorsInfoFragment : BaseRvFragment() {
 
     private val viewModel: SensorsInfoViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onStart() {
         super.onStart()

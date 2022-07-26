@@ -16,7 +16,6 @@
 
 package com.kgurgul.cpuinfo.features.information.android
 
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
@@ -24,22 +23,12 @@ import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * Fragment for android OS data
- *
- * @author kgurgul
- */
 @AndroidEntryPoint
 class AndroidInfoFragment : BaseRvFragment() {
 
     private val viewModel: AndroidInfoViewModel by viewModels()
 
     private lateinit var infoItemsAdapter: InfoItemsAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun setupRecyclerViewAdapter() {
         infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,

@@ -16,7 +16,6 @@
 
 package com.kgurgul.cpuinfo.features.information.screen
 
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
@@ -24,20 +23,10 @@ import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * Displays information about device screen resolution, density etc.
- *
- * @author kgurgul
- */
 @AndroidEntryPoint
 class ScreenInfoFragment : BaseRvFragment() {
 
     private val viewModel: ScreenInfoViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun setupRecyclerViewAdapter() {
         val infoItemsAdapter = InfoItemsAdapter(viewModel.listLiveData,

@@ -20,7 +20,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
 import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
@@ -28,11 +27,6 @@ import com.kgurgul.cpuinfo.utils.DividerItemDecoration
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * Fragment responsible for hardware info. It also contains [BroadcastReceiver] for AC connection.
- *
- * @author kgurgul
- */
 @AndroidEntryPoint
 class HardwareInfoFragment : BaseRvFragment() {
 
@@ -42,11 +36,6 @@ class HardwareInfoFragment : BaseRvFragment() {
         override fun onReceive(context: Context, intent: Intent) {
             viewModel.refreshHardwareInfo()
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
     }
 
     override fun onResume() {

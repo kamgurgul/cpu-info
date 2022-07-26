@@ -28,7 +28,10 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
@@ -43,11 +46,6 @@ import com.kgurgul.cpuinfo.widgets.swiperv.SwipeMenuRecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
-/**
- * Activity for apps list.
- *
- * @author kgurgul
- */
 @AndroidEntryPoint
 class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
         R.layout.fragment_applications
@@ -63,8 +61,6 @@ class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-        viewModel.refreshApplicationsList()
         registerUninstallBroadcast()
     }
 
@@ -72,10 +68,29 @@ class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.accent,
-                R.color.primaryDark)
-        initObservables()
+        binding.swipeRefreshLayout.setColorSchemeResources(
+            R.color.accent,
+            R.color.primaryDark
+        )
         setupRecyclerView()
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.apps_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_sorting -> {
+                        viewModel.changeAppsSorting()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        initObservables()
     }
 
     /**
@@ -112,19 +127,6 @@ class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
         requireActivity().registerReceiver(uninstallReceiver, intentFilter)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.apps_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-            when (item.itemId) {
-                R.id.action_sorting -> {
-                    viewModel.changeAppsSorting()
-                    true
-                }
-                else -> super.onOptionsItemSelected(item)
-            }
 
     /**
      * Try to open clicked app. In case of error show [Snackbar].

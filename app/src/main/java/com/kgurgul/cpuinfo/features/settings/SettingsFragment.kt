@@ -24,13 +24,8 @@ import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.utils.ThemeHelper
 import com.kgurgul.cpuinfo.utils.runOnApiAbove
 
-/**
- * Provides possibility to change RAM widget refreshing time and temperature units
- *
- * @author kgurgul
- */
 class SettingsFragment : PreferenceFragmentCompat(),
-        SharedPreferences.OnSharedPreferenceChangeListener {
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
         const val KEY_TEMPERATURE_UNIT = "temperature_unit"
@@ -38,11 +33,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val KEY_THEME_CONFIG = "key_theme"
 
         private const val KEY_RAM_CATEGORIES = "pref_key_ram_settings"
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
