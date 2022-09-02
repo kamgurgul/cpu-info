@@ -112,7 +112,6 @@ dependencies {
     implementation(Libs.AndroidX.viewPager2)
     implementation(Libs.AndroidX.datastorePreferences)
 
-    implementation(Libs.AndroidX.Lifecycle.extensions)
     implementation(Libs.AndroidX.Lifecycle.viewModelKtx)
     implementation(Libs.AndroidX.Lifecycle.liveDataKtx)
     implementation(Libs.AndroidX.Lifecycle.common)
