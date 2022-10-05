@@ -62,7 +62,7 @@ abstract class BaseRvFragment : Fragment(), InfoItemsAdapter.OnClickListener {
      * Basic [RecyclerView] configuration with [LinearLayoutManager] and disabled animations
      */
     private fun setupRecyclerView() {
-        val layoutManager = LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
 
         // Remove change animation

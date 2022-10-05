@@ -97,6 +97,7 @@ class ApplicationsViewModel @Inject constructor(
     /**
      * Get all user applications
      */
+    @Suppress("DEPRECATION")
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun getApplicationsListSingle(): Single<List<ExtendedAppInfo>> {
         return Single.fromCallable {
@@ -187,6 +188,7 @@ class ApplicationsViewModel @Inject constructor(
                 .build()
     }
 
+    @Suppress("DEPRECATION")
     private fun getResourceId(packageName: String): Int {
         val packageInfo: PackageInfo
         try {

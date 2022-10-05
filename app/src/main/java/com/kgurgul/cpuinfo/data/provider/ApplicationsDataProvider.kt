@@ -8,6 +8,7 @@ class ApplicationsDataProvider @Inject constructor(
     private val packageManager: PackageManager
 ) {
 
+    @Suppress("DEPRECATION")
     fun getInstalledApplications(withSystemApps: Boolean): List<ApplicationInfo> {
         val applications = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
         return if (withSystemApps) {

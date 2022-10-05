@@ -79,7 +79,7 @@ class ProcessesFragment : BaseFragment<FragmentProcessesBinding>(R.layout.fragme
             ListLiveDataObserver(processesAdapter)
         )
 
-        val rvLayoutManager = LinearLayoutManager(context)
+        val rvLayoutManager = LinearLayoutManager(requireContext())
         binding.apply {
             recyclerView.layoutManager = rvLayoutManager
             recyclerView.adapter = processesAdapter
