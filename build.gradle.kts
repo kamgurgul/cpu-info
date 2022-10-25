@@ -34,8 +34,6 @@ subprojects {
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=kotlinx.coroutines.FlowPreview",
                 "-opt-in=kotlin.Experimental",
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true",
             )
             allWarningsAsErrors = true
             jvmTarget = JavaVersion.VERSION_1_8.toString()

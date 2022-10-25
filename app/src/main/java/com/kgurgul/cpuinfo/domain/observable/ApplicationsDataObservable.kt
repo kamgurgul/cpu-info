@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import com.kgurgul.cpuinfo.data.provider.ApplicationsDataProvider
 import com.kgurgul.cpuinfo.domain.MutableInteractor
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
@@ -63,10 +64,15 @@ class ApplicationsDataObservable @Inject constructor(
             .build()
     }
 
+    @Suppress("DEPRECATION")
     private fun getResourceId(packageName: String): Int {
         val packageInfo: PackageInfo
         try {
-            packageInfo = packageManager.getPackageInfo(packageName, 0)
+            packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
+            } else {
+                packageManager.getPackageInfo(packageName, 0)
+            }
         } catch (e: PackageManager.NameNotFoundException) {
             return 0
         }

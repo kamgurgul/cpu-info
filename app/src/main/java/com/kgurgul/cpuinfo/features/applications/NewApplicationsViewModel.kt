@@ -9,6 +9,9 @@ import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
 import com.kgurgul.cpuinfo.utils.wrappers.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,10 +29,10 @@ class NewApplicationsViewModel @Inject constructor(
         applicationsDataObservable.observe()
             .onEach(::handleApplicationsResult)
             .launchIn(viewModelScope)
-        refreshApplications()
+        onRefreshApplications()
     }
 
-    fun refreshApplications() {
+    fun onRefreshApplications() {
         applicationsDataObservable.invoke(
             ApplicationsDataObservable.Params(
                 withSystemApps = false,
@@ -54,14 +57,18 @@ class NewApplicationsViewModel @Inject constructor(
         _uiStateFlow.update {
             it.copy(
                 isLoading = result is Result.Loading,
-                applications = if (result is Result.Success) result.data else it.applications
+                applications = if (result is Result.Success) {
+                    result.data.toImmutableList()
+                } else {
+                    it.applications
+                }
             )
         }
     }
 
     data class UiState(
         val isLoading: Boolean = false,
-        val applications: List<ExtendedApplicationData> = emptyList(),
+        val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
         val snackbarMessage: Int = -1
     )
 }

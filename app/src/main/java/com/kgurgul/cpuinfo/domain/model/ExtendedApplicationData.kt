@@ -17,6 +17,7 @@
 package com.kgurgul.cpuinfo.domain.model
 
 import android.net.Uri
+import androidx.compose.runtime.Stable
 
 data class ExtendedApplicationData(
     val name: String,
@@ -24,6 +25,6 @@ data class ExtendedApplicationData(
     val sourceDir: String,
     val nativeLibraryDir: String?,
     val hasNativeLibs: Boolean,
-    val appIconUri: Uri,
+    @Stable val appIconUri: Uri,
     val appSize: Long = 0
 )

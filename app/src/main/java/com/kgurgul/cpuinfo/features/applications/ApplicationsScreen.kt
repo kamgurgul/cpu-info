@@ -7,13 +7,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -24,13 +25,14 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ApplicationsScreen(
-    viewModel: NewApplicationsViewModel = viewModel(),
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
-    onAppClicked: (packageName: String) -> Unit
+    uiState: NewApplicationsViewModel.UiState,
+    onAppClicked: (packageName: String) -> Unit,
+    onRefreshApplications: () -> Unit,
+    onSnackbarDismissed: () -> Unit,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val uiState by viewModel.uiStateFlow.collectAsState()
+    val scaffoldState = rememberScaffoldState()
 
     LaunchedEffect(uiState.snackbarMessage) {
         scope.launch {
@@ -39,7 +41,7 @@ fun ApplicationsScreen(
                     context.getString(uiState.snackbarMessage)
                 )
                 if (result == SnackbarResult.Dismissed) {
-                    viewModel.onSnackbarDismissed()
+                    onSnackbarDismissed()
                 }
             }
         }
@@ -49,7 +51,7 @@ fun ApplicationsScreen(
     ) { innerPaddingModifier ->
         SwipeRefresh(
             state = rememberSwipeRefreshState(uiState.isLoading),
-            onRefresh = { viewModel.refreshApplications() },
+            onRefresh = { onRefreshApplications() },
             modifier = Modifier.padding(innerPaddingModifier),
         ) {
             ApplicationsList(

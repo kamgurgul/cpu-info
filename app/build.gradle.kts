@@ -100,6 +100,7 @@ android {
 
 dependencies {
     implementation(Libs.Kotlin.stdlib)
+    implementation(Libs.Kotlin.immutable)
 
     implementation(Libs.AndroidX.coreKtx)
     implementation(Libs.AndroidX.activityKtx)
@@ -116,10 +117,12 @@ dependencies {
     implementation(Libs.AndroidX.Lifecycle.liveDataKtx)
     implementation(Libs.AndroidX.Lifecycle.common)
 
+    implementation(platform(Libs.AndroidX.Compose.bom))
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.animations)
-    implementation(Libs.AndroidX.Compose.uiTooling)
+    implementation(Libs.AndroidX.Compose.uiToolingPreview)
     implementation(Libs.AndroidX.Compose.swipeToRefresh)
+    debugImplementation(Libs.AndroidX.Compose.uiTooling)
 
     implementation(Libs.AndroidX.Navigation.fragment)
     implementation(Libs.AndroidX.Navigation.ui)
@@ -164,7 +167,6 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
     androidTestImplementation(Libs.Hilt.androidTesting)
     kaptAndroidTest(Libs.Hilt.androidCompiler)
-    androidTestImplementation(Libs.AndroidX.Compose.uiTests)
 
     androidTestUtil(Libs.AndroidX.Test.orchestrator)
 }

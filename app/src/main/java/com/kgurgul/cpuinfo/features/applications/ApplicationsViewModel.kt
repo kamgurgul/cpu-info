@@ -53,9 +53,9 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ApplicationsViewModel @Inject constructor(
-        private val dispatchersProvider: DispatchersProvider,
-        private val prefs: Prefs,
-        private val packageManager: PackageManager
+    private val dispatchersProvider: DispatchersProvider,
+    private val prefs: Prefs,
+    private val packageManager: PackageManager
 ) : ViewModel() {
 
     companion object {
@@ -81,37 +81,46 @@ class ApplicationsViewModel @Inject constructor(
     fun refreshApplicationsList() {
         if (refreshingDisposable == null || !isLoading.value) {
             refreshingDisposable = getApplicationsListSingle()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe { isLoading.value = true }
-                    .doFinally { isLoading.value = false }
-                    .subscribe({ appList ->
-                        applicationList.replace(appList)
-                        runOnApiBelow(Build.VERSION_CODES.O) {
-                            _shouldStartStorageServiceEvent.value = Event(Unit)
-                        }
-                    }, Timber::e)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { isLoading.value = true }
+                .doFinally { isLoading.value = false }
+                .subscribe({ appList ->
+                    applicationList.replace(appList)
+                    runOnApiBelow(Build.VERSION_CODES.O) {
+                        _shouldStartStorageServiceEvent.value = Event(Unit)
+                    }
+                }, Timber::e)
         }
     }
 
     /**
      * Get all user applications
      */
+    @Suppress("DEPRECATION")
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun getApplicationsListSingle(): Single<List<ExtendedAppInfo>> {
         return Single.fromCallable {
-            val appsList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
-                    .filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }
-                    .map {
-                        val hasNativeLibs = if (it.nativeLibraryDir != null) {
-                            val fileDir = File(it.nativeLibraryDir)
-                            val list = fileDir.listFiles()
-                            list != null && list.isNotEmpty()
-                        } else false
-                        ExtendedAppInfo(it.loadLabel(packageManager).toString(), it.packageName,
-                                it.sourceDir, it.nativeLibraryDir, hasNativeLibs,
-                                getAppIconUri(it.packageName))
-                    }
+            val appsList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getInstalledApplications(
+                    PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+                )
+            } else {
+                packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+            }
+                .filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }
+                .map {
+                    val hasNativeLibs = if (it.nativeLibraryDir != null) {
+                        val fileDir = File(it.nativeLibraryDir)
+                        val list = fileDir.listFiles()
+                        list != null && list.isNotEmpty()
+                    } else false
+                    ExtendedAppInfo(
+                        it.loadLabel(packageManager).toString(), it.packageName,
+                        it.sourceDir, it.nativeLibraryDir, hasNativeLibs,
+                        getAppIconUri(it.packageName)
+                    )
+                }
 
             return@fromCallable if (isSortingAsc) {
                 appsList.sortedBy { it.name.uppercase() }
@@ -181,16 +190,21 @@ class ApplicationsViewModel @Inject constructor(
 
     private fun getAppIconUri(packageName: String): Uri {
         return Uri.Builder()
-                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-                .authority(packageName)
-                .path(getResourceId(packageName).toString())
-                .build()
+            .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+            .authority(packageName)
+            .path(getResourceId(packageName).toString())
+            .build()
     }
 
+    @Suppress("DEPRECATION")
     private fun getResourceId(packageName: String): Int {
         val packageInfo: PackageInfo
         try {
-            packageInfo = packageManager.getPackageInfo(packageName, 0)
+            packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
+            } else {
+                packageManager.getPackageInfo(packageName, 0)
+            }
         } catch (e: PackageManager.NameNotFoundException) {
             return 0
         }
