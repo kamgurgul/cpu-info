@@ -48,6 +48,7 @@ class StorageUsageService : IntentService("StorageUsageService") {
         }
     }
 
+    @Suppress("OVERRIDE_DEPRECATION")
     override fun onHandleIntent(intent: Intent?) {
         val packagesList = intent?.extras?.getParcelableArrayList<ExtendedAppInfo>(PACKAGES_LIST_TAG)
         packagesList?.forEach {

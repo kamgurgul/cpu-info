@@ -62,7 +62,7 @@ class TemperatureFragment : BaseFragment<FragmentTemperatureBinding>(
         viewModel.temperatureListLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
                 ListLiveDataObserver(temperatureAdapter))
         binding.apply {
-            tempRv.layoutManager = LinearLayoutManager(context)
+            tempRv.layoutManager = LinearLayoutManager(requireContext())
             tempRv.adapter = temperatureAdapter
             (tempRv.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
