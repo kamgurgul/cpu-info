@@ -121,7 +121,6 @@ dependencies {
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.animations)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
-    implementation(Libs.AndroidX.Compose.swipeToRefresh)
     debugImplementation(Libs.AndroidX.Compose.uiTooling)
 
     implementation(Libs.AndroidX.Navigation.fragment)

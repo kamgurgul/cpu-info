@@ -2,7 +2,7 @@ object Libs {
 
     const val androidGradlePlugin = "com.android.tools.build:gradle:7.3.1"
 
-    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.43.0"
+    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.44.0"
 
     const val bus = "org.greenrobot:eventbus:3.3.1"
 
@@ -57,26 +57,25 @@ object Libs {
 
         object Compose {
             const val compilerVersion = "1.3.2"
-            const val bom = "androidx.compose:compose-bom:2022.10.00"
+            const val bom = "androidx.compose:compose-bom:2022.11.00"
             const val material = "androidx.compose.material:material"
             const val animations = "androidx.compose.animation:animation"
             const val uiTooling = "androidx.compose.ui:ui-tooling"
             const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
-            const val swipeToRefresh = "com.google.accompanist:accompanist-swiperefresh:0.27.0"
         }
 
         object Test {
-            private const val version = "1.4.0"
+            private const val version = "1.5.0"
             const val core = "androidx.test:core:$version"
             const val runner = "androidx.test:runner:$version"
             const val rules = "androidx.test:rules:$version"
 
             const val archCoreTesting = "androidx.arch.core:core-testing:2.1.0"
-            const val jUnitExt = "androidx.test.ext:junit:1.1.3"
-            const val orchestrator = "androidx.test:orchestrator:1.4.1"
+            const val jUnitExt = "androidx.test.ext:junit:1.1.4"
+            const val orchestrator = "androidx.test:orchestrator:1.4.2"
 
             object Espresso {
-                private const val version = "3.4.0"
+                private const val version = "3.5.0"
                 const val core = "androidx.test.espresso:espresso-core:$version"
                 const val contrib = "androidx.test.espresso:espresso-contrib:$version"
             }
@@ -90,11 +89,11 @@ object Libs {
 
     object Rx {
         const val rxJava = "io.reactivex.rxjava3:rxjava:3.1.5"
-        const val rxAndroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
+        const val rxAndroid = "io.reactivex.rxjava3:rxandroid:3.0.2"
     }
 
     object Hilt {
-        private const val version = "2.44"
+        private const val version = "2.44.2"
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$version"
@@ -108,14 +107,14 @@ object Libs {
     }
 
     object Airbnb {
-        private const val version = "5.1.0"
+        private const val version = "5.1.1"
         const val epoxy = "com.airbnb.android:epoxy:$version"
         const val processor = "com.airbnb.android:epoxy-processor:$version"
         const val dataBinding = "com.airbnb.android:epoxy-databinding:$version"
     }
 
     object Mockito {
-        const val core = "org.mockito:mockito-core:4.8.1"
-        const val kotlin = "org.mockito.kotlin:mockito-kotlin:4.0.0"
+        const val core = "org.mockito:mockito-core:4.9.0"
+        const val kotlin = "org.mockito.kotlin:mockito-kotlin:4.1.0"
     }
 }

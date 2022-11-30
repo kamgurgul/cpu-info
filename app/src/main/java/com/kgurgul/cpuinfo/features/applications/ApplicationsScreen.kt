@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -17,12 +20,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.theme.CpuInfoTheme
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ApplicationsScreen(
     uiState: NewApplicationsViewModel.UiState,
@@ -49,14 +51,22 @@ fun ApplicationsScreen(
     Scaffold(
         scaffoldState = scaffoldState,
     ) { innerPaddingModifier ->
-        SwipeRefresh(
-            state = rememberSwipeRefreshState(uiState.isLoading),
-            onRefresh = { onRefreshApplications() },
-            modifier = Modifier.padding(innerPaddingModifier),
+        val pullRefreshState = rememberPullRefreshState(
+            uiState.isLoading, { onRefreshApplications() }
+        )
+        Box(
+            modifier = Modifier
+                .pullRefresh(pullRefreshState)
+                .padding(innerPaddingModifier),
         ) {
             ApplicationsList(
                 appList = uiState.applications,
                 onAppClicked = onAppClicked
+            )
+            PullRefreshIndicator(
+                refreshing = uiState.isLoading,
+                state = pullRefreshState,
+                modifier = Modifier.align(Alignment.TopCenter)
             )
         }
     }
