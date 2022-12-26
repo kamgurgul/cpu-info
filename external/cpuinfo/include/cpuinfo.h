@@ -3,7 +3,9 @@
 #define CPUINFO_H
 
 #ifndef __cplusplus
+
 #include <stdbool.h>
+
 #endif
 
 #ifdef __APPLE__
@@ -40,10 +42,10 @@
 
 #if defined(__wasm__)
 #if defined(__wasm_simd128__)
-		#define CPUINFO_ARCH_WASMSIMD 1
-	#else
-		#define CPUINFO_ARCH_WASM 1
-	#endif
+#define CPUINFO_ARCH_WASMSIMD 1
+#else
+#define CPUINFO_ARCH_WASM 1
+#endif
 #endif
 
 /* Define other architecture-specific macros as 0 */
@@ -93,31 +95,31 @@
 #define CPUINFO_CACHE_COMPLEX_INDEXING 0x00000004
 
 struct cpuinfo_cache {
-	/** Cache size in bytes */
-	uint32_t size;
-	/** Number of ways of associativity */
-	uint32_t associativity;
-	/** Number of sets */
-	uint32_t sets;
-	/** Number of partitions */
-	uint32_t partitions;
-	/** Line size in bytes */
-	uint32_t line_size;
-	/**
-	 * Binary characteristics of the cache (unified cache, inclusive cache, cache with complex indexing).
-	 *
-	 * @see CPUINFO_CACHE_UNIFIED, CPUINFO_CACHE_INCLUSIVE, CPUINFO_CACHE_COMPLEX_INDEXING
-	 */
-	uint32_t flags;
-	/** Index of the first logical processor that shares this cache */
-	uint32_t processor_start;
-	/** Number of logical processors that share this cache */
-	uint32_t processor_count;
+    /** Cache size in bytes */
+    uint32_t size;
+    /** Number of ways of associativity */
+    uint32_t associativity;
+    /** Number of sets */
+    uint32_t sets;
+    /** Number of partitions */
+    uint32_t partitions;
+    /** Line size in bytes */
+    uint32_t line_size;
+    /**
+     * Binary characteristics of the cache (unified cache, inclusive cache, cache with complex indexing).
+     *
+     * @see CPUINFO_CACHE_UNIFIED, CPUINFO_CACHE_INCLUSIVE, CPUINFO_CACHE_COMPLEX_INDEXING
+     */
+    uint32_t flags;
+    /** Index of the first logical processor that shares this cache */
+    uint32_t processor_start;
+    /** Number of logical processors that share this cache */
+    uint32_t processor_count;
 };
 
 struct cpuinfo_trace_cache {
-	uint32_t uops;
-	uint32_t associativity;
+    uint32_t uops;
+    uint32_t associativity;
 };
 
 #define CPUINFO_PAGE_SIZE_4KB  0x1000
@@ -128,133 +130,133 @@ struct cpuinfo_trace_cache {
 #define CPUINFO_PAGE_SIZE_1GB  0x40000000
 
 struct cpuinfo_tlb {
-	uint32_t entries;
-	uint32_t associativity;
-	uint64_t pages;
+    uint32_t entries;
+    uint32_t associativity;
+    uint64_t pages;
 };
 
 /** Vendor of processor core design */
 enum cpuinfo_vendor {
-	/** Processor vendor is not known to the library, or the library failed to get vendor information from the OS. */
-	cpuinfo_vendor_unknown = 0,
+    /** Processor vendor is not known to the library, or the library failed to get vendor information from the OS. */
+    cpuinfo_vendor_unknown = 0,
 
-	/* Active vendors of modern CPUs */
+    /* Active vendors of modern CPUs */
 
-	/**
-	 * Intel Corporation. Vendor of x86, x86-64, IA64, and ARM processor microarchitectures.
-	 *
-	 * Sold its ARM design subsidiary in 2006. The last ARM processor design was released in 2004.
-	 */
-	cpuinfo_vendor_intel = 1,
-	/** Advanced Micro Devices, Inc. Vendor of x86 and x86-64 processor microarchitectures. */
-	cpuinfo_vendor_amd = 2,
-	/** ARM Holdings plc. Vendor of ARM and ARM64 processor microarchitectures. */
-	cpuinfo_vendor_arm = 3,
-	/** Qualcomm Incorporated. Vendor of ARM and ARM64 processor microarchitectures. */
-	cpuinfo_vendor_qualcomm = 4,
-	/** Apple Inc. Vendor of ARM and ARM64 processor microarchitectures. */
-	cpuinfo_vendor_apple = 5,
-	/** Samsung Electronics Co., Ltd. Vendir if ARM64 processor microarchitectures. */
-	cpuinfo_vendor_samsung = 6,
-	/** Nvidia Corporation. Vendor of ARM64-compatible processor microarchitectures. */
-	cpuinfo_vendor_nvidia = 7,
-	/** MIPS Technologies, Inc. Vendor of MIPS processor microarchitectures. */
-	cpuinfo_vendor_mips = 8,
-	/** International Business Machines Corporation. Vendor of PowerPC processor microarchitectures. */
-	cpuinfo_vendor_ibm = 9,
-	/** Ingenic Semiconductor. Vendor of MIPS processor microarchitectures. */
-	cpuinfo_vendor_ingenic = 10,
-	/**
-	 * VIA Technologies, Inc. Vendor of x86 and x86-64 processor microarchitectures.
-	 *
-	 * Processors are designed by Centaur Technology, a subsidiary of VIA Technologies.
-	 */
-	cpuinfo_vendor_via = 11,
-	/** Cavium, Inc. Vendor of ARM64 processor microarchitectures. */
-	cpuinfo_vendor_cavium = 12,
-	/** Broadcom, Inc. Vendor of ARM processor microarchitectures. */
-	cpuinfo_vendor_broadcom = 13,
-	/** Applied Micro Circuits Corporation (APM). Vendor of ARM64 processor microarchitectures. */
-	cpuinfo_vendor_apm = 14,
-	/**
-	 * Huawei Technologies Co., Ltd. Vendor of ARM64 processor microarchitectures.
-	 *
-	 * Processors are designed by HiSilicon, a subsidiary of Huawei.
-	 */
-	cpuinfo_vendor_huawei = 15,
-	/**
-	 * Hygon (Chengdu Haiguang Integrated Circuit Design Co., Ltd), Vendor of x86-64 processor microarchitectures.
-	 *
-	 * Processors are variants of AMD cores.
-	 */
-	cpuinfo_vendor_hygon = 16,
+    /**
+     * Intel Corporation. Vendor of x86, x86-64, IA64, and ARM processor microarchitectures.
+     *
+     * Sold its ARM design subsidiary in 2006. The last ARM processor design was released in 2004.
+     */
+    cpuinfo_vendor_intel = 1,
+    /** Advanced Micro Devices, Inc. Vendor of x86 and x86-64 processor microarchitectures. */
+    cpuinfo_vendor_amd = 2,
+    /** ARM Holdings plc. Vendor of ARM and ARM64 processor microarchitectures. */
+    cpuinfo_vendor_arm = 3,
+    /** Qualcomm Incorporated. Vendor of ARM and ARM64 processor microarchitectures. */
+    cpuinfo_vendor_qualcomm = 4,
+    /** Apple Inc. Vendor of ARM and ARM64 processor microarchitectures. */
+    cpuinfo_vendor_apple = 5,
+    /** Samsung Electronics Co., Ltd. Vendir if ARM64 processor microarchitectures. */
+    cpuinfo_vendor_samsung = 6,
+    /** Nvidia Corporation. Vendor of ARM64-compatible processor microarchitectures. */
+    cpuinfo_vendor_nvidia = 7,
+    /** MIPS Technologies, Inc. Vendor of MIPS processor microarchitectures. */
+    cpuinfo_vendor_mips = 8,
+    /** International Business Machines Corporation. Vendor of PowerPC processor microarchitectures. */
+    cpuinfo_vendor_ibm = 9,
+    /** Ingenic Semiconductor. Vendor of MIPS processor microarchitectures. */
+    cpuinfo_vendor_ingenic = 10,
+    /**
+     * VIA Technologies, Inc. Vendor of x86 and x86-64 processor microarchitectures.
+     *
+     * Processors are designed by Centaur Technology, a subsidiary of VIA Technologies.
+     */
+    cpuinfo_vendor_via = 11,
+    /** Cavium, Inc. Vendor of ARM64 processor microarchitectures. */
+    cpuinfo_vendor_cavium = 12,
+    /** Broadcom, Inc. Vendor of ARM processor microarchitectures. */
+    cpuinfo_vendor_broadcom = 13,
+    /** Applied Micro Circuits Corporation (APM). Vendor of ARM64 processor microarchitectures. */
+    cpuinfo_vendor_apm = 14,
+    /**
+     * Huawei Technologies Co., Ltd. Vendor of ARM64 processor microarchitectures.
+     *
+     * Processors are designed by HiSilicon, a subsidiary of Huawei.
+     */
+    cpuinfo_vendor_huawei = 15,
+    /**
+     * Hygon (Chengdu Haiguang Integrated Circuit Design Co., Ltd), Vendor of x86-64 processor microarchitectures.
+     *
+     * Processors are variants of AMD cores.
+     */
+    cpuinfo_vendor_hygon = 16,
 
-	/* Active vendors of embedded CPUs */
+    /* Active vendors of embedded CPUs */
 
-	/** Texas Instruments Inc. Vendor of ARM processor microarchitectures. */
-	cpuinfo_vendor_texas_instruments = 30,
-	/** Marvell Technology Group Ltd. Vendor of ARM processor microarchitectures. */
-	cpuinfo_vendor_marvell = 31,
-	/** RDC Semiconductor Co., Ltd. Vendor of x86 processor microarchitectures. */
-	cpuinfo_vendor_rdc = 32,
-	/** DM&P Electronics Inc. Vendor of x86 processor microarchitectures. */
-	cpuinfo_vendor_dmp = 33,
-	/** Motorola, Inc. Vendor of PowerPC and ARM processor microarchitectures. */
-	cpuinfo_vendor_motorola = 34,
+    /** Texas Instruments Inc. Vendor of ARM processor microarchitectures. */
+    cpuinfo_vendor_texas_instruments = 30,
+    /** Marvell Technology Group Ltd. Vendor of ARM processor microarchitectures. */
+    cpuinfo_vendor_marvell = 31,
+    /** RDC Semiconductor Co., Ltd. Vendor of x86 processor microarchitectures. */
+    cpuinfo_vendor_rdc = 32,
+    /** DM&P Electronics Inc. Vendor of x86 processor microarchitectures. */
+    cpuinfo_vendor_dmp = 33,
+    /** Motorola, Inc. Vendor of PowerPC and ARM processor microarchitectures. */
+    cpuinfo_vendor_motorola = 34,
 
-	/* Defunct CPU vendors */
+    /* Defunct CPU vendors */
 
-	/**
-	 * Transmeta Corporation. Vendor of x86 processor microarchitectures.
-	 *
-	 * Now defunct. The last processor design was released in 2004.
-	 * Transmeta processors implemented VLIW ISA and used binary translation to execute x86 code.
-	 */
-	cpuinfo_vendor_transmeta = 50,
-	/**
-	 * Cyrix Corporation. Vendor of x86 processor microarchitectures.
-	 *
-	 * Now defunct. The last processor design was released in 1996.
-	 */
-	cpuinfo_vendor_cyrix = 51,
-	/**
-	 * Rise Technology. Vendor of x86 processor microarchitectures.
-	 *
-	 * Now defunct. The last processor design was released in 1999.
-	 */
-	cpuinfo_vendor_rise = 52,
-	/**
-	 * National Semiconductor. Vendor of x86 processor microarchitectures.
-	 *
-	 * Sold its x86 design subsidiary in 1999. The last processor design was released in 1998.
-	 */
-	cpuinfo_vendor_nsc = 53,
-	/**
-	 * Silicon Integrated Systems. Vendor of x86 processor microarchitectures.
-	 *
-	 * Sold its x86 design subsidiary in 2001. The last processor design was released in 2001.
-	 */
-	cpuinfo_vendor_sis = 54,
-	/**
-	 * NexGen. Vendor of x86 processor microarchitectures.
-	 *
-	 * Now defunct. The last processor design was released in 1994.
-	 * NexGen designed the first x86 microarchitecture which decomposed x86 instructions into simple microoperations.
-	 */
-	cpuinfo_vendor_nexgen = 55,
-	/**
-	 * United Microelectronics Corporation. Vendor of x86 processor microarchitectures.
-	 *
-	 * Ceased x86 in the early 1990s. The last processor design was released in 1991.
-	 * Designed U5C and U5D processors. Both are 486 level.
-	 */
-	cpuinfo_vendor_umc = 56,
-	/**
-	 * Digital Equipment Corporation. Vendor of ARM processor microarchitecture.
-	 *
-	 * Sold its ARM designs in 1997. The last processor design was released in 1997.
-	 */
-	cpuinfo_vendor_dec = 57,
+    /**
+     * Transmeta Corporation. Vendor of x86 processor microarchitectures.
+     *
+     * Now defunct. The last processor design was released in 2004.
+     * Transmeta processors implemented VLIW ISA and used binary translation to execute x86 code.
+     */
+    cpuinfo_vendor_transmeta = 50,
+    /**
+     * Cyrix Corporation. Vendor of x86 processor microarchitectures.
+     *
+     * Now defunct. The last processor design was released in 1996.
+     */
+    cpuinfo_vendor_cyrix = 51,
+    /**
+     * Rise Technology. Vendor of x86 processor microarchitectures.
+     *
+     * Now defunct. The last processor design was released in 1999.
+     */
+    cpuinfo_vendor_rise = 52,
+    /**
+     * National Semiconductor. Vendor of x86 processor microarchitectures.
+     *
+     * Sold its x86 design subsidiary in 1999. The last processor design was released in 1998.
+     */
+    cpuinfo_vendor_nsc = 53,
+    /**
+     * Silicon Integrated Systems. Vendor of x86 processor microarchitectures.
+     *
+     * Sold its x86 design subsidiary in 2001. The last processor design was released in 2001.
+     */
+    cpuinfo_vendor_sis = 54,
+    /**
+     * NexGen. Vendor of x86 processor microarchitectures.
+     *
+     * Now defunct. The last processor design was released in 1994.
+     * NexGen designed the first x86 microarchitecture which decomposed x86 instructions into simple microoperations.
+     */
+    cpuinfo_vendor_nexgen = 55,
+    /**
+     * United Microelectronics Corporation. Vendor of x86 processor microarchitectures.
+     *
+     * Ceased x86 in the early 1990s. The last processor design was released in 1991.
+     * Designed U5C and U5D processors. Both are 486 level.
+     */
+    cpuinfo_vendor_umc = 56,
+    /**
+     * Digital Equipment Corporation. Vendor of ARM processor microarchitecture.
+     *
+     * Sold its ARM designs in 1997. The last processor design was released in 1997.
+     */
+    cpuinfo_vendor_dec = 57,
 };
 
 /**
@@ -264,279 +266,290 @@ enum cpuinfo_vendor {
  * and may have dramatically different pipeline organization.
  */
 enum cpuinfo_uarch {
-	/** Microarchitecture is unknown, or the library failed to get information about the microarchitecture from OS */
-	cpuinfo_uarch_unknown = 0,
+    /** Microarchitecture is unknown, or the library failed to get information about the microarchitecture from OS */
+    cpuinfo_uarch_unknown = 0,
 
-	/** Pentium and Pentium MMX microarchitecture. */
-	cpuinfo_uarch_p5 = 0x00100100,
-	/** Intel Quark microarchitecture. */
-	cpuinfo_uarch_quark = 0x00100101,
+    /** Pentium and Pentium MMX microarchitecture. */
+    cpuinfo_uarch_p5 = 0x00100100,
+    /** Intel Quark microarchitecture. */
+    cpuinfo_uarch_quark = 0x00100101,
 
-	/** Pentium Pro, Pentium II, and Pentium III. */
-	cpuinfo_uarch_p6 = 0x00100200,
-	/** Pentium M. */
-	cpuinfo_uarch_dothan = 0x00100201,
-	/** Intel Core microarchitecture. */
-	cpuinfo_uarch_yonah = 0x00100202,
-	/** Intel Core 2 microarchitecture on 65 nm process. */
-	cpuinfo_uarch_conroe = 0x00100203,
-	/** Intel Core 2 microarchitecture on 45 nm process. */
-	cpuinfo_uarch_penryn = 0x00100204,
-	/** Intel Nehalem and Westmere microarchitectures (Core i3/i5/i7 1st gen). */
-	cpuinfo_uarch_nehalem = 0x00100205,
-	/** Intel Sandy Bridge microarchitecture (Core i3/i5/i7 2nd gen). */
-	cpuinfo_uarch_sandy_bridge = 0x00100206,
-	/** Intel Ivy Bridge microarchitecture (Core i3/i5/i7 3rd gen). */
-	cpuinfo_uarch_ivy_bridge = 0x00100207,
-	/** Intel Haswell microarchitecture (Core i3/i5/i7 4th gen). */
-	cpuinfo_uarch_haswell = 0x00100208,
-	/** Intel Broadwell microarchitecture. */
-	cpuinfo_uarch_broadwell = 0x00100209,
-	/** Intel Sky Lake microarchitecture (14 nm, including Kaby/Coffee/Whiskey/Amber/Comet/Cascade/Cooper Lake). */
-	cpuinfo_uarch_sky_lake = 0x0010020A,
-	/** DEPRECATED (Intel Kaby Lake microarchitecture). */
-	cpuinfo_uarch_kaby_lake = 0x0010020A,
-	/** Intel Palm Cove microarchitecture (10 nm, Cannon Lake). */
-	cpuinfo_uarch_palm_cove = 0x0010020B,
-	/** Intel Sunny Cove microarchitecture (10 nm, Ice Lake). */
-	cpuinfo_uarch_sunny_cove = 0x0010020C,
+    /** Pentium Pro, Pentium II, and Pentium III. */
+    cpuinfo_uarch_p6 = 0x00100200,
+    /** Pentium M. */
+    cpuinfo_uarch_dothan = 0x00100201,
+    /** Intel Core microarchitecture. */
+    cpuinfo_uarch_yonah = 0x00100202,
+    /** Intel Core 2 microarchitecture on 65 nm process. */
+    cpuinfo_uarch_conroe = 0x00100203,
+    /** Intel Core 2 microarchitecture on 45 nm process. */
+    cpuinfo_uarch_penryn = 0x00100204,
+    /** Intel Nehalem and Westmere microarchitectures (Core i3/i5/i7 1st gen). */
+    cpuinfo_uarch_nehalem = 0x00100205,
+    /** Intel Sandy Bridge microarchitecture (Core i3/i5/i7 2nd gen). */
+    cpuinfo_uarch_sandy_bridge = 0x00100206,
+    /** Intel Ivy Bridge microarchitecture (Core i3/i5/i7 3rd gen). */
+    cpuinfo_uarch_ivy_bridge = 0x00100207,
+    /** Intel Haswell microarchitecture (Core i3/i5/i7 4th gen). */
+    cpuinfo_uarch_haswell = 0x00100208,
+    /** Intel Broadwell microarchitecture. */
+    cpuinfo_uarch_broadwell = 0x00100209,
+    /** Intel Sky Lake microarchitecture (14 nm, including Kaby/Coffee/Whiskey/Amber/Comet/Cascade/Cooper Lake). */
+    cpuinfo_uarch_sky_lake = 0x0010020A,
+    /** DEPRECATED (Intel Kaby Lake microarchitecture). */
+    cpuinfo_uarch_kaby_lake = 0x0010020A,
+    /** Intel Palm Cove microarchitecture (10 nm, Cannon Lake). */
+    cpuinfo_uarch_palm_cove = 0x0010020B,
+    /** Intel Sunny Cove microarchitecture (10 nm, Ice Lake). */
+    cpuinfo_uarch_sunny_cove = 0x0010020C,
 
-	/** Pentium 4 with Willamette, Northwood, or Foster cores. */
-	cpuinfo_uarch_willamette = 0x00100300,
-	/** Pentium 4 with Prescott and later cores. */
-	cpuinfo_uarch_prescott = 0x00100301,
+    /** Pentium 4 with Willamette, Northwood, or Foster cores. */
+    cpuinfo_uarch_willamette = 0x00100300,
+    /** Pentium 4 with Prescott and later cores. */
+    cpuinfo_uarch_prescott = 0x00100301,
 
-	/** Intel Atom on 45 nm process. */
-	cpuinfo_uarch_bonnell = 0x00100400,
-	/** Intel Atom on 32 nm process. */
-	cpuinfo_uarch_saltwell = 0x00100401,
-	/** Intel Silvermont microarchitecture (22 nm out-of-order Atom). */
-	cpuinfo_uarch_silvermont = 0x00100402,
-	/** Intel Airmont microarchitecture (14 nm out-of-order Atom). */
-	cpuinfo_uarch_airmont = 0x00100403,
-	/** Intel Goldmont microarchitecture (Denverton, Apollo Lake). */
-	cpuinfo_uarch_goldmont = 0x00100404,
-	/** Intel Goldmont Plus microarchitecture (Gemini Lake). */
-	cpuinfo_uarch_goldmont_plus = 0x00100405,
+    /** Intel Atom on 45 nm process. */
+    cpuinfo_uarch_bonnell = 0x00100400,
+    /** Intel Atom on 32 nm process. */
+    cpuinfo_uarch_saltwell = 0x00100401,
+    /** Intel Silvermont microarchitecture (22 nm out-of-order Atom). */
+    cpuinfo_uarch_silvermont = 0x00100402,
+    /** Intel Airmont microarchitecture (14 nm out-of-order Atom). */
+    cpuinfo_uarch_airmont = 0x00100403,
+    /** Intel Goldmont microarchitecture (Denverton, Apollo Lake). */
+    cpuinfo_uarch_goldmont = 0x00100404,
+    /** Intel Goldmont Plus microarchitecture (Gemini Lake). */
+    cpuinfo_uarch_goldmont_plus = 0x00100405,
 
-	/** Intel Knights Ferry HPC boards. */
-	cpuinfo_uarch_knights_ferry = 0x00100500,
-	/** Intel Knights Corner HPC boards (aka Xeon Phi). */
-	cpuinfo_uarch_knights_corner = 0x00100501,
-	/** Intel Knights Landing microarchitecture (second-gen MIC). */
-	cpuinfo_uarch_knights_landing = 0x00100502,
-	/** Intel Knights Hill microarchitecture (third-gen MIC). */
-	cpuinfo_uarch_knights_hill = 0x00100503,
-	/** Intel Knights Mill Xeon Phi. */
-	cpuinfo_uarch_knights_mill = 0x00100504,
+    /** Intel Knights Ferry HPC boards. */
+    cpuinfo_uarch_knights_ferry = 0x00100500,
+    /** Intel Knights Corner HPC boards (aka Xeon Phi). */
+    cpuinfo_uarch_knights_corner = 0x00100501,
+    /** Intel Knights Landing microarchitecture (second-gen MIC). */
+    cpuinfo_uarch_knights_landing = 0x00100502,
+    /** Intel Knights Hill microarchitecture (third-gen MIC). */
+    cpuinfo_uarch_knights_hill = 0x00100503,
+    /** Intel Knights Mill Xeon Phi. */
+    cpuinfo_uarch_knights_mill = 0x00100504,
 
-	/** Intel/Marvell XScale series. */
-	cpuinfo_uarch_xscale = 0x00100600,
+    /** Intel/Marvell XScale series. */
+    cpuinfo_uarch_xscale = 0x00100600,
 
-	/** AMD K5. */
-	cpuinfo_uarch_k5 = 0x00200100,
-	/** AMD K6 and alike. */
-	cpuinfo_uarch_k6 = 0x00200101,
-	/** AMD Athlon and Duron. */
-	cpuinfo_uarch_k7 = 0x00200102,
-	/** AMD Athlon 64, Opteron 64. */
-	cpuinfo_uarch_k8 = 0x00200103,
-	/** AMD Family 10h (Barcelona, Istambul, Magny-Cours). */
-	cpuinfo_uarch_k10 = 0x00200104,
-	/**
-	 * AMD Bulldozer microarchitecture
-	 * Zambezi FX-series CPUs, Zurich, Valencia and Interlagos Opteron CPUs.
-	 */
-	cpuinfo_uarch_bulldozer = 0x00200105,
-	/**
-	 * AMD Piledriver microarchitecture
-	 * Vishera FX-series CPUs, Trinity and Richland APUs, Delhi, Seoul, Abu Dhabi Opteron CPUs.
-	 */
-	cpuinfo_uarch_piledriver = 0x00200106,
-	/** AMD Steamroller microarchitecture (Kaveri APUs). */
-	cpuinfo_uarch_steamroller = 0x00200107,
-	/** AMD Excavator microarchitecture (Carizzo APUs). */
-	cpuinfo_uarch_excavator = 0x00200108,
-	/** AMD Zen microarchitecture (12/14 nm Ryzen and EPYC CPUs). */
-	cpuinfo_uarch_zen = 0x00200109,
-	/** AMD Zen 2 microarchitecture (7 nm Ryzen and EPYC CPUs). */
-	cpuinfo_uarch_zen2 = 0x0020010A,
-	/** AMD Zen 3 microarchitecture. */
-	cpuinfo_uarch_zen3 = 0x0020010B,
+    /** AMD K5. */
+    cpuinfo_uarch_k5 = 0x00200100,
+    /** AMD K6 and alike. */
+    cpuinfo_uarch_k6 = 0x00200101,
+    /** AMD Athlon and Duron. */
+    cpuinfo_uarch_k7 = 0x00200102,
+    /** AMD Athlon 64, Opteron 64. */
+    cpuinfo_uarch_k8 = 0x00200103,
+    /** AMD Family 10h (Barcelona, Istambul, Magny-Cours). */
+    cpuinfo_uarch_k10 = 0x00200104,
+    /**
+     * AMD Bulldozer microarchitecture
+     * Zambezi FX-series CPUs, Zurich, Valencia and Interlagos Opteron CPUs.
+     */
+    cpuinfo_uarch_bulldozer = 0x00200105,
+    /**
+     * AMD Piledriver microarchitecture
+     * Vishera FX-series CPUs, Trinity and Richland APUs, Delhi, Seoul, Abu Dhabi Opteron CPUs.
+     */
+    cpuinfo_uarch_piledriver = 0x00200106,
+    /** AMD Steamroller microarchitecture (Kaveri APUs). */
+    cpuinfo_uarch_steamroller = 0x00200107,
+    /** AMD Excavator microarchitecture (Carizzo APUs). */
+    cpuinfo_uarch_excavator = 0x00200108,
+    /** AMD Zen microarchitecture (12/14 nm Ryzen and EPYC CPUs). */
+    cpuinfo_uarch_zen = 0x00200109,
+    /** AMD Zen 2 microarchitecture (7 nm Ryzen and EPYC CPUs). */
+    cpuinfo_uarch_zen2 = 0x0020010A,
+    /** AMD Zen 3 microarchitecture. */
+    cpuinfo_uarch_zen3 = 0x0020010B,
 
-	/** NSC Geode and AMD Geode GX and LX. */
-	cpuinfo_uarch_geode = 0x00200200,
-	/** AMD Bobcat mobile microarchitecture. */
-	cpuinfo_uarch_bobcat = 0x00200201,
-	/** AMD Jaguar mobile microarchitecture. */
-	cpuinfo_uarch_jaguar = 0x00200202,
-	/** AMD Puma mobile microarchitecture. */
-	cpuinfo_uarch_puma = 0x00200203,
+    /** NSC Geode and AMD Geode GX and LX. */
+    cpuinfo_uarch_geode = 0x00200200,
+    /** AMD Bobcat mobile microarchitecture. */
+    cpuinfo_uarch_bobcat = 0x00200201,
+    /** AMD Jaguar mobile microarchitecture. */
+    cpuinfo_uarch_jaguar = 0x00200202,
+    /** AMD Puma mobile microarchitecture. */
+    cpuinfo_uarch_puma = 0x00200203,
 
-	/** ARM7 series. */
-	cpuinfo_uarch_arm7 = 0x00300100,
-	/** ARM9 series. */
-	cpuinfo_uarch_arm9 = 0x00300101,
-	/** ARM 1136, ARM 1156, ARM 1176, or ARM 11MPCore. */
-	cpuinfo_uarch_arm11 = 0x00300102,
+    /** ARM7 series. */
+    cpuinfo_uarch_arm7 = 0x00300100,
+    /** ARM9 series. */
+    cpuinfo_uarch_arm9 = 0x00300101,
+    /** ARM 1136, ARM 1156, ARM 1176, or ARM 11MPCore. */
+    cpuinfo_uarch_arm11 = 0x00300102,
 
-	/** ARM Cortex-A5. */
-	cpuinfo_uarch_cortex_a5 = 0x00300205,
-	/** ARM Cortex-A7. */
-	cpuinfo_uarch_cortex_a7 = 0x00300207,
-	/** ARM Cortex-A8. */
-	cpuinfo_uarch_cortex_a8 = 0x00300208,
-	/** ARM Cortex-A9. */
-	cpuinfo_uarch_cortex_a9 = 0x00300209,
-	/** ARM Cortex-A12. */
-	cpuinfo_uarch_cortex_a12 = 0x00300212,
-	/** ARM Cortex-A15. */
-	cpuinfo_uarch_cortex_a15 = 0x00300215,
-	/** ARM Cortex-A17. */
-	cpuinfo_uarch_cortex_a17 = 0x00300217,
+    /** ARM Cortex-A5. */
+    cpuinfo_uarch_cortex_a5 = 0x00300205,
+    /** ARM Cortex-A7. */
+    cpuinfo_uarch_cortex_a7 = 0x00300207,
+    /** ARM Cortex-A8. */
+    cpuinfo_uarch_cortex_a8 = 0x00300208,
+    /** ARM Cortex-A9. */
+    cpuinfo_uarch_cortex_a9 = 0x00300209,
+    /** ARM Cortex-A12. */
+    cpuinfo_uarch_cortex_a12 = 0x00300212,
+    /** ARM Cortex-A15. */
+    cpuinfo_uarch_cortex_a15 = 0x00300215,
+    /** ARM Cortex-A17. */
+    cpuinfo_uarch_cortex_a17 = 0x00300217,
 
-	/** ARM Cortex-A32. */
-	cpuinfo_uarch_cortex_a32 = 0x00300332,
-	/** ARM Cortex-A35. */
-	cpuinfo_uarch_cortex_a35 = 0x00300335,
-	/** ARM Cortex-A53. */
-	cpuinfo_uarch_cortex_a53 = 0x00300353,
-	/** ARM Cortex-A55 revision 0 (restricted dual-issue capabilities compared to revision 1+). */
-	cpuinfo_uarch_cortex_a55r0 = 0x00300354,
-	/** ARM Cortex-A55. */
-	cpuinfo_uarch_cortex_a55 = 0x00300355,
-	/** ARM Cortex-A57. */
-	cpuinfo_uarch_cortex_a57 = 0x00300357,
-	/** ARM Cortex-A65. */
-	cpuinfo_uarch_cortex_a65 = 0x00300365,
-	/** ARM Cortex-A72. */
-	cpuinfo_uarch_cortex_a72 = 0x00300372,
-	/** ARM Cortex-A73. */
-	cpuinfo_uarch_cortex_a73 = 0x00300373,
-	/** ARM Cortex-A75. */
-	cpuinfo_uarch_cortex_a75 = 0x00300375,
-	/** ARM Cortex-A76. */
-	cpuinfo_uarch_cortex_a76 = 0x00300376,
-	/** ARM Cortex-A77. */
-	cpuinfo_uarch_cortex_a77 = 0x00300377,
-	/** ARM Cortex-A78. */
-	cpuinfo_uarch_cortex_a78 = 0x00300378,
+    /** ARM Cortex-A32. */
+    cpuinfo_uarch_cortex_a32 = 0x00300332,
+    /** ARM Cortex-A35. */
+    cpuinfo_uarch_cortex_a35 = 0x00300335,
+    /** ARM Cortex-A53. */
+    cpuinfo_uarch_cortex_a53 = 0x00300353,
+    /** ARM Cortex-A55 revision 0 (restricted dual-issue capabilities compared to revision 1+). */
+    cpuinfo_uarch_cortex_a55r0 = 0x00300354,
+    /** ARM Cortex-A55. */
+    cpuinfo_uarch_cortex_a55 = 0x00300355,
+    /** ARM Cortex-A57. */
+    cpuinfo_uarch_cortex_a57 = 0x00300357,
+    /** ARM Cortex-A65. */
+    cpuinfo_uarch_cortex_a65 = 0x00300365,
+    /** ARM Cortex-A72. */
+    cpuinfo_uarch_cortex_a72 = 0x00300372,
+    /** ARM Cortex-A73. */
+    cpuinfo_uarch_cortex_a73 = 0x00300373,
+    /** ARM Cortex-A75. */
+    cpuinfo_uarch_cortex_a75 = 0x00300375,
+    /** ARM Cortex-A76. */
+    cpuinfo_uarch_cortex_a76 = 0x00300376,
+    /** ARM Cortex-A77. */
+    cpuinfo_uarch_cortex_a77 = 0x00300377,
+    /** ARM Cortex-A78. */
+    cpuinfo_uarch_cortex_a78 = 0x00300378,
 
-	/** ARM Neoverse N1. */
-	cpuinfo_uarch_neoverse_n1 = 0x00300400,
-	/** ARM Neoverse E1. */
-	cpuinfo_uarch_neoverse_e1 = 0x00300401,
-	/** ARM Neoverse V1. */
-	cpuinfo_uarch_neoverse_v1 = 0x00300402,
-	/** ARM Neoverse N2. */
-	cpuinfo_uarch_neoverse_n2 = 0x00300403,
+    /** ARM Neoverse N1. */
+    cpuinfo_uarch_neoverse_n1 = 0x00300400,
+    /** ARM Neoverse E1. */
+    cpuinfo_uarch_neoverse_e1 = 0x00300401,
+    /** ARM Neoverse V1. */
+    cpuinfo_uarch_neoverse_v1 = 0x00300402,
+    /** ARM Neoverse N2. */
+    cpuinfo_uarch_neoverse_n2 = 0x00300403,
 
-	/** ARM Cortex-X1. */
-	cpuinfo_uarch_cortex_x1 = 0x00300500,
+    /** ARM Cortex-X1. */
+    cpuinfo_uarch_cortex_x1 = 0x00300501,
+    /** ARM Cortex-X2. */
+    cpuinfo_uarch_cortex_x2 = 0x00300502,
 
-	/** Qualcomm Scorpion. */
-	cpuinfo_uarch_scorpion = 0x00400100,
-	/** Qualcomm Krait. */
-	cpuinfo_uarch_krait = 0x00400101,
-	/** Qualcomm Kryo. */
-	cpuinfo_uarch_kryo = 0x00400102,
-	/** Qualcomm Falkor. */
-	cpuinfo_uarch_falkor = 0x00400103,
-	/** Qualcomm Saphira. */
-	cpuinfo_uarch_saphira = 0x00400104,
+    /** ARM Cortex-A510. */
+    cpuinfo_uarch_cortex_a510 = 0x00300551,
+    /** ARM Cortex-A710. */
+    cpuinfo_uarch_cortex_a710 = 0x00300571,
 
-	/** Nvidia Denver. */
-	cpuinfo_uarch_denver = 0x00500100,
-	/** Nvidia Denver 2. */
-	cpuinfo_uarch_denver2 = 0x00500101,
-	/** Nvidia Carmel. */
-	cpuinfo_uarch_carmel = 0x00500102,
+    /** Qualcomm Scorpion. */
+    cpuinfo_uarch_scorpion = 0x00400100,
+    /** Qualcomm Krait. */
+    cpuinfo_uarch_krait = 0x00400101,
+    /** Qualcomm Kryo. */
+    cpuinfo_uarch_kryo = 0x00400102,
+    /** Qualcomm Falkor. */
+    cpuinfo_uarch_falkor = 0x00400103,
+    /** Qualcomm Saphira. */
+    cpuinfo_uarch_saphira = 0x00400104,
 
-	/** Samsung Exynos M1 (Exynos 8890 big cores). */
-	cpuinfo_uarch_exynos_m1 = 0x00600100,
-	/** Samsung Exynos M2 (Exynos 8895 big cores). */
-	cpuinfo_uarch_exynos_m2 = 0x00600101,
-	/** Samsung Exynos M3 (Exynos 9810 big cores). */
-	cpuinfo_uarch_exynos_m3 = 0x00600102,
-	/** Samsung Exynos M4 (Exynos 9820 big cores). */
-	cpuinfo_uarch_exynos_m4 = 0x00600103,
-	/** Samsung Exynos M5 (Exynos 9830 big cores). */
-	cpuinfo_uarch_exynos_m5 = 0x00600104,
+    /** Nvidia Denver. */
+    cpuinfo_uarch_denver = 0x00500100,
+    /** Nvidia Denver 2. */
+    cpuinfo_uarch_denver2 = 0x00500101,
+    /** Nvidia Carmel. */
+    cpuinfo_uarch_carmel = 0x00500102,
 
-	/* Deprecated synonym for Cortex-A76 */
-	cpuinfo_uarch_cortex_a76ae = 0x00300376,
-	/* Deprecated names for Exynos. */
-	cpuinfo_uarch_mongoose_m1 = 0x00600100,
-	cpuinfo_uarch_mongoose_m2 = 0x00600101,
-	cpuinfo_uarch_meerkat_m3 = 0x00600102,
-	cpuinfo_uarch_meerkat_m4 = 0x00600103,
+    /** Samsung Exynos M1 (Exynos 8890 big cores). */
+    cpuinfo_uarch_exynos_m1 = 0x00600100,
+    /** Samsung Exynos M2 (Exynos 8895 big cores). */
+    cpuinfo_uarch_exynos_m2 = 0x00600101,
+    /** Samsung Exynos M3 (Exynos 9810 big cores). */
+    cpuinfo_uarch_exynos_m3 = 0x00600102,
+    /** Samsung Exynos M4 (Exynos 9820 big cores). */
+    cpuinfo_uarch_exynos_m4 = 0x00600103,
+    /** Samsung Exynos M5 (Exynos 9830 big cores). */
+    cpuinfo_uarch_exynos_m5 = 0x00600104,
 
-	/** Apple A6 and A6X processors. */
-	cpuinfo_uarch_swift = 0x00700100,
-	/** Apple A7 processor. */
-	cpuinfo_uarch_cyclone = 0x00700101,
-	/** Apple A8 and A8X processor. */
-	cpuinfo_uarch_typhoon = 0x00700102,
-	/** Apple A9 and A9X processor. */
-	cpuinfo_uarch_twister = 0x00700103,
-	/** Apple A10 and A10X processor. */
-	cpuinfo_uarch_hurricane = 0x00700104,
-	/** Apple A11 processor (big cores). */
-	cpuinfo_uarch_monsoon = 0x00700105,
-	/** Apple A11 processor (little cores). */
-	cpuinfo_uarch_mistral = 0x00700106,
-	/** Apple A12 processor (big cores). */
-	cpuinfo_uarch_vortex = 0x00700107,
-	/** Apple A12 processor (little cores). */
-	cpuinfo_uarch_tempest = 0x00700108,
-	/** Apple A13 processor (big cores). */
-	cpuinfo_uarch_lightning = 0x00700109,
-	/** Apple A13 processor (little cores). */
-	cpuinfo_uarch_thunder = 0x0070010A,
-	/** Apple M1 processor (big cores). */
-	cpuinfo_uarch_firestorm = 0x0070010B,
-	/** Apple M1 processor (little cores). */
-	cpuinfo_uarch_icestorm = 0x0070010C,
+    /* Deprecated synonym for Cortex-A76 */
+    cpuinfo_uarch_cortex_a76ae = 0x00300376,
+    /* Deprecated names for Exynos. */
+    cpuinfo_uarch_mongoose_m1 = 0x00600100,
+    cpuinfo_uarch_mongoose_m2 = 0x00600101,
+    cpuinfo_uarch_meerkat_m3 = 0x00600102,
+    cpuinfo_uarch_meerkat_m4 = 0x00600103,
 
-	/** Cavium ThunderX. */
-	cpuinfo_uarch_thunderx = 0x00800100,
-	/** Cavium ThunderX2 (originally Broadcom Vulkan). */
-	cpuinfo_uarch_thunderx2 = 0x00800200,
+    /** Apple A6 and A6X processors. */
+    cpuinfo_uarch_swift = 0x00700100,
+    /** Apple A7 processor. */
+    cpuinfo_uarch_cyclone = 0x00700101,
+    /** Apple A8 and A8X processor. */
+    cpuinfo_uarch_typhoon = 0x00700102,
+    /** Apple A9 and A9X processor. */
+    cpuinfo_uarch_twister = 0x00700103,
+    /** Apple A10 and A10X processor. */
+    cpuinfo_uarch_hurricane = 0x00700104,
+    /** Apple A11 processor (big cores). */
+    cpuinfo_uarch_monsoon = 0x00700105,
+    /** Apple A11 processor (little cores). */
+    cpuinfo_uarch_mistral = 0x00700106,
+    /** Apple A12 processor (big cores). */
+    cpuinfo_uarch_vortex = 0x00700107,
+    /** Apple A12 processor (little cores). */
+    cpuinfo_uarch_tempest = 0x00700108,
+    /** Apple A13 processor (big cores). */
+    cpuinfo_uarch_lightning = 0x00700109,
+    /** Apple A13 processor (little cores). */
+    cpuinfo_uarch_thunder = 0x0070010A,
+    /** Apple A14 / M1 processor (big cores). */
+    cpuinfo_uarch_firestorm = 0x0070010B,
+    /** Apple A14 / M1 processor (little cores). */
+    cpuinfo_uarch_icestorm = 0x0070010C,
+    /** Apple A15 / M2 processor (big cores). */
+    cpuinfo_uarch_avalanche = 0x0070010D,
+    /** Apple A15 / M2 processor (little cores). */
+    cpuinfo_uarch_blizzard = 0x0070010E,
 
-	/** Marvell PJ4. */
-	cpuinfo_uarch_pj4 = 0x00900100,
+    /** Cavium ThunderX. */
+    cpuinfo_uarch_thunderx = 0x00800100,
+    /** Cavium ThunderX2 (originally Broadcom Vulkan). */
+    cpuinfo_uarch_thunderx2 = 0x00800200,
 
-	/** Broadcom Brahma B15. */
-	cpuinfo_uarch_brahma_b15 = 0x00A00100,
-	/** Broadcom Brahma B53. */
-	cpuinfo_uarch_brahma_b53 = 0x00A00101,
+    /** Marvell PJ4. */
+    cpuinfo_uarch_pj4 = 0x00900100,
 
-	/** Applied Micro X-Gene. */
-	cpuinfo_uarch_xgene = 0x00B00100,
+    /** Broadcom Brahma B15. */
+    cpuinfo_uarch_brahma_b15 = 0x00A00100,
+    /** Broadcom Brahma B53. */
+    cpuinfo_uarch_brahma_b53 = 0x00A00101,
 
-	/* Hygon Dhyana (a modification of AMD Zen for Chinese market). */
-	cpuinfo_uarch_dhyana = 0x01000100,
+    /** Applied Micro X-Gene. */
+    cpuinfo_uarch_xgene = 0x00B00100,
 
-	/** HiSilicon TaiShan v110 (Huawei Kunpeng 920 series processors). */
-	cpuinfo_uarch_taishan_v110 = 0x00C00100,
+    /* Hygon Dhyana (a modification of AMD Zen for Chinese market). */
+    cpuinfo_uarch_dhyana = 0x01000100,
+
+    /** HiSilicon TaiShan v110 (Huawei Kunpeng 920 series processors). */
+    cpuinfo_uarch_taishan_v110 = 0x00C00100,
 };
 
 struct cpuinfo_processor {
-	/** SMT (hyperthread) ID within a core */
-	uint32_t smt_id;
-	/** Core containing this logical processor */
-	const struct cpuinfo_core *core;
-	/** Cluster of cores containing this logical processor */
-	const struct cpuinfo_cluster *cluster;
-	/** Physical package containing this logical processor */
-	const struct cpuinfo_package *package;
+    /** SMT (hyperthread) ID within a core */
+    uint32_t smt_id;
+    /** Core containing this logical processor */
+    const struct cpuinfo_core *core;
+    /** Cluster of cores containing this logical processor */
+    const struct cpuinfo_cluster *cluster;
+    /** Physical package containing this logical processor */
+    const struct cpuinfo_package *package;
 #if defined(__linux__)
-	/**
-	 * Linux-specific ID for the logical processor:
-	 * - Linux kernel exposes information about this logical processor in /sys/devices/system/cpu/cpu<linux_id>/
-	 * - Bit <linux_id> in the cpu_set_t identifies this logical processor
-	 */
-	int linux_id;
+    /**
+     * Linux-specific ID for the logical processor:
+     * - Linux kernel exposes information about this logical processor in /sys/devices/system/cpu/cpu<linux_id>/
+     * - Bit <linux_id> in the cpu_set_t identifies this logical processor
+     */
+    int linux_id;
 #endif
 #if defined(_WIN32) || defined(__CYGWIN__)
     /** Windows-specific ID for the group containing the logical processor. */
@@ -548,110 +561,110 @@ struct cpuinfo_processor {
     uint16_t windows_processor_id;
 #endif
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	/** APIC ID (unique x86-specific ID of the logical processor) */
-	uint32_t apic_id;
+    /** APIC ID (unique x86-specific ID of the logical processor) */
+    uint32_t apic_id;
 #endif
-	struct {
-		/** Level 1 instruction cache */
-		const struct cpuinfo_cache *l1i;
-		/** Level 1 data cache */
-		const struct cpuinfo_cache *l1d;
-		/** Level 2 unified or data cache */
-		const struct cpuinfo_cache *l2;
-		/** Level 3 unified or data cache */
-		const struct cpuinfo_cache *l3;
-		/** Level 4 unified or data cache */
-		const struct cpuinfo_cache *l4;
-	} cache;
+    struct {
+        /** Level 1 instruction cache */
+        const struct cpuinfo_cache *l1i;
+        /** Level 1 data cache */
+        const struct cpuinfo_cache *l1d;
+        /** Level 2 unified or data cache */
+        const struct cpuinfo_cache *l2;
+        /** Level 3 unified or data cache */
+        const struct cpuinfo_cache *l3;
+        /** Level 4 unified or data cache */
+        const struct cpuinfo_cache *l4;
+    } cache;
 };
 
 struct cpuinfo_core {
-	/** Index of the first logical processor on this core. */
-	uint32_t processor_start;
-	/** Number of logical processors on this core */
-	uint32_t processor_count;
-	/** Core ID within a package */
-	uint32_t core_id;
-	/** Cluster containing this core */
-	const struct cpuinfo_cluster *cluster;
-	/** Physical package containing this core. */
-	const struct cpuinfo_package *package;
-	/** Vendor of the CPU microarchitecture for this core */
-	enum cpuinfo_vendor vendor;
-	/** CPU microarchitecture for this core */
-	enum cpuinfo_uarch uarch;
+    /** Index of the first logical processor on this core. */
+    uint32_t processor_start;
+    /** Number of logical processors on this core */
+    uint32_t processor_count;
+    /** Core ID within a package */
+    uint32_t core_id;
+    /** Cluster containing this core */
+    const struct cpuinfo_cluster *cluster;
+    /** Physical package containing this core. */
+    const struct cpuinfo_package *package;
+    /** Vendor of the CPU microarchitecture for this core */
+    enum cpuinfo_vendor vendor;
+    /** CPU microarchitecture for this core */
+    enum cpuinfo_uarch uarch;
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	/** Value of CPUID leaf 1 EAX register for this core */
-	uint32_t cpuid;
+    /** Value of CPUID leaf 1 EAX register for this core */
+    uint32_t cpuid;
 #elif CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
     /** Value of Main ID Register (MIDR) for this core */
     uint32_t midr;
 #endif
-	/** Clock rate (non-Turbo) of the core, in Hz */
-	uint64_t frequency;
+    /** Clock rate (non-Turbo) of the core, in Hz */
+    uint64_t frequency;
 };
 
 struct cpuinfo_cluster {
-	/** Index of the first logical processor in the cluster */
-	uint32_t processor_start;
-	/** Number of logical processors in the cluster */
-	uint32_t processor_count;
-	/** Index of the first core in the cluster */
-	uint32_t core_start;
-	/** Number of cores on the cluster */
-	uint32_t core_count;
-	/** Cluster ID within a package */
-	uint32_t cluster_id;
-	/** Physical package containing the cluster */
-	const struct cpuinfo_package *package;
-	/** CPU microarchitecture vendor of the cores in the cluster */
-	enum cpuinfo_vendor vendor;
-	/** CPU microarchitecture of the cores in the cluster */
-	enum cpuinfo_uarch uarch;
+    /** Index of the first logical processor in the cluster */
+    uint32_t processor_start;
+    /** Number of logical processors in the cluster */
+    uint32_t processor_count;
+    /** Index of the first core in the cluster */
+    uint32_t core_start;
+    /** Number of cores on the cluster */
+    uint32_t core_count;
+    /** Cluster ID within a package */
+    uint32_t cluster_id;
+    /** Physical package containing the cluster */
+    const struct cpuinfo_package *package;
+    /** CPU microarchitecture vendor of the cores in the cluster */
+    enum cpuinfo_vendor vendor;
+    /** CPU microarchitecture of the cores in the cluster */
+    enum cpuinfo_uarch uarch;
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	/** Value of CPUID leaf 1 EAX register of the cores in the cluster */
-	uint32_t cpuid;
+    /** Value of CPUID leaf 1 EAX register of the cores in the cluster */
+    uint32_t cpuid;
 #elif CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
     /** Value of Main ID Register (MIDR) of the cores in the cluster */
     uint32_t midr;
 #endif
-	/** Clock rate (non-Turbo) of the cores in the cluster, in Hz */
-	uint64_t frequency;
+    /** Clock rate (non-Turbo) of the cores in the cluster, in Hz */
+    uint64_t frequency;
 };
 
 #define CPUINFO_PACKAGE_NAME_MAX 48
 
 struct cpuinfo_package {
-	/** SoC or processor chip model name */
-	char name[CPUINFO_PACKAGE_NAME_MAX];
-	/** Index of the first logical processor on this physical package */
-	uint32_t processor_start;
-	/** Number of logical processors on this physical package */
-	uint32_t processor_count;
-	/** Index of the first core on this physical package */
-	uint32_t core_start;
-	/** Number of cores on this physical package */
-	uint32_t core_count;
-	/** Index of the first cluster of cores on this physical package */
-	uint32_t cluster_start;
-	/** Number of clusters of cores on this physical package */
-	uint32_t cluster_count;
+    /** SoC or processor chip model name */
+    char name[CPUINFO_PACKAGE_NAME_MAX];
+    /** Index of the first logical processor on this physical package */
+    uint32_t processor_start;
+    /** Number of logical processors on this physical package */
+    uint32_t processor_count;
+    /** Index of the first core on this physical package */
+    uint32_t core_start;
+    /** Number of cores on this physical package */
+    uint32_t core_count;
+    /** Index of the first cluster of cores on this physical package */
+    uint32_t cluster_start;
+    /** Number of clusters of cores on this physical package */
+    uint32_t cluster_count;
 };
 
 struct cpuinfo_uarch_info {
-	/** Type of CPU microarchitecture */
-	enum cpuinfo_uarch uarch;
+    /** Type of CPU microarchitecture */
+    enum cpuinfo_uarch uarch;
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	/** Value of CPUID leaf 1 EAX register for the microarchitecture */
-	uint32_t cpuid;
+    /** Value of CPUID leaf 1 EAX register for the microarchitecture */
+    uint32_t cpuid;
 #elif CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
     /** Value of Main ID Register (MIDR) for the microarchitecture */
     uint32_t midr;
 #endif
-	/** Number of logical processors with the microarchitecture */
-	uint32_t processor_count;
-	/** Number of cores with the microarchitecture */
-	uint32_t core_count;
+    /** Number of logical processors with the microarchitecture */
+    uint32_t processor_count;
+    /** Number of cores with the microarchitecture */
+    uint32_t core_count;
 };
 
 #ifdef __cplusplus
@@ -666,107 +679,107 @@ void CPUINFO_ABI cpuinfo_deinitialize(void);
 /* This structure is not a part of stable API. Use cpuinfo_has_x86_* functions instead. */
 struct cpuinfo_x86_isa {
 #if CPUINFO_ARCH_X86
-	bool rdtsc;
+        bool rdtsc;
 #endif
-	bool rdtscp;
-	bool rdpid;
-	bool sysenter;
+    bool rdtscp;
+    bool rdpid;
+    bool sysenter;
 #if CPUINFO_ARCH_X86
-	bool syscall;
+        bool syscall;
 #endif
-	bool msr;
-	bool clzero;
-	bool clflush;
-	bool clflushopt;
-	bool mwait;
-	bool mwaitx;
+    bool msr;
+    bool clzero;
+    bool clflush;
+    bool clflushopt;
+    bool mwait;
+    bool mwaitx;
 #if CPUINFO_ARCH_X86
-	bool emmx;
+        bool emmx;
 #endif
-	bool fxsave;
-	bool xsave;
+    bool fxsave;
+    bool xsave;
 #if CPUINFO_ARCH_X86
-	bool fpu;
-	bool mmx;
-	bool mmx_plus;
+        bool fpu;
+        bool mmx;
+        bool mmx_plus;
 #endif
-	bool three_d_now;
-	bool three_d_now_plus;
+    bool three_d_now;
+    bool three_d_now_plus;
 #if CPUINFO_ARCH_X86
-	bool three_d_now_geode;
+        bool three_d_now_geode;
 #endif
-	bool prefetch;
-	bool prefetchw;
-	bool prefetchwt1;
+    bool prefetch;
+    bool prefetchw;
+    bool prefetchwt1;
 #if CPUINFO_ARCH_X86
-	bool daz;
-	bool sse;
-	bool sse2;
+        bool daz;
+        bool sse;
+        bool sse2;
 #endif
-	bool sse3;
-	bool ssse3;
-	bool sse4_1;
-	bool sse4_2;
-	bool sse4a;
-	bool misaligned_sse;
-	bool avx;
-	bool fma3;
-	bool fma4;
-	bool xop;
-	bool f16c;
-	bool avx2;
-	bool avx512f;
-	bool avx512pf;
-	bool avx512er;
-	bool avx512cd;
-	bool avx512dq;
-	bool avx512bw;
-	bool avx512vl;
-	bool avx512ifma;
-	bool avx512vbmi;
-	bool avx512vbmi2;
-	bool avx512bitalg;
-	bool avx512vpopcntdq;
-	bool avx512vnni;
-	bool avx512bf16;
-	bool avx512vp2intersect;
-	bool avx512_4vnniw;
-	bool avx512_4fmaps;
-	bool hle;
-	bool rtm;
-	bool xtest;
-	bool mpx;
+    bool sse3;
+    bool ssse3;
+    bool sse4_1;
+    bool sse4_2;
+    bool sse4a;
+    bool misaligned_sse;
+    bool avx;
+    bool fma3;
+    bool fma4;
+    bool xop;
+    bool f16c;
+    bool avx2;
+    bool avx512f;
+    bool avx512pf;
+    bool avx512er;
+    bool avx512cd;
+    bool avx512dq;
+    bool avx512bw;
+    bool avx512vl;
+    bool avx512ifma;
+    bool avx512vbmi;
+    bool avx512vbmi2;
+    bool avx512bitalg;
+    bool avx512vpopcntdq;
+    bool avx512vnni;
+    bool avx512bf16;
+    bool avx512vp2intersect;
+    bool avx512_4vnniw;
+    bool avx512_4fmaps;
+    bool hle;
+    bool rtm;
+    bool xtest;
+    bool mpx;
 #if CPUINFO_ARCH_X86
-	bool cmov;
-	bool cmpxchg8b;
+        bool cmov;
+        bool cmpxchg8b;
 #endif
-	bool cmpxchg16b;
-	bool clwb;
-	bool movbe;
+    bool cmpxchg16b;
+    bool clwb;
+    bool movbe;
 #if CPUINFO_ARCH_X86_64
-	bool lahf_sahf;
+        bool lahf_sahf;
 #endif
-	bool fs_gs_base;
-	bool lzcnt;
-	bool popcnt;
-	bool tbm;
-	bool bmi;
-	bool bmi2;
-	bool adx;
-	bool aes;
-	bool vaes;
-	bool pclmulqdq;
-	bool vpclmulqdq;
-	bool gfni;
-	bool rdrand;
-	bool rdseed;
-	bool sha;
-	bool rng;
-	bool ace;
-	bool ace2;
-	bool phe;
-	bool pmm;
-	bool lwp;
+    bool fs_gs_base;
+    bool lzcnt;
+    bool popcnt;
+    bool tbm;
+    bool bmi;
+    bool bmi2;
+    bool adx;
+    bool aes;
+    bool vaes;
+    bool pclmulqdq;
+    bool vpclmulqdq;
+    bool gfni;
+    bool rdrand;
+    bool rdseed;
+    bool sha;
+    bool rng;
+    bool ace;
+    bool ace2;
+    bool phe;
+    bool pmm;
+    bool lwp;
 };
 
 extern struct cpuinfo_x86_isa cpuinfo_isa;
@@ -774,233 +787,233 @@ extern struct cpuinfo_x86_isa cpuinfo_isa;
 
 static inline bool cpuinfo_has_x86_rdtsc(void) {
 #if CPUINFO_ARCH_X86_64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_X86
 #if defined(__ANDROID__)
-	return true;
+    return true;
 #else
-	return cpuinfo_isa.rdtsc;
+    return cpuinfo_isa.rdtsc;
 #endif
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_rdtscp(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.rdtscp;
+    return cpuinfo_isa.rdtscp;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_rdpid(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.rdpid;
+    return cpuinfo_isa.rdpid;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_clzero(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.clzero;
+    return cpuinfo_isa.clzero;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_mwait(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.mwait;
+    return cpuinfo_isa.mwait;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_mwaitx(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.mwaitx;
+    return cpuinfo_isa.mwaitx;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_fxsave(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.fxsave;
+    return cpuinfo_isa.fxsave;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_xsave(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.xsave;
+    return cpuinfo_isa.xsave;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_fpu(void) {
 #if CPUINFO_ARCH_X86_64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_X86
 #if defined(__ANDROID__)
-	return true;
+    return true;
 #else
-	return cpuinfo_isa.fpu;
+    return cpuinfo_isa.fpu;
 #endif
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_mmx(void) {
 #if CPUINFO_ARCH_X86_64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_X86
 #if defined(__ANDROID__)
-	return true;
+    return true;
 #else
-	return cpuinfo_isa.mmx;
+    return cpuinfo_isa.mmx;
 #endif
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_mmx_plus(void) {
 #if CPUINFO_ARCH_X86_64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_X86
 #if defined(__ANDROID__)
-	return true;
+    return true;
 #else
-	return cpuinfo_isa.mmx_plus;
+    return cpuinfo_isa.mmx_plus;
 #endif
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_3dnow(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.three_d_now;
+    return cpuinfo_isa.three_d_now;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_3dnow_plus(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.three_d_now_plus;
+    return cpuinfo_isa.three_d_now_plus;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_3dnow_geode(void) {
 #if CPUINFO_ARCH_X86_64
-	return false;
+    return false;
 #elif CPUINFO_ARCH_X86
 #if defined(__ANDROID__)
-	return false;
+    return false;
 #else
-	return cpuinfo_isa.three_d_now_geode;
+    return cpuinfo_isa.three_d_now_geode;
 #endif
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_prefetch(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.prefetch;
+    return cpuinfo_isa.prefetch;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_prefetchw(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.prefetchw;
+    return cpuinfo_isa.prefetchw;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_prefetchwt1(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.prefetchwt1;
+    return cpuinfo_isa.prefetchwt1;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_daz(void) {
 #if CPUINFO_ARCH_X86_64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_X86
 #if defined(__ANDROID__)
-	return true;
+    return true;
 #else
-	return cpuinfo_isa.daz;
+    return cpuinfo_isa.daz;
 #endif
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_sse(void) {
 #if CPUINFO_ARCH_X86_64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_X86
 #if defined(__ANDROID__)
-	return true;
+    return true;
 #else
-	return cpuinfo_isa.sse;
+    return cpuinfo_isa.sse;
 #endif
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_sse2(void) {
 #if CPUINFO_ARCH_X86_64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_X86
 #if defined(__ANDROID__)
-	return true;
+    return true;
 #else
-	return cpuinfo_isa.sse2;
+    return cpuinfo_isa.sse2;
 #endif
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_sse3(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
 #if defined(__ANDROID__)
-	return true;
+    return true;
 #else
-	return cpuinfo_isa.sse3;
+    return cpuinfo_isa.sse3;
 #endif
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_ssse3(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
 #if defined(__ANDROID__)
-	return true;
+    return true;
 #else
-	return cpuinfo_isa.ssse3;
+    return cpuinfo_isa.ssse3;
 #endif
 #else
-	return false;
+    return false;
 #endif
 }
 
@@ -1012,9 +1025,9 @@ static inline bool cpuinfo_has_x86_sse4_1(void) {
     return cpuinfo_isa.sse4_1;
 #endif
 #elif CPUINFO_ARCH_X86
-	return cpuinfo_isa.sse4_1;
+    return cpuinfo_isa.sse4_1;
 #else
-	return false;
+    return false;
 #endif
 }
 
@@ -1026,303 +1039,303 @@ static inline bool cpuinfo_has_x86_sse4_2(void) {
     return cpuinfo_isa.sse4_2;
 #endif
 #elif CPUINFO_ARCH_X86
-	return cpuinfo_isa.sse4_2;
+    return cpuinfo_isa.sse4_2;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_sse4a(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.sse4a;
+    return cpuinfo_isa.sse4a;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_misaligned_sse(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.misaligned_sse;
+    return cpuinfo_isa.misaligned_sse;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx;
+    return cpuinfo_isa.avx;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_fma3(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.fma3;
+    return cpuinfo_isa.fma3;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_fma4(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.fma4;
+    return cpuinfo_isa.fma4;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_xop(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.xop;
+    return cpuinfo_isa.xop;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_f16c(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.f16c;
+    return cpuinfo_isa.f16c;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx2(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx2;
+    return cpuinfo_isa.avx2;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512f(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512f;
+    return cpuinfo_isa.avx512f;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512pf(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512pf;
+    return cpuinfo_isa.avx512pf;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512er(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512er;
+    return cpuinfo_isa.avx512er;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512cd(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512cd;
+    return cpuinfo_isa.avx512cd;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512dq(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512dq;
+    return cpuinfo_isa.avx512dq;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512bw(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512bw;
+    return cpuinfo_isa.avx512bw;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512vl(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512vl;
+    return cpuinfo_isa.avx512vl;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512ifma(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512ifma;
+    return cpuinfo_isa.avx512ifma;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512vbmi(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512vbmi;
+    return cpuinfo_isa.avx512vbmi;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512vbmi2(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512vbmi2;
+    return cpuinfo_isa.avx512vbmi2;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512bitalg(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512bitalg;
+    return cpuinfo_isa.avx512bitalg;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512vpopcntdq(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512vpopcntdq;
+    return cpuinfo_isa.avx512vpopcntdq;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512vnni(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512vnni;
+    return cpuinfo_isa.avx512vnni;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512bf16(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512bf16;
+    return cpuinfo_isa.avx512bf16;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512vp2intersect(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512vp2intersect;
+    return cpuinfo_isa.avx512vp2intersect;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512_4vnniw(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512_4vnniw;
+    return cpuinfo_isa.avx512_4vnniw;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_avx512_4fmaps(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.avx512_4fmaps;
+    return cpuinfo_isa.avx512_4fmaps;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_hle(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.hle;
+    return cpuinfo_isa.hle;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_rtm(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.rtm;
+    return cpuinfo_isa.rtm;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_xtest(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.xtest;
+    return cpuinfo_isa.xtest;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_mpx(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.mpx;
+    return cpuinfo_isa.mpx;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_cmov(void) {
 #if CPUINFO_ARCH_X86_64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_X86
-	return cpuinfo_isa.cmov;
+    return cpuinfo_isa.cmov;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_cmpxchg8b(void) {
 #if CPUINFO_ARCH_X86_64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_X86
-	return cpuinfo_isa.cmpxchg8b;
+    return cpuinfo_isa.cmpxchg8b;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_cmpxchg16b(void) {
 #if CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.cmpxchg16b;
+    return cpuinfo_isa.cmpxchg16b;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_clwb(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.clwb;
+    return cpuinfo_isa.clwb;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_movbe(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.movbe;
+    return cpuinfo_isa.movbe;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_lahf_sahf(void) {
 #if CPUINFO_ARCH_X86
-	return true;
+    return true;
 #elif CPUINFO_ARCH_X86_64
     return cpuinfo_isa.lahf_sahf;
 #else
-        return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_lzcnt(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.lzcnt;
+    return cpuinfo_isa.lzcnt;
 #else
-	return false;
+    return false;
 #endif
 }
 
@@ -1334,518 +1347,570 @@ static inline bool cpuinfo_has_x86_popcnt(void) {
     return cpuinfo_isa.popcnt;
 #endif
 #elif CPUINFO_ARCH_X86
-	return cpuinfo_isa.popcnt;
+    return cpuinfo_isa.popcnt;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_tbm(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.tbm;
+    return cpuinfo_isa.tbm;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_bmi(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.bmi;
+    return cpuinfo_isa.bmi;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_bmi2(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.bmi2;
+    return cpuinfo_isa.bmi2;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_adx(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.adx;
+    return cpuinfo_isa.adx;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_aes(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.aes;
+    return cpuinfo_isa.aes;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_vaes(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.vaes;
+    return cpuinfo_isa.vaes;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_pclmulqdq(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.pclmulqdq;
+    return cpuinfo_isa.pclmulqdq;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_vpclmulqdq(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.vpclmulqdq;
+    return cpuinfo_isa.vpclmulqdq;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_gfni(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.gfni;
+    return cpuinfo_isa.gfni;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_rdrand(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.rdrand;
+    return cpuinfo_isa.rdrand;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_rdseed(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.rdseed;
+    return cpuinfo_isa.rdseed;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_x86_sha(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-	return cpuinfo_isa.sha;
+    return cpuinfo_isa.sha;
 #else
-	return false;
+    return false;
 #endif
 }
 
 #if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
 /* This structure is not a part of stable API. Use cpuinfo_has_arm_* functions instead. */
-    struct cpuinfo_arm_isa {
+struct cpuinfo_arm_isa {
 #if CPUINFO_ARCH_ARM
-            bool thumb;
-            bool thumb2;
-            bool thumbee;
-            bool jazelle;
-            bool armv5e;
-            bool armv6;
-            bool armv6k;
-            bool armv7;
-            bool armv7mp;
-            bool armv8;
-            bool idiv;
+        bool thumb;
+        bool thumb2;
+        bool thumbee;
+        bool jazelle;
+        bool armv5e;
+        bool armv6;
+        bool armv6k;
+        bool armv7;
+        bool armv7mp;
+        bool armv8;
+        bool idiv;
 
-            bool vfpv2;
-            bool vfpv3;
-            bool d32;
-            bool fp16;
-            bool fma;
+        bool vfpv2;
+        bool vfpv3;
+        bool d32;
+        bool fp16;
+        bool fma;
 
-            bool wmmx;
-            bool wmmx2;
-            bool neon;
+        bool wmmx;
+        bool wmmx2;
+        bool neon;
 #endif
 #if CPUINFO_ARCH_ARM64
-            bool atomics;
-            bool bf16;
-            bool sve;
-            bool svebf16;
-            bool sve2;
+        bool atomics;
+        bool bf16;
+        bool sve;
+        bool sve2;
+        bool i8mm;
 #endif
-        bool rdm;
-        bool fp16arith;
-        bool dot;
-        bool jscvt;
-        bool fcma;
+    bool rdm;
+    bool fp16arith;
+    bool dot;
+    bool jscvt;
+    bool fcma;
+    bool fhm;
 
-        bool aes;
-        bool sha1;
-        bool sha2;
-        bool pmull;
-        bool crc32;
-    };
+    bool aes;
+    bool sha1;
+    bool sha2;
+    bool pmull;
+    bool crc32;
+};
 
-    extern struct cpuinfo_arm_isa cpuinfo_isa;
+extern struct cpuinfo_arm_isa cpuinfo_isa;
 #endif
 
 static inline bool cpuinfo_has_arm_thumb(void) {
 #if CPUINFO_ARCH_ARM
-	return cpuinfo_isa.thumb;
+    return cpuinfo_isa.thumb;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_thumb2(void) {
 #if CPUINFO_ARCH_ARM
-	return cpuinfo_isa.thumb2;
+    return cpuinfo_isa.thumb2;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_v5e(void) {
 #if CPUINFO_ARCH_ARM
-	return cpuinfo_isa.armv5e;
+    return cpuinfo_isa.armv5e;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_v6(void) {
 #if CPUINFO_ARCH_ARM
-	return cpuinfo_isa.armv6;
+    return cpuinfo_isa.armv6;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_v6k(void) {
 #if CPUINFO_ARCH_ARM
-	return cpuinfo_isa.armv6k;
+    return cpuinfo_isa.armv6k;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_v7(void) {
 #if CPUINFO_ARCH_ARM
-	return cpuinfo_isa.armv7;
+    return cpuinfo_isa.armv7;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_v7mp(void) {
 #if CPUINFO_ARCH_ARM
-	return cpuinfo_isa.armv7mp;
+    return cpuinfo_isa.armv7mp;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_v8(void) {
 #if CPUINFO_ARCH_ARM64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_ARM
-	return cpuinfo_isa.armv8;
+    return cpuinfo_isa.armv8;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_idiv(void) {
 #if CPUINFO_ARCH_ARM64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_ARM
-	return cpuinfo_isa.idiv;
+    return cpuinfo_isa.idiv;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_vfpv2(void) {
 #if CPUINFO_ARCH_ARM
-	return cpuinfo_isa.vfpv2;
+    return cpuinfo_isa.vfpv2;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_vfpv3(void) {
 #if CPUINFO_ARCH_ARM64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_ARM
-	return cpuinfo_isa.vfpv3;
+    return cpuinfo_isa.vfpv3;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_vfpv3_d32(void) {
 #if CPUINFO_ARCH_ARM64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_ARM
-	return cpuinfo_isa.vfpv3 && cpuinfo_isa.d32;
+    return cpuinfo_isa.vfpv3 && cpuinfo_isa.d32;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_vfpv3_fp16(void) {
 #if CPUINFO_ARCH_ARM64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_ARM
-	return cpuinfo_isa.vfpv3 && cpuinfo_isa.fp16;
+    return cpuinfo_isa.vfpv3 && cpuinfo_isa.fp16;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_vfpv3_fp16_d32(void) {
 #if CPUINFO_ARCH_ARM64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_ARM
-	return cpuinfo_isa.vfpv3 && cpuinfo_isa.fp16 && cpuinfo_isa.d32;
+    return cpuinfo_isa.vfpv3 && cpuinfo_isa.fp16 && cpuinfo_isa.d32;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_vfpv4(void) {
 #if CPUINFO_ARCH_ARM64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_ARM
-	return cpuinfo_isa.vfpv3 && cpuinfo_isa.fma;
+    return cpuinfo_isa.vfpv3 && cpuinfo_isa.fma;
 #else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_vfpv4_d32(void) {
 #if CPUINFO_ARCH_ARM64
-	return true;
+    return true;
 #elif CPUINFO_ARCH_ARM
-	return cpuinfo_isa.vfpv3 && cpuinfo_isa.fma && cpuinfo_isa.d32;
+    return cpuinfo_isa.vfpv3 && cpuinfo_isa.fma && cpuinfo_isa.d32;
 #else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_wmmx(void) {
-#if CPUINFO_ARCH_ARM
-	return cpuinfo_isa.wmmx;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_wmmx2(void) {
-#if CPUINFO_ARCH_ARM
-	return cpuinfo_isa.wmmx2;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_neon(void) {
-#if CPUINFO_ARCH_ARM64
-	return true;
-#elif CPUINFO_ARCH_ARM
-	return cpuinfo_isa.neon;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_neon_fp16(void) {
-#if CPUINFO_ARCH_ARM64
-	return true;
-#elif CPUINFO_ARCH_ARM
-	return cpuinfo_isa.neon && cpuinfo_isa.fp16;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_neon_fma(void) {
-#if CPUINFO_ARCH_ARM64
-	return true;
-#elif CPUINFO_ARCH_ARM
-	return cpuinfo_isa.neon && cpuinfo_isa.fma;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_neon_v8(void) {
-#if CPUINFO_ARCH_ARM64
-	return true;
-#elif CPUINFO_ARCH_ARM
-	return cpuinfo_isa.neon && cpuinfo_isa.armv8;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_atomics(void) {
-#if CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.atomics;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_neon_rdm(void) {
-#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.rdm;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_neon_fp16_arith(void) {
-#if CPUINFO_ARCH_ARM
-	return cpuinfo_isa.neon && cpuinfo_isa.fp16arith;
-#elif CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.fp16arith;
-#else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_fp16_arith(void) {
 #if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.fp16arith;
+    return cpuinfo_isa.fp16arith;
 #else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_neon_dot(void) {
-#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.dot;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_jscvt(void) {
-#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.jscvt;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_fcma(void) {
-#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.fcma;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_aes(void) {
-#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.aes;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_sha1(void) {
-#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.sha1;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_sha2(void) {
-#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.sha2;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_pmull(void) {
-#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.pmull;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_crc32(void) {
-#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.crc32;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_sve(void) {
-#if CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.sve;
-#else
-	return false;
-#endif
-}
-
-static inline bool cpuinfo_has_arm_sve2(void) {
-#if CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.sve2;
-#else
-	return false;
+    return false;
 #endif
 }
 
 static inline bool cpuinfo_has_arm_bf16(void) {
 #if CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.bf16;
+    return cpuinfo_isa.bf16;
 #else
-	return false;
+    return false;
 #endif
 }
 
-static inline bool cpuinfo_has_arm_svebf16(void) {
-#if CPUINFO_ARCH_ARM64
-	return cpuinfo_isa.svebf16;
+static inline bool cpuinfo_has_arm_wmmx(void) {
+#if CPUINFO_ARCH_ARM
+    return cpuinfo_isa.wmmx;
 #else
-	return false;
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_wmmx2(void) {
+#if CPUINFO_ARCH_ARM
+    return cpuinfo_isa.wmmx2;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_neon(void) {
+#if CPUINFO_ARCH_ARM64
+    return true;
+#elif CPUINFO_ARCH_ARM
+    return cpuinfo_isa.neon;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_neon_fp16(void) {
+#if CPUINFO_ARCH_ARM64
+    return true;
+#elif CPUINFO_ARCH_ARM
+    return cpuinfo_isa.neon && cpuinfo_isa.fp16;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_neon_fma(void) {
+#if CPUINFO_ARCH_ARM64
+    return true;
+#elif CPUINFO_ARCH_ARM
+    return cpuinfo_isa.neon && cpuinfo_isa.fma;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_neon_v8(void) {
+#if CPUINFO_ARCH_ARM64
+    return true;
+#elif CPUINFO_ARCH_ARM
+    return cpuinfo_isa.neon && cpuinfo_isa.armv8;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_atomics(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.atomics;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_neon_rdm(void) {
+#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.rdm;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_neon_fp16_arith(void) {
+#if CPUINFO_ARCH_ARM
+    return cpuinfo_isa.neon && cpuinfo_isa.fp16arith;
+#elif CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.fp16arith;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_fhm(void) {
+#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.fhm;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_neon_dot(void) {
+#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.dot;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_neon_bf16(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.bf16;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_jscvt(void) {
+#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.jscvt;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_fcma(void) {
+#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.fcma;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_i8mm(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.i8mm;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_aes(void) {
+#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.aes;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sha1(void) {
+#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.sha1;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sha2(void) {
+#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.sha2;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_pmull(void) {
+#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.pmull;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_crc32(void) {
+#if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.crc32;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sve(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.sve;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sve_bf16(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.sve && cpuinfo_isa.bf16;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sve2(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.sve2;
+#else
+    return false;
 #endif
 }
 
 const struct cpuinfo_processor *CPUINFO_ABI cpuinfo_get_processors(void);
+
 const struct cpuinfo_core *CPUINFO_ABI cpuinfo_get_cores(void);
+
 const struct cpuinfo_cluster *CPUINFO_ABI cpuinfo_get_clusters(void);
+
 const struct cpuinfo_package *CPUINFO_ABI cpuinfo_get_packages(void);
+
 const struct cpuinfo_uarch_info *CPUINFO_ABI cpuinfo_get_uarchs(void);
+
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1i_caches(void);
+
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1d_caches(void);
+
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l2_caches(void);
+
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l3_caches(void);
+
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l4_caches(void);
 
 const struct cpuinfo_processor *CPUINFO_ABI cpuinfo_get_processor(uint32_t index);
+
 const struct cpuinfo_core *CPUINFO_ABI cpuinfo_get_core(uint32_t index);
+
 const struct cpuinfo_cluster *CPUINFO_ABI cpuinfo_get_cluster(uint32_t index);
+
 const struct cpuinfo_package *CPUINFO_ABI cpuinfo_get_package(uint32_t index);
+
 const struct cpuinfo_uarch_info *CPUINFO_ABI cpuinfo_get_uarch(uint32_t index);
+
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1i_cache(uint32_t index);
+
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1d_cache(uint32_t index);
+
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l2_cache(uint32_t index);
+
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l3_cache(uint32_t index);
+
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l4_cache(uint32_t index);
 
 uint32_t CPUINFO_ABI cpuinfo_get_processors_count(void);
+
 uint32_t CPUINFO_ABI cpuinfo_get_cores_count(void);
+
 uint32_t CPUINFO_ABI cpuinfo_get_clusters_count(void);
+
 uint32_t CPUINFO_ABI cpuinfo_get_packages_count(void);
+
 uint32_t CPUINFO_ABI cpuinfo_get_uarchs_count(void);
+
 uint32_t CPUINFO_ABI cpuinfo_get_l1i_caches_count(void);
+
 uint32_t CPUINFO_ABI cpuinfo_get_l1d_caches_count(void);
+
 uint32_t CPUINFO_ABI cpuinfo_get_l2_caches_count(void);
+
 uint32_t CPUINFO_ABI cpuinfo_get_l3_caches_count(void);
+
 uint32_t CPUINFO_ABI cpuinfo_get_l4_caches_count(void);
 
 /**
