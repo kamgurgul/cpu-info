@@ -33,7 +33,6 @@ subprojects {
             freeCompilerArgs += listOf(
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=kotlinx.coroutines.FlowPreview",
-                "-opt-in=kotlin.Experimental",
             )
             allWarningsAsErrors = true
             jvmTarget = JavaVersion.VERSION_1_8.toString()

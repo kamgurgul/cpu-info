@@ -1,8 +1,8 @@
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:7.3.1"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:7.4.1"
 
-    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.44.0"
+    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.45.0"
 
     const val bus = "org.greenrobot:eventbus:3.3.1"
 
@@ -15,7 +15,7 @@ object Libs {
     const val coil = "io.coil-kt:coil-compose:2.2.2"
 
     object Kotlin {
-        private const val version = "1.7.20"
+        private const val version = "1.8.10"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
 
@@ -32,8 +32,8 @@ object Libs {
     object AndroidX {
         const val coreKtx = "androidx.core:core-ktx:1.9.0"
         const val activityKtx = "androidx.activity:activity-compose:1.6.1"
-        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.5.4"
-        const val appCompat = "androidx.appcompat:appcompat:1.5.1"
+        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.5.5"
+        const val appCompat = "androidx.appcompat:appcompat:1.6.1"
         const val preference = "androidx.preference:preference:1.2.0"
         const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
@@ -56,8 +56,8 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.3.2"
-            const val bom = "androidx.compose:compose-bom:2022.11.00"
+            const val compilerVersion = "1.4.2"
+            const val bom = "androidx.compose:compose-bom:2023.01.00"
             const val material = "androidx.compose.material:material"
             const val animations = "androidx.compose.animation:animation"
             const val uiTooling = "androidx.compose.ui:ui-tooling"
@@ -67,15 +67,15 @@ object Libs {
         object Test {
             private const val version = "1.5.0"
             const val core = "androidx.test:core:$version"
-            const val runner = "androidx.test:runner:$version"
+            const val runner = "androidx.test:runner:1.5.2"
             const val rules = "androidx.test:rules:$version"
 
             const val archCoreTesting = "androidx.arch.core:core-testing:2.1.0"
-            const val jUnitExt = "androidx.test.ext:junit:1.1.4"
+            const val jUnitExt = "androidx.test.ext:junit:1.1.5"
             const val orchestrator = "androidx.test:orchestrator:1.4.2"
 
             object Espresso {
-                private const val version = "3.5.0"
+                private const val version = "3.5.1"
                 const val core = "androidx.test.espresso:espresso-core:$version"
                 const val contrib = "androidx.test.espresso:espresso-contrib:$version"
             }
@@ -83,17 +83,17 @@ object Libs {
     }
 
     object Google {
-        const val material = "com.google.android.material:material:1.7.0"
-        const val gson = "com.google.code.gson:gson:2.10"
+        const val material = "com.google.android.material:material:1.8.0"
+        const val gson = "com.google.code.gson:gson:2.10.1"
     }
 
     object Rx {
-        const val rxJava = "io.reactivex.rxjava3:rxjava:3.1.5"
+        const val rxJava = "io.reactivex.rxjava3:rxjava:3.1.6"
         const val rxAndroid = "io.reactivex.rxjava3:rxandroid:3.0.2"
     }
 
     object Hilt {
-        private const val version = "2.44.2"
+        private const val version = "2.45"
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$version"
@@ -114,7 +114,7 @@ object Libs {
     }
 
     object Mockito {
-        const val core = "org.mockito:mockito-core:4.9.0"
+        const val core = "org.mockito:mockito-core:5.1.1"
         const val kotlin = "org.mockito.kotlin:mockito-kotlin:4.1.0"
     }
 }
