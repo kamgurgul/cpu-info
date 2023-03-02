@@ -22,6 +22,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.theme.CpuInfoTheme
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -126,28 +127,35 @@ fun ApplicationItem(
 }
 
 @Preview
-@Composable
-fun ApplicationInfoPreviewLight() {
-    CpuInfoTheme {
-        Surface {
-            ApplicationItem(previewAppData) {}
-        }
-    }
-}
-
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ApplicationInfoPreviewDark() {
     CpuInfoTheme {
         Surface {
-            ApplicationItem(previewAppData) {}
+            ApplicationsScreen(
+                uiState = NewApplicationsViewModel.UiState(
+                    applications = persistentListOf(previewAppData1, previewAppData2)
+                ),
+                onAppClicked = {},
+                onRefreshApplications = {},
+                onSnackbarDismissed = {},
+            )
         }
     }
 }
 
-private val previewAppData = ExtendedApplicationData(
+private val previewAppData1 = ExtendedApplicationData(
     "Cpu Info",
     "com.kgurgul.cpuinfo",
+    "/testDir",
+    null,
+    false,
+    Uri.parse("https://avatars.githubusercontent.com/u/6407041?s=32&v=4")
+)
+
+private val previewAppData2 = ExtendedApplicationData(
+    "Cpu Info1",
+    "com.kgurgul.cpuinfo1",
     "/testDir",
     null,
     false,

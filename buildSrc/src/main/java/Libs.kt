@@ -1,8 +1,8 @@
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:7.4.1"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:7.4.2"
 
-    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.45.0"
+    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.46.0"
 
     const val bus = "org.greenrobot:eventbus:3.3.1"
 
@@ -56,7 +56,7 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.4.2"
+            const val compilerVersion = "1.4.3"
             const val bom = "androidx.compose:compose-bom:2023.01.00"
             const val material = "androidx.compose.material:material"
             const val animations = "androidx.compose.animation:animation"
@@ -70,7 +70,7 @@ object Libs {
             const val runner = "androidx.test:runner:1.5.2"
             const val rules = "androidx.test:rules:$version"
 
-            const val archCoreTesting = "androidx.arch.core:core-testing:2.1.0"
+            const val archCoreTesting = "androidx.arch.core:core-testing:2.2.0"
             const val jUnitExt = "androidx.test.ext:junit:1.1.5"
             const val orchestrator = "androidx.test:orchestrator:1.4.2"
 
@@ -101,7 +101,7 @@ object Libs {
     }
 
     object Glide {
-        private const val version = "4.14.2"
+        private const val version = "4.15.0"
         const val glide = "com.github.bumptech.glide:glide:$version"
         const val compiler = "com.github.bumptech.glide:compiler:$version"
     }
