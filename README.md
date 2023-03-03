@@ -26,6 +26,7 @@ Still TODO
 * Replace RxJava with coroutines
 * Tests
 * Add benchmarks
+* Detect IR and Vulcan api
 
 Alternative stores
 ==================
