@@ -48,7 +48,7 @@ import java.io.File
 
 @AndroidEntryPoint
 class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
-        R.layout.fragment_applications
+    R.layout.fragment_applications
 ), ApplicationsAdapter.ItemClickListener {
 
     private val viewModel: ApplicationsViewModel by viewModels()
@@ -98,8 +98,10 @@ class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
      */
     private fun setupRecyclerView() {
         val applicationsAdapter = ApplicationsAdapter(viewModel.applicationList, this)
-        viewModel.applicationList.listStatusChangeNotificator.observe(viewLifecycleOwner,
-                ListLiveDataObserver(applicationsAdapter))
+        viewModel.applicationList.listStatusChangeNotificator.observe(
+            viewLifecycleOwner,
+            ListLiveDataObserver(applicationsAdapter)
+        )
 
         binding.recyclerView.apply {
             layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
@@ -135,8 +137,10 @@ class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
         val appInfo = viewModel.applicationList[position]
         // Block self opening
         if (appInfo.packageName == requireContext().packageName) {
-            Snackbar.make(binding.mainContainer, getString(R.string.cpu_open),
-                    Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(
+                binding.mainContainer, getString(R.string.cpu_open),
+                Snackbar.LENGTH_SHORT
+            ).show()
             return
         }
 
@@ -145,12 +149,16 @@ class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
             try {
                 startActivity(intent)
             } catch (e: Exception) {
-                Snackbar.make(binding.mainContainer, getString(R.string.app_open),
-                        Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(
+                    binding.mainContainer, getString(R.string.app_open),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         } else {
-            Snackbar.make(binding.mainContainer, getString(R.string.app_open),
-                    Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(
+                binding.mainContainer, getString(R.string.app_open),
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -170,8 +178,10 @@ class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
     override fun appUninstallClicked(position: Int) {
         val appInfo = viewModel.applicationList[position]
         if (appInfo.packageName == requireContext().packageName) {
-            Snackbar.make(binding.mainContainer, getString(R.string.cpu_uninstall),
-                    Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(
+                binding.mainContainer, getString(R.string.cpu_uninstall),
+                Snackbar.LENGTH_SHORT
+            ).show()
             return
         }
         requireActivity().uninstallApp(appInfo.packageName)
@@ -196,8 +206,10 @@ class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
         val libs = nativeDirFile.listFiles()?.map { it.name } ?: emptyList()
 
         val listView: ListView = dialogLayout.findViewById(R.id.dialog_lv)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_native_libs,
-                R.id.native_name_tv, libs)
+        val arrayAdapter = ArrayAdapter(
+            requireContext(), R.layout.item_native_libs,
+            R.id.native_name_tv, libs
+        )
         listView.adapter = arrayAdapter
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             Utils.searchInGoogle(requireContext(), libs[position])
