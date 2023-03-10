@@ -132,6 +132,7 @@
     <string name="battery_overvoltage">Überspannung</string>
     <string name="battery_unknown">Unbekannt</string>
     <string name="battery_unspecified_failure">Unspezifizierter Fehler</string>
+    <string name="ir_emitter">IR Emitter</string>
 
     <!--Prefs-->
     <string name="default_refreshing">Android-Standard</string>

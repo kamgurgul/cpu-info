@@ -131,6 +131,7 @@
     <string name="battery_overvoltage">電壓過高</string>
     <string name="battery_unknown">未知</string>
     <string name="battery_unspecified_failure">不明確的問題發生</string>
+    <string name="ir_emitter">IR Emitter</string>
 
     <!--Prefs-->
     <string name="default_refreshing">Android預設值</string>

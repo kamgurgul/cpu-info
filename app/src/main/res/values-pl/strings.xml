@@ -128,6 +128,7 @@
     <string name="battery_overvoltage">Przepięcie</string>
     <string name="battery_unknown">Nieznana</string>
     <string name="battery_unspecified_failure">Nieznana usterka</string>
+    <string name="ir_emitter">Nadajnik IR</string>
 
     <!--Prefs-->
     <string name="default_refreshing">Domyślna wartość Androida</string>

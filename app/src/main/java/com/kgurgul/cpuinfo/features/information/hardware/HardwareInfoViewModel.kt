@@ -24,6 +24,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.Camera
+import android.hardware.ConsumerIrManager
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import androidx.lifecycle.ViewModel
@@ -56,7 +57,8 @@ class HardwareInfoViewModel @Inject constructor(
     private val packageManager: PackageManager,
     private val contentResolver: ContentResolver,
     private val batteryStatusProvider: BatteryStatusProvider,
-    private val wifiManager: WifiManager
+    private val wifiManager: WifiManager,
+    private val irManager: ConsumerIrManager,
 ) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
@@ -278,6 +280,10 @@ class HardwareInfoViewModel @Inject constructor(
             functionsList.add(resources.getString(R.string.wifi_mac) to value)
         } catch (ignored: Exception) {
         }
+
+        // IR
+        val hasIr = irManager.hasIrEmitter()
+        functionsList.add(resources.getString(R.string.ir_emitter) to getYesNoString(hasIr))
 
         return functionsList
     }

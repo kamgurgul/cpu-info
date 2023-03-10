@@ -129,6 +129,7 @@
     <string name="battery_overvoltage">Příliš vysoké napětí</string>
     <string name="battery_unknown">Neznámý</string>
     <string name="battery_unspecified_failure">Neurčený nezdar</string>
+    <string name="ir_emitter">IR Emitter</string>
 
     <!--Prefs-->
     <string name="default_refreshing">Výchozí hodnota z Android</string>

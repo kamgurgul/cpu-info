@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/applications"
-        android:name="com.kgurgul.cpuinfo.features.applications.ApplicationsFragment"
+        android:name="com.kgurgul.cpuinfo.features.applications.NewApplicationsFragment"
         android:label="@string/applications"
         tools:layout="@layout/fragment_applications" />
 

@@ -24,6 +24,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.hardware.ConsumerIrManager
 import android.hardware.SensorManager
 import android.net.wifi.WifiManager
 import android.os.storage.StorageManager
@@ -108,6 +109,11 @@ class AppModule {
                 appContext.preferencesDataStoreFile(USER_PREFERENCES_NAME)
             }
         )
+
+    @Provides
+    @Singleton
+    fun provideIrManager(@ApplicationContext appContext: Context): ConsumerIrManager =
+        appContext.getSystemService(Context.CONSUMER_IR_SERVICE) as ConsumerIrManager
 
     companion object {
         const val USER_PREFERENCES_NAME = "user_preferences"
