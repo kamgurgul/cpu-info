@@ -7,10 +7,16 @@ import com.kgurgul.cpuinfo.itemValue
 import com.kgurgul.cpuinfo.verticalDivider
 
 class GpuInfoEpoxyController(
-        private val context: Context
+    private val context: Context
 ) : TypedEpoxyController<GpuInfoViewState>() {
 
     override fun buildModels(data: GpuInfoViewState) {
+        itemValue {
+            id("vulkan_version")
+            title(this@GpuInfoEpoxyController.context.getString(R.string.vulkan_version))
+            value(data.gpuData.vulkanVersion)
+        }
+        verticalDivider { id("vulkan_divider") }
         itemValue {
             id("gles_version")
             title(this@GpuInfoEpoxyController.context.getString(R.string.gles_version))

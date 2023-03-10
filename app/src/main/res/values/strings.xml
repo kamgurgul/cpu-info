@@ -72,6 +72,7 @@
     <string name="calculating">calculating…</string>
 
     <!--GPU-->
+    <string name="vulkan_version">Vulkan Version</string>
     <string name="gles_version">GLES Version</string>
     <string name="vendor">Vendor</string>
     <string name="version">Version</string>
