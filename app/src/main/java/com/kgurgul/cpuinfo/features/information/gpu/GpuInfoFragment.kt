@@ -47,9 +47,9 @@ class GpuInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragm
     private val glRenderer = object : GLSurfaceView.Renderer {
         override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
             viewModel.onGlInfoReceived(
-                    gl.glGetString(GL10.GL_VENDOR),
-                    gl.glGetString(GL10.GL_RENDERER),
-                    gl.glGetString(GL10.GL_EXTENSIONS)
+                gl.glGetString(GL10.GL_VENDOR),
+                gl.glGetString(GL10.GL_RENDERER),
+                gl.glGetString(GL10.GL_EXTENSIONS)
             )
             handler.post { glSurfaceView?.visibility = View.GONE }
         }
@@ -61,8 +61,10 @@ class GpuInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragm
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         val view = super.onCreateView(inflater, container, savedInstanceState)
         glSurfaceView = GLSurfaceView(requireActivity()).apply {
             setEGLConfigChooser(8, 8, 8, 8, 16, 0)
