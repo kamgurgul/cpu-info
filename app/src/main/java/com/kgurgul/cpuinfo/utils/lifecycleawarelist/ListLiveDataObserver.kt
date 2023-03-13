@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.utils.lifecycleawarelist
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 
@@ -25,21 +26,20 @@ import androidx.recyclerview.widget.RecyclerView
  *
  * @author kgurgul
  */
-class ListLiveDataObserver(val adapter: RecyclerView.Adapter<*>)
-    : Observer<ListLiveDataChangeEvent> {
+class ListLiveDataObserver(val adapter: RecyclerView.Adapter<*>) :
+    Observer<ListLiveDataChangeEvent> {
 
-    override fun onChanged(changeEvent: ListLiveDataChangeEvent?) {
-        changeEvent?.let {
-            when (it.listLiveDataState) {
-                ListLiveDataState.CHANGED ->
-                    adapter.notifyDataSetChanged()
-                ListLiveDataState.ITEM_RANGE_CHANGED ->
-                    adapter.notifyItemRangeChanged(it.startIndex, it.itemCount)
-                ListLiveDataState.ITEM_RANGE_INSERTED ->
-                    adapter.notifyItemRangeInserted(it.startIndex, it.itemCount)
-                ListLiveDataState.ITEM_RANGE_REMOVED ->
-                    adapter.notifyItemRangeRemoved(it.startIndex, it.itemCount)
-            }
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onChanged(value: ListLiveDataChangeEvent) {
+        when (value.listLiveDataState) {
+            ListLiveDataState.CHANGED ->
+                adapter.notifyDataSetChanged()
+            ListLiveDataState.ITEM_RANGE_CHANGED ->
+                adapter.notifyItemRangeChanged(value.startIndex, value.itemCount)
+            ListLiveDataState.ITEM_RANGE_INSERTED ->
+                adapter.notifyItemRangeInserted(value.startIndex, value.itemCount)
+            ListLiveDataState.ITEM_RANGE_REMOVED ->
+                adapter.notifyItemRangeRemoved(value.startIndex, value.itemCount)
         }
     }
 }

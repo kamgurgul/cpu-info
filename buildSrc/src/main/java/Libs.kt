@@ -42,7 +42,7 @@ object Libs {
         const val datastorePreferences = "androidx.datastore:datastore-preferences:1.0.0"
 
         object Lifecycle {
-            private const val version = "2.5.1"
+            private const val version = "2.6.0"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
             const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$version"
             const val common = "androidx.lifecycle:lifecycle-common-java8:$version"
@@ -114,7 +114,7 @@ object Libs {
     }
 
     object Mockito {
-        const val core = "org.mockito:mockito-core:5.1.1"
+        const val core = "org.mockito:mockito-core:5.2.0"
         const val kotlin = "org.mockito.kotlin:mockito-kotlin:4.1.0"
     }
 }
