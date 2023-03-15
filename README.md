@@ -5,8 +5,6 @@
 CPU Info (refactor-in-progress ⛏)
 =================================
 CPU Info provides information about Android device hardware and software.
-Most of the code is written in Kotlin but some old widgets are still in
-Java.
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
 alt="Get it on F-Droid"
@@ -26,7 +24,6 @@ Still TODO
 * Replace RxJava with coroutines
 * Tests
 * Add benchmarks
-* Detect IR and Vulcan api
 
 Alternative stores
 ==================
