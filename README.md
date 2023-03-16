@@ -24,6 +24,7 @@ Still TODO
 * Replace RxJava with coroutines
 * Tests
 * Add benchmarks
+* Add translations framework
 
 Alternative stores
 ==================
