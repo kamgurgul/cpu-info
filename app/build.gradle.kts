@@ -114,6 +114,7 @@ dependencies {
     implementation(Libs.AndroidX.datastorePreferences)
 
     implementation(Libs.AndroidX.Lifecycle.viewModelKtx)
+    implementation(Libs.AndroidX.Lifecycle.runtimeCompose)
     implementation(Libs.AndroidX.Lifecycle.liveDataKtx)
     implementation(Libs.AndroidX.Lifecycle.common)
 
