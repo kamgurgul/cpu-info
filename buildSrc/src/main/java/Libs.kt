@@ -12,7 +12,7 @@ object Libs {
 
     const val junit = "junit:junit:4.13.2"
 
-    const val coil = "io.coil-kt:coil-compose:2.2.2"
+    const val coil = "io.coil-kt:coil-compose:2.3.0"
 
     object Kotlin {
         private const val version = "1.8.10"
