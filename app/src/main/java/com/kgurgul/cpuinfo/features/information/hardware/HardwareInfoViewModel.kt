@@ -58,7 +58,7 @@ class HardwareInfoViewModel @Inject constructor(
     private val contentResolver: ContentResolver,
     private val batteryStatusProvider: BatteryStatusProvider,
     private val wifiManager: WifiManager,
-    private val irManager: ConsumerIrManager,
+    private val irManager: ConsumerIrManager?,
 ) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
@@ -264,12 +264,16 @@ class HardwareInfoViewModel @Inject constructor(
             functionsList.add("Wi-Fi P2P" to getYesNoString(wifiManager.isP2pSupported))
         }
 
-        val bluetoothMac = android.provider.Settings.Secure.getString(
-            contentResolver,
-            "bluetooth_address"
-        )
-        if (bluetoothMac != null && bluetoothMac.isNotEmpty())
-            functionsList.add(resources.getString(R.string.bluetooth_mac) to bluetoothMac)
+        try {
+            val bluetoothMac = android.provider.Settings.Secure.getString(
+                contentResolver,
+                "bluetooth_address"
+            )
+            if (bluetoothMac != null && bluetoothMac.isNotEmpty())
+                functionsList.add(resources.getString(R.string.bluetooth_mac) to bluetoothMac)
+        } catch (e: Exception) {
+            // ignored
+        }
 
         // Wi-Fi mac
         val filePath = "/sys/class/net/wlan0/address"
@@ -282,7 +286,7 @@ class HardwareInfoViewModel @Inject constructor(
         }
 
         // IR
-        val hasIr = irManager.hasIrEmitter()
+        val hasIr = irManager?.hasIrEmitter() ?: false
         functionsList.add(resources.getString(R.string.ir_emitter) to getYesNoString(hasIr))
 
         return functionsList

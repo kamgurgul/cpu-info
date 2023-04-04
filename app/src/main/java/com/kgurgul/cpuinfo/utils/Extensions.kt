@@ -36,20 +36,28 @@ import kotlin.math.roundToLong
  *
  * @author kgurgul
  */
-fun Float.round1(): Float = (this * 10.0).roundToLong() / 10.0f
+fun Float.round1(): Float = try {
+    (this * 10.0).roundToLong() / 10.0f
+} catch (e: Exception) {
+    0.0f
+}
 
-fun Double.round1(): Double = (this * 10.0).roundToLong() / 10.0
+fun Double.round1(): Double = try {
+    (this * 10.0).roundToLong() / 10.0
+} catch (e: Exception) {
+    0.0
+}
 
-fun Float.round2(): Float = (this * 100.0).roundToLong() / 100.0f
+fun Float.round2(): Float = try {
+    (this * 100.0).roundToLong() / 100.0f
+} catch (e: Exception) {
+    0.0f
+}
 
-fun Double.round2(): Double = (this * 100.0).roundToLong() / 100.0
-
-inline fun runOnApi(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
-    if (Build.VERSION.SDK_INT == api) {
-        f()
-    } else {
-        otherwise()
-    }
+fun Double.round2(): Double = try {
+    (this * 100.0).roundToLong() / 100.0
+} catch (e: Exception) {
+    0.0
 }
 
 inline fun runOnApiBelow(api: Int, f: () -> Unit) {

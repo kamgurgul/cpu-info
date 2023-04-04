@@ -19,6 +19,8 @@ package com.kgurgul.cpuinfo.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
+import com.kgurgul.cpuinfo.R
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
@@ -72,7 +74,11 @@ object Utils {
     fun searchInGoogle(context: Context, query: String) {
         val uri = Uri.parse("http://www.google.com/search?q=$query")
         val intent = Intent(Intent.ACTION_VIEW, uri)
-        context.startActivity(intent)
+        try {
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(context, R.string.action_not_supported, Toast.LENGTH_SHORT).show()
+        }
     }
 
     /**

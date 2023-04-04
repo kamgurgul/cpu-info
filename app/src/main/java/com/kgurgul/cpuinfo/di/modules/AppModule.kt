@@ -112,8 +112,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideIrManager(@ApplicationContext appContext: Context): ConsumerIrManager =
-        appContext.getSystemService(Context.CONSUMER_IR_SERVICE) as ConsumerIrManager
+    fun provideIrManager(@ApplicationContext appContext: Context): ConsumerIrManager? =
+        appContext.getSystemService(Context.CONSUMER_IR_SERVICE) as? ConsumerIrManager?
 
     companion object {
         const val USER_PREFERENCES_NAME = "user_preferences"
