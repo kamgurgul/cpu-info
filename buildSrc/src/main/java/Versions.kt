@@ -5,7 +5,7 @@ object Versions {
     const val COMPILE_SDK = 33
 
     private const val VERSION_MAJOR = 4
-    private const val VERSION_MINOR = 7
+    private const val VERSION_MINOR = 8
     private const val VERSION_PATCH = 0
 
     const val VERSION_CODE = VERSION_MAJOR * 10000 + VERSION_MINOR * 100 + VERSION_PATCH
