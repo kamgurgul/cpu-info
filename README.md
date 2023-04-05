@@ -25,6 +25,7 @@ TODO
 * Tests
 * Add benchmarks
 * Add translations framework
+* Migrate to Material 3
 
 Alternative stores
 ==================
