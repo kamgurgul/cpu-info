@@ -108,7 +108,7 @@ object Libs {
     }
 
     object Airbnb {
-        private const val version = "5.1.2"
+        private const val version = "5.1.1"
         const val epoxy = "com.airbnb.android:epoxy:$version"
         const val processor = "com.airbnb.android:epoxy-processor:$version"
         const val dataBinding = "com.airbnb.android:epoxy-databinding:$version"
