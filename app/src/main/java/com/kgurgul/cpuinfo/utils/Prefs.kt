@@ -31,7 +31,7 @@ class Prefs @Inject constructor(private val sharedPreferences: SharedPreferences
      * Verify if passed [key] is already saved in [SharedPreferences]
      */
     fun contains(key: String): Boolean =
-            sharedPreferences.contains(key)
+        sharedPreferences.contains(key)
 
     /**
      * Insert passed [value] with specific [key] into [SharedPreferences]. If [value] isn't a known

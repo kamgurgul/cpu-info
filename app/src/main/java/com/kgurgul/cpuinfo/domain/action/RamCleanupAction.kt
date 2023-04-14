@@ -5,7 +5,7 @@ import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import javax.inject.Inject
 
 class RamCleanupAction @Inject constructor(
-        dispatchersProvider: DispatchersProvider
+    dispatchersProvider: DispatchersProvider
 ) : ResultInteractor<Unit, Unit>() {
 
     override val dispatcher = dispatchersProvider.io

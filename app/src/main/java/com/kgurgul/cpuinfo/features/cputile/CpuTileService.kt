@@ -8,7 +8,12 @@ import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
 import com.kgurgul.cpuinfo.utils.DispatchersProvider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -42,9 +47,9 @@ class CpuTileService : TileService(), CoroutineScope {
 
     private val icons by lazy {
         mapOf<CPULoad, Icon>(
-                CPULoad.Low to Icon.createWithResource(this, R.drawable.ic_cpu_low),
-                CPULoad.Medium to Icon.createWithResource(this, R.drawable.ic_cpu_med),
-                CPULoad.High to Icon.createWithResource(this, R.drawable.ic_cpu_high)
+            CPULoad.Low to Icon.createWithResource(this, R.drawable.ic_cpu_low),
+            CPULoad.Medium to Icon.createWithResource(this, R.drawable.ic_cpu_med),
+            CPULoad.High to Icon.createWithResource(this, R.drawable.ic_cpu_high)
         )
     }
     private val defaultIcon by lazy { Icon.createWithResource(this, R.drawable.ic_cpu_high) }

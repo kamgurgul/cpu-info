@@ -32,7 +32,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class GpuInfoViewModel @Inject constructor(
-        private val observableGpuData: GpuDataObservable
+    private val observableGpuData: GpuDataObservable
 ) : ViewModel() {
 
     val viewState = observableGpuData.observe()

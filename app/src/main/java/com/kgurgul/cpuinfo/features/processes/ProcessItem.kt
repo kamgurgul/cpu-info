@@ -21,5 +21,7 @@ package com.kgurgul.cpuinfo.features.processes
  *
  * @author kgurgul
  */
-data class ProcessItem(val name: String, val pid: String, val ppid: String, val niceness: String,
-                       val user: String, val rss: String, val vsize: String)
+data class ProcessItem(
+    val name: String, val pid: String, val ppid: String, val niceness: String,
+    val user: String, val rss: String, val vsize: String
+)

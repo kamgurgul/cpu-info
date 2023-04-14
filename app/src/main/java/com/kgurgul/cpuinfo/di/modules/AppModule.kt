@@ -53,43 +53,43 @@ class AppModule {
     @Provides
     @Singleton
     fun provideResources(@ApplicationContext appContext: Context): Resources =
-            appContext.resources
+        appContext.resources
 
     @Provides
     @Singleton
     fun provideActivityManager(@ApplicationContext appContext: Context): ActivityManager =
-            appContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        appContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
     @Provides
     @Singleton
     fun provideDevicePolicyManager(@ApplicationContext appContext: Context): DevicePolicyManager =
-            appContext.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+        appContext.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
     @Provides
     @Singleton
     fun providePackageManager(@ApplicationContext appContext: Context): PackageManager =
-            appContext.packageManager
+        appContext.packageManager
 
     @Provides
     @Singleton
     fun provideContentResolver(@ApplicationContext appContext: Context): ContentResolver =
-            appContext.contentResolver
+        appContext.contentResolver
 
     @Provides
     @Singleton
     fun provideWindowManager(@ApplicationContext appContext: Context): WindowManager =
-            appContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        appContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
     @Provides
     @Singleton
     fun provideSensorManager(@ApplicationContext appContext: Context): SensorManager =
-            appContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        appContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
     @SuppressLint("WifiManagerPotentialLeak")
     @Provides
     @Singleton
     fun provideWifiManager(@ApplicationContext appContext: Context): WifiManager =
-            appContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        appContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
     @Provides
     @Singleton

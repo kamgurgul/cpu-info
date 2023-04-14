@@ -33,7 +33,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class CpuInfoViewModel @Inject constructor(
-        cpuDataObservable: CpuDataObservable
+    cpuDataObservable: CpuDataObservable
 ) : ViewModel() {
 
     val viewState = cpuDataObservable.observe()

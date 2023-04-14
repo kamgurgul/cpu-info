@@ -34,17 +34,17 @@ import com.kgurgul.cpuinfo.features.information.storage.StorageInfoFragment
 class InfoContainerStateAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun createFragment(position: Int): Fragment =
-            when (position) {
-                CPU_POS -> CpuInfoFragment()
-                GPU_POS -> GpuInfoFragment()
-                RAM_POS -> RamInfoFragment()
-                STORAGE_POS -> StorageInfoFragment()
-                SCREEN_POS -> ScreenInfoFragment()
-                ANDROID_POS -> AndroidInfoFragment()
-                HARDWARE_POS -> HardwareInfoFragment()
-                SENSORS_POS -> SensorsInfoFragment()
-                else -> throw IllegalArgumentException("Unknown position for ViewPager2")
-            }
+        when (position) {
+            CPU_POS -> CpuInfoFragment()
+            GPU_POS -> GpuInfoFragment()
+            RAM_POS -> RamInfoFragment()
+            STORAGE_POS -> StorageInfoFragment()
+            SCREEN_POS -> ScreenInfoFragment()
+            ANDROID_POS -> AndroidInfoFragment()
+            HARDWARE_POS -> HardwareInfoFragment()
+            SENSORS_POS -> SensorsInfoFragment()
+            else -> throw IllegalArgumentException("Unknown position for ViewPager2")
+        }
 
     override fun getItemCount(): Int = INFO_PAGE_AMOUNT
 

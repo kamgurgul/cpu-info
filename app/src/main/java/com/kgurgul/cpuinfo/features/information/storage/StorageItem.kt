@@ -21,7 +21,9 @@ package com.kgurgul.cpuinfo.features.information.storage
  *
  * @author kgurgul
  */
-data class StorageItem(val type: String,
-                       val iconRes: Int,
-                       val storageTotal: Long,
-                       val storageUsed: Long)
+data class StorageItem(
+    val type: String,
+    val iconRes: Int,
+    val storageTotal: Long,
+    val storageUsed: Long
+)

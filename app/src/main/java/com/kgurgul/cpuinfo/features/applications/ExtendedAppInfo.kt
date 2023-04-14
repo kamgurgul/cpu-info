@@ -22,11 +22,11 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ExtendedAppInfo(
-        val name: String,
-        val packageName: String,
-        val sourceDir: String,
-        val nativeLibraryDir: String?,
-        val hasNativeLibs: Boolean,
-        val appIconUri: Uri,
-        var appSize: Long = 0
+    val name: String,
+    val packageName: String,
+    val sourceDir: String,
+    val nativeLibraryDir: String?,
+    val hasNativeLibs: Boolean,
+    val appIconUri: Uri,
+    var appSize: Long = 0
 ) : Parcelable

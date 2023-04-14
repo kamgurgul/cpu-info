@@ -33,10 +33,10 @@ import com.kgurgul.cpuinfo.R
  * @author kgurgul
  */
 class InfoItemsAdapter(
-        private val itemsObservableList: List<Pair<String, String>>,
-        private val layoutType: LayoutType = InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT,
-        private val onClickListener: OnClickListener? = null)
-    : RecyclerView.Adapter<InfoItemsAdapter.SingleItemViewHolder>() {
+    private val itemsObservableList: List<Pair<String, String>>,
+    private val layoutType: LayoutType = InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT,
+    private val onClickListener: OnClickListener? = null
+) : RecyclerView.Adapter<InfoItemsAdapter.SingleItemViewHolder>() {
 
     enum class LayoutType {
         HORIZONTAL_LAYOUT, VERTICAL_LAYOUT
@@ -45,8 +45,12 @@ class InfoItemsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleItemViewHolder {
         val layout = if (layoutType == LayoutType.HORIZONTAL_LAYOUT)
             R.layout.item_value else R.layout.item_value_vertical
-        return SingleItemViewHolder(LayoutInflater.from(parent.context).inflate(layout, parent,
-                false), onClickListener)
+        return SingleItemViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                layout, parent,
+                false
+            ), onClickListener
+        )
     }
 
     override fun onBindViewHolder(holder: SingleItemViewHolder, position: Int) {
@@ -56,8 +60,9 @@ class InfoItemsAdapter(
     override fun getItemCount(): Int = itemsObservableList.size
 
     class SingleItemViewHolder(
-            itemView: View,
-            onClickListener: OnClickListener?) : RecyclerView.ViewHolder(itemView) {
+        itemView: View,
+        onClickListener: OnClickListener?
+    ) : RecyclerView.ViewHolder(itemView) {
 
         private val titleTv: TextView = itemView.findViewById(R.id.title_tv)
         private val valueTv: TextView = itemView.findViewById(R.id.value_tv)
@@ -84,8 +89,12 @@ class InfoItemsAdapter(
                 titleTv.setTextColor(ContextCompat.getColor(titleTv.context, R.color.accent))
                 valueTv.visibility = View.GONE
             } else {
-                titleTv.setTextColor(ContextCompat.getColor(titleTv.context,
-                        R.color.onSurface))
+                titleTv.setTextColor(
+                    ContextCompat.getColor(
+                        titleTv.context,
+                        R.color.onSurface
+                    )
+                )
                 valueTv.visibility = View.VISIBLE
             }
         }

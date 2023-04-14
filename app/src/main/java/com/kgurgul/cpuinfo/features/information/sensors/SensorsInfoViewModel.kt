@@ -34,7 +34,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SensorsInfoViewModel @Inject constructor(
-        private val sensorManager: SensorManager
+    private val sensorManager: SensorManager
 ) : ViewModel(), SensorEventListener {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
@@ -50,8 +50,10 @@ class SensorsInfoViewModel @Inject constructor(
         // Start register process on new Thread to avoid UI block
         Thread {
             for (sensor in sensorList) {
-                sensorManager.registerListener(this, sensor,
-                        SensorManager.SENSOR_DELAY_NORMAL)
+                sensorManager.registerListener(
+                    this, sensor,
+                    SensorManager.SENSOR_DELAY_NORMAL
+                )
             }
         }.start()
     }
@@ -90,29 +92,44 @@ class SensorsInfoViewModel @Inject constructor(
         when (sensorType) {
             Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GRAVITY, Sensor.TYPE_LINEAR_ACCELERATION ->
                 data = "X=${event.values[0].round1()}m/s²  Y=${
-                event.values[1].round1()}m/s²  Z=${event.values[2].round1()}m/s²"
+                    event.values[1].round1()
+                }m/s²  Z=${event.values[2].round1()}m/s²"
+
             Sensor.TYPE_GYROSCOPE ->
                 data = "X=${event.values[0].round1()}rad/s  Y=${
-                event.values[1].round1()}rad/s  Z=${event.values[2].round1()}rad/s"
+                    event.values[1].round1()
+                }rad/s  Z=${event.values[2].round1()}rad/s"
+
             Sensor.TYPE_ROTATION_VECTOR ->
                 data = "X=${event.values[0].round1()}  Y=${
-                event.values[1].round1()}  Z=${event.values[2].round1()}"
+                    event.values[1].round1()
+                }  Z=${event.values[2].round1()}"
+
             Sensor.TYPE_MAGNETIC_FIELD ->
                 data = "X=${event.values[0].round1()}μT  Y=${
-                event.values[1].round1()}μT  Z=${event.values[2].round1()}μT"
+                    event.values[1].round1()
+                }μT  Z=${event.values[2].round1()}μT"
+
             Sensor.TYPE_ORIENTATION ->
                 data = "Azimuth=${event.values[0].round1()}°  Pitch=${
-                event.values[1].round1()}°  Roll=${event.values[2].round1()}°"
+                    event.values[1].round1()
+                }°  Roll=${event.values[2].round1()}°"
+
             Sensor.TYPE_PROXIMITY ->
                 data = "Distance=${event.values[0].round1()}cm"
+
             Sensor.TYPE_AMBIENT_TEMPERATURE ->
                 data = "Air temperature=${event.values[0].round1()}°C"
+
             Sensor.TYPE_LIGHT ->
                 data = "Illuminance=${event.values[0].round1()}lx"
+
             Sensor.TYPE_PRESSURE ->
                 data = "Air pressure=${event.values[0].round1()}hPa"
+
             Sensor.TYPE_RELATIVE_HUMIDITY ->
                 data = "Relative humidity=${event.values[0].round1()}%"
+
             Sensor.TYPE_TEMPERATURE ->
                 data = "Device temperature=${event.values[0].round1()}°C"
         }
@@ -122,18 +139,24 @@ class SensorsInfoViewModel @Inject constructor(
             when (sensorType) {
                 Sensor.TYPE_GYROSCOPE_UNCALIBRATED ->
                     data = "X=${event.values[0].round1()}rad/s  Y=${
-                    event.values[1].round1()}rad/s  Z=${
-                    event.values[2].round1()}rad/s" /*\nEstimated drift: X=${
+                        event.values[1].round1()
+                    }rad/s  Z=${
+                        event.values[2].round1()
+                    }rad/s" /*\nEstimated drift: X=${
                     event.values[3].round1() }rad/s  Y=${
                     event.values[4].round1() }rad/s  Z=${
                     event.values[5].round1() }rad/s"*/
                 Sensor.TYPE_GAME_ROTATION_VECTOR ->
                     data = "X=${event.values[0].round1()}  Y=${
-                    event.values[1].round1()}  Z=${event.values[2].round1()}"
+                        event.values[1].round1()
+                    }  Z=${event.values[2].round1()}"
+
                 Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED ->
                     data = "X=${event.values[0].round1()}μT  Y=${
-                    event.values[1].round1()}μT  Z=${
-                    event.values[2].round1()}μT" /*\nIron bias: X=${
+                        event.values[1].round1()
+                    }μT  Z=${
+                        event.values[2].round1()
+                    }μT" /*\nIron bias: X=${
                     event.values[3].round1() }μT  Y=${
                     event.values[4].round1() }μT  Z=${
                     event.values[5].round1() }μT"*/
@@ -144,7 +167,8 @@ class SensorsInfoViewModel @Inject constructor(
             when (sensorType) {
                 Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR ->
                     data = "X=${event.values[0].round1()}  Y=${
-                    event.values[1].round1()}  Z=${event.values[2].round1()}"
+                        event.values[1].round1()
+                    }  Z=${event.values[2].round1()}"
             }
         }
 

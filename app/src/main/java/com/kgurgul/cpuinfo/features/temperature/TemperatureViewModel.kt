@@ -40,10 +40,10 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class TemperatureViewModel @Inject constructor(
-        private val prefs: Prefs,
-        private val resources: Resources,
-        private val temperatureIconProvider: TemperatureIconProvider,
-        private val temperatureProvider: TemperatureProvider
+    private val prefs: Prefs,
+    private val resources: Resources,
+    private val temperatureIconProvider: TemperatureIconProvider,
+    private val temperatureProvider: TemperatureProvider
 ) : ViewModel() {
 
     companion object {
@@ -67,8 +67,10 @@ class TemperatureViewModel @Inject constructor(
     fun startTemperatureRefreshing() {
         Timber.i("startTemperatureRefreshing()")
         if (prefs.contains(CPU_TEMP_RESULT_KEY)) {
-            cpuTemperatureResult = prefs.get(CPU_TEMP_RESULT_KEY,
-                    TemperatureProvider.CpuTemperatureResult())
+            cpuTemperatureResult = prefs.get(
+                CPU_TEMP_RESULT_KEY,
+                TemperatureProvider.CpuTemperatureResult()
+            )
             verifyTemperaturesAvailability()
         } else {
             temperatureDisposable = getCpuAvailabilityTest()
@@ -89,20 +91,20 @@ class TemperatureViewModel @Inject constructor(
      */
     private fun getCpuAvailabilityTest(): Disposable {
         return temperatureProvider.getCpuTemperatureFinder()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
-                    isLoading.value = true
-                    isError.value = false
-                }
-                .doFinally {
-                    isLoading.value = false
-                    verifyTemperaturesAvailability()
-                }
-                .subscribe({ temperatureResult ->
-                    prefs.insert(CPU_TEMP_RESULT_KEY, temperatureResult)
-                    cpuTemperatureResult = temperatureResult
-                }, Timber::e, { Timber.i("List scan complete") })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                isLoading.value = true
+                isError.value = false
+            }
+            .doFinally {
+                isLoading.value = false
+                verifyTemperaturesAvailability()
+            }
+            .subscribe({ temperatureResult ->
+                prefs.insert(CPU_TEMP_RESULT_KEY, temperatureResult)
+                cpuTemperatureResult = temperatureResult
+            }, Timber::e, { Timber.i("List scan complete") })
     }
 
     /**
@@ -133,37 +135,45 @@ class TemperatureViewModel @Inject constructor(
         }
 
         refreshingDisposable = getRefreshingInvoker()
-                .map {
-                    var batteryTemp: Int? = null
-                    if (isBatteryTemperatureAvailable) {
-                        batteryTemp = temperatureProvider.getBatteryTemperature()
-                    }
-                    var cpuTemp: Float? = null
-                    if (cpuTemperatureResult != null) {
-                        cpuTemp = temperatureProvider.getCpuTemp(cpuTemperatureResult!!.filePath)
-                    }
-                    TempContainer(cpuTemp, batteryTemp)
+            .map {
+                var batteryTemp: Int? = null
+                if (isBatteryTemperatureAvailable) {
+                    batteryTemp = temperatureProvider.getBatteryTemperature()
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ (cpuTemp, batteryTemp) ->
-                    val temporaryTempList = ArrayList<TemperatureItem>()
-                    if (cpuTemp != null) {
-                        temporaryTempList.add(TemperatureItem(
-                                temperatureIconProvider.getIcon(
-                                        TemperatureIconProvider.Type.CPU),
-                                resources.getString(R.string.cpu), cpuTemp))
-                    }
-                    if (batteryTemp != null) {
-                        temporaryTempList.add(TemperatureItem(
-                                temperatureIconProvider.getIcon(
-                                        TemperatureIconProvider.Type.BATTERY),
-                                resources.getString(R.string.battery),
-                                batteryTemp.toFloat()))
-                    }
+                var cpuTemp: Float? = null
+                if (cpuTemperatureResult != null) {
+                    cpuTemp = temperatureProvider.getCpuTemp(cpuTemperatureResult!!.filePath)
+                }
+                TempContainer(cpuTemp, batteryTemp)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ (cpuTemp, batteryTemp) ->
+                val temporaryTempList = ArrayList<TemperatureItem>()
+                if (cpuTemp != null) {
+                    temporaryTempList.add(
+                        TemperatureItem(
+                            temperatureIconProvider.getIcon(
+                                TemperatureIconProvider.Type.CPU
+                            ),
+                            resources.getString(R.string.cpu), cpuTemp
+                        )
+                    )
+                }
+                if (batteryTemp != null) {
+                    temporaryTempList.add(
+                        TemperatureItem(
+                            temperatureIconProvider.getIcon(
+                                TemperatureIconProvider.Type.BATTERY
+                            ),
+                            resources.getString(R.string.battery),
+                            batteryTemp.toFloat()
+                        )
+                    )
+                }
 
-                    temperatureListLiveData.replace(temporaryTempList)
-                }, Timber::e)
+                temperatureListLiveData.replace(temporaryTempList)
+            }, Timber::e)
     }
 
     /**
@@ -171,7 +181,7 @@ class TemperatureViewModel @Inject constructor(
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun getRefreshingInvoker(): Observable<Long> =
-            Observable.interval(0, 3, TimeUnit.SECONDS)
+        Observable.interval(0, 3, TimeUnit.SECONDS)
 
     override fun onCleared() {
         super.onCleared()

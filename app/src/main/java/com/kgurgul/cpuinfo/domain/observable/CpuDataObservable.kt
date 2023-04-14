@@ -11,9 +11,9 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class CpuDataObservable @Inject constructor(
-        dispatchersProvider: DispatchersProvider,
-        private val cpuDataProvider: CpuDataProvider,
-        private val cpuDataNativeProvider: CpuDataNativeProvider
+    dispatchersProvider: DispatchersProvider,
+    private val cpuDataProvider: CpuDataProvider,
+    private val cpuDataNativeProvider: CpuDataNativeProvider
 ) : ImmutableInteractor<Unit, CpuData>() {
 
     override val dispatcher = dispatchersProvider.io
@@ -26,29 +26,31 @@ class CpuDataObservable @Inject constructor(
             val hasArmNeon = cpuDataNativeProvider.hasArmNeon()
             val frequencies = mutableListOf<CpuData.Frequency>()
             val l1dCaches = cpuDataNativeProvider.getL1dCaches()
-                    ?.joinToString(separator = "\n") { Utils.humanReadableByteCount(it.toLong()) }
-                    ?: ""
+                ?.joinToString(separator = "\n") { Utils.humanReadableByteCount(it.toLong()) }
+                ?: ""
             val l1iCaches = cpuDataNativeProvider.getL1iCaches()
-                    ?.joinToString(separator = "\n") { Utils.humanReadableByteCount(it.toLong()) }
-                    ?: ""
+                ?.joinToString(separator = "\n") { Utils.humanReadableByteCount(it.toLong()) }
+                ?: ""
             val l2Caches = cpuDataNativeProvider.getL2Caches()
-                    ?.joinToString(separator = "\n") { Utils.humanReadableByteCount(it.toLong()) }
-                    ?: ""
+                ?.joinToString(separator = "\n") { Utils.humanReadableByteCount(it.toLong()) }
+                ?: ""
             val l3Caches = cpuDataNativeProvider.getL3Caches()
-                    ?.joinToString(separator = "\n") { Utils.humanReadableByteCount(it.toLong()) }
-                    ?: ""
+                ?.joinToString(separator = "\n") { Utils.humanReadableByteCount(it.toLong()) }
+                ?: ""
             val l4Caches = cpuDataNativeProvider.getL4Caches()
-                    ?.joinToString(separator = "\n") { Utils.humanReadableByteCount(it.toLong()) }
-                    ?: ""
+                ?.joinToString(separator = "\n") { Utils.humanReadableByteCount(it.toLong()) }
+                ?: ""
             for (i in 0 until coreNumber) {
                 val (min, max) = cpuDataProvider.getMinMaxFreq(i)
                 val current = cpuDataProvider.getCurrentFreq(i)
                 frequencies.add(CpuData.Frequency(min, max, current))
             }
-            emit(CpuData(
+            emit(
+                CpuData(
                     processorName, abi, coreNumber, hasArmNeon, frequencies,
                     l1dCaches, l1iCaches, l2Caches, l3Caches, l4Caches
-            ))
+                )
+            )
             delay(REFRESH_DELAY)
         }
     }

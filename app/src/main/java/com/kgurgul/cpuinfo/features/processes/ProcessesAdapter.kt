@@ -30,8 +30,8 @@ import com.kgurgul.cpuinfo.utils.Utils
  *
  * @author kgurgul
  */
-class ProcessesAdapter(private val processList: List<ProcessItem>)
-    : RecyclerView.Adapter<ProcessesAdapter.ViewHolder>() {
+class ProcessesAdapter(private val processList: List<ProcessItem>) :
+    RecyclerView.Adapter<ProcessesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_process, parent, false)
@@ -51,7 +51,7 @@ class ProcessesAdapter(private val processList: List<ProcessItem>)
     }
 
     override fun getItemCount(): Int =
-            processList.size
+        processList.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTv: TextView = itemView.findViewById(R.id.proc_name_tv)

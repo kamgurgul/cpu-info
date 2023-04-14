@@ -9,7 +9,7 @@ import com.kgurgul.cpuinfo.itemValue
 import com.kgurgul.cpuinfo.verticalDivider
 
 class CpuInfoEpoxyController(
-        private val context: Context
+    private val context: Context
 ) : TypedEpoxyController<CpuInfoViewState>() {
 
     override fun buildModels(data: CpuInfoViewState) {
@@ -39,11 +39,11 @@ class CpuInfoEpoxyController(
             id("has_neon")
             title(this@CpuInfoEpoxyController.context.getString(R.string.cpu_has_neon))
             value(
-                    if (data.cpuData.hasArmNeon) {
-                        this@CpuInfoEpoxyController.context.getString(R.string.yes)
-                    } else {
-                        this@CpuInfoEpoxyController.context.getString(R.string.no)
-                    }
+                if (data.cpuData.hasArmNeon) {
+                    this@CpuInfoEpoxyController.context.getString(R.string.yes)
+                } else {
+                    this@CpuInfoEpoxyController.context.getString(R.string.no)
+                }
             )
         }
         buildCaches(data.cpuData)

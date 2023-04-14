@@ -33,7 +33,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class BatteryStatusProvider @Inject constructor(
-        @ApplicationContext private val appContext: Context
+    @ApplicationContext private val appContext: Context
 ) {
 
     /**
@@ -52,11 +52,11 @@ class BatteryStatusProvider @Inject constructor(
         var capacity = -1.0
         try {
             val powerProfile = Class.forName("com.android.internal.os.PowerProfile")
-                    .getConstructor(Context::class.java).newInstance(appContext)
+                .getConstructor(Context::class.java).newInstance(appContext)
             capacity = Class
-                    .forName("com.android.internal.os.PowerProfile")
-                    .getMethod("getAveragePower", String::class.java)
-                    .invoke(powerProfile, "battery.capacity") as Double
+                .forName("com.android.internal.os.PowerProfile")
+                .getMethod("getAveragePower", String::class.java)
+                .invoke(powerProfile, "battery.capacity") as Double
         } catch (e: Exception) {
             Timber.e(e)
         }

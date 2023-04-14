@@ -38,13 +38,13 @@ import com.kgurgul.cpuinfo.widgets.swiperv.SwipeHorizontalMenuLayout
  * @author kgurgul
  */
 class ApplicationsAdapter(
-        private val appList: List<ExtendedAppInfo>,
-        private val appClickListener: ItemClickListener
+    private val appList: List<ExtendedAppInfo>,
+    private val appClickListener: ItemClickListener
 ) : RecyclerView.Adapter<ApplicationsAdapter.ApplicationViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApplicationViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_swipe_app, parent, false)
+            .inflate(R.layout.item_swipe_app, parent, false)
         return ApplicationViewHolder(view)
     }
 
@@ -72,18 +72,18 @@ class ApplicationsAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(app: ExtendedAppInfo, appClickListener: ItemClickListener) {
             GlideApp.with(iconIv.context)
-                    .load(app.appIconUri)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .fitCenter()
-                    .into(iconIv)
+                .load(app.appIconUri)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .fitCenter()
+                .into(iconIv)
 
             nameTv.text = app.name
             packageTv.text = app.packageName
 
             runOnApiBelow(Build.VERSION_CODES.O, {
                 val size =
-                        if (app.appSize == 0L) calculatingLabel
-                        else Utils.humanReadableByteCount(app.appSize)
+                    if (app.appSize == 0L) calculatingLabel
+                    else Utils.humanReadableByteCount(app.appSize)
                 storageTv.text = "$storageLabel $size"
             }, {
                 storageTv.visibility = View.GONE

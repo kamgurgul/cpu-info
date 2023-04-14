@@ -29,7 +29,7 @@ abstract class MutableInteractor<P : Any, T> : Interactor {
     protected abstract fun createObservable(params: P): Flow<T>
 
     fun observe(): Flow<T> = sharedFlow
-            .flatMapLatest { createObservable(it).flowOn(dispatcher) }
+        .flatMapLatest { createObservable(it).flowOn(dispatcher) }
 }
 
 abstract class ResultInteractor<in P, R> : Interactor {
@@ -46,7 +46,7 @@ fun <T> ImmutableInteractor<Unit, T>.observe() = observe(Unit)
 operator fun <T> MutableInteractor<Unit, T>.invoke() = invoke(Unit)
 
 fun <I : MutableInteractor<P, T>, P, T> CoroutineScope.launchObserve(
-        interactor: I,
-        f: suspend (Flow<T>) -> Unit
+    interactor: I,
+    f: suspend (Flow<T>) -> Unit
 ) = launch(interactor.dispatcher) { f(interactor.observe()) }
 

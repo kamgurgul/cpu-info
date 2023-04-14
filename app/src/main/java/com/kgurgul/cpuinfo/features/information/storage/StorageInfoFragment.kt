@@ -76,8 +76,10 @@ class StorageInfoFragment : BaseRvFragment() {
 
     override fun setupRecyclerViewAdapter() {
         val storageAdapter = StorageAdapter(viewModel.listLiveData)
-        viewModel.listLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
-                ListLiveDataObserver(storageAdapter))
+        viewModel.listLiveData.listStatusChangeNotificator.observe(
+            viewLifecycleOwner,
+            ListLiveDataObserver(storageAdapter)
+        )
         recyclerView.adapter = storageAdapter
     }
 }

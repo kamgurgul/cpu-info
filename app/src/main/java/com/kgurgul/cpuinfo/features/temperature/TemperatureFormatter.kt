@@ -41,15 +41,14 @@ class TemperatureFormatter @Inject constructor(val prefs: Prefs) {
      */
     fun format(temp: Float): String {
         val tempUnit = prefs.get(SettingsFragment.KEY_TEMPERATURE_UNIT, CELSIUS.toString())
-                .toInt()
+            .toInt()
         return if (tempUnit == FAHRENHEIT) {
             val fahrenheit = temp * 9 / 5 + 32
             "${fahrenheit.round2()}\u00B0F"
-        } else return if (tempUnit == KELVIN){
+        } else return if (tempUnit == KELVIN) {
             val kelvin = temp + 273.15
             "${kelvin.round2()}\u00B0K"
-        }
-        else {
+        } else {
             val tempFormatted = "${temp.toInt()}\u00B0C"
             tempFormatted
         }

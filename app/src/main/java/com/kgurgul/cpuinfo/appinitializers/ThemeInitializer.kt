@@ -11,7 +11,7 @@ import javax.inject.Inject
  * @author kgurgul
  */
 class ThemeInitializer @Inject constructor(
-        private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences
 ) : AppInitializer {
 
     override fun init(application: Application) {

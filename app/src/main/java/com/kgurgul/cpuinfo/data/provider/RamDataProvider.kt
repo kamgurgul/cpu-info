@@ -4,7 +4,7 @@ import android.app.ActivityManager
 import javax.inject.Inject
 
 class RamDataProvider @Inject constructor(
-        private val activityManager: ActivityManager
+    private val activityManager: ActivityManager
 ) {
 
     fun getTotalBytes(): Long {

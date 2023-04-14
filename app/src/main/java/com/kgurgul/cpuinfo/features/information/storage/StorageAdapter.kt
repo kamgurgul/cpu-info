@@ -31,8 +31,8 @@ import com.kgurgul.cpuinfo.widgets.progress.IconRoundCornerProgressBar
  *
  * @author kgurgul
  */
-class StorageAdapter(private val storageList: List<StorageItem>)
-    : RecyclerView.Adapter<StorageAdapter.ViewHolder>() {
+class StorageAdapter(private val storageList: List<StorageItem>) :
+    RecyclerView.Adapter<StorageAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = storageList.size
 
@@ -46,8 +46,10 @@ class StorageAdapter(private val storageList: List<StorageItem>)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val storageDescriptionTv: TextView = itemView.findViewById(R.id.storage_description_tv)
-        private val storageProgress: IconRoundCornerProgressBar = itemView.findViewById(R.id.storage_progress)
+        private val storageDescriptionTv: TextView =
+            itemView.findViewById(R.id.storage_description_tv)
+        private val storageProgress: IconRoundCornerProgressBar =
+            itemView.findViewById(R.id.storage_progress)
 
         fun bindViewHolder(storageItem: StorageItem) {
             val totalReadable = Utils.humanReadableByteCount(storageItem.storageTotal)

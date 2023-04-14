@@ -27,7 +27,7 @@ import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.*
+import java.util.Locale
 import kotlin.math.ln
 import kotlin.math.pow
 
@@ -55,7 +55,12 @@ object Utils {
         if (bytes < unit) return "$bytes B"
         val exp = (ln(bytes.toDouble()) / ln(unit.toDouble())).toInt()
         val pre = "KMGTPE"[exp - 1]
-        return String.format(Locale.US, "%.2f %sB", bytes / unit.toDouble().pow(exp.toDouble()), pre)
+        return String.format(
+            Locale.US,
+            "%.2f %sB",
+            bytes / unit.toDouble().pow(exp.toDouble()),
+            pre
+        )
     }
 
     /**

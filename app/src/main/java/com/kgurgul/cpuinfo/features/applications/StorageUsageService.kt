@@ -50,7 +50,8 @@ class StorageUsageService : IntentService("StorageUsageService") {
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onHandleIntent(intent: Intent?) {
-        val packagesList = intent?.extras?.getParcelableArrayList<ExtendedAppInfo>(PACKAGES_LIST_TAG)
+        val packagesList =
+            intent?.extras?.getParcelableArrayList<ExtendedAppInfo>(PACKAGES_LIST_TAG)
         packagesList?.forEach {
             getPackageSize(it.packageName, packageManager)
         }
@@ -61,8 +62,10 @@ class StorageUsageService : IntentService("StorageUsageService") {
      */
     private fun getPackageSize(packageName: String, pm: PackageManager) {
         try {
-            val getPackageSizeInfo = pm.javaClass.getMethod("getPackageSizeInfo",
-                    String::class.java, IPackageStatsObserver::class.java)
+            val getPackageSizeInfo = pm.javaClass.getMethod(
+                "getPackageSizeInfo",
+                String::class.java, IPackageStatsObserver::class.java
+            )
             getPackageSizeInfo.invoke(pm, packageName, object : IPackageStatsObserver.Stub() {
                 override fun onGetStatsCompleted(pStats: PackageStats, succeeded: Boolean) {
                     sendSizeEvent(pStats)

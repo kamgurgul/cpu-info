@@ -35,8 +35,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class RamInfoViewModel @Inject constructor(
-        ramDataObservable: RamDataObservable,
-        private val ramCleanupAction: RamCleanupAction
+    ramDataObservable: RamDataObservable,
+    private val ramCleanupAction: RamCleanupAction
 ) : ViewModel() {
 
     val viewState = ramDataObservable.observe()

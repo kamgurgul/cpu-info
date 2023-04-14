@@ -85,6 +85,7 @@ class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
                         viewModel.changeAppsSorting()
                         true
                     }
+
                     else -> false
                 }
             }

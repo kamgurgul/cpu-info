@@ -43,8 +43,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class StorageInfoViewModel @Inject constructor(
-        private val dispatchersProvider: DispatchersProvider,
-        private val resources: Resources
+    private val dispatchersProvider: DispatchersProvider,
+    private val resources: Resources
 ) : ViewModel() {
 
     enum class MemoryType { INTERNAL, EXTERNAL }
@@ -80,15 +80,19 @@ class StorageInfoViewModel @Inject constructor(
     private fun getExternalAndInternalMemoryPair(): Pair<StorageItem, StorageItem?> {
         val internalTotal = getTotalMemorySize(MemoryType.INTERNAL)
         val internalUsed = internalTotal - getAvailableMemorySize(MemoryType.INTERNAL)
-        val internalMemory = StorageItem(resources.getString(R.string.internal), R.drawable.root,
-                internalTotal, internalUsed)
+        val internalMemory = StorageItem(
+            resources.getString(R.string.internal), R.drawable.root,
+            internalTotal, internalUsed
+        )
 
         var externalMemory: StorageItem? = null
         if (isExternalMemoryAvailable()) {
             val externalTotal = getTotalMemorySize(MemoryType.EXTERNAL)
             val externalUsed = externalTotal - getAvailableMemorySize(MemoryType.EXTERNAL)
-            externalMemory = StorageItem(resources.getString(R.string.external),
-                    R.drawable.folder, externalTotal, externalUsed)
+            externalMemory = StorageItem(
+                resources.getString(R.string.external),
+                R.drawable.folder, externalTotal, externalUsed
+            )
         }
         return Pair(internalMemory, externalMemory)
     }
@@ -100,25 +104,27 @@ class StorageInfoViewModel @Inject constructor(
     fun refreshSdCard() {
         if (sdCardFinderDisposable == null || sdCardFinderDisposable!!.isDisposed) {
             sdCardFinderDisposable = getSDCardFinder()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ sdCardFile ->
-                        if (sdCardFile.totalSpace > 0) {
-                            val sdTotal = sdCardFile.totalSpace
-                            val sdUsed = sdTotal - sdCardFile.usableSpace
-                            val sdMemory = StorageItem(resources.getString(R.string.external),
-                                    R.drawable.sdcard, sdTotal, sdUsed)
-                            listLiveData.add(sdMemory)
-                        }
-                    }, {
-                        Timber.i("Cannot find SD card file")
-                        val storageItem = listLiveData.find { storageItem ->
-                            storageItem.iconRes == R.drawable.sdcard
-                        }
-                        if (storageItem != null) {
-                            listLiveData.remove(storageItem)
-                        }
-                    })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ sdCardFile ->
+                    if (sdCardFile.totalSpace > 0) {
+                        val sdTotal = sdCardFile.totalSpace
+                        val sdUsed = sdTotal - sdCardFile.usableSpace
+                        val sdMemory = StorageItem(
+                            resources.getString(R.string.external),
+                            R.drawable.sdcard, sdTotal, sdUsed
+                        )
+                        listLiveData.add(sdMemory)
+                    }
+                }, {
+                    Timber.i("Cannot find SD card file")
+                    val storageItem = listLiveData.find { storageItem ->
+                        storageItem.iconRes == R.drawable.sdcard
+                    }
+                    if (storageItem != null) {
+                        listLiveData.remove(storageItem)
+                    }
+                })
         }
     }
 
@@ -207,30 +213,37 @@ class StorageInfoViewModel @Inject constructor(
                 if (strLine == null) {
                     break
                 } else if (!(strLine.contains("asec")
-                        || strLine.contains("legacy")
-                        || strLine.contains("Android/obb"))) {
+                            || strLine.contains("legacy")
+                            || strLine.contains("Android/obb"))
+                ) {
                     if (strLine.startsWith("/dev/block/vold/")
-                            || strLine.startsWith("/dev/block/sd")
-                            || strLine.startsWith("/dev/fuse")
-                            || strLine.startsWith("/mnt/media_rw")) {
+                        || strLine.startsWith("/dev/block/sd")
+                        || strLine.startsWith("/dev/fuse")
+                        || strLine.startsWith("/mnt/media_rw")
+                    ) {
                         val lineElements =
-                                strLine.split(" ".toRegex()).dropLastWhile { it.isEmpty() }
-                                        .toTypedArray()
+                            strLine.split(" ".toRegex()).dropLastWhile { it.isEmpty() }
+                                .toTypedArray()
                         val path = File(lineElements[1])
                         if ((path.exists()
-                                || path.isDirectory
-                                || path.canWrite())
-                                && path.exists()
-                                //&& path.canRead()
-                                && !path.path.contains("/system")
-                                && !sdDirList.contains(lineElements[1])
-                                && lineElements[1] != externalDir
-                                && lineElements[1] != "/storage/emulated"
-                                && !sdDirList.any {
-                            it.endsWith(lineElements[1]
-                                    .substring(lineElements[1].lastIndexOf("/"),
-                                            lineElements[1].length))
-                        }) {
+                                    || path.isDirectory
+                                    || path.canWrite())
+                            && path.exists()
+                            //&& path.canRead()
+                            && !path.path.contains("/system")
+                            && !sdDirList.contains(lineElements[1])
+                            && lineElements[1] != externalDir
+                            && lineElements[1] != "/storage/emulated"
+                            && !sdDirList.any {
+                                it.endsWith(
+                                    lineElements[1]
+                                        .substring(
+                                            lineElements[1].lastIndexOf("/"),
+                                            lineElements[1].length
+                                        )
+                                )
+                            }
+                        ) {
                             sdDirList.add(lineElements[1])
                         }
                     }

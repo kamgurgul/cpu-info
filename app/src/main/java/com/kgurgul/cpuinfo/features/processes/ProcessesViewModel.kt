@@ -41,9 +41,9 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ProcessesViewModel @Inject constructor(
-        private val dispatchersProvider: DispatchersProvider,
-        private val prefs: Prefs,
-        private val psProvider: PsProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val prefs: Prefs,
+    private val psProvider: PsProvider
 ) : ViewModel() {
 
     companion object {
@@ -62,14 +62,14 @@ class ProcessesViewModel @Inject constructor(
     fun startProcessRefreshing() {
         if (refreshingDisposable == null || refreshingDisposable?.isDisposed == true) {
             refreshingDisposable = getRefreshingInvoker()
-                    .onBackpressureDrop()
-                    .flatMapSingle { getSortedProcessListSingle() }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ newProcessList ->
-                        Timber.i("Processes refreshed")
-                        processList.replace(newProcessList)
-                    }, Timber::e)
+                .onBackpressureDrop()
+                .flatMapSingle { getSortedProcessListSingle() }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ newProcessList ->
+                    Timber.i("Processes refreshed")
+                    processList.replace(newProcessList)
+                }, Timber::e)
         }
     }
 
@@ -85,7 +85,7 @@ class ProcessesViewModel @Inject constructor(
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun getRefreshingInvoker(): Flowable<Long> =
-            Flowable.interval(0, 5, TimeUnit.SECONDS)
+        Flowable.interval(0, 5, TimeUnit.SECONDS)
 
     /**
      * Change process list sorting type from ascending to descending or or vice versa
@@ -123,16 +123,16 @@ class ProcessesViewModel @Inject constructor(
      */
     private fun getSortedProcessListSingle(): Single<List<ProcessItem>> {
         return psProvider.getPsList()
-                .map { processList ->
-                    if (processList is ArrayList) {
-                        if (isSortingAsc) {
-                            processList.sortBy { it.name.uppercase() }
-                        } else {
-                            processList.sortByDescending { it.name.uppercase() }
-                        }
+            .map { processList ->
+                if (processList is ArrayList) {
+                    if (isSortingAsc) {
+                        processList.sortBy { it.name.uppercase() }
+                    } else {
+                        processList.sortByDescending { it.name.uppercase() }
                     }
-                    processList
                 }
+                processList
+            }
     }
 
     override fun onCleared() {

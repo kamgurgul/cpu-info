@@ -123,6 +123,7 @@ class AndroidInfoViewModel @Inject constructor(
                 DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE -> ENCRYPTION_STATUS_ACTIVE
                 DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE_PER_USER ->
                     ENCRYPTION_STATUS_ACTIVE_PER_USER
+
                 else -> resources.getString(R.string.unknown)
             }
             listLiveData.add(Pair(resources.getString(R.string.encrypted_storage), statusText))

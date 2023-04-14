@@ -31,7 +31,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class TemperatureFragment : BaseFragment<FragmentTemperatureBinding>(
-        R.layout.fragment_temperature
+    R.layout.fragment_temperature
 ) {
 
     private val viewModel: TemperatureViewModel by viewModels()
@@ -57,10 +57,14 @@ class TemperatureFragment : BaseFragment<FragmentTemperatureBinding>(
     }
 
     private fun setupRecycleView() {
-        val temperatureAdapter = TemperatureAdapter(temperatureFormatter,
-                viewModel.temperatureListLiveData)
-        viewModel.temperatureListLiveData.listStatusChangeNotificator.observe(viewLifecycleOwner,
-                ListLiveDataObserver(temperatureAdapter))
+        val temperatureAdapter = TemperatureAdapter(
+            temperatureFormatter,
+            viewModel.temperatureListLiveData
+        )
+        viewModel.temperatureListLiveData.listStatusChangeNotificator.observe(
+            viewLifecycleOwner,
+            ListLiveDataObserver(temperatureAdapter)
+        )
         binding.apply {
             tempRv.layoutManager = LinearLayoutManager(requireContext())
             tempRv.adapter = temperatureAdapter

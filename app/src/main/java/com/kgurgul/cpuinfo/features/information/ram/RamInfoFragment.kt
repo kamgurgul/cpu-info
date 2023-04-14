@@ -60,6 +60,7 @@ class RamInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragm
                         ).show()
                         true
                     }
+
                     else -> false
                 }
             }

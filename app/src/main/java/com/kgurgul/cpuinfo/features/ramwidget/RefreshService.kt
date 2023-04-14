@@ -56,32 +56,42 @@ class RefreshService : Service() {
 
         powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        ramUpdateDelay = prefs.getString(SettingsFragment.KEY_RAM_REFRESHING,
-                "10000")!!.toLong()
+        ramUpdateDelay = prefs.getString(
+            SettingsFragment.KEY_RAM_REFRESHING,
+            "10000"
+        )!!.toLong()
 
         refreshHandler = Handler(Looper.getMainLooper())
         refreshHandler?.postDelayed(object : Runnable {
             override fun run() {
-                ramUpdateDelay = prefs.getString(SettingsFragment.KEY_RAM_REFRESHING,
-                        "10000")!!.toLong()
+                ramUpdateDelay = prefs.getString(
+                    SettingsFragment.KEY_RAM_REFRESHING,
+                    "10000"
+                )!!.toLong()
                 val isDeviceActive: Boolean =
-                        if (Build.VERSION.SDK_INT >= 20) {
-                            powerManager.isInteractive
-                        } else {
-                            @Suppress("DEPRECATION")
-                            powerManager.isScreenOn
-                        }
+                    if (Build.VERSION.SDK_INT >= 20) {
+                        powerManager.isInteractive
+                    } else {
+                        @Suppress("DEPRECATION")
+                        powerManager.isScreenOn
+                    }
 
                 Timber.d("Device is active: $isDeviceActive")
 
                 if (isDeviceActive) {
                     Timber.d("Request for ram widget update - delay $ramUpdateDelay")
-                    val intent = Intent(this@RefreshService,
-                            RamUsageWidgetProvider::class.java)
+                    val intent = Intent(
+                        this@RefreshService,
+                        RamUsageWidgetProvider::class.java
+                    )
                     intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
                     val widgetId = AppWidgetManager.getInstance(this@RefreshService)
-                            .getAppWidgetIds(ComponentName(this@RefreshService,
-                                    RamUsageWidgetProvider::class.java))
+                        .getAppWidgetIds(
+                            ComponentName(
+                                this@RefreshService,
+                                RamUsageWidgetProvider::class.java
+                            )
+                        )
                     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetId)
                     this@RefreshService.sendBroadcast(intent)
 

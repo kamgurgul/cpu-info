@@ -34,8 +34,8 @@ class TemperatureIconProvider @Inject constructor() {
      * Get icon id for specific type
      */
     fun getIcon(type: Type): Int =
-            when (type) {
-                Type.CPU -> R.drawable.ic_cpu_temp
-                Type.BATTERY -> R.drawable.ic_battery
-            }
+        when (type) {
+            Type.CPU -> R.drawable.ic_cpu_temp
+            Type.BATTERY -> R.drawable.ic_battery
+        }
 }

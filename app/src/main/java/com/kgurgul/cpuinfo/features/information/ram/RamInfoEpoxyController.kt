@@ -8,7 +8,7 @@ import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.verticalDivider
 
 class RamInfoEpoxyController(
-        private val context: Context
+    private val context: Context
 ) : TypedEpoxyController<RamInfoViewState>() {
 
     override fun buildModels(data: RamInfoViewState) {
@@ -22,7 +22,7 @@ class RamInfoEpoxyController(
             id("available")
             title(this@RamInfoEpoxyController.context.getString(R.string.available_memory))
             value(
-                    "${Utils.convertBytesToMega(data.ramData.available)} (${data.ramData.availablePercentage}%)"
+                "${Utils.convertBytesToMega(data.ramData.available)} (${data.ramData.availablePercentage}%)"
             )
         }
         verticalDivider { id("threshold_divider") }

@@ -60,8 +60,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
         when (key) {
             KEY_THEME_CONFIG -> {
                 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-                ThemeHelper.applyTheme(sharedPreferences.getString(ThemeHelper.KEY_THEME,
-                        ThemeHelper.DEFAULT_MODE)!!)
+                ThemeHelper.applyTheme(
+                    sharedPreferences.getString(
+                        ThemeHelper.KEY_THEME,
+                        ThemeHelper.DEFAULT_MODE
+                    )!!
+                )
             }
         }
     }

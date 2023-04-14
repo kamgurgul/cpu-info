@@ -58,6 +58,7 @@ class ProcessesFragment : BaseFragment<FragmentProcessesBinding>(R.layout.fragme
                         viewModel.changeProcessSorting()
                         true
                     }
+
                     else -> false
                 }
             }

@@ -43,8 +43,10 @@ abstract class BaseRvFragment : Fragment(), InfoItemsAdapter.OnClickListener {
     protected lateinit var mainContainer: View
     protected lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         val view = inflater.inflate(R.layout.fragment_rv, container, false)
         mainContainer = view.findViewById(R.id.main_container)
         recyclerView = view.findViewById(R.id.recycler_view)
@@ -77,8 +79,10 @@ abstract class BaseRvFragment : Fragment(), InfoItemsAdapter.OnClickListener {
     override fun onItemLongPressed(item: Pair<String, String>) {
         val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE)
                 as ClipboardManager
-        val clip = ClipData.newPlainText(requireContext().getString(R.string.app_name),
-                item.second)
+        val clip = ClipData.newPlainText(
+            requireContext().getString(R.string.app_name),
+            item.second
+        )
         clipboard.setPrimaryClip(clip)
         Snackbar.make(mainContainer, R.string.text_copied, Snackbar.LENGTH_SHORT).show()
     }

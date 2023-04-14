@@ -22,6 +22,8 @@ package com.kgurgul.cpuinfo.utils.lifecycleawarelist
  *
  * @author kgurgul
  */
-data class ListLiveDataChangeEvent(val listLiveDataState: ListLiveDataState,
-                                   val startIndex: Int = -1,
-                                   val itemCount: Int = -1)
+data class ListLiveDataChangeEvent(
+    val listLiveDataState: ListLiveDataState,
+    val startIndex: Int = -1,
+    val itemCount: Int = -1
+)

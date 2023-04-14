@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class RamDataObservable @Inject constructor(
-        dispatchersProvider: DispatchersProvider,
-        private val ramDataProvider: RamDataProvider
+    dispatchersProvider: DispatchersProvider,
+    private val ramDataProvider: RamDataProvider
 ) : ImmutableInteractor<Unit, RamData>() {
 
     override val dispatcher = dispatchersProvider.io

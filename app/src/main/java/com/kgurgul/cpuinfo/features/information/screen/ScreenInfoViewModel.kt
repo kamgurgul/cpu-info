@@ -36,8 +36,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ScreenInfoViewModel @Inject constructor(
-        private val resources: Resources,
-        private val windowManager: WindowManager
+    private val resources: Resources,
+    private val windowManager: WindowManager
 ) : ViewModel() {
 
     val listLiveData = ListLiveData<Pair<String, String>>()
@@ -62,7 +62,8 @@ class ScreenInfoViewModel @Inject constructor(
      * Classify screen into three main classes: large, normal, small
      */
     private fun getScreenClass(): Pair<String, String> {
-        val screenSize = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
+        val screenSize =
+            resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
 
         val screenClass: String
 
@@ -127,8 +128,18 @@ class ScreenInfoViewModel @Inject constructor(
         try {
             if (Build.VERSION.SDK_INT >= 17) {
                 display.getRealMetrics(metrics)
-                functionsList.add(Pair(resources.getString(R.string.width), "${metrics.widthPixels}px"))
-                functionsList.add(Pair(resources.getString(R.string.height), "${metrics.heightPixels}px"))
+                functionsList.add(
+                    Pair(
+                        resources.getString(R.string.width),
+                        "${metrics.widthPixels}px"
+                    )
+                )
+                functionsList.add(
+                    Pair(
+                        resources.getString(R.string.height),
+                        "${metrics.heightPixels}px"
+                    )
+                )
             } else {
                 val getRawH = Display::class.java.getMethod("getRawHeight")
                 val getRawW = Display::class.java.getMethod("getRawWidth")
@@ -144,18 +155,38 @@ class ScreenInfoViewModel @Inject constructor(
             val dpWidth = metrics.widthPixels / density
 
             functionsList.add(Pair(resources.getString(R.string.dp_width), "${dpWidth.toInt()}dp"))
-            functionsList.add(Pair(resources.getString(R.string.dp_height), "${dpHeight.toInt()}dp"))
+            functionsList.add(
+                Pair(
+                    resources.getString(R.string.dp_height),
+                    "${dpHeight.toInt()}dp"
+                )
+            )
             functionsList.add(Pair(resources.getString(R.string.density), "$density"))
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
         display.getMetrics(metrics)
-        functionsList.add(Pair(resources.getString(R.string.absolute_width), "${metrics.widthPixels}px"))
-        functionsList.add(Pair(resources.getString(R.string.absolute_height), "${metrics.heightPixels}px"))
+        functionsList.add(
+            Pair(
+                resources.getString(R.string.absolute_width),
+                "${metrics.widthPixels}px"
+            )
+        )
+        functionsList.add(
+            Pair(
+                resources.getString(R.string.absolute_height),
+                "${metrics.heightPixels}px"
+            )
+        )
 
         val refreshRate = display.refreshRate
-        functionsList.add(Pair(resources.getString(R.string.refresh_rate), "${refreshRate.round2()}"))
+        functionsList.add(
+            Pair(
+                resources.getString(R.string.refresh_rate),
+                "${refreshRate.round2()}"
+            )
+        )
 
         val orientation = display.rotation
         functionsList.add(Pair(resources.getString(R.string.orientation), "$orientation"))

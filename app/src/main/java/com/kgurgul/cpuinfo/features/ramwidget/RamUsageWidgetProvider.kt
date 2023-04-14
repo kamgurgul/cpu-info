@@ -48,7 +48,11 @@ class RamUsageWidgetProvider : AppWidgetProvider() {
         var previousRamState = -1
     }
 
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
         Timber.d("Update called")
 
         val thisWidget = ComponentName(context, RamUsageWidgetProvider::class.java)
@@ -63,7 +67,10 @@ class RamUsageWidgetProvider : AppWidgetProvider() {
                 previousRamState = actualRamState
 
                 val remoteViews = RemoteViews(context.packageName, R.layout.widget)
-                remoteViews.setOnClickPendingIntent(R.id.arc_ram_status, buildButtonPendingIntent(context))
+                remoteViews.setOnClickPendingIntent(
+                    R.id.arc_ram_status,
+                    buildButtonPendingIntent(context)
+                )
                 remoteViews.setImageViewBitmap(R.id.arc_ram_status, getArcBitmap(context))
 
                 pushWidgetUpdates(context.applicationContext, remoteViews)
