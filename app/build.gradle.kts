@@ -62,7 +62,7 @@ android {
         debug {
             signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = false
-            isTestCoverageEnabled = true
+            enableUnitTestCoverage = true
             applicationIdSuffix = ".debug"
         }
     }
@@ -77,6 +77,8 @@ android {
         dataBinding = true
         viewBinding = true
         compose = true
+        aidl = true
+        buildConfig = true
     }
 
     testOptions {

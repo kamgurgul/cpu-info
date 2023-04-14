@@ -23,7 +23,7 @@ object DependencyUpdates {
 
     @JvmStatic
     fun versionToRelease(version: String): ReleaseType {
-        val stableKeyword = stableKeywords.any { version.toUpperCase(Locale.ROOT).contains(it) }
+        val stableKeyword = stableKeywords.any { version.uppercase().contains(it) }
         if (stableKeyword) return ReleaseType.RELEASE
 
         return when {

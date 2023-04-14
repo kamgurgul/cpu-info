@@ -1,6 +1,6 @@
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:7.4.2"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:8.0.0"
 
     const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.46.0"
 
@@ -15,7 +15,7 @@ object Libs {
     const val coil = "io.coil-kt:coil-compose:2.3.0"
 
     object Kotlin {
-        private const val version = "1.8.10"
+        private const val version = "1.8.20"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
 
@@ -57,7 +57,7 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.4.4"
+            const val compilerVersion = "1.4.5"
             const val bom = "androidx.compose:compose-bom:2023.04.00"
             const val material = "androidx.compose.material:material"
             const val animations = "androidx.compose.animation:animation"
