@@ -31,8 +31,8 @@ object Libs {
 
     object AndroidX {
         const val coreKtx = "androidx.core:core-ktx:1.9.0"
-        const val activityKtx = "androidx.activity:activity-compose:1.7.0"
-        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.5.6"
+        const val activityKtx = "androidx.activity:activity-compose:1.7.1"
+        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.5.7"
         const val appCompat = "androidx.appcompat:appcompat:1.6.1"
         const val preference = "androidx.preference:preference:1.2.0"
         const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
@@ -57,8 +57,8 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.4.5"
-            const val bom = "androidx.compose:compose-bom:2023.04.00"
+            const val compilerVersion = "1.4.6"
+            const val bom = "androidx.compose:compose-bom:2023.04.01"
             const val material = "androidx.compose.material:material"
             const val animations = "androidx.compose.animation:animation"
             const val uiTooling = "androidx.compose.ui:ui-tooling"
