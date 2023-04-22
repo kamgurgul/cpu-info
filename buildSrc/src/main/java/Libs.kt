@@ -115,7 +115,7 @@ object Libs {
     }
 
     object Mockito {
-        const val core = "org.mockito:mockito-core:5.3.0"
+        const val core = "org.mockito:mockito-core:5.3.1"
         const val kotlin = "org.mockito.kotlin:mockito-kotlin:4.1.0"
     }
 }
