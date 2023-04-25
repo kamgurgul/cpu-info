@@ -20,7 +20,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -36,7 +35,6 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
-import androidx.annotation.RequiresApi;
 import androidx.customview.view.AbsSavedState;
 
 import com.kgurgul.cpuinfo.R;
@@ -86,7 +84,6 @@ public abstract class BaseRoundCornerProgressBar extends LinearLayout {
         setup(context, attrs);
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     public BaseRoundCornerProgressBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         setup(context, attrs);
@@ -271,14 +268,10 @@ public abstract class BaseRoundCornerProgressBar extends LinearLayout {
         removeLayoutParamsRule(progressParams);
         if (isReverse) {
             progressParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                progressParams.addRule(RelativeLayout.ALIGN_PARENT_END);
-            }
+            progressParams.addRule(RelativeLayout.ALIGN_PARENT_END);
         } else {
             progressParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                progressParams.addRule(RelativeLayout.ALIGN_PARENT_START);
-            }
+            progressParams.addRule(RelativeLayout.ALIGN_PARENT_START);
         }
         layoutProgress.setLayoutParams(progressParams);
     }
@@ -289,15 +282,10 @@ public abstract class BaseRoundCornerProgressBar extends LinearLayout {
 
     // Remove all of relative align rule
     private void removeLayoutParamsRule(@NonNull RelativeLayout.LayoutParams layoutParams) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_END);
-            layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_START);
-        } else {
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
-        }
+        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_END);
+        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_START);
     }
 
     @SuppressLint("NewApi")

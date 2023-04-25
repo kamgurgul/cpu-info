@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp"
-        tools:ignore="RtlHardcoded">
+        tools:ignore="RtlHardcoded,UselessParent">
 
         <TextView
             android:id="@+id/proc_name_tv"

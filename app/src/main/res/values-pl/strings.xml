@@ -66,6 +66,7 @@
     <string name="total_memory">Całkowita pamięć</string>
     <string name="available_memory">Dostępna pamięć</string>
     <string name="threshold">Próg</string>
+    <string name="clear">Wyczyść</string>
 
     <!--Storage-->
     <string name="storage_hint">Pamięć wewnętrzna może być taka sama jak zewnętrzna</string>

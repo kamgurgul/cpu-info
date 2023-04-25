@@ -33,8 +33,6 @@ import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import com.kgurgul.cpuinfo.widgets.arc.ArcProgress
 import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
-import java.io.RandomAccessFile
-import java.util.regex.Pattern
 
 /**
  * Displays current usage of the RAM memory. Won't work on Android O!
@@ -103,7 +101,12 @@ class RamUsageWidgetProvider : AppWidgetProvider() {
     private fun buildButtonPendingIntent(context: Context): PendingIntent {
         val intent = Intent(context, HostActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        return PendingIntent.getActivity(context, 0, intent, 0)
+        val mutableFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
+        return PendingIntent.getActivity(context, 0, intent, mutableFlag)
     }
 
     private fun pushWidgetUpdates(context: Context, remoteViews: RemoteViews) {
@@ -132,39 +135,8 @@ class RamUsageWidgetProvider : AppWidgetProvider() {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val memoryInfo = ActivityManager.MemoryInfo()
         activityManager.getMemoryInfo(memoryInfo)
-        val totalRam: Long
-        totalRam = if (Build.VERSION.SDK_INT >= 16) {
-            memoryInfo.totalMem
-        } else {
-            getTotalRamForOldApi()
-        }
+        val totalRam = memoryInfo.totalMem
         return ((totalRam.toDouble() - memoryInfo.availMem.toDouble()) / totalRam.toDouble()
                 * 100.0).toInt()
-    }
-
-    private fun getTotalRamForOldApi(): Long {
-        var reader: RandomAccessFile? = null
-        var totRam: Long = -1
-        try {
-            reader = RandomAccessFile("/proc/meminfo", "r")
-            val load = reader.readLine()
-
-            // Get the Number value from the string
-            val p = Pattern.compile("(\\d+)")
-            val m = p.matcher(load)
-            var value = ""
-            while (m.find()) {
-                value = m.group(1)!!
-            }
-            reader.close()
-
-            totRam = value.toLong()
-        } catch (ex: Exception) {
-            Timber.e(ex)
-        } finally {
-            reader?.close()
-        }
-
-        return totRam * 1024
     }
 }

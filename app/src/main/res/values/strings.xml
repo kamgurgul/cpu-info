@@ -83,6 +83,7 @@
     <string name="total_memory">Total memory</string>
     <string name="available_memory">Available memory</string>
     <string name="threshold">Threshold</string>
+    <string name="clear">Clear</string>
 
     <!--Storage-->
     <string name="storage_hint">External memory could be the same as internal</string>
