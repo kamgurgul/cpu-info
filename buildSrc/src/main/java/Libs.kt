@@ -1,6 +1,6 @@
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:8.0.0"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:8.0.1"
 
     const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.46.0"
 
