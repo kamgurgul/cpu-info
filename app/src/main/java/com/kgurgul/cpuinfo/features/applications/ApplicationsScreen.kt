@@ -53,7 +53,8 @@ fun ApplicationsScreen(
         scaffoldState = scaffoldState,
     ) { innerPaddingModifier ->
         val pullRefreshState = rememberPullRefreshState(
-            uiState.isLoading, { onRefreshApplications() }
+            refreshing = uiState.isLoading,
+            onRefresh = { onRefreshApplications() },
         )
         Box(
             modifier = Modifier
@@ -74,7 +75,7 @@ fun ApplicationsScreen(
 }
 
 @Composable
-fun ApplicationsList(
+private fun ApplicationsList(
     appList: List<ExtendedApplicationData>,
     onAppClicked: (packageName: String) -> Unit
 ) {
@@ -95,7 +96,7 @@ fun ApplicationsList(
 }
 
 @Composable
-fun ApplicationItem(
+private fun ApplicationItem(
     appData: ExtendedApplicationData,
     onAppClicked: (packageName: String) -> Unit
 ) {
@@ -117,10 +118,13 @@ fun ApplicationItem(
         Column(
             modifier = Modifier.padding(horizontal = 4.dp)
         ) {
-            Text(appData.name)
+            Text(
+                text = appData.name,
+                style = MaterialTheme.typography.body1,
+            )
             Text(
                 text = appData.packageName,
-                style = MaterialTheme.typography.caption
+                style = MaterialTheme.typography.caption,
             )
         }
     }
@@ -129,7 +133,7 @@ fun ApplicationItem(
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun ApplicationInfoPreviewDark() {
+private fun ApplicationInfoPreview() {
     CpuInfoTheme {
         Surface {
             ApplicationsScreen(
