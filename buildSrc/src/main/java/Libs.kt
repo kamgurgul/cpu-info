@@ -15,7 +15,7 @@ object Libs {
     const val coil = "io.coil-kt:coil-compose:2.3.0"
 
     object Kotlin {
-        private const val version = "1.8.20"
+        private const val version = "1.8.21"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
 
@@ -23,7 +23,7 @@ object Libs {
     }
 
     object Coroutines {
-        private const val version = "1.6.4"
+        private const val version = "1.7.0"
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
         const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
@@ -57,8 +57,8 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.4.6"
-            const val bom = "androidx.compose:compose-bom:2023.04.01"
+            const val compilerVersion = "1.4.7"
+            const val bom = "androidx.compose:compose-bom:2023.05.00"
             const val material = "androidx.compose.material:material"
             const val animations = "androidx.compose.animation:animation"
             const val uiTooling = "androidx.compose.ui:ui-tooling"
@@ -84,7 +84,7 @@ object Libs {
     }
 
     object Google {
-        const val material = "com.google.android.material:material:1.8.0"
+        const val material = "com.google.android.material:material:1.9.0"
         const val gson = "com.google.code.gson:gson:2.10.1"
     }
 

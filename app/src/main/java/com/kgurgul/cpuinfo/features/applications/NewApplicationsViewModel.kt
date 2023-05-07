@@ -12,7 +12,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -69,6 +73,6 @@ class NewApplicationsViewModel @Inject constructor(
     data class UiState(
         val isLoading: Boolean = false,
         val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
-        val snackbarMessage: Int = -1
+        val snackbarMessage: Int = -1,
     )
 }
