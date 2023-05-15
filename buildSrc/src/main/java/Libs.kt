@@ -23,7 +23,7 @@ object Libs {
     }
 
     object Coroutines {
-        private const val version = "1.7.0"
+        private const val version = "1.7.1"
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
         const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
@@ -58,7 +58,7 @@ object Libs {
 
         object Compose {
             const val compilerVersion = "1.4.7"
-            const val bom = "androidx.compose:compose-bom:2023.05.00"
+            const val bom = "androidx.compose:compose-bom:2023.05.01"
             const val material = "androidx.compose.material:material"
             const val animations = "androidx.compose.animation:animation"
             const val uiTooling = "androidx.compose.ui:ui-tooling"
@@ -94,7 +94,7 @@ object Libs {
     }
 
     object Hilt {
-        private const val version = "2.46"
+        private const val version = "2.46.1"
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$version"
