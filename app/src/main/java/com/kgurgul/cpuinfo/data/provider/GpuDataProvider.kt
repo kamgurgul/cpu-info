@@ -17,47 +17,28 @@ class GpuDataProvider @Inject constructor(
         return activityManager.deviceConfigurationInfo.glEsVersion
     }
 
+    /**
+     * Obtain Vulkan version
+     */
     fun getVulkanVersion(): String {
-        val unknown = resources.getString(R.string.unknown)
+        val default = resources.getString(R.string.unknown)
         if (Build.VERSION.SDK_INT < 24) {
-            return unknown
+            return default
         }
-        if (packageManager.hasSystemFeature(
-                PackageManager.FEATURE_VULKAN_HARDWARE_VERSION,
-                VULKAN_1_3
-            )
-        ) {
-            return "1.3"
-        }
-        if (packageManager.hasSystemFeature(
-                PackageManager.FEATURE_VULKAN_HARDWARE_VERSION,
-                VULKAN_1_2
-            )
-        ) {
-            return "1.2"
-        }
-        if (packageManager.hasSystemFeature(
-                PackageManager.FEATURE_VULKAN_HARDWARE_VERSION,
-                VULKAN_1_1
-            )
-        ) {
-            return "1.1"
-        }
-        return if (packageManager.hasSystemFeature(
-                PackageManager.FEATURE_VULKAN_HARDWARE_VERSION,
-                VULKAN_1_0
-            )
-        ) {
-            "1.0"
-        } else {
-            unknown
-        }
-    }
 
-    companion object {
-        private const val VULKAN_1_0 = 0x400000
-        private const val VULKAN_1_1 = 0x401000
-        private const val VULKAN_1_2 = 0x402000
-        private const val VULKAN_1_3 = 0x403000
+        val vulkan = packageManager.systemAvailableFeatures.find {
+            it.name == PackageManager.FEATURE_VULKAN_HARDWARE_VERSION
+        }?.version ?: 0
+        if (vulkan == 0) {
+            return default
+        }
+
+        // Extract versions from bit field
+        // See: https://developer.android.com/reference/android/content/pm/PackageManager#FEATURE_VULKAN_HARDWARE_VERSION
+        val major = vulkan shr 22           // Higher 10 bits
+        val minor = vulkan shl 10 shr 22    // Middle 10 bits
+        val patch = vulkan shl 20 shr 22    // Lower 12 bits
+        //
+        return "$major.$minor.$patch"
     }
 }
