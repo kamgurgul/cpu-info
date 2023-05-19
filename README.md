@@ -21,6 +21,7 @@ alt='Get it on GitHub' height="80">](https://github.com/kamgurgul/cpu-info/relea
 TODO
 ====
 
+* Migrate to version catalog
 * Unify architecture - add interactors and data providers
 * Replace layouts with Compose
 * Replace RxJava with coroutines
