@@ -1,6 +1,6 @@
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:8.0.1"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:8.0.2"
 
     const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.46.0"
 
@@ -31,7 +31,7 @@ object Libs {
 
     object AndroidX {
         const val coreKtx = "androidx.core:core-ktx:1.9.0"
-        const val activityKtx = "androidx.activity:activity-compose:1.7.1"
+        const val activityKtx = "androidx.activity:activity-compose:1.7.2"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:1.5.7"
         const val appCompat = "androidx.appcompat:appcompat:1.6.1"
         const val preference = "androidx.preference:preference:1.2.0"
