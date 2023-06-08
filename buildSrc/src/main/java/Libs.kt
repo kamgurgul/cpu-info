@@ -60,6 +60,7 @@ object Libs {
             const val compilerVersion = "1.4.7"
             const val bom = "androidx.compose:compose-bom:2023.05.01"
             const val material = "androidx.compose.material:material"
+            const val material3 = "androidx.compose.material3:material3"
             const val animations = "androidx.compose.animation:animation"
             const val uiTooling = "androidx.compose.ui:ui-tooling"
             const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"

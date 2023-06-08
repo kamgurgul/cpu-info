@@ -126,6 +126,7 @@ dependencies {
 
     implementation(platform(Libs.AndroidX.Compose.bom))
     implementation(Libs.AndroidX.Compose.material)
+    implementation(Libs.AndroidX.Compose.material3)
     implementation(Libs.AndroidX.Compose.animations)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
     debugImplementation(Libs.AndroidX.Compose.uiTooling)
