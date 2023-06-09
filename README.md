@@ -28,7 +28,7 @@ TODO
 * Tests
 * Add benchmarks
 * Add translations framework
-* Migrate to Material 3
+* Migrate to Material 3 with dynamic colors
 
 Alternative stores
 ==================
