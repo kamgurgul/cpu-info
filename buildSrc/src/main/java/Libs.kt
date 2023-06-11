@@ -2,7 +2,7 @@ object Libs {
 
     const val androidGradlePlugin = "com.android.tools.build:gradle:8.0.2"
 
-    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.46.0"
+    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.47.0"
 
     const val bus = "org.greenrobot:eventbus:3.3.1"
 
@@ -32,7 +32,7 @@ object Libs {
     object AndroidX {
         const val coreKtx = "androidx.core:core-ktx:1.9.0"
         const val activityKtx = "androidx.activity:activity-compose:1.7.2"
-        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.5.7"
+        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.6.0"
         const val appCompat = "androidx.appcompat:appcompat:1.6.1"
         const val preference = "androidx.preference:preference:1.2.0"
         const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
@@ -50,7 +50,7 @@ object Libs {
         }
 
         object Navigation {
-            private const val version = "2.5.3"
+            private const val version = "2.6.0"
             const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
             const val ui = "androidx.navigation:navigation-ui-ktx:$version"
             const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
@@ -58,7 +58,7 @@ object Libs {
 
         object Compose {
             const val compilerVersion = "1.4.7"
-            const val bom = "androidx.compose:compose-bom:2023.05.01"
+            const val bom = "androidx.compose:compose-bom:2023.06.00"
             const val material = "androidx.compose.material:material"
             const val material3 = "androidx.compose.material3:material3"
             const val animations = "androidx.compose.animation:animation"
