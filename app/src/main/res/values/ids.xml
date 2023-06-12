@@ -20,6 +20,4 @@
     <item name="smMenuViewRight" type="id" />
     <item name="smMenuViewTop" type="id" />
     <item name="smMenuViewBottom" type="id" />
-
-    <item name="applications_fragment" type="id" />
 </resources>
