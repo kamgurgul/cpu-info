@@ -12,7 +12,6 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -29,7 +28,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 
@@ -60,9 +62,7 @@ fun ApplicationsScreen(
     Scaffold(
         snackbarHost = {
             SnackbarHost(snackbarHostState) { data ->
-                Snackbar {
-                    Text(data.visuals.message)
-                }
+                CpuSnackbar(data)
             }
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -120,7 +120,7 @@ private fun ApplicationItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = { onAppClicked(appData.packageName) })
-            .padding(8.dp),
+            .padding(spacingSmall),
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -131,7 +131,7 @@ private fun ApplicationItem(
             modifier = Modifier.size(50.dp),
         )
         Column(
-            modifier = Modifier.padding(horizontal = 4.dp)
+            modifier = Modifier.padding(horizontal = spacingXSmall)
         ) {
             Text(
                 text = appData.name,
