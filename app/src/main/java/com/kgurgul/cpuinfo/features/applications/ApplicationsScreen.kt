@@ -34,7 +34,7 @@ import coil.request.ImageRequest
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
-import com.kgurgul.cpuinfo.ui.components.DraggableCard
+import com.kgurgul.cpuinfo.ui.components.DraggableBoxComplex
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
@@ -128,9 +128,8 @@ private fun ApplicationsList(
                         )
                     }
                 )
-                DraggableCard(
+                DraggableBoxComplex(
                     isRevealed = revealedCardId == it.packageName,
-                    cardHeight = 56.dp,
                     cardOffset = 56.dp.value,
                     onExpand = { onCardExpanded(it.packageName) },
                     onCollapse = { onCardCollapsed(it.packageName) },
