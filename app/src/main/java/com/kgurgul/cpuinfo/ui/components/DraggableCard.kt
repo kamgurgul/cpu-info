@@ -3,6 +3,7 @@ package com.kgurgul.cpuinfo.ui.components
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -28,7 +29,6 @@ private const val MIN_DRAG_AMOUNT = 6
 @SuppressLint("UnusedTransitionTargetStateParameter")
 @Composable
 fun DraggableCardComplex(
-    card: DraggableCardModel,
     cardHeight: Dp,
     isRevealed: Boolean,
     cardOffset: Float,
@@ -96,7 +96,6 @@ fun DraggableCardComplex(
 @SuppressLint("UnusedTransitionTargetStateParameter")
 @Composable
 fun DraggableCard(
-    card: DraggableCardModel,
     cardHeight: Dp,
     isRevealed: Boolean,
     cardOffset: Float,
@@ -110,25 +109,13 @@ fun DraggableCard(
         }
     }
     val transition = updateTransition(transitionState, "cardTransition")
-    /*    val cardBgColor by transition.animateColor(
-            label = "cardBgColorTransition",
-            transitionSpec = { tween(durationMillis = ANIMATION_DURATION) },
-            targetValueByState = {
-                if (isRevealed) cardExpandedBackgroundColor else cardCollapsedBackgroundColor
-            }
-        )*/
     val offsetTransition by transition.animateFloat(
         label = "cardOffsetTransition",
         transitionSpec = { tween(durationMillis = ANIMATION_DURATION) },
         targetValueByState = { if (isRevealed) cardOffset else 0f },
     )
-    val cardElevation by transition.animateDp(
-        label = "cardElevation",
-        transitionSpec = { tween(durationMillis = ANIMATION_DURATION) },
-        targetValueByState = { if (isRevealed) 40.dp else 2.dp }
-    )
 
-    Card(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -142,13 +129,7 @@ fun DraggableCard(
                     }
                 }
             },
-        //backgroundColor = cardBgColor,
-        shape = remember {
-            RoundedCornerShape(0.dp)
-        },
-        elevation = cardElevation,
-        content = content,
-    )
+    ) {
+        content()
+    }
 }
-
-abstract class DraggableCardModel(val id: Int)

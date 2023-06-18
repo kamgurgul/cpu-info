@@ -57,6 +57,14 @@ class NewApplicationsViewModel @Inject constructor(
         _uiStateFlow.update { it.copy(snackbarMessage = -1) }
     }
 
+    fun onCardExpanded(id: String) {
+        _uiStateFlow.update { it.copy(revealedCardId = id) }
+    }
+
+    fun onCardCollapsed(@Suppress("UNUSED_PARAMETER") id: String) {
+        _uiStateFlow.update { it.copy(revealedCardId = null) }
+    }
+
     private fun handleApplicationsResult(result: Result<List<ExtendedApplicationData>>) {
         _uiStateFlow.update {
             it.copy(

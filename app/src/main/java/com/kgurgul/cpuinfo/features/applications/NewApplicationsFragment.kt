@@ -33,6 +33,8 @@ class NewApplicationsFragment : Fragment() {
                         onAppClicked = viewModel::onApplicationClicked,
                         onRefreshApplications = viewModel::onRefreshApplications,
                         onSnackbarDismissed = viewModel::onSnackbarDismissed,
+                        onCardExpanded = viewModel::onCardExpanded,
+                        onCardCollapsed = viewModel::onCardCollapsed,
                     )
                 }
             }

@@ -10,6 +10,8 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -22,13 +24,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
+import com.kgurgul.cpuinfo.ui.components.DraggableCard
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
@@ -42,6 +48,8 @@ fun ApplicationsScreen(
     onAppClicked: (packageName: String) -> Unit,
     onRefreshApplications: () -> Unit,
     onSnackbarDismissed: () -> Unit,
+    onCardExpanded: (id: String) -> Unit,
+    onCardCollapsed: (id: String) -> Unit,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -78,7 +86,10 @@ fun ApplicationsScreen(
         ) {
             ApplicationsList(
                 appList = uiState.applications,
-                onAppClicked = onAppClicked
+                revealedCardId = uiState.revealedCardId,
+                onAppClicked = onAppClicked,
+                onCardExpanded = onCardExpanded,
+                onCardCollapsed = onCardCollapsed,
             )
             PullRefreshIndicator(
                 refreshing = uiState.isLoading,
@@ -92,7 +103,10 @@ fun ApplicationsScreen(
 @Composable
 private fun ApplicationsList(
     appList: List<ExtendedApplicationData>,
-    onAppClicked: (packageName: String) -> Unit
+    revealedCardId: String?,
+    onAppClicked: (packageName: String) -> Unit,
+    onCardExpanded: (id: String) -> Unit,
+    onCardCollapsed: (id: String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -102,10 +116,32 @@ private fun ApplicationsList(
             items = appList,
             key = { app -> app.packageName }
         ) {
-            ApplicationItem(
-                appData = it,
-                onAppClicked = onAppClicked
-            )
+            Box(Modifier.fillMaxWidth()) {
+                IconButton(
+                    modifier = Modifier.size(56.dp),
+                    onClick = {},
+                    content = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_thrash),
+                            tint = Color.White,
+                            contentDescription = null,
+                        )
+                    }
+                )
+                DraggableCard(
+                    isRevealed = revealedCardId == it.packageName,
+                    cardHeight = 56.dp,
+                    cardOffset = 56.dp.value,
+                    onExpand = { onCardExpanded(it.packageName) },
+                    onCollapse = { onCardCollapsed(it.packageName) },
+                    content = {
+                        ApplicationItem(
+                            appData = it,
+                            onAppClicked = onAppClicked
+                        )
+                    }
+                )
+            }
         }
     }
 }
@@ -159,6 +195,8 @@ private fun ApplicationInfoPreview() {
             onAppClicked = {},
             onRefreshApplications = {},
             onSnackbarDismissed = {},
+            onCardExpanded = {},
+            onCardCollapsed = {},
         )
     }
 }
