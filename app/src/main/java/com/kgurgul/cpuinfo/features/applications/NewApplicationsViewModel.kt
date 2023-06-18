@@ -74,5 +74,6 @@ class NewApplicationsViewModel @Inject constructor(
         val isLoading: Boolean = false,
         val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
         val snackbarMessage: Int = -1,
+        val revealedCardId: String? = null,
     )
 }
