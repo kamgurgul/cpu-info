@@ -2,6 +2,7 @@ package com.kgurgul.cpuinfo.features.applications
 
 import android.content.res.Configuration
 import android.net.Uri
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -116,31 +117,31 @@ private fun ApplicationsList(
             items = appList,
             key = { app -> app.packageName }
         ) {
-            Box(Modifier.fillMaxWidth()) {
-                IconButton(
-                    modifier = Modifier.size(56.dp),
-                    onClick = {},
-                    content = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_thrash),
-                            tint = Color.White,
-                            contentDescription = null,
-                        )
-                    }
-                )
-                DraggableBoxComplex(
-                    isRevealed = revealedCardId == it.packageName,
-                    cardOffset = 56.dp.value,
-                    onExpand = { onCardExpanded(it.packageName) },
-                    onCollapse = { onCardCollapsed(it.packageName) },
-                    content = {
-                        ApplicationItem(
-                            appData = it,
-                            onAppClicked = onAppClicked
-                        )
-                    }
-                )
-            }
+            DraggableBoxComplex(
+                isRevealed = revealedCardId == it.packageName,
+                cardOffset = 128.dp.value,
+                onExpand = { onCardExpanded(it.packageName) },
+                onCollapse = { onCardCollapsed(it.packageName) },
+                actionRow = {
+                    IconButton(
+                        modifier = Modifier.size(56.dp),
+                        onClick = {},
+                        content = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_thrash),
+                                tint = Color.White,
+                                contentDescription = null,
+                            )
+                        }
+                    )
+                },
+                content = {
+                    ApplicationItem(
+                        appData = it,
+                        onAppClicked = onAppClicked
+                    )
+                }
+            )
         }
     }
 }
@@ -154,6 +155,7 @@ private fun ApplicationItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.background)
             .clickable(onClick = { onAppClicked(appData.packageName) })
             .padding(spacingSmall),
     ) {

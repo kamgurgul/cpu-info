@@ -27,6 +27,7 @@ fun DraggableBoxComplex(
     cardOffset: Float,
     onExpand: () -> Unit,
     onCollapse: () -> Unit,
+    actionRow: @Composable () -> Unit,
     content: @Composable () -> Unit,
 ) {
     val offsetX = remember { mutableStateOf(0f) }
@@ -40,30 +41,34 @@ fun DraggableBoxComplex(
         label = "cardOffsetTransition",
         transitionSpec = { tween(durationMillis = ANIMATION_DURATION) },
         targetValueByState = { if (isRevealed) cardOffset - offsetX.value else -offsetX.value },
-
-        )
+    )
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .offset { IntOffset((offsetX.value + offsetTransition).roundToInt(), 0) }
-            .pointerInput(Unit) {
-                detectHorizontalDragGestures { change, dragAmount ->
-                    val original = Offset(offsetX.value, 0f)
-                    val summed = original + Offset(x = dragAmount, y = 0f)
-                    val newValue = Offset(x = summed.x.coerceIn(0f, cardOffset), y = 0f)
-                    if (newValue.x >= 10) {
-                        onExpand()
-                        return@detectHorizontalDragGestures
-                    } else if (newValue.x <= 0) {
-                        onCollapse()
-                        return@detectHorizontalDragGestures
-                    }
-                    if (change.positionChange() != Offset.Zero) change.consume()
-                    offsetX.value = newValue.x
-                }
-            },
+        modifier = Modifier.fillMaxWidth()
     ) {
-        content()
+        actionRow()
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .offset { IntOffset((offsetX.value + offsetTransition).roundToInt(), 0) }
+                .pointerInput(Unit) {
+                    detectHorizontalDragGestures { change, dragAmount ->
+                        val original = Offset(offsetX.value, 0f)
+                        val summed = original + Offset(x = dragAmount, y = 0f)
+                        val newValue = Offset(x = summed.x.coerceIn(0f, cardOffset), y = 0f)
+                        if (newValue.x >= 10) {
+                            onExpand()
+                            return@detectHorizontalDragGestures
+                        } else if (newValue.x <= 0) {
+                            onCollapse()
+                            return@detectHorizontalDragGestures
+                        }
+                        if (change.positionChange() != Offset.Zero) change.consume()
+                        offsetX.value = newValue.x
+                    }
+                },
+        ) {
+            content()
+        }
     }
 }
 
