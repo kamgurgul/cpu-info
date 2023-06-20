@@ -119,7 +119,6 @@ private fun ApplicationsList(
         ) {
             DraggableBoxComplex(
                 isRevealed = revealedCardId == it.packageName,
-                cardOffset = 128.dp.value,
                 onExpand = { onCardExpanded(it.packageName) },
                 onCollapse = { onCardCollapsed(it.packageName) },
                 actionRow = {

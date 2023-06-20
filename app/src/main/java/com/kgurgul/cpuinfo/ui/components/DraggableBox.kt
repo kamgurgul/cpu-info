@@ -10,10 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
 import kotlin.math.roundToInt
 
@@ -24,13 +26,13 @@ private const val MIN_DRAG_AMOUNT = 6
 @Composable
 fun DraggableBoxComplex(
     isRevealed: Boolean,
-    cardOffset: Float,
     onExpand: () -> Unit,
     onCollapse: () -> Unit,
     actionRow: @Composable () -> Unit,
     content: @Composable () -> Unit,
 ) {
     val offsetX = remember { mutableStateOf(0f) }
+    var calculatedOffset by remember { mutableStateOf(0) }
     val transitionState = remember {
         MutableTransitionState(isRevealed).apply {
             targetState = !isRevealed
@@ -40,12 +42,18 @@ fun DraggableBoxComplex(
     val offsetTransition by transition.animateFloat(
         label = "cardOffsetTransition",
         transitionSpec = { tween(durationMillis = ANIMATION_DURATION) },
-        targetValueByState = { if (isRevealed) cardOffset - offsetX.value else -offsetX.value },
+        targetValueByState = { if (isRevealed) calculatedOffset - offsetX.value else -offsetX.value },
     )
     Box(
         modifier = Modifier.fillMaxWidth()
     ) {
-        actionRow()
+        Box(
+            modifier = Modifier.onGloballyPositioned { coordinates ->
+                calculatedOffset = coordinates.size.width
+            }
+        ) {
+            actionRow()
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,7 +62,10 @@ fun DraggableBoxComplex(
                     detectHorizontalDragGestures { change, dragAmount ->
                         val original = Offset(offsetX.value, 0f)
                         val summed = original + Offset(x = dragAmount, y = 0f)
-                        val newValue = Offset(x = summed.x.coerceIn(0f, cardOffset), y = 0f)
+                        val newValue = Offset(
+                            x = summed.x.coerceIn(0f, calculatedOffset.toFloat()),
+                            y = 0f
+                        )
                         if (newValue.x >= 10) {
                             onExpand()
                             return@detectHorizontalDragGestures
