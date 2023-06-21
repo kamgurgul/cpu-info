@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
@@ -19,12 +20,9 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
 import kotlin.math.roundToInt
 
-private const val ANIMATION_DURATION = 500
-private const val MIN_DRAG_AMOUNT = 6
-
 @SuppressLint("UnusedTransitionTargetStateParameter")
 @Composable
-fun DraggableBoxComplex(
+fun DraggableBox(
     isRevealed: Boolean,
     onExpand: () -> Unit,
     onCollapse: () -> Unit,
@@ -38,19 +36,19 @@ fun DraggableBoxComplex(
             targetState = !isRevealed
         }
     }
-    val transition = updateTransition(transitionState, "cardTransition")
+    val transition = updateTransition(transitionState, "boxTransition")
     val offsetTransition by transition.animateFloat(
-        label = "cardOffsetTransition",
-        transitionSpec = { tween(durationMillis = ANIMATION_DURATION) },
+        label = "boxOffsetTransition",
+        transitionSpec = { tween(durationMillis = 500) },
         targetValueByState = { if (isRevealed) calculatedOffset - offsetX.value else -offsetX.value },
     )
     Box(
-        modifier = Modifier.fillMaxWidth()
+        contentAlignment = Alignment.CenterStart,
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Box(
-            modifier = Modifier.onGloballyPositioned { coordinates ->
-                calculatedOffset = coordinates.size.width
-            }
+            modifier = Modifier
+                .onGloballyPositioned { coordinates -> calculatedOffset = coordinates.size.width },
         ) {
             actionRow()
         }
@@ -80,43 +78,5 @@ fun DraggableBoxComplex(
         ) {
             content()
         }
-    }
-}
-
-@SuppressLint("UnusedTransitionTargetStateParameter")
-@Composable
-fun DraggableBox(
-    isRevealed: Boolean,
-    cardOffset: Float,
-    onExpand: () -> Unit,
-    onCollapse: () -> Unit,
-    content: @Composable () -> Unit,
-) {
-    val transitionState = remember {
-        MutableTransitionState(isRevealed).apply {
-            targetState = !isRevealed
-        }
-    }
-    val transition = updateTransition(transitionState, "cardTransition")
-    val offsetTransition by transition.animateFloat(
-        label = "cardOffsetTransition",
-        transitionSpec = { tween(durationMillis = ANIMATION_DURATION) },
-        targetValueByState = { if (isRevealed) cardOffset else 0f },
-    )
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .offset { IntOffset(offsetTransition.roundToInt(), 0) }
-            .pointerInput(Unit) {
-                detectHorizontalDragGestures { _, dragAmount ->
-                    when {
-                        dragAmount >= MIN_DRAG_AMOUNT -> onExpand()
-                        dragAmount < -MIN_DRAG_AMOUNT -> onCollapse()
-                    }
-                }
-            },
-    ) {
-        content()
     }
 }
