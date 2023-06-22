@@ -58,7 +58,7 @@ object Libs {
 
         object Compose {
             const val compilerVersion = "1.4.7"
-            const val bom = "androidx.compose:compose-bom:2023.06.00"
+            const val bom = "androidx.compose:compose-bom:2023.06.01"
             const val material = "androidx.compose.material:material"
             const val material3 = "androidx.compose.material3:material3"
             const val animations = "androidx.compose.animation:animation"
@@ -116,7 +116,7 @@ object Libs {
     }
 
     object Mockito {
-        const val core = "org.mockito:mockito-core:5.3.1"
+        const val core = "org.mockito:mockito-core:5.4.0"
         const val kotlin = "org.mockito.kotlin:mockito-kotlin:5.0.0"
     }
 }
