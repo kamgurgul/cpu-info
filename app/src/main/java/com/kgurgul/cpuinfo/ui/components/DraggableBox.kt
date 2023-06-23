@@ -29,8 +29,8 @@ fun DraggableBox(
     actionRow: @Composable () -> Unit,
     content: @Composable () -> Unit,
 ) {
-    val offsetX = remember { mutableStateOf(0f) }
-    var calculatedOffset by remember { mutableStateOf(0) }
+    var offsetX by remember { mutableStateOf(0f) }
+    var actionRowOffset by remember { mutableStateOf(0) }
     val transitionState = remember {
         MutableTransitionState(isRevealed).apply {
             targetState = !isRevealed
@@ -39,40 +39,39 @@ fun DraggableBox(
     val transition = updateTransition(transitionState, "boxTransition")
     val offsetTransition by transition.animateFloat(
         label = "boxOffsetTransition",
-        transitionSpec = { tween(durationMillis = 500) },
-        targetValueByState = { if (isRevealed) calculatedOffset - offsetX.value else -offsetX.value },
+        targetValueByState = { if (isRevealed) offsetX - actionRowOffset else -offsetX },
     )
     Box(
-        contentAlignment = Alignment.CenterStart,
+        contentAlignment = Alignment.CenterEnd,
         modifier = Modifier.fillMaxWidth(),
     ) {
         Box(
             modifier = Modifier
-                .onGloballyPositioned { coordinates -> calculatedOffset = coordinates.size.width },
+                .onGloballyPositioned { coordinates -> actionRowOffset = coordinates.size.width },
         ) {
             actionRow()
         }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .offset { IntOffset((offsetX.value + offsetTransition).roundToInt(), 0) }
+                .offset { IntOffset((offsetX + offsetTransition).roundToInt(), 0) }
                 .pointerInput(Unit) {
                     detectHorizontalDragGestures { change, dragAmount ->
-                        val original = Offset(offsetX.value, 0f)
+                        val original = Offset(offsetX, 0f)
                         val summed = original + Offset(x = dragAmount, y = 0f)
                         val newValue = Offset(
-                            x = summed.x.coerceIn(0f, calculatedOffset.toFloat()),
+                            x = summed.x.coerceIn(-actionRowOffset.toFloat(), 0f),
                             y = 0f
                         )
-                        if (newValue.x >= 10) {
+                        if (newValue.x <= -10) {
                             onExpand()
                             return@detectHorizontalDragGestures
-                        } else if (newValue.x <= 0) {
+                        } else if (newValue.x >= 0) {
                             onCollapse()
                             return@detectHorizontalDragGestures
                         }
                         if (change.positionChange() != Offset.Zero) change.consume()
-                        offsetX.value = newValue.x
+                        offsetX = newValue.x
                     }
                 },
         ) {
