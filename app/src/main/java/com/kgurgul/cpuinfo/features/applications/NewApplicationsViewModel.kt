@@ -65,6 +65,14 @@ class NewApplicationsViewModel @Inject constructor(
         _uiStateFlow.update { it.copy(revealedCardId = null) }
     }
 
+    fun onAppSettingsClicked(@Suppress("UNUSED_PARAMETER") id: String) {
+
+    }
+
+    fun onAppUninstallClicked(@Suppress("UNUSED_PARAMETER") id: String) {
+
+    }
+
     private fun handleApplicationsResult(result: Result<List<ExtendedApplicationData>>) {
         _uiStateFlow.update {
             it.copy(

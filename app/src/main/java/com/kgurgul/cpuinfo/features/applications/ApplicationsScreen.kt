@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -50,6 +51,8 @@ fun ApplicationsScreen(
     onSnackbarDismissed: () -> Unit,
     onCardExpanded: (id: String) -> Unit,
     onCardCollapsed: (id: String) -> Unit,
+    onAppUninstallClicked: (id: String) -> Unit,
+    onAppSettingsClicked: (id: String) -> Unit,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -90,6 +93,8 @@ fun ApplicationsScreen(
                 onAppClicked = onAppClicked,
                 onCardExpanded = onCardExpanded,
                 onCardCollapsed = onCardCollapsed,
+                onAppUninstallClicked = onAppUninstallClicked,
+                onAppSettingsClicked = onAppSettingsClicked,
             )
             PullRefreshIndicator(
                 refreshing = uiState.isLoading,
@@ -107,6 +112,8 @@ private fun ApplicationsList(
     onAppClicked: (packageName: String) -> Unit,
     onCardExpanded: (id: String) -> Unit,
     onCardCollapsed: (id: String) -> Unit,
+    onAppUninstallClicked: (id: String) -> Unit,
+    onAppSettingsClicked: (id: String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -121,17 +128,30 @@ private fun ApplicationsList(
                 onExpand = { onCardExpanded(it.packageName) },
                 onCollapse = { onCardCollapsed(it.packageName) },
                 actionRow = {
-                    IconButton(
-                        modifier = Modifier.size(56.dp),
-                        onClick = {},
-                        content = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_thrash),
-                                tint = MaterialTheme.colorScheme.onBackground,
-                                contentDescription = null,
-                            )
-                        }
-                    )
+                    Row {
+                        IconButton(
+                            modifier = Modifier.size(56.dp),
+                            onClick = { onAppSettingsClicked(it.packageName) },
+                            content = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_settings),
+                                    tint = MaterialTheme.colorScheme.onBackground,
+                                    contentDescription = stringResource(id = R.string.settings),
+                                )
+                            }
+                        )
+                        IconButton(
+                            modifier = Modifier.size(56.dp),
+                            onClick = { onAppUninstallClicked(it.packageName) },
+                            content = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_thrash),
+                                    tint = MaterialTheme.colorScheme.onBackground,
+                                    contentDescription = null,
+                                )
+                            }
+                        )
+                    }
                 },
                 content = {
                     ApplicationItem(
@@ -196,6 +216,8 @@ private fun ApplicationInfoPreview() {
             onSnackbarDismissed = {},
             onCardExpanded = {},
             onCardCollapsed = {},
+            onAppSettingsClicked = {},
+            onAppUninstallClicked = {},
         )
     }
 }
