@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.features.applications
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
@@ -7,6 +8,7 @@ import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.sortOrderFromBoolean
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
+import com.kgurgul.cpuinfo.utils.SingleLiveEvent
 import com.kgurgul.cpuinfo.utils.wrappers.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -28,6 +30,9 @@ class NewApplicationsViewModel @Inject constructor(
 
     private val _uiStateFlow = MutableStateFlow(UiState())
     val uiStateFlow = _uiStateFlow.asStateFlow()
+
+    private val _events = SingleLiveEvent<Event>()
+    val events: LiveData<Event> = _events.asLiveData()
 
     init {
         applicationsDataObservable.observe()
@@ -77,6 +82,8 @@ class NewApplicationsViewModel @Inject constructor(
             )
         }
     }
+
+    sealed interface Event
 
     data class UiState(
         val isLoading: Boolean = false,
