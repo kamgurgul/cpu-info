@@ -1,6 +1,9 @@
 package com.kgurgul.cpuinfo.features.applications
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class NewApplicationsFragment : Fragment() {
@@ -38,6 +42,29 @@ class NewApplicationsFragment : Fragment() {
                         onAppUninstallClicked = viewModel::onAppUninstallClicked,
                         onAppSettingsClicked = viewModel::onAppSettingsClicked,
                     )
+                }
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        registerObservers()
+    }
+
+    private fun registerObservers() {
+        viewModel.events.observe(viewLifecycleOwner, ::handleEvent)
+    }
+
+    private fun handleEvent(event: NewApplicationsViewModel.Event) {
+        when (event) {
+            is NewApplicationsViewModel.Event.OpenAppSettings -> {
+                val uri = Uri.fromParts("package", event.packageName, null)
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uri)
+                try {
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    Timber.e("Can't open app settings")
                 }
             }
         }

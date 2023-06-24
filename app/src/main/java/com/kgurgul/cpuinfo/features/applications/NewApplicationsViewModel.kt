@@ -70,8 +70,8 @@ class NewApplicationsViewModel @Inject constructor(
         _uiStateFlow.update { it.copy(revealedCardId = null) }
     }
 
-    fun onAppSettingsClicked(@Suppress("UNUSED_PARAMETER") id: String) {
-
+    fun onAppSettingsClicked(id: String) {
+        _events.value = Event.OpenAppSettings(id)
     }
 
     fun onAppUninstallClicked(@Suppress("UNUSED_PARAMETER") id: String) {
@@ -91,7 +91,9 @@ class NewApplicationsViewModel @Inject constructor(
         }
     }
 
-    sealed interface Event
+    sealed interface Event {
+        data class OpenAppSettings(val packageName: String) : Event
+    }
 
     data class UiState(
         val isLoading: Boolean = false,
