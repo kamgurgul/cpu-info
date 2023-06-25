@@ -74,8 +74,14 @@ class NewApplicationsViewModel @Inject constructor(
         _events.value = Event.OpenAppSettings(id)
     }
 
-    fun onAppUninstallClicked(@Suppress("UNUSED_PARAMETER") id: String) {
-
+    fun onAppUninstallClicked(id: String) {
+        viewModelScope.launch {
+            if (getPackageNameInteractor.invoke(Unit) == id) {
+                _uiStateFlow.update { it.copy(snackbarMessage = R.string.cpu_uninstall) }
+            } else {
+                _events.value = Event.UninstallApp(id)
+            }
+        }
     }
 
     private fun handleApplicationsResult(result: Result<List<ExtendedApplicationData>>) {
@@ -93,6 +99,7 @@ class NewApplicationsViewModel @Inject constructor(
 
     sealed interface Event {
         data class OpenAppSettings(val packageName: String) : Event
+        data class UninstallApp(val packageName: String) : Event
     }
 
     data class UiState(
