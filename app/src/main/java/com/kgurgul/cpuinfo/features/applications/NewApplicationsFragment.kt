@@ -56,6 +56,7 @@ class NewApplicationsFragment : Fragment() {
                         onCardCollapsed = viewModel::onCardCollapsed,
                         onAppUninstallClicked = viewModel::onAppUninstallClicked,
                         onAppSettingsClicked = viewModel::onAppSettingsClicked,
+                        onNativeLibsClicked = viewModel::onNativeLibsClicked,
                     )
                 }
             }

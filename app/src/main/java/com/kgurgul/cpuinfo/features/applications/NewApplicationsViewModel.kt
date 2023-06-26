@@ -84,6 +84,10 @@ class NewApplicationsViewModel @Inject constructor(
         }
     }
 
+    fun onNativeLibsClicked(id: String) {
+        _events.value = Event.OpenAppSettings(id)
+    }
+
     private fun handleApplicationsResult(result: Result<List<ExtendedApplicationData>>) {
         _uiStateFlow.update {
             it.copy(

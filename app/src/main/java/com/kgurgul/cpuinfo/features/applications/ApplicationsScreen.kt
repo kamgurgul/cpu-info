@@ -2,6 +2,7 @@ package com.kgurgul.cpuinfo.features.applications
 
 import android.content.res.Configuration
 import android.net.Uri
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -37,6 +38,7 @@ import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import kotlinx.collections.immutable.persistentListOf
@@ -53,6 +55,7 @@ fun ApplicationsScreen(
     onCardCollapsed: (id: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
+    onNativeLibsClicked: (id: String) -> Unit
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -95,6 +98,7 @@ fun ApplicationsScreen(
                 onCardCollapsed = onCardCollapsed,
                 onAppUninstallClicked = onAppUninstallClicked,
                 onAppSettingsClicked = onAppSettingsClicked,
+                onNativeLibsClicked = onNativeLibsClicked,
             )
             PullRefreshIndicator(
                 refreshing = uiState.isLoading,
@@ -114,6 +118,7 @@ private fun ApplicationsList(
     onCardCollapsed: (id: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
+    onNativeLibsClicked: (id: String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -130,7 +135,7 @@ private fun ApplicationsList(
                 actionRow = {
                     Row {
                         IconButton(
-                            modifier = Modifier.size(56.dp),
+                            modifier = Modifier.size(rowActionIconSize),
                             onClick = { onAppSettingsClicked(it.packageName) },
                             content = {
                                 Icon(
@@ -156,7 +161,8 @@ private fun ApplicationsList(
                 content = {
                     ApplicationItem(
                         appData = it,
-                        onAppClicked = onAppClicked
+                        onAppClicked = onAppClicked,
+                        onNativeLibsClicked = onNativeLibsClicked,
                     )
                 }
             )
@@ -167,7 +173,8 @@ private fun ApplicationsList(
 @Composable
 private fun ApplicationItem(
     appData: ExtendedApplicationData,
-    onAppClicked: (packageName: String) -> Unit
+    onAppClicked: (packageName: String) -> Unit,
+    onNativeLibsClicked: (packageName: String) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -199,6 +206,17 @@ private fun ApplicationItem(
                 color = MaterialTheme.colorScheme.onBackground,
             )
         }
+        if (appData.hasNativeLibs) {
+            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.size(spacingXSmall))
+            Image(
+                painter = painterResource(id = R.drawable.ic_c_plus_plus),
+                contentDescription = stringResource(id = R.string.native_libs),
+                modifier = Modifier
+                    .requiredSize(40.dp)
+                    .clickable { onNativeLibsClicked(appData.packageName) }
+            )
+        }
     }
 }
 
@@ -218,6 +236,7 @@ private fun ApplicationInfoPreview() {
             onCardCollapsed = {},
             onAppSettingsClicked = {},
             onAppUninstallClicked = {},
+            onNativeLibsClicked = {},
         )
     }
 }
