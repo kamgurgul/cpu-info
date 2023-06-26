@@ -68,6 +68,11 @@ class NewApplicationsFragment : Fragment() {
         registerObservers()
     }
 
+    override fun onDestroy() {
+        requireActivity().unregisterReceiver(uninstallReceiver)
+        super.onDestroy()
+    }
+
     private fun registerObservers() {
         viewModel.events.observe(viewLifecycleOwner, ::handleEvent)
     }

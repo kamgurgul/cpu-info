@@ -84,8 +84,8 @@ class NewApplicationsViewModel @Inject constructor(
         }
     }
 
-    fun onNativeLibsClicked(id: String) {
-        _events.value = Event.OpenAppSettings(id)
+    fun onNativeLibsClicked(@Suppress("UNUSED_PARAMETER") nativeLibraryDir: String) {
+
     }
 
     private fun handleApplicationsResult(result: Result<List<ExtendedApplicationData>>) {

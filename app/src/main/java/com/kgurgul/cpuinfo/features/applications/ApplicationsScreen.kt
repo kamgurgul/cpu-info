@@ -55,7 +55,7 @@ fun ApplicationsScreen(
     onCardCollapsed: (id: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
-    onNativeLibsClicked: (id: String) -> Unit
+    onNativeLibsClicked: (nativeLibraryDir: String) -> Unit
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -118,7 +118,7 @@ private fun ApplicationsList(
     onCardCollapsed: (id: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
-    onNativeLibsClicked: (id: String) -> Unit,
+    onNativeLibsClicked: (nativeLibraryDir: String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -174,7 +174,7 @@ private fun ApplicationsList(
 private fun ApplicationItem(
     appData: ExtendedApplicationData,
     onAppClicked: (packageName: String) -> Unit,
-    onNativeLibsClicked: (packageName: String) -> Unit,
+    onNativeLibsClicked: (nativeLibraryDir: String) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -214,7 +214,7 @@ private fun ApplicationItem(
                 contentDescription = stringResource(id = R.string.native_libs),
                 modifier = Modifier
                     .requiredSize(40.dp)
-                    .clickable { onNativeLibsClicked(appData.packageName) }
+                    .clickable { appData.nativeLibraryDir?.let { onNativeLibsClicked(it) } }
             )
         }
     }
