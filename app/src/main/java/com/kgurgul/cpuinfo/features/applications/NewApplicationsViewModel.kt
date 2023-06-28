@@ -54,8 +54,14 @@ class NewApplicationsViewModel @Inject constructor(
         viewModelScope.launch {
             if (getPackageNameInteractor.invoke(Unit) == packageName) {
                 _uiStateFlow.update { it.copy(snackbarMessage = R.string.cpu_open) }
+            } else {
+                _events.value = Event.OpenApp(packageName)
             }
         }
+    }
+
+    fun onCannotOpenApp() {
+        _uiStateFlow.update { it.copy(snackbarMessage = R.string.app_open) }
     }
 
     fun onSnackbarDismissed() {
@@ -102,6 +108,7 @@ class NewApplicationsViewModel @Inject constructor(
     }
 
     sealed interface Event {
+        data class OpenApp(val packageName: String) : Event
         data class OpenAppSettings(val packageName: String) : Event
         data class UninstallApp(val packageName: String) : Event
     }

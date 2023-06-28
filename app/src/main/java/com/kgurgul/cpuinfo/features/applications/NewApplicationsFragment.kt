@@ -79,6 +79,21 @@ class NewApplicationsFragment : Fragment() {
 
     private fun handleEvent(event: NewApplicationsViewModel.Event) {
         when (event) {
+            is NewApplicationsViewModel.Event.OpenApp -> {
+                val intent = requireContext().packageManager.getLaunchIntentForPackage(
+                    event.packageName
+                )
+                if (intent != null) {
+                    try {
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        viewModel.onCannotOpenApp()
+                    }
+                } else {
+                    viewModel.onCannotOpenApp()
+                }
+            }
+
             is NewApplicationsViewModel.Event.OpenAppSettings -> {
                 val uri = Uri.fromParts("package", event.packageName, null)
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uri)
