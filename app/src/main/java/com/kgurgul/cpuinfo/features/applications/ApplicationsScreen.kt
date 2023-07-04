@@ -2,12 +2,12 @@ package com.kgurgul.cpuinfo.features.applications
 
 import android.content.res.Configuration
 import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -120,9 +120,11 @@ private fun ApplicationsList(
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (nativeLibraryDir: String) -> Unit,
 ) {
+    val listState = rememberLazyListState()
     LazyColumn(
+        state = listState,
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
         items(
             items = appList,
@@ -209,12 +211,14 @@ private fun ApplicationItem(
         if (appData.hasNativeLibs) {
             Spacer(modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.size(spacingXSmall))
-            Image(
-                painter = painterResource(id = R.drawable.ic_c_plus_plus),
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(R.drawable.ic_c_plus_plus)
+                    .build(),
                 contentDescription = stringResource(id = R.string.native_libs),
                 modifier = Modifier
                     .requiredSize(40.dp)
-                    .clickable { appData.nativeLibraryDir?.let { onNativeLibsClicked(it) } }
+                    .clickable { appData.nativeLibraryDir?.let { onNativeLibsClicked(it) } },
             )
         }
     }
