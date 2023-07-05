@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -90,8 +91,12 @@ class NewApplicationsViewModel @Inject constructor(
         }
     }
 
-    fun onNativeLibsClicked(@Suppress("UNUSED_PARAMETER") nativeLibraryDir: String) {
-
+    fun onNativeLibsClicked(nativeLibraryDir: String) {
+        val nativeDirFile = File(nativeLibraryDir)
+        val libs = nativeDirFile.listFiles()?.map { it.name } ?: emptyList()
+        if (libs.isNotEmpty()) {
+            _events.value = Event.ShowNativeLibraries(libs)
+        }
     }
 
     private fun handleApplicationsResult(result: Result<List<ExtendedApplicationData>>) {
@@ -111,6 +116,7 @@ class NewApplicationsViewModel @Inject constructor(
         data class OpenApp(val packageName: String) : Event
         data class OpenAppSettings(val packageName: String) : Event
         data class UninstallApp(val packageName: String) : Event
+        data class ShowNativeLibraries(val nativeLibs: List<String>) : Event
     }
 
     data class UiState(
