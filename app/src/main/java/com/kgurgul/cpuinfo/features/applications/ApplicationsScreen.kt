@@ -6,12 +6,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -126,19 +127,19 @@ private fun ApplicationsList(
         modifier = Modifier
             .fillMaxSize(),
     ) {
-        items(
+        itemsIndexed(
             items = appList,
-            key = { app -> app.packageName }
-        ) {
+            key = { _, item -> item.packageName }
+        ) { index, item ->
             DraggableBox(
-                isRevealed = revealedCardId == it.packageName,
-                onExpand = { onCardExpanded(it.packageName) },
-                onCollapse = { onCardCollapsed(it.packageName) },
+                isRevealed = revealedCardId == item.packageName,
+                onExpand = { onCardExpanded(item.packageName) },
+                onCollapse = { onCardCollapsed(item.packageName) },
                 actionRow = {
                     Row {
                         IconButton(
                             modifier = Modifier.size(rowActionIconSize),
-                            onClick = { onAppSettingsClicked(it.packageName) },
+                            onClick = { onAppSettingsClicked(item.packageName) },
                             content = {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_settings),
@@ -149,7 +150,7 @@ private fun ApplicationsList(
                         )
                         IconButton(
                             modifier = Modifier.size(56.dp),
-                            onClick = { onAppUninstallClicked(it.packageName) },
+                            onClick = { onAppUninstallClicked(item.packageName) },
                             content = {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_thrash),
@@ -162,12 +163,15 @@ private fun ApplicationsList(
                 },
                 content = {
                     ApplicationItem(
-                        appData = it,
+                        appData = item,
                         onAppClicked = onAppClicked,
                         onNativeLibsClicked = onNativeLibsClicked,
                     )
                 }
             )
+            if (index < appList.lastIndex) {
+                Divider()
+            }
         }
     }
 }
