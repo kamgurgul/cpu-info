@@ -1,6 +1,10 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+plugins {
+    id(Libs.GradleVersion.plugin) version Libs.GradleVersion.version
+}
+
 buildscript {
 
     repositories {
@@ -11,7 +15,6 @@ buildscript {
 
     dependencies {
         classpath(Libs.androidGradlePlugin)
-        classpath(Libs.gradleVersionsPlugin)
         classpath(Libs.Kotlin.gradlePlugin)
         classpath(Libs.Hilt.gradlePlugin)
     }
@@ -23,8 +26,6 @@ allprojects {
         mavenCentral()
     }
 }
-
-apply(plugin = "com.github.ben-manes.versions")
 
 subprojects {
     tasks.withType<KotlinCompile>().configureEach {

@@ -2,8 +2,6 @@ object Libs {
 
     const val androidGradlePlugin = "com.android.tools.build:gradle:8.0.2"
 
-    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.47.0"
-
     const val bus = "org.greenrobot:eventbus:3.3.1"
 
     const val timber = "com.jakewharton.timber:timber:5.0.1"
@@ -118,5 +116,10 @@ object Libs {
     object Mockito {
         const val core = "org.mockito:mockito-core:5.4.0"
         const val kotlin = "org.mockito.kotlin:mockito-kotlin:5.0.0"
+    }
+
+    object GradleVersion {
+        const val version = "0.47.0"
+        const val plugin = "com.github.ben-manes.versions"
     }
 }
