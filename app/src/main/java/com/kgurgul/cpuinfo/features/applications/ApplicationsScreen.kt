@@ -38,6 +38,7 @@ import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
+import com.kgurgul.cpuinfo.ui.components.SurfaceTopAppBar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -75,6 +76,7 @@ fun ApplicationsScreen(
         }
     }
     Scaffold(
+        topBar = { TopBar() },
         snackbarHost = {
             SnackbarHost(snackbarHostState) { data ->
                 CpuSnackbar(data)
@@ -108,6 +110,13 @@ fun ApplicationsScreen(
             )
         }
     }
+}
+
+@Composable
+private fun TopBar() {
+    SurfaceTopAppBar(
+        title = stringResource(id = R.string.applications)
+    )
 }
 
 @Composable
