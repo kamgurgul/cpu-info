@@ -53,6 +53,7 @@
     <string name="native_libs">Biblioteki natywne</string>
     <string name="storage_used">Użyta pamięć:</string>
     <string name="calculating">obliczanie…</string>
+    <string name="apps_show_system_apps">Pokaż aplikacje systemowe</string>
 
     <!--GPU-->
     <string name="vulkan_version">Wersja Vulkan</string>

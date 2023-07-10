@@ -70,6 +70,7 @@
     <string name="native_libs" translatable="false">Native libs</string>
     <string name="storage_used">Storage used:</string>
     <string name="calculating">calculating…</string>
+    <string name="apps_show_system_apps">Show system apps</string>
 
     <!--GPU-->
     <string name="vulkan_version">Vulkan Version</string>
