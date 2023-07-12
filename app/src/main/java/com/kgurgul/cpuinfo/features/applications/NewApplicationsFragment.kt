@@ -64,6 +64,7 @@ class NewApplicationsFragment : Fragment() {
                         onAppUninstallClicked = viewModel::onAppUninstallClicked,
                         onAppSettingsClicked = viewModel::onAppSettingsClicked,
                         onNativeLibsClicked = viewModel::onNativeLibsClicked,
+                        onSystemAppsSwitched = viewModel::onSystemAppsSwitched,
                     )
                 }
             }

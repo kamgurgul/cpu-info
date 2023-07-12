@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,7 +16,7 @@ import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 
 @Composable
-fun CpuCheckbox(
+fun CpuSwitchBox(
     text: String,
     isChecked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
@@ -27,26 +27,25 @@ fun CpuCheckbox(
             .toggleable(
                 value = isChecked,
                 onValueChange = onCheckedChange,
-                role = Role.Checkbox
-            )
-            .padding(spacingMedium),
+                role = Role.Switch
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Checkbox(
-            checked = isChecked,
-            onCheckedChange = null
-        )
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(start = spacingMedium)
+        )
+        Switch(
+            checked = isChecked,
+            onCheckedChange = null,
+            modifier = Modifier.padding(start = spacingMedium),
         )
     }
 }
 
 @Preview
 @Composable
-fun CpuCheckboxPreview() {
+fun CpuSwitchBoxPreview() {
     CpuInfoTheme {
         CpuCheckbox(
             text = "Test",

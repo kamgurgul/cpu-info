@@ -44,6 +44,7 @@ import coil.request.ImageRequest
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
+import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
 import com.kgurgul.cpuinfo.ui.components.SurfaceTopAppBar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -64,7 +65,8 @@ fun ApplicationsScreen(
     onCardCollapsed: (id: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
-    onNativeLibsClicked: (nativeLibraryDir: String) -> Unit
+    onNativeLibsClicked: (nativeLibraryDir: String) -> Unit,
+    onSystemAppsSwitched: (enabled: Boolean) -> Unit,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -83,7 +85,12 @@ fun ApplicationsScreen(
         }
     }
     Scaffold(
-        topBar = { TopBar() },
+        topBar = {
+            TopBar(
+                withSystemApps = uiState.withSystemApps,
+                onSystemAppsSwitched = onSystemAppsSwitched
+            )
+        },
         snackbarHost = {
             SnackbarHost(snackbarHostState) { data ->
                 CpuSnackbar(data)
@@ -120,7 +127,10 @@ fun ApplicationsScreen(
 }
 
 @Composable
-private fun TopBar() {
+private fun TopBar(
+    withSystemApps: Boolean,
+    onSystemAppsSwitched: (enabled: Boolean) -> Unit,
+) {
     var showMenu by remember { mutableStateOf(false) }
     SurfaceTopAppBar(
         title = stringResource(id = R.string.applications),
@@ -136,8 +146,14 @@ private fun TopBar() {
                 onDismissRequest = { showMenu = false }
             ) {
                 DropdownMenuItem(
-                    text = { Text(text = stringResource(id = R.string.apps_show_system_apps)) },
-                    onClick = { /*TODO*/ },
+                    text = {
+                        CpuSwitchBox(
+                            text = stringResource(id = R.string.apps_show_system_apps),
+                            isChecked = withSystemApps,
+                            onCheckedChange = { onSystemAppsSwitched(!withSystemApps) }
+                        )
+                    },
+                    onClick = { onSystemAppsSwitched(!withSystemApps) },
                 )
             }
         }
@@ -279,6 +295,7 @@ private fun ApplicationInfoPreview() {
             onAppSettingsClicked = {},
             onAppUninstallClicked = {},
             onNativeLibsClicked = {},
+            onSystemAppsSwitched = {},
         )
     }
 }
