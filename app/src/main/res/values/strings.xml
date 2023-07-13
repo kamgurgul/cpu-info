@@ -71,6 +71,7 @@
     <string name="storage_used">Storage used:</string>
     <string name="calculating">calculating…</string>
     <string name="apps_show_system_apps">Show system apps</string>
+    <string name="apps_sort_order">Sort order</string>
 
     <!--GPU-->
     <string name="vulkan_version">Vulkan Version</string>

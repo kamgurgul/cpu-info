@@ -155,6 +155,15 @@ private fun TopBar(
                     },
                     onClick = { onSystemAppsSwitched(!withSystemApps) },
                 )
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            text = stringResource(id = R.string.apps_sort_order),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    },
+                    onClick = { },
+                )
             }
         }
     )
