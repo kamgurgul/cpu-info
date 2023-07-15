@@ -43,10 +43,11 @@ class NewApplicationsViewModel @Inject constructor(
     }
 
     fun onRefreshApplications() {
+        val currentUiState = _uiStateFlow.value
         applicationsDataObservable.invoke(
             ApplicationsDataObservable.Params(
-                withSystemApps = _uiStateFlow.value.withSystemApps,
-                sortOrderFromBoolean(true)
+                withSystemApps = currentUiState.withSystemApps,
+                sortOrderFromBoolean(currentUiState.isSortAscending)
             )
         )
     }
@@ -104,6 +105,11 @@ class NewApplicationsViewModel @Inject constructor(
         onRefreshApplications()
     }
 
+    fun onSortOrderChange(isAscending: Boolean) {
+        _uiStateFlow.update { it.copy(isSortAscending = isAscending) }
+        onRefreshApplications()
+    }
+
     private fun handleApplicationsResult(result: Result<List<ExtendedApplicationData>>) {
         _uiStateFlow.update {
             it.copy(
@@ -127,6 +133,7 @@ class NewApplicationsViewModel @Inject constructor(
     data class UiState(
         val isLoading: Boolean = false,
         val withSystemApps: Boolean = false,
+        val isSortAscending: Boolean = true,
         val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
         val snackbarMessage: Int = -1,
         val revealedCardId: String? = null,
