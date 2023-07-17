@@ -65,6 +65,7 @@ class NewApplicationsFragment : Fragment() {
                         onAppSettingsClicked = viewModel::onAppSettingsClicked,
                         onNativeLibsClicked = viewModel::onNativeLibsClicked,
                         onSystemAppsSwitched = viewModel::onSystemAppsSwitched,
+                        onSortOrderChange = viewModel::onSortOrderChange,
                     )
                 }
             }

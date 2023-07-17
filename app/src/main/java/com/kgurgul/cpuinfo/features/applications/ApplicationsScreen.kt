@@ -2,6 +2,7 @@ package com.kgurgul.cpuinfo.features.applications
 
 import android.content.res.Configuration
 import android.net.Uri
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,6 +11,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -67,6 +70,7 @@ fun ApplicationsScreen(
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (nativeLibraryDir: String) -> Unit,
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
+    onSortOrderChange: (ascending: Boolean) -> Unit,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -88,7 +92,9 @@ fun ApplicationsScreen(
         topBar = {
             TopBar(
                 withSystemApps = uiState.withSystemApps,
-                onSystemAppsSwitched = onSystemAppsSwitched
+                onSystemAppsSwitched = onSystemAppsSwitched,
+                isSortAscending = uiState.isSortAscending,
+                onSortOrderChange = onSortOrderChange,
             )
         },
         snackbarHost = {
@@ -130,6 +136,8 @@ fun ApplicationsScreen(
 private fun TopBar(
     withSystemApps: Boolean,
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
+    isSortAscending: Boolean,
+    onSortOrderChange: (ascending: Boolean) -> Unit,
 ) {
     var showMenu by remember { mutableStateOf(false) }
     SurfaceTopAppBar(
@@ -162,13 +170,25 @@ private fun TopBar(
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     },
-                    onClick = { },
+                    onClick = { onSortOrderChange(!isSortAscending) },
+                    trailingIcon = {
+                        val icon = if (isSortAscending) {
+                            Icons.Default.KeyboardArrowDown
+                        } else {
+                            Icons.Default.KeyboardArrowUp
+                        }
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = null
+                        )
+                    }
                 )
             }
         }
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ApplicationsList(
     appList: List<ExtendedApplicationData>,
@@ -226,7 +246,8 @@ private fun ApplicationsList(
                         onAppClicked = onAppClicked,
                         onNativeLibsClicked = onNativeLibsClicked,
                     )
-                }
+                },
+                modifier = Modifier.animateItemPlacement(),
             )
             if (index < appList.lastIndex) {
                 Divider()
@@ -305,6 +326,7 @@ private fun ApplicationInfoPreview() {
             onAppUninstallClicked = {},
             onNativeLibsClicked = {},
             onSystemAppsSwitched = {},
+            onSortOrderChange = {},
         )
     }
 }

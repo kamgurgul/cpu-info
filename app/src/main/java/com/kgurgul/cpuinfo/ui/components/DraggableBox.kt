@@ -28,6 +28,7 @@ fun DraggableBox(
     onCollapse: () -> Unit,
     actionRow: @Composable () -> Unit,
     content: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var offsetX by remember { mutableStateOf(0f) }
     var actionRowOffset by remember { mutableStateOf(0) }
@@ -43,7 +44,9 @@ fun DraggableBox(
     )
     Box(
         contentAlignment = Alignment.CenterEnd,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(modifier),
     ) {
         Box(
             modifier = Modifier
