@@ -16,10 +16,6 @@ class UserPreferencesRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
 
-    private object PreferencesKeys {
-        val SORTING_APPS = booleanPreferencesKey("sorting_apps")
-    }
-
     val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
@@ -38,14 +34,26 @@ class UserPreferencesRepository @Inject constructor(
         }
     }
 
+    suspend fun setApplicationsWithSystemApps(withSystemApps: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.WITH_SYSTEM_APPS] = withSystemApps
+        }
+    }
+
     private fun mapUserPreferences(preferences: Preferences): UserPreferences {
-        val isApplicationsSortingAscending = preferences[PreferencesKeys.SORTING_APPS] ?: true
         return UserPreferences(
-            isApplicationsSortingAscending = isApplicationsSortingAscending
+            isApplicationsSortingAscending = preferences[PreferencesKeys.SORTING_APPS] ?: true,
+            withSystemApps = preferences[PreferencesKeys.WITH_SYSTEM_APPS] ?: false
         )
+    }
+
+    private object PreferencesKeys {
+        val SORTING_APPS = booleanPreferencesKey("sorting_apps")
+        val WITH_SYSTEM_APPS = booleanPreferencesKey("with_system_apps")
     }
 }
 
 data class UserPreferences(
-    val isApplicationsSortingAscending: Boolean
+    val isApplicationsSortingAscending: Boolean,
+    val withSystemApps: Boolean,
 )
