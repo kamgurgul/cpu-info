@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.data.local.UserPreferences
 import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.sortOrderFromBoolean
@@ -18,8 +17,8 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.File
@@ -39,12 +38,20 @@ class NewApplicationsViewModel @Inject constructor(
     val events: LiveData<Event> = _events.asLiveData()
 
     init {
-        combine(
-            applicationsDataObservable.observe(),
-            userPreferencesRepository.userPreferencesFlow,
-            ::handleApplicationsResult
-        ).launchIn(viewModelScope)
-        onRefreshApplications()
+        userPreferencesRepository.userPreferencesFlow
+            .onEach { userPreferences ->
+                _uiStateFlow.update {
+                    it.copy(
+                        withSystemApps = userPreferences.withSystemApps,
+                        isSortAscending = userPreferences.isApplicationsSortingAscending,
+                    )
+                }
+                onRefreshApplications()
+            }
+            .launchIn(viewModelScope)
+        applicationsDataObservable.observe()
+            .onEach(::handleApplicationsResult)
+            .launchIn(viewModelScope)
     }
 
     fun onRefreshApplications() {
@@ -108,21 +115,16 @@ class NewApplicationsViewModel @Inject constructor(
     fun onSystemAppsSwitched(checked: Boolean) {
         viewModelScope.launch {
             userPreferencesRepository.setApplicationsWithSystemApps(checked)
-            onRefreshApplications()
         }
     }
 
     fun onSortOrderChange(isAscending: Boolean) {
         viewModelScope.launch {
             userPreferencesRepository.setApplicationsSortingOrder(isAscending)
-            onRefreshApplications()
         }
     }
 
-    private fun handleApplicationsResult(
-        result: Result<List<ExtendedApplicationData>>,
-        userPreferences: UserPreferences
-    ) {
+    private fun handleApplicationsResult(result: Result<List<ExtendedApplicationData>>) {
         _uiStateFlow.update {
             it.copy(
                 isLoading = result is Result.Loading,
@@ -131,8 +133,6 @@ class NewApplicationsViewModel @Inject constructor(
                 } else {
                     it.applications
                 },
-                withSystemApps = userPreferences.withSystemApps,
-                isSortAscending = userPreferences.isApplicationsSortingAscending,
             )
         }
     }
