@@ -18,6 +18,7 @@ package com.kgurgul.cpuinfo.domain.model
 
 import android.net.Uri
 import androidx.compose.runtime.Stable
+import java.text.Collator
 
 data class ExtendedApplicationData(
     val name: String,
@@ -27,4 +28,12 @@ data class ExtendedApplicationData(
     val hasNativeLibs: Boolean,
     @Stable val appIconUri: Uri,
     val appSize: Long = 0
-)
+) : Comparable<ExtendedApplicationData> {
+
+    override fun compareTo(other: ExtendedApplicationData): Int {
+        val collator = Collator.getInstance().apply {
+            strength = Collator.SECONDARY
+        }
+        return collator.compare(name.lowercase(), other.name.lowercase())
+    }
+}

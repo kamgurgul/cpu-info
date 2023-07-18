@@ -39,8 +39,8 @@ class ApplicationsDataObservable @Inject constructor(
                     )
                 }
             when (params.sortOrder) {
-                SortOrder.ASCENDING -> apps.sortedBy { it.name.lowercase() }
-                SortOrder.DESCENDING -> apps.sortedByDescending { it.name.lowercase() }
+                SortOrder.ASCENDING -> apps.sorted()
+                SortOrder.DESCENDING -> apps.sortedDescending()
                 else -> apps
             }
         }
