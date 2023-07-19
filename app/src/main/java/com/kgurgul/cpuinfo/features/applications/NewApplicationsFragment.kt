@@ -14,12 +14,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -53,9 +51,8 @@ class NewApplicationsFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 CpuInfoTheme {
-                    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
                     ApplicationsScreen(
-                        uiState = uiState,
+                        viewModel = viewModel,
                         onAppClicked = viewModel::onApplicationClicked,
                         onRefreshApplications = viewModel::onRefreshApplications,
                         onSnackbarDismissed = viewModel::onSnackbarDismissed,
