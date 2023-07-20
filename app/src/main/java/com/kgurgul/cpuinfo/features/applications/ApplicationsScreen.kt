@@ -50,7 +50,7 @@ import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
-import com.kgurgul.cpuinfo.ui.components.SurfaceTopAppBar
+import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -172,7 +172,7 @@ private fun TopBar(
     onSortOrderChange: (ascending: Boolean) -> Unit,
 ) {
     var showMenu by remember { mutableStateOf(false) }
-    SurfaceTopAppBar(
+    PrimaryTopAppBar(
         title = stringResource(id = R.string.applications),
         actions = {
             IconButton(onClick = { showMenu = !showMenu }) {
@@ -216,7 +216,8 @@ private fun TopBar(
                     }
                 )
             }
-        }
+        },
+        windowInsets = WindowInsets(0, 0, 0, 0),
     )
 }
 
