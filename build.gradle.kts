@@ -35,7 +35,7 @@ subprojects {
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=kotlinx.coroutines.FlowPreview",
             )
-            //  allWarningsAsErrors = true
+            allWarningsAsErrors = true
             jvmTarget = JavaVersion.VERSION_11.toString()
 
             if (project.findProperty("composeCompilerReports") == "true") {
