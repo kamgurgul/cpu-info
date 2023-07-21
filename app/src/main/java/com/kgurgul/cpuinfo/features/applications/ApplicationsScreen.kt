@@ -30,6 +30,7 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,9 +56,9 @@ import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
-
 
 @Composable
 fun ApplicationsScreen(
@@ -224,7 +225,7 @@ private fun TopBar(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ApplicationsList(
-    appList: List<ExtendedApplicationData>,
+    appList: ImmutableList<ExtendedApplicationData>,
     revealedCardId: String?,
     onAppClicked: (packageName: String) -> Unit,
     onCardExpanded: (id: String) -> Unit,
@@ -243,8 +244,11 @@ private fun ApplicationsList(
             items = appList,
             key = { _, item -> item.packageName }
         ) { index, item ->
+            val isRevealed by remember(revealedCardId) {
+                derivedStateOf { revealedCardId == item.packageName }
+            }
             DraggableBox(
-                isRevealed = revealedCardId == item.packageName,
+                isRevealed = isRevealed,
                 onExpand = { onCardExpanded(item.packageName) },
                 onCollapse = { onCardCollapsed(item.packageName) },
                 actionRow = {
