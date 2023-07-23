@@ -20,6 +20,7 @@ import android.net.Uri
 import androidx.compose.runtime.Stable
 import java.text.Collator
 
+@Stable
 data class ExtendedApplicationData(
     val name: String,
     val packageName: String,
