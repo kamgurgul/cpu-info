@@ -56,8 +56,6 @@ class NewApplicationsFragment : Fragment() {
                         onAppClicked = viewModel::onApplicationClicked,
                         onRefreshApplications = viewModel::onRefreshApplications,
                         onSnackbarDismissed = viewModel::onSnackbarDismissed,
-                        onCardExpanded = viewModel::onCardExpanded,
-                        onCardCollapsed = viewModel::onCardCollapsed,
                         onAppUninstallClicked = viewModel::onAppUninstallClicked,
                         onAppSettingsClicked = viewModel::onAppSettingsClicked,
                         onNativeLibsClicked = viewModel::onNativeLibsClicked,

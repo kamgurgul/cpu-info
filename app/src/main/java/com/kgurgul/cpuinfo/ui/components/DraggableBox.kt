@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,23 +26,27 @@ import kotlin.math.roundToInt
 @Composable
 fun DraggableBox(
     isRevealed: Boolean,
+    state: DraggableBoxState,
     onExpand: () -> Unit,
     onCollapse: () -> Unit,
     actionRow: @Composable () -> Unit,
     content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    SideEffect {
+        state.setRevealed(isRevealed)
+    }
     var offsetX by remember { mutableStateOf(0f) }
     var actionRowOffset by remember { mutableStateOf(0) }
     val transitionState = remember {
-        MutableTransitionState(isRevealed).apply {
-            targetState = !isRevealed
+        MutableTransitionState(state.isRevealed).apply {
+            targetState = !state.isRevealed
         }
     }
     val transition = updateTransition(transitionState, "boxTransition")
     val offsetTransition by transition.animateFloat(
         label = "boxOffsetTransition",
-        targetValueByState = { if (isRevealed) offsetX - actionRowOffset else -offsetX },
+        targetValueByState = { if (state.isRevealed) offsetX - actionRowOffset else -offsetX },
     )
     Box(
         contentAlignment = Alignment.CenterEnd,
@@ -81,4 +87,22 @@ fun DraggableBox(
             content()
         }
     }
+}
+
+@Stable
+class DraggableBoxState(
+    isRevealed: Boolean = false,
+) {
+    internal var isRevealed by mutableStateOf(isRevealed)
+
+    fun setRevealed(isRevealed: Boolean) {
+        this.isRevealed = isRevealed
+    }
+}
+
+@Composable
+fun rememberDraggableBoxState(
+    isRevealed: Boolean = false,
+): DraggableBoxState {
+    return remember { DraggableBoxState(isRevealed) }
 }

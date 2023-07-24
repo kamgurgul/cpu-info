@@ -83,14 +83,6 @@ class NewApplicationsViewModel @Inject constructor(
         _uiStateFlow.update { it.copy(snackbarMessage = -1) }
     }
 
-    fun onCardExpanded(id: String) {
-        _uiStateFlow.update { it.copy(revealedCardId = id) }
-    }
-
-    fun onCardCollapsed(@Suppress("UNUSED_PARAMETER") id: String) {
-        _uiStateFlow.update { it.copy(revealedCardId = null) }
-    }
-
     fun onAppSettingsClicked(id: String) {
         _events.value = Event.OpenAppSettings(id)
     }
@@ -152,6 +144,5 @@ class NewApplicationsViewModel @Inject constructor(
         val isSortAscending: Boolean = true,
         val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
         val snackbarMessage: Int = -1,
-        val revealedCardId: String? = null,
     )
 }

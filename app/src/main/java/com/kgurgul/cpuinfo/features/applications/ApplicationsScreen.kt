@@ -52,6 +52,7 @@ import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
+import com.kgurgul.cpuinfo.ui.components.rememberDraggableBoxState
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -66,8 +67,6 @@ fun ApplicationsScreen(
     onAppClicked: (packageName: String) -> Unit,
     onRefreshApplications: () -> Unit,
     onSnackbarDismissed: () -> Unit,
-    onCardExpanded: (id: String) -> Unit,
-    onCardCollapsed: (id: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (nativeLibraryDir: String) -> Unit,
@@ -80,8 +79,6 @@ fun ApplicationsScreen(
         onAppClicked = onAppClicked,
         onRefreshApplications = onRefreshApplications,
         onSnackbarDismissed = onSnackbarDismissed,
-        onCardExpanded = onCardExpanded,
-        onCardCollapsed = onCardCollapsed,
         onAppUninstallClicked = onAppUninstallClicked,
         onAppSettingsClicked = onAppSettingsClicked,
         onNativeLibsClicked = onNativeLibsClicked,
@@ -97,8 +94,6 @@ fun ApplicationsScreen(
     onAppClicked: (packageName: String) -> Unit,
     onRefreshApplications: () -> Unit,
     onSnackbarDismissed: () -> Unit,
-    onCardExpanded: (id: String) -> Unit,
-    onCardCollapsed: (id: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (nativeLibraryDir: String) -> Unit,
@@ -148,10 +143,7 @@ fun ApplicationsScreen(
         ) {
             ApplicationsList(
                 appList = uiState.applications,
-                revealedCardId = uiState.revealedCardId,
                 onAppClicked = onAppClicked,
-                onCardExpanded = onCardExpanded,
-                onCardCollapsed = onCardCollapsed,
                 onAppUninstallClicked = onAppUninstallClicked,
                 onAppSettingsClicked = onAppSettingsClicked,
                 onNativeLibsClicked = onNativeLibsClicked,
@@ -226,15 +218,15 @@ private fun TopBar(
 @Composable
 private fun ApplicationsList(
     appList: ImmutableList<ExtendedApplicationData>,
-    revealedCardId: String?,
     onAppClicked: (packageName: String) -> Unit,
-    onCardExpanded: (id: String) -> Unit,
-    onCardCollapsed: (id: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (nativeLibraryDir: String) -> Unit,
 ) {
     val listState = rememberLazyListState()
+    var revealedCardId: String? by remember {
+        mutableStateOf(null)
+    }
     LazyColumn(
         state = listState,
         modifier = Modifier
@@ -244,13 +236,15 @@ private fun ApplicationsList(
             items = appList,
             key = { _, item -> item.packageName }
         ) { index, item ->
-            val isRevealed by remember(revealedCardId) {
+            val draggableBoxState = rememberDraggableBoxState()
+            val isRevealed by remember {
                 derivedStateOf { revealedCardId == item.packageName }
             }
             DraggableBox(
                 isRevealed = isRevealed,
-                onExpand = { onCardExpanded(item.packageName) },
-                onCollapse = { onCardCollapsed(item.packageName) },
+                state = draggableBoxState,
+                onExpand = { revealedCardId = item.packageName },
+                onCollapse = { revealedCardId = null },
                 actionRow = {
                     Row {
                         IconButton(
@@ -357,8 +351,6 @@ private fun ApplicationInfoPreview() {
             onAppClicked = {},
             onRefreshApplications = {},
             onSnackbarDismissed = {},
-            onCardExpanded = {},
-            onCardCollapsed = {},
             onAppSettingsClicked = {},
             onAppUninstallClicked = {},
             onNativeLibsClicked = {},
