@@ -314,7 +314,7 @@ private fun ApplicationItem(
         ) {
             Text(
                 text = appData.name,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
             Text(
