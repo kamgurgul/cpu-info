@@ -30,7 +30,6 @@ allprojects {
 subprojects {
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-            @Suppress("SuspiciousCollectionReassignment")
             freeCompilerArgs += listOf(
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=kotlinx.coroutines.FlowPreview",

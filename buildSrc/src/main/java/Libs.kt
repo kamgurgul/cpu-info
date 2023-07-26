@@ -1,6 +1,6 @@
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:8.0.2"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:8.1.0"
 
     const val bus = "org.greenrobot:eventbus:3.3.1"
 
