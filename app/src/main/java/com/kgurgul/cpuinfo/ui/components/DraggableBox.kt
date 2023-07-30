@@ -43,8 +43,8 @@ fun DraggableBox(
     val transition = updateTransition(transitionState, "boxTransition")
     val offsetTransition by transition.animateFloat(
         label = "boxOffsetTransition",
-        targetValueByState = { isRevealed ->
-            if (isRevealed) offsetX - actionRowOffset else -offsetX
+        targetValueByState = { targetIsRevealed ->
+            if (targetIsRevealed) offsetX - actionRowOffset else -offsetX
         },
     )
     Box(
