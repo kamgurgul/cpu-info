@@ -1,7 +1,8 @@
 package com.kgurgul.cpuinfo.ui.components
 
-import android.annotation.SuppressLint
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +23,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
 import kotlin.math.roundToInt
 
-@SuppressLint("UnusedTransitionTargetStateParameter")
 @Composable
 fun DraggableBox(
     isRevealed: Boolean,
@@ -33,20 +33,19 @@ fun DraggableBox(
     content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    SideEffect {
-        state.setRevealed(isRevealed)
-    }
     var offsetX by remember { mutableStateOf(0f) }
     var actionRowOffset by remember { mutableStateOf(0) }
-    val transitionState = remember {
-        MutableTransitionState(state.isRevealed).apply {
-            targetState = !state.isRevealed
-        }
+    val transitionState = remember { MutableTransitionState(false) }
+    SideEffect {
+        state.setRevealed(isRevealed)
+        transitionState.targetState = isRevealed
     }
     val transition = updateTransition(transitionState, "boxTransition")
     val offsetTransition by transition.animateFloat(
         label = "boxOffsetTransition",
-        targetValueByState = { if (state.isRevealed) offsetX - actionRowOffset else -offsetX },
+        targetValueByState = { isRevealed ->
+            if (isRevealed) offsetX - actionRowOffset else -offsetX
+        },
     )
     Box(
         contentAlignment = Alignment.CenterEnd,
