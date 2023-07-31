@@ -327,11 +327,10 @@ private fun ApplicationItem(
         if (appData.hasNativeLibs) {
             Spacer(modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.size(spacingXSmall))
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(R.drawable.ic_c_plus_plus)
-                    .build(),
+            Icon(
+                painter = painterResource(id = R.drawable.ic_cpp_logo),
                 contentDescription = stringResource(id = R.string.native_libs),
+                tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .requiredSize(40.dp)
                     .clickable { appData.nativeLibraryDir?.let { onNativeLibsClicked(it) } },
