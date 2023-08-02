@@ -86,6 +86,7 @@ private fun CpuTopAppBar(
                     text = it,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleLarge,
                 )
             }
         },
