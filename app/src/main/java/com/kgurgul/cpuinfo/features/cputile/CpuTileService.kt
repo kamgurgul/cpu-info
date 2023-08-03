@@ -6,7 +6,7 @@ import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -25,7 +25,7 @@ class CpuTileService : TileService(), CoroutineScope {
     lateinit var cpuDataProvider: CpuDataProvider
 
     @Inject
-    lateinit var dispatchersProvider: DispatchersProvider
+    lateinit var dispatchersProvider: IDispatchersProvider
 
     private val job = SupervisorJob()
     override val coroutineContext: CoroutineContext
@@ -46,7 +46,7 @@ class CpuTileService : TileService(), CoroutineScope {
     }
 
     private val icons by lazy {
-        mapOf<CPULoad, Icon>(
+        mapOf(
             CPULoad.Low to Icon.createWithResource(this, R.drawable.ic_cpu_low),
             CPULoad.Medium to Icon.createWithResource(this, R.drawable.ic_cpu_med),
             CPULoad.High to Icon.createWithResource(this, R.drawable.ic_cpu_high)

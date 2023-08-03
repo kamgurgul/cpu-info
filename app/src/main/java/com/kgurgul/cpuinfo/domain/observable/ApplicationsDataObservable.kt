@@ -10,7 +10,7 @@ import com.kgurgul.cpuinfo.data.provider.ApplicationsDataProvider
 import com.kgurgul.cpuinfo.domain.MutableInteractor
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.SortOrder
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.wrapToResultFlow
 import com.kgurgul.cpuinfo.utils.wrappers.Result
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +18,7 @@ import java.io.File
 import javax.inject.Inject
 
 class ApplicationsDataObservable @Inject constructor(
-    dispatchersProvider: DispatchersProvider,
+    dispatchersProvider: IDispatchersProvider,
     private val applicationsDataProvider: ApplicationsDataProvider,
     private val packageManager: PackageManager
 ) : MutableInteractor<ApplicationsDataObservable.Params, Result<List<ExtendedApplicationData>>>() {

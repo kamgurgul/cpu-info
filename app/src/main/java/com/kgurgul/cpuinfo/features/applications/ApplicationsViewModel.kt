@@ -27,7 +27,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.NonNullMutableLiveData
 import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
@@ -53,7 +53,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ApplicationsViewModel @Inject constructor(
-    private val dispatchersProvider: DispatchersProvider,
+    private val dispatchersProvider: IDispatchersProvider,
     private val prefs: Prefs,
     private val packageManager: PackageManager
 ) : ViewModel() {

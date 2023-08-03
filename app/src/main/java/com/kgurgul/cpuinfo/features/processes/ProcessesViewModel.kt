@@ -19,7 +19,7 @@ package com.kgurgul.cpuinfo.features.processes
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +41,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ProcessesViewModel @Inject constructor(
-    private val dispatchersProvider: DispatchersProvider,
+    private val dispatchersProvider: IDispatchersProvider,
     private val prefs: Prefs,
     private val psProvider: PsProvider
 ) : ViewModel() {

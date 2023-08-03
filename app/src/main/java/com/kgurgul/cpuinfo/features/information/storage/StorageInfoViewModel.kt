@@ -21,7 +21,7 @@ import android.os.Environment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -43,7 +43,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class StorageInfoViewModel @Inject constructor(
-    private val dispatchersProvider: DispatchersProvider,
+    private val dispatchersProvider: IDispatchersProvider,
     private val resources: Resources
 ) : ViewModel() {
 

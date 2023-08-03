@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -78,7 +79,7 @@ class HostActivity : AppCompatActivity() {
     @SuppressLint("NewApi")
     private fun setToolbarTitleAndElevation(title: String) {
         binding.toolbar.title = title
-       // binding.toolbar.isVisible = navController.currentDestination?.id != R.id.applications
+        binding.toolbar.isVisible = navController.currentDestination?.id != R.id.applications
         if (navController.currentDestination?.id == R.id.hardware) {
             binding.toolbar.elevation = 0f
         } else {

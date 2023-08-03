@@ -3,12 +3,12 @@ package com.kgurgul.cpuinfo.domain.observable
 import com.kgurgul.cpuinfo.data.provider.GpuDataProvider
 import com.kgurgul.cpuinfo.domain.MutableInteractor
 import com.kgurgul.cpuinfo.domain.model.GpuData
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GpuDataObservable @Inject constructor(
-    dispatchersProvider: DispatchersProvider,
+    dispatchersProvider: IDispatchersProvider,
     private val gpuDataProvider: GpuDataProvider
 ) : MutableInteractor<GpuDataObservable.Params, GpuData>() {
 

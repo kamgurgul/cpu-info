@@ -3,13 +3,13 @@ package com.kgurgul.cpuinfo.domain.observable
 import com.kgurgul.cpuinfo.data.provider.RamDataProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.RamData
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class RamDataObservable @Inject constructor(
-    dispatchersProvider: DispatchersProvider,
+    dispatchersProvider: IDispatchersProvider,
     private val ramDataProvider: RamDataProvider
 ) : ImmutableInteractor<Unit, RamData>() {
 

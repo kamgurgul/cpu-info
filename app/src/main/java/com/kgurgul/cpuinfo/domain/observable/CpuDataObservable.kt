@@ -4,14 +4,14 @@ import com.kgurgul.cpuinfo.data.provider.CpuDataNativeProvider
 import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.CpuData
-import com.kgurgul.cpuinfo.utils.DispatchersProvider
+import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.Utils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class CpuDataObservable @Inject constructor(
-    dispatchersProvider: DispatchersProvider,
+    dispatchersProvider: IDispatchersProvider,
     private val cpuDataProvider: CpuDataProvider,
     private val cpuDataNativeProvider: CpuDataNativeProvider
 ) : ImmutableInteractor<Unit, CpuData>() {

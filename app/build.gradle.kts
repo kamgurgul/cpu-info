@@ -158,13 +158,14 @@ dependencies {
     implementation(Libs.relinker)
     implementation(Libs.coil)
 
+    testImplementation(kotlin("test"))
     testImplementation(Libs.junit)
     testImplementation(Libs.AndroidX.Test.core)
     testImplementation(Libs.AndroidX.Test.archCoreTesting)
+    testImplementation(Libs.Coroutines.test)
+    testImplementation(Libs.Hilt.androidTesting)
     testImplementation(Libs.Mockito.core)
     testImplementation(Libs.Mockito.kotlin)
-    testImplementation(Libs.Hilt.androidTesting)
-    testImplementation(kotlin("test"))
     kaptTest(Libs.Hilt.androidCompiler)
 
     androidTestImplementation(Libs.AndroidX.Test.runner)
