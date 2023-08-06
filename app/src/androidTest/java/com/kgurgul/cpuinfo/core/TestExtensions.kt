@@ -18,8 +18,8 @@
 
 package com.kgurgul.cpuinfo.core
 
-import android.app.Activity
-import androidx.test.rule.ActivityTestRule
+import androidx.annotation.StringRes
+import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.CoreMatchers
 
 /**
@@ -27,7 +27,6 @@ import org.hamcrest.CoreMatchers
  */
 fun <T> isk(value: T) = CoreMatchers.`is`(value)!!
 
-/**
- * Helpers for getting string from [ActivityTestRule]. Throws exception in case of missing string.
- */
-fun <T : Activity> ActivityTestRule<T>.getString(id: Int): String = activity.resources.getString(id)
+fun getString(@StringRes id: Int): String = InstrumentationRegistry.getInstrumentation()
+    .targetContext
+    .getString(id)

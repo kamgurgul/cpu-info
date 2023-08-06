@@ -62,6 +62,8 @@ object Libs {
             const val animations = "androidx.compose.animation:animation"
             const val uiTooling = "androidx.compose.ui:ui-tooling"
             const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
+            const val uiTest = "androidx.compose.ui:ui-test-junit4"
+            const val uiTestManifest = "androidx.compose.ui:ui-test-manifest"
         }
 
         object Test {

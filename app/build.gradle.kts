@@ -173,6 +173,8 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Test.jUnitExt)
     androidTestImplementation(Libs.AndroidX.Test.Espresso.core)
     androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
+    androidTestImplementation(Libs.AndroidX.Compose.uiTest)
+    androidTestImplementation(Libs.AndroidX.Compose.uiTestManifest)
     androidTestImplementation(Libs.Hilt.androidTesting)
     kaptAndroidTest(Libs.Hilt.androidCompiler)
 
