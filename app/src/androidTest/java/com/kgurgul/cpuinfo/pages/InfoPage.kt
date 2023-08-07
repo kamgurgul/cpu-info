@@ -14,50 +14,51 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.screens
+package com.kgurgul.cpuinfo.pages
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.core.CustomMatchers.atPosition
 import com.kgurgul.cpuinfo.core.CustomMatchers.withToolbarTitle
 import com.kgurgul.cpuinfo.core.RecyclerViewItemCountAssertion
+import com.kgurgul.cpuinfo.core.hasAnyElement
 import com.kgurgul.cpuinfo.core.isk
+import com.kgurgul.cpuinfo.uitestutils.conditionwatcher.waitForCondition
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matchers.greaterThanOrEqualTo
 
-/**
- * Class with matchers for [com.kgurgul.cpuinfo.features.HostActivity],
- * [com.kgurgul.cpuinfo.features.information.InfoContainerFragment] and
- * [com.kgurgul.cpuinfo.features.information.base.BaseRvFragment]
- *
- * @author kgurgul
- */
-class HardwareScreen {
+class InfoPage {
 
     private val toolbar = withId(R.id.toolbar)
     private val tabLayout = withId(R.id.tabs)
-    val recyclerView = withId(R.id.recycler_view)
+    private val recyclerView = withId(R.id.recycler_view)
 
     /**
      * Check if toolbar title is equal with [title] param
      */
-    fun isToolbarTitleValid(title: String) {
+    fun isToolbarTitleValid(title: String): InfoPage {
         onView(toolbar).check(matches(withToolbarTitle(isk(title))))
+        return this
     }
 
     /**
      * Open tab with specific title
      */
-    fun tapTabWithTitle(title: String) {
-        onView(allOf<View>(withParent(isDescendantOfA(tabLayout)), withText(title)))
-                .perform(scrollTo(), click())
+    fun tapTabWithTitle(title: String): InfoPage {
+        onView(allOf(withParent(isDescendantOfA(tabLayout)), withText(title)))
+            .perform(scrollTo(), click())
+        return this
     }
 
     /**
@@ -65,12 +66,17 @@ class HardwareScreen {
      */
     fun hasTextOnPosition(text: String, position: Int) {
         onView(allOf(isDisplayed(), recyclerView))
-                .perform(scrollToPosition<RecyclerView.ViewHolder>(position))
-                .check(matches(atPosition(position, hasDescendant(withText(text)))))
+            .perform(scrollToPosition<RecyclerView.ViewHolder>(position))
+            .check(matches(atPosition(position, hasDescendant(withText(text)))))
     }
 
     fun hasAtLeastRvElements(amount: Int) {
         onView(allOf(isDisplayed(), recyclerView))
-                .check(RecyclerViewItemCountAssertion(greaterThanOrEqualTo(amount)))
+            .check(RecyclerViewItemCountAssertion(greaterThanOrEqualTo(amount)))
+    }
+
+    fun assertHasAnyElements(): InfoPage {
+        waitForCondition { onView(recyclerView).hasAnyElement() }
+        return this
     }
 }

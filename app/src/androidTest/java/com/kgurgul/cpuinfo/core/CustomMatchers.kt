@@ -18,8 +18,19 @@ package com.kgurgul.cpuinfo.core
 
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.SemanticsNodeInteractionCollection
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsToggleable
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.BoundedMatcher
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
+import androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.kgurgul.cpuinfo.core.CustomMatchers.atPosition
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 
@@ -65,4 +76,136 @@ object CustomMatchers {
             }
         }
     }
+}
+
+fun ViewInteraction.isDisplayed(): Boolean {
+    return try {
+        check(matches(ViewMatchers.isDisplayed()))
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun ViewInteraction.isNotDisplayed(): Boolean {
+    return !isDisplayed()
+}
+
+fun ViewInteraction.isEnabled(): Boolean {
+    return try {
+        check(matches(ViewMatchers.isEnabled()))
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun ViewInteraction.isNotEnabled(): Boolean {
+    return try {
+        check(matches(ViewMatchers.isNotEnabled()))
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun ViewInteraction.isChecked(): Boolean {
+    return try {
+        check(matches(ViewMatchers.isChecked()))
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun ViewInteraction.isNotChecked(): Boolean {
+    return try {
+        check(matches(ViewMatchers.isNotChecked()))
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun ViewInteraction.isClickable(): Boolean {
+    return try {
+        check(matches(ViewMatchers.isClickable()))
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun ViewInteraction.hasVisibleText(text: String): Boolean {
+    return try {
+        check(matches(withText(text)))
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun ViewInteraction.isEmpty(): Boolean {
+    return try {
+        check(matches(withText("")))
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun ViewInteraction.hasAnyElement(): Boolean {
+    return try {
+        check(matches(hasMinimumChildCount(1)))
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun ViewInteraction.hasElementsCount(count: Int): Boolean {
+    return try {
+        check(matches(hasChildCount(count)))
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun ViewInteraction.hasItemAtPosition(position: Int, itemMatcher: Matcher<View>): Boolean {
+    return try {
+        check(matches(atPosition(position, itemMatcher)))
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun SemanticsNodeInteraction.isToggleable(): Boolean {
+    return try {
+        assertIsToggleable()
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun SemanticsNodeInteraction.isDisplayed(): Boolean {
+    return try {
+        assertIsDisplayed()
+        true
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+fun SemanticsNodeInteraction.isNotDisplayed(): Boolean {
+    return !isDisplayed()
+}
+
+fun SemanticsNodeInteractionCollection.hasAnyElement(): Boolean {
+    val matchedNodes = fetchSemanticsNodes(
+        atLeastOneRootRequired = true,
+    )
+    return matchedNodes.isNotEmpty()
 }

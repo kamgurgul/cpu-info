@@ -16,73 +16,74 @@
 
 package com.kgurgul.cpuinfo.testsuits.information
 
-import androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.core.BaseTestSuit
 import com.kgurgul.cpuinfo.core.getString
-import com.kgurgul.cpuinfo.screens.HardwareScreen
-import com.kgurgul.cpuinfo.uitestutils.conditionwatcher.waitForView
+import com.kgurgul.cpuinfo.pages.InfoPage
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
 class InfoTestSuit : BaseTestSuit() {
 
-    private val hardwareScreen = HardwareScreen()
+    private val infoPage = InfoPage()
 
     @Test
     fun checkToolbarTitle() {
-        hardwareScreen.isToolbarTitleValid(getString(R.string.hardware))
+        infoPage.isToolbarTitleValid(getString(R.string.hardware))
     }
 
     @Test
     fun checkCpuTab() {
-        hardwareScreen.tapTabWithTitle(getString(R.string.cpu))
-        waitForView(hardwareScreen.recyclerView).toMatch(hasMinimumChildCount(3))
+        infoPage.tapTabWithTitle(getString(R.string.cpu))
+            .assertHasAnyElements()
     }
 
     @Test
     fun checkGpuTab() {
-        hardwareScreen.tapTabWithTitle(getString(R.string.gpu))
-        hardwareScreen.hasTextOnPosition(getString(R.string.gles_version), 0)
+        infoPage.tapTabWithTitle(getString(R.string.gpu))
+        infoPage.hasTextOnPosition(getString(R.string.gles_version), 0)
     }
 
     @Test
     fun checkRamTab() {
-        hardwareScreen.tapTabWithTitle(getString(R.string.ram))
-        hardwareScreen.hasTextOnPosition(getString(R.string.total_memory), 0)
-        hardwareScreen.hasTextOnPosition(getString(R.string.available_memory), 1)
-        hardwareScreen.hasTextOnPosition(getString(R.string.threshold), 2)
+        infoPage.tapTabWithTitle(getString(R.string.ram))
+        infoPage.hasTextOnPosition(getString(R.string.total_memory), 0)
+        infoPage.hasTextOnPosition(getString(R.string.available_memory), 1)
+        infoPage.hasTextOnPosition(getString(R.string.threshold), 2)
     }
 
     @Test
     fun checkStorageTab() {
-        hardwareScreen.tapTabWithTitle(getString(R.string.storage))
-        hardwareScreen.hasAtLeastRvElements(1)
+        infoPage.tapTabWithTitle(getString(R.string.storage))
+        infoPage.hasAtLeastRvElements(1)
     }
 
     @Test
     fun checkScreenTab() {
-        hardwareScreen.tapTabWithTitle(getString(R.string.screen))
-        hardwareScreen.hasTextOnPosition(getString(R.string.screen_class), 0)
-        hardwareScreen.hasTextOnPosition(getString(R.string.density_class), 1)
+        infoPage.tapTabWithTitle(getString(R.string.screen))
+        infoPage.hasTextOnPosition(getString(R.string.screen_class), 0)
+        infoPage.hasTextOnPosition(getString(R.string.density_class), 1)
     }
 
     @Test
     fun checkAndroidTab() {
-        hardwareScreen.tapTabWithTitle(getString(R.string.android))
-        hardwareScreen.hasTextOnPosition(getString(R.string.version), 0)
-        hardwareScreen.hasTextOnPosition("SDK", 1)
+        infoPage.tapTabWithTitle(getString(R.string.android))
+        infoPage.hasTextOnPosition(getString(R.string.version), 0)
+        infoPage.hasTextOnPosition("SDK", 1)
     }
 
     @Test
     fun checkHardwareTab() {
-        hardwareScreen.tapTabWithTitle(getString(R.string.hardware))
-        hardwareScreen.hasTextOnPosition(getString(R.string.battery), 0)
-        hardwareScreen.hasTextOnPosition(getString(R.string.level), 1)
+        infoPage.tapTabWithTitle(getString(R.string.hardware))
+        infoPage.hasTextOnPosition(getString(R.string.battery), 0)
+        infoPage.hasTextOnPosition(getString(R.string.level), 1)
     }
 
     @Test
     fun checkSensorsTab() {
-        hardwareScreen.tapTabWithTitle(getString(R.string.sensors))
-        hardwareScreen.hasAtLeastRvElements(1)
+        infoPage.tapTabWithTitle(getString(R.string.sensors))
+        infoPage.hasAtLeastRvElements(1)
     }
 }

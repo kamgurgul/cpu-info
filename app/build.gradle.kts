@@ -124,12 +124,15 @@ dependencies {
     implementation(Libs.AndroidX.Lifecycle.liveDataKtx)
     implementation(Libs.AndroidX.Lifecycle.common)
 
-    implementation(platform(Libs.AndroidX.Compose.bom))
+    val composeBom = platform(Libs.AndroidX.Compose.bom)
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.material3)
     implementation(Libs.AndroidX.Compose.animations)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
     debugImplementation(Libs.AndroidX.Compose.uiTooling)
+    debugImplementation(Libs.AndroidX.Compose.uiTestManifest)
 
     implementation(Libs.AndroidX.Navigation.fragment)
     implementation(Libs.AndroidX.Navigation.ui)
@@ -174,7 +177,6 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Test.Espresso.core)
     androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
     androidTestImplementation(Libs.AndroidX.Compose.uiTest)
-    androidTestImplementation(Libs.AndroidX.Compose.uiTestManifest)
     androidTestImplementation(Libs.Hilt.androidTesting)
     kaptAndroidTest(Libs.Hilt.androidCompiler)
 
