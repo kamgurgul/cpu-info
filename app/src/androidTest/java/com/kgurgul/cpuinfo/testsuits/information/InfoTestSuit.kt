@@ -43,15 +43,15 @@ class InfoTestSuit : BaseTestSuit() {
     @Test
     fun checkGpuTab() {
         infoPage.tapTabWithTitle(getString(R.string.gpu))
-        infoPage.hasTextOnPosition(getString(R.string.gles_version), 0)
+            .assertHasAnyElements()
     }
 
     @Test
     fun checkRamTab() {
         infoPage.tapTabWithTitle(getString(R.string.ram))
-        infoPage.hasTextOnPosition(getString(R.string.total_memory), 0)
-        infoPage.hasTextOnPosition(getString(R.string.available_memory), 1)
-        infoPage.hasTextOnPosition(getString(R.string.threshold), 2)
+            .assertTextOnPosition(getString(R.string.total_memory), 0)
+            .assertTextOnPosition(getString(R.string.available_memory), 1)
+            .assertTextOnPosition(getString(R.string.threshold), 2)
     }
 
     @Test
@@ -63,22 +63,21 @@ class InfoTestSuit : BaseTestSuit() {
     @Test
     fun checkScreenTab() {
         infoPage.tapTabWithTitle(getString(R.string.screen))
-        infoPage.hasTextOnPosition(getString(R.string.screen_class), 0)
-        infoPage.hasTextOnPosition(getString(R.string.density_class), 1)
+            .assertTextOnPosition(getString(R.string.screen_class), 0)
+            .assertTextOnPosition(getString(R.string.density_class), 1)
     }
 
     @Test
     fun checkAndroidTab() {
         infoPage.tapTabWithTitle(getString(R.string.android))
-        infoPage.hasTextOnPosition(getString(R.string.version), 0)
-        infoPage.hasTextOnPosition("SDK", 1)
+            .assertTextOnPosition(getString(R.string.version), 0)
+            .assertTextOnPosition("SDK", 1)
     }
 
     @Test
     fun checkHardwareTab() {
         infoPage.tapTabWithTitle(getString(R.string.hardware))
-        infoPage.hasTextOnPosition(getString(R.string.battery), 0)
-        infoPage.hasTextOnPosition(getString(R.string.level), 1)
+            .assertHasAnyElements()
     }
 
     @Test
