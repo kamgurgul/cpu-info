@@ -31,12 +31,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.core.CustomMatchers.atPosition
 import com.kgurgul.cpuinfo.core.CustomMatchers.withToolbarTitle
-import com.kgurgul.cpuinfo.core.RecyclerViewItemCountAssertion
 import com.kgurgul.cpuinfo.core.hasAnyElement
 import com.kgurgul.cpuinfo.core.isk
 import com.kgurgul.cpuinfo.uitestutils.conditionwatcher.waitForCondition
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.Matchers.greaterThanOrEqualTo
 
 class InfoPage {
 
@@ -68,11 +66,6 @@ class InfoPage {
         onView(allOf(isDisplayed(), recyclerView))
             .perform(scrollToPosition<RecyclerView.ViewHolder>(position))
             .check(matches(atPosition(position, hasDescendant(withText(text)))))
-    }
-
-    fun hasAtLeastRvElements(amount: Int) {
-        onView(allOf(isDisplayed(), recyclerView))
-            .check(RecyclerViewItemCountAssertion(greaterThanOrEqualTo(amount)))
     }
 
     fun assertHasAnyElements(): InfoPage {

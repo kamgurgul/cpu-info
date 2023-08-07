@@ -38,6 +38,6 @@ class CpuInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragm
         super.onViewCreated(view, savedInstanceState)
         val controller = CpuInfoEpoxyController(requireContext())
         binding.recyclerView.adapter = controller.adapter
-        viewModel.viewState.observe(viewLifecycleOwner, { controller.setData(it) })
+        viewModel.viewState.observe(viewLifecycleOwner) { controller.setData(it) }
     }
 }

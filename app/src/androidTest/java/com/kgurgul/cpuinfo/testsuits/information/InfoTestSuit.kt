@@ -57,7 +57,7 @@ class InfoTestSuit : BaseTestSuit() {
     @Test
     fun checkStorageTab() {
         infoPage.tapTabWithTitle(getString(R.string.storage))
-        infoPage.hasAtLeastRvElements(1)
+            .assertHasAnyElements()
     }
 
     @Test
@@ -84,6 +84,6 @@ class InfoTestSuit : BaseTestSuit() {
     @Test
     fun checkSensorsTab() {
         infoPage.tapTabWithTitle(getString(R.string.sensors))
-        infoPage.hasAtLeastRvElements(1)
+            .assertHasAnyElements()
     }
 }
