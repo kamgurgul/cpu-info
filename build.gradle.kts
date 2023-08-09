@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id(Libs.GradleVersion.plugin) version Libs.GradleVersion.version
+    id(Libs.Kotlin.koverPlugin) version Libs.Kotlin.koverVersion
 }
 
 buildscript {

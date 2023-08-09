@@ -1,9 +1,10 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    kotlin("android")
     id("kotlin-parcelize")
-    id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id(Libs.Kotlin.koverPlugin)
+    kotlin("kapt")
 }
 
 kapt {
@@ -181,4 +182,27 @@ dependencies {
     kaptAndroidTest(Libs.Hilt.androidCompiler)
 
     androidTestUtil(Libs.AndroidX.Test.orchestrator)
+}
+
+koverReport {
+    androidReports("debug") {
+        filters {
+            includes {
+                packages(KoverConfig.includedPackages)
+            }
+            excludes {
+                packages(KoverConfig.excludedPackages)
+                classes(KoverConfig.excludedClasses)
+                annotatedBy(KoverConfig.excludedAnnotations)
+            }
+        }
+
+        html {
+            setReportDir(layout.buildDirectory.dir("coverage-report/html"))
+        }
+
+        xml {
+            setReportFile(layout.buildDirectory.file("coverage-report/result.xml"))
+        }
+    }
 }

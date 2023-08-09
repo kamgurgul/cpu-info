@@ -18,6 +18,9 @@ object Libs {
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
 
         const val immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
+
+        const val koverVersion = "0.7.3"
+        const val koverPlugin = "org.jetbrains.kotlinx.kover"
     }
 
     object Coroutines {
