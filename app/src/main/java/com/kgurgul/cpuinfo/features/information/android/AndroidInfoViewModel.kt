@@ -113,10 +113,10 @@ class AndroidInfoViewModel @Inject constructor(
     /**
      * Add information about device encrypted storage status
      */
+    @Suppress("DEPRECATION")
     private fun getDeviceEncryptionStatus() {
         try {
-            val status = devicePolicyManager.storageEncryptionStatus
-            val statusText = when (status) {
+            val statusText = when (devicePolicyManager.storageEncryptionStatus) {
                 DevicePolicyManager.ENCRYPTION_STATUS_UNSUPPORTED -> ENCRYPTION_STATUS_UNSUPPORTED
                 DevicePolicyManager.ENCRYPTION_STATUS_INACTIVE -> ENCRYPTION_STATUS_INACTIVE
                 DevicePolicyManager.ENCRYPTION_STATUS_ACTIVATING -> ENCRYPTION_STATUS_ACTIVATING

@@ -31,7 +31,7 @@ object Libs {
     }
 
     object AndroidX {
-        const val coreKtx = "androidx.core:core-ktx:1.9.0"
+        const val coreKtx = "androidx.core:core-ktx:1.10.1"
         const val activityKtx = "androidx.activity:activity-compose:1.7.2"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:1.6.1"
         const val appCompat = "androidx.appcompat:appcompat:1.6.1"
@@ -51,7 +51,7 @@ object Libs {
         }
 
         object Navigation {
-            private const val version = "2.6.0"
+            private const val version = "2.7.0"
             const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
             const val ui = "androidx.navigation:navigation-ui-ktx:$version"
             const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
@@ -59,7 +59,7 @@ object Libs {
 
         object Compose {
             const val compilerVersion = "1.5.1"
-            const val bom = "androidx.compose:compose-bom:2023.06.01"
+            const val bom = "androidx.compose:compose-bom:2023.08.00"
             const val material = "androidx.compose.material:material"
             const val material3 = "androidx.compose.material3:material3"
             const val animations = "androidx.compose.animation:animation"
@@ -120,7 +120,7 @@ object Libs {
 
     object Mockito {
         const val core = "org.mockito:mockito-core:5.4.0"
-        const val kotlin = "org.mockito.kotlin:mockito-kotlin:5.0.0"
+        const val kotlin = "org.mockito.kotlin:mockito-kotlin:5.1.0"
     }
 
     object GradleVersion {

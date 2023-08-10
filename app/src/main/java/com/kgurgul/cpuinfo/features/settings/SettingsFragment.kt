@@ -56,10 +56,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
         preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         when (key) {
             KEY_THEME_CONFIG -> {
-                @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
                 ThemeHelper.applyTheme(
                     sharedPreferences.getString(
                         ThemeHelper.KEY_THEME,
