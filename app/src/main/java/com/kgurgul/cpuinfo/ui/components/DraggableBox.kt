@@ -34,6 +34,7 @@ fun DraggableBox(
     actionRow: @Composable () -> Unit,
     content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    key: Any = Unit,
 ) {
     var offsetX by remember { mutableFloatStateOf(0f) }
     var actionRowOffset by remember { mutableIntStateOf(0) }
@@ -65,7 +66,7 @@ fun DraggableBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .offset { IntOffset((offsetX + offsetTransition).roundToInt(), 0) }
-                .pointerInput(Unit) {
+                .pointerInput(key) {
                     detectHorizontalDragGestures { change, dragAmount ->
                         val original = Offset(offsetX, 0f)
                         val summed = original + Offset(x = dragAmount, y = 0f)

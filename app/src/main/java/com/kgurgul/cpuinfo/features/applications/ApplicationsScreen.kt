@@ -225,9 +225,7 @@ private fun ApplicationsList(
     onNativeLibsClicked: (nativeLibraryDir: String) -> Unit,
 ) {
     val listState = rememberLazyListState()
-    var revealedCardId: String? by rememberSaveable {
-        mutableStateOf(null)
-    }
+    var revealedCardId: String? by rememberSaveable { mutableStateOf(null) }
     LazyColumn(
         state = listState,
         modifier = Modifier
@@ -242,6 +240,7 @@ private fun ApplicationsList(
                 derivedStateOf { revealedCardId == item.packageName }
             }
             DraggableBox(
+                key = item.packageName,
                 isRevealed = isRevealed,
                 state = draggableBoxState,
                 onExpand = { revealedCardId = item.packageName },
