@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,9 +34,10 @@ fun DraggableBox(
     actionRow: @Composable () -> Unit,
     content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    key: Any = Unit,
 ) {
-    var offsetX by remember { mutableStateOf(0f) }
-    var actionRowOffset by remember { mutableStateOf(0) }
+    var offsetX by remember { mutableFloatStateOf(0f) }
+    var actionRowOffset by remember { mutableIntStateOf(0) }
     val transitionState = remember { MutableTransitionState(false) }
     SideEffect {
         state.setRevealed(isRevealed)
@@ -63,7 +66,7 @@ fun DraggableBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .offset { IntOffset((offsetX + offsetTransition).roundToInt(), 0) }
-                .pointerInput(Unit) {
+                .pointerInput(key) {
                     detectHorizontalDragGestures { change, dragAmount ->
                         val original = Offset(offsetX, 0f)
                         val summed = original + Offset(x = dragAmount, y = 0f)
