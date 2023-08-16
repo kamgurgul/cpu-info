@@ -136,6 +136,7 @@ dependencies {
     debugImplementation(Libs.AndroidX.Compose.uiTestManifest)
 
     implementation(Libs.AndroidX.Navigation.fragment)
+    implementation(Libs.AndroidX.Navigation.compose)
     implementation(Libs.AndroidX.Navigation.ui)
 
     implementation(Libs.Google.material)
