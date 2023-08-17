@@ -15,8 +15,14 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
           cache: gradle
-
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
+      - name: Generate code coverage
+        run: ./gradlew app:koverXmlReportDebug
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage
+          path: app/build/coverage-report/result.xml
