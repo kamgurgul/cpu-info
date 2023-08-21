@@ -42,14 +42,16 @@ subprojects {
                 freeCompilerArgs += listOf(
                     "-P",
                     "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
-                            "${project.buildDir.absolutePath}/compose_compiler"
+                            project.layout.buildDirectory.dir("compose_compiler").get()
+                                .asFile.absolutePath
                 )
             }
             if (project.findProperty("composeCompilerMetrics") == "true") {
                 freeCompilerArgs += listOf(
                     "-P",
                     "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
-                            "${project.buildDir.absolutePath}/compose_compiler"
+                            project.layout.buildDirectory.dir("compose-metrics").get()
+                                .asFile.absolutePath
                 )
             }
         }
