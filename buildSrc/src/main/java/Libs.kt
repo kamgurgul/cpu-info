@@ -1,6 +1,6 @@
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:8.1.0"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:8.1.1"
 
     const val bus = "org.greenrobot:eventbus:3.3.1"
 
@@ -51,7 +51,7 @@ object Libs {
         }
 
         object Navigation {
-            private const val version = "2.7.0"
+            private const val version = "2.7.1"
             const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
             const val compose = "androidx.navigation:navigation-compose:$version"
             const val ui = "androidx.navigation:navigation-ui-ktx:$version"
@@ -59,7 +59,7 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.5.1"
+            const val compilerVersion = "1.5.2"
             const val bom = "androidx.compose:compose-bom:2023.08.00"
             const val material = "androidx.compose.material:material"
             const val material3 = "androidx.compose.material3:material3"
@@ -94,7 +94,7 @@ object Libs {
     }
 
     object Rx {
-        const val rxJava = "io.reactivex.rxjava3:rxjava:3.1.6"
+        const val rxJava = "io.reactivex.rxjava3:rxjava:3.1.7"
         const val rxAndroid = "io.reactivex.rxjava3:rxandroid:3.0.2"
     }
 
@@ -107,7 +107,7 @@ object Libs {
     }
 
     object Glide {
-        private const val version = "4.15.1"
+        private const val version = "4.16.0"
         const val glide = "com.github.bumptech.glide:glide:$version"
         const val compiler = "com.github.bumptech.glide:compiler:$version"
     }
@@ -120,7 +120,7 @@ object Libs {
     }
 
     object Mockito {
-        const val core = "org.mockito:mockito-core:5.4.0"
+        const val core = "org.mockito:mockito-core:5.5.0"
         const val kotlin = "org.mockito.kotlin:mockito-kotlin:5.1.0"
     }
 
