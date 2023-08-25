@@ -20,6 +20,7 @@ import android.content.res.Resources
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.data.provider.TemperatureProvider
 import com.kgurgul.cpuinfo.features.temperature.list.TemperatureItem
 import com.kgurgul.cpuinfo.utils.NonNullMutableLiveData
 import com.kgurgul.cpuinfo.utils.Prefs
@@ -33,11 +34,6 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-/**
- * ViewModel for [TemperatureFragment]
- *
- * @author kgurgul
- */
 @HiltViewModel
 class TemperatureViewModel @Inject constructor(
     private val prefs: Prefs,
@@ -45,10 +41,6 @@ class TemperatureViewModel @Inject constructor(
     private val temperatureIconProvider: TemperatureIconProvider,
     private val temperatureProvider: TemperatureProvider
 ) : ViewModel() {
-
-    companion object {
-        private const val CPU_TEMP_RESULT_KEY = "temp_result_key"
-    }
 
     // Binding fields
     val isLoading = NonNullMutableLiveData(false)
@@ -191,4 +183,8 @@ class TemperatureViewModel @Inject constructor(
     }
 
     private data class TempContainer(val cpuTemp: Float?, val batteryTemp: Int?)
+
+    companion object {
+        private const val CPU_TEMP_RESULT_KEY = "temp_result_key"
+    }
 }

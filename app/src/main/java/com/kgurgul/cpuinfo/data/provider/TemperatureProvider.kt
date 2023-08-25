@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.features.temperature
+package com.kgurgul.cpuinfo.data.provider
 
 import android.content.Context
 import android.content.Intent
@@ -26,14 +26,7 @@ import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import java.io.File
 import javax.inject.Inject
-import javax.inject.Singleton
 
-/**
- * Custom provider which provides all temperatures
- *
- * @author kgurgul
- */
-@Singleton
 class TemperatureProvider @Inject constructor(@ApplicationContext val appContext: Context) {
 
     /**
@@ -53,9 +46,8 @@ class TemperatureProvider @Inject constructor(@ApplicationContext val appContext
      *
      * @return CPU temperature
      */
-    fun getCpuTemp(path: String): Float? {
+    fun getCpuTemp(path: String): Float {
         val temp = Utils.readOneLine(File(path)) ?: 0.0
-
         return if (isTemperatureValid(temp)) {
             temp.toFloat()
         } else {
@@ -84,7 +76,7 @@ class TemperatureProvider @Inject constructor(@ApplicationContext val appContext
                 }
                 CpuTemperatureResult(validPath, currentTemp.toInt())
             }
-            .filter { (filePath) -> !filePath.isEmpty() }
+            .filter { (filePath) -> filePath.isNotEmpty() }
             .firstElement()
     }
 

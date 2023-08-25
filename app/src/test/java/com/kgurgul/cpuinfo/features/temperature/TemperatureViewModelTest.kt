@@ -18,16 +18,23 @@ package com.kgurgul.cpuinfo.features.temperature
 
 import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.kgurgul.cpuinfo.data.provider.TemperatureProvider
 import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.RxImmediateSchedulerRule
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.kotlin.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.whenever
 
 class TemperatureViewModelTest {
 
