@@ -42,15 +42,15 @@ class ApplicationsViewModelTest {
         on { userPreferencesFlow } doReturn flowOf(testUserPreferences)
     }
 
-    private val observedUiStates = mutableListOf<NewApplicationsViewModel.UiState>()
-    private val observedEvents = mutableListOf<NewApplicationsViewModel.Event>()
-    private lateinit var viewModel: NewApplicationsViewModel
+    private val observedUiStates = mutableListOf<ApplicationsViewModel.UiState>()
+    private val observedEvents = mutableListOf<ApplicationsViewModel.Event>()
+    private lateinit var viewModel: ApplicationsViewModel
 
     @Test
     fun `Load initial data with passed user preferences`() {
         // Given
         val expectedUiState = listOf(
-            NewApplicationsViewModel.UiState(
+            ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
             )
@@ -80,7 +80,7 @@ class ApplicationsViewModelTest {
             )
         )
         val expectedUiStates = listOf(
-            NewApplicationsViewModel.UiState(
+            ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
                 applications = TestData.extendedApplicationsData.toImmutableList(),
@@ -112,8 +112,8 @@ class ApplicationsViewModelTest {
 
     @Test
     fun `On native libs clicked`() {
-        val expectedEvents = listOf<NewApplicationsViewModel.Event>(
-            NewApplicationsViewModel.Event.ShowNativeLibraries(listOf("mockito-extensions")),
+        val expectedEvents = listOf<ApplicationsViewModel.Event>(
+            ApplicationsViewModel.Event.ShowNativeLibraries(listOf("mockito-extensions")),
         )
         createViewModel()
 
@@ -127,18 +127,18 @@ class ApplicationsViewModelTest {
     fun `On app uninstall clicked`() = runTest {
         whenever(mockGetPackageNameInteractor.invoke(Unit)).doReturn("com.kgurgul.cpuinfo")
         val expectedUiStates = listOf(
-            NewApplicationsViewModel.UiState(
+            ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
             ),
-            NewApplicationsViewModel.UiState(
+            ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
                 snackbarMessage = R.string.cpu_uninstall,
             ),
         )
-        val expectedEvents = listOf<NewApplicationsViewModel.Event>(
-            NewApplicationsViewModel.Event.UninstallApp("com.kgurgul.cpuinfo.debug"),
+        val expectedEvents = listOf<ApplicationsViewModel.Event>(
+            ApplicationsViewModel.Event.UninstallApp("com.kgurgul.cpuinfo.debug"),
         )
         createViewModel()
 
@@ -151,8 +151,8 @@ class ApplicationsViewModelTest {
 
     @Test
     fun `On app settings clicked`() {
-        val expectedEvents = listOf<NewApplicationsViewModel.Event>(
-            NewApplicationsViewModel.Event.OpenAppSettings("com.kgurgul.cpuinfo.debug"),
+        val expectedEvents = listOf<ApplicationsViewModel.Event>(
+            ApplicationsViewModel.Event.OpenAppSettings("com.kgurgul.cpuinfo.debug"),
         )
         createViewModel()
 
@@ -165,16 +165,16 @@ class ApplicationsViewModelTest {
     fun `On snackbar dismissed`() = runTest {
         whenever(mockGetPackageNameInteractor.invoke(Unit)).doReturn("com.kgurgul.cpuinfo")
         val expectedUiStates = listOf(
-            NewApplicationsViewModel.UiState(
+            ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
             ),
-            NewApplicationsViewModel.UiState(
+            ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
                 snackbarMessage = R.string.cpu_uninstall,
             ),
-            NewApplicationsViewModel.UiState(
+            ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
             ),
@@ -190,11 +190,11 @@ class ApplicationsViewModelTest {
     @Test
     fun `On cannot open app`() {
         val expectedUiStates = listOf(
-            NewApplicationsViewModel.UiState(
+            ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
             ),
-            NewApplicationsViewModel.UiState(
+            ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
                 snackbarMessage = R.string.app_open,
@@ -211,18 +211,18 @@ class ApplicationsViewModelTest {
     fun `On application clicked`() = runTest {
         whenever(mockGetPackageNameInteractor.invoke(Unit)).doReturn("com.kgurgul.cpuinfo")
         val expectedUiStates = listOf(
-            NewApplicationsViewModel.UiState(
+            ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
             ),
-            NewApplicationsViewModel.UiState(
+            ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
                 snackbarMessage = R.string.cpu_open,
             ),
         )
-        val expectedEvents = listOf<NewApplicationsViewModel.Event>(
-            NewApplicationsViewModel.Event.OpenApp("com.kgurgul.cpuinfo.debug"),
+        val expectedEvents = listOf<ApplicationsViewModel.Event>(
+            ApplicationsViewModel.Event.OpenApp("com.kgurgul.cpuinfo.debug"),
         )
         createViewModel()
 
@@ -252,7 +252,7 @@ class ApplicationsViewModelTest {
     private fun createViewModel() {
         observedUiStates.clear()
         observedEvents.clear()
-        viewModel = NewApplicationsViewModel(
+        viewModel = ApplicationsViewModel(
             applicationsDataObservable = mockApplicationsDataObservable,
             getPackageNameInteractor = mockGetPackageNameInteractor,
             userPreferencesRepository = mockUserPreferencesRepository,

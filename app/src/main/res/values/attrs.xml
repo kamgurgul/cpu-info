@@ -15,11 +15,6 @@
   -->
 
 <resources>
-    <declare-styleable name="SwipeMenu">
-        <attr name="sml_scroller_duration" format="integer" />
-        <attr name="sml_auto_open_percent" format="float" />
-        <attr name="sml_scroller_interpolator" format="reference" />
-    </declare-styleable>
 
     <declare-styleable name="ArcProgress">
         <attr name="arc_progress" format="integer" />

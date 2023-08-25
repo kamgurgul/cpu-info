@@ -71,7 +71,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ApplicationsScreen(
-    viewModel: NewApplicationsViewModel,
+    viewModel: ApplicationsViewModel,
     onAppClicked: (packageName: String) -> Unit,
     onRefreshApplications: () -> Unit,
     onSnackbarDismissed: () -> Unit,
@@ -97,7 +97,7 @@ fun ApplicationsScreen(
 
 @Composable
 fun ApplicationsScreen(
-    uiState: NewApplicationsViewModel.UiState,
+    uiState: ApplicationsViewModel.UiState,
     onAppClicked: (packageName: String) -> Unit,
     onRefreshApplications: () -> Unit,
     onSnackbarDismissed: () -> Unit,
@@ -351,7 +351,7 @@ private fun ApplicationItem(
 private fun ApplicationInfoPreview() {
     CpuInfoTheme {
         ApplicationsScreen(
-            uiState = NewApplicationsViewModel.UiState(
+            uiState = ApplicationsViewModel.UiState(
                 applications = persistentListOf(previewAppData1, previewAppData2)
             ),
             onAppClicked = {},

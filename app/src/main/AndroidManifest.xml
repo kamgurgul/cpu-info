@@ -38,8 +38,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.kgurgul.cpuinfo.features.applications.StorageUsageService" />
-
         <service android:name=".features.ramwidget.RefreshService" />
 
         <receiver

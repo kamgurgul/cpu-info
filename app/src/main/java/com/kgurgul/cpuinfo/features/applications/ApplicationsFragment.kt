@@ -1,19 +1,3 @@
-/*
- * Copyright 2017 KG Soft
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.kgurgul.cpuinfo.features.applications
 
 import android.annotation.SuppressLint
@@ -24,38 +8,32 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.databinding.FragmentApplicationsBinding
-import com.kgurgul.cpuinfo.features.information.base.BaseFragment
-import com.kgurgul.cpuinfo.utils.DividerItemDecoration
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.utils.Utils
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
 import com.kgurgul.cpuinfo.utils.uninstallApp
-import com.kgurgul.cpuinfo.utils.wrappers.EventObserver
-import com.kgurgul.cpuinfo.widgets.swiperv.SwipeMenuRecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
+import timber.log.Timber
 
 @AndroidEntryPoint
-class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
-    R.layout.fragment_applications
-), ApplicationsAdapter.ItemClickListener {
+class ApplicationsFragment : Fragment() {
 
     private val viewModel: ApplicationsViewModel by viewModels()
 
     private val uninstallReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            viewModel.refreshApplicationsList()
+            viewModel.onRefreshApplications()
         }
     }
 
@@ -64,167 +42,105 @@ class ApplicationsFragment : BaseFragment<FragmentApplicationsBinding>(
         registerUninstallBroadcast()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
-        binding.swipeRefreshLayout.setColorSchemeResources(
-            R.color.accent,
-            R.color.primaryDark
-        )
-        setupRecyclerView()
-        val menuHost: MenuHost = requireActivity()
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.apps_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when (menuItem.itemId) {
-                    R.id.action_sorting -> {
-                        viewModel.changeAppsSorting()
-                        true
-                    }
-
-                    else -> false
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                CpuInfoTheme {
+                    ApplicationsScreen(
+                        viewModel = viewModel,
+                        onAppClicked = viewModel::onApplicationClicked,
+                        onRefreshApplications = viewModel::onRefreshApplications,
+                        onSnackbarDismissed = viewModel::onSnackbarDismissed,
+                        onAppUninstallClicked = viewModel::onAppUninstallClicked,
+                        onAppSettingsClicked = viewModel::onAppSettingsClicked,
+                        onNativeLibsClicked = viewModel::onNativeLibsClicked,
+                        onSystemAppsSwitched = viewModel::onSystemAppsSwitched,
+                        onSortOrderChange = viewModel::onSortOrderChange,
+                    )
                 }
             }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        initObservables()
-    }
-
-    /**
-     * Setup for [SwipeMenuRecyclerView]
-     */
-    private fun setupRecyclerView() {
-        val applicationsAdapter = ApplicationsAdapter(viewModel.applicationList, this)
-        viewModel.applicationList.listStatusChangeNotificator.observe(
-            viewLifecycleOwner,
-            ListLiveDataObserver(applicationsAdapter)
-        )
-
-        binding.recyclerView.apply {
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-            adapter = applicationsAdapter
-            addItemDecoration(DividerItemDecoration(requireContext()))
         }
     }
 
-    /**
-     * Register all fields from [ApplicationsViewModel] which should be observed
-     */
-    private fun initObservables() {
-        viewModel.shouldStartStorageServiceEvent.observe(viewLifecycleOwner, EventObserver {
-            StorageUsageService.startService(requireContext(), viewModel.applicationList)
-        })
-    }
-
-    /**
-     * Register broadcast receiver for uninstalling apps
-     */
-    private fun registerUninstallBroadcast() {
-        val intentFilter = IntentFilter()
-        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
-        intentFilter.addDataScheme("package")
-        requireActivity().registerReceiver(uninstallReceiver, intentFilter)
-    }
-
-
-    /**
-     * Try to open clicked app. In case of error show [Snackbar].
-     */
-    override fun appOpenClicked(position: Int) {
-        val appInfo = viewModel.applicationList[position]
-        // Block self opening
-        if (appInfo.packageName == requireContext().packageName) {
-            Snackbar.make(
-                binding.mainContainer, getString(R.string.cpu_open),
-                Snackbar.LENGTH_SHORT
-            ).show()
-            return
-        }
-
-        val intent = requireContext().packageManager.getLaunchIntentForPackage(appInfo.packageName)
-        if (intent != null) {
-            try {
-                startActivity(intent)
-            } catch (e: Exception) {
-                Snackbar.make(
-                    binding.mainContainer, getString(R.string.app_open),
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        } else {
-            Snackbar.make(
-                binding.mainContainer, getString(R.string.app_open),
-                Snackbar.LENGTH_SHORT
-            ).show()
-        }
-    }
-
-    /**
-     * Open settings activity for selected app
-     */
-    override fun appSettingsClicked(position: Int) {
-        val appInfo = viewModel.applicationList[position]
-        val uri = Uri.fromParts("package", appInfo.packageName, null)
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uri)
-        startActivity(intent)
-    }
-
-    /**
-     * Try to uninstall selected app
-     */
-    override fun appUninstallClicked(position: Int) {
-        val appInfo = viewModel.applicationList[position]
-        if (appInfo.packageName == requireContext().packageName) {
-            Snackbar.make(
-                binding.mainContainer, getString(R.string.cpu_uninstall),
-                Snackbar.LENGTH_SHORT
-            ).show()
-            return
-        }
-        requireActivity().uninstallApp(appInfo.packageName)
-    }
-
-    /**
-     * Open dialog with native lib list and open google if user taps on it
-     */
-    override fun appNativeLibsClicked(nativeDir: String) {
-        showNativeListDialog(nativeDir)
-    }
-
-    /**
-     * Create dialog with native libraries list
-     */
-    @SuppressLint("InflateParams")
-    private fun showNativeListDialog(nativeLibsDir: String) {
-        val builder = MaterialAlertDialogBuilder(requireContext())
-        val inflater = LayoutInflater.from(context)
-        val dialogLayout = inflater.inflate(R.layout.dialog_native_libs, null)
-        val nativeDirFile = File(nativeLibsDir)
-        val libs = nativeDirFile.listFiles()?.map { it.name } ?: emptyList()
-
-        val listView: ListView = dialogLayout.findViewById(R.id.dialog_lv)
-        val arrayAdapter = ArrayAdapter(
-            requireContext(), R.layout.item_native_libs,
-            R.id.native_name_tv, libs
-        )
-        listView.adapter = arrayAdapter
-        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            Utils.searchInGoogle(requireContext(), libs[position])
-        }
-        builder.setPositiveButton(R.string.ok) { dialog, _ ->
-            dialog.cancel()
-        }
-        builder.setView(dialogLayout)
-        val alert = builder.create()
-        alert.show()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        registerObservers()
     }
 
     override fun onDestroy() {
         requireActivity().unregisterReceiver(uninstallReceiver)
         super.onDestroy()
+    }
+
+    private fun registerObservers() {
+        viewModel.events.observe(viewLifecycleOwner, ::handleEvent)
+    }
+
+    @SuppressLint("InflateParams")
+    private fun handleEvent(event: ApplicationsViewModel.Event) {
+        when (event) {
+            is ApplicationsViewModel.Event.OpenApp -> {
+                val intent = requireContext().packageManager.getLaunchIntentForPackage(
+                    event.packageName
+                )
+                if (intent != null) {
+                    try {
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        viewModel.onCannotOpenApp()
+                    }
+                } else {
+                    viewModel.onCannotOpenApp()
+                }
+            }
+
+            is ApplicationsViewModel.Event.OpenAppSettings -> {
+                val uri = Uri.fromParts("package", event.packageName, null)
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uri)
+                try {
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    Timber.e("Can't open app settings")
+                }
+            }
+
+            is ApplicationsViewModel.Event.UninstallApp -> {
+                requireActivity().uninstallApp(event.packageName)
+            }
+
+            is ApplicationsViewModel.Event.ShowNativeLibraries -> {
+                val dialogLayout = LayoutInflater.from(context)
+                    .inflate(R.layout.dialog_native_libs, null)
+                val arrayAdapter = ArrayAdapter(
+                    requireContext(),
+                    R.layout.item_native_libs,
+                    R.id.native_name_tv,
+                    event.nativeLibs,
+                )
+                dialogLayout.findViewById<ListView>(R.id.dialog_lv).apply {
+                    adapter = arrayAdapter
+                    onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+                        Utils.searchInGoogle(requireContext(), event.nativeLibs[position])
+                    }
+                }
+                MaterialAlertDialogBuilder(requireContext())
+                    .setPositiveButton(R.string.ok) { dialog, _ -> dialog.cancel() }
+                    .setView(dialogLayout)
+                    .create()
+                    .show()
+            }
+        }
+    }
+
+    private fun registerUninstallBroadcast() {
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
+        intentFilter.addDataScheme("package")
+        requireActivity().registerReceiver(uninstallReceiver, intentFilter)
     }
 }
