@@ -158,7 +158,6 @@ dependencies {
     implementation(Libs.Airbnb.dataBinding)
     kapt(Libs.Airbnb.processor)
 
-    implementation(Libs.bus)
     implementation(Libs.timber)
     implementation(Libs.relinker)
     implementation(Libs.coil)

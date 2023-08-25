@@ -2,8 +2,6 @@ object Libs {
 
     const val androidGradlePlugin = "com.android.tools.build:gradle:8.1.1"
 
-    const val bus = "org.greenrobot:eventbus:3.3.1"
-
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 
     const val relinker = "com.getkeepsafe.relinker:relinker:1.4.5"

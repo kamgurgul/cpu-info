@@ -25,10 +25,6 @@ abstract class AppModuleBinds {
 
     @Binds
     @IntoSet
-    abstract fun provideRamWidgetInitializer(bind: RamWidgetInitializer): AppInitializer
-
-    @Binds
-    @IntoSet
     abstract fun provideThemeInitializer(bind: ThemeInitializer): AppInitializer
 
     @Binds
