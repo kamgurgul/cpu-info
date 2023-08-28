@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.features.information.ram
 
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -29,7 +30,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.FragmentRecyclerViewBinding
 import com.kgurgul.cpuinfo.features.information.base.BaseFragment
-import com.kgurgul.cpuinfo.utils.runOnApiBelow
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,7 +45,7 @@ class RamInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragm
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                runOnApiBelow(24) {
+                if (Build.VERSION.SDK_INT < 24) {
                     menuInflater.inflate(R.menu.ram_menu, menu)
                 }
             }

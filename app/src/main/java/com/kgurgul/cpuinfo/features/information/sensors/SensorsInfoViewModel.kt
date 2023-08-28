@@ -23,7 +23,6 @@ import android.hardware.SensorManager
 import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round1
-import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -135,41 +134,35 @@ class SensorsInfoViewModel @Inject constructor(
         }
 
         // TODO: Multiline support for this kind of data is necessary
-        runOnApiAbove(17) {
-            when (sensorType) {
-                Sensor.TYPE_GYROSCOPE_UNCALIBRATED ->
-                    data = "X=${event.values[0].round1()}rad/s  Y=${
-                        event.values[1].round1()
-                    }rad/s  Z=${
-                        event.values[2].round1()
-                    }rad/s" /*\nEstimated drift: X=${
+        when (sensorType) {
+            Sensor.TYPE_GYROSCOPE_UNCALIBRATED ->
+                data = "X=${event.values[0].round1()}rad/s  Y=${
+                    event.values[1].round1()
+                }rad/s  Z=${
+                    event.values[2].round1()
+                }rad/s" /*\nEstimated drift: X=${
                     event.values[3].round1() }rad/s  Y=${
                     event.values[4].round1() }rad/s  Z=${
                     event.values[5].round1() }rad/s"*/
-                Sensor.TYPE_GAME_ROTATION_VECTOR ->
-                    data = "X=${event.values[0].round1()}  Y=${
-                        event.values[1].round1()
-                    }  Z=${event.values[2].round1()}"
+            Sensor.TYPE_GAME_ROTATION_VECTOR ->
+                data = "X=${event.values[0].round1()}  Y=${
+                    event.values[1].round1()
+                }  Z=${event.values[2].round1()}"
 
-                Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED ->
-                    data = "X=${event.values[0].round1()}μT  Y=${
-                        event.values[1].round1()
-                    }μT  Z=${
-                        event.values[2].round1()
-                    }μT" /*\nIron bias: X=${
+            Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED ->
+                data = "X=${event.values[0].round1()}μT  Y=${
+                    event.values[1].round1()
+                }μT  Z=${
+                    event.values[2].round1()
+                }μT" /*\nIron bias: X=${
                     event.values[3].round1() }μT  Y=${
                     event.values[4].round1() }μT  Z=${
                     event.values[5].round1() }μT"*/
-            }
-        }
 
-        runOnApiAbove(18) {
-            when (sensorType) {
-                Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR ->
-                    data = "X=${event.values[0].round1()}  Y=${
-                        event.values[1].round1()
-                    }  Z=${event.values[2].round1()}"
-            }
+            Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR ->
+                data = "X=${event.values[0].round1()}  Y=${
+                    event.values[1].round1()
+                }  Z=${event.values[2].round1()}"
         }
 
         return data

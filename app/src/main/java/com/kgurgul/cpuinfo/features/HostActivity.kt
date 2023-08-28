@@ -27,7 +27,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.databinding.ActivityHostLayoutBinding
-import com.kgurgul.cpuinfo.utils.runOnApiAbove
 import com.kgurgul.cpuinfo.utils.setupEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,7 +48,7 @@ class HostActivity : AppCompatActivity() {
         setupEdgeToEdge()
         setupNavigation()
         setSupportActionBar(binding.toolbar)
-        runOnApiAbove(Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             // Processes cannot be listed above M
             val menu = binding.bottomNavigation.menu
             menu.findItem(R.id.processes).isVisible = false

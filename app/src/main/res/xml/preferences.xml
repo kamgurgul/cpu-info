@@ -31,20 +31,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:key="pref_key_ram_settings"
-        app:title="@string/ram">
-
-        <ListPreference
-            app:defaultValue="10000"
-            app:entries="@array/prefRamNames"
-            app:entryValues="@array/prefRamValues"
-            app:key="ram_refreshing"
-            app:title="@string/ram_refreshing"
-            app:useSimpleSummaryProvider="true" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         app:key="pref_key_theme_category"
         app:title="@string/pref_theme">
 

@@ -22,7 +22,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import androidx.annotation.IdRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -58,34 +57,6 @@ fun Double.round2(): Double = try {
     (this * 100.0).roundToLong() / 100.0
 } catch (e: Exception) {
     0.0
-}
-
-inline fun runOnApiBelow(api: Int, f: () -> Unit) {
-    if (Build.VERSION.SDK_INT < api) {
-        f()
-    }
-}
-
-inline fun runOnApiAbove(api: Int, f: () -> Unit) {
-    if (Build.VERSION.SDK_INT > api) {
-        f()
-    }
-}
-
-inline fun runOnApiBelow(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
-    if (Build.VERSION.SDK_INT < api) {
-        f()
-    } else {
-        otherwise()
-    }
-}
-
-inline fun runOnApiAbove(api: Int, f: () -> Unit, otherwise: () -> Unit = {}) {
-    if (Build.VERSION.SDK_INT > api) {
-        f()
-    } else {
-        otherwise()
-    }
 }
 
 /**
