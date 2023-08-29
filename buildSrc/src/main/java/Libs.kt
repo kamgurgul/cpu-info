@@ -104,12 +104,6 @@ object Libs {
         const val androidTesting = "com.google.dagger:hilt-android-testing:$version"
     }
 
-    object Glide {
-        private const val version = "4.16.0"
-        const val glide = "com.github.bumptech.glide:glide:$version"
-        const val compiler = "com.github.bumptech.glide:compiler:$version"
-    }
-
     object Airbnb {
         private const val version = "5.1.3"
         const val epoxy = "com.airbnb.android:epoxy:$version"

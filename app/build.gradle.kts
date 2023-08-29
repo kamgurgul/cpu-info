@@ -151,9 +151,6 @@ dependencies {
     implementation(Libs.Hilt.android)
     kapt(Libs.Hilt.androidCompiler)
 
-    implementation(Libs.Glide.glide)
-    kapt(Libs.Glide.compiler)
-
     implementation(Libs.Airbnb.epoxy)
     implementation(Libs.Airbnb.dataBinding)
     kapt(Libs.Airbnb.processor)

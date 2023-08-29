@@ -42,7 +42,7 @@ object Utils {
      * Helper which adds item to list if value is not null and not empty
      */
     fun addPairIfExists(list: MutableList<Pair<String, String>>, key: String, value: String?) {
-        if (value != null && value.isNotEmpty()) {
+        if (!value.isNullOrEmpty()) {
             list.add(Pair(key, value))
         }
     }
