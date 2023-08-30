@@ -11,7 +11,7 @@ object Libs {
     const val coil = "io.coil-kt:coil-compose:2.4.0"
 
     object Kotlin {
-        private const val version = "1.9.0"
+        private const val version = "1.9.10"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
 
@@ -57,7 +57,7 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.5.2"
+            const val compilerVersion = "1.5.3"
             const val bom = "androidx.compose:compose-bom:2023.08.00"
             const val material = "androidx.compose.material:material"
             const val material3 = "androidx.compose.material3:material3"
