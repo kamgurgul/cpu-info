@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.features.temperature.list
+package com.kgurgul.cpuinfo.features.temperature.models
 
-data class TemperatureItem(val iconRes: Int, val name: String, val temperature: Float)
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+
+data class TemperatureItem(
+    @DrawableRes val iconRes: Int,
+    @StringRes val nameRes: Int,
+    val temperature: Float,
+)
