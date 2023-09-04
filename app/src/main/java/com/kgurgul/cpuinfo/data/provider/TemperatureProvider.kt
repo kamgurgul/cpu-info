@@ -27,18 +27,15 @@ import io.reactivex.rxjava3.core.Observable
 import java.io.File
 import javax.inject.Inject
 
-class TemperatureProvider @Inject constructor(@ApplicationContext val appContext: Context) {
+class TemperatureProvider @Inject constructor(
+    @ApplicationContext val appContext: Context
+) {
 
-    /**
-     * @return battery temperature divided by 10 to get value in Celsius
-     */
-    fun getBatteryTemperature(): Int {
-        val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        val batteryStatus = appContext.registerReceiver(null, iFilter)
-        return (batteryStatus?.getIntExtra(
-            BatteryManager.EXTRA_TEMPERATURE,
-            0
-        ) ?: 0) / 10
+    fun getBatteryTemperature(): Float? {
+        val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        val batteryStatus = appContext.registerReceiver(null, filter)
+        val temp = batteryStatus?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, Int.MIN_VALUE)
+        return if (temp != null && temp != Int.MIN_VALUE) temp / 10f else null
     }
 
     /**

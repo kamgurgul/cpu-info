@@ -106,7 +106,7 @@ class TemperatureViewModel @Inject constructor(
     private fun verifyTemperaturesAvailability() {
         if (!isBatteryTemperatureAvailable) {
             val batteryTemp = temperatureProvider.getBatteryTemperature()
-            if (batteryTemp != 0) {
+            if (batteryTemp != null) {
                 isBatteryTemperatureAvailable = true
             }
         }
@@ -128,7 +128,7 @@ class TemperatureViewModel @Inject constructor(
 
         refreshingDisposable = getRefreshingInvoker()
             .map {
-                var batteryTemp: Int? = null
+                var batteryTemp: Float? = null
                 if (isBatteryTemperatureAvailable) {
                     batteryTemp = temperatureProvider.getBatteryTemperature()
                 }
@@ -182,7 +182,7 @@ class TemperatureViewModel @Inject constructor(
         refreshingDisposable?.dispose()
     }
 
-    private data class TempContainer(val cpuTemp: Float?, val batteryTemp: Int?)
+    private data class TempContainer(val cpuTemp: Float?, val batteryTemp: Float?)
 
     companion object {
         private const val CPU_TEMP_RESULT_KEY = "temp_result_key"

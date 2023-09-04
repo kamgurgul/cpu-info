@@ -140,11 +140,11 @@ class HardwareInfoViewModel @Inject constructor(
 
         // Temperature
         val temperature = temperatureProvider.getBatteryTemperature()
-        if (temperature > 0) {
+        if (temperature != null) {
             functionsList.add(
                 Pair(
                     resources.getString(R.string.temperature),
-                    temperatureFormatter.format(temperature.toFloat())
+                    temperatureFormatter.format(temperature)
                 )
             )
         }

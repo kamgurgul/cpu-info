@@ -114,7 +114,7 @@ class TemperatureViewModelTest {
         }
         val tempProvider = mock<TemperatureProvider> {
             on { getCpuTemperatureFinder() } doReturn Maybe.empty()
-            on { getBatteryTemperature() } doReturn 10
+            on { getBatteryTemperature() } doReturn 10f
         }
         val viewModel = spy(TemperatureViewModel(prefs, resources, tempIconProvider, tempProvider))
         doReturn(Observable.just(1L)).whenever(viewModel).getRefreshingInvoker()
