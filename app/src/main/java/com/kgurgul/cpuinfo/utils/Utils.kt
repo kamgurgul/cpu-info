@@ -21,10 +21,6 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import com.kgurgul.cpuinfo.R
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileInputStream
-import java.io.InputStreamReader
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
@@ -84,32 +80,5 @@ object Utils {
         } catch (e: Exception) {
             Toast.makeText(context, R.string.action_not_supported, Toast.LENGTH_SHORT).show()
         }
-    }
-
-    /**
-     * Read and parse to Long first line from file
-     */
-    fun readOneLine(file: File): Double? {
-        val text: String?
-        try {
-            val fs = FileInputStream(file)
-            val sr = InputStreamReader(fs)
-            val br = BufferedReader(sr)
-            text = br.readLine()
-            br.close()
-            sr.close()
-            fs.close()
-        } catch (ex: Exception) {
-            return null
-        }
-
-        val value: Double?
-        try {
-            value = text.toDouble()
-        } catch (nfe: NumberFormatException) {
-            return null
-        }
-
-        return value
     }
 }

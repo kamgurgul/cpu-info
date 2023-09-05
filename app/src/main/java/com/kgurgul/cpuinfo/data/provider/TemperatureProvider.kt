@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
-import com.kgurgul.cpuinfo.utils.Utils
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
@@ -38,17 +37,28 @@ class TemperatureProvider @Inject constructor(
         return if (temp != null && temp != Int.MIN_VALUE) temp / 10f else null
     }
 
+    fun findCpuTemperatureLocation(): String? {
+        for (location in CPU_TEMP_FILE_PATHS) {
+            val temp = File(location).bufferedReader().use { it.readLine().toDoubleOrNull() }
+            if (temp != null && isTemperatureValid(temp)) {
+                return location
+            }
+        }
+        return null
+    }
+
     /**
      * Get temperature for CPU and if needed divided returned value by 1000 to get Celsius unit
      *
      * @return CPU temperature
      */
-    fun getCpuTemp(path: String): Float {
-        val temp = Utils.readOneLine(File(path)) ?: 0.0
-        return if (isTemperatureValid(temp)) {
-            temp.toFloat()
-        } else {
-            (temp / 1000).toFloat()
+    fun getCpuTemp(path: String): Float? {
+        return File(path).bufferedReader().use { it.readLine().toDoubleOrNull() }?.let {
+            if (isTemperatureValid(it)) {
+                it.toFloat()
+            } else {
+                (it / 1000).toFloat()
+            }
         }
     }
 
@@ -58,7 +68,7 @@ class TemperatureProvider @Inject constructor(
     fun getCpuTemperatureFinder(): Maybe<CpuTemperatureResult> {
         return Observable.fromIterable(CPU_TEMP_FILE_PATHS)
             .map { path ->
-                val temp = Utils.readOneLine(File(path))
+                val temp = File(path).bufferedReader().use { it.readLine().toDoubleOrNull() }
                 var validPath = ""
                 var currentTemp = 0.0
                 if (temp != null) {
