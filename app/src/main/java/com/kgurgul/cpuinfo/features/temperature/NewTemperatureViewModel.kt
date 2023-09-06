@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,11 +44,16 @@ class NewTemperatureViewModel @Inject constructor(
     }
 
     private fun handleTemperatures(temperatures: List<TemperatureItem>) {
-
+        _uiStateFlow.update {
+            it.copy(
+                isLoading = false,
+                temperatureItems = temperatures
+            )
+        }
     }
 
     data class UiState(
-        val isLoading: Boolean = false,
+        val isLoading: Boolean = true,
         val temperatureItems: List<TemperatureItem> = emptyList()
     )
 }

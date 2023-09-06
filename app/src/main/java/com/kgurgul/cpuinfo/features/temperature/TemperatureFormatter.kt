@@ -21,11 +21,6 @@ import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.round2
 import javax.inject.Inject
 
-/**
- * Format temperature using user settings
- *
- * @author kgurgul
- */
 class TemperatureFormatter @Inject constructor(val prefs: Prefs) {
 
     companion object {
