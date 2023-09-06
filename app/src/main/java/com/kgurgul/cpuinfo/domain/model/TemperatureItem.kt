@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.features.temperature.models
+package com.kgurgul.cpuinfo.domain.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

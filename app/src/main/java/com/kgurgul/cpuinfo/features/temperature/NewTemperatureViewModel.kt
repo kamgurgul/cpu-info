@@ -17,28 +17,32 @@
 package com.kgurgul.cpuinfo.features.temperature
 
 import androidx.lifecycle.ViewModel
-import com.kgurgul.cpuinfo.data.provider.TemperatureProvider
-import com.kgurgul.cpuinfo.features.temperature.models.TemperatureItem
-import com.kgurgul.cpuinfo.utils.Prefs
+import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.domain.model.TemperatureItem
+import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable
+import com.kgurgul.cpuinfo.domain.observe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
 class NewTemperatureViewModel @Inject constructor(
-    private val prefs: Prefs,
-    private val temperatureProvider: TemperatureProvider,
+    temperatureDataObservable: TemperatureDataObservable,
 ) : ViewModel() {
 
     private val _uiStateFlow = MutableStateFlow(UiState())
     val uiStateFlow = _uiStateFlow.asStateFlow()
 
     init {
-        getTemperature()
+        temperatureDataObservable.observe()
+            .onEach(::handleTemperatures)
+            .launchIn(viewModelScope)
     }
 
-    private fun getTemperature() {
+    private fun handleTemperatures(temperatures: List<TemperatureItem>) {
 
     }
 
