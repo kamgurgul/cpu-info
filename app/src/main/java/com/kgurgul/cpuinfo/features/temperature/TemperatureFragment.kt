@@ -17,58 +17,40 @@
 package com.kgurgul.cpuinfo.features.temperature
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.SimpleItemAnimator
-import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.databinding.FragmentTemperatureBinding
-import com.kgurgul.cpuinfo.features.information.base.BaseFragment
-import com.kgurgul.cpuinfo.features.temperature.list.TemperatureAdapter
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TemperatureFragment : BaseFragment<FragmentTemperatureBinding>(
-    R.layout.fragment_temperature
-) {
+class TemperatureFragment : Fragment() {
 
     private val viewModel: TemperatureViewModel by viewModels()
 
     @Inject
     lateinit var temperatureFormatter: TemperatureFormatter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
-        setupRecycleView()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.startTemperatureRefreshing()
-    }
-
-    override fun onStop() {
-        viewModel.stopTemperatureRefreshing()
-        super.onStop()
-    }
-
-    private fun setupRecycleView() {
-        val temperatureAdapter = TemperatureAdapter(
-            temperatureFormatter,
-            viewModel.temperatureListLiveData
-        )
-        viewModel.temperatureListLiveData.listStatusChangeNotificator.observe(
-            viewLifecycleOwner,
-            ListLiveDataObserver(temperatureAdapter)
-        )
-        binding.apply {
-            tempRv.layoutManager = LinearLayoutManager(requireContext())
-            tempRv.adapter = temperatureAdapter
-            (tempRv.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                CpuInfoTheme {
+                    TemperatureScreen(
+                        viewModel = viewModel,
+                        temperatureFormatter = temperatureFormatter,
+                    )
+                }
+            }
         }
     }
 }

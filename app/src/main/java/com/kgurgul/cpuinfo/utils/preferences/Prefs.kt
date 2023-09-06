@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.utils
+package com.kgurgul.cpuinfo.utils.preferences
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
@@ -25,19 +25,19 @@ import javax.inject.Singleton
  * Simple wrapper for [SharedPreferences] which can also serialize and deserialize object from JSON
  */
 @Singleton
-class Prefs @Inject constructor(private val sharedPreferences: SharedPreferences) {
+class Prefs @Inject constructor(private val sharedPreferences: SharedPreferences) : IPrefs {
 
     /**
      * Verify if passed [key] is already saved in [SharedPreferences]
      */
-    fun contains(key: String): Boolean =
+    override fun contains(key: String): Boolean =
         sharedPreferences.contains(key)
 
     /**
      * Insert passed [value] with specific [key] into [SharedPreferences]. If [value] isn't a known
      * type it will be parsed into JSON.
      */
-    fun insert(key: String, value: Any) {
+    override fun insert(key: String, value: Any) {
         when (value) {
             is Int -> sharedPreferences.edit().putInt(key, value).apply()
             is Float -> sharedPreferences.edit().putFloat(key, value).apply()
@@ -56,7 +56,7 @@ class Prefs @Inject constructor(private val sharedPreferences: SharedPreferences
      * default value.
      */
     @Suppress("UNCHECKED_CAST")
-    fun <T> get(key: String, default: T): T {
+    override fun <T> get(key: String, default: T): T {
         when (default) {
             is Int -> return sharedPreferences.getInt(key, default) as T
             is Float -> return sharedPreferences.getFloat(key, default) as T
@@ -77,7 +77,7 @@ class Prefs @Inject constructor(private val sharedPreferences: SharedPreferences
     /**
      * Remove [key] from [SharedPreferences]
      */
-    fun remove(key: String) {
+    override fun remove(key: String) {
         sharedPreferences.edit().remove(key).apply()
     }
 }

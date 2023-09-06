@@ -79,6 +79,7 @@ class HostActivity : AppCompatActivity() {
     private fun setToolbarTitleAndElevation(title: String) {
         binding.toolbar.title = title
         binding.toolbar.isVisible = navController.currentDestination?.id != R.id.applications
+                && navController.currentDestination?.id != R.id.temperature
         if (navController.currentDestination?.id == R.id.hardware) {
             binding.toolbar.elevation = 0f
         } else {

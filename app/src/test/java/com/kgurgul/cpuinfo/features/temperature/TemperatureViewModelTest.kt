@@ -19,8 +19,8 @@ package com.kgurgul.cpuinfo.features.temperature
 import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.kgurgul.cpuinfo.data.provider.TemperatureProvider
-import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.RxImmediateSchedulerRule
+import com.kgurgul.cpuinfo.utils.preferences.Prefs
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import org.junit.Assert.assertEquals

@@ -17,11 +17,11 @@
 package com.kgurgul.cpuinfo.features.temperature
 
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
-import com.kgurgul.cpuinfo.utils.Prefs
+import com.kgurgul.cpuinfo.utils.preferences.IPrefs
 import com.kgurgul.cpuinfo.utils.round2
 import javax.inject.Inject
 
-class TemperatureFormatter @Inject constructor(val prefs: Prefs) {
+class TemperatureFormatter @Inject constructor(val prefs: IPrefs) {
 
     companion object {
         const val CELSIUS = 0

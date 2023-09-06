@@ -39,9 +39,11 @@ class TemperatureProvider @Inject constructor(
 
     fun findCpuTemperatureLocation(): String? {
         for (location in CPU_TEMP_FILE_PATHS) {
-            val temp = File(location).bufferedReader().use { it.readLine().toDoubleOrNull() }
-            if (temp != null && isTemperatureValid(temp)) {
-                return location
+            runCatching {
+                val temp = File(location).bufferedReader().use { it.readLine().toDoubleOrNull() }
+                if (temp != null && isTemperatureValid(temp)) {
+                    return location
+                }
             }
         }
         return null

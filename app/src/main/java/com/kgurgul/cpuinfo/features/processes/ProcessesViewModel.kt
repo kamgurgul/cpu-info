@@ -20,8 +20,8 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
-import com.kgurgul.cpuinfo.utils.Prefs
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
+import com.kgurgul.cpuinfo.utils.preferences.Prefs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
