@@ -1,7 +1,9 @@
 package com.kgurgul.cpuinfo.data
 
+import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.local.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import org.mockito.kotlin.mock
 
 object TestData {
@@ -36,5 +38,13 @@ object TestData {
             hasNativeLibs = true,
             appIconUri = mock(),
         ),
+    )
+
+    val temperatureData = listOf(
+        TemperatureItem(
+            iconRes = R.drawable.ic_cpu_temp,
+            nameRes = R.string.cpu,
+            temperature = 10f
+        )
     )
 }
