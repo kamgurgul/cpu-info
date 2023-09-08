@@ -117,7 +117,7 @@ object Libs {
     }
 
     object GradleVersion {
-        const val version = "0.47.0"
+        const val version = "0.48.0"
         const val plugin = "com.github.ben-manes.versions"
     }
 }
