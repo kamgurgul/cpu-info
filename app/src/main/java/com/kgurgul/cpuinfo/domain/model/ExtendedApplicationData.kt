@@ -27,7 +27,7 @@ data class ExtendedApplicationData(
     val sourceDir: String,
     val nativeLibraryDir: String?,
     val hasNativeLibs: Boolean,
-    @Stable val appIconUri: Uri,
+    val appIconUri: Uri,
     val appSize: Long = 0
 ) : Comparable<ExtendedApplicationData> {
 

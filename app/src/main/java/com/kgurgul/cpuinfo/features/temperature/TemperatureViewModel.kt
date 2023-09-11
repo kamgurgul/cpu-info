@@ -22,6 +22,9 @@ import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable
 import com.kgurgul.cpuinfo.domain.observe
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -47,13 +50,13 @@ class TemperatureViewModel @Inject constructor(
         _uiStateFlow.update {
             it.copy(
                 isLoading = false,
-                temperatureItems = temperatures
+                temperatureItems = temperatures.toPersistentList()
             )
         }
     }
 
     data class UiState(
         val isLoading: Boolean = true,
-        val temperatureItems: List<TemperatureItem> = emptyList()
+        val temperatureItems: ImmutableList<TemperatureItem> = persistentListOf()
     )
 }

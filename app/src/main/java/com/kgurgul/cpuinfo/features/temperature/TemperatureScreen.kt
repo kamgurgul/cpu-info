@@ -33,6 +33,8 @@ import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.preferences.StubPrefs
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun TemperatureScreen(
@@ -77,7 +79,7 @@ fun TemperatureScreen(
 
 @Composable
 private fun TemperatureList(
-    temperatureItems: List<TemperatureItem>,
+    temperatureItems: ImmutableList<TemperatureItem>,
     temperatureFormatter: TemperatureFormatter,
     modifier: Modifier = Modifier,
 ) {
@@ -161,7 +163,7 @@ fun TemperatureScreenPreview() {
         TemperatureScreen(
             uiState = TemperatureViewModel.UiState(
                 isLoading = false,
-                temperatureItems = listOf(
+                temperatureItems = persistentListOf(
                     TemperatureItem(
                         iconRes = R.drawable.ic_cpu_temp,
                         nameRes = R.string.cpu,

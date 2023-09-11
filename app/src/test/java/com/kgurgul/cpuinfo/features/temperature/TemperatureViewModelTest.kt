@@ -20,6 +20,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
@@ -52,7 +53,7 @@ class TemperatureViewModelTest {
         val expectedUiStates = listOf(
             TemperatureViewModel.UiState(
                 isLoading = false,
-                temperatureItems = temperatureData,
+                temperatureItems = temperatureData.toPersistentList(),
             )
         )
 

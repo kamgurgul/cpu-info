@@ -1,6 +1,5 @@
 package com.kgurgul.cpuinfo.features.applications
 
-import androidx.compose.runtime.Stable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -137,7 +136,6 @@ class ApplicationsViewModel @Inject constructor(
         data class ShowNativeLibraries(val nativeLibs: List<String>) : Event
     }
 
-    @Stable
     data class UiState(
         val isLoading: Boolean = false,
         val withSystemApps: Boolean = false,
