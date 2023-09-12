@@ -161,6 +161,7 @@ dependencies {
 
     testImplementation(kotlin("test"))
     testImplementation(Libs.junit)
+    testImplementation(Libs.turbine)
     testImplementation(Libs.AndroidX.Test.core)
     testImplementation(Libs.AndroidX.Test.archCoreTesting)
     testImplementation(Libs.Coroutines.test)
