@@ -16,20 +16,11 @@
 
 package com.kgurgul.cpuinfo.features.processes
 
-import androidx.annotation.VisibleForTesting
 import io.reactivex.rxjava3.core.Single
 import timber.log.Timber
-import java.util.*
+import java.util.StringTokenizer
 import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.collections.ArrayList
 
-/**
- * Read and parse processes form ps
- *
- * @author kgurgul
- */
-@Singleton
 class PsProvider @Inject constructor() {
 
     companion object {
@@ -42,10 +33,6 @@ class PsProvider @Inject constructor() {
         private const val NAME_POSITION = 12
     }
 
-    /**
-     * Return [Single] with list of [ProcessItem]. It will throw onError in case of internal
-     * exception
-     */
     fun getPsList(): Single<List<ProcessItem>> {
         return Single.fromCallable {
             val psCmdList = readPsCmd()
@@ -53,28 +40,26 @@ class PsProvider @Inject constructor() {
         }
     }
 
-    /**
-     * Get output from ps command as a [List] of Strings
-     */
-    private fun readPsCmd(): List<String> {
-        val processList = ArrayList<String>()
-        try {
-            val args = arrayListOf("/system/bin/ps", "-p")
-            val cmd = ProcessBuilder(args)
-            val process = cmd.start()
-            val bis = process.inputStream.bufferedReader()
-            processList.addAll(bis.readLines())
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
-        return processList
+    fun getProcessList(): List<ProcessItem> {
+        val psCmdList = readPsCmd()
+        return parsePs(psCmdList)
     }
 
-    /**
-     * Parse output from ps command and return [List] of [ProcessItem]
-     */
-    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
-    internal fun parsePs(processLines: List<String>): List<ProcessItem> {
+    private fun readPsCmd(): List<String> {
+        return buildList {
+            try {
+                val args = arrayListOf("/system/bin/ps", "-p")
+                val cmd = ProcessBuilder(args)
+                val process = cmd.start()
+                val bis = process.inputStream.bufferedReader()
+                addAll(bis.readLines())
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
+    }
+
+    private fun parsePs(processLines: List<String>): List<ProcessItem> {
         val processItemList = ArrayList<ProcessItem>()
         processLines.forEachIndexed { i, line ->
             if (i > 0) {
