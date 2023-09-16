@@ -3,6 +3,7 @@ package com.kgurgul.cpuinfo.data
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.local.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import org.mockito.kotlin.mock
 
@@ -45,6 +46,18 @@ object TestData {
             iconRes = R.drawable.ic_cpu_temp,
             nameRes = R.string.cpu,
             temperature = 10f
+        )
+    )
+
+    val processes = listOf(
+        ProcessItem(
+            name = "name",
+            pid = "pid",
+            ppid = "ppid",
+            niceness = "niceness",
+            user = "user",
+            rss = "rss",
+            vsize = "vsize",
         )
     )
 }
