@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.features.processes
+package com.kgurgul.cpuinfo.domain.model
 
-/**
- * Domain model for processes
- *
- * @author kgurgul
- */
 data class ProcessItem(
-    val name: String, val pid: String, val ppid: String, val niceness: String,
-    val user: String, val rss: String, val vsize: String
+    val name: String,
+    val pid: String,
+    val ppid: String,
+    val niceness: String,
+    val user: String,
+    val rss: String,
+    val vsize: String,
 )

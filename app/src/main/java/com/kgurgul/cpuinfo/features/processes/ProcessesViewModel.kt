@@ -19,6 +19,7 @@ package com.kgurgul.cpuinfo.features.processes
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.preferences.Prefs
@@ -43,7 +44,7 @@ import javax.inject.Inject
 class ProcessesViewModel @Inject constructor(
     private val dispatchersProvider: IDispatchersProvider,
     private val prefs: Prefs,
-    private val psProvider: PsProvider
+    private val processesProvider: ProcessesProvider
 ) : ViewModel() {
 
     companion object {
@@ -122,7 +123,7 @@ class ProcessesViewModel @Inject constructor(
      * Return [Single] with process list
      */
     private fun getSortedProcessListSingle(): Single<List<ProcessItem>> {
-        return psProvider.getPsList()
+        return processesProvider.getPsList()
             .map { processList ->
                 if (processList is ArrayList) {
                     if (isSortingAsc) {

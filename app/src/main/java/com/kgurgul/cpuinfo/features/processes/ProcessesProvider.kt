@@ -16,12 +16,13 @@
 
 package com.kgurgul.cpuinfo.features.processes
 
+import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import io.reactivex.rxjava3.core.Single
 import timber.log.Timber
 import java.util.StringTokenizer
 import javax.inject.Inject
 
-class PsProvider @Inject constructor() {
+class ProcessesProvider @Inject constructor() {
 
     companion object {
         private const val USER_POSITION = 0
