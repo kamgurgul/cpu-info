@@ -2,8 +2,8 @@ package com.kgurgul.cpuinfo.domain.observable
 
 import app.cash.turbine.test
 import com.kgurgul.cpuinfo.data.TestData
+import com.kgurgul.cpuinfo.data.provider.ProcessesProvider
 import com.kgurgul.cpuinfo.domain.observe
-import com.kgurgul.cpuinfo.features.processes.ProcessesProvider
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule

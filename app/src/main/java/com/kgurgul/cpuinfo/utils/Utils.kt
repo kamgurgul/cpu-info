@@ -48,12 +48,12 @@ object Utils {
      */
     fun humanReadableByteCount(bytes: Long): String {
         val unit = 1024
-        if (bytes < unit) return "$bytes B"
+        if (bytes < unit) return "${bytes}B"
         val exp = (ln(bytes.toDouble()) / ln(unit.toDouble())).toInt()
         val pre = "KMGTPE"[exp - 1]
         return String.format(
             Locale.US,
-            "%.2f %sB",
+            "%.2f%sB",
             bytes / unit.toDouble().pow(exp.toDouble()),
             pre
         )
@@ -66,7 +66,7 @@ object Utils {
         val megaBytes = bytes.toDouble() / (1024.0 * 1024.0)
         val df = DecimalFormat("#.##", DecimalFormatSymbols(Locale.US))
 
-        return "${df.format(megaBytes)} MB"
+        return "${df.format(megaBytes)}MB"
     }
 
     /**

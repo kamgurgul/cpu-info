@@ -1,143 +1,41 @@
-/*
- * Copyright 2017 KG Soft
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.kgurgul.cpuinfo.features.processes
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
-import com.kgurgul.cpuinfo.utils.IDispatchersProvider
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
-import com.kgurgul.cpuinfo.utils.preferences.Prefs
+import com.kgurgul.cpuinfo.domain.observable.ProcessesDataObservable
+import com.kgurgul.cpuinfo.domain.observe
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import timber.log.Timber
-import java.util.concurrent.TimeUnit
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-/**
- * ViewModel for [ProcessesFragment]
- *
- * @author kgurgul
- */
 @HiltViewModel
 class ProcessesViewModel @Inject constructor(
-    private val dispatchersProvider: IDispatchersProvider,
-    private val prefs: Prefs,
-    private val processesProvider: ProcessesProvider
+    processesDataObservable: ProcessesDataObservable,
 ) : ViewModel() {
 
-    companion object {
-        private const val SORTING_PROCESSES_KEY = "SORTING_PROCESSES_KEY"
+    private val _uiStateFlow = MutableStateFlow(UiState())
+    val uiStateFlow = _uiStateFlow.asStateFlow()
+
+    init {
+        processesDataObservable.observe()
+            .onEach(::handleProcessesResult)
+            .launchIn(viewModelScope)
     }
 
-    val processList = ListLiveData<ProcessItem>()
-
-    private var isSortingAsc = prefs.get(SORTING_PROCESSES_KEY, true)
-    private var refreshingDisposable: Disposable? = null
-
-    /**
-     * Start refreshing processes (every 5s)
-     */
-    @Synchronized
-    fun startProcessRefreshing() {
-        if (refreshingDisposable == null || refreshingDisposable?.isDisposed == true) {
-            refreshingDisposable = getRefreshingInvoker()
-                .onBackpressureDrop()
-                .flatMapSingle { getSortedProcessListSingle() }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ newProcessList ->
-                    Timber.i("Processes refreshed")
-                    processList.replace(newProcessList)
-                }, Timber::e)
-        }
+    private fun handleProcessesResult(processes: List<ProcessItem>) {
+        _uiStateFlow.update { it.copy(isLoading = false, processes = processes.toPersistentList()) }
     }
 
-    /**
-     * Stop processes refreshing.
-     */
-    fun stopProcessRefreshing() {
-        refreshingDisposable?.dispose()
-    }
-
-    /**
-     * Return refreshing invoker
-     */
-    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
-    internal fun getRefreshingInvoker(): Flowable<Long> =
-        Flowable.interval(0, 5, TimeUnit.SECONDS)
-
-    /**
-     * Change process list sorting type from ascending to descending or or vice versa
-     */
-    fun changeProcessSorting() {
-        viewModelScope.launch {
-            val sortedAppList = withContext(dispatchersProvider.io) {
-                getProcessSortedList(!isSortingAsc)
-            }
-            processList.replace(sortedAppList)
-        }
-    }
-
-    /**
-     * Save sorting order into [Prefs] and return sorted list of the [ProcessItem]
-     *
-     * @return sorted list of the processes from [processList]
-     */
-    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
-    @Synchronized
-    internal fun getProcessSortedList(sortingAsc: Boolean): List<ProcessItem> {
-        val processListCopy = ArrayList<ProcessItem>(processList)
-        isSortingAsc = sortingAsc
-        prefs.insert(SORTING_PROCESSES_KEY, sortingAsc)
-        if (sortingAsc) {
-            processListCopy.sortBy { it.name.uppercase() }
-        } else {
-            processListCopy.sortByDescending { it.name.uppercase() }
-        }
-        return processListCopy
-    }
-
-    /**
-     * Return [Single] with process list
-     */
-    private fun getSortedProcessListSingle(): Single<List<ProcessItem>> {
-        return processesProvider.getPsList()
-            .map { processList ->
-                if (processList is ArrayList) {
-                    if (isSortingAsc) {
-                        processList.sortBy { it.name.uppercase() }
-                    } else {
-                        processList.sortByDescending { it.name.uppercase() }
-                    }
-                }
-                processList
-            }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        refreshingDisposable?.dispose()
-    }
+    data class UiState(
+        val isLoading: Boolean = true,
+        val processes: ImmutableList<ProcessItem> = persistentListOf(),
+    )
 }

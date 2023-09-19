@@ -33,8 +33,7 @@
     <fragment
         android:id="@+id/processes"
         android:name="com.kgurgul.cpuinfo.features.processes.ProcessesFragment"
-        android:label="@string/processes"
-        tools:layout="@layout/fragment_processes" />
+        android:label="@string/processes" />
 
     <fragment
         android:id="@+id/temperature"

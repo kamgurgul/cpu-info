@@ -80,6 +80,7 @@ class HostActivity : AppCompatActivity() {
         binding.toolbar.title = title
         binding.toolbar.isVisible = navController.currentDestination?.id != R.id.applications
                 && navController.currentDestination?.id != R.id.temperature
+                && navController.currentDestination?.id != R.id.processes
         if (navController.currentDestination?.id == R.id.hardware) {
             binding.toolbar.elevation = 0f
         } else {

@@ -48,13 +48,13 @@ class UtilsTest {
         val e = Utils.humanReadableByteCount(1500L * 1024L * 1024L * 1024L * 1024L * 1024L)
 
         /* Then */
-        assertEquals("10 B", bytes)
-        assertEquals("1.46 KB", kilo)
-        assertEquals("1.46 MB", mega)
-        assertEquals("1.46 GB", giga)
-        assertEquals("1.46 TB", teta)
-        assertEquals("1.46 PB", peta)
-        assertEquals("1.46 EB", e)
+        assertEquals("10B", bytes)
+        assertEquals("1.46KB", kilo)
+        assertEquals("1.46MB", mega)
+        assertEquals("1.46GB", giga)
+        assertEquals("1.46TB", teta)
+        assertEquals("1.46PB", peta)
+        assertEquals("1.46EB", e)
     }
 
     @Test
@@ -66,9 +66,9 @@ class UtilsTest {
         val giga = Utils.convertBytesToMega(1500L * 1024L * 1024L)
 
         /* Then */
-        assertEquals("0 MB", bytes)
-        assertEquals("0 MB", kilo)
-        assertEquals("1.46 MB", mega)
-        assertEquals("1500 MB", giga)
+        assertEquals("0MB", bytes)
+        assertEquals("0MB", kilo)
+        assertEquals("1.46MB", mega)
+        assertEquals("1500MB", giga)
     }
 }

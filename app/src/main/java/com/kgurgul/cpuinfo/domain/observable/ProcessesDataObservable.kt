@@ -1,8 +1,8 @@
 package com.kgurgul.cpuinfo.domain.observable
 
+import com.kgurgul.cpuinfo.data.provider.ProcessesProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
-import com.kgurgul.cpuinfo.features.processes.ProcessesProvider
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay

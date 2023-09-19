@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.features.processes
+package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
-import io.reactivex.rxjava3.core.Single
 import timber.log.Timber
 import java.util.StringTokenizer
 import javax.inject.Inject
@@ -32,13 +31,6 @@ class ProcessesProvider @Inject constructor() {
         private const val RSS_POSITION = 4
         private const val NICENESS_POSITION = 6
         private const val NAME_POSITION = 12
-    }
-
-    fun getPsList(): Single<List<ProcessItem>> {
-        return Single.fromCallable {
-            val psCmdList = readPsCmd()
-            return@fromCallable parsePs(psCmdList)
-        }
     }
 
     fun getProcessList(): List<ProcessItem> {
