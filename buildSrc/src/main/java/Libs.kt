@@ -51,7 +51,7 @@ object Libs {
         }
 
         object Navigation {
-            private const val version = "2.7.2"
+            private const val version = "2.7.3"
             const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
             const val compose = "androidx.navigation:navigation-compose:$version"
             const val ui = "androidx.navigation:navigation-ui-ktx:$version"
@@ -60,7 +60,7 @@ object Libs {
 
         object Compose {
             const val compilerVersion = "1.5.3"
-            const val bom = "androidx.compose:compose-bom:2023.09.00"
+            const val bom = "androidx.compose:compose-bom:2023.09.01"
             const val material = "androidx.compose.material:material"
             const val material3 = "androidx.compose.material3:material3"
             const val animations = "androidx.compose.animation:animation"
