@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.features.information.cpu
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -24,7 +25,8 @@ fun CpuInfoScreen(viewModel: NewCpuInfoViewModel) {
 @Composable
 fun CpuInfoScreen(uiState: NewCpuInfoViewModel.UiState) {
     LazyColumn(
-        contentPadding = PaddingValues(spacingSmall)
+        contentPadding = PaddingValues(spacingSmall),
+        verticalArrangement = Arrangement.spacedBy(spacingSmall),
     ) {
         uiState.cpuData?.frequencies?.forEachIndexed { i, frequency ->
             item(key = "__frequency_$i") {
@@ -33,8 +35,20 @@ fun CpuInfoScreen(uiState: NewCpuInfoViewModel.UiState) {
                 } else {
                     stringResource(R.string.cpu_frequency_stopped, i)
                 }
+                val minFreq = if (frequency.min != -1L) {
+                    stringResource(R.string.cpu_frequency, "0")
+                } else {
+                    ""
+                }
+                val maxFreq = if (frequency.max != -1L) {
+                    stringResource(R.string.cpu_frequency, frequency.max.toString())
+                } else {
+                    ""
+                }
                 CpuProgressBar(
                     label = currentFreq,
+                    progress = frequency.current.toFloat() / frequency.max.toFloat(),
+                    minMaxValues = minFreq to maxFreq,
                 )
             }
         }
