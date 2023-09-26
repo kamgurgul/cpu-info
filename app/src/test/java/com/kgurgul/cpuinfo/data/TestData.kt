@@ -2,6 +2,7 @@ package com.kgurgul.cpuinfo.data
 
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.local.UserPreferences
+import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
@@ -59,5 +60,24 @@ object TestData {
             rss = "rss",
             vsize = "vsize",
         )
+    )
+
+    val cpuData = CpuData(
+        processorName = "processorName",
+        abi = "abi",
+        coreNumber = 1,
+        hasArmNeon = true,
+        frequencies = listOf(
+            CpuData.Frequency(
+                min = 1,
+                max = 2,
+                current = 3
+            )
+        ),
+        l1dCaches = "l1dCaches",
+        l1iCaches = "l1iCaches",
+        l2Caches = "l2Caches",
+        l3Caches = "l3Caches",
+        l4Caches = "l4Caches"
     )
 }
