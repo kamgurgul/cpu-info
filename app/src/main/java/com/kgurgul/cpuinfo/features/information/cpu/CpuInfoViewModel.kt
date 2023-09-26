@@ -17,27 +17,28 @@
 package com.kgurgul.cpuinfo.features.information.cpu
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.domain.observable.CpuDataObservable
 import com.kgurgul.cpuinfo.domain.observe
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-/**
- * ViewModel for CPU information
- *
- * @author kgurgul
- */
 @HiltViewModel
 class CpuInfoViewModel @Inject constructor(
     cpuDataObservable: CpuDataObservable
 ) : ViewModel() {
 
-    val viewState = cpuDataObservable.observe()
+    val uiStateFlow = cpuDataObservable.observe()
         .distinctUntilChanged()
-        .map { CpuInfoViewState(it) }
-        .asLiveData(viewModelScope.coroutineContext)
+        .map { UiState(it) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+
+    data class UiState(
+        val cpuData: CpuData? = null,
+    )
 }

@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.information.android.AndroidInfoFragment
-import com.kgurgul.cpuinfo.features.information.cpu.NewCpuInfoFragment
+import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoFragment
 import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoFragment
 import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoFragment
 import com.kgurgul.cpuinfo.features.information.ram.RamInfoFragment
@@ -35,7 +35,7 @@ class InfoContainerStateAdapter(fragment: Fragment) : FragmentStateAdapter(fragm
 
     override fun createFragment(position: Int): Fragment =
         when (position) {
-            CPU_POS -> NewCpuInfoFragment()
+            CPU_POS -> CpuInfoFragment()
             GPU_POS -> GpuInfoFragment()
             RAM_POS -> RamInfoFragment()
             STORAGE_POS -> StorageInfoFragment()
