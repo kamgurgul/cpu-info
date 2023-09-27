@@ -5,6 +5,7 @@ import com.kgurgul.cpuinfo.data.local.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
+import com.kgurgul.cpuinfo.domain.model.RamData
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import org.mockito.kotlin.mock
 
@@ -79,5 +80,12 @@ object TestData {
         l2Caches = "l2Caches",
         l3Caches = "l3Caches",
         l4Caches = "l4Caches"
+    )
+
+    val ramData = RamData(
+        total = 100,
+        available = 50,
+        availablePercentage = 50,
+        threshold = 50,
     )
 }

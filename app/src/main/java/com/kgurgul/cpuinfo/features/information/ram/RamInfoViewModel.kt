@@ -17,34 +17,35 @@
 package com.kgurgul.cpuinfo.features.information.ram
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.action.RamCleanupAction
+import com.kgurgul.cpuinfo.domain.model.RamData
 import com.kgurgul.cpuinfo.domain.observable.RamDataObservable
 import com.kgurgul.cpuinfo.domain.observe
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * ViewModel for RAM info
- *
- * @author kgurgul
- */
 @HiltViewModel
 class RamInfoViewModel @Inject constructor(
     ramDataObservable: RamDataObservable,
     private val ramCleanupAction: RamCleanupAction
 ) : ViewModel() {
 
-    val viewState = ramDataObservable.observe()
+    val uiStateFlow = ramDataObservable.observe()
         .distinctUntilChanged()
-        .map { RamInfoViewState(it) }
-        .asLiveData(viewModelScope.coroutineContext)
+        .map { UiState(it) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     fun onClearRamClicked() {
         viewModelScope.launch { ramCleanupAction(Unit) }
     }
+
+    data class UiState(
+        val ramData: RamData? = null,
+    )
 }

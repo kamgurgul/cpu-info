@@ -18,30 +18,48 @@ package com.kgurgul.cpuinfo.features.information.ram
 
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.databinding.FragmentRecyclerViewBinding
-import com.kgurgul.cpuinfo.features.information.base.BaseFragment
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RamInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragment_recycler_view) {
+class RamInfoFragment : Fragment() {
 
     private val viewModel: RamInfoViewModel by viewModels()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                CpuInfoTheme {
+                    RamInfoScreen(
+                        viewModel = viewModel,
+                    )
+                }
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val controller = RamInfoEpoxyController(requireContext())
-        binding.recyclerView.adapter = controller.adapter
-
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -55,7 +73,7 @@ class RamInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragm
                     R.id.action_gc -> {
                         viewModel.onClearRamClicked()
                         Snackbar.make(
-                            binding.mainContainer, getString(R.string.running_gc),
+                            view, getString(R.string.running_gc),
                             Snackbar.LENGTH_SHORT
                         ).show()
                         true
@@ -65,7 +83,5 @@ class RamInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragm
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        viewModel.viewState.observe(viewLifecycleOwner) { controller.setData(it) }
     }
 }
