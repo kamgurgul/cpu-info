@@ -23,21 +23,19 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.databinding.FragmentRecyclerViewBinding
-import com.kgurgul.cpuinfo.features.information.base.BaseFragment
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-/**
- * Fragment which provides OpenGL info from custom [GLSurfaceView]
- *
- * @author kgurgul
- */
 @AndroidEntryPoint
-class GpuInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragment_recycler_view) {
+class GpuInfoFragment : Fragment() {
 
     private val viewModel: GpuInfoViewModel by viewModels()
 
@@ -62,23 +60,31 @@ class GpuInfoFragment : BaseFragment<FragmentRecyclerViewBinding>(R.layout.fragm
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-        glSurfaceView = GLSurfaceView(requireActivity()).apply {
-            setEGLConfigChooser(8, 8, 8, 8, 16, 0)
-            setRenderer(glRenderer)
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                CpuInfoTheme {
+                    Box {
+                        AndroidView(
+                            factory = {
+                                glSurfaceView = GLSurfaceView(it).apply {
+                                    setEGLConfigChooser(8, 8, 8, 8, 16, 0)
+                                    setRenderer(glRenderer)
+                                }
+                                glSurfaceView!!
+                            }
+                        )
+                        GpuInfoScreen(
+                            viewModel = viewModel,
+                        )
+                    }
+                }
+            }
         }
-        binding.mainContainer.addView(glSurfaceView)
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val controller = GpuInfoEpoxyController(requireContext())
-        binding.recyclerView.adapter = controller.adapter
-        viewModel.viewState.observe(viewLifecycleOwner, { controller.setData(it) })
     }
 
     override fun onResume() {

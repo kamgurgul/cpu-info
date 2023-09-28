@@ -17,28 +17,25 @@
 package com.kgurgul.cpuinfo.features.information.gpu
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.domain.model.GpuData
 import com.kgurgul.cpuinfo.domain.observable.GpuDataObservable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-/**
- * ViewModel for GPU information. It is using custom SurfaceView to get more GPU details from OpenGL
- *
- * @author kgurgul
- */
 @HiltViewModel
 class GpuInfoViewModel @Inject constructor(
     private val observableGpuData: GpuDataObservable
 ) : ViewModel() {
 
-    val viewState = observableGpuData.observe()
+    val uiStateFlow = observableGpuData.observe()
         .distinctUntilChanged()
-        .map { GpuInfoViewState(it) }
-        .asLiveData(viewModelScope.coroutineContext)
+        .map { UiState(it) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     init {
         observableGpuData(GpuDataObservable.Params())
@@ -47,4 +44,8 @@ class GpuInfoViewModel @Inject constructor(
     fun onGlInfoReceived(glVendor: String?, glRenderer: String?, glExtensions: String?) {
         observableGpuData(GpuDataObservable.Params(glVendor, glRenderer, glExtensions))
     }
+
+    data class UiState(
+        val gpuData: GpuData? = null
+    )
 }

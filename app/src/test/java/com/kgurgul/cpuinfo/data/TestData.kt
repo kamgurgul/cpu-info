@@ -4,6 +4,7 @@ import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.local.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import com.kgurgul.cpuinfo.domain.model.GpuData
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.domain.model.RamData
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
@@ -87,5 +88,13 @@ object TestData {
         available = 50,
         availablePercentage = 50,
         threshold = 50,
+    )
+
+    val gpuData = GpuData(
+        vulkanVersion = "vulkanVersion",
+        glesVersion = "glEsVersion",
+        glVendor = "glVendor",
+        glRenderer = "glRenderer",
+        glExtensions = "glExtensions",
     )
 }
