@@ -60,7 +60,7 @@ object Libs {
 
         object Compose {
             const val compilerVersion = "1.5.3"
-            const val bom = "androidx.compose:compose-bom:2023.09.01"
+            const val bom = "androidx.compose:compose-bom:2023.09.02"
             const val material = "androidx.compose.material:material"
             const val material3 = "androidx.compose.material3:material3"
             const val animations = "androidx.compose.animation:animation"
