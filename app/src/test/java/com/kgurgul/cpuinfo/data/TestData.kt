@@ -7,6 +7,7 @@ import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.GpuData
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.domain.model.RamData
+import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import org.mockito.kotlin.mock
 
@@ -96,5 +97,14 @@ object TestData {
         glVendor = "glVendor",
         glRenderer = "glRenderer",
         glExtensions = "glExtensions",
+    )
+
+    val storageData = listOf(
+        StorageItem(
+            labelRes = R.string.internal,
+            iconRes = R.drawable.root,
+            storageTotal = 100,
+            storageUsed = 50,
+        )
     )
 }
