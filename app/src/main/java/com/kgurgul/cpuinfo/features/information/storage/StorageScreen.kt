@@ -38,7 +38,7 @@ fun StorageScreen(
     ) {
         items(
             uiState.storageItems,
-            key = { it.labelRes }
+            key = { it.iconRes }
         ) { storageItem ->
             val label = stringResource(id = storageItem.labelRes)
             val totalReadable = Utils.humanReadableByteCount(storageItem.storageTotal)
