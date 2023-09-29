@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.shape.ZeroCornerSize
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,9 +27,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
@@ -38,6 +42,7 @@ fun CpuProgressBar(
     progress: Float,
     modifier: Modifier = Modifier,
     minMaxValues: Pair<String, String>? = null,
+    prefixImageRes: Int? = null,
     contentColor: Color = MaterialTheme.colorScheme.onBackground,
     progressHeight: Dp = 16.dp,
 ) {
@@ -64,18 +69,46 @@ fun CpuProgressBar(
                 animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
                 label = "__progressAnimation"
             )
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .requiredHeight(progressHeight)
-                    .clip(MaterialTheme.shapes.small),
-                progress = progressAnimation,
-                color = MaterialTheme.colorScheme.tertiary,
-                trackColor = Color.Unspecified,
-            )
-            LaunchedEffect(progress) {
-                currentProgress = progress
+            Row {
+                prefixImageRes?.let {
+                    Icon(
+                        painter = painterResource(id = it),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.inverseOnSurface,
+                        modifier = Modifier
+                            .requiredSize(progressHeight)
+                            .background(
+                                color = MaterialTheme.colorScheme.inverseSurface,
+                                shape = MaterialTheme.shapes.small.copy(
+                                    topEnd = ZeroCornerSize,
+                                    bottomEnd = ZeroCornerSize,
+                                ),
+                            )
+                            .padding(spacingSmall),
+                    )
+                }
+                val progressShape = if (prefixImageRes != null) {
+                    MaterialTheme.shapes.small.copy(
+                        topStart = ZeroCornerSize,
+                        bottomStart = ZeroCornerSize,
+                    )
+                } else {
+                    MaterialTheme.shapes.small
+                }
+                LinearProgressIndicator(
+                    progress = progressAnimation,
+                    color = MaterialTheme.colorScheme.tertiary,
+                    trackColor = Color.Unspecified,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .requiredHeight(progressHeight)
+                        .clip(progressShape),
+                )
+                LaunchedEffect(progress) {
+                    currentProgress = progress
+                }
             }
+
         }
         minMaxValues?.let {
             Spacer(modifier = Modifier.requiredSize(spacingXSmall))
@@ -104,8 +137,9 @@ fun CpuProgressBarPreview() {
     CpuInfoTheme {
         CpuProgressBar(
             label = "Label",
-            progress = 0.5f,
+            progress = 0.1f,
             minMaxValues = "Min" to "Max",
+            prefixImageRes = R.drawable.root,
         )
     }
 }

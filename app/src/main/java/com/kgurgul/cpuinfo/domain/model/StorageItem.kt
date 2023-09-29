@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.features.information.storage
+package com.kgurgul.cpuinfo.domain.model
 
-/**
- * Container for storage items (e.g. Internal, External, SD)
- *
- * @author kgurgul
- */
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+
 data class StorageItem(
-    val type: String,
-    val iconRes: Int,
+    @StringRes val labelRes: Int,
+    @DrawableRes val iconRes: Int,
     val storageTotal: Long,
-    val storageUsed: Long
+    val storageUsed: Long,
 )

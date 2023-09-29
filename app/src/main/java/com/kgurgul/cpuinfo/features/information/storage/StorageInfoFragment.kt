@@ -20,66 +20,70 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class StorageInfoFragment : BaseRvFragment() {
-
-    private var receiverRegistered = false
+class StorageInfoFragment : Fragment() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val mountedReceiver = object : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
             handler.removeCallbacksAndMessages(null)
-            handler.postDelayed({ viewModel.refreshSdCard() }, 2000)
+            handler.postDelayed({ viewModel.onRefreshStorage() }, 2000)
         }
     }
 
     private val viewModel: StorageInfoViewModel by viewModels()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                CpuInfoTheme {
+                    StorageScreen(
+                        viewModel = viewModel,
+                    )
+                }
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-
-        // Register events connected with inserting SD card
-        if (!receiverRegistered) {
-            receiverRegistered = true
-            val filter = IntentFilter()
-            filter.addAction(Intent.ACTION_MEDIA_BAD_REMOVAL)
-            filter.addAction(Intent.ACTION_MEDIA_CHECKING)
-            filter.addAction(Intent.ACTION_MEDIA_EJECT)
-            filter.addAction(Intent.ACTION_MEDIA_MOUNTED)
-            filter.addAction(Intent.ACTION_MEDIA_NOFS)
-            filter.addAction(Intent.ACTION_MEDIA_REMOVED)
-            filter.addAction(Intent.ACTION_MEDIA_SHARED)
-            filter.addAction(Intent.ACTION_MEDIA_UNMOUNTABLE)
-            filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED)
-            filter.addDataScheme("file")
-            requireActivity().registerReceiver(mountedReceiver, filter)
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_MEDIA_BAD_REMOVAL)
+            addAction(Intent.ACTION_MEDIA_CHECKING)
+            addAction(Intent.ACTION_MEDIA_EJECT)
+            addAction(Intent.ACTION_MEDIA_MOUNTED)
+            addAction(Intent.ACTION_MEDIA_NOFS)
+            addAction(Intent.ACTION_MEDIA_REMOVED)
+            addAction(Intent.ACTION_MEDIA_SHARED)
+            addAction(Intent.ACTION_MEDIA_UNMOUNTABLE)
+            addAction(Intent.ACTION_MEDIA_UNMOUNTED)
+            addDataScheme("file")
         }
+        requireActivity().registerReceiver(mountedReceiver, filter)
     }
 
     override fun onPause() {
-        if (receiverRegistered) {
-            receiverRegistered = false
-            requireActivity().unregisterReceiver(mountedReceiver)
-            handler.removeCallbacksAndMessages(null)
-        }
-
+        requireActivity().unregisterReceiver(mountedReceiver)
+        handler.removeCallbacksAndMessages(null)
         super.onPause()
-    }
-
-    override fun setupRecyclerViewAdapter() {
-        val storageAdapter = StorageAdapter(viewModel.listLiveData)
-        viewModel.listLiveData.listStatusChangeNotificator.observe(
-            viewLifecycleOwner,
-            ListLiveDataObserver(storageAdapter)
-        )
-        recyclerView.adapter = storageAdapter
     }
 }
