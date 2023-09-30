@@ -21,8 +21,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.reactivex.rxjava3.core.Maybe
-import io.reactivex.rxjava3.core.Observable
 import java.io.File
 import javax.inject.Inject
 
@@ -65,41 +63,11 @@ class TemperatureProvider @Inject constructor(
     }
 
     /**
-     * Scan device looking for CPU temperature in all well known locations
-     */
-    fun getCpuTemperatureFinder(): Maybe<CpuTemperatureResult> {
-        return Observable.fromIterable(CPU_TEMP_FILE_PATHS)
-            .map { path ->
-                val temp = File(path).bufferedReader().use { it.readLine().toDoubleOrNull() }
-                var validPath = ""
-                var currentTemp = 0.0
-                if (temp != null) {
-                    // Verify if we are in normal temperature range
-                    if (isTemperatureValid(temp)) {
-                        validPath = path
-                        currentTemp = temp
-                    } else if (isTemperatureValid(temp / 1000)) {
-                        validPath = path
-                        currentTemp = temp / 1000
-                    }
-                }
-                CpuTemperatureResult(validPath, currentTemp.toInt())
-            }
-            .filter { (filePath) -> filePath.isNotEmpty() }
-            .firstElement()
-    }
-
-    /**
      * Check if passed temperature is in normal range: -30 - 250 Celsius
      *
      * @param temp current temperature
      */
     private fun isTemperatureValid(temp: Double): Boolean = temp in -30.0..250.0
-
-    /**
-     * Container for temperature value and path
-     */
-    data class CpuTemperatureResult(val filePath: String = "", val temp: Int = 0)
 
     companion object {
         // Ugly but currently the easiest working solution is to search well known locations

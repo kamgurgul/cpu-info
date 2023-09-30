@@ -17,10 +17,6 @@ abstract class AppModuleBinds {
 
     @Binds
     @IntoSet
-    abstract fun provideRxInitializer(bind: RxInitializer): AppInitializer
-
-    @Binds
-    @IntoSet
     abstract fun provideTimberInitializer(bind: TimberInitializer): AppInitializer
 
     @Binds

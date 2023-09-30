@@ -1,6 +1,6 @@
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:8.1.1"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:8.1.2"
 
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 
@@ -91,11 +91,6 @@ object Libs {
     object Google {
         const val material = "com.google.android.material:material:1.9.0"
         const val gson = "com.google.code.gson:gson:2.10.1"
-    }
-
-    object Rx {
-        const val rxJava = "io.reactivex.rxjava3:rxjava:3.1.7"
-        const val rxAndroid = "io.reactivex.rxjava3:rxandroid:3.0.2"
     }
 
     object Hilt {

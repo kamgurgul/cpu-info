@@ -24,7 +24,6 @@ TODO
 * Migrate to version catalog
 * Unify architecture - add interactors and data providers
 * Replace layouts with Compose
-* Replace RxJava with coroutines
 * Tests
 * Add benchmarks
 * Add translations framework

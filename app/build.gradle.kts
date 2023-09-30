@@ -142,9 +142,6 @@ dependencies {
     implementation(Libs.Google.material)
     implementation(Libs.Google.gson)
 
-    implementation(Libs.Rx.rxJava)
-    implementation(Libs.Rx.rxAndroid)
-
     implementation(Libs.Coroutines.core)
     implementation(Libs.Coroutines.android)
 
