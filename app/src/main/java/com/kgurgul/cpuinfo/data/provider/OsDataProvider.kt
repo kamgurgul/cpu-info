@@ -1,23 +1,6 @@
-/*
- * Copyright 2017 KG Soft
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.kgurgul.cpuinfo.features.information.android
+package com.kgurgul.cpuinfo.data.provider
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
 import android.content.pm.PackageManager
@@ -25,91 +8,72 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import androidx.lifecycle.AndroidViewModel
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
-import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.security.Security
 import javax.inject.Inject
 
-@HiltViewModel
-class AndroidInfoViewModel @Inject constructor(
-    application: Application,
+class OsDataProvider @Inject constructor(
     private val resources: Resources,
     private val contentResolver: ContentResolver,
-    private val devicePolicyManager: DevicePolicyManager
-) : AndroidViewModel(application) {
+    private val packageManager: PackageManager,
+    private val devicePolicyManager: DevicePolicyManager,
+) {
 
-    val listLiveData = ListLiveData<Pair<String, String>>()
-
-    init {
-        getData()
-    }
-
-    /**
-     * Get all data connected with Android OS
-     */
-    private fun getData() {
-        if (listLiveData.isNotEmpty()) {
-            return
+    fun getData(): List<Pair<String, String>> {
+        return buildList {
+            addAll(getBuildData())
+            getAndroidIdData()?.let { add(it) }
+            getGsfAndroidId()?.let { add(it) }
+            add(resources.getString(R.string.rooted) to getYesNoString(isDeviceRooted()))
+            getDeviceEncryptionStatus()?.let { add(it) }
+            add(getStrongBoxData())
+            addAll(getSecurityData())
         }
-        getBuildData()
-        getAndroidIdData()
-        getGsfAndroidId()
-        getRootData()
-        getDeviceEncryptionStatus()
-        getStrongBoxData()
-        getSecurityData()
     }
 
     /**
      * Retrieve data from static Build class and system property "java.vm.version"
      */
     @SuppressLint("HardwareIds")
-    private fun getBuildData() {
-        listLiveData.add(Pair(resources.getString(R.string.version), Build.VERSION.RELEASE))
-        listLiveData.add(Pair("SDK", Build.VERSION.SDK_INT.toString()))
-        listLiveData.add(Pair(resources.getString(R.string.codename), Build.VERSION.CODENAME))
-        listLiveData.add(Pair("Bootloader", Build.BOOTLOADER))
-        listLiveData.add(Pair(resources.getString(R.string.brand), Build.BRAND))
-        listLiveData.add(Pair(resources.getString(R.string.model), Build.MODEL))
-        listLiveData.add(Pair(resources.getString(R.string.manufacturer), Build.MANUFACTURER))
-        listLiveData.add(Pair(resources.getString(R.string.board), Build.BOARD))
-        listLiveData.add(Pair("VM", getVmVersion()))
-        listLiveData.add(Pair("Kernel", System.getProperty("os.version") ?: ""))
-        @Suppress("DEPRECATION")
-        listLiveData.add(Pair(resources.getString(R.string.serial), Build.SERIAL))
+    private fun getBuildData(): List<Pair<String, String>> {
+        return buildList {
+            add(resources.getString(R.string.version) to Build.VERSION.RELEASE)
+            add(resources.getString(R.string.sdk) to Build.VERSION.SDK_INT.toString())
+            add(resources.getString(R.string.codename) to Build.VERSION.CODENAME)
+            add(resources.getString(R.string.bootloader) to Build.BOOTLOADER)
+            add(resources.getString(R.string.brand) to Build.BRAND)
+            add(resources.getString(R.string.model) to Build.MODEL)
+            add(resources.getString(R.string.manufacturer) to Build.MANUFACTURER)
+            add(resources.getString(R.string.board) to Build.BOARD)
+            add(resources.getString(R.string.vm) to getVmVersion())
+            add(resources.getString(R.string.kernel) to (System.getProperty("os.version") ?: ""))
+            @Suppress("DEPRECATION")
+            add(resources.getString(R.string.serial) to Build.SERIAL)
+        }
     }
 
     /**
      * Get AndroidID. Keep in mind that from Android O it is unique per app.
      */
     @SuppressLint("HardwareIds")
-    private fun getAndroidIdData() {
+    private fun getAndroidIdData(): Pair<String, String>? {
         val androidId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
-        if (androidId != null) {
-            listLiveData.add(Pair("Android ID", androidId))
+        return if (androidId != null) {
+            resources.getString(R.string.android_id) to androidId
+        } else {
+            null
         }
-    }
-
-    /**
-     * Add information if device is rooted
-     */
-    private fun getRootData() {
-        val isRootedStr = if (isDeviceRooted()) resources.getString(R.string.yes) else
-            resources.getString(R.string.no)
-        listLiveData.add(Pair(resources.getString(R.string.rooted), isRootedStr))
     }
 
     /**
      * Add information about device encrypted storage status
      */
     @Suppress("DEPRECATION")
-    private fun getDeviceEncryptionStatus() {
-        try {
+    private fun getDeviceEncryptionStatus(): Pair<String, String>? {
+        return try {
             val statusText = when (devicePolicyManager.storageEncryptionStatus) {
                 DevicePolicyManager.ENCRYPTION_STATUS_UNSUPPORTED -> ENCRYPTION_STATUS_UNSUPPORTED
                 DevicePolicyManager.ENCRYPTION_STATUS_INACTIVE -> ENCRYPTION_STATUS_INACTIVE
@@ -120,8 +84,9 @@ class AndroidInfoViewModel @Inject constructor(
 
                 else -> resources.getString(R.string.unknown)
             }
-            listLiveData.add(Pair(resources.getString(R.string.encrypted_storage), statusText))
+            resources.getString(R.string.encrypted_storage) to statusText
         } catch (ignored: Exception) {
+            null
         }
     }
 
@@ -175,39 +140,38 @@ class AndroidInfoViewModel @Inject constructor(
     /**
      * Get information about security providers
      */
-    private fun getSecurityData() {
+    private fun getSecurityData(): List<Pair<String, String>> {
         val securityProviders = Security.getProviders().map { Pair(it.name, it.version.toString()) }
-        if (securityProviders.isNotEmpty()) {
-            listLiveData.add(Pair(resources.getString(R.string.security_providers), ""))
-            listLiveData.addAll(securityProviders)
+        return buildList {
+            if (securityProviders.isNotEmpty()) {
+                add(resources.getString(R.string.security_providers) to "")
+                addAll(securityProviders)
+            }
         }
     }
 
-    private fun getGsfAndroidId() {
+    private fun getGsfAndroidId(): Pair<String, String>? {
         val uri = Uri.parse("content://com.google.android.gsf.gservices")
         val idKey = "android_id"
         val params = arrayOf(idKey)
-        try {
-            getApplication<Application>().contentResolver.query(
-                uri, null, null, params, null
-            )?.use {
+        return try {
+            contentResolver.query(uri, null, null, params, null)?.use {
                 it.moveToFirst()
                 val hexId = java.lang.Long.toHexString(it.getString(1).toLong())
-                listLiveData.add(Pair("Google Services Framework ID", hexId))
+                resources.getString(R.string.google_services_framework_id) to hexId
             }
         } catch (e: Exception) {
-            // Do nothing
+            null
         }
     }
 
-    private fun getStrongBoxData() {
+    private fun getStrongBoxData(): Pair<String, String> {
         val hasStrongBox = if (Build.VERSION.SDK_INT >= 28) {
-            getApplication<Application>().packageManager
-                .hasSystemFeature(PackageManager.FEATURE_STRONGBOX_KEYSTORE)
+            packageManager.hasSystemFeature(PackageManager.FEATURE_STRONGBOX_KEYSTORE)
         } else {
             false
         }
-        listLiveData.add(Pair("StrongBox", getYesNoString(hasStrongBox)))
+        return resources.getString(R.string.strongbox) to getYesNoString(hasStrongBox)
     }
 
     private fun getYesNoString(value: Boolean) = if (value) {
