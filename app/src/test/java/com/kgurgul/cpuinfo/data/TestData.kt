@@ -107,4 +107,9 @@ object TestData {
             storageUsed = 50,
         )
     )
+
+    val itemRowData = listOf(
+        "test" to "",
+        "test" to "test",
+    )
 }

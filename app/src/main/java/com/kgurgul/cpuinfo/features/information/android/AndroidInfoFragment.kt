@@ -16,30 +16,36 @@
 
 package com.kgurgul.cpuinfo.features.information.android
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
-import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
-import com.kgurgul.cpuinfo.utils.DividerItemDecoration
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AndroidInfoFragment : BaseRvFragment() {
+class AndroidInfoFragment : Fragment() {
 
     private val viewModel: AndroidInfoViewModel by viewModels()
 
-    private lateinit var infoItemsAdapter: InfoItemsAdapter
-
-    override fun setupRecyclerViewAdapter() {
-        infoItemsAdapter = InfoItemsAdapter(
-            viewModel.listLiveData,
-            InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT, onClickListener = this
-        )
-        viewModel.listLiveData.listStatusChangeNotificator.observe(
-            viewLifecycleOwner,
-            ListLiveDataObserver(infoItemsAdapter)
-        )
-        recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
-        recyclerView.adapter = infoItemsAdapter
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                CpuInfoTheme {
+                    AndroidInfoScreen(
+                        viewModel = viewModel
+                    )
+                }
+            }
+        }
     }
 }
