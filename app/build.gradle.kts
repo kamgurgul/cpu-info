@@ -148,10 +148,6 @@ dependencies {
     implementation(Libs.Hilt.android)
     kapt(Libs.Hilt.androidCompiler)
 
-    implementation(Libs.Airbnb.epoxy)
-    implementation(Libs.Airbnb.dataBinding)
-    kapt(Libs.Airbnb.processor)
-
     implementation(Libs.timber)
     implementation(Libs.relinker)
     implementation(Libs.coil)

@@ -101,13 +101,6 @@ object Libs {
         const val androidTesting = "com.google.dagger:hilt-android-testing:$version"
     }
 
-    object Airbnb {
-        private const val version = "5.1.3"
-        const val epoxy = "com.airbnb.android:epoxy:$version"
-        const val processor = "com.airbnb.android:epoxy-processor:$version"
-        const val dataBinding = "com.airbnb.android:epoxy-databinding:$version"
-    }
-
     object Mockito {
         const val core = "org.mockito:mockito-core:5.5.0"
         const val kotlin = "org.mockito.kotlin:mockito-kotlin:5.1.0"
