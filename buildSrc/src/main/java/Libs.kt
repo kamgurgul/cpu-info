@@ -91,6 +91,8 @@ object Libs {
     object Google {
         const val material = "com.google.android.material:material:1.9.0"
         const val gson = "com.google.code.gson:gson:2.10.1"
+        const val kspPluginVersion = "1.9.10-1.0.13"
+        const val kspPlugin = "com.google.devtools.ksp"
     }
 
     object Hilt {

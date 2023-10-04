@@ -1,15 +1,10 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    id(Libs.Google.kspPlugin)
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
     id(Libs.Kotlin.koverPlugin)
-    kotlin("kapt")
-}
-
-kapt {
-    correctErrorTypes = true
-    useBuildCache = true
 }
 
 android {
@@ -146,7 +141,7 @@ dependencies {
     implementation(Libs.Coroutines.android)
 
     implementation(Libs.Hilt.android)
-    kapt(Libs.Hilt.androidCompiler)
+    ksp(Libs.Hilt.androidCompiler)
 
     implementation(Libs.timber)
     implementation(Libs.relinker)
@@ -161,7 +156,7 @@ dependencies {
     testImplementation(Libs.Hilt.androidTesting)
     testImplementation(Libs.Mockito.core)
     testImplementation(Libs.Mockito.kotlin)
-    kaptTest(Libs.Hilt.androidCompiler)
+    kspTest(Libs.Hilt.androidCompiler)
 
     androidTestImplementation(Libs.AndroidX.Test.runner)
     androidTestImplementation(Libs.AndroidX.Test.rules)
@@ -170,7 +165,7 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
     androidTestImplementation(Libs.AndroidX.Compose.uiTest)
     androidTestImplementation(Libs.Hilt.androidTesting)
-    kaptAndroidTest(Libs.Hilt.androidCompiler)
+    kspAndroidTest(Libs.Hilt.androidCompiler)
 
     androidTestUtil(Libs.AndroidX.Test.orchestrator)
 }
