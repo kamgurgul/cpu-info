@@ -105,7 +105,7 @@ fun CpuProgressBar(
                         .clip(progressShape),
                 )
                 LaunchedEffect(progress) {
-                    currentProgress = progress
+                    currentProgress = if (progress.isNaN()) 0.0f else progress
                 }
             }
 
