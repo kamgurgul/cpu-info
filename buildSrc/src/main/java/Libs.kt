@@ -17,7 +17,7 @@ object Libs {
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
 
-        const val immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
+        const val immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6"
 
         const val koverVersion = "0.7.3"
         const val koverPlugin = "org.jetbrains.kotlinx.kover"
@@ -104,7 +104,7 @@ object Libs {
     }
 
     object Mockito {
-        const val core = "org.mockito:mockito-core:5.5.0"
+        const val core = "org.mockito:mockito-core:5.6.0"
         const val kotlin = "org.mockito.kotlin:mockito-kotlin:5.1.0"
     }
 
