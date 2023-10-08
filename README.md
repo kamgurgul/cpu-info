@@ -21,11 +21,11 @@ alt='Get it on GitHub' height="80">](https://github.com/kamgurgul/cpu-info/relea
 TODO
 ====
 
-* Migrate to version catalog
 * Unify architecture - add interactors and data providers
 * Replace layouts with Compose
-* Tests
-* Add benchmarks
+* Unit and UI tests
+* Migrate to version catalog
+* Add device benchmarks
 * Add translations framework
 * Migrate to Material 3 with dynamic colors
 
