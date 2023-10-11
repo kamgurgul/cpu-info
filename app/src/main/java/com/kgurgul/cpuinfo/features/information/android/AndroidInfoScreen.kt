@@ -2,17 +2,13 @@ package com.kgurgul.cpuinfo.features.information.android
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kgurgul.cpuinfo.ui.components.CpuDivider
-import com.kgurgul.cpuinfo.ui.components.ItemValueRow
+import com.kgurgul.cpuinfo.features.information.base.InformationRow
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 
@@ -38,21 +34,11 @@ fun AndroidInfoScreen(
             uiState.items,
             key = { _, pair -> pair.first }
         ) { index, (title, value) ->
-            val contentColor = if (value.isEmpty()) {
-                MaterialTheme.colorScheme.tertiary
-            } else {
-                MaterialTheme.colorScheme.onBackground
-            }
-            ItemValueRow(
+            InformationRow(
                 title = title,
                 value = value,
-                contentColor = contentColor,
+                isLastItem = index == uiState.items.lastIndex
             )
-            if (index < uiState.items.lastIndex) {
-                CpuDivider(
-                    modifier = Modifier.padding(top = spacingSmall),
-                )
-            }
         }
     }
 }
