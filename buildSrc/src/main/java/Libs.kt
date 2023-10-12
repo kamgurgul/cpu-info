@@ -19,7 +19,7 @@ object Libs {
 
         const val immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6"
 
-        const val koverVersion = "0.7.3"
+        const val koverVersion = "0.7.4"
         const val koverPlugin = "org.jetbrains.kotlinx.kover"
     }
 
