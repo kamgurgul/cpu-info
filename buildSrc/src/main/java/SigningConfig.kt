@@ -28,9 +28,9 @@ object SigningConfig {
         ) {
             println("Using local.properties for signing")
             releaseProperties
-        } else if (System.getenv(KEY_PATH).isNotEmpty()
-            && System.getenv(KEY_PASS).isNotEmpty()
-            && System.getenv(KEY_ALIAS).isNotEmpty()
+        } else if (!System.getenv(KEY_PATH).isNullOrEmpty()
+            && !System.getenv(KEY_PASS).isNullOrEmpty()
+            && !System.getenv(KEY_ALIAS).isNullOrEmpty()
         ) {
             println("Using system env variables for signing")
             releaseProperties[KEY_PATH] = System.getenv(KEY_PATH)
