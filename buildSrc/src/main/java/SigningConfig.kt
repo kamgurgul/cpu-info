@@ -20,12 +20,22 @@ object SigningConfig {
         try {
             releaseProperties.load(FileInputStream(File(rootDir, "local.properties")))
         } catch (e: Exception) {
-            println("!!!Warning: cannot load local.properties -> using debug!!!")
+            println("Cannot load local.properties")
         }
         return if (releaseProperties.getProperty(KEY_PATH, "").isNotEmpty()
             && releaseProperties.getProperty(KEY_PASS, "").isNotEmpty()
             && releaseProperties.getProperty(KEY_ALIAS, "").isNotEmpty()
         ) {
+            println("Using local.properties for signing")
+            releaseProperties
+        } else if (System.getenv(KEY_PATH).isNotEmpty()
+            && System.getenv(KEY_PASS).isNotEmpty()
+            && System.getenv(KEY_ALIAS).isNotEmpty()
+        ) {
+            println("Using system env variables for signing")
+            releaseProperties[KEY_PATH] = System.getenv(KEY_PATH)
+            releaseProperties[KEY_PASS] = System.getenv(KEY_PASS)
+            releaseProperties[KEY_ALIAS] = System.getenv(KEY_ALIAS)
             releaseProperties
         } else {
             println("!!!Warning: release keystore not found -> using debug!!!")
