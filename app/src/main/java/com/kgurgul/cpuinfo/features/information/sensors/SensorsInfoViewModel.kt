@@ -138,17 +138,20 @@ class SensorsInfoViewModel @Inject constructor(
                 data = "Device temperature=${event.values[0].round1()}°C"
         }
 
-        // TODO: Multiline support for this kind of data is necessary
         when (sensorType) {
             Sensor.TYPE_GYROSCOPE_UNCALIBRATED ->
                 data = "X=${event.values[0].round1()}rad/s  Y=${
                     event.values[1].round1()
                 }rad/s  Z=${
                     event.values[2].round1()
-                }rad/s" /*\nEstimated drift: X=${
-                    event.values[3].round1() }rad/s  Y=${
-                    event.values[4].round1() }rad/s  Z=${
-                    event.values[5].round1() }rad/s"*/
+                }rad/s\nEstimated drift: X=${
+                    event.values[3].round1()
+                }rad/s  Y=${
+                    event.values[4].round1()
+                }rad/s  Z=${
+                    event.values[5].round1()
+                }rad/s"
+
             Sensor.TYPE_GAME_ROTATION_VECTOR ->
                 data = "X=${event.values[0].round1()}  Y=${
                     event.values[1].round1()
@@ -159,10 +162,13 @@ class SensorsInfoViewModel @Inject constructor(
                     event.values[1].round1()
                 }μT  Z=${
                     event.values[2].round1()
-                }μT" /*\nIron bias: X=${
-                    event.values[3].round1() }μT  Y=${
-                    event.values[4].round1() }μT  Z=${
-                    event.values[5].round1() }μT"*/
+                }μT\nIron bias: X=${
+                    event.values[3].round1()
+                }μT  Y=${
+                    event.values[4].round1()
+                }μT  Z=${
+                    event.values[5].round1()
+                }μT"
 
             Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR ->
                 data = "X=${event.values[0].round1()}  Y=${
