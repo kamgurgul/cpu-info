@@ -21,36 +21,35 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.lifecycle.ViewModel
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveData
 import com.kgurgul.cpuinfo.utils.round1
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-/**
- * ViewModel for sensors data
- *
- * @author kgurgul
- */
 @HiltViewModel
 class SensorsInfoViewModel @Inject constructor(
     private val sensorManager: SensorManager
 ) : ViewModel(), SensorEventListener {
 
-    val listLiveData = ListLiveData<Pair<String, String>>()
+    private val _uiStateFlow = MutableStateFlow(UiState())
+    val uiStateFlow = _uiStateFlow.asStateFlow()
 
     private val sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL)
 
     @Synchronized
     fun startProvidingData() {
-        if (listLiveData.isEmpty()) {
-            listLiveData.addAll(sensorList.map { Pair(it.name, " ") })
+        if (_uiStateFlow.value.sensors.isEmpty()) {
+            _uiStateFlow.update { uiState ->
+                uiState.copy(sensors = sensorList.map { Pair(it.name, " ") })
+            }
         }
-
-        // Start register process on new Thread to avoid UI block
         Thread {
             for (sensor in sensorList) {
                 sensorManager.registerListener(
-                    this, sensor,
+                    this,
+                    sensor,
                     SensorManager.SENSOR_DELAY_NORMAL
                 )
             }
@@ -77,7 +76,13 @@ class SensorsInfoViewModel @Inject constructor(
     @Synchronized
     private fun updateSensorInfo(event: SensorEvent) {
         val updatedRowId = sensorList.indexOf(event.sensor)
-        listLiveData[updatedRowId] = Pair(event.sensor.name, getSensorData(event))
+        _uiStateFlow.update { uiState ->
+            uiState.copy(
+                sensors = uiState.sensors.toMutableList().apply {
+                    set(updatedRowId, Pair(event.sensor.name, getSensorData(event)))
+                }
+            )
+        }
     }
 
     /**
@@ -167,4 +172,8 @@ class SensorsInfoViewModel @Inject constructor(
 
         return data
     }
+
+    data class UiState(
+        val sensors: List<Pair<String, String>> = emptyList()
+    )
 }

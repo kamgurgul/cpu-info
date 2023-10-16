@@ -16,17 +16,38 @@
 
 package com.kgurgul.cpuinfo.features.information.sensors
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
-import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
-import com.kgurgul.cpuinfo.utils.DividerItemDecoration
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SensorsInfoFragment : BaseRvFragment() {
+class SensorsInfoFragment : Fragment() {
 
     private val viewModel: SensorsInfoViewModel by viewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                CpuInfoTheme {
+                    SensorsInfoScreen(
+                        viewModel = viewModel,
+                    )
+                }
+            }
+        }
+    }
 
     override fun onStart() {
         super.onStart()
@@ -36,18 +57,5 @@ class SensorsInfoFragment : BaseRvFragment() {
     override fun onStop() {
         viewModel.stopProvidingData()
         super.onStop()
-    }
-
-    override fun setupRecyclerViewAdapter() {
-        val infoItemsAdapter = InfoItemsAdapter(
-            viewModel.listLiveData,
-            InfoItemsAdapter.LayoutType.VERTICAL_LAYOUT, onClickListener = this
-        )
-        viewModel.listLiveData.listStatusChangeNotificator.observe(
-            viewLifecycleOwner,
-            ListLiveDataObserver(infoItemsAdapter)
-        )
-        recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
-        recyclerView.adapter = infoItemsAdapter
     }
 }
