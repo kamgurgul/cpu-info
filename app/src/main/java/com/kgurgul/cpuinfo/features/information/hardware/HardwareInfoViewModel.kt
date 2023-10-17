@@ -29,6 +29,7 @@ import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.data.provider.BatteryStatusProvider
 import com.kgurgul.cpuinfo.data.provider.TemperatureProvider
 import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter

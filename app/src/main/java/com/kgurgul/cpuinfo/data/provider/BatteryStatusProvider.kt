@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kgurgul.cpuinfo.features.information.hardware
+package com.kgurgul.cpuinfo.data.provider
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -23,7 +23,6 @@ import android.content.IntentFilter
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Return battery status from ACTION_BATTERY_CHANGED broadcast receiver and capacity from
@@ -31,7 +30,6 @@ import javax.inject.Singleton
  *
  * @author kgurgul
  */
-@Singleton
 class BatteryStatusProvider @Inject constructor(
     @ApplicationContext private val appContext: Context
 ) {
