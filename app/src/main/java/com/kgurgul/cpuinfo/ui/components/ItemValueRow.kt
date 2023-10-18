@@ -26,11 +26,12 @@ fun ItemValueRow(
             .fillMaxWidth()
             .then(modifier),
     ) {
+        val titleWeight = if (value == null) 1f else .4f
         Text(
             text = title,
             style = MaterialTheme.typography.titleSmall,
             color = contentColor,
-            modifier = Modifier.weight(.4f),
+            modifier = Modifier.weight(titleWeight),
         )
         value?.let {
             Spacer(modifier = Modifier.size(spacingXSmall))

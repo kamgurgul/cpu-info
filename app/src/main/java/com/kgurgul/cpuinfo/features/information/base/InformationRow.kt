@@ -20,9 +20,10 @@ fun LazyItemScope.InformationRow(
     } else {
         MaterialTheme.colorScheme.onBackground
     }
+    val nullableValue = value.ifEmpty { null }
     ItemValueRow(
         title = title,
-        value = value,
+        value = nullableValue,
         contentColor = contentColor,
     )
     if (!isLastItem) {

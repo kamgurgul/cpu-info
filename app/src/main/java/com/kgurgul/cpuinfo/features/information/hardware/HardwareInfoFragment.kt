@@ -20,15 +20,19 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.kgurgul.cpuinfo.features.information.base.BaseRvFragment
-import com.kgurgul.cpuinfo.features.information.base.InfoItemsAdapter
-import com.kgurgul.cpuinfo.utils.DividerItemDecoration
-import com.kgurgul.cpuinfo.utils.lifecycleawarelist.ListLiveDataObserver
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HardwareInfoFragment : BaseRvFragment() {
+class HardwareInfoFragment : Fragment() {
 
     private val viewModel: HardwareInfoViewModel by viewModels()
 
@@ -38,29 +42,34 @@ class HardwareInfoFragment : BaseRvFragment() {
         }
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                CpuInfoTheme {
+                    HardwareInfoScreen(
+                        viewModel = viewModel
+                    )
+                }
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        val intentFilter = IntentFilter()
-        intentFilter.addAction("android.intent.action.ACTION_POWER_CONNECTED")
-        intentFilter.addAction("android.intent.action.ACTION_POWER_DISCONNECTED")
+        val intentFilter = IntentFilter().apply {
+            addAction("android.intent.action.ACTION_POWER_CONNECTED")
+            addAction("android.intent.action.ACTION_POWER_DISCONNECTED")
+        }
         requireActivity().registerReceiver(powerReceiver, intentFilter)
     }
 
     override fun onPause() {
         super.onPause()
         requireActivity().unregisterReceiver(powerReceiver)
-    }
-
-    override fun setupRecyclerViewAdapter() {
-        val infoItemsAdapter = InfoItemsAdapter(
-            viewModel.listLiveData,
-            InfoItemsAdapter.LayoutType.HORIZONTAL_LAYOUT, onClickListener = this
-        )
-        viewModel.listLiveData.listStatusChangeNotificator.observe(
-            viewLifecycleOwner,
-            ListLiveDataObserver(infoItemsAdapter)
-        )
-        recyclerView.addItemDecoration(DividerItemDecoration(requireContext()))
-        recyclerView.adapter = infoItemsAdapter
     }
 }
