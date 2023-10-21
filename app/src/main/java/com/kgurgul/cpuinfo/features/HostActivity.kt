@@ -21,7 +21,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -44,7 +43,8 @@ class HostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppThemeBase)
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_host_layout)
+        binding = ActivityHostLayoutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setupEdgeToEdge()
         setupNavigation()
         setSupportActionBar(binding.toolbar)
