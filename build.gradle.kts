@@ -2,31 +2,11 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id(Libs.GradleVersion.plugin) version Libs.GradleVersion.version
-    id(Libs.Kotlin.koverPlugin) version Libs.Kotlin.koverVersion
-    id(Libs.Google.kspPlugin) version Libs.Google.kspPluginVersion apply false
-}
-
-buildscript {
-
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-
-    dependencies {
-        classpath(Libs.androidGradlePlugin)
-        classpath(Libs.Kotlin.gradlePlugin)
-        classpath(Libs.Hilt.gradlePlugin)
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.dependencyUpdate) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.ksp) apply false
 }
 
 subprojects {

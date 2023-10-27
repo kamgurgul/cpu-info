@@ -2,7 +2,4 @@ plugins {
     `kotlin-dsl`
 }
 
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
-}
+group = "com.kgurgul.buildlogic"

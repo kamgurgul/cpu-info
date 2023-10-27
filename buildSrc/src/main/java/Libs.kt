@@ -1,7 +1,5 @@
 object Libs {
 
-    const val androidGradlePlugin = "com.android.tools.build:gradle:8.1.2"
-
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 
     const val relinker = "com.getkeepsafe.relinker:relinker:1.4.5"
@@ -18,9 +16,6 @@ object Libs {
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
 
         const val immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6"
-
-        const val koverVersion = "0.7.4"
-        const val koverPlugin = "org.jetbrains.kotlinx.kover"
     }
 
     object Coroutines {
@@ -91,8 +86,6 @@ object Libs {
     object Google {
         const val material = "com.google.android.material:material:1.9.0"
         const val gson = "com.google.code.gson:gson:2.10.1"
-        const val kspPluginVersion = "1.9.10-1.0.13"
-        const val kspPlugin = "com.google.devtools.ksp"
     }
 
     object Hilt {
@@ -106,10 +99,5 @@ object Libs {
     object Mockito {
         const val core = "org.mockito:mockito-core:5.6.0"
         const val kotlin = "org.mockito.kotlin:mockito-kotlin:5.1.0"
-    }
-
-    object GradleVersion {
-        const val version = "0.49.0"
-        const val plugin = "com.github.ben-manes.versions"
     }
 }
