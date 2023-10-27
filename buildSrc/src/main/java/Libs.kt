@@ -1,23 +1,5 @@
 object Libs {
 
-    const val timber = "com.jakewharton.timber:timber:5.0.1"
-
-    const val relinker = "com.getkeepsafe.relinker:relinker:1.4.5"
-
-    const val junit = "junit:junit:4.13.2"
-
-    const val coil = "io.coil-kt:coil-compose:2.4.0"
-
-    const val turbine = "app.cash.turbine:turbine:1.0.0"
-
-    object Kotlin {
-        private const val version = "1.9.10"
-        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
-        const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
-
-        const val immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6"
-    }
-
     object Coroutines {
         private const val version = "1.7.3"
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"

@@ -100,8 +100,8 @@ android {
 }
 
 dependencies {
-    implementation(Libs.Kotlin.stdlib)
-    implementation(Libs.Kotlin.immutable)
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlinx.immutable)
 
     implementation(Libs.AndroidX.coreKtx)
     implementation(Libs.AndroidX.activityKtx)
@@ -142,13 +142,13 @@ dependencies {
     implementation(Libs.Hilt.android)
     ksp(Libs.Hilt.androidCompiler)
 
-    implementation(Libs.timber)
-    implementation(Libs.relinker)
-    implementation(Libs.coil)
+    implementation(libs.timber)
+    implementation(libs.relinker)
+    implementation(libs.coil)
 
     testImplementation(kotlin("test"))
-    testImplementation(Libs.junit)
-    testImplementation(Libs.turbine)
+    testImplementation(libs.junit)
+    testImplementation(libs.turbine)
     testImplementation(Libs.AndroidX.Test.core)
     testImplementation(Libs.AndroidX.Test.archCoreTesting)
     testImplementation(Libs.Coroutines.test)
