@@ -9,6 +9,8 @@ androidxLifecycleRuntimeCompose = "2.6.2"
 androidxNavigation = "2.7.4"
 coil = "2.4.0"
 dependencyUpdate = "0.49.0"
+googleGson = "2.10.1"
+googleMaterial = "1.9.0"
 hilt = "2.48.1"
 junit = "4.13.2"
 kotlin = "1.9.10"
@@ -16,6 +18,8 @@ kotlinxCoroutines = "1.7.3"
 kotlinxImmutable = "0.3.6"
 kover = "0.7.4"
 ksp = "1.9.10-1.0.13"
+mockitoAndroid = "5.6.0"
+mockitoKotlin = "5.1.0"
 relinker = "1.4.5"
 timber = "5.0.1"
 turbine = "1.0.0"
@@ -36,6 +40,8 @@ androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lif
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 androidx-navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "androidxNavigation" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+google-gson = { group = "com.google.code.gson", name = "gson", version.ref = "googleGson" }
+google-material = { group = "com.google.android.material", name = "material", version.ref = "googleMaterial" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
@@ -44,6 +50,8 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", v
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
+mockito-android = { group = "org.mockito", name = "mockito-android", version.ref = "mockitoAndroid" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
 relinker = { group = "com.getkeepsafe.relinker", name = "relinker", version.ref = "relinker" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }

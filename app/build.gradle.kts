@@ -133,8 +133,8 @@ dependencies {
     implementation(Libs.AndroidX.Navigation.compose)
     implementation(Libs.AndroidX.Navigation.ui)
 
-    implementation(Libs.Google.material)
-    implementation(Libs.Google.gson)
+    implementation(libs.google.material)
+    implementation(libs.google.gson)
 
     implementation(libs.kotlinx.coroutines.android)
 
@@ -152,8 +152,8 @@ dependencies {
     testImplementation(Libs.AndroidX.Test.archCoreTesting)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.hilt.android.testing)
-    testImplementation(Libs.Mockito.core)
-    testImplementation(Libs.Mockito.kotlin)
+    testImplementation(libs.mockito.android)
+    testImplementation(libs.mockito.kotlin)
     kspTest(libs.hilt.compiler)
 
     androidTestImplementation(Libs.AndroidX.Test.runner)

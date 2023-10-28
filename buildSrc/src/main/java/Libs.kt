@@ -57,14 +57,4 @@ object Libs {
             }
         }
     }
-
-    object Google {
-        const val material = "com.google.android.material:material:1.9.0"
-        const val gson = "com.google.code.gson:gson:2.10.1"
-    }
-
-    object Mockito {
-        const val core = "org.mockito:mockito-core:5.6.0"
-        const val kotlin = "org.mockito.kotlin:mockito-kotlin:5.1.0"
-    }
 }
