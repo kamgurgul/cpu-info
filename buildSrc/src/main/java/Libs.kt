@@ -1,12 +1,5 @@
 object Libs {
 
-    object Coroutines {
-        private const val version = "1.7.3"
-        const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
-        const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
-        const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
-    }
-
     object AndroidX {
         const val coreKtx = "androidx.core:core-ktx:1.12.0"
         const val activityKtx = "androidx.activity:activity-compose:1.8.0"
@@ -68,14 +61,6 @@ object Libs {
     object Google {
         const val material = "com.google.android.material:material:1.9.0"
         const val gson = "com.google.code.gson:gson:2.10.1"
-    }
-
-    object Hilt {
-        private const val version = "2.48.1"
-        const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
-        const val android = "com.google.dagger:hilt-android:$version"
-        const val androidCompiler = "com.google.dagger:hilt-android-compiler:$version"
-        const val androidTesting = "com.google.dagger:hilt-android-testing:$version"
     }
 
     object Mockito {

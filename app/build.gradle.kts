@@ -136,11 +136,10 @@ dependencies {
     implementation(Libs.Google.material)
     implementation(Libs.Google.gson)
 
-    implementation(Libs.Coroutines.core)
-    implementation(Libs.Coroutines.android)
+    implementation(libs.kotlinx.coroutines.android)
 
-    implementation(Libs.Hilt.android)
-    ksp(Libs.Hilt.androidCompiler)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.timber)
     implementation(libs.relinker)
@@ -151,11 +150,11 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(Libs.AndroidX.Test.core)
     testImplementation(Libs.AndroidX.Test.archCoreTesting)
-    testImplementation(Libs.Coroutines.test)
-    testImplementation(Libs.Hilt.androidTesting)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.hilt.android.testing)
     testImplementation(Libs.Mockito.core)
     testImplementation(Libs.Mockito.kotlin)
-    kspTest(Libs.Hilt.androidCompiler)
+    kspTest(libs.hilt.compiler)
 
     androidTestImplementation(Libs.AndroidX.Test.runner)
     androidTestImplementation(Libs.AndroidX.Test.rules)
@@ -163,8 +162,8 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Test.Espresso.core)
     androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
     androidTestImplementation(Libs.AndroidX.Compose.uiTest)
-    androidTestImplementation(Libs.Hilt.androidTesting)
-    kspAndroidTest(Libs.Hilt.androidCompiler)
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.compiler)
 
     androidTestUtil(Libs.AndroidX.Test.orchestrator)
 }
