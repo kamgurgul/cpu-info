@@ -28,18 +28,6 @@ object Libs {
             const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
         }
 
-        object Compose {
-            const val compilerVersion = "1.5.3"
-            const val bom = "androidx.compose:compose-bom:2023.10.01"
-            const val material = "androidx.compose.material:material"
-            const val material3 = "androidx.compose.material3:material3"
-            const val animations = "androidx.compose.animation:animation"
-            const val uiTooling = "androidx.compose.ui:ui-tooling"
-            const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
-            const val uiTest = "androidx.compose.ui:ui-test-junit4"
-            const val uiTestManifest = "androidx.compose.ui:ui-test-manifest"
-        }
-
         object Test {
             private const val version = "1.5.0"
             const val core = "androidx.test:core:$version"

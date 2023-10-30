@@ -95,7 +95,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Libs.AndroidX.Compose.compilerVersion
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
 }
 
@@ -119,15 +119,15 @@ dependencies {
     implementation(Libs.AndroidX.Lifecycle.liveDataKtx)
     implementation(Libs.AndroidX.Lifecycle.common)
 
-    val composeBom = platform(Libs.AndroidX.Compose.bom)
+    val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
-    implementation(Libs.AndroidX.Compose.material)
-    implementation(Libs.AndroidX.Compose.material3)
-    implementation(Libs.AndroidX.Compose.animations)
-    implementation(Libs.AndroidX.Compose.uiToolingPreview)
-    debugImplementation(Libs.AndroidX.Compose.uiTooling)
-    debugImplementation(Libs.AndroidX.Compose.uiTestManifest)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.testManifest)
 
     implementation(Libs.AndroidX.Navigation.fragment)
     implementation(Libs.AndroidX.Navigation.compose)
@@ -161,7 +161,7 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Test.jUnitExt)
     androidTestImplementation(Libs.AndroidX.Test.Espresso.core)
     androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
-    androidTestImplementation(Libs.AndroidX.Compose.uiTest)
+    androidTestImplementation(libs.androidx.compose.ui.test)
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.compiler)
 
