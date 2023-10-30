@@ -147,24 +147,24 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(libs.junit)
     testImplementation(libs.turbine)
-    testImplementation(Libs.AndroidX.Test.core)
-    testImplementation(Libs.AndroidX.Test.archCoreTesting)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.arch.core.testing)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.mockito.android)
     testImplementation(libs.mockito.kotlin)
     kspTest(libs.hilt.compiler)
 
-    androidTestImplementation(Libs.AndroidX.Test.runner)
-    androidTestImplementation(Libs.AndroidX.Test.rules)
-    androidTestImplementation(Libs.AndroidX.Test.jUnitExt)
-    androidTestImplementation(Libs.AndroidX.Test.Espresso.core)
-    androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.test.espresso.contrib)
     androidTestImplementation(libs.androidx.compose.ui.test)
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.compiler)
 
-    androidTestUtil(Libs.AndroidX.Test.orchestrator)
+    androidTestUtil(libs.androidx.test.orchestrator)
 }
 
 koverReport {
