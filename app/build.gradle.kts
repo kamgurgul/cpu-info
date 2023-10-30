@@ -114,10 +114,9 @@ dependencies {
     implementation(Libs.AndroidX.viewPager2)
     implementation(Libs.AndroidX.datastorePreferences)
 
-    implementation(Libs.AndroidX.Lifecycle.viewModelKtx)
-    implementation(Libs.AndroidX.Lifecycle.runtimeCompose)
-    implementation(Libs.AndroidX.Lifecycle.liveDataKtx)
-    implementation(Libs.AndroidX.Lifecycle.common)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.liveData)
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
@@ -129,9 +128,9 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.testManifest)
 
-    implementation(Libs.AndroidX.Navigation.fragment)
-    implementation(Libs.AndroidX.Navigation.compose)
-    implementation(Libs.AndroidX.Navigation.ui)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
 
     implementation(libs.google.material)
     implementation(libs.google.gson)

@@ -12,22 +12,6 @@ object Libs {
         const val viewPager2 = "androidx.viewpager2:viewpager2:1.0.0"
         const val datastorePreferences = "androidx.datastore:datastore-preferences:1.0.0"
 
-        object Lifecycle {
-            private const val version = "2.6.2"
-            const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
-            const val runtimeCompose = "androidx.lifecycle:lifecycle-runtime-compose:$version"
-            const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$version"
-            const val common = "androidx.lifecycle:lifecycle-common-java8:$version"
-        }
-
-        object Navigation {
-            private const val version = "2.7.4"
-            const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
-            const val compose = "androidx.navigation:navigation-compose:$version"
-            const val ui = "androidx.navigation:navigation-ui-ktx:$version"
-            const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
-        }
-
         object Test {
             private const val version = "1.5.0"
             const val core = "androidx.test:core:$version"
