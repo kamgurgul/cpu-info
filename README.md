@@ -24,7 +24,6 @@ TODO
 * Unify architecture - add interactors and data providers
 * Replace layouts with Compose
 * Unit and UI tests
-* Migrate to version catalog
 * Add device benchmarks
 * Add translations framework
 * Migrate to Material 3 with dynamic colors
