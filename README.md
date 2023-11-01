@@ -23,9 +23,8 @@ TODO
 
 * Replace layouts with Compose
 * Unit and UI tests
-* Add device benchmarks
 * Add translations framework
-* Migrate to Material 3 with dynamic colors
+* Add device benchmarks
 
 Alternative stores
 ==================
