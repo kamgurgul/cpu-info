@@ -21,7 +21,6 @@ alt='Get it on GitHub' height="80">](https://github.com/kamgurgul/cpu-info/relea
 TODO
 ====
 
-* Unify architecture - add interactors and data providers
 * Replace layouts with Compose
 * Unit and UI tests
 * Add device benchmarks
