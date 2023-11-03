@@ -1,10 +1,7 @@
 package com.kgurgul.cpuinfo.features.information
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
@@ -16,11 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoScreen
+import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -34,6 +31,7 @@ fun InfoContainerScreen() {
         ScrollableTabRow(
             selectedTabIndex = pagerState.currentPage,
             edgePadding = 0.dp,
+            divider = {},
             contentColor = MaterialTheme.colorScheme.onSurface,
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
@@ -59,14 +57,10 @@ fun InfoContainerScreen() {
         HorizontalPager(
             state = pagerState,
             pageContent = {
-                Text(
-                    text = tabTitles[it],
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .background(Color.LightGray)
-                        .fillMaxWidth()
-                        .padding(32.dp)
-                )
+                when (it) {
+                    CPU_POS -> CpuInfoScreen()
+                    GPU_POS -> GpuInfoScreen()
+                }
             }
         )
     }
@@ -96,4 +90,4 @@ private const val ANDROID_POS = 5
 private const val HARDWARE_POS = 6
 private const val SENSORS_POS = 7
 
-private const val INFO_PAGE_AMOUNT = 8
+private const val INFO_PAGE_AMOUNT = 2

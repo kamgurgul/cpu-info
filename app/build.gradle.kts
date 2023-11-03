@@ -109,6 +109,7 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.fragment)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.multidex)
     implementation(libs.androidx.preference)
     implementation(libs.androidx.viewPager2)

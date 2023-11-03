@@ -3,6 +3,7 @@ package com.kgurgul.cpuinfo.features.information.cpu
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -10,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.CpuData
@@ -20,7 +22,7 @@ import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 
 @Composable
-fun CpuInfoScreen(viewModel: CpuInfoViewModel) {
+fun CpuInfoScreen(viewModel: CpuInfoViewModel = hiltViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     CpuInfoScreen(
         uiState = uiState,
@@ -32,6 +34,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
     LazyColumn(
         contentPadding = PaddingValues(spacingSmall),
         verticalArrangement = Arrangement.spacedBy(spacingSmall),
+        modifier = Modifier.fillMaxSize(),
     ) {
         uiState.cpuData?.let { cpuData ->
             cpuData.frequencies.forEachIndexed { i, frequency ->
