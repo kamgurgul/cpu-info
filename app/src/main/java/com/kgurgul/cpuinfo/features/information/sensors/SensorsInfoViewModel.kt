@@ -38,7 +38,6 @@ class SensorsInfoViewModel @Inject constructor(
 
     private val sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL)
 
-    @Synchronized
     fun startProvidingData() {
         if (_uiStateFlow.value.sensors.isEmpty()) {
             _uiStateFlow.update { uiState ->
