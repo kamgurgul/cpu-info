@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -23,7 +24,7 @@ import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 
 @Composable
 fun SensorsInfoScreen(
-    viewModel: SensorsInfoViewModel,
+    viewModel: SensorsInfoViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     SensorsInfoScreen(

@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -14,7 +15,7 @@ import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 
 @Composable
 fun AndroidInfoScreen(
-    viewModel: AndroidInfoViewModel,
+    viewModel: AndroidInfoViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     AndroidInfoScreen(

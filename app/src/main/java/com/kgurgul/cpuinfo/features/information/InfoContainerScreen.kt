@@ -16,8 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.features.information.android.AndroidInfoScreen
 import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoScreen
 import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoScreen
+import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoScreen
+import com.kgurgul.cpuinfo.features.information.ram.RamInfoScreen
+import com.kgurgul.cpuinfo.features.information.screen.ScreenInfoScreen
+import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
+import com.kgurgul.cpuinfo.features.information.storage.StorageScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -60,6 +66,13 @@ fun InfoContainerScreen() {
                 when (it) {
                     CPU_POS -> CpuInfoScreen()
                     GPU_POS -> GpuInfoScreen()
+                    RAM_POS -> RamInfoScreen()
+                    STORAGE_POS -> StorageScreen()
+                    SCREEN_POS -> ScreenInfoScreen()
+                    ANDROID_POS -> AndroidInfoScreen()
+                    HARDWARE_POS -> HardwareInfoScreen()
+                    SENSORS_POS -> SensorsInfoScreen()
+                    else -> throw IllegalArgumentException("Unknown position")
                 }
             }
         )
@@ -90,4 +103,4 @@ private const val ANDROID_POS = 5
 private const val HARDWARE_POS = 6
 private const val SENSORS_POS = 7
 
-private const val INFO_PAGE_AMOUNT = 2
+private const val INFO_PAGE_AMOUNT = 8
