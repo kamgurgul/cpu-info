@@ -38,10 +38,11 @@ fun InfoContainerScreen() {
             selectedTabIndex = pagerState.currentPage,
             edgePadding = 0.dp,
             divider = {},
-            contentColor = MaterialTheme.colorScheme.onSurface,
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
                         .tabIndicatorOffset(tabPositions[pagerState.currentPage])
                 )

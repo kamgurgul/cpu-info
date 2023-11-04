@@ -21,11 +21,6 @@ import com.kgurgul.cpuinfo.appinitializers.AppInitializers
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
-/**
- * Base Application class for required initializations
- *
- * @author kgurgul
- */
 @HiltAndroidApp
 class CpuInfoApp : MultiDexApplication() {
 
