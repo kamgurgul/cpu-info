@@ -16,14 +16,12 @@
 
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/hardware">
 
     <fragment
         android:id="@+id/hardware"
         android:name="com.kgurgul.cpuinfo.features.information.InfoContainerFragment"
-        android:label="@string/hardware"
-        tools:layout="@layout/fragment_info" />
+        android:label="@string/hardware" />
 
     <fragment
         android:id="@+id/applications"
