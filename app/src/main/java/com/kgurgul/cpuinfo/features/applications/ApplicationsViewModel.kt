@@ -100,8 +100,26 @@ class ApplicationsViewModel @Inject constructor(
         val nativeDirFile = File(nativeLibraryDir)
         val libs = nativeDirFile.listFiles()?.map { it.name } ?: emptyList()
         if (libs.isNotEmpty()) {
-            _events.value = Event.ShowNativeLibraries(libs)
+            _uiStateFlow.update {
+                it.copy(
+                    isDialogVisible = true,
+                    nativeLibs = libs.toImmutableList()
+                )
+            }
         }
+    }
+
+    fun onNativeLibsDialogDismissed() {
+        _uiStateFlow.update {
+            it.copy(
+                isDialogVisible = false,
+                nativeLibs = persistentListOf(),
+            )
+        }
+    }
+
+    fun onNativeLibsNameClicked(name: String) {
+        _events.value = Event.SearchNativeLib(name)
     }
 
     fun onSystemAppsSwitched(checked: Boolean) {
@@ -133,13 +151,15 @@ class ApplicationsViewModel @Inject constructor(
         data class OpenApp(val packageName: String) : Event
         data class OpenAppSettings(val packageName: String) : Event
         data class UninstallApp(val packageName: String) : Event
-        data class ShowNativeLibraries(val nativeLibs: List<String>) : Event
+        data class SearchNativeLib(val name: String) : Event
     }
 
     data class UiState(
         val isLoading: Boolean = false,
         val withSystemApps: Boolean = false,
         val isSortAscending: Boolean = true,
+        val isDialogVisible: Boolean = false,
+        val nativeLibs: ImmutableList<String> = persistentListOf(),
         val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
         val snackbarMessage: Int = -1,
     )

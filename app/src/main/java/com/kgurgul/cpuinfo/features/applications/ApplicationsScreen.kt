@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -24,6 +25,8 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -63,6 +66,7 @@ import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.rememberDraggableBoxState
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
+import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import kotlinx.collections.immutable.ImmutableList
@@ -75,6 +79,8 @@ fun ApplicationsScreen(
     onAppClicked: (packageName: String) -> Unit,
     onRefreshApplications: () -> Unit,
     onSnackbarDismissed: () -> Unit,
+    onNativeLibsDialogDismissed: () -> Unit,
+    onNativeLibNameClicked: (nativeLibraryName: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (nativeLibraryDir: String) -> Unit,
@@ -87,6 +93,8 @@ fun ApplicationsScreen(
         onAppClicked = onAppClicked,
         onRefreshApplications = onRefreshApplications,
         onSnackbarDismissed = onSnackbarDismissed,
+        onNativeLibsDialogDismissed = onNativeLibsDialogDismissed,
+        onNativeLibNameClicked = onNativeLibNameClicked,
         onAppUninstallClicked = onAppUninstallClicked,
         onAppSettingsClicked = onAppSettingsClicked,
         onNativeLibsClicked = onNativeLibsClicked,
@@ -101,6 +109,8 @@ fun ApplicationsScreen(
     onAppClicked: (packageName: String) -> Unit,
     onRefreshApplications: () -> Unit,
     onSnackbarDismissed: () -> Unit,
+    onNativeLibsDialogDismissed: () -> Unit,
+    onNativeLibNameClicked: (nativeLibraryName: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (nativeLibraryDir: String) -> Unit,
@@ -161,6 +171,12 @@ fun ApplicationsScreen(
                 modifier = Modifier.align(Alignment.TopCenter)
             )
         }
+        NativeLibsDialog(
+            isVisible = uiState.isDialogVisible,
+            nativeLibs = uiState.nativeLibs,
+            onDismissRequest = onNativeLibsDialogDismissed,
+            onNativeLibNameClicked = onNativeLibNameClicked,
+        )
     }
 }
 
@@ -345,6 +361,45 @@ private fun ApplicationItem(
     }
 }
 
+@Composable
+private fun NativeLibsDialog(
+    isVisible: Boolean,
+    nativeLibs: ImmutableList<String>,
+    onDismissRequest: () -> Unit,
+    onNativeLibNameClicked: (nativeLibraryName: String) -> Unit,
+) {
+    if (isVisible) {
+        AlertDialog(
+            onDismissRequest = onDismissRequest,
+            tonalElevation = 0.dp,
+            title = {
+                Text(text = stringResource(id = R.string.native_libs))
+            },
+            text = {
+                LazyColumn {
+                    items(nativeLibs) { item ->
+                        Text(
+                            text = item,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onNativeLibNameClicked(item) }
+                                .padding(vertical = spacingMedium),
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = onDismissRequest
+                ) {
+                    Text(text = stringResource(id = R.string.ok))
+                }
+            }
+        )
+    }
+}
+
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
@@ -357,6 +412,8 @@ private fun ApplicationInfoPreview() {
             onAppClicked = {},
             onRefreshApplications = {},
             onSnackbarDismissed = {},
+            onNativeLibsDialogDismissed = {},
+            onNativeLibNameClicked = {},
             onAppSettingsClicked = {},
             onAppUninstallClicked = {},
             onNativeLibsClicked = {},
