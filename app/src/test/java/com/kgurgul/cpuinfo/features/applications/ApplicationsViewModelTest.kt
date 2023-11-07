@@ -133,6 +133,45 @@ class ApplicationsViewModelTest {
     }
 
     @Test
+    fun `On native libs dialog dismissed`() {
+        val expectedUiStates = listOf(
+            ApplicationsViewModel.UiState(
+                withSystemApps = testUserPreferences.withSystemApps,
+                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+            ),
+            ApplicationsViewModel.UiState(
+                withSystemApps = testUserPreferences.withSystemApps,
+                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                isDialogVisible = true,
+                nativeLibs = listOf("mockito-extensions").toImmutableList(),
+            ),
+            ApplicationsViewModel.UiState(
+                withSystemApps = testUserPreferences.withSystemApps,
+                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+            ),
+        )
+        createViewModel()
+        viewModel.onNativeLibsClicked("test")
+        viewModel.onNativeLibsClicked("src/test/resources")
+
+        viewModel.onNativeLibsDialogDismissed()
+
+        assertEquals(expectedUiStates, observedUiStates)
+    }
+
+    @Test
+    fun `On native libs name clicked`() {
+        val expectedEvents = listOf<ApplicationsViewModel.Event>(
+            ApplicationsViewModel.Event.SearchNativeLib("test"),
+        )
+        createViewModel()
+
+        viewModel.onNativeLibsNameClicked("test")
+
+        assertEquals(expectedEvents, observedEvents)
+    }
+
+    @Test
     fun `On app uninstall clicked`() = runTest {
         whenever(mockGetPackageNameInteractor.invoke(Unit)).doReturn("com.kgurgul.cpuinfo")
         val expectedUiStates = listOf(
