@@ -112,15 +112,24 @@ class ApplicationsViewModelTest {
 
     @Test
     fun `On native libs clicked`() {
-        val expectedEvents = listOf<ApplicationsViewModel.Event>(
-            ApplicationsViewModel.Event.ShowNativeLibraries(listOf("mockito-extensions")),
+        val expectedUiStates = listOf(
+            ApplicationsViewModel.UiState(
+                withSystemApps = testUserPreferences.withSystemApps,
+                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+            ),
+            ApplicationsViewModel.UiState(
+                withSystemApps = testUserPreferences.withSystemApps,
+                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                isDialogVisible = true,
+                nativeLibs = listOf("mockito-extensions").toImmutableList(),
+            ),
         )
         createViewModel()
 
         viewModel.onNativeLibsClicked("test")
         viewModel.onNativeLibsClicked("src/test/resources")
 
-        assertEquals(expectedEvents, observedEvents)
+        assertEquals(expectedUiStates, observedUiStates)
     }
 
     @Test
