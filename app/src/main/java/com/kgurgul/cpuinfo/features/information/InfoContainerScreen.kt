@@ -1,10 +1,13 @@
 package com.kgurgul.cpuinfo.features.information
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
@@ -24,15 +27,39 @@ import com.kgurgul.cpuinfo.features.information.ram.RamInfoScreen
 import com.kgurgul.cpuinfo.features.information.screen.ScreenInfoScreen
 import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
 import com.kgurgul.cpuinfo.features.information.storage.StorageScreen
+import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import kotlinx.coroutines.launch
 
 @Composable
 fun InfoContainerScreen() {
+    Scaffold(
+        topBar = {
+            PrimaryTopAppBar(
+                title = stringResource(id = R.string.hardware),
+                windowInsets = WindowInsets(0, 0, 0, 0),
+            )
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+    ) { paddingValues ->
+        val paddingModifier = Modifier.padding(paddingValues)
+        InfoContainer(
+            modifier = paddingModifier,
+        )
+    }
+
+}
+
+@Composable
+private fun InfoContainer(
+    modifier: Modifier = Modifier
+) {
     val pagerState = rememberPagerState(pageCount = { INFO_PAGE_AMOUNT })
     val scrollCoroutineScope = rememberCoroutineScope()
     val tabTitles = (0 until INFO_PAGE_AMOUNT).map { getTabTitle(position = it) }
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .then(modifier)
     ) {
         ScrollableTabRow(
             selectedTabIndex = pagerState.currentPage,
@@ -81,7 +108,7 @@ fun InfoContainerScreen() {
 }
 
 @Composable
-fun getTabTitle(position: Int) = stringResource(
+private fun getTabTitle(position: Int) = stringResource(
     id = when (position) {
         CPU_POS -> R.string.cpu
         GPU_POS -> R.string.gpu

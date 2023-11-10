@@ -78,9 +78,7 @@ class HostActivity : AppCompatActivity() {
     @SuppressLint("NewApi")
     private fun setToolbarTitleAndElevation(title: String) {
         binding.toolbar.title = title
-        binding.toolbar.isVisible = navController.currentDestination?.id != R.id.applications
-                && navController.currentDestination?.id != R.id.temperature
-                && navController.currentDestination?.id != R.id.processes
+        binding.toolbar.isVisible = navController.currentDestination?.id == R.id.settings
         if (navController.currentDestination?.id == R.id.hardware) {
             binding.toolbar.elevation = 0f
         } else {
