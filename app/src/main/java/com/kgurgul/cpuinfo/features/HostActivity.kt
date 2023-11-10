@@ -16,7 +16,6 @@
 
 package com.kgurgul.cpuinfo.features
 
-import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -62,7 +61,7 @@ class HostActivity : AppCompatActivity() {
             (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
                 .navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            setToolbarTitleAndElevation(destination.label.toString())
+            setToolbarTitle(destination.label.toString())
         }
         binding.bottomNavigation.apply {
             setupWithNavController(navController)
@@ -72,17 +71,8 @@ class HostActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Set toolbar title and manage elevation in case of L+ devices and TabLayout
-     */
-    @SuppressLint("NewApi")
-    private fun setToolbarTitleAndElevation(title: String) {
+    private fun setToolbarTitle(title: String) {
         binding.toolbar.title = title
         binding.toolbar.isVisible = navController.currentDestination?.id == R.id.settings
-        if (navController.currentDestination?.id == R.id.hardware) {
-            binding.toolbar.elevation = 0f
-        } else {
-            binding.toolbar.elevation = resources.getDimension(R.dimen.elevation_height)
-        }
     }
 }
