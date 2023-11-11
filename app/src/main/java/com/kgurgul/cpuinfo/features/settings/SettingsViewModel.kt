@@ -3,8 +3,11 @@ package com.kgurgul.cpuinfo.features.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
+import com.kgurgul.cpuinfo.utils.ThemeHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +23,7 @@ class SettingsViewModel @Inject constructor(
                 theme = userPreferences.theme,
             )
         }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     fun setTemperatureUnit(temperatureUnit: Int) {
         viewModelScope.launch {
@@ -34,7 +38,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     data class UiState(
-        val temperatureUnit: Int,
-        val theme: String,
+        val temperatureUnit: Int = 0,
+        val theme: String = ThemeHelper.DEFAULT_MODE,
     )
 }
