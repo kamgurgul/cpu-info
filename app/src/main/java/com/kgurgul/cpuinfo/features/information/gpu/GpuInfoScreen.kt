@@ -37,21 +37,22 @@ fun GpuInfoScreen(
             factory = {
                 GLSurfaceView(it).apply {
                     setEGLConfigChooser(8, 8, 8, 8, 16, 0)
-                    setRenderer(object : GLSurfaceView.Renderer {
-                        override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
-                            viewModel.onGlInfoReceived(
-                                gl.glGetString(GL10.GL_VENDOR),
-                                gl.glGetString(GL10.GL_RENDERER),
-                                gl.glGetString(GL10.GL_EXTENSIONS)
-                            )
-                        }
+                    setRenderer(
+                        object : GLSurfaceView.Renderer {
+                            override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
+                                viewModel.onGlInfoReceived(
+                                    gl.glGetString(GL10.GL_VENDOR),
+                                    gl.glGetString(GL10.GL_RENDERER),
+                                    gl.glGetString(GL10.GL_EXTENSIONS)
+                                )
+                            }
 
-                        override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
-                        }
+                            override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
+                            }
 
-                        override fun onDrawFrame(gl: GL10) {
+                            override fun onDrawFrame(gl: GL10) {
+                            }
                         }
-                    }
                     )
                 }
             },
