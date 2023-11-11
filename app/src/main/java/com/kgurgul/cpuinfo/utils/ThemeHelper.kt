@@ -3,11 +3,6 @@ package com.kgurgul.cpuinfo.utils
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 
-/**
- * Helper class to set app theme
- *
- * @author kgurgul
- */
 object ThemeHelper {
 
     const val KEY_THEME = "key_theme"

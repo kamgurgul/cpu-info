@@ -5,6 +5,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import com.kgurgul.cpuinfo.utils.ThemeHelper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -40,20 +43,38 @@ class UserPreferencesRepository @Inject constructor(
         }
     }
 
+    suspend fun setTemperatureUnit(temperatureUnit: Int) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.TEMPERATURE_UNIT] = temperatureUnit
+        }
+    }
+
+    suspend fun setTheme(theme: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.THEME] = theme
+        }
+    }
+
     private fun mapUserPreferences(preferences: Preferences): UserPreferences {
         return UserPreferences(
             isApplicationsSortingAscending = preferences[PreferencesKeys.SORTING_APPS] ?: true,
-            withSystemApps = preferences[PreferencesKeys.WITH_SYSTEM_APPS] ?: false
+            withSystemApps = preferences[PreferencesKeys.WITH_SYSTEM_APPS] ?: false,
+            temperatureUnit = preferences[PreferencesKeys.TEMPERATURE_UNIT] ?: 0,
+            theme = preferences[PreferencesKeys.THEME] ?: ThemeHelper.DEFAULT_MODE,
         )
     }
 
     private object PreferencesKeys {
         val SORTING_APPS = booleanPreferencesKey("sorting_apps")
         val WITH_SYSTEM_APPS = booleanPreferencesKey("with_system_apps")
+        val TEMPERATURE_UNIT = intPreferencesKey("temperature_unit")
+        val THEME = stringPreferencesKey("theme")
     }
 }
 
 data class UserPreferences(
     val isApplicationsSortingAscending: Boolean,
     val withSystemApps: Boolean,
+    val temperatureUnit: Int,
+    val theme: String,
 )
