@@ -15,7 +15,9 @@ object TestData {
 
     val userPreferences = UserPreferences(
         isApplicationsSortingAscending = true,
-        withSystemApps = false
+        withSystemApps = false,
+        temperatureUnit = 0,
+        theme = "theme",
     )
 
     val extendedApplicationsData = listOf(
