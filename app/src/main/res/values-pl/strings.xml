@@ -26,6 +26,7 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="ok">OK</string>
+    <string name="cancel">Anuluj</string>
     <string name="permission_rationale">Uprawnienia kamery są wymagane do uzyskania informacji</string>
 
     <!--Tabs-->

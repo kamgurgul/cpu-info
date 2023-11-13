@@ -29,6 +29,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="permission_rationale">Camera permission is required for getting camera spec</string>
 
     <!--Tabs-->
@@ -176,5 +177,8 @@
     <string name="cpu_temperature">CPU temperature</string>
     <string name="battery_temperature">Battery temperature</string>
     <string name="no_temp_data">Sorry I can\'t find temperature sensors :-(</string>
+    <string name="celsius" translatable="false">&#176;C</string>
+    <string name="fahrenheit" translatable="false">&#176;F</string>
+    <string name="kelvin" translatable="false">&#176;K</string>
 
 </resources>
