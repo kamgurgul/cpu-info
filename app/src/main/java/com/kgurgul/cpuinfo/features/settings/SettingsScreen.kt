@@ -28,6 +28,7 @@ import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
+import com.kgurgul.cpuinfo.utils.ThemeHelper
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -39,6 +40,8 @@ fun SettingsScreen(
         uiState = uiState,
         onTemperatureDialogDismissRequest = viewModel::onTemperatureDialogDismissed,
         onTemperatureOptionClicked = viewModel::setTemperatureUnit,
+        onThemeDialogDismissRequest = viewModel::onThemeDialogDismissed,
+        onThemeOptionClicked = viewModel::setTheme,
     )
 }
 
@@ -47,6 +50,8 @@ fun SettingsScreen(
     uiState: SettingsViewModel.UiState,
     onTemperatureDialogDismissRequest: () -> Unit,
     onTemperatureOptionClicked: (Int) -> Unit,
+    onThemeDialogDismissRequest: () -> Unit,
+    onThemeOptionClicked: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -67,6 +72,12 @@ fun SettingsScreen(
             currentSelection = uiState.temperatureUnit,
             options = uiState.temperatureDialogOptions,
             onOptionClicked = onTemperatureOptionClicked,
+        )
+        ThemeDialog(
+            onDismissRequest = onThemeDialogDismissRequest,
+            currentSelection = uiState.theme,
+            options = uiState.themeDialogOptions,
+            onOptionClicked = onThemeOptionClicked,
         )
     }
 }
@@ -144,6 +155,67 @@ private fun TemperatureUnitDialog(
     }
 }
 
+@Composable
+private fun ThemeDialog(
+    onDismissRequest: () -> Unit,
+    currentSelection: String,
+    options: ImmutableList<String>?,
+    onOptionClicked: (String) -> Unit,
+) {
+    if (options != null) {
+        AlertDialog(
+            onDismissRequest = onDismissRequest,
+            tonalElevation = 0.dp,
+            title = {
+                Text(text = stringResource(id = R.string.pref_theme_choose))
+            },
+            text = {
+                val scrollState = rememberScrollState()
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(spacingMedium),
+                    modifier = Modifier.verticalScroll(scrollState),
+                ) {
+                    for (option in options) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onOptionClicked(option)
+                                    onDismissRequest()
+                                }
+                        ) {
+                            RadioButton(
+                                selected = option == currentSelection,
+                                onClick = null,
+                            )
+                            val text = when (option) {
+                                ThemeHelper.DEFAULT_MODE ->
+                                    stringResource(id = R.string.pref_theme_default)
+
+                                ThemeHelper.LIGHT_MODE ->
+                                    stringResource(id = R.string.pref_theme_light)
+
+                                ThemeHelper.DARK_MODE ->
+                                    stringResource(id = R.string.pref_theme_dark)
+
+                                else -> throw IllegalArgumentException("Unknown theme")
+                            }
+                            Text(text = text)
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = onDismissRequest
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            }
+        )
+    }
+}
+
 @Preview
 @Composable
 fun SettingsScreenPreview() {
@@ -152,6 +224,8 @@ fun SettingsScreenPreview() {
             uiState = SettingsViewModel.UiState(),
             onTemperatureDialogDismissRequest = {},
             onTemperatureOptionClicked = {},
+            onThemeDialogDismissRequest = {},
+            onThemeOptionClicked = {},
         )
     }
 }
