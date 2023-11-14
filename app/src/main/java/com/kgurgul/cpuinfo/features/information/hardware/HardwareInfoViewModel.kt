@@ -16,29 +16,32 @@
 
 package com.kgurgul.cpuinfo.features.information.hardware
 
-import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.result.GetHardwareDataInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HardwareInfoViewModel @Inject constructor(
-    private val sharedPreferences: SharedPreferences,
+    userPreferencesRepository: IUserPreferencesRepository,
     private val getHardwareDataInteractor: GetHardwareDataInteractor,
-) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
+) : ViewModel() {
 
     private val _uiStateFlow = MutableStateFlow(UiState())
     val uiStateFlow = _uiStateFlow.asStateFlow()
 
     init {
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-        refreshHardwareInfo()
+        userPreferencesRepository.userPreferencesFlow
+            .onEach { refreshHardwareInfo() }
+            .launchIn(viewModelScope)
     }
 
     fun refreshHardwareInfo() {
@@ -47,17 +50,6 @@ class HardwareInfoViewModel @Inject constructor(
                 it.copy(hardwareItems = getHardwareDataInteractor(Unit))
             }
         }
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-       // if (key == SettingsFragment.KEY_TEMPERATURE_UNIT) {
-            refreshHardwareInfo()
-        //   }
-    }
-
-    override fun onCleared() {
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
-        super.onCleared()
     }
 
     data class UiState(

@@ -2,7 +2,7 @@ package com.kgurgul.cpuinfo.features.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
+import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.utils.ThemeHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val userPreferencesRepository: UserPreferencesRepository,
+    private val userPreferencesRepository: IUserPreferencesRepository,
 ) : ViewModel() {
 
     private val _uiStateFlow = MutableStateFlow(UiState())

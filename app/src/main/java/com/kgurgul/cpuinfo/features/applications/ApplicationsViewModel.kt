@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
+import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.sortOrderFromBoolean
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
@@ -28,7 +28,7 @@ import javax.inject.Inject
 class ApplicationsViewModel @Inject constructor(
     private val applicationsDataObservable: ApplicationsDataObservable,
     private val getPackageNameInteractor: GetPackageNameInteractor,
-    private val userPreferencesRepository: UserPreferencesRepository,
+    private val userPreferencesRepository: IUserPreferencesRepository,
 ) : ViewModel() {
 
     private val _uiStateFlow = MutableStateFlow(UiState())

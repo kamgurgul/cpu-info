@@ -16,44 +16,43 @@
 
 package com.kgurgul.cpuinfo.features.temperature
 
-import com.kgurgul.cpuinfo.utils.preferences.Prefs
+import com.kgurgul.cpuinfo.data.TestData
+import com.kgurgul.cpuinfo.data.local.UserPreferences
+import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 class TemperatureFormatterTest {
 
-    @Test
-    fun formatCelsius() {
-        /* Given */
-        val prefs = mock<Prefs> {
-            on { get(anyString(), anyString()) } doReturn
-                    TemperatureFormatter.CELSIUS.toString()
-        }
-        val formatter = TemperatureFormatter(prefs)
+    private val userPreferenceSharedFlow = MutableSharedFlow<UserPreferences>()
+    private val mockUserPreferencesRepository = mock<UserPreferencesRepository> {
+        on { userPreferenceSharedFlow } doReturn userPreferenceSharedFlow
+    }
+    private val formatter = TemperatureFormatter(mockUserPreferencesRepository)
 
-        /* When */
+    @Test
+    fun formatCelsius() = runTest {
+        userPreferenceSharedFlow.emit(
+            TestData.userPreferences.copy(temperatureUnit = TemperatureFormatter.CELSIUS)
+        )
+
         val temp = formatter.format(9f)
 
-        /* Then */
         assertEquals("9°C", temp)
     }
 
     @Test
-    fun formatFahrenheit() {
-        /* Given */
-        val prefs = mock<Prefs> {
-            onGeneric { get(anyString(), anyString()) } doReturn
-                    TemperatureFormatter.FAHRENHEIT.toString()
-        }
-        val formatter = TemperatureFormatter(prefs)
+    fun formatFahrenheit() = runTest {
+        userPreferenceSharedFlow.emit(
+            TestData.userPreferences.copy(temperatureUnit = TemperatureFormatter.FAHRENHEIT)
+        )
 
-        /* When */
         val temp = formatter.format(9f)
 
-        /* Then */
         assertEquals("48.2°F", temp)
     }
 }

@@ -34,6 +34,7 @@ import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingLarge
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
+import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.ThemeHelper
 import kotlinx.collections.immutable.ImmutableList
 
@@ -173,7 +174,7 @@ private fun TemperatureUnitDialog(
             text = {
                 val scrollState = rememberScrollState()
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(spacingMedium),
+                    verticalArrangement = Arrangement.spacedBy(spacingSmall),
                     modifier = Modifier.verticalScroll(scrollState),
                 ) {
                     for (option in options) {
@@ -185,6 +186,7 @@ private fun TemperatureUnitDialog(
                                     onOptionClicked(option)
                                     onDismissRequest()
                                 }
+                                .padding(vertical = spacingSmall),
                         ) {
                             RadioButton(
                                 selected = option == currentSelection,
@@ -230,7 +232,7 @@ private fun ThemeDialog(
             text = {
                 val scrollState = rememberScrollState()
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(spacingMedium),
+                    verticalArrangement = Arrangement.spacedBy(spacingSmall),
                     modifier = Modifier.verticalScroll(scrollState),
                 ) {
                     for (option in options) {
@@ -242,6 +244,7 @@ private fun ThemeDialog(
                                     onOptionClicked(option)
                                     onDismissRequest()
                                 }
+                                .padding(vertical = spacingSmall),
                         ) {
                             RadioButton(
                                 selected = option == currentSelection,

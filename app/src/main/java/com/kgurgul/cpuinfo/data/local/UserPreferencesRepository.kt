@@ -17,39 +17,40 @@ import javax.inject.Inject
 
 class UserPreferencesRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
-) {
+) : IUserPreferencesRepository {
 
-    val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
-        .catch { exception ->
-            if (exception is IOException) {
-                Timber.e(exception)
-                emit(emptyPreferences())
-            } else {
-                throw exception
+    override val userPreferencesFlow: Flow<UserPreferences>
+        get() = dataStore.data
+            .catch { exception ->
+                if (exception is IOException) {
+                    Timber.e(exception)
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }.map { preferences ->
+                mapUserPreferences(preferences)
             }
-        }.map { preferences ->
-            mapUserPreferences(preferences)
-        }
 
-    suspend fun setApplicationsSortingOrder(isAscending: Boolean) {
+    override suspend fun setApplicationsSortingOrder(isAscending: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.SORTING_APPS] = isAscending
         }
     }
 
-    suspend fun setApplicationsWithSystemApps(withSystemApps: Boolean) {
+    override suspend fun setApplicationsWithSystemApps(withSystemApps: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.WITH_SYSTEM_APPS] = withSystemApps
         }
     }
 
-    suspend fun setTemperatureUnit(temperatureUnit: Int) {
+    override suspend fun setTemperatureUnit(temperatureUnit: Int) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.TEMPERATURE_UNIT] = temperatureUnit
         }
     }
 
-    suspend fun setTheme(theme: String) {
+    override suspend fun setTheme(theme: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.THEME] = theme
         }

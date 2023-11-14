@@ -16,17 +16,15 @@
 
 package com.kgurgul.cpuinfo.features.temperature
 
-import com.kgurgul.cpuinfo.utils.preferences.IPrefs
+import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.utils.round2
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-class TemperatureFormatter @Inject constructor(val prefs: IPrefs) {
-
-    companion object {
-        const val CELSIUS = 0
-        const val FAHRENHEIT = 1
-        const val KELVIN = 2
-    }
+class TemperatureFormatter @Inject constructor(
+    private val userPreferencesRepository: IUserPreferencesRepository,
+) {
 
     /**
      * Format temperature for current settings
@@ -34,9 +32,9 @@ class TemperatureFormatter @Inject constructor(val prefs: IPrefs) {
      * @param temp formatting temperature which will be formatted (passed in Celsius unit)
      */
     fun format(temp: Float): String {
-        /*        val tempUnit = prefs.get(SettingsFragment.KEY_TEMPERATURE_UNIT, CELSIUS.toString())
-                    .toInt()*/
-        val tempUnit = CELSIUS
+        val tempUnit = runBlocking {
+            userPreferencesRepository.userPreferencesFlow.first().temperatureUnit
+        }
         return if (tempUnit == FAHRENHEIT) {
             val fahrenheit = temp * 9 / 5 + 32
             "${fahrenheit.round2()}\u00B0F"
@@ -47,5 +45,11 @@ class TemperatureFormatter @Inject constructor(val prefs: IPrefs) {
             val tempFormatted = "${temp.toInt()}\u00B0C"
             tempFormatted
         }
+    }
+
+    companion object {
+        const val CELSIUS = 0
+        const val FAHRENHEIT = 1
+        const val KELVIN = 2
     }
 }
