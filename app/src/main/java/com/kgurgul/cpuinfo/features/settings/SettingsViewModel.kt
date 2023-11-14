@@ -76,6 +76,7 @@ class SettingsViewModel @Inject constructor(
 
     fun setTheme(theme: String) {
         viewModelScope.launch {
+            ThemeHelper.applyTheme(theme)
             userPreferencesRepository.setTheme(theme)
         }
     }

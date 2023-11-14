@@ -19,7 +19,6 @@ package com.kgurgul.cpuinfo.features
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -46,7 +45,6 @@ class HostActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupEdgeToEdge()
         setupNavigation()
-        setSupportActionBar(binding.toolbar)
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             // Processes cannot be listed above M
             val menu = binding.bottomNavigation.menu
@@ -60,19 +58,11 @@ class HostActivity : AppCompatActivity() {
         navController =
             (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
                 .navController
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            setToolbarTitle(destination.label.toString())
-        }
         binding.bottomNavigation.apply {
             setupWithNavController(navController)
             setOnItemReselectedListener {
                 // Do nothing - TODO: scroll to top
             }
         }
-    }
-
-    private fun setToolbarTitle(title: String) {
-        binding.toolbar.title = title
-        binding.toolbar.isVisible = navController.currentDestination?.id == R.id.settings
     }
 }

@@ -20,7 +20,6 @@ import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.result.GetHardwareDataInteractor
-import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -51,9 +50,9 @@ class HardwareInfoViewModel @Inject constructor(
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-        if (key == SettingsFragment.KEY_TEMPERATURE_UNIT) {
+       // if (key == SettingsFragment.KEY_TEMPERATURE_UNIT) {
             refreshHardwareInfo()
-        }
+        //   }
     }
 
     override fun onCleared() {

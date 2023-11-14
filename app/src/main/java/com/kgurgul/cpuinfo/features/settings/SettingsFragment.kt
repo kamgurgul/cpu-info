@@ -16,45 +16,30 @@
 
 package com.kgurgul.cpuinfo.features.settings
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.preference.PreferenceFragmentCompat
-import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.utils.ThemeHelper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.Fragment
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-class SettingsFragment : PreferenceFragmentCompat(),
-    SharedPreferences.OnSharedPreferenceChangeListener {
+@AndroidEntryPoint
+class SettingsFragment : Fragment() {
 
-    companion object {
-        const val KEY_TEMPERATURE_UNIT = "temperature_unit"
-        const val KEY_THEME_CONFIG = "key_theme"
-    }
-
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        addPreferencesFromResource(R.xml.preferences)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        preferenceScreen.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-        when (key) {
-            KEY_THEME_CONFIG -> {
-                ThemeHelper.applyTheme(
-                    sharedPreferences.getString(
-                        ThemeHelper.KEY_THEME,
-                        ThemeHelper.DEFAULT_MODE
-                    )!!
-                )
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                CpuInfoTheme {
+                    SettingsScreen()
+                }
             }
         }
     }

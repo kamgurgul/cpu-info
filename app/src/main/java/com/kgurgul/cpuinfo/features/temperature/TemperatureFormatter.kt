@@ -16,7 +16,6 @@
 
 package com.kgurgul.cpuinfo.features.temperature
 
-import com.kgurgul.cpuinfo.features.settings.SettingsFragment
 import com.kgurgul.cpuinfo.utils.preferences.IPrefs
 import com.kgurgul.cpuinfo.utils.round2
 import javax.inject.Inject
@@ -35,8 +34,9 @@ class TemperatureFormatter @Inject constructor(val prefs: IPrefs) {
      * @param temp formatting temperature which will be formatted (passed in Celsius unit)
      */
     fun format(temp: Float): String {
-        val tempUnit = prefs.get(SettingsFragment.KEY_TEMPERATURE_UNIT, CELSIUS.toString())
-            .toInt()
+        /*        val tempUnit = prefs.get(SettingsFragment.KEY_TEMPERATURE_UNIT, CELSIUS.toString())
+                    .toInt()*/
+        val tempUnit = CELSIUS
         return if (tempUnit == FAHRENHEIT) {
             val fahrenheit = temp * 9 / 5 + 32
             "${fahrenheit.round2()}\u00B0F"
