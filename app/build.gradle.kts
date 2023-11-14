@@ -101,6 +101,7 @@ android {
 
 dependencies {
     implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.immutable)
 
     implementation(libs.androidx.activity.compose)
@@ -111,7 +112,6 @@ dependencies {
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.multidex)
-    implementation(libs.androidx.preference)
     implementation(libs.androidx.viewPager2)
 
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -133,9 +133,6 @@ dependencies {
     implementation(libs.androidx.navigation.ui)
 
     implementation(libs.google.material)
-    implementation(libs.google.gson)
-
-    implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

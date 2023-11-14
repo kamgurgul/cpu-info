@@ -23,14 +23,6 @@
 }
 -keep interface android.content.pm.IPackageStatsObserver$** {*;}
 
-# Glide
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public class * extends com.bumptech.glide.module.AppGlideModule
--keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
-
 # Coroutines
 # ServiceLoader support
 -keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
@@ -46,10 +38,4 @@
     public static *** d(...);
     public static *** i(...);
     public static *** e(...);
-}
-
-# VerifyError in Android 4
-# https://github.com/material-components/material-components-android/issues/397
--keep class com.google.android.material.tabs.TabLayout$Tab {
-*;
 }

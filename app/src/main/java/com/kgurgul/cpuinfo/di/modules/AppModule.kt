@@ -21,7 +21,6 @@ import android.app.ActivityManager
 import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.ConsumerIrManager
@@ -33,7 +32,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -90,11 +88,6 @@ class AppModule {
     @Singleton
     fun provideWifiManager(@ApplicationContext appContext: Context): WifiManager =
         appContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-
-    @Provides
-    @Singleton
-    fun provideSharedPreferences(@ApplicationContext appContext: Context): SharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(appContext)
 
     @Provides
     @Singleton
