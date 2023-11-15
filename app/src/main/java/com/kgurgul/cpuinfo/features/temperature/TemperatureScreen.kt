@@ -25,6 +25,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.local.StubUserPreferencesRepository
@@ -38,7 +39,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun TemperatureScreen(
-    viewModel: TemperatureViewModel,
+    viewModel: TemperatureViewModel = hiltViewModel(),
     temperatureFormatter: TemperatureFormatter,
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()

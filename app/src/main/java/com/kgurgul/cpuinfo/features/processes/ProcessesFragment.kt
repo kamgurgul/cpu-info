@@ -7,14 +7,11 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProcessesFragment : Fragment() {
-
-    private val viewModel: ProcessesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,9 +22,7 @@ class ProcessesFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 CpuInfoTheme {
-                    ProcessesScreen(
-                        viewModel = viewModel
-                    )
+                    ProcessesScreen()
                 }
             }
         }

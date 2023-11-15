@@ -47,16 +47,6 @@ class ApplicationsFragment : Fragment() {
                 CpuInfoTheme {
                     ApplicationsScreen(
                         viewModel = viewModel,
-                        onAppClicked = viewModel::onApplicationClicked,
-                        onRefreshApplications = viewModel::onRefreshApplications,
-                        onSnackbarDismissed = viewModel::onSnackbarDismissed,
-                        onNativeLibsDialogDismissed = viewModel::onNativeLibsDialogDismissed,
-                        onNativeLibNameClicked = viewModel::onNativeLibsNameClicked,
-                        onAppUninstallClicked = viewModel::onAppUninstallClicked,
-                        onAppSettingsClicked = viewModel::onAppSettingsClicked,
-                        onNativeLibsClicked = viewModel::onNativeLibsClicked,
-                        onSystemAppsSwitched = viewModel::onSystemAppsSwitched,
-                        onSortOrderChange = viewModel::onSortOrderChange,
                     )
                 }
             }

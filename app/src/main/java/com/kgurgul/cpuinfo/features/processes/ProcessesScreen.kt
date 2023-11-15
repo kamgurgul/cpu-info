@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
@@ -28,7 +29,9 @@ import com.kgurgul.cpuinfo.utils.Utils
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
-fun ProcessesScreen(viewModel: ProcessesViewModel) {
+fun ProcessesScreen(
+    viewModel: ProcessesViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     ProcessesScreen(
         uiState = uiState

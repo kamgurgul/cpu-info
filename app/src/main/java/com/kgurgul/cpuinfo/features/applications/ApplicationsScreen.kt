@@ -53,6 +53,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -75,31 +76,21 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ApplicationsScreen(
-    viewModel: ApplicationsViewModel,
-    onAppClicked: (packageName: String) -> Unit,
-    onRefreshApplications: () -> Unit,
-    onSnackbarDismissed: () -> Unit,
-    onNativeLibsDialogDismissed: () -> Unit,
-    onNativeLibNameClicked: (nativeLibraryName: String) -> Unit,
-    onAppUninstallClicked: (id: String) -> Unit,
-    onAppSettingsClicked: (id: String) -> Unit,
-    onNativeLibsClicked: (nativeLibraryDir: String) -> Unit,
-    onSystemAppsSwitched: (enabled: Boolean) -> Unit,
-    onSortOrderChange: (ascending: Boolean) -> Unit,
+    viewModel: ApplicationsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     ApplicationsScreen(
         uiState = uiState,
-        onAppClicked = onAppClicked,
-        onRefreshApplications = onRefreshApplications,
-        onSnackbarDismissed = onSnackbarDismissed,
-        onNativeLibsDialogDismissed = onNativeLibsDialogDismissed,
-        onNativeLibNameClicked = onNativeLibNameClicked,
-        onAppUninstallClicked = onAppUninstallClicked,
-        onAppSettingsClicked = onAppSettingsClicked,
-        onNativeLibsClicked = onNativeLibsClicked,
-        onSystemAppsSwitched = onSystemAppsSwitched,
-        onSortOrderChange = onSortOrderChange
+        onAppClicked = viewModel::onApplicationClicked,
+        onRefreshApplications = viewModel::onRefreshApplications,
+        onSnackbarDismissed = viewModel::onSnackbarDismissed,
+        onNativeLibsDialogDismissed = viewModel::onNativeLibsDialogDismissed,
+        onNativeLibNameClicked = viewModel::onNativeLibsNameClicked,
+        onAppUninstallClicked = viewModel::onAppUninstallClicked,
+        onAppSettingsClicked = viewModel::onAppSettingsClicked,
+        onNativeLibsClicked = viewModel::onNativeLibsClicked,
+        onSystemAppsSwitched = viewModel::onSystemAppsSwitched,
+        onSortOrderChange = viewModel::onSortOrderChange,
     )
 }
 
