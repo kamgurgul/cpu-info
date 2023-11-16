@@ -1,9 +1,6 @@
 package com.kgurgul.cpuinfo.features.applications
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -25,17 +22,6 @@ class ApplicationsFragment : Fragment() {
 
     private val viewModel: ApplicationsViewModel by viewModels()
 
-    private val uninstallReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            viewModel.onRefreshApplications()
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        registerUninstallBroadcast()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,11 +42,6 @@ class ApplicationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerObservers()
-    }
-
-    override fun onDestroy() {
-        requireActivity().unregisterReceiver(uninstallReceiver)
-        super.onDestroy()
     }
 
     private fun registerObservers() {
@@ -102,12 +83,5 @@ class ApplicationsFragment : Fragment() {
                 Utils.searchInGoogle(requireContext(), event.name)
             }
         }
-    }
-
-    private fun registerUninstallBroadcast() {
-        val intentFilter = IntentFilter()
-        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
-        intentFilter.addDataScheme("package")
-        requireActivity().registerReceiver(uninstallReceiver, intentFilter)
     }
 }

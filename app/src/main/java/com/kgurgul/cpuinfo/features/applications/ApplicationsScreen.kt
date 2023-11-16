@@ -1,5 +1,9 @@
 package com.kgurgul.cpuinfo.features.applications
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.background
@@ -38,6 +42,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -53,6 +58,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -78,6 +84,25 @@ import kotlinx.coroutines.launch
 fun ApplicationsScreen(
     viewModel: ApplicationsViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
+    DisposableEffect(context) {
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_PACKAGE_REMOVED)
+            addDataScheme("package")
+        }
+        val uninstallReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                viewModel.onRefreshApplications()
+            }
+        }
+        ContextCompat.registerReceiver(
+            context, uninstallReceiver, filter, ContextCompat.RECEIVER_EXPORTED
+        )
+
+        onDispose {
+            context.unregisterReceiver(uninstallReceiver)
+        }
+    }
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     ApplicationsScreen(
         uiState = uiState,
