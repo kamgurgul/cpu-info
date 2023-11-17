@@ -1,0 +1,70 @@
+name: Build and release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        format: [ 'apk', 'aab' ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+          cache: gradle
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: Unit tests
+        run: ./gradlew testDebugUnitTest
+      - name: Generate code coverage
+        run: ./gradlew app:koverXmlReportDebug
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage.xml
+          path: app/build/coverage-report/result.xml
+      - name: Build release
+        run: ./gradlew assembleRelease bundleRelease
+      - name: Upload Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release.${{ matrix.format }}
+          path: app/build/outputs/${{ matrix.format }}/release/*.${{ matrix.format }}
+  release:
+    needs: build_and_test
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tag Release
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag ${{ github.event.inputs.version }}
+          git push origin ${{ github.event.inputs.version }}
+      - uses: actions/checkout@v3
+      - name: Download APK
+        uses: actions/download-artifact@v3
+        with:
+          name: app-release.apk
+      - name: Download AAB
+        uses: actions/download-artifact@v3
+        with:
+          name: app-release.aab
+      - name: Create Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "app-release.apk,app-release.aab"
+          draft: true
+          name: Release ${{ github.event.inputs.version }}
+          tag: ${{ github.event.inputs.version }}
