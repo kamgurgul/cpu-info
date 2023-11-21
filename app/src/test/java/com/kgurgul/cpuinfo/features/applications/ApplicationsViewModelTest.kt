@@ -1,6 +1,5 @@
 package com.kgurgul.cpuinfo.features.applications
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
@@ -29,9 +28,6 @@ class ApplicationsViewModelTest {
 
     @get:Rule
     val coroutineTestRule = CoroutineTestRule()
-
-    @get:Rule
-    val liveDataRule = InstantTaskExecutorRule()
 
     private val mockApplicationsDataObservable = mock<ApplicationsDataObservable> {
         on { observe() } doReturn flowOf()
@@ -308,7 +304,9 @@ class ApplicationsViewModelTest {
             it.uiStateFlow
                 .onEach(observedUiStates::add)
                 .launchIn(CoroutineScope(coroutineTestRule.testDispatcher))
-            it.events.observeForever(observedEvents::add)
+            it.events
+                .onEach(observedEvents::add)
+                .launchIn(CoroutineScope(coroutineTestRule.testDispatcher))
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.kgurgul.cpuinfo.features.applications
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.R
@@ -9,13 +8,14 @@ import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.sortOrderFromBoolean
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
-import com.kgurgul.cpuinfo.utils.SingleLiveEvent
 import com.kgurgul.cpuinfo.utils.wrappers.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -34,8 +34,8 @@ class ApplicationsViewModel @Inject constructor(
     private val _uiStateFlow = MutableStateFlow(UiState())
     val uiStateFlow = _uiStateFlow.asStateFlow()
 
-    private val _events = SingleLiveEvent<Event>()
-    val events: LiveData<Event> = _events.asLiveData()
+    private val _events = MutableSharedFlow<Event>()
+    val events = _events.asSharedFlow()
 
     init {
         userPreferencesRepository.userPreferencesFlow
@@ -69,7 +69,7 @@ class ApplicationsViewModel @Inject constructor(
             if (getPackageNameInteractor.invoke(Unit) == packageName) {
                 _uiStateFlow.update { it.copy(snackbarMessage = R.string.cpu_open) }
             } else {
-                _events.value = Event.OpenApp(packageName)
+                _events.emit(Event.OpenApp(packageName))
             }
         }
     }
@@ -83,7 +83,9 @@ class ApplicationsViewModel @Inject constructor(
     }
 
     fun onAppSettingsClicked(id: String) {
-        _events.value = Event.OpenAppSettings(id)
+        viewModelScope.launch {
+            _events.emit(Event.OpenAppSettings(id))
+        }
     }
 
     fun onAppUninstallClicked(id: String) {
@@ -91,7 +93,7 @@ class ApplicationsViewModel @Inject constructor(
             if (getPackageNameInteractor.invoke(Unit) == id) {
                 _uiStateFlow.update { it.copy(snackbarMessage = R.string.cpu_uninstall) }
             } else {
-                _events.value = Event.UninstallApp(id)
+                _events.emit(Event.UninstallApp(id))
             }
         }
     }
@@ -119,7 +121,9 @@ class ApplicationsViewModel @Inject constructor(
     }
 
     fun onNativeLibsNameClicked(name: String) {
-        _events.value = Event.SearchNativeLib(name)
+        viewModelScope.launch {
+            _events.emit(Event.SearchNativeLib(name))
+        }
     }
 
     fun onSystemAppsSwitched(checked: Boolean) {

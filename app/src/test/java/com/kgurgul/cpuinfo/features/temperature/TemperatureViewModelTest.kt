@@ -16,7 +16,6 @@
 
 package com.kgurgul.cpuinfo.features.temperature
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
@@ -36,9 +35,6 @@ class TemperatureViewModelTest {
 
     @get:Rule
     val coroutineTestRule = CoroutineTestRule()
-
-    @get:Rule
-    val liveDataRule = InstantTaskExecutorRule()
 
     private val temperatureData = TestData.temperatureData
     private val mockTemperatureDataObservable = mock<TemperatureDataObservable> {
