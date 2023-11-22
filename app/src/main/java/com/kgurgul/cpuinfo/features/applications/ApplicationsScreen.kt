@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
 import android.net.Uri
+import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -76,9 +77,13 @@ import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
+import com.kgurgul.cpuinfo.utils.Utils
+import com.kgurgul.cpuinfo.utils.observeWithLifecycle
+import com.kgurgul.cpuinfo.utils.uninstallApp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Composable
 fun ApplicationsScreen(
@@ -101,6 +106,40 @@ fun ApplicationsScreen(
 
         onDispose {
             context.unregisterReceiver(uninstallReceiver)
+        }
+    }
+    viewModel.events.observeWithLifecycle { event ->
+        when (event) {
+            is ApplicationsViewModel.Event.OpenApp -> {
+                val intent = context.packageManager.getLaunchIntentForPackage(event.packageName)
+                if (intent != null) {
+                    try {
+                        context.startActivity(intent)
+                    } catch (e: Exception) {
+                        viewModel.onCannotOpenApp()
+                    }
+                } else {
+                    viewModel.onCannotOpenApp()
+                }
+            }
+
+            is ApplicationsViewModel.Event.OpenAppSettings -> {
+                val uri = Uri.fromParts("package", event.packageName, null)
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uri)
+                try {
+                    context.startActivity(intent)
+                } catch (e: Exception) {
+                    Timber.e("Can't open app settings")
+                }
+            }
+
+            is ApplicationsViewModel.Event.UninstallApp -> {
+                context.uninstallApp(event.packageName)
+            }
+
+            is ApplicationsViewModel.Event.SearchNativeLib -> {
+                Utils.searchInGoogle(context, event.name)
+            }
         }
     }
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()

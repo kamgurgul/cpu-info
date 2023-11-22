@@ -68,7 +68,7 @@ fun Context.isTablet(): Boolean = this.resources.getBoolean(R.bool.isTablet)
  * In the feature this method should be replaced with PackageManager
  */
 @Suppress("DEPRECATION")
-fun Activity.uninstallApp(packageName: String) {
+fun Context.uninstallApp(packageName: String) {
     val uri = Uri.fromParts("package", packageName, null)
     val uninstallIntent = Intent(Intent.ACTION_UNINSTALL_PACKAGE, uri)
     startActivity(uninstallIntent)
