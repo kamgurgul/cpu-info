@@ -34,10 +34,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TemperatureViewModel @Inject constructor(
+    temperatureFormatter: TemperatureFormatter,
     temperatureDataObservable: TemperatureDataObservable,
 ) : ViewModel() {
 
-    private val _uiStateFlow = MutableStateFlow(UiState())
+    private val _uiStateFlow = MutableStateFlow(
+        UiState(temperatureFormatter = temperatureFormatter)
+    )
     val uiStateFlow = _uiStateFlow.asStateFlow()
 
     init {
@@ -56,6 +59,7 @@ class TemperatureViewModel @Inject constructor(
     }
 
     data class UiState(
+        val temperatureFormatter: TemperatureFormatter,
         val isLoading: Boolean = true,
         val temperatureItems: ImmutableList<TemperatureItem> = persistentListOf()
     )

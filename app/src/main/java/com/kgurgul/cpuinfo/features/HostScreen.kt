@@ -28,6 +28,7 @@ import com.kgurgul.cpuinfo.features.applications.ApplicationsScreen
 import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoScreen
 import com.kgurgul.cpuinfo.features.processes.ProcessesScreen
 import com.kgurgul.cpuinfo.features.settings.SettingsScreen
+import com.kgurgul.cpuinfo.features.temperature.TemperatureScreen
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 
 @Composable
@@ -84,8 +85,7 @@ fun HostScreen(
             composable(HostScreen.Hardware.route) { HardwareInfoScreen() }
             composable(HostScreen.Applications.route) { ApplicationsScreen() }
             composable(HostScreen.Processes.route) { ProcessesScreen() }
-            composable(HostScreen.Temperatures.route) {
-            }
+            composable(HostScreen.Temperatures.route) { TemperatureScreen() }
             composable(HostScreen.Settings.route) { SettingsScreen() }
         }
     }

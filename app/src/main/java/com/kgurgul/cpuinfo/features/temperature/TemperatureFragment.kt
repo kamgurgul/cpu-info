@@ -26,15 +26,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TemperatureFragment : Fragment() {
 
     private val viewModel: TemperatureViewModel by viewModels()
-
-    @Inject
-    lateinit var temperatureFormatter: TemperatureFormatter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +43,6 @@ class TemperatureFragment : Fragment() {
                 CpuInfoTheme {
                     TemperatureScreen(
                         viewModel = viewModel,
-                        temperatureFormatter = temperatureFormatter,
                     )
                 }
             }

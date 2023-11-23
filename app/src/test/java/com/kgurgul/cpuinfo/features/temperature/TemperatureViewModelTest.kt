@@ -37,6 +37,7 @@ class TemperatureViewModelTest {
     val coroutineTestRule = CoroutineTestRule()
 
     private val temperatureData = TestData.temperatureData
+    private val mockTemperatureFormatter = mock<TemperatureFormatter>()
     private val mockTemperatureDataObservable = mock<TemperatureDataObservable> {
         on { observe(anyOrNull()) } doReturn flowOf(temperatureData)
     }
@@ -48,6 +49,7 @@ class TemperatureViewModelTest {
     fun `Get temperature data observable`() {
         val expectedUiStates = listOf(
             TemperatureViewModel.UiState(
+                temperatureFormatter = mockTemperatureFormatter,
                 isLoading = false,
                 temperatureItems = temperatureData.toPersistentList(),
             )
@@ -61,6 +63,7 @@ class TemperatureViewModelTest {
     private fun createViewModel() {
         observedUiStates.clear()
         viewModel = TemperatureViewModel(
+            temperatureFormatter = mockTemperatureFormatter,
             temperatureDataObservable = mockTemperatureDataObservable,
         ).also {
             it.uiStateFlow

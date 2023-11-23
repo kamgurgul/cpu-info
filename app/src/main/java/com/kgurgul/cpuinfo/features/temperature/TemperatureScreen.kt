@@ -40,19 +40,16 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun TemperatureScreen(
     viewModel: TemperatureViewModel = hiltViewModel(),
-    temperatureFormatter: TemperatureFormatter,
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     TemperatureScreen(
         uiState = uiState,
-        temperatureFormatter = temperatureFormatter,
     )
 }
 
 @Composable
 fun TemperatureScreen(
     uiState: TemperatureViewModel.UiState,
-    temperatureFormatter: TemperatureFormatter,
 ) {
     Scaffold(
         topBar = {
@@ -71,7 +68,7 @@ fun TemperatureScreen(
         } else {
             TemperatureList(
                 temperatureItems = uiState.temperatureItems,
-                temperatureFormatter = temperatureFormatter,
+                temperatureFormatter = uiState.temperatureFormatter,
                 modifier = paddingModifier,
             )
         }
@@ -163,6 +160,7 @@ fun TemperatureScreenPreview() {
     CpuInfoTheme {
         TemperatureScreen(
             uiState = TemperatureViewModel.UiState(
+                temperatureFormatter = TemperatureFormatter(StubUserPreferencesRepository()),
                 isLoading = false,
                 temperatureItems = persistentListOf(
                     TemperatureItem(
@@ -177,7 +175,6 @@ fun TemperatureScreenPreview() {
                     )
                 )
             ),
-            temperatureFormatter = TemperatureFormatter(StubUserPreferencesRepository())
         )
     }
 }
