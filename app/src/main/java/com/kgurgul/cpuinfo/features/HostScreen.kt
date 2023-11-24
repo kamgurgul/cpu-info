@@ -2,6 +2,8 @@ package com.kgurgul.cpuinfo.features
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -82,11 +84,41 @@ fun HostScreen(
             startDestination = HostScreen.Information.route,
             modifier = Modifier.padding(paddingValues = paddingValues),
         ) {
-            composable(HostScreen.Information.route) { InfoContainerScreen() }
-            composable(HostScreen.Applications.route) { ApplicationsScreen() }
-            composable(HostScreen.Processes.route) { ProcessesScreen() }
-            composable(HostScreen.Temperatures.route) { TemperatureScreen() }
-            composable(HostScreen.Settings.route) { SettingsScreen() }
+            composable(
+                route = HostScreen.Information.route,
+                enterTransition = { fadeIn() },
+                exitTransition = { fadeOut() },
+                popEnterTransition = { fadeIn() },
+                popExitTransition = { fadeOut() },
+            ) { InfoContainerScreen() }
+            composable(
+                route = HostScreen.Applications.route,
+                enterTransition = { fadeIn() },
+                exitTransition = { fadeOut() },
+                popEnterTransition = { fadeIn() },
+                popExitTransition = { fadeOut() },
+            ) { ApplicationsScreen() }
+            composable(
+                route = HostScreen.Processes.route,
+                enterTransition = { fadeIn() },
+                exitTransition = { fadeOut() },
+                popEnterTransition = { fadeIn() },
+                popExitTransition = { fadeOut() },
+            ) { ProcessesScreen() }
+            composable(
+                route = HostScreen.Temperatures.route,
+                enterTransition = { fadeIn() },
+                exitTransition = { fadeOut() },
+                popEnterTransition = { fadeIn() },
+                popExitTransition = { fadeOut() },
+            ) { TemperatureScreen() }
+            composable(
+                route = HostScreen.Settings.route,
+                enterTransition = { fadeIn() },
+                exitTransition = { fadeOut() },
+                popEnterTransition = { fadeIn() },
+                popExitTransition = { fadeOut() },
+            ) { SettingsScreen() }
         }
     }
 }
