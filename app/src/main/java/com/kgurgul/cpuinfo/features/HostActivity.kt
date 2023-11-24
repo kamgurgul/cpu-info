@@ -24,11 +24,6 @@ import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * Base activity which is a host for whole application.
- *
- * @author kgurgul
- */
 @AndroidEntryPoint
 class HostActivity : AppCompatActivity() {
 
