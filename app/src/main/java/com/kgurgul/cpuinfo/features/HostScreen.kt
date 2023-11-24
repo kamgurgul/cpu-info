@@ -25,7 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.applications.ApplicationsScreen
-import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoScreen
+import com.kgurgul.cpuinfo.features.information.InfoContainerScreen
 import com.kgurgul.cpuinfo.features.processes.ProcessesScreen
 import com.kgurgul.cpuinfo.features.settings.SettingsScreen
 import com.kgurgul.cpuinfo.features.temperature.TemperatureScreen
@@ -79,10 +79,10 @@ fun HostScreen(
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = HostScreen.Hardware.route,
+            startDestination = HostScreen.Information.route,
             modifier = Modifier.padding(paddingValues = paddingValues),
         ) {
-            composable(HostScreen.Hardware.route) { HardwareInfoScreen() }
+            composable(HostScreen.Information.route) { InfoContainerScreen() }
             composable(HostScreen.Applications.route) { ApplicationsScreen() }
             composable(HostScreen.Processes.route) { ProcessesScreen() }
             composable(HostScreen.Temperatures.route) { TemperatureScreen() }
@@ -92,7 +92,7 @@ fun HostScreen(
 }
 
 sealed class HostScreen(val route: String) {
-    data object Hardware : HostScreen("hardware_route")
+    data object Information : HostScreen("information_route")
     data object Applications : HostScreen("applications_route")
     data object Processes : HostScreen("processes_route")
     data object Temperatures : HostScreen("temperatures_route")
@@ -111,8 +111,8 @@ data class HostNavigationItem(
                 add(
                     HostNavigationItem(
                         labelRes = R.string.hardware,
-                        iconRes = R.drawable.ic_hardware,
-                        route = HostScreen.Hardware.route,
+                        iconRes = R.drawable.ic_cpu,
+                        route = HostScreen.Information.route,
                     )
                 )
                 add(

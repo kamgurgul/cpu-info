@@ -16,15 +16,12 @@
 
 package com.kgurgul.cpuinfo.features
 
-import android.os.Build
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
+import androidx.core.view.WindowCompat
 import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.databinding.ActivityHostLayoutBinding
-import com.kgurgul.cpuinfo.utils.setupEdgeToEdge
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -35,33 +32,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HostActivity : AppCompatActivity() {
 
-    private lateinit var navController: NavController
-    private lateinit var binding: ActivityHostLayoutBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppThemeBase)
         super.onCreate(savedInstanceState)
-        binding = ActivityHostLayoutBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setupEdgeToEdge()
-        setupNavigation()
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            // Processes cannot be listed above M
-            val menu = binding.bottomNavigation.menu
-            menu.findItem(R.id.processes).isVisible = false
-        }
-    }
-
-    override fun onSupportNavigateUp() = navController.navigateUp()
-
-    private fun setupNavigation() {
-        navController =
-            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
-                .navController
-        binding.bottomNavigation.apply {
-            setupWithNavController(navController)
-            setOnItemReselectedListener {
-                // Do nothing - TODO: scroll to top
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        setContent {
+            CpuInfoTheme {
+                HostScreen()
             }
         }
     }
