@@ -6,8 +6,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,7 +53,10 @@ fun HostScreen(
     var selectedItem by remember { mutableIntStateOf(0) }
     Scaffold(
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+            ) {
                 HostNavigationItem.bottomNavigationItems(
                     isProcessesVisible = uiState.isProcessSectionVisible,
                 ).forEachIndexed { index, item ->
@@ -64,6 +69,13 @@ fun HostScreen(
                         },
                         label = { Text(stringResource(item.labelRes)) },
                         selected = selectedItem == index,
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                            selectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                            indicatorColor = MaterialTheme.colorScheme.secondary,
+                            unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                            unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
                         onClick = {
                             selectedItem = index
                             navController.navigate(item.route) {
