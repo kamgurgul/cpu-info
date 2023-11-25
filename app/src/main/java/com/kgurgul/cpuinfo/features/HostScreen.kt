@@ -73,8 +73,8 @@ fun HostScreen(
                             selectedIconColor = MaterialTheme.colorScheme.onPrimary,
                             selectedTextColor = MaterialTheme.colorScheme.onPrimary,
                             indicatorColor = MaterialTheme.colorScheme.secondary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                            unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                            unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
+                            unselectedTextColor = MaterialTheme.colorScheme.surfaceVariant,
                         ),
                         onClick = {
                             selectedItem = index
