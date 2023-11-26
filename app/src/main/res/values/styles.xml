@@ -33,18 +33,12 @@
         <item name="android:statusBarColor" tools:ignore="NewApi">@color/status_bar</item>
         <item name="android:navigationBarColor" tools:ignore="NewApi">@color/nav_bar</item>
 
-        <item name="alertDialogTheme">@style/CustomAppCompatAlertDialogStyle</item>
-        <item name="materialAlertDialogTheme">@style/CustomAppCompatAlertDialogStyle</item>
-
     </style>
 
-    <style name="AppThemeBase.Launcher">
-        <item name="android:windowBackground">@drawable/background_splash</item>
-        <item name="colorPrimaryDark">@color/background</item>
-    </style>
-
-    <style name="CustomAppCompatAlertDialogStyle" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="colorPrimary">@color/onBackground</item>
+    <style name="Theme.Launcher" parent="Theme.SplashScreen">
+        <item name="postSplashScreenTheme">@style/AppThemeBase</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="windowSplashScreenBackground">@color/primary</item>
     </style>
 
 </resources>

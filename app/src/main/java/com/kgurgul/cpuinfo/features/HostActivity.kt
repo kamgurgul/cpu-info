@@ -19,8 +19,8 @@ package com.kgurgul.cpuinfo.features
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HostActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppThemeBase)
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
