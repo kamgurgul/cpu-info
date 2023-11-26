@@ -23,8 +23,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppThemeBase"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
-        tools:replace="android:supportsRtl"
         tools:targetApi="tiramisu">
 
         <activity
