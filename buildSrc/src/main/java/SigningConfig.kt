@@ -4,9 +4,9 @@ import java.util.*
 
 object SigningConfig {
 
-    const val KEY_PATH = "keyPath"
-    const val KEY_PASS = "keyPass"
-    const val KEY_ALIAS = "keyAlias"
+    const val KEY_PATH = "KEYSTORE_PATH"
+    const val KEY_PASS = "KEYSTORE_PASS"
+    const val KEY_ALIAS = "KEYSTORE_ALIAS"
 
     fun getDebugProperties(rootDir: File) = Properties().apply {
         setProperty(KEY_PATH, "${rootDir.path}/debug.keystore")

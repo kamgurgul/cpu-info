@@ -31,6 +31,13 @@ jobs:
         with:
           name: code-coverage.xml
           path: app/build/coverage-report/result.xml
+      - name: Decode Keystore
+        env:
+          ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_ENCODED }}
+          SIGNING_KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
+        run: |
+          echo ENCODED_KEYSTORE > keystore-b64.txt
+          base64 -d keystore-b64.txt > SIGNING_KEYSTORE_PATH
       - name: Build release
         run: ./gradlew assembleRelease bundleRelease
       - name: Upload Build
