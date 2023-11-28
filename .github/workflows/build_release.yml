@@ -36,9 +36,13 @@ jobs:
           ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_ENCODED }}
           SIGNING_KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
         run: |
-          echo ENCODED_KEYSTORE > keystore-b64.txt
-          base64 -d keystore-b64.txt > SIGNING_KEYSTORE_PATH
+          echo $ENCODED_KEYSTORE > keystore-b64.txt
+          base64 -d keystore-b64.txt > $SIGNING_KEYSTORE_PATH
       - name: Build release
+        env:
+          KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+          KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
         run: ./gradlew assembleRelease bundleRelease
       - name: Upload Build
         uses: actions/upload-artifact@v3
