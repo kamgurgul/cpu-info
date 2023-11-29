@@ -50,15 +50,14 @@ jobs:
       - name: Decode Keystore
         env:
           ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_ENCODED }}
-          SIGNING_KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
         run: |
           echo $ENCODED_KEYSTORE > keystore-b64.txt
-          base64 -d keystore-b64.txt > $SIGNING_KEYSTORE_PATH
+          base64 -d keystore-b64.txt > keystore.jks
       - name: Build release
         env:
           KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
-          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
+          KEYSTORE_PATH: keystore.jks
         run: ./gradlew ${{ matrix.format.command }}
       - name: Upload Build
         uses: actions/upload-artifact@v3
