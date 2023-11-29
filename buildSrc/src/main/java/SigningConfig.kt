@@ -33,7 +33,6 @@ object SigningConfig {
             && !System.getenv(KEY_ALIAS).isNullOrEmpty()
         ) {
             println("Using system env variables for signing")
-            println("Keystore path: ${releaseProperties[KEY_PATH]}")
             releaseProperties[KEY_PATH] = System.getenv(KEY_PATH)
             releaseProperties[KEY_PASS] = System.getenv(KEY_PASS)
             releaseProperties[KEY_ALIAS] = System.getenv(KEY_ALIAS)
