@@ -35,7 +35,7 @@ jobs:
       matrix:
         format: [
           { type: "apk", command: "assembleRelease" },
-          { type: "aab", os_version: "bundleRelease" }
+          { type: "aab", command: "bundleRelease" }
         ]
     steps:
       - uses: actions/checkout@v3
@@ -59,12 +59,12 @@ jobs:
           KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
           KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
-        run: ./gradlew ${{ matrix.command }}
+        run: ./gradlew ${{ matrix.format.command }}
       - name: Upload Build
         uses: actions/upload-artifact@v3
         with:
           name: app-release.${{ matrix.type }}
-          path: app/build/outputs/${{ matrix.type }}/release/*.${{ matrix.type }}
+          path: app/build/outputs/${{ matrix.format.type }}/release/*.${{ matrix.format.type }}
   release:
     needs: build
     permissions:
