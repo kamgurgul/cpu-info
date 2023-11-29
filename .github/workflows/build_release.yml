@@ -18,7 +18,7 @@ jobs:
           distribution: 'corretto'
           cache: gradle
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v2.10.0
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
       - name: Generate code coverage
@@ -46,13 +46,13 @@ jobs:
           distribution: 'corretto'
           cache: gradle
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v2.10.0
       - name: Decode Keystore
         env:
           ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_ENCODED }}
         run: |
           echo $ENCODED_KEYSTORE > keystore-b64.txt
-          base64 -d keystore-b64.txt > keystore.jks
+          base64 -d keystore-b64.txt > ./app/keystore.jks
       - name: Build release
         env:
           KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
