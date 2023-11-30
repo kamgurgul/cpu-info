@@ -62,7 +62,7 @@ jobs:
       - name: Upload Build
         uses: actions/upload-artifact@v3
         with:
-          name: app-release.${{ matrix.type }}
+          name: app-release.${{ matrix.format.type }}
           path: app/build/outputs/${{ matrix.format.type }}/release/*.${{ matrix.format.type }}
   release:
     needs: build
