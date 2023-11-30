@@ -67,7 +67,12 @@ fun HostScreen(
                                 contentDescription = stringResource(item.labelRes),
                             )
                         },
-                        label = { Text(stringResource(item.labelRes)) },
+                        label = {
+                            Text(
+                                text = stringResource(item.labelRes),
+                                style = MaterialTheme.typography.labelSmall,
+                            )
+                        },
                         selected = selectedItem == index,
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = MaterialTheme.colorScheme.onPrimary,
