@@ -1,8 +1,11 @@
 *.iml
 .gradle/
 local.properties
-.idea/
 .DS_Store
 build/
 captures/
 .cxx/
+
+.idea/
+!/.idea/codeStyles
+!/.idea/icon.png
