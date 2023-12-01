@@ -57,6 +57,7 @@ fun HostScreen(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
             ) {
+                val withLabel = !uiState.isProcessSectionVisible
                 HostNavigationItem.bottomNavigationItems(
                     isProcessesVisible = uiState.isProcessSectionVisible,
                 ).forEachIndexed { index, item ->
@@ -67,12 +68,14 @@ fun HostScreen(
                                 contentDescription = stringResource(item.labelRes),
                             )
                         },
-                        label = {
-                            Text(
-                                text = stringResource(item.labelRes),
-                                style = MaterialTheme.typography.labelSmall,
-                            )
-                        },
+                        label = if (withLabel) {
+                            {
+                                Text(
+                                    text = stringResource(item.labelRes),
+                                    style = MaterialTheme.typography.labelSmall,
+                                )
+                            }
+                        } else null,
                         selected = selectedItem == index,
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = MaterialTheme.colorScheme.onPrimary,
