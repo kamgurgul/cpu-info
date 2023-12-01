@@ -159,9 +159,14 @@ fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
     } else {
         ""
     }
+    val progress = if (frequency.current != -1L) {
+        frequency.current.toFloat() / frequency.max.toFloat()
+    } else {
+        0f
+    }
     CpuProgressBar(
         label = currentFreq,
-        progress = frequency.current.toFloat() / frequency.max.toFloat(),
+        progress = progress,
         minMaxValues = minFreq to maxFreq,
     )
 }

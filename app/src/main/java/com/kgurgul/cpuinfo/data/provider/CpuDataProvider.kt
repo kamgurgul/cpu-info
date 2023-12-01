@@ -2,29 +2,17 @@ package com.kgurgul.cpuinfo.data.provider
 
 import android.os.Build
 import timber.log.Timber
-import java.io.File
-import java.io.FileFilter
 import java.io.RandomAccessFile
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 class CpuDataProvider @Inject constructor() {
 
     fun getAbi(): String {
-        return if (Build.VERSION.SDK_INT >= 21) {
-            Build.SUPPORTED_ABIS[0]
-        } else {
-            @Suppress("DEPRECATION")
-            Build.CPU_ABI
-        }
+        return Build.SUPPORTED_ABIS[0]
     }
 
     fun getNumberOfCores(): Int {
-        return if (Build.VERSION.SDK_INT >= 17) {
-            Runtime.getRuntime().availableProcessors()
-        } else {
-            getNumCoresLegacy()
-        }
+        return Runtime.getRuntime().availableProcessors()
     }
 
     /**
@@ -55,29 +43,6 @@ class CpuDataProvider @Inject constructor() {
         } catch (e: Exception) {
             Timber.e("getMinMaxFreq() - cannot read file")
             Pair(-1, -1)
-        }
-    }
-
-    /**
-     * Gets the number of cores available in this device, across all processors.
-     * Requires: Ability to peruse the filesystem at "/sys/devices/system/cpu"
-     *
-     * @return The number of cores, or 1 if check fails
-     */
-    private fun getNumCoresLegacy(): Int {
-        class CpuFilter : FileFilter {
-            override fun accept(pathname: File): Boolean {
-                // Check if filename is "cpu", followed by a single digit number
-                if (Pattern.matches("cpu[0-9]+", pathname.name)) {
-                    return true
-                }
-                return false
-            }
-        }
-        return try {
-            File(CPU_INFO_DIR).listFiles(CpuFilter())!!.size
-        } catch (e: Exception) {
-            1
         }
     }
 
