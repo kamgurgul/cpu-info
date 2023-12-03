@@ -21,7 +21,6 @@ alt='Get it on GitHub' height="80">](https://github.com/kamgurgul/cpu-info/relea
 TODO
 ====
 
-* Replace layouts with Compose (migrate preference fragment)
 * Unit and UI tests
 * Add translations framework
 * Add device benchmarks
