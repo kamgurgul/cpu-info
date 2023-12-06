@@ -24,6 +24,8 @@ class ProcessesDataObservable @Inject constructor(
         }
     }
 
+    fun areProcessesSupported() = processesProvider.areProcessesSupported()
+
     companion object {
         private const val REFRESH_DELAY = 3000L
     }

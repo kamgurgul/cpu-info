@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.data.provider
 
+import android.os.Build
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import timber.log.Timber
 import java.util.StringTokenizer
@@ -32,6 +33,8 @@ class ProcessesProvider @Inject constructor() {
         private const val NICENESS_POSITION = 6
         private const val NAME_POSITION = 12
     }
+
+    fun areProcessesSupported() = Build.VERSION.SDK_INT <= Build.VERSION_CODES.M
 
     fun getProcessList(): List<ProcessItem> {
         val psCmdList = readPsCmd()
