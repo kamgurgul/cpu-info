@@ -8,6 +8,7 @@ import com.kgurgul.cpuinfo.utils.ThemeHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -76,6 +77,7 @@ class SettingsViewModel @Inject constructor(
 
     fun setTheme(theme: String) {
         viewModelScope.launch {
+            delay(300)
             ThemeHelper.applyTheme(theme)
             userPreferencesRepository.setTheme(theme)
         }

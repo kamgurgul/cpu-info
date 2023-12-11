@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <color name="primary">#424242</color>
+    <color name="primary">#FF424242</color>
     <color name="primaryDark">#323232</color>
     <color name="onPrimary">#FFFFFF</color>
     <color name="error">#F44336</color>
