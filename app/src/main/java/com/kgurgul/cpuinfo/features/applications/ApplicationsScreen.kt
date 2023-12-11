@@ -426,7 +426,6 @@ private fun NativeLibsDialog(
     if (isVisible) {
         AlertDialog(
             onDismissRequest = onDismissRequest,
-            tonalElevation = 0.dp,
             title = {
                 Text(text = stringResource(id = R.string.native_libs))
             },
