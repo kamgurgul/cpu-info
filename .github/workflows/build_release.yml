@@ -64,6 +64,11 @@ jobs:
         with:
           name: app-release.${{ matrix.format.type }}
           path: app/build/outputs/${{ matrix.format.output }}/release/*.${{ matrix.format.type }}
+      - name: Upload mapping folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: mapping-${{ matrix.format.type }}
+          path: app/build/outputs/mapping/
   release:
     needs: build
     permissions:
@@ -81,16 +86,24 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: app-release.apk
+      - name: Download APK mapping
+        uses: actions/download-artifact@v3
+        with:
+          name: mapping-apk
       - name: Download AAB
         uses: actions/download-artifact@v3
         with:
           name: app-release.aab
+      - name: Download AAB mapping
+        uses: actions/download-artifact@v3
+        with:
+          name: mapping-aab
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: "app-release.apk,app-release.aab"
+          artifacts: "app-release.apk,app-release.aab,mapping-apk,mapping-aab"
           draft: true
           name: ${{ github.event.inputs.version }}
           tag: ${{ github.event.inputs.version }}
