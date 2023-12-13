@@ -14,26 +14,9 @@
   ~ limitations under the License.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <style name="AppThemeBase" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryVariant">@color/primaryDark</item>
-        <item name="colorPrimaryDark">@color/primaryDark</item>
-        <item name="colorOnPrimary">@color/onPrimary</item>
-        <item name="colorOnSecondary">@color/onPrimary</item>
-        <item name="colorAccent">@color/accent</item>
-        <item name="colorError">@color/error</item>
-        <item name="colorOnError">@color/onError</item>
-        <item name="colorSurface">@color/surface</item>
-        <item name="colorOnSurface">@color/onSurface</item>
-        <item name="android:colorBackground">@color/background</item>
-        <item name="colorOnBackground">@color/onBackground</item>
-
-        <item name="android:statusBarColor" tools:ignore="NewApi">@color/status_bar</item>
-        <item name="android:navigationBarColor" tools:ignore="NewApi">@color/nav_bar</item>
-
-    </style>
+    <style name="AppThemeBase" parent="Theme.AppCompat.DayNight.NoActionBar" />
 
     <style name="Theme.Launcher" parent="Theme.SplashScreen">
         <item name="postSplashScreenTheme">@style/AppThemeBase</item>

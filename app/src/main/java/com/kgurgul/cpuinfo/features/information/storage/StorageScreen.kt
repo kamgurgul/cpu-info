@@ -103,7 +103,7 @@ fun StorageScreenPreview() {
                 storageItems = listOf(
                     StorageItem(
                         labelRes = R.string.internal,
-                        iconRes = R.drawable.root,
+                        iconRes = R.drawable.baseline_folder_special_24,
                         storageTotal = 100,
                         storageUsed = 50,
                     )

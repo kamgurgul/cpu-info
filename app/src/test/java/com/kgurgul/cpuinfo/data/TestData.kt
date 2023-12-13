@@ -3,6 +3,7 @@ package com.kgurgul.cpuinfo.data
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.local.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.CpuData
+import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.GpuData
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
@@ -17,7 +18,7 @@ object TestData {
         isApplicationsSortingAscending = true,
         withSystemApps = false,
         temperatureUnit = 0,
-        theme = "theme",
+        theme = DarkThemeConfig.FOLLOW_SYSTEM.prefName,
     )
 
     val extendedApplicationsData = listOf(
@@ -104,7 +105,7 @@ object TestData {
     val storageData = listOf(
         StorageItem(
             labelRes = R.string.internal,
-            iconRes = R.drawable.root,
+            iconRes = R.drawable.baseline_folder_special_24,
             storageTotal = 100,
             storageUsed = 50,
         )

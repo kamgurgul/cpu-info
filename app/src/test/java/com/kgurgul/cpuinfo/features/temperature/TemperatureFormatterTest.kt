@@ -28,9 +28,7 @@ import org.mockito.kotlin.mock
 
 class TemperatureFormatterTest {
 
-    private val userPreferenceSharedFlow = MutableSharedFlow<UserPreferences>(
-        replay = 1
-    )
+    private val userPreferenceSharedFlow = MutableSharedFlow<UserPreferences>(replay = 1)
     private val mockUserPreferencesRepository = mock<IUserPreferencesRepository> {
         on { userPreferencesFlow } doReturn userPreferenceSharedFlow
     }

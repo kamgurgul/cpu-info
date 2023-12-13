@@ -139,7 +139,7 @@ fun CpuProgressBarPreview() {
             label = "Label",
             progress = 0.1f,
             minMaxValues = "Min" to "Max",
-            prefixImageRes = R.drawable.root,
+            prefixImageRes = R.drawable.baseline_folder_special_24,
         )
     }
 }

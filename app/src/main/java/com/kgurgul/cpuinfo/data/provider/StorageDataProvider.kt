@@ -25,7 +25,7 @@ class StorageDataProvider @Inject constructor() {
         return if (storageTotal > 0) {
             StorageItem(
                 labelRes = R.string.internal,
-                iconRes = R.drawable.root,
+                iconRes = R.drawable.baseline_folder_special_24,
                 storageTotal = storageTotal,
                 storageUsed = storageUsed,
             )
@@ -43,7 +43,7 @@ class StorageDataProvider @Inject constructor() {
             if (storageTotal > 0) {
                 StorageItem(
                     labelRes = R.string.external,
-                    iconRes = R.drawable.folder,
+                    iconRes = R.drawable.baseline_folder_24,
                     storageTotal = storageTotal,
                     storageUsed = storageUsed,
                 )
@@ -71,7 +71,7 @@ class StorageDataProvider @Inject constructor() {
                     return if (storageTotal > 0) {
                         StorageItem(
                             labelRes = R.string.external,
-                            iconRes = R.drawable.sdcard,
+                            iconRes = R.drawable.baseline_sd_storage_24,
                             storageTotal = storageTotal,
                             storageUsed = storageUsed,
                         )

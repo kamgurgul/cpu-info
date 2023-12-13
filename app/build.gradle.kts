@@ -106,13 +106,12 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintLayout)
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.multidex)
-    implementation(libs.androidx.viewPager2)
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
@@ -126,11 +125,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.testManifest)
-
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.ui)
-
-    implementation(libs.google.material)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

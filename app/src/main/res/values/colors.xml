@@ -16,26 +16,4 @@
 
 <resources>
     <color name="primary">#FF424242</color>
-    <color name="primaryDark">#323232</color>
-    <color name="onPrimary">#FFFFFF</color>
-    <color name="error">#F44336</color>
-    <color name="onError">#FFFFFF</color>
-    <color name="accent">#D84315</color>
-    <color name="surface">#FFFFFF</color>
-    <color name="onSurface">#000000</color>
-    <color name="background">#FFFFFF</color>
-    <color name="onBackground">#000000</color>
-
-    <color name="black">#000000</color>
-    <color name="white">#FFFFFF</color>
-    <color name="red">#FF0000</color>
-
-    <color name="nav_bar">#B3000000</color>
-    <color name="status_bar">@color/primary</color>
-
-    <color name="drawerNoShadow">#00000000</color>
-
-    <color name="blueLight">#2979FF</color>
-    <color name="progressBackground">#E4E5E7</color>
-    <color name="greyText">#EEEEEE</color>
 </resources>

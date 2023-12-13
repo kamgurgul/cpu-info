@@ -21,7 +21,6 @@ package com.kgurgul.cpuinfo.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.kgurgul.cpuinfo.R
 import kotlin.math.roundToLong
 
 /**
@@ -52,11 +51,6 @@ fun Double.round2(): Double = try {
 } catch (e: Exception) {
     0.0
 }
-
-/**
- * @return true if used device is tablet
- */
-fun Context.isTablet(): Boolean = this.resources.getBoolean(R.bool.isTablet)
 
 /**
  * In the feature this method should be replaced with PackageManager

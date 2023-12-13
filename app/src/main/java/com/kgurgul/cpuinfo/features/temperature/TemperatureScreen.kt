@@ -21,10 +21,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.R
@@ -112,8 +112,7 @@ private fun TemperatureItem(
             painter = painterResource(id = item.iconRes),
             tint = MaterialTheme.colorScheme.onBackground,
             contentDescription = null,
-            modifier = Modifier
-                .requiredSize(dimensionResource(id = R.dimen.temp_image_size)),
+            modifier = Modifier.requiredSize(60.dp),
         )
         Spacer(modifier = Modifier.requiredSize(spacingSmall))
         Column(
