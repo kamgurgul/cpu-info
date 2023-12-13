@@ -110,7 +110,6 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.datastore.preferences)
-    implementation(libs.androidx.fragment)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.multidex)
     implementation(libs.androidx.viewPager2)
@@ -129,7 +128,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.testManifest)
 
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
 
     implementation(libs.google.material)
