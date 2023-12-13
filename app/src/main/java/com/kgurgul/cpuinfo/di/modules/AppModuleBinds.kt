@@ -18,8 +18,4 @@ abstract class AppModuleBinds {
     @Binds
     @IntoSet
     abstract fun provideTimberInitializer(bind: TimberInitializer): AppInitializer
-
-    @Binds
-    @IntoSet
-    abstract fun provideThemeInitializer(bind: ThemeInitializer): AppInitializer
 }

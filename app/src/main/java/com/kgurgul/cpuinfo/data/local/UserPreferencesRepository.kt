@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.kgurgul.cpuinfo.utils.ThemeHelper
+import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -61,7 +61,7 @@ class UserPreferencesRepository @Inject constructor(
             isApplicationsSortingAscending = preferences[PreferencesKeys.SORTING_APPS] ?: true,
             withSystemApps = preferences[PreferencesKeys.WITH_SYSTEM_APPS] ?: false,
             temperatureUnit = preferences[PreferencesKeys.TEMPERATURE_UNIT] ?: 0,
-            theme = preferences[PreferencesKeys.THEME] ?: ThemeHelper.DEFAULT_MODE,
+            theme = preferences[PreferencesKeys.THEME] ?: DarkThemeConfig.FOLLOW_SYSTEM.prefName,
         )
     }
 

@@ -20,28 +20,66 @@ import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HostActivity : AppCompatActivity() {
 
+    private val viewModel: HostViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
+        val splashScreen = installSplashScreen()
+        super.onCreate(savedInstanceState)
+
+        var uiState: HostViewModel.UiState by mutableStateOf(HostViewModel.UiState())
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiStateFlow
+                    .onEach { uiState = it }
+                    .collect()
+            }
+        }
+        splashScreen.setKeepOnScreenCondition { uiState.isLoading }
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.dark(
                 ContextCompat.getColor(this, R.color.primary)
             )
         )
-        super.onCreate(savedInstanceState)
         setContent {
-            CpuInfoTheme {
-                HostScreen()
+            CpuInfoTheme(
+                useDarkTheme = shouldUseDarkTheme(uiState),
+            ) {
+                HostScreen(
+                    viewModel = viewModel,
+                )
             }
         }
     }
+}
+
+@Composable
+private fun shouldUseDarkTheme(
+    uiState: HostViewModel.UiState,
+): Boolean = when (uiState.darkThemeConfig) {
+    DarkThemeConfig.FOLLOW_SYSTEM -> isSystemInDarkTheme()
+    DarkThemeConfig.LIGHT -> false
+    DarkThemeConfig.DARK -> true
 }

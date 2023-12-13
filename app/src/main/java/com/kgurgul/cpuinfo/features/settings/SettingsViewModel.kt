@@ -3,12 +3,11 @@ package com.kgurgul.cpuinfo.features.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
+import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
-import com.kgurgul.cpuinfo.utils.ThemeHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -40,9 +39,9 @@ class SettingsViewModel @Inject constructor(
     )
 
     private val themeDialogOptions = persistentListOf(
-        ThemeHelper.DEFAULT_MODE,
-        ThemeHelper.LIGHT_MODE,
-        ThemeHelper.DARK_MODE,
+        DarkThemeConfig.FOLLOW_SYSTEM.prefName,
+        DarkThemeConfig.LIGHT.prefName,
+        DarkThemeConfig.DARK.prefName,
     )
 
     fun onTemperatureOptionClicked() {
@@ -77,15 +76,13 @@ class SettingsViewModel @Inject constructor(
 
     fun setTheme(theme: String) {
         viewModelScope.launch {
-            delay(300)
-            ThemeHelper.applyTheme(theme)
             userPreferencesRepository.setTheme(theme)
         }
     }
 
     data class UiState(
         val temperatureUnit: Int = 0,
-        val theme: String = ThemeHelper.DEFAULT_MODE,
+        val theme: String = DarkThemeConfig.FOLLOW_SYSTEM.prefName,
         val temperatureDialogOptions: ImmutableList<Int>? = null,
         val themeDialogOptions: ImmutableList<String>? = null,
     )

@@ -28,13 +28,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingLarge
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
-import com.kgurgul.cpuinfo.utils.ThemeHelper
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -273,9 +273,9 @@ private fun ThemeDialog(
 @Composable
 private fun getThemeName(option: String): String {
     return when (option) {
-        ThemeHelper.DEFAULT_MODE -> stringResource(id = R.string.pref_theme_default)
-        ThemeHelper.LIGHT_MODE -> stringResource(id = R.string.pref_theme_light)
-        ThemeHelper.DARK_MODE -> stringResource(id = R.string.pref_theme_dark)
+        DarkThemeConfig.FOLLOW_SYSTEM.prefName -> stringResource(id = R.string.pref_theme_default)
+        DarkThemeConfig.LIGHT.prefName -> stringResource(id = R.string.pref_theme_light)
+        DarkThemeConfig.DARK.prefName -> stringResource(id = R.string.pref_theme_dark)
         else -> throw IllegalArgumentException("Unknown theme")
     }
 }
