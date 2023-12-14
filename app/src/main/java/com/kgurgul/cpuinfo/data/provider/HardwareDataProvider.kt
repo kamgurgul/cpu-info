@@ -22,10 +22,12 @@ import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.pm.PackageManager
 import android.content.res.Resources
-import android.hardware.Camera
 import android.hardware.ConsumerIrManager
+import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraManager
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
+import android.os.Build
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.utils.Utils
@@ -46,6 +48,7 @@ class HardwareDataProvider @Inject constructor(
     private val batteryStatusProvider: BatteryStatusProvider,
     private val wifiManager: WifiManager,
     private val irManager: ConsumerIrManager?,
+    private val cameraManager: CameraManager,
 ) {
 
     fun getData(): List<Pair<String, String>> {
@@ -352,11 +355,8 @@ class HardwareDataProvider @Inject constructor(
         return alsa
     }
 
-    /**
-     * @return true if device has at least 1 camera, otherwise false
-     */
     private fun hasCamera(): Boolean =
-        packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
+        packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
 
     /**
      * Get number, type and orientation of the cameras
@@ -364,35 +364,61 @@ class HardwareDataProvider @Inject constructor(
     private fun getCameraInfo(): List<Pair<String, String>> {
         val functionsList = mutableListOf<Pair<String, String>>()
 
-        val numbersOfCameras = Camera.getNumberOfCameras()
-        functionsList.add(Pair(resources.getString(R.string.amount), numbersOfCameras.toString()))
+        try {
+            val cameraIdList = cameraManager.cameraIdList
+            val numberOfCameras = cameraIdList.size
+            functionsList.add(
+                Pair(
+                    resources.getString(R.string.amount),
+                    numberOfCameras.toString()
+                )
+            )
 
-        val cameraName = resources.getString(R.string.camera)
-        val cameraType = resources.getString(R.string.type)
-        val cameraOrientation = resources.getString(R.string.orientation)
-        for (i in 0 until numbersOfCameras) {
-            functionsList.add(Pair("     $cameraName $i", " "))
-            try {
-                val info = Camera.CameraInfo()
-                Camera.getCameraInfo(i, info)
-                val type = getCameraType(info)
-                functionsList.add(Pair("         $cameraType", type))
-                functionsList.add(Pair("         $cameraOrientation", info.orientation.toString()))
-            } catch (e: Exception) {
-                Timber.e(e)
+            val cameraName = resources.getString(R.string.camera)
+            val cameraType = resources.getString(R.string.type)
+            val cameraOrientation = resources.getString(R.string.orientation)
+            for (cameraId in cameraIdList) {
+                functionsList.add(Pair("     $cameraName $cameraId", " "))
+                try {
+                    val characteristics = cameraManager.getCameraCharacteristics(cameraId)
+                    val orientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)
+                    val facing = characteristics.get(CameraCharacteristics.LENS_FACING)
+                    functionsList.add(Pair("         $cameraType", getCameraFacing(facing)))
+                    functionsList.add(Pair("         $cameraOrientation", orientation.toString()))
+                    if (Build.VERSION.SDK_INT >= 28) {
+                        val lensAmount = characteristics.physicalCameraIds.size
+                        if (lensAmount > 0) {
+                            functionsList.add(
+                                Pair(
+                                    "         ${resources.getString(R.string.camera_lens_number)}",
+                                    lensAmount.toString()
+                                )
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
             }
+        } catch (e: Exception) {
+            Timber.e(e)
+            functionsList.add(Pair(resources.getString(R.string.amount), "0"))
         }
 
         return functionsList
     }
 
-    /**
-     * Detect camera type using old API
-     */
-    private fun getCameraType(info: Camera.CameraInfo): String =
-        when (info.facing) {
-            Camera.CameraInfo.CAMERA_FACING_FRONT -> resources.getString(R.string.front)
-            Camera.CameraInfo.CAMERA_FACING_BACK -> resources.getString(R.string.back)
+    private fun getCameraFacing(facing: Int?): String =
+        when (facing) {
+            CameraCharacteristics.LENS_FACING_FRONT ->
+                resources.getString(R.string.front)
+
+            CameraCharacteristics.LENS_FACING_BACK ->
+                resources.getString(R.string.back)
+
+            CameraCharacteristics.LENS_FACING_EXTERNAL ->
+                resources.getString(R.string.camera_external)
+
             else -> resources.getString(R.string.unknown)
         }
 

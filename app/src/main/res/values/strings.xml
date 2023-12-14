@@ -110,6 +110,7 @@
     <string name="absolute_height">Absolute Height</string>
     <string name="refresh_rate">Refresh rate</string>
     <string name="orientation">Orientation</string>
+    <string name="camera_lens_number">Number of lenses</string>
 
     <!--Android-->
     <string name="codename">Codename</string>
@@ -150,6 +151,7 @@
     <string name="camera">Camera</string>
     <string name="type">Type</string>
     <string name="front">Front</string>
+    <string name="camera_external">External</string>
     <string name="back">Back</string>
     <string name="battery_health">Health</string>
     <string name="battery_cold">Cold</string>

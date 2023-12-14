@@ -25,6 +25,7 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.hardware.ConsumerIrManager
 import android.hardware.SensorManager
+import android.hardware.camera2.CameraManager
 import android.net.wifi.WifiManager
 import android.os.storage.StorageManager
 import android.view.WindowManager
@@ -107,6 +108,11 @@ class AppModule {
     @Singleton
     fun provideIrManager(@ApplicationContext appContext: Context): ConsumerIrManager? =
         appContext.getSystemService(Context.CONSUMER_IR_SERVICE) as? ConsumerIrManager?
+
+    @Provides
+    @Singleton
+    fun provideCameraManager(@ApplicationContext appContext: Context): CameraManager =
+        appContext.getSystemService(Context.CAMERA_SERVICE) as CameraManager
 
     companion object {
         const val USER_PREFERENCES_NAME = "user_preferences"

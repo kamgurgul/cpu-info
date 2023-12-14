@@ -125,6 +125,7 @@
     <string name="type">Typ</string>
     <string name="front">Frontowy</string>
     <string name="back">Tylny</string>
+    <string name="camera_external">Zewnętrzny</string>
     <string name="battery_health">Stan</string>
     <string name="battery_cold">Zimna</string>
     <string name="battery_good">Zdrowa</string>
@@ -134,6 +135,7 @@
     <string name="battery_unknown">Nieznana</string>
     <string name="battery_unspecified_failure">Nieznana usterka</string>
     <string name="ir_emitter">Nadajnik IR</string>
+    <string name="camera_lens_number">Liczba soczewek</string>
 
     <!--Prefs-->
     <string name="default_refreshing">Domyślna wartość Androida</string>
