@@ -21,6 +21,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.lifecycle.ViewModel
+import com.kgurgul.cpuinfo.domain.model.SensorData
 import com.kgurgul.cpuinfo.utils.round1
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,7 +42,15 @@ class SensorsInfoViewModel @Inject constructor(
     fun startProvidingData() {
         if (_uiStateFlow.value.sensors.isEmpty()) {
             _uiStateFlow.update { uiState ->
-                uiState.copy(sensors = sensorList.map { Pair(it.name, " ") })
+                uiState.copy(
+                    sensors = sensorList.map {
+                        SensorData(
+                            id = it.getUniqueId(),
+                            name = it.name,
+                            value = " ",
+                        )
+                    }
+                )
             }
         }
         Thread {
@@ -78,7 +87,14 @@ class SensorsInfoViewModel @Inject constructor(
         _uiStateFlow.update { uiState ->
             uiState.copy(
                 sensors = uiState.sensors.toMutableList().apply {
-                    set(updatedRowId, Pair(event.sensor.name, getSensorData(event)))
+                    set(
+                        updatedRowId,
+                        SensorData(
+                            id = event.sensor.getUniqueId(),
+                            name = event.sensor.name,
+                            value = getSensorData(event),
+                        )
+                    )
                 }
             )
         }
@@ -178,7 +194,11 @@ class SensorsInfoViewModel @Inject constructor(
         return data
     }
 
+    private fun Sensor.getUniqueId(): String {
+        return "${this.type}-${this.name}-${this.version}-${this.version}"
+    }
+
     data class UiState(
-        val sensors: List<Pair<String, String>> = emptyList()
+        val sensors: List<SensorData> = emptyList()
     )
 }

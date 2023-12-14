@@ -116,8 +116,7 @@ class OsDataProvider @Inject constructor(
         try {
             process = Runtime.getRuntime().exec(arrayOf("/system/xbin/which", "su"))
             val br = BufferedReader(InputStreamReader(process.inputStream))
-            if (br.readLine() != null) return true
-            return false
+            return br.readLine() != null
         } catch (t: Throwable) {
             return false
         } finally {

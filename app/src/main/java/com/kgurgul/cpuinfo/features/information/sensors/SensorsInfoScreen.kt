@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kgurgul.cpuinfo.domain.model.SensorData
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -62,11 +63,11 @@ fun SensorsInfoScreen(
     ) {
         itemsIndexed(
             uiState.sensors,
-            key = { _, pair -> pair.first }
-        ) { index, (title, value) ->
+            key = { _, sensorData -> sensorData.id }
+        ) { index, sensorData ->
             SensorItem(
-                title = title,
-                value = value,
+                title = sensorData.name,
+                value = sensorData.value,
                 isLastItem = index == uiState.sensors.lastIndex
             )
         }
@@ -109,8 +110,16 @@ fun SensorsInfoScreenPreview() {
         SensorsInfoScreen(
             uiState = SensorsInfoViewModel.UiState(
                 listOf(
-                    "test" to "",
-                    "test" to "test",
+                    SensorData(
+                        id = "test",
+                        name = "test",
+                        value = "",
+                    ),
+                    SensorData(
+                        id = "test",
+                        name = "test",
+                        value = "test",
+                    ),
                 )
             ),
         )
