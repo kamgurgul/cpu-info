@@ -21,7 +21,10 @@ alt='Get it on GitHub' height="80">](https://github.com/kamgurgul/cpu-info/relea
 TODO
 ====
 
+* Fix temperature provider for all Android versions
+* Bring back app size
 * Unit and UI tests
+* Add Kotlin Multiplatform module
 * Add translations framework
 * Add device benchmarks
 
