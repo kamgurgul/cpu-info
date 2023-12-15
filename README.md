@@ -25,6 +25,21 @@ TODO
 * Add translations framework
 * Add device benchmarks
 
+Features
+========
+
+* CPU specification (with current frequency on specyfic cores)
+* GPU specification
+* RAM and storage state (internal, external and SD card)
+* Display metrics
+* Android OS details
+* Sensors data
+* Battery status
+* WiFi and Bluetooth mac address (on older Androids)
+* Audio card info
+* Native libraries used in another applications
+* CPU and battery temperature monitor
+
 Alternative stores
 ==================
 
