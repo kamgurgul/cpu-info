@@ -73,6 +73,9 @@ class TemperatureProvider @Inject constructor(
         // Ugly but currently the easiest working solution is to search well known locations
         // If you know better solution please refactor this :)
         private val CPU_TEMP_FILE_PATHS = listOf(
+            "/sys/htc/cpu_temp",
+            "/sys/devices/platform/tegra-i2c.3/i2c-4/4-004c/ext_temperature",
+            "/sys/devices/platform/tegra-tsensor/tsensor_temperature",
             "/sys/devices/system/cpu/cpu0/cpufreq/cpu_temp",
             "/sys/devices/system/cpu/cpu0/cpufreq/FakeShmoo_cpu_temp",
             "/sys/class/thermal/thermal_zone0/temp",
@@ -89,7 +92,7 @@ class TemperatureProvider @Inject constructor(
             "/sys/class/thermal/thermal_zone3/temp",
             "/sys/class/thermal/thermal_zone4/temp",
             "/sys/class/hwmon/hwmonX/temp1_input",
-            "/sys/devices/platform/s5p-tmu/curr_temp"
+            "/sys/devices/platform/s5p-tmu/curr_temp",
         )
     }
 }
