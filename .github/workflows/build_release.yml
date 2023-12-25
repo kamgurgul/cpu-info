@@ -91,6 +91,9 @@ jobs:
         with:
           name: mapping-apk
           path: mapping-apk
+      - name: Zip APK mapping
+        run: |
+          zip -r mapping-apk.zip mapping-apk/
       - name: Download AAB
         uses: actions/download-artifact@v3
         with:
@@ -100,6 +103,9 @@ jobs:
         with:
           name: mapping-aab
           path: mapping-aab
+      - name: Zip AAB mapping
+        run: |
+          zip -r mapping-aab.zip mapping-aab/
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1
