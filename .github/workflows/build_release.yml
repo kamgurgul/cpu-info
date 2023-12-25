@@ -90,6 +90,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: mapping-apk
+          path: mapping-apk
       - name: Download AAB
         uses: actions/download-artifact@v3
         with:
@@ -98,6 +99,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: mapping-aab
+          path: mapping-aab
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1
