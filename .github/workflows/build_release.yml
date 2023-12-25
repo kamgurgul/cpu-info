@@ -103,7 +103,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: "app-release.apk,app-release.aab,mapping-apk,mapping-aab"
+          artifacts: "app-release.apk,app-release.aab,mapping*"
           draft: true
           name: ${{ github.event.inputs.version }}
           tag: ${{ github.event.inputs.version }}
