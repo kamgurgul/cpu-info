@@ -14,18 +14,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.applications.ApplicationsScreen
@@ -50,17 +49,18 @@ fun HostScreen(
     uiState: HostViewModel.UiState
 ) {
     val navController = rememberNavController()
-    var selectedItem by rememberSaveable { mutableIntStateOf(0) }
     Scaffold(
         bottomBar = {
             NavigationBar(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
             ) {
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
                 val withLabel = !uiState.isProcessSectionVisible
                 HostNavigationItem.bottomNavigationItems(
                     isProcessesVisible = uiState.isProcessSectionVisible,
-                ).forEachIndexed { index, item ->
+                ).forEach { item ->
                     NavigationBarItem(
                         icon = {
                             Icon(
@@ -76,7 +76,8 @@ fun HostScreen(
                                 )
                             }
                         } else null,
-                        selected = selectedItem == index,
+                        selected = currentDestination?.hierarchy
+                            ?.any { it.route == item.route } == true,
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = MaterialTheme.colorScheme.onPrimary,
                             selectedTextColor = MaterialTheme.colorScheme.onPrimary,
@@ -85,7 +86,6 @@ fun HostScreen(
                             unselectedTextColor = MaterialTheme.colorScheme.surfaceVariant,
                         ),
                         onClick = {
-                            selectedItem = index
                             navController.navigate(item.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
