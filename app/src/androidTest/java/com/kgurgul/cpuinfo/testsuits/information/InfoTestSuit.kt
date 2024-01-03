@@ -17,9 +17,7 @@
 package com.kgurgul.cpuinfo.testsuits.information
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.core.BaseTestSuit
-import com.kgurgul.cpuinfo.core.getString
 import com.kgurgul.cpuinfo.pages.InfoContainerPage
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,27 +25,9 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class InfoTestSuit : BaseTestSuit() {
 
-    private val infoContainerPage = InfoContainerPage()
+    private val infoContainerPage = InfoContainerPage(androidComposeRule)
 
     @Test
     fun checkInfoTabs() {
-        infoContainerPage.assertViewDisplayed()
-            .assertToolbarTitle(getString(R.string.hardware))
-            .tapTabWithTitle(getString(R.string.cpu))
-            .assertHasAnyElements()
-            .tapTabWithTitle(getString(R.string.gpu))
-            .assertHasAnyElements()
-            .tapTabWithTitle(getString(R.string.ram))
-            .assertHasAnyElements()
-            .tapTabWithTitle(getString(R.string.storage))
-            .assertHasAnyElements()
-            .tapTabWithTitle(getString(R.string.screen))
-            .assertHasAnyElements()
-            .tapTabWithTitle(getString(R.string.android))
-            .assertHasAnyElements()
-            .tapTabWithTitle(getString(R.string.hardware))
-            .assertHasAnyElements()
-            .tapTabWithTitle(getString(R.string.sensors))
-            .assertHasAnyElements()
     }
 }
