@@ -113,12 +113,12 @@ class OsDataProvider @Inject constructor(
 
     private fun checkRootMethod3(): Boolean {
         var process: Process? = null
-        try {
+        return try {
             process = Runtime.getRuntime().exec(arrayOf("/system/xbin/which", "su"))
             val br = BufferedReader(InputStreamReader(process.inputStream))
-            return br.readLine() != null
+            br.readLine() != null
         } catch (t: Throwable) {
-            return false
+            false
         } finally {
             process?.destroy()
         }
