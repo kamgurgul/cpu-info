@@ -107,8 +107,7 @@ class SensorsInfoViewModel @Inject constructor(
     private fun getSensorData(event: SensorEvent): String {
         var data = " "
 
-        val sensorType = event.sensor.type
-        when (sensorType) {
+        when (event.sensor.type) {
             Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GRAVITY, Sensor.TYPE_LINEAR_ACCELERATION ->
                 data = "X=${event.values[0].round1()}m/s²  Y=${
                     event.values[1].round1()
@@ -137,8 +136,10 @@ class SensorsInfoViewModel @Inject constructor(
             Sensor.TYPE_PROXIMITY ->
                 data = "Distance=${event.values[0].round1()}cm"
 
-            Sensor.TYPE_AMBIENT_TEMPERATURE ->
-                data = "Air temperature=${event.values[0].round1()}°C"
+            Sensor.TYPE_AMBIENT_TEMPERATURE,
+            GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE,
+            GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE ->
+                data = "Temperature=${event.values[0].round1()}°C"
 
             Sensor.TYPE_LIGHT ->
                 data = "Illuminance=${event.values[0].round1()}lx"
@@ -151,9 +152,7 @@ class SensorsInfoViewModel @Inject constructor(
 
             Sensor.TYPE_TEMPERATURE ->
                 data = "Device temperature=${event.values[0].round1()}°C"
-        }
 
-        when (sensorType) {
             Sensor.TYPE_GYROSCOPE_UNCALIBRATED ->
                 data = "X=${event.values[0].round1()}rad/s  Y=${
                     event.values[1].round1()
@@ -201,4 +200,9 @@ class SensorsInfoViewModel @Inject constructor(
     data class UiState(
         val sensors: List<SensorData> = emptyList()
     )
+
+    companion object {
+        private const val GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE = 65538
+        private const val GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE = 65539
+    }
 }
