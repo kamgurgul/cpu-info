@@ -17,10 +17,10 @@
 package com.kgurgul.cpuinfo.domain.model
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 
 data class TemperatureItem(
+    val id: Int,
     @DrawableRes val iconRes: Int,
-    @StringRes val nameRes: Int,
+    val name: String,
     val temperature: Float,
 )

@@ -24,6 +24,8 @@ import android.hardware.TriggerEvent
 import android.hardware.TriggerEventListener
 import androidx.lifecycle.ViewModel
 import com.kgurgul.cpuinfo.domain.model.SensorData
+import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion.GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE
+import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion.GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE
 import com.kgurgul.cpuinfo.utils.round1
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -209,9 +211,4 @@ class SensorsInfoViewModel @Inject constructor(
     data class UiState(
         val sensors: List<SensorData> = emptyList()
     )
-
-    companion object {
-        private const val GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE = 65538
-        private const val GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE = 65539
-    }
 }
