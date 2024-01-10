@@ -37,11 +37,14 @@ class TemperatureProvider @Inject constructor(
 
     fun findCpuTemperatureLocation(): String? {
         for (location in CPU_TEMP_FILE_PATHS) {
-            runCatching {
+            try {
                 val temp = File(location).bufferedReader().use { it.readLine().toDoubleOrNull() }
-                if (temp != null && isTemperatureValid(temp)) {
+                val preParsedTemp = temp?.let { if (isTemperatureValid(it)) it else it / 1000.0 }
+                if (preParsedTemp != null && isTemperatureValid(preParsedTemp)) {
                     return location
                 }
+            } catch (e: Exception) {
+                // do nothing
             }
         }
         return null
@@ -75,24 +78,24 @@ class TemperatureProvider @Inject constructor(
         private val CPU_TEMP_FILE_PATHS = listOf(
             "/sys/devices/system/cpu/cpu0/cpufreq/cpu_temp",
             "/sys/devices/system/cpu/cpu0/cpufreq/FakeShmoo_cpu_temp",
+            "/sys/class/thermal/thermal_zone0/temp",
+            "/sys/class/i2c-adapter/i2c-4/4-004c/temperature",
             "/sys/devices/platform/tegra-i2c.3/i2c-4/4-004c/temperature",
             "/sys/devices/platform/omap/omap_temp_sensor.0/temperature",
             "/sys/devices/platform/tegra_tmon/temp1_input",
+            "/sys/kernel/debug/tegra_thermal/temp_tj",
             "/sys/devices/platform/s5p-tmu/temperature",
-            "/sys/devices/platform/s5p-tmu/curr_temp",
+            "/sys/class/thermal/thermal_zone1/temp",
+            "/sys/class/hwmon/hwmon0/device/temp1_input",
             "/sys/devices/virtual/thermal/thermal_zone1/temp",
             "/sys/devices/virtual/thermal/thermal_zone0/temp",
-            "/sys/class/thermal/thermal_zone0/temp",
-            "/sys/class/thermal/thermal_zone1/temp",
             "/sys/class/thermal/thermal_zone3/temp",
             "/sys/class/thermal/thermal_zone4/temp",
-            "/sys/class/hwmon/hwmon0/device/temp1_input",
-            "/sys/class/i2c-adapter/i2c-4/4-004c/temperature",
-            "/sys/kernel/debug/tegra_thermal/temp_tj",
+            "/sys/class/hwmon/hwmonX/temp1_input",
+            "/sys/devices/platform/s5p-tmu/curr_temp",
             "/sys/htc/cpu_temp",
             "/sys/devices/platform/tegra-i2c.3/i2c-4/4-004c/ext_temperature",
             "/sys/devices/platform/tegra-tsensor/tsensor_temperature",
-            "/sys/class/hwmon/hwmonX/temp1_input",
         )
     }
 }
