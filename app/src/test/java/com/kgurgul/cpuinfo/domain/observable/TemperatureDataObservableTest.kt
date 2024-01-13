@@ -1,5 +1,7 @@
 package com.kgurgul.cpuinfo.domain.observable
 
+import android.content.Context
+import android.hardware.SensorManager
 import app.cash.turbine.test
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.provider.TemperatureProvider
@@ -24,28 +26,38 @@ class TemperatureDataObservableTest {
         on { getBatteryTemperature() } doReturn 30f
         on { getCpuTemp(any()) } doReturn 40f
     }
+    private val mockContext = mock<Context> {
+        on { getString(R.string.battery) } doReturn "Battery"
+        on { getString(R.string.cpu) } doReturn "CPU"
+    }
+    private val mockSensorManger = mock<SensorManager>()
 
     private val interactor = TemperatureDataObservable(
+        context = mockContext,
         dispatchersProvider = coroutineTestRule.testDispatcherProvider,
         temperatureProvider = mockTemperatureProvider,
+        sensorManager = mockSensorManger,
     )
 
     @Test
     fun `Get temperature data observable`() = runTest {
         val expectedData = listOf(
             TemperatureItem(
+                id = -2,
                 iconRes = R.drawable.ic_cpu_temp,
-                nameRes = R.string.cpu,
-                temperature = 40f
+                name = "CPU",
+                temperature = 40f,
             ),
             TemperatureItem(
+                id = -1,
                 iconRes = R.drawable.ic_battery,
-                nameRes = R.string.battery,
-                temperature = 30f
+                name = "Battery",
+                temperature = 30f,
             ),
         )
 
         interactor.observe().test {
+            skipItems(1)
             assertEquals(expectedData, awaitItem())
         }
     }

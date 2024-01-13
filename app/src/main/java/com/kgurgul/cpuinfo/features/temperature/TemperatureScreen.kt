@@ -88,7 +88,7 @@ private fun TemperatureList(
     ) {
         items(
             items = temperatureItems,
-            key = { item -> item.nameRes },
+            key = { item -> item.id },
         ) { item ->
             TemperatureItem(
                 item = item,
@@ -120,7 +120,7 @@ private fun TemperatureItem(
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = stringResource(id = item.nameRes),
+                text = item.name,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -163,13 +163,15 @@ fun TemperatureScreenPreview() {
                 isLoading = false,
                 temperatureItems = persistentListOf(
                     TemperatureItem(
+                        id = 0,
                         iconRes = R.drawable.ic_cpu_temp,
-                        nameRes = R.string.cpu,
+                        name = "CPU",
                         temperature = 30f
                     ),
                     TemperatureItem(
+                        id = 1,
                         iconRes = R.drawable.ic_battery,
-                        nameRes = R.string.battery,
+                        name = "Battery",
                         temperature = 30f
                     )
                 )
