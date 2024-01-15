@@ -24,15 +24,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,14 +57,21 @@ class HostActivity : AppCompatActivity() {
             }
         }
         splashScreen.setKeepOnScreenCondition { uiState.isLoading }
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.dark(
-                ContextCompat.getColor(this, R.color.primary)
-            )
-        )
+
+        enableEdgeToEdge()
+
         setContent {
+            val darkTheme = shouldUseDarkTheme(uiState)
+            val systemBarScrim = if (darkTheme) darkPrimary else lightPrimary
+            DisposableEffect(darkTheme) {
+                enableEdgeToEdge(
+                    statusBarStyle = SystemBarStyle.dark(systemBarScrim),
+                    navigationBarStyle = SystemBarStyle.dark(systemBarScrim),
+                )
+                onDispose {}
+            }
             CpuInfoTheme(
-                useDarkTheme = shouldUseDarkTheme(uiState),
+                useDarkTheme = darkTheme,
             ) {
                 HostScreen(
                     viewModel = viewModel,
@@ -83,3 +89,6 @@ private fun shouldUseDarkTheme(
     DarkThemeConfig.LIGHT -> false
     DarkThemeConfig.DARK -> true
 }
+
+private val lightPrimary = android.graphics.Color.rgb(0x42, 0x42, 0x42)
+private val darkPrimary = android.graphics.Color.rgb(0x1c, 0x1c, 0x1c)
