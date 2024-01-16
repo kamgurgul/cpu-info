@@ -34,6 +34,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import com.kgurgul.cpuinfo.ui.theme.darkPrimary
+import com.kgurgul.cpuinfo.ui.theme.lightPrimary
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -89,6 +91,3 @@ private fun shouldUseDarkTheme(
     DarkThemeConfig.LIGHT -> false
     DarkThemeConfig.DARK -> true
 }
-
-private val lightPrimary = android.graphics.Color.rgb(0x42, 0x42, 0x42)
-private val darkPrimary = android.graphics.Color.rgb(0x1c, 0x1c, 0x1c)

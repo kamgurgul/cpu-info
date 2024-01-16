@@ -66,3 +66,6 @@ val md_theme_dark_scrim = Color(0xFF000000)
 
 
 val seed = Color(0xFF1C1C1C)
+
+val lightPrimary = android.graphics.Color.rgb(0x42, 0x42, 0x42)
+val darkPrimary = android.graphics.Color.rgb(0x1c, 0x1c, 0x1c)
