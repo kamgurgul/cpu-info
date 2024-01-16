@@ -21,7 +21,7 @@
     <style name="Theme.Launcher" parent="Theme.SplashScreen">
         <item name="postSplashScreenTheme">@style/AppThemeBase</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
-        <item name="windowSplashScreenBackground">@color/primary</item>
+        <item name="windowSplashScreenBackground">#FF1C1C1C</item>
     </style>
 
 </resources>
