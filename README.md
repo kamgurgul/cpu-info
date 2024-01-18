@@ -21,7 +21,7 @@ alt='Get it on GitHub' height="80">](https://github.com/kamgurgul/cpu-info/relea
 TODO
 ====
 
-* Bring back apps size
+* Bring back apps size - use StorageStatsManager if possible
 * Unit and UI tests
 * Add Kotlin Multiplatform module
 * Add translations framework
