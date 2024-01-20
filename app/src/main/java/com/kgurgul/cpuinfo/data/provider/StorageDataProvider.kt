@@ -20,7 +20,7 @@ class StorageDataProvider @Inject constructor() {
     private fun getInternalStorage(): StorageItem? {
         val dataDir = Environment.getDataDirectory()
         val storageTotal = dataDir.totalSpace
-        val availableSpace = dataDir.usableSpace
+        val availableSpace = dataDir.usableSpace // Use StorageManager
         val storageUsed = storageTotal - availableSpace
         return if (storageTotal > 0) {
             StorageItem(
@@ -38,7 +38,7 @@ class StorageDataProvider @Inject constructor() {
         return if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
             val dataDir = Environment.getExternalStorageDirectory()
             val storageTotal = dataDir.totalSpace
-            val availableSpace = dataDir.usableSpace
+            val availableSpace = dataDir.usableSpace // Use StorageManager
             val storageUsed = storageTotal - availableSpace
             if (storageTotal > 0) {
                 StorageItem(
@@ -66,7 +66,7 @@ class StorageDataProvider @Inject constructor() {
                 val externalFilePath = File(truncatedPath)
                 if (externalFilePath.exists()) {
                     val storageTotal = externalFilePath.totalSpace
-                    val availableSpace = externalFilePath.usableSpace
+                    val availableSpace = externalFilePath.usableSpace // Use StorageManager
                     val storageUsed = storageTotal - availableSpace
                     return if (storageTotal > 0) {
                         StorageItem(

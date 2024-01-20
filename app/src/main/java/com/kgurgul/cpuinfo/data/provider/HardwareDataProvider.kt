@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.kgurgul.cpuinfo.data.provider
 
 import android.annotation.SuppressLint

@@ -16,18 +16,11 @@
 
 <resources>
 
-    <string name="action_settings">Einstellungen</string>
-    <string name="action_sorting">Sortierung</string>
-    <string name="action_refresh">Aktualisieren</string>
     <string name="action_not_supported">Aktion nicht verfügbar</string>
-
-    <string name="open_drawer">Menü öffnen</string>
-    <string name="close_drawer">Menü schließen</string>
 
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="ok">OK</string>
-    <string name="permission_rationale">Kamera-Berechtigungen werden benötigt um Kameraeigenschaften anzuzeigen</string>
 
     <!--Tabs-->
     <string name="cpu">CPU</string>
@@ -45,15 +38,12 @@
     <string name="settings">Einstellungen</string>
 
     <string name="running_gc">Führe Garbage Collector aus</string>
-    <string name="text_copied">Wert kopiert</string>
 
     <!--Apps-->
     <string name="app_open">Konnte App nicht öffnen</string>
     <string name="cpu_open">Öffne mich nicht zweimal :-)</string>
     <string name="cpu_uninstall">Das kann ich nicht tun :-(</string>
     <string name="native_libs">Plattform-spezifische Programmbibliotheken</string>
-    <string name="storage_used">Benutzter Speicher:</string>
-    <string name="calculating">berechne…</string>
 
     <!--GPU-->
     <string name="gles_version">GLES-Version</string>
@@ -69,10 +59,8 @@
     <string name="threshold">Grenzwert</string>
 
     <!--Storage-->
-    <string name="storage_hint">Externer Speicher könnte interner Speicher sein</string>
     <string name="internal">Intern</string>
     <string name="external">Extern</string>
-    <string name="sd_card">SD-Karte</string>
 
     <!--Screen-->
     <string name="screen_class">Bildschirmklasse</string>
@@ -135,20 +123,15 @@
     <string name="ir_emitter">IR Emitter</string>
 
     <!--Prefs-->
-    <string name="default_refreshing">Android-Standard</string>
-    <string name="ram_refreshing">Widget-Aktualisierung alle</string>
     <string name="general">Allgemein</string>
     <string name="temperature_unit">Temperatur-Einheit</string>
     <string name="pref_theme_dark">Dunkel</string>
     <string name="pref_theme_light">Hell</string>
-    <string name="pref_theme_battery">Wird vom Batteriesparmodus eingestellt</string>
     <string name="pref_theme_default">Systemvorgabe</string>
     <string name="pref_theme">Thema</string>
     <string name="pref_theme_choose">Wähle das Thema</string>
 
     <!--Temp-->
-    <string name="cpu_temperature">CPU-Temperatur</string>
-    <string name="battery_temperature">Batterie-Temperatur</string>
     <string name="no_temp_data">Temperatur-Sensoren konnten nicht gefunden werden :-(</string>
 
 </resources>

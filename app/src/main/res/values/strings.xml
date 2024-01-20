@@ -17,20 +17,12 @@
 <resources>
 
     <string name="app_name" translatable="false">CPU Info</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_sorting">Sorting</string>
-    <string name="action_refresh">Refresh</string>
-    <string name="action_gc" translatable="false">Garbage collector</string>
     <string name="action_not_supported">Action not available</string>
-
-    <string name="open_drawer">Open drawer</string>
-    <string name="close_drawer">Close drawer</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="permission_rationale">Camera permission is required for getting camera spec</string>
 
     <!--Tabs-->
     <string name="cpu">CPU</string>
@@ -48,7 +40,6 @@
     <string name="settings">Settings</string>
 
     <string name="running_gc">Running Garbage Collector</string>
-    <string name="text_copied">Value copied</string>
 
     <!-- CPU -->
     <string name="cpu_current_frequency" translatable="false">Core %1$d: %2$sMHz</string>
@@ -69,8 +60,6 @@
     <string name="cpu_open">Don\'t open me twice :-)</string>
     <string name="cpu_uninstall">Can\'t do that :-(</string>
     <string name="native_libs" translatable="false">Native libs</string>
-    <string name="storage_used">Storage used:</string>
-    <string name="calculating">calculating…</string>
     <string name="apps_show_system_apps">Show system apps</string>
     <string name="apps_sort_order">Sort order</string>
 
@@ -86,13 +75,10 @@
     <string name="total_memory">Total memory</string>
     <string name="available_memory">Available memory</string>
     <string name="threshold">Threshold</string>
-    <string name="clear">Clear</string>
 
     <!--Storage-->
-    <string name="storage_hint">External memory could be the same as internal</string>
     <string name="internal">Internal</string>
     <string name="external">External</string>
-    <string name="sd_card">SD Card</string>
 
     <!--Screen-->
     <string name="screen_class">Screen class</string>
@@ -164,20 +150,15 @@
     <string name="ir_emitter">IR Emitter</string>
 
     <!--Prefs-->
-    <string name="default_refreshing">Android default value</string>
-    <string name="ram_refreshing">Widget refreshing</string>
     <string name="general">General</string>
     <string name="temperature_unit">Temperature unit</string>
     <string name="pref_theme_dark">Dark</string>
     <string name="pref_theme_light">Light</string>
-    <string name="pref_theme_battery">Set by Battery Saver</string>
     <string name="pref_theme_default">System default</string>
     <string name="pref_theme">Theme</string>
     <string name="pref_theme_choose">Choose theme</string>
 
     <!--Temp-->
-    <string name="cpu_temperature">CPU temperature</string>
-    <string name="battery_temperature">Battery temperature</string>
     <string name="no_temp_data">Sorry I can\'t find temperature sensors :-(</string>
     <string name="celsius" translatable="false">&#176;C</string>
     <string name="fahrenheit" translatable="false">&#176;F</string>

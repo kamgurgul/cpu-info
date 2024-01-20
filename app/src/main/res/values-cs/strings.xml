@@ -16,18 +16,11 @@
 
 <resources>
 
-    <string name="action_settings">Nastavení</string>
-    <string name="action_sorting">Řazení</string>
-    <string name="action_refresh">Interval opětovného načítání</string>
     <string name="action_not_supported">Akce není k dispozici</string>
-    
-    <string name="open_drawer">Otevřít panel</string>
-    <string name="close_drawer">Zavřít panel</string>
 
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
     <string name="ok">OK</string>
-    <string name="permission_rationale">Přístup ke kameře je potřeba pro zjištění jejích parametrů</string>
 
     <!--Tabs-->
     <string name="cpu">Procesor</string>
@@ -45,15 +38,12 @@
     <string name="settings">Nastavení</string>
 
     <string name="running_gc">Spouštění čištění</string>
-    <string name="text_copied">Hodnota zkopírována</string>
 
     <!--Apps-->
     <string name="app_open">Tuto aplikaci se nedaří spustit</string>
     <string name="cpu_open">Nespouštějte tuto aplikaci vícekrát naráz :-)</string>
     <string name="cpu_uninstall">Toto nelze udělat :-(</string>
     <string name="native_libs">Nativní knihovny</string>
-    <string name="storage_used">Využití úložiště:</string>
-    <string name="calculating">počítá se…</string>
 
     <!--GPU-->
     <string name="gles_version">Verze GLES</string>
@@ -68,10 +58,8 @@
     <string name="threshold">Hranice minima</string>
 
     <!--Storage-->
-    <string name="storage_hint">Při nepřítomnosti rozšiřujícího úložiště může být zobrazováno dvakrát to vestavěné</string>
     <string name="internal">Vestavěné</string>
     <string name="external">Rozšiřující</string>
-    <string name="sd_card">SD karta</string>
 
     <!--Screen-->
     <string name="screen_class">Třída obrazovky</string>
@@ -132,20 +120,15 @@
     <string name="ir_emitter">IR Emitter</string>
 
     <!--Prefs-->
-    <string name="default_refreshing">Výchozí hodnota z Android</string>
-    <string name="ram_refreshing">Interval opakování načítání hodnot</string>
     <string name="general">Obecné</string>
     <string name="temperature_unit">Jednotka teploty</string>
     <string name="pref_theme_dark">Temný</string>
     <string name="pref_theme_light">Světlý</string>
-    <string name="pref_theme_battery">Nastaveno šetřičem baterie</string>
     <string name="pref_theme_default">Výchozí systém</string>
     <string name="pref_theme">Téma</string>
     <string name="pref_theme_choose">Vyberte téma</string>
 
     <!--Temp-->
-    <string name="cpu_temperature">Teplota procesoru</string>
-    <string name="battery_temperature">Teplota akumulátoru</string>
     <string name="no_temp_data">Je nám líto, ale nedaří se najít čidla teploty :-(</string>
 
 </resources>

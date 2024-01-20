@@ -25,10 +25,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Return battery status from ACTION_BATTERY_CHANGED broadcast receiver and capacity from
- * [com.android.internal.os.PowerProfile]
- *
- * @author kgurgul
+ * Return battery status from ACTION_BATTERY_CHANGED broadcast receiver
  */
 class BatteryStatusProvider @Inject constructor(
     @ApplicationContext private val appContext: Context

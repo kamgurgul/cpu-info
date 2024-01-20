@@ -17,18 +17,11 @@
 <resources>
 
     <string name="app_name" translatable="false">CPU Info</string>
-    <string name="action_settings">設定</string>
-    <string name="action_sorting">排序</string>
-    <string name="action_refresh">重新整理</string>
     <string name="action_not_supported">動作不可用</string>
-    
-    <string name="open_drawer">開啟應用程式抽屜</string>
-    <string name="close_drawer">關閉應用程式抽屜</string>
 
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="ok">確定</string>
-    <string name="permission_rationale">需要相機權限以取得相機規格</string>
 
     <!--Tabs-->
     <string name="cpu">CPU</string>
@@ -46,14 +39,11 @@
     <string name="settings">設定</string>
 
     <string name="running_gc">正在清理記憶體</string>
-    <string name="text_copied">數值已複製</string>
 
     <!--Apps-->
     <string name="app_open">無法開啟這個應用程式</string>
     <string name="cpu_open">不要打開我兩次 :-)</string>
     <string name="cpu_uninstall">無法執行 :-(</string>
-    <string name="storage_used">儲存空間已使用:</string>
-    <string name="calculating">計算中……</string>
 
     <!--GPU-->
     <string name="gles_version">GLES版本</string>
@@ -68,10 +58,8 @@
     <string name="threshold">閾值</string>
 
     <!--Storage-->
-    <string name="storage_hint">外部記憶體可能和內部的一樣</string>
     <string name="internal">內部</string>
     <string name="external">外部</string>
-    <string name="sd_card">SD卡</string>
 
     <!--Screen-->
     <string name="screen_class">螢幕等級</string>
@@ -134,20 +122,15 @@
     <string name="ir_emitter">IR Emitter</string>
 
     <!--Prefs-->
-    <string name="default_refreshing">Android預設值</string>
-    <string name="ram_refreshing">小工具更新頻率</string>
     <string name="general">一般</string>
     <string name="temperature_unit">溫度單位</string>
     <string name="pref_theme_dark">暗</string>
     <string name="pref_theme_light">光</string>
-    <string name="pref_theme_battery">由省電模式設定</string>
     <string name="pref_theme_default">系統默認</string>
     <string name="pref_theme">主題</string>
     <string name="pref_theme_choose">選擇主題</string>
 
     <!--Temp-->
-    <string name="cpu_temperature">處理器溫度</string>
-    <string name="battery_temperature">電池溫度</string>
     <string name="no_temp_data">抱歉我找不到溫度感測器 :-(</string>
 
 </resources>

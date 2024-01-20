@@ -1,5 +1,3 @@
-import java.util.*
-
 enum class ReleaseType(private val level: Int) {
     SNAPSHOT(0),
     DEV(1),

@@ -64,7 +64,6 @@ class ApplicationsDataObservable @Inject constructor(
             .build()
     }
 
-    @Suppress("DEPRECATION")
     private fun getResourceId(packageName: String): Int {
         val packageInfo: PackageInfo
         try {

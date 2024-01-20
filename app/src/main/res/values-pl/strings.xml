@@ -15,19 +15,12 @@
   -->
 
 <resources>
-    <string name="action_settings">Ustawienia</string>
-    <string name="action_sorting">Sortuj</string>
-    <string name="action_refresh">Odśwież</string>
     <string name="action_not_supported">Wybrana akcja nie jest dostępna</string>
-
-    <string name="open_drawer">Otwórz panel</string>
-    <string name="close_drawer">Zamknij panel</string>
 
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="ok">OK</string>
     <string name="cancel">Anuluj</string>
-    <string name="permission_rationale">Uprawnienia kamery są wymagane do uzyskania informacji</string>
 
     <!--Tabs-->
     <string name="cpu">CPU</string>
@@ -45,15 +38,12 @@
     <string name="settings">Ustawienia</string>
 
     <string name="running_gc">Uruchamianie Garbage Collector</string>
-    <string name="text_copied">Wartość skopiowana</string>
 
     <!--Apps-->
     <string name="app_open">Nie można otworzyć tej aplikacji</string>
     <string name="cpu_open">Już otwarty :-)</string>
     <string name="cpu_uninstall">Nie mogę tego zrobić :-(</string>
     <string name="native_libs">Biblioteki natywne</string>
-    <string name="storage_used">Użyta pamięć:</string>
-    <string name="calculating">obliczanie…</string>
     <string name="apps_show_system_apps">Pokaż aplikacje systemowe</string>
     <string name="apps_sort_order">Sortowanie</string>
 
@@ -69,13 +59,10 @@
     <string name="total_memory">Całkowita pamięć</string>
     <string name="available_memory">Dostępna pamięć</string>
     <string name="threshold">Próg</string>
-    <string name="clear">Wyczyść</string>
 
     <!--Storage-->
-    <string name="storage_hint">Pamięć wewnętrzna może być taka sama jak zewnętrzna</string>
     <string name="internal">Wewnętrzna</string>
     <string name="external">Zewnętrzna</string>
-    <string name="sd_card">Karta SD</string>
 
     <!--Screen-->
     <string name="screen_class">Klasa ekranu</string>
@@ -138,20 +125,15 @@
     <string name="camera_lens_number">Liczba soczewek</string>
 
     <!--Prefs-->
-    <string name="default_refreshing">Domyślna wartość Androida</string>
-    <string name="ram_refreshing">Odświeżanie widgetu</string>
     <string name="general">Ogólne</string>
     <string name="temperature_unit">Jednostka temperatury</string>
     <string name="pref_theme_dark">Ciemny</string>
     <string name="pref_theme_light">Jasny</string>
-    <string name="pref_theme_battery">Kontrolowany przez system oszczędzania baterii</string>
     <string name="pref_theme_default">Domyślny systemowy</string>
     <string name="pref_theme">Motyw</string>
     <string name="pref_theme_choose">Wybierz motyw</string>
 
     <!--Temp-->
-    <string name="cpu_temperature">Temperatura CPU</string>
-    <string name="battery_temperature">Temperatura baterii</string>
     <string name="no_temp_data">Przepraszam, nie mogłem znaleźć sensorów temperatury :-(</string>
 
 </resources>
