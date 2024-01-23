@@ -21,6 +21,7 @@ alt='Get it on GitHub' height="80">](https://github.com/kamgurgul/cpu-info/relea
 TODO
 ====
 
+* Add more information about battery
 * Bring back apps size - use StorageStatsManager if possible
 * Unit and UI tests
 * Add Kotlin Multiplatform module
