@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -66,7 +67,8 @@ fun HardwareInfoScreen(
             InformationRow(
                 title = title,
                 value = value,
-                isLastItem = index == uiState.hardwareItems.lastIndex
+                isLastItem = index == uiState.hardwareItems.lastIndex,
+                modifier = Modifier.focusable(),
             )
         }
     }

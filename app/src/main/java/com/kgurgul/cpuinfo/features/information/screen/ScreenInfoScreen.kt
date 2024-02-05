@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.features.information.screen
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,7 +42,8 @@ fun ScreenInfoScreen(
             InformationRow(
                 title = title,
                 value = value,
-                isLastItem = index == uiState.items.lastIndex
+                isLastItem = index == uiState.items.lastIndex,
+                modifier = Modifier.focusable(),
             )
         }
     }

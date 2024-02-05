@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.features.information.ram
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -45,6 +46,7 @@ fun RamInfoScreen(
                 ItemValueRow(
                     title = stringResource(id = R.string.total_memory),
                     value = Utils.convertBytesToMega(ramData.total),
+                    modifier = Modifier.focusable(),
                 )
                 Spacer(modifier = Modifier.requiredSize(spacingSmall))
                 CpuDivider()
@@ -54,6 +56,7 @@ fun RamInfoScreen(
                     title = stringResource(id = R.string.available_memory),
                     value = "${Utils.convertBytesToMega(ramData.available)} " +
                             "(${ramData.availablePercentage}%)",
+                    modifier = Modifier.focusable(),
                 )
                 Spacer(modifier = Modifier.requiredSize(spacingSmall))
                 CpuDivider()
@@ -62,6 +65,7 @@ fun RamInfoScreen(
                 ItemValueRow(
                     title = stringResource(id = R.string.threshold),
                     value = Utils.convertBytesToMega(ramData.threshold),
+                    modifier = Modifier.focusable(),
                 )
             }
         }

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -89,6 +90,7 @@ fun StorageScreen(
                 progress = progress,
                 progressHeight = 32.dp,
                 prefixImageRes = storageItem.iconRes,
+                modifier = Modifier.focusable(),
             )
         }
     }

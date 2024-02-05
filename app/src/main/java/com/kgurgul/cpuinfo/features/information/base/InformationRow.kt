@@ -14,6 +14,7 @@ fun LazyItemScope.InformationRow(
     title: String,
     value: String,
     isLastItem: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     val contentColor = if (value.isEmpty()) {
         MaterialTheme.colorScheme.tertiary
@@ -25,6 +26,7 @@ fun LazyItemScope.InformationRow(
         title = title,
         value = nullableValue,
         contentColor = contentColor,
+        modifier = modifier,
     )
     if (!isLastItem) {
         CpuDivider(

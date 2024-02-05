@@ -1,6 +1,7 @@
 package com.kgurgul.cpuinfo.features.information.gpu
 
 import android.opengl.GLSurfaceView
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -78,6 +79,7 @@ fun GpuInfoScreen(
                 ItemValueRow(
                     title = stringResource(id = R.string.vulkan_version),
                     value = gpuData.vulkanVersion,
+                    modifier = Modifier.focusable(),
                 )
                 Spacer(modifier = Modifier.requiredSize(spacingSmall))
                 CpuDivider()
@@ -86,6 +88,7 @@ fun GpuInfoScreen(
                 ItemValueRow(
                     title = stringResource(id = R.string.gles_version),
                     value = gpuData.glesVersion,
+                    modifier = Modifier.focusable(),
                 )
                 Spacer(modifier = Modifier.requiredSize(spacingSmall))
                 CpuDivider()
@@ -95,6 +98,7 @@ fun GpuInfoScreen(
                     ItemValueRow(
                         title = stringResource(id = R.string.vendor),
                         value = gpuData.glVendor,
+                        modifier = Modifier.focusable(),
                     )
                     Spacer(modifier = Modifier.requiredSize(spacingSmall))
                     CpuDivider()
@@ -105,6 +109,7 @@ fun GpuInfoScreen(
                     ItemValueRow(
                         title = stringResource(id = R.string.renderer),
                         value = gpuData.glRenderer,
+                        modifier = Modifier.focusable(),
                     )
                     Spacer(modifier = Modifier.requiredSize(spacingSmall))
                     CpuDivider()
@@ -115,6 +120,7 @@ fun GpuInfoScreen(
                     ItemValueRow(
                         title = stringResource(id = R.string.extensions),
                         value = gpuData.glExtensions,
+                        modifier = Modifier.focusable(),
                     )
                     Spacer(modifier = Modifier.requiredSize(spacingSmall))
                     CpuDivider()
