@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.features.information.cpu
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -53,6 +54,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                 ItemValueRow(
                     title = stringResource(id = R.string.cpu_soc_name),
                     value = cpuData.processorName,
+                    modifier = Modifier.focusable(),
                 )
                 Spacer(modifier = Modifier.requiredSize(spacingSmall))
                 CpuDivider()
@@ -61,6 +63,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                 ItemValueRow(
                     title = stringResource(id = R.string.cpu_abi),
                     value = cpuData.abi,
+                    modifier = Modifier.focusable(),
                 )
                 Spacer(modifier = Modifier.requiredSize(spacingSmall))
                 CpuDivider()
@@ -69,6 +72,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                 ItemValueRow(
                     title = stringResource(id = R.string.cpu_cores),
                     value = cpuData.coreNumber.toString(),
+                    modifier = Modifier.focusable(),
                 )
                 Spacer(modifier = Modifier.requiredSize(spacingSmall))
                 CpuDivider()
@@ -81,6 +85,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                     } else {
                         stringResource(id = R.string.no)
                     },
+                    modifier = Modifier.focusable(),
                 )
 
             }
@@ -91,6 +96,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                     ItemValueRow(
                         title = stringResource(id = R.string.cpu_l1d),
                         value = cpuData.l1dCaches,
+                        modifier = Modifier.focusable(),
                     )
                 }
             }
@@ -101,6 +107,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                     ItemValueRow(
                         title = stringResource(id = R.string.cpu_l1i),
                         value = cpuData.l1iCaches,
+                        modifier = Modifier.focusable(),
                     )
                 }
             }
@@ -111,6 +118,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                     ItemValueRow(
                         title = stringResource(id = R.string.cpu_l2),
                         value = cpuData.l2Caches,
+                        modifier = Modifier.focusable(),
                     )
                 }
             }
@@ -121,6 +129,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                     ItemValueRow(
                         title = stringResource(id = R.string.cpu_l3),
                         value = cpuData.l3Caches,
+                        modifier = Modifier.focusable(),
                     )
                 }
             }
@@ -131,6 +140,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                     ItemValueRow(
                         title = stringResource(id = R.string.cpu_l4),
                         value = cpuData.l4Caches,
+                        modifier = Modifier.focusable(),
                     )
                 }
             }
@@ -168,6 +178,7 @@ fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
         label = currentFreq,
         progress = progress,
         minMaxValues = minFreq to maxFreq,
+        modifier = Modifier.focusable(),
     )
 }
 
