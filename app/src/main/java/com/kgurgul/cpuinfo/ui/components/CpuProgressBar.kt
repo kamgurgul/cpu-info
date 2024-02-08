@@ -96,7 +96,7 @@ fun CpuProgressBar(
                     MaterialTheme.shapes.small
                 }
                 LinearProgressIndicator(
-                    progress = progressAnimation,
+                    progress = { progressAnimation },
                     color = MaterialTheme.colorScheme.tertiary,
                     trackColor = Color.Unspecified,
                     modifier = Modifier
