@@ -28,9 +28,8 @@ height="80">](https://github.com/kamgurgul/cpu-info/releases/latest)
 * Add more information about battery
 * Bring back apps size - use StorageStatsManager if possible
 * Unit and UI tests
-* Add Kotlin Multiplatform module
+* Add Kotlin Multiplatform module or test circuit
 * Add translations framework
-* Add device benchmarks
 
 # Alternative stores
 

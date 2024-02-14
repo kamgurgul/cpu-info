@@ -13,4 +13,9 @@ val CpuInfoTypography = Typography(
         fontWeight = FontWeight.Medium,
         lineHeight = 24.sp,
     ),
+    labelSmall = defaultTextStyle.copy(
+        fontSize = 10.sp,
+        fontWeight = FontWeight.Medium,
+        lineHeight = 12.sp,
+    ),
 )

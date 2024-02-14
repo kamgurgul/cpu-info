@@ -9,6 +9,7 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -354,7 +355,9 @@ private fun ApplicationsList(
                         onNativeLibsClicked = onNativeLibsClicked,
                     )
                 },
-                modifier = Modifier.animateItemPlacement(),
+                modifier = Modifier
+                    .animateItemPlacement()
+                    .focusable(),
             )
             if (index < appList.lastIndex) {
                 CpuDivider(

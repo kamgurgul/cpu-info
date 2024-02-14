@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.features.temperature
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -106,7 +107,8 @@ private fun TemperatureItem(
     Row(
         modifier = Modifier
             .height(IntrinsicSize.Min)
-            .padding(spacingMedium),
+            .padding(spacingMedium)
+            .focusable(),
     ) {
         Icon(
             painter = painterResource(id = item.iconRes),

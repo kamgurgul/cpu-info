@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.features.information.sensors
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -82,7 +83,8 @@ private fun SensorItem(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .focusable(),
     ) {
         Text(
             text = title,

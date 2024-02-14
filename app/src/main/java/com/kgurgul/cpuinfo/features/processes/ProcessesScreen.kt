@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.features.processes
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -84,6 +85,7 @@ private fun ProcessList(
 private fun ProcessItem(item: ProcessItem) {
     Column(
         verticalArrangement = Arrangement.spacedBy(spacingXSmall),
+        modifier = Modifier.focusable(),
     ) {
         Text(
             text = item.name,
