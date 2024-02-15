@@ -3,7 +3,7 @@
 #define CPUINFO_H
 
 #ifndef __cplusplus
-	#include <stdbool.h>
+#include <stdbool.h>
 #endif
 
 #ifdef __APPLE__
@@ -104,8 +104,8 @@
 #define CPUINFO_ABI
 #endif
 
-#define CPUINFO_CACHE_UNIFIED          0x00000001
-#define CPUINFO_CACHE_INCLUSIVE        0x00000002
+#define CPUINFO_CACHE_UNIFIED 0x00000001
+#define CPUINFO_CACHE_INCLUSIVE 0x00000002
 #define CPUINFO_CACHE_COMPLEX_INDEXING 0x00000004
 
 struct cpuinfo_cache {
@@ -120,9 +120,11 @@ struct cpuinfo_cache {
     /** Line size in bytes */
     uint32_t line_size;
     /**
-     * Binary characteristics of the cache (unified cache, inclusive cache, cache with complex indexing).
+     * Binary characteristics of the cache (unified cache, inclusive cache,
+     * cache with complex indexing).
      *
-     * @see CPUINFO_CACHE_UNIFIED, CPUINFO_CACHE_INCLUSIVE, CPUINFO_CACHE_COMPLEX_INDEXING
+     * @see CPUINFO_CACHE_UNIFIED, CPUINFO_CACHE_INCLUSIVE,
+     * CPUINFO_CACHE_COMPLEX_INDEXING
      */
     uint32_t flags;
     /** Index of the first logical processor that shares this cache */
@@ -136,12 +138,12 @@ struct cpuinfo_trace_cache {
     uint32_t associativity;
 };
 
-#define CPUINFO_PAGE_SIZE_4KB  0x1000
-#define CPUINFO_PAGE_SIZE_1MB  0x100000
-#define CPUINFO_PAGE_SIZE_2MB  0x200000
-#define CPUINFO_PAGE_SIZE_4MB  0x400000
+#define CPUINFO_PAGE_SIZE_4KB 0x1000
+#define CPUINFO_PAGE_SIZE_1MB 0x100000
+#define CPUINFO_PAGE_SIZE_2MB 0x200000
+#define CPUINFO_PAGE_SIZE_4MB 0x400000
 #define CPUINFO_PAGE_SIZE_16MB 0x1000000
-#define CPUINFO_PAGE_SIZE_1GB  0x40000000
+#define CPUINFO_PAGE_SIZE_1GB 0x40000000
 
 struct cpuinfo_tlb {
     uint32_t entries;
@@ -151,55 +153,71 @@ struct cpuinfo_tlb {
 
 /** Vendor of processor core design */
 enum cpuinfo_vendor {
-    /** Processor vendor is not known to the library, or the library failed to get vendor information from the OS. */
+    /** Processor vendor is not known to the library, or the library failed
+       to get vendor information from the OS. */
     cpuinfo_vendor_unknown = 0,
 
     /* Active vendors of modern CPUs */
 
     /**
-     * Intel Corporation. Vendor of x86, x86-64, IA64, and ARM processor microarchitectures.
+     * Intel Corporation. Vendor of x86, x86-64, IA64, and ARM processor
+     * microarchitectures.
      *
-     * Sold its ARM design subsidiary in 2006. The last ARM processor design was released in 2004.
+     * Sold its ARM design subsidiary in 2006. The last ARM processor design
+     * was released in 2004.
      */
     cpuinfo_vendor_intel = 1,
-    /** Advanced Micro Devices, Inc. Vendor of x86 and x86-64 processor microarchitectures. */
+    /** Advanced Micro Devices, Inc. Vendor of x86 and x86-64 processor
+       microarchitectures. */
     cpuinfo_vendor_amd = 2,
-    /** ARM Holdings plc. Vendor of ARM and ARM64 processor microarchitectures. */
+    /** ARM Holdings plc. Vendor of ARM and ARM64 processor
+       microarchitectures. */
     cpuinfo_vendor_arm = 3,
-    /** Qualcomm Incorporated. Vendor of ARM and ARM64 processor microarchitectures. */
+    /** Qualcomm Incorporated. Vendor of ARM and ARM64 processor
+       microarchitectures. */
     cpuinfo_vendor_qualcomm = 4,
     /** Apple Inc. Vendor of ARM and ARM64 processor microarchitectures. */
     cpuinfo_vendor_apple = 5,
-    /** Samsung Electronics Co., Ltd. Vendir if ARM64 processor microarchitectures. */
+    /** Samsung Electronics Co., Ltd. Vendir if ARM64 processor
+       microarchitectures. */
     cpuinfo_vendor_samsung = 6,
-    /** Nvidia Corporation. Vendor of ARM64-compatible processor microarchitectures. */
+    /** Nvidia Corporation. Vendor of ARM64-compatible processor
+       microarchitectures. */
     cpuinfo_vendor_nvidia = 7,
-    /** MIPS Technologies, Inc. Vendor of MIPS processor microarchitectures. */
+    /** MIPS Technologies, Inc. Vendor of MIPS processor microarchitectures.
+     */
     cpuinfo_vendor_mips = 8,
-    /** International Business Machines Corporation. Vendor of PowerPC processor microarchitectures. */
+    /** International Business Machines Corporation. Vendor of PowerPC
+       processor microarchitectures. */
     cpuinfo_vendor_ibm = 9,
-    /** Ingenic Semiconductor. Vendor of MIPS processor microarchitectures. */
+    /** Ingenic Semiconductor. Vendor of MIPS processor microarchitectures.
+     */
     cpuinfo_vendor_ingenic = 10,
     /**
-     * VIA Technologies, Inc. Vendor of x86 and x86-64 processor microarchitectures.
+     * VIA Technologies, Inc. Vendor of x86 and x86-64 processor
+     * microarchitectures.
      *
-     * Processors are designed by Centaur Technology, a subsidiary of VIA Technologies.
+     * Processors are designed by Centaur Technology, a subsidiary of VIA
+     * Technologies.
      */
     cpuinfo_vendor_via = 11,
     /** Cavium, Inc. Vendor of ARM64 processor microarchitectures. */
     cpuinfo_vendor_cavium = 12,
     /** Broadcom, Inc. Vendor of ARM processor microarchitectures. */
     cpuinfo_vendor_broadcom = 13,
-    /** Applied Micro Circuits Corporation (APM). Vendor of ARM64 processor microarchitectures. */
+    /** Applied Micro Circuits Corporation (APM). Vendor of ARM64 processor
+       microarchitectures. */
     cpuinfo_vendor_apm = 14,
     /**
-     * Huawei Technologies Co., Ltd. Vendor of ARM64 processor microarchitectures.
+     * Huawei Technologies Co., Ltd. Vendor of ARM64 processor
+     * microarchitectures.
      *
      * Processors are designed by HiSilicon, a subsidiary of Huawei.
      */
     cpuinfo_vendor_huawei = 15,
     /**
-     * Hygon (Chengdu Haiguang Integrated Circuit Design Co., Ltd), Vendor of x86-64 processor microarchitectures.
+     * Hygon (Chengdu Haiguang Integrated Circuit Design Co., Ltd), Vendor
+     * of x86-64 processor microarchitectures.
      *
      * Processors are variants of AMD cores.
      */
@@ -209,15 +227,20 @@ enum cpuinfo_vendor {
 
     /* Active vendors of embedded CPUs */
 
-    /** Texas Instruments Inc. Vendor of ARM processor microarchitectures. */
+    /** Texas Instruments Inc. Vendor of ARM processor microarchitectures.
+     */
     cpuinfo_vendor_texas_instruments = 30,
-    /** Marvell Technology Group Ltd. Vendor of ARM processor microarchitectures. */
+    /** Marvell Technology Group Ltd. Vendor of ARM processor
+     * microarchitectures.
+     */
     cpuinfo_vendor_marvell = 31,
-    /** RDC Semiconductor Co., Ltd. Vendor of x86 processor microarchitectures. */
+    /** RDC Semiconductor Co., Ltd. Vendor of x86 processor
+       microarchitectures. */
     cpuinfo_vendor_rdc = 32,
     /** DM&P Electronics Inc. Vendor of x86 processor microarchitectures. */
     cpuinfo_vendor_dmp = 33,
-    /** Motorola, Inc. Vendor of PowerPC and ARM processor microarchitectures. */
+    /** Motorola, Inc. Vendor of PowerPC and ARM processor
+       microarchitectures. */
     cpuinfo_vendor_motorola = 34,
 
     /* Defunct CPU vendors */
@@ -226,7 +249,8 @@ enum cpuinfo_vendor {
      * Transmeta Corporation. Vendor of x86 processor microarchitectures.
      *
      * Now defunct. The last processor design was released in 2004.
-     * Transmeta processors implemented VLIW ISA and used binary translation to execute x86 code.
+     * Transmeta processors implemented VLIW ISA and used binary translation
+     * to execute x86 code.
      */
     cpuinfo_vendor_transmeta = 50,
     /**
@@ -244,33 +268,40 @@ enum cpuinfo_vendor {
     /**
      * National Semiconductor. Vendor of x86 processor microarchitectures.
      *
-     * Sold its x86 design subsidiary in 1999. The last processor design was released in 1998.
+     * Sold its x86 design subsidiary in 1999. The last processor design was
+     * released in 1998.
      */
     cpuinfo_vendor_nsc = 53,
     /**
-     * Silicon Integrated Systems. Vendor of x86 processor microarchitectures.
+     * Silicon Integrated Systems. Vendor of x86 processor
+     * microarchitectures.
      *
-     * Sold its x86 design subsidiary in 2001. The last processor design was released in 2001.
+     * Sold its x86 design subsidiary in 2001. The last processor design was
+     * released in 2001.
      */
     cpuinfo_vendor_sis = 54,
     /**
      * NexGen. Vendor of x86 processor microarchitectures.
      *
      * Now defunct. The last processor design was released in 1994.
-     * NexGen designed the first x86 microarchitecture which decomposed x86 instructions into simple microoperations.
+     * NexGen designed the first x86 microarchitecture which decomposed x86
+     * instructions into simple microoperations.
      */
     cpuinfo_vendor_nexgen = 55,
     /**
-     * United Microelectronics Corporation. Vendor of x86 processor microarchitectures.
+     * United Microelectronics Corporation. Vendor of x86 processor
+     * microarchitectures.
      *
-     * Ceased x86 in the early 1990s. The last processor design was released in 1991.
-     * Designed U5C and U5D processors. Both are 486 level.
+     * Ceased x86 in the early 1990s. The last processor design was released
+     * in 1991. Designed U5C and U5D processors. Both are 486 level.
      */
     cpuinfo_vendor_umc = 56,
     /**
-     * Digital Equipment Corporation. Vendor of ARM processor microarchitecture.
+     * Digital Equipment Corporation. Vendor of ARM processor
+     * microarchitecture.
      *
-     * Sold its ARM designs in 1997. The last processor design was released in 1997.
+     * Sold its ARM designs in 1997. The last processor design was released
+     * in 1997.
      */
     cpuinfo_vendor_dec = 57,
 };
@@ -278,11 +309,13 @@ enum cpuinfo_vendor {
 /**
  * Processor microarchitecture
  *
- * Processors with different microarchitectures often have different instruction performance characteristics,
- * and may have dramatically different pipeline organization.
+ * Processors with different microarchitectures often have different instruction
+ * performance characteristics, and may have dramatically different pipeline
+ * organization.
  */
 enum cpuinfo_uarch {
-    /** Microarchitecture is unknown, or the library failed to get information about the microarchitecture from OS */
+    /** Microarchitecture is unknown, or the library failed to get
+       information about the microarchitecture from OS */
     cpuinfo_uarch_unknown = 0,
 
     /** Pentium and Pentium MMX microarchitecture. */
@@ -300,7 +333,8 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_conroe = 0x00100203,
     /** Intel Core 2 microarchitecture on 45 nm process. */
     cpuinfo_uarch_penryn = 0x00100204,
-    /** Intel Nehalem and Westmere microarchitectures (Core i3/i5/i7 1st gen). */
+    /** Intel Nehalem and Westmere microarchitectures (Core i3/i5/i7 1st
+       gen). */
     cpuinfo_uarch_nehalem = 0x00100205,
     /** Intel Sandy Bridge microarchitecture (Core i3/i5/i7 2nd gen). */
     cpuinfo_uarch_sandy_bridge = 0x00100206,
@@ -310,7 +344,8 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_haswell = 0x00100208,
     /** Intel Broadwell microarchitecture. */
     cpuinfo_uarch_broadwell = 0x00100209,
-    /** Intel Sky Lake microarchitecture (14 nm, including Kaby/Coffee/Whiskey/Amber/Comet/Cascade/Cooper Lake). */
+    /** Intel Sky Lake microarchitecture (14 nm, including
+       Kaby/Coffee/Whiskey/Amber/Comet/Cascade/Cooper Lake). */
     cpuinfo_uarch_sky_lake = 0x0010020A,
     /** DEPRECATED (Intel Kaby Lake microarchitecture). */
     cpuinfo_uarch_kaby_lake = 0x0010020A,
@@ -368,7 +403,8 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_bulldozer = 0x00200105,
     /**
      * AMD Piledriver microarchitecture
-     * Vishera FX-series CPUs, Trinity and Richland APUs, Delhi, Seoul, Abu Dhabi Opteron CPUs.
+     * Vishera FX-series CPUs, Trinity and Richland APUs, Delhi, Seoul, Abu
+     * Dhabi Opteron CPUs.
      */
     cpuinfo_uarch_piledriver = 0x00200106,
     /** AMD Steamroller microarchitecture (Kaveri APUs). */
@@ -421,7 +457,8 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_cortex_a35 = 0x00300335,
     /** ARM Cortex-A53. */
     cpuinfo_uarch_cortex_a53 = 0x00300353,
-    /** ARM Cortex-A55 revision 0 (restricted dual-issue capabilities compared to revision 1+). */
+    /** ARM Cortex-A55 revision 0 (restricted dual-issue capabilities
+       compared to revision 1+). */
     cpuinfo_uarch_cortex_a55r0 = 0x00300354,
     /** ARM Cortex-A55. */
     cpuinfo_uarch_cortex_a55 = 0x00300355,
@@ -570,17 +607,20 @@ struct cpuinfo_processor {
 #if defined(__linux__)
     /**
      * Linux-specific ID for the logical processor:
-     * - Linux kernel exposes information about this logical processor in /sys/devices/system/cpu/cpu<linux_id>/
+     * - Linux kernel exposes information about this logical processor in
+     * /sys/devices/system/cpu/cpu<linux_id>/
      * - Bit <linux_id> in the cpu_set_t identifies this logical processor
      */
     int linux_id;
 #endif
 #if defined(_WIN32) || defined(__CYGWIN__)
-    /** Windows-specific ID for the group containing the logical processor. */
+    /** Windows-specific ID for the group containing the logical processor.
+     */
     uint16_t windows_group_id;
     /**
      * Windows-specific ID of the logical processor within its group:
-     * - Bit <windows_processor_id> in the KAFFINITY mask identifies this logical processor within its group.
+     * - Bit <windows_processor_id> in the KAFFINITY mask identifies this
+     * logical processor within its group.
      */
     uint16_t windows_processor_id;
 #endif
@@ -700,16 +740,17 @@ bool CPUINFO_ABI cpuinfo_initialize(void);
 void CPUINFO_ABI cpuinfo_deinitialize(void);
 
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-/* This structure is not a part of stable API. Use cpuinfo_has_x86_* functions instead. */
+/* This structure is not a part of stable API. Use cpuinfo_has_x86_* functions
+ * instead. */
 struct cpuinfo_x86_isa {
 #if CPUINFO_ARCH_X86
-        bool rdtsc;
+    bool rdtsc;
 #endif
     bool rdtscp;
     bool rdpid;
     bool sysenter;
 #if CPUINFO_ARCH_X86
-        bool syscall;
+    bool syscall;
 #endif
     bool msr;
     bool clzero;
@@ -718,27 +759,27 @@ struct cpuinfo_x86_isa {
     bool mwait;
     bool mwaitx;
 #if CPUINFO_ARCH_X86
-        bool emmx;
+    bool emmx;
 #endif
     bool fxsave;
     bool xsave;
 #if CPUINFO_ARCH_X86
-        bool fpu;
-        bool mmx;
-        bool mmx_plus;
+    bool fpu;
+    bool mmx;
+    bool mmx_plus;
 #endif
     bool three_d_now;
     bool three_d_now_plus;
 #if CPUINFO_ARCH_X86
-        bool three_d_now_geode;
+    bool three_d_now_geode;
 #endif
     bool prefetch;
     bool prefetchw;
     bool prefetchwt1;
 #if CPUINFO_ARCH_X86
-        bool daz;
-        bool sse;
-        bool sse2;
+    bool daz;
+    bool sse;
+    bool sse2;
 #endif
     bool sse3;
     bool ssse3;
@@ -776,14 +817,14 @@ struct cpuinfo_x86_isa {
     bool xtest;
     bool mpx;
 #if CPUINFO_ARCH_X86
-        bool cmov;
-        bool cmpxchg8b;
+    bool cmov;
+    bool cmpxchg8b;
 #endif
     bool cmpxchg16b;
     bool clwb;
     bool movbe;
 #if CPUINFO_ARCH_X86_64
-        bool lahf_sahf;
+    bool lahf_sahf;
 #endif
     bool fs_gs_base;
     bool lzcnt;
@@ -1492,37 +1533,38 @@ static inline bool cpuinfo_has_x86_sha(void) {
 }
 
 #if CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
-/* This structure is not a part of stable API. Use cpuinfo_has_arm_* functions instead. */
+/* This structure is not a part of stable API. Use cpuinfo_has_arm_* functions
+ * instead. */
 struct cpuinfo_arm_isa {
 #if CPUINFO_ARCH_ARM
-        bool thumb;
-        bool thumb2;
-        bool thumbee;
-        bool jazelle;
-        bool armv5e;
-        bool armv6;
-        bool armv6k;
-        bool armv7;
-        bool armv7mp;
-        bool armv8;
-        bool idiv;
+    bool thumb;
+    bool thumb2;
+    bool thumbee;
+    bool jazelle;
+    bool armv5e;
+    bool armv6;
+    bool armv6k;
+    bool armv7;
+    bool armv7mp;
+    bool armv8;
+    bool idiv;
 
-        bool vfpv2;
-        bool vfpv3;
-        bool d32;
-        bool fp16;
-        bool fma;
+    bool vfpv2;
+    bool vfpv3;
+    bool d32;
+    bool fp16;
+    bool fma;
 
-        bool wmmx;
-        bool wmmx2;
-        bool neon;
+    bool wmmx;
+    bool wmmx2;
+    bool neon;
 #endif
 #if CPUINFO_ARCH_ARM64
-        bool atomics;
-        bool bf16;
-        bool sve;
-        bool sve2;
-        bool i8mm;
+    bool atomics;
+    bool bf16;
+    bool sve;
+    bool sve2;
+    bool i8mm;
 #endif
     bool rdm;
     bool fp16arith;
@@ -1896,7 +1938,8 @@ static inline bool cpuinfo_has_arm_sve2(void) {
 }
 
 #if CPUINFO_ARCH_RISCV32 || CPUINFO_ARCH_RISCV64
-/* This structure is not a part of stable API. Use cpuinfo_has_riscv_* functions instead. */
+/* This structure is not a part of stable API. Use cpuinfo_has_riscv_* functions
+ * instead. */
 struct cpuinfo_riscv_isa {
     /**
      * Keep fields in line with the canonical order as defined by
@@ -1905,8 +1948,8 @@ struct cpuinfo_riscv_isa {
     /* RV32I/64I/128I Base ISA. */
     bool i;
 #if CPUINFO_ARCH_RISCV32
-        /* RV32E Base ISA. */
-        bool e;
+    /* RV32E Base ISA. */
+    bool e;
 #endif
     /* Integer Multiply/Divide Extension. */
     bool m;
@@ -1975,11 +2018,9 @@ static inline bool cpuinfo_has_riscv_d(void) {
 
 static inline bool cpuinfo_has_riscv_g(void) {
     // The 'G' extension is simply shorthand for 'IMAFD'.
-    return cpuinfo_has_riscv_i()
-           && cpuinfo_has_riscv_m()
-           && cpuinfo_has_riscv_a()
-           && cpuinfo_has_riscv_f()
-           && cpuinfo_has_riscv_d();
+    return cpuinfo_has_riscv_i() && cpuinfo_has_riscv_m() && cpuinfo_has_riscv_a() &&
+           cpuinfo_has_riscv_f() &&
+           cpuinfo_has_riscv_d();
 }
 
 static inline bool cpuinfo_has_riscv_c(void) {
@@ -2015,16 +2056,24 @@ const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1d_caches(void);
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l2_caches(void);
 
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l3_caches(void);
-const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l4_caches(void);
 
-const struct cpuinfo_processor* CPUINFO_ABI cpuinfo_get_processor(uint32_t index);
-const struct cpuinfo_core* CPUINFO_ABI cpuinfo_get_core(uint32_t index);
-const struct cpuinfo_cluster* CPUINFO_ABI cpuinfo_get_cluster(uint32_t index);
-const struct cpuinfo_package* CPUINFO_ABI cpuinfo_get_package(uint32_t index);
-const struct cpuinfo_uarch_info* CPUINFO_ABI cpuinfo_get_uarch(uint32_t index);
-const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l1i_cache(uint32_t index);
-const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l1d_cache(uint32_t index);
-const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l2_cache(uint32_t index);
+const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l4_caches(void);
+
+const struct cpuinfo_processor *CPUINFO_ABI cpuinfo_get_processor(uint32_t index);
+
+const struct cpuinfo_core *CPUINFO_ABI cpuinfo_get_core(uint32_t index);
+
+const struct cpuinfo_cluster *CPUINFO_ABI cpuinfo_get_cluster(uint32_t index);
+
+const struct cpuinfo_package *CPUINFO_ABI cpuinfo_get_package(uint32_t index);
+
+const struct cpuinfo_uarch_info *CPUINFO_ABI cpuinfo_get_uarch(uint32_t index);
+
+const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1i_cache(uint32_t index);
+
+const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1d_cache(uint32_t index);
+
+const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l2_cache(uint32_t index);
 const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l3_cache(uint32_t index);
 const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l4_cache(uint32_t index);
 
@@ -2047,34 +2096,38 @@ uint32_t CPUINFO_ABI cpuinfo_get_max_cache_size(void);
 /**
  * Identify the logical processor that executes the current thread.
  *
- * There is no guarantee that the thread will stay on the same logical processor for any time.
- * Callers should treat the result as only a hint, and be prepared to handle NULL return value.
+ * There is no guarantee that the thread will stay on the same logical processor
+ * for any time. Callers should treat the result as only a hint, and be prepared
+ * to handle NULL return value.
  */
 const struct cpuinfo_processor* CPUINFO_ABI cpuinfo_get_current_processor(void);
 
 /**
  * Identify the core that executes the current thread.
  *
- * There is no guarantee that the thread will stay on the same core for any time.
- * Callers should treat the result as only a hint, and be prepared to handle NULL return value.
+ * There is no guarantee that the thread will stay on the same core for any
+ * time. Callers should treat the result as only a hint, and be prepared to
+ * handle NULL return value.
  */
 const struct cpuinfo_core* CPUINFO_ABI cpuinfo_get_current_core(void);
 
 /**
- * Identify the microarchitecture index of the core that executes the current thread.
- * If the system does not support such identification, the function returns 0.
+ * Identify the microarchitecture index of the core that executes the current
+ * thread. If the system does not support such identification, the function
+ * returns 0.
  *
- * There is no guarantee that the thread will stay on the same type of core for any time.
- * Callers should treat the result as only a hint.
+ * There is no guarantee that the thread will stay on the same type of core for
+ * any time. Callers should treat the result as only a hint.
  */
 uint32_t CPUINFO_ABI cpuinfo_get_current_uarch_index(void);
 
 /**
- * Identify the microarchitecture index of the core that executes the current thread.
- * If the system does not support such identification, the function returns the user-specified default value.
+ * Identify the microarchitecture index of the core that executes the current
+ * thread. If the system does not support such identification, the function
+ * returns the user-specified default value.
  *
- * There is no guarantee that the thread will stay on the same type of core for any time.
- * Callers should treat the result as only a hint.
+ * There is no guarantee that the thread will stay on the same type of core for
+ * any time. Callers should treat the result as only a hint.
  */
 uint32_t CPUINFO_ABI cpuinfo_get_current_uarch_index_with_default(uint32_t default_uarch_index);
 
