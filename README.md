@@ -4,7 +4,8 @@
 
 CPU Info (refactor-in-progress ⛏)
 =================================
-CPU Info provides information about Android device hardware and software.
+CPU Info provides information about Android device hardware and software. CPU data is based on
+external library [pytorch/cpuinfo](https://github.com/pytorch/cpuinfo)
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
 alt="Get it on F-Droid"
