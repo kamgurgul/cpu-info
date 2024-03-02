@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "cpu-info"
 include(":app")
+include(":baselineprofile")

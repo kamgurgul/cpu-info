@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kover)
+    alias(libs.plugins.baselineprofile)
 }
 
 android {
@@ -115,6 +116,7 @@ dependencies {
 
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.profileinstaller)
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
@@ -154,6 +156,8 @@ dependencies {
     kspAndroidTest(libs.hilt.compiler)
 
     androidTestUtil(libs.androidx.test.orchestrator)
+
+    "baselineProfile"(project(":baselineprofile"))
 }
 
 koverReport {

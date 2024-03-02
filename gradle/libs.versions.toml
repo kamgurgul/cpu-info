@@ -32,6 +32,12 @@ mockitoKotlin = "5.2.1"
 relinker = "1.4.5"
 timber = "5.0.1"
 turbine = "1.0.0"
+junitVersion = "1.1.5"
+uiautomator = "2.2.0"
+benchmarkMacroJunit4 = "1.2.2"
+kotlinVersion = "1.9.0"
+baselineprofile = "1.2.2"
+profileinstaller = "1.3.1"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
@@ -74,6 +80,10 @@ mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", versio
 relinker = { group = "com.getkeepsafe.relinker", name = "relinker", version.ref = "relinker" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -83,3 +93,6 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+androidTest = { id = "com.android.test", version.ref = "androidGradlePlugin" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }
+baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineprofile" }
