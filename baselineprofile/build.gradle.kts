@@ -6,15 +6,11 @@ plugins {
 
 android {
     namespace = "com.kgurgul.cpuinfo.baselineprofile"
-    compileSdk = 34
+    compileSdk = Versions.COMPILE_SDK
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     defaultConfig {
@@ -25,11 +21,8 @@ android {
     }
 
     targetProjectPath = ":app"
-
 }
 
-// This is the configuration block for the Baseline Profile plugin.
-// You can specify to run the generators on a managed devices or connected devices.
 baselineProfile {
     useConnectedDevices = true
 }
