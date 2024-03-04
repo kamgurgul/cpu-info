@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,7 +36,9 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
     LazyColumn(
         contentPadding = PaddingValues(spacingSmall),
         verticalArrangement = Arrangement.spacedBy(spacingSmall),
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag(CpuInfoScreenTestTags.LAZY_COLUMN),
     ) {
         uiState.cpuData?.let { cpuData ->
             cpuData.frequencies.forEachIndexed { i, frequency ->
@@ -54,7 +57,9 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                 ItemValueRow(
                     title = stringResource(id = R.string.cpu_soc_name),
                     value = cpuData.processorName,
-                    modifier = Modifier.focusable(),
+                    modifier = Modifier
+                        .focusable()
+                        .testTag(CpuInfoScreenTestTags.SOCKET_NAME),
                 )
                 Spacer(modifier = Modifier.requiredSize(spacingSmall))
                 CpuDivider()
@@ -180,6 +185,11 @@ fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
         minMaxValues = minFreq to maxFreq,
         modifier = Modifier.focusable(),
     )
+}
+
+object CpuInfoScreenTestTags {
+    const val LAZY_COLUMN = "cpu_info_lazy_column"
+    const val SOCKET_NAME = "cpu_info_socket_name"
 }
 
 @Preview

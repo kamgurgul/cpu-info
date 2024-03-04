@@ -40,18 +40,17 @@ class StartupBenchmarks {
     val rule = MacrobenchmarkRule()
 
     @Test
-    fun startupCompilationNone() =
-        benchmark(CompilationMode.None())
+    fun startupCompilationNone() = benchmark(CompilationMode.None())
 
     @Test
     fun startupCompilationBaselineProfiles() =
         benchmark(CompilationMode.Partial(BaselineProfileMode.Require))
 
     private fun benchmark(compilationMode: CompilationMode) {
-        // The application id for the running build variant is read from the instrumentation arguments.
+        val packageName = InstrumentationRegistry.getArguments().getString("targetAppId")
+            ?: throw Exception("targetAppId not passed as instrumentation runner arg")
         rule.measureRepeated(
-            packageName = InstrumentationRegistry.getArguments().getString("targetAppId")
-                ?: throw Exception("targetAppId not passed as instrumentation runner arg"),
+            packageName = packageName,
             metrics = listOf(StartupTimingMetric()),
             compilationMode = compilationMode,
             startupMode = StartupMode.COLD,
@@ -61,15 +60,7 @@ class StartupBenchmarks {
             },
             measureBlock = {
                 startActivityAndWait()
-
-                // TODO Add interactions to wait for when your app is fully drawn.
-                // The app is fully drawn when Activity.reportFullyDrawn is called.
-                // For Jetpack Compose, you can use ReportDrawn, ReportDrawnWhen and ReportDrawnAfter
-                // from the AndroidX Activity library.
-
-                // Check the UiAutomator documentation for more information on how to
-                // interact with the app.
-                // https://d.android.com/training/testing/other-components/ui-automator
+                waitForAsyncContent()
             }
         )
     }
