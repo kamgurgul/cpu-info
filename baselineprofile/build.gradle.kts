@@ -28,17 +28,17 @@ baselineProfile {
 }
 
 dependencies {
-    implementation(libs.androidx.junit)
-    implementation(libs.androidx.test.espresso.core)
-    implementation(libs.androidx.uiautomator)
     implementation(libs.androidx.benchmark.macro.junit4)
+    implementation(libs.androidx.test.ext)
+    implementation(libs.androidx.test.espresso.core)
+    implementation(libs.androidx.test.uiautomator)
 }
 
 androidComponents {
     onVariants { v ->
         v.instrumentationRunnerArguments.put(
             "targetAppId",
-            v.testedApks.map { v.artifacts.getBuiltArtifactsLoader().load(it)?.applicationId }
+            v.testedApks.map { v.artifacts.getBuiltArtifactsLoader().load(it)?.applicationId!! }
         )
     }
 }
