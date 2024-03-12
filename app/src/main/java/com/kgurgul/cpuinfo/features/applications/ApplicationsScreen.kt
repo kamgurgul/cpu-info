@@ -356,7 +356,7 @@ private fun ApplicationsList(
                     )
                 },
                 modifier = Modifier
-                    .animateItemPlacement()
+                    // .animateItemPlacement() reenable it with compose 1.7
                     .focusable(),
             )
             if (index < appList.lastIndex) {
