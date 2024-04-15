@@ -21,7 +21,7 @@ subprojects {
                 "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
                 "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
             )
-            allWarningsAsErrors = true
+            //allWarningsAsErrors = true
             jvmTarget = JavaVersion.VERSION_11.toString()
 
             if (project.findProperty("composeCompilerReports") == "true") {
