@@ -49,14 +49,6 @@ class BaselineProfileGenerator {
             pressHome()
             startActivityAndWait()
             waitForAsyncContent()
-
-            // 2. Scroll the feed content
-            // 3. Navigate to detail screen
-
-            // Check UiAutomator documentation for more information how to interact with the app.
-            // https://d.android.com/training/testing/other-components/ui-automator
         }
     }
-
-
 }
