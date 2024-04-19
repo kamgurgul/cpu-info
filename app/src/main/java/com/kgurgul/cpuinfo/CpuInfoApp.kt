@@ -16,13 +16,13 @@
 
 package com.kgurgul.cpuinfo
 
-import androidx.multidex.MultiDexApplication
+import android.app.Application
 import com.kgurgul.cpuinfo.appinitializers.AppInitializers
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class CpuInfoApp : MultiDexApplication() {
+class CpuInfoApp : Application() {
 
     @Inject
     lateinit var initializers: AppInitializers
