@@ -140,7 +140,6 @@ dependencies {
     testImplementation(libs.androidx.arch.core.testing)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.hilt.android.testing)
-    testImplementation(libs.mockito.android)
     testImplementation(libs.mockito.kotlin)
     kspTest(libs.hilt.compiler)
 
