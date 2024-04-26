@@ -27,7 +27,7 @@ TODO
 * Add more information about battery
 * Bring back apps size - use StorageStatsManager if possible
 * Unit and UI tests
-* Add Kotlin Multiplatform module
+* Add Kotlin Multiplatform module - migrate all libs to KMP
 * Add translations framework
 
 License
