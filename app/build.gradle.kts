@@ -70,9 +70,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
         compose = true
-        aidl = true
         buildConfig = true
     }
 
