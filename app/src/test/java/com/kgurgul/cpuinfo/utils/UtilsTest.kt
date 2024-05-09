@@ -17,7 +17,7 @@
 package com.kgurgul.cpuinfo.utils
 
 import org.junit.Assert.assertEquals
-import org.junit.Test
+import kotlin.test.Test
 
 class UtilsTest {
 

@@ -22,9 +22,9 @@ import com.kgurgul.cpuinfo.data.local.UserPreferences
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import kotlin.test.Test
 
 class TemperatureFormatterTest {
 

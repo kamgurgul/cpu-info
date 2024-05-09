@@ -4,9 +4,9 @@ import com.kgurgul.cpuinfo.data.provider.OsDataProvider
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
-import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class GetOsDataInteractorTest {
