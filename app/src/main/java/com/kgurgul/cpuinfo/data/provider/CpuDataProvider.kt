@@ -1,7 +1,7 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import android.os.Build
-import timber.log.Timber
+import com.kgurgul.cpuinfo.utils.CpuLogger
 import java.io.RandomAccessFile
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ class CpuDataProvider @Inject constructor() {
         return try {
             RandomAccessFile(currentFreqPath, "r").use { it.readLine().toLong() / 1000 }
         } catch (e: Exception) {
-            Timber.e("getCurrentFreq() - cannot read file")
+            CpuLogger.e { "getCurrentFreq() - cannot read file" }
             -1
         }
     }
@@ -41,7 +41,7 @@ class CpuDataProvider @Inject constructor() {
             val maxMhz = RandomAccessFile(maxPath, "r").use { it.readLine().toLong() / 1000 }
             Pair(minMhz, maxMhz)
         } catch (e: Exception) {
-            Timber.e("getMinMaxFreq() - cannot read file")
+            CpuLogger.e { "getMinMaxFreq() - cannot read file" }
             Pair(-1, -1)
         }
     }

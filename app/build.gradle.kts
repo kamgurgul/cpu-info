@@ -127,7 +127,7 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    implementation(libs.timber)
+    implementation(libs.kermit.kermit)
     implementation(libs.relinker)
     implementation(libs.coil)
 

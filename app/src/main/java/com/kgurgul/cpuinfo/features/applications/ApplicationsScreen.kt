@@ -78,13 +78,13 @@ import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
+import com.kgurgul.cpuinfo.utils.CpuLogger
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.observeWithLifecycle
 import com.kgurgul.cpuinfo.utils.uninstallApp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @Composable
 fun ApplicationsScreen(
@@ -130,7 +130,7 @@ fun ApplicationsScreen(
                 try {
                     context.startActivity(intent)
                 } catch (e: Exception) {
-                    Timber.e("Can't open app settings")
+                    CpuLogger.e { "Can't open app settings" }
                 }
             }
 

@@ -18,7 +18,7 @@ package com.kgurgul.cpuinfo.data.provider
 
 import android.os.Build
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
-import timber.log.Timber
+import com.kgurgul.cpuinfo.utils.CpuLogger
 import java.util.StringTokenizer
 import javax.inject.Inject
 
@@ -50,7 +50,7 @@ class ProcessesProvider @Inject constructor() {
                 val bis = process.inputStream.bufferedReader()
                 addAll(bis.readLines())
             } catch (e: Exception) {
-                Timber.e(e)
+                CpuLogger.e(e) { "Cannot read ps command" }
             }
         }
     }

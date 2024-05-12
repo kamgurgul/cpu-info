@@ -3,7 +3,7 @@ package com.kgurgul.cpuinfo.data.provider
 import android.os.Environment
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.StorageItem
-import timber.log.Timber
+import com.kgurgul.cpuinfo.utils.CpuLogger
 import java.io.BufferedReader
 import java.io.DataInputStream
 import java.io.File
@@ -135,7 +135,7 @@ class StorageDataProvider @Inject constructor() {
             }
             dis.close()
         } catch (e: Exception) {
-            Timber.i(e)
+            CpuLogger.e(e) { "Cannot read mounts" }
         }
         return sdDirList
     }

@@ -28,9 +28,9 @@ import android.os.BatteryManager
 import android.os.Build
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
+import com.kgurgul.cpuinfo.utils.CpuLogger
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.round2
-import timber.log.Timber
 import java.io.File
 import java.io.FileFilter
 import java.io.RandomAccessFile
@@ -395,11 +395,11 @@ class HardwareDataProvider @Inject constructor(
                         }
                     }
                 } catch (e: Exception) {
-                    Timber.e(e)
+                    CpuLogger.e(e) { "Cannot read camera characteristics" }
                 }
             }
         } catch (e: Exception) {
-            Timber.e(e)
+            CpuLogger.e(e) { "Cannot read camera list" }
             functionsList.add(Pair(resources.getString(R.string.amount), "0"))
         }
 

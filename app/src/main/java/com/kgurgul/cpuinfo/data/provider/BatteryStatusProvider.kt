@@ -20,8 +20,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import com.kgurgul.cpuinfo.utils.CpuLogger
 import dagger.hilt.android.qualifiers.ApplicationContext
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -53,7 +53,7 @@ class BatteryStatusProvider @Inject constructor(
                 .getMethod("getAveragePower", String::class.java)
                 .invoke(powerProfile, "battery.capacity") as Double
         } catch (e: Exception) {
-            Timber.e(e)
+            CpuLogger.e(e) { "Cannot read battery capacity" }
         }
         return capacity
     }

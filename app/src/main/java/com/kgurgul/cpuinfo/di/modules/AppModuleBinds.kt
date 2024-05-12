@@ -1,6 +1,7 @@
 package com.kgurgul.cpuinfo.di.modules
 
-import com.kgurgul.cpuinfo.appinitializers.*
+import com.kgurgul.cpuinfo.appinitializers.AppInitializer
+import com.kgurgul.cpuinfo.appinitializers.NativeToolsInitializer
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,8 +15,4 @@ abstract class AppModuleBinds {
     @Binds
     @IntoSet
     abstract fun provideNativeToolsInitializer(bind: NativeToolsInitializer): AppInitializer
-
-    @Binds
-    @IntoSet
-    abstract fun provideTimberInitializer(bind: TimberInitializer): AppInitializer
 }

@@ -1,7 +1,4 @@
 # Remove logs
--assumenosideeffects class timber.log.Timber* {
-    public static *** v(...);
-    public static *** d(...);
-    public static *** i(...);
-    public static *** e(...);
+-assumenosideeffects class com.kgurgul.cpuinfo.utils.CpuLogger {
+    public *** *(...);
 }

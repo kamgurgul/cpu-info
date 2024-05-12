@@ -8,10 +8,10 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
+import com.kgurgul.cpuinfo.utils.CpuLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
@@ -23,7 +23,7 @@ class UserPreferencesRepository @Inject constructor(
         get() = dataStore.data
             .catch { exception ->
                 if (exception is IOException) {
-                    Timber.e(exception)
+                    CpuLogger.e(exception) { "Error reading preferences" }
                     emit(emptyPreferences())
                 } else {
                     throw exception
