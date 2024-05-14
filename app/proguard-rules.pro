@@ -1,4 +1,7 @@
 # Remove logs
--assumenosideeffects class com.kgurgul.cpuinfo.utils.CpuLogger {
-    public *** *(...);
+-assumenosideeffects class co.touchlab.kermit.Logger {
+    public *** v(...);
+    public *** d(...);
+    public *** i(...);
+    public *** e(...);
 }
