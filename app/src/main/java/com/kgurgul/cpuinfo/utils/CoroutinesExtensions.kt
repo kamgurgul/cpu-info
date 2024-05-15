@@ -1,6 +1,7 @@
 package com.kgurgul.cpuinfo.utils
 
 import com.kgurgul.cpuinfo.utils.wrappers.Result
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -13,6 +14,8 @@ fun <T> wrapToResultFlow(block: suspend () -> T): Flow<Result<T>> = flow {
     try {
         val result = block()
         emit(Result.Success(result))
+    } catch (ce: CancellationException) {
+        throw ce
     } catch (throwable: Throwable) {
         CpuLogger.e(throwable) { "Error during wrapping to Result" }
         emit(Result.Error(throwable))
@@ -29,6 +32,8 @@ fun <T> (suspend () -> T).asResultFlow(): Flow<Result<T>> = flow {
     try {
         val result = invoke()
         emit(Result.Success(result))
+    } catch (ce: CancellationException) {
+        throw ce
     } catch (throwable: Throwable) {
         CpuLogger.e(throwable) { "Error during wrapping to Result" }
         emit(Result.Error(throwable))
