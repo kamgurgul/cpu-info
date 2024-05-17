@@ -155,25 +155,27 @@ dependencies {
     "baselineProfile"(project(":baselineprofile"))
 }
 
-koverReport {
-    androidReports("debug") {
-        filters {
-            includes {
-                packages(KoverConfig.includedPackages)
+kover {
+    reports {
+        variant("debug") {
+            filters {
+                includes {
+                    packages(KoverConfig.includedPackages)
+                }
+                excludes {
+                    packages(KoverConfig.excludedPackages)
+                    classes(KoverConfig.excludedClasses)
+                    annotatedBy(KoverConfig.excludedAnnotations)
+                }
             }
-            excludes {
-                packages(KoverConfig.excludedPackages)
-                classes(KoverConfig.excludedClasses)
-                annotatedBy(KoverConfig.excludedAnnotations)
+
+            html {
+                htmlDir = layout.buildDirectory.dir("coverage-report/html")
             }
-        }
 
-        html {
-            setReportDir(layout.buildDirectory.dir("coverage-report/html"))
-        }
-
-        xml {
-            setReportFile(layout.buildDirectory.file("coverage-report/result.xml"))
+            xml {
+                xmlFile = layout.buildDirectory.file("coverage-report/result.xml")
+            }
         }
     }
 }

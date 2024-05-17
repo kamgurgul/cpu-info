@@ -4,9 +4,9 @@ object KoverConfig {
     val excludedPackages = listOf(
         "com.kgurgul.cpuinfo.widgets",
         "com.kgurgul.cpuinfo.ui",
-        "com.kgurgul.cpuinfo.databinding",
-        "com.kgurgul.cpuinfo.*.model.*",
-        "com.kgurgul.cpuinfo.*.models.*",
+        "com.kgurgul.cpuinfo.*.model*",
+        "com.kgurgul.cpuinfo.*.models*",
+        "hilt_aggregated_deps",
     )
     val excludedClasses = listOf(
         "*Module*",
