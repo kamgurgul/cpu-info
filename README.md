@@ -24,6 +24,7 @@ alt='Available on Amazon AppStore' height="80">](https://www.amazon.com/Kamil-Gu
 TODO
 ====
 
+* Handle different form factors
 * Add more information about battery
 * Bring back apps size - use StorageStatsManager if possible
 * Unit and UI tests
