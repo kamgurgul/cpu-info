@@ -25,8 +25,8 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -87,22 +87,20 @@ fun CpuProgressBar(
                             .padding(spacingSmall),
                     )
                 }
-                val progressShape = if (prefixImageRes != null) {
-                    MaterialTheme.shapes.small.copy(
-                        topStart = ZeroCornerSize,
-                        bottomStart = ZeroCornerSize,
-                    )
+                val strokeCap = if (prefixImageRes != null) {
+                    StrokeCap.Butt
                 } else {
-                    MaterialTheme.shapes.small
+                    StrokeCap.Round
                 }
                 LinearProgressIndicator(
                     progress = { progressAnimation },
                     color = MaterialTheme.colorScheme.tertiary,
                     trackColor = Color.Unspecified,
+                    strokeCap = strokeCap,
+                    drawStopIndicator = {},
                     modifier = Modifier
                         .fillMaxWidth()
-                        .requiredHeight(progressHeight)
-                        .clip(progressShape),
+                        .requiredHeight(progressHeight),
                 )
                 LaunchedEffect(progress) {
                     currentProgress = if (progress.isNaN()) 0.0f else progress

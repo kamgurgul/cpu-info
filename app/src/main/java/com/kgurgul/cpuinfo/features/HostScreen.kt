@@ -4,14 +4,16 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.NavigationBarItemColors
+import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.NavigationRailItemColors
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteItemColors
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -54,65 +56,84 @@ fun HostScreen(
     uiState: HostViewModel.UiState
 ) {
     val navController = rememberNavController()
-    Scaffold(
-        bottomBar = {
-            NavigationBar(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-            ) {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-                val withLabel = !uiState.isProcessSectionVisible
-                HostNavigationItem.bottomNavigationItems(
-                    isProcessesVisible = uiState.isProcessSectionVisible,
-                ).forEach { item ->
-                    NavigationBarItem(
-                        icon = {
-                            Icon(
-                                painter = painterResource(item.iconRes),
-                                contentDescription = stringResource(item.labelRes),
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    val withLabel = !uiState.isProcessSectionVisible
+    val defaultItemColors = NavigationSuiteItemColors(
+        navigationBarItemColors = NavigationBarItemColors(
+            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+            selectedTextColor = MaterialTheme.colorScheme.onPrimary,
+            selectedIndicatorColor = MaterialTheme.colorScheme.secondary,
+            unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
+            unselectedTextColor = MaterialTheme.colorScheme.surfaceVariant,
+            disabledIconColor = MaterialTheme.colorScheme.onPrimary,
+            disabledTextColor = MaterialTheme.colorScheme.onPrimary,
+        ),
+        navigationRailItemColors = NavigationRailItemColors(
+            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+            selectedTextColor = MaterialTheme.colorScheme.onPrimary,
+            selectedIndicatorColor = MaterialTheme.colorScheme.secondary,
+            unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
+            unselectedTextColor = MaterialTheme.colorScheme.surfaceVariant,
+            disabledIconColor = MaterialTheme.colorScheme.onPrimary,
+            disabledTextColor = MaterialTheme.colorScheme.onPrimary,
+        ),
+        navigationDrawerItemColors = NavigationDrawerItemDefaults.colors(),
+    )
+    val navigationSuitColors = NavigationSuiteDefaults.colors(
+        navigationBarContainerColor = MaterialTheme.colorScheme.primary,
+        navigationBarContentColor = MaterialTheme.colorScheme.onPrimary,
+        navigationRailContainerColor = MaterialTheme.colorScheme.primary,
+        navigationRailContentColor = MaterialTheme.colorScheme.onPrimary,
+    )
+    NavigationSuiteScaffold(
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.onPrimary,
+        navigationSuiteColors = navigationSuitColors,
+        navigationSuiteItems = {
+            HostNavigationItem.bottomNavigationItems(
+                isProcessesVisible = uiState.isProcessSectionVisible,
+            ).forEach { item ->
+                item(
+                    icon = {
+                        Icon(
+                            painter = painterResource(item.iconRes),
+                            contentDescription = stringResource(item.labelRes),
+                        )
+                    },
+                    label = if (withLabel) {
+                        {
+                            Text(
+                                text = stringResource(item.labelRes),
+                                style = MaterialTheme.typography.labelSmall,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
                             )
-                        },
-                        label = if (withLabel) {
-                            {
-                                Text(
-                                    text = stringResource(item.labelRes),
-                                    style = MaterialTheme.typography.labelSmall,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                )
-                            }
-                        } else null,
-                        selected = currentDestination?.hierarchy
-                            ?.any { it.route == item.route } == true,
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                            selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-                            indicatorColor = MaterialTheme.colorScheme.secondary,
-                            unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
-                            unselectedTextColor = MaterialTheme.colorScheme.surfaceVariant,
-                        ),
-                        onClick = {
-                            navController.navigate(item.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
                         }
-                    )
-                }
+                    } else null,
+                    selected = currentDestination?.hierarchy
+                        ?.any { it.route == item.route } == true,
+                    onClick = {
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    colors = defaultItemColors,
+                )
             }
         },
         modifier = Modifier.semantics {
             testTagsAsResourceId = true
         }
-    ) { paddingValues ->
+    ) {
         NavHost(
             navController = navController,
             startDestination = HostScreen.Information.route,
-            modifier = Modifier.padding(paddingValues = paddingValues),
+            modifier = Modifier.systemBarsPadding(),
         ) {
             composable(
                 route = HostScreen.Information.route,
