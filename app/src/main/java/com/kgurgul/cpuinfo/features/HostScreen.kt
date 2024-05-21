@@ -7,13 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBarItemColors
-import androidx.compose.material3.NavigationDrawerItemDefaults
-import androidx.compose.material3.NavigationRailItemColors
 import androidx.compose.material3.Text
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteItemColors
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -38,6 +32,8 @@ import com.kgurgul.cpuinfo.features.information.InfoContainerScreen
 import com.kgurgul.cpuinfo.features.processes.ProcessesScreen
 import com.kgurgul.cpuinfo.features.settings.SettingsScreen
 import com.kgurgul.cpuinfo.features.temperature.TemperatureScreen
+import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffold
+import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffoldDefault
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 
 @Composable
@@ -59,37 +55,8 @@ fun HostScreen(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val withLabel = !uiState.isProcessSectionVisible
-    val defaultItemColors = NavigationSuiteItemColors(
-        navigationBarItemColors = NavigationBarItemColors(
-            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-            selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-            selectedIndicatorColor = MaterialTheme.colorScheme.secondary,
-            unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
-            unselectedTextColor = MaterialTheme.colorScheme.surfaceVariant,
-            disabledIconColor = MaterialTheme.colorScheme.onPrimary,
-            disabledTextColor = MaterialTheme.colorScheme.onPrimary,
-        ),
-        navigationRailItemColors = NavigationRailItemColors(
-            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-            selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-            selectedIndicatorColor = MaterialTheme.colorScheme.secondary,
-            unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
-            unselectedTextColor = MaterialTheme.colorScheme.surfaceVariant,
-            disabledIconColor = MaterialTheme.colorScheme.onPrimary,
-            disabledTextColor = MaterialTheme.colorScheme.onPrimary,
-        ),
-        navigationDrawerItemColors = NavigationDrawerItemDefaults.colors(),
-    )
-    val navigationSuitColors = NavigationSuiteDefaults.colors(
-        navigationBarContainerColor = MaterialTheme.colorScheme.primary,
-        navigationBarContentColor = MaterialTheme.colorScheme.onPrimary,
-        navigationRailContainerColor = MaterialTheme.colorScheme.primary,
-        navigationRailContentColor = MaterialTheme.colorScheme.onPrimary,
-    )
-    NavigationSuiteScaffold(
-        containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary,
-        navigationSuiteColors = navigationSuitColors,
+    val itemDefaultColors = CpuNavigationSuiteScaffoldDefault.itemDefaultColors()
+    CpuNavigationSuiteScaffold(
         navigationSuiteItems = {
             HostNavigationItem.bottomNavigationItems(
                 isProcessesVisible = uiState.isProcessSectionVisible,
@@ -122,7 +89,7 @@ fun HostScreen(
                             restoreState = true
                         }
                     },
-                    colors = defaultItemColors,
+                    colors = itemDefaultColors,
                 )
             }
         },
