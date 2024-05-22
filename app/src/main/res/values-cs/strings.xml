@@ -15,120 +15,116 @@
   -->
 
 <resources>
-
-    <string name="action_not_supported">Akce není k dispozici</string>
+    <string name="action_not_supported">Akce není dostupná</string>
 
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
     <string name="ok">OK</string>
+    <string name="cancel">Zrušit</string>
 
-    <!--Tabs-->
-    <string name="cpu">Procesor</string>
-    <string name="gpu">Grafický čip</string>
-    <string name="ram">Oper. paměť</string>
+    <string name="cpu">CPU</string>
+    <string name="gpu">GPU</string>
+    <string name="ram">RAM</string>
     <string name="storage">Úložiště</string>
     <string name="screen">Obrazovka</string>
     <string name="android">Android</string>
     <string name="hardware">Hardware</string>
-    <string name="sensors">Sensory</string>
+    <string name="sensors">Senzory</string>
 
     <string name="processes">Procesy</string>
-    <string name="applications">Applikace</string>
+    <string name="applications">Aplikace</string>
     <string name="temp">Teplota</string>
     <string name="settings">Nastavení</string>
 
-    <string name="running_gc">Spouštění čištění</string>
+    <string name="running_gc">Spouští se Garbage Collector</string>
 
-    <!--Apps-->
-    <string name="app_open">Tuto aplikaci se nedaří spustit</string>
-    <string name="cpu_open">Nespouštějte tuto aplikaci vícekrát naráz :-)</string>
-    <string name="cpu_uninstall">Toto nelze udělat :-(</string>
+    <string name="app_open">Nelze otevřít tuto aplikaci</string>
+    <string name="cpu_open">Neotevírej mě dvakrát :-)</string>
+    <string name="cpu_uninstall">Tohle nejde :-(</string>
     <string name="native_libs">Nativní knihovny</string>
+    <string name="apps_show_system_apps">Zobrazit systémové aplikace</string>
+    <string name="apps_sort_order">Řazení</string>
 
-    <!--GPU-->
-    <string name="gles_version">Verze GLES</string>
+    <string name="vulkan_version">Vulkan verze</string>
+    <string name="gles_version">GLES verze</string>
     <string name="vendor">Výrobce</string>
     <string name="version">Verze</string>
-    <string name="renderer">Vykreslovač</string>
+    <string name="renderer">Renderer</string>
     <string name="extensions">Rozšíření</string>
 
-    <!--RAM-->
-    <string name="total_memory">Paměť celkem</string>
-    <string name="available_memory">Volná paměť</string>
-    <string name="threshold">Hranice minima</string>
+    <string name="total_memory">Celková paměť</string>
+    <string name="available_memory">Dostupná paměť</string>
+    <string name="threshold">Práh</string>
 
-    <!--Storage-->
-    <string name="internal">Vestavěné</string>
-    <string name="external">Rozšiřující</string>
+    <string name="internal">Interní</string>
+    <string name="external">Externí</string>
 
-    <!--Screen-->
     <string name="screen_class">Třída obrazovky</string>
     <string name="small">Malá</string>
-    <string name="normal">Běžná</string>
+    <string name="normal">Normální</string>
     <string name="large">Velká</string>
     <string name="unknown">Neznámá</string>
-    <string name="density_class">Třída jemnosti zobrazení</string>
+    <string name="density_class">Třída hustoty</string>
     <string name="width">Šířka</string>
     <string name="height">Výška</string>
-    <string name="dp_width">Dp šířka</string>
-    <string name="dp_height">Dp výška</string>
-    <string name="density">Jemnost zobrazení</string>
-    <string name="absolute_width">Šířka absolutně</string>
-    <string name="absolute_height">Výška absolutně</string>
+    <string name="dp_width">Šířka (dp)</string>
+    <string name="dp_height">Výška (dp)</string>
+    <string name="density">Hustota</string>
+    <string name="absolute_width">Absolutní šířka</string>
+    <string name="absolute_height">Absolutní výška</string>
     <string name="refresh_rate">Obnovovací frekvence</string>
     <string name="orientation">Orientace</string>
+    <string name="camera_lens_number">Počet čoček</string>
 
-    <!--Android-->
     <string name="codename">Kódové označení</string>
     <string name="brand">Značka</string>
     <string name="model">Model</string>
     <string name="manufacturer">Výrobce</string>
-    <string name="board">Základní deska</string>
+    <string name="board">Deska</string>
     <string name="serial">Sériové číslo</string>
-    <string name="rooted">Rooted</string>
-    <string name="encrypted_storage">Encrypted Storage</string>
+    <string name="rooted">Root</string>
+    <string name="encrypted_storage">Šifrované úložiště</string>
     <string name="security_providers">Poskytovatelé zabezpečení</string>
 
-    <!--Hardware-->
-    <string name="battery">Akumulátor</string>
-    <string name="wireless">Bezdrátová rozhraní</string>
+    <string name="battery">Baterie</string>
+    <string name="wireless">Bezdrátové připojení</string>
     <string name="sound_card">Zvuková karta</string>
-    <string name="level">Nabití</string>
+    <string name="level">Úroveň</string>
     <string name="voltage">Napětí</string>
     <string name="temperature">Teplota</string>
     <string name="capacity">Kapacita</string>
     <string name="technology">Technologie</string>
     <string name="is_charging">Nabíjí se</string>
     <string name="charging_type">Typ nabíjení</string>
-    <string name="wifi_mac">MAC adr. WiFi</string>
-    <string name="bluetooth_mac">MAC adr. Bluetooth</string>
-    <string name="amount">Počet</string>
+    <string name="wifi_mac">Wi-Fi MAC</string>
+    <string name="bluetooth_mac">Bluetooth MAC</string>
+    <string name="amount">Množství</string>
     <string name="card">Karta</string>
-    <string name="cameras">Kamery</string>
-    <string name="camera">Kamera</string>
+    <string name="cameras">Fotoaparáty</string>
+    <string name="camera">Fotoaparát</string>
     <string name="type">Typ</string>
     <string name="front">Přední</string>
+    <string name="camera_external">Externí</string>
     <string name="back">Zadní</string>
-    <string name="battery_health">Stav</string>
-    <string name="battery_cold">Podchlazená</string>
+    <string name="battery_health">Zdraví</string>
+    <string name="battery_cold">Studená</string>
     <string name="battery_good">Dobrá</string>
-    <string name="battery_dead">Nefunkční</string>
+    <string name="battery_dead">Vybitá</string>
     <string name="battery_overheat">Přehřátá</string>
-    <string name="battery_overvoltage">Příliš vysoké napětí</string>
-    <string name="battery_unknown">Neznámý</string>
-    <string name="battery_unspecified_failure">Neurčený nezdar</string>
-    <string name="ir_emitter">IR Emitter</string>
+    <string name="battery_overvoltage">Přepětí</string>
+    <string name="battery_unknown">Neznámá</string>
+    <string name="battery_unspecified_failure">Nespecifikovaná chyba</string>
+    <string name="ir_emitter">IR vysílač</string>
 
-    <!--Prefs-->
     <string name="general">Obecné</string>
     <string name="temperature_unit">Jednotka teploty</string>
-    <string name="pref_theme_dark">Temný</string>
+    <string name="pref_theme_dark">Tmavý</string>
     <string name="pref_theme_light">Světlý</string>
     <string name="pref_theme_default">Výchozí systém</string>
-    <string name="pref_theme">Téma</string>
-    <string name="pref_theme_choose">Vyberte téma</string>
+    <string name="pref_theme">Motiv</string>
+    <string name="pref_theme_choose">Vybrat motiv</string>
 
-    <!--Temp-->
-    <string name="no_temp_data">Je nám líto, ale nedaří se najít čidla teploty :-(</string>
+    <string name="no_temp_data">Je mi líto, nemohu najít žádné teplotní senzory :-(</string>
 
 </resources>
+

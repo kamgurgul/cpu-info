@@ -108,13 +108,13 @@
     <string name="rooted">Rooted</string>
     <string name="encrypted_storage">Encrypted Storage</string>
     <string name="security_providers">Security providers</string>
-    <string name="sdk">SDK</string>
-    <string name="bootloader">Bootloader</string>
-    <string name="vm">VM</string>
-    <string name="kernel">Kernel</string>
-    <string name="android_id">Android ID</string>
-    <string name="google_services_framework_id">Google Services Framework ID</string>
-    <string name="strongbox">StrongBox</string>
+    <string name="sdk" translatable="false">SDK</string>
+    <string name="bootloader" translatable="false">Bootloader</string>
+    <string name="vm" translatable="false">VM</string>
+    <string name="kernel" translatable="false">Kernel</string>
+    <string name="android_id" translatable="false">Android ID</string>
+    <string name="google_services_framework_id" translatable="false">Google Services Framework ID</string>
+    <string name="strongbox" translatable="false">StrongBox</string>
 
     <!--Hardware-->
     <string name="battery">Battery</string>

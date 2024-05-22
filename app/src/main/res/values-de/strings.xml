@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2018 FliegendeWurst
+  ~ Copyright 2017 KG Soft
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -17,12 +17,11 @@
 <resources>
 
     <string name="action_not_supported">Aktion nicht verfügbar</string>
-
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="ok">OK</string>
+    <string name="cancel">Abbrechen</string>
 
-    <!--Tabs-->
     <string name="cpu">CPU</string>
     <string name="gpu">GPU</string>
     <string name="ram">RAM</string>
@@ -33,105 +32,98 @@
     <string name="sensors">Sensoren</string>
 
     <string name="processes">Prozesse</string>
-    <string name="applications">Apps</string>
+    <string name="applications">Anwendungen</string>
     <string name="temp">Temperatur</string>
     <string name="settings">Einstellungen</string>
 
-    <string name="running_gc">Führe Garbage Collector aus</string>
+    <string name="running_gc">Garbage Collector läuft</string>
 
-    <!--Apps-->
-    <string name="app_open">Konnte App nicht öffnen</string>
-    <string name="cpu_open">Öffne mich nicht zweimal :-)</string>
-    <string name="cpu_uninstall">Das kann ich nicht tun :-(</string>
-    <string name="native_libs">Plattform-spezifische Programmbibliotheken</string>
+    <string name="app_open">Anwendung kann nicht geöffnet werden</string>
+    <string name="cpu_open">Nicht zweimal öffnen :-)</string>
+    <string name="cpu_uninstall">Das ist leider nicht möglich :-(</string>
+    <string name="native_libs">Native Bibliotheken</string>
+    <string name="apps_show_system_apps">System-Apps anzeigen</string>
+    <string name="apps_sort_order">Sortierreihenfolge</string>
 
-    <!--GPU-->
+    <string name="vulkan_version">Vulkan-Version</string>
     <string name="gles_version">GLES-Version</string>
-    <!-- should not be translated: -->
-    <string name="vendor">Vendor</string>
+    <string name="vendor">Hersteller</string>
     <string name="version">Version</string>
     <string name="renderer">Renderer</string>
-    <string name="extensions">Extensions</string>
+    <string name="extensions">Erweiterungen</string>
 
-    <!--RAM-->
-    <string name="total_memory">Speichergröße</string>
+    <string name="total_memory">Gesamtspeicher</string>
     <string name="available_memory">Verfügbarer Speicher</string>
-    <string name="threshold">Grenzwert</string>
+    <string name="threshold">Schwellenwert</string>
 
-    <!--Storage-->
     <string name="internal">Intern</string>
     <string name="external">Extern</string>
 
-    <!--Screen-->
     <string name="screen_class">Bildschirmklasse</string>
     <string name="small">Klein</string>
     <string name="normal">Normal</string>
     <string name="large">Groß</string>
     <string name="unknown">Unbekannt</string>
-    <string name="density_class">Dichteklasse</string>
+    <string name="density_class">Dichte-Klasse</string>
     <string name="width">Breite</string>
     <string name="height">Höhe</string>
-    <string name="dp_width">Breite in dp</string>
-    <string name="dp_height">Höhe in dp</string>
-    <string name="density">Pixeldichte</string>
+    <string name="dp_width">Dp Breite</string>
+    <string name="dp_height">Dp Höhe</string>
+    <string name="density">Dichte</string>
     <string name="absolute_width">Absolute Breite</string>
     <string name="absolute_height">Absolute Höhe</string>
     <string name="refresh_rate">Bildwiederholrate</string>
-    <string name="orientation">Rotation</string>
+    <string name="orientation">Ausrichtung</string>
+    <string name="camera_lens_number">Anzahl Linsen</string>
 
-    <!--Android-->
     <string name="codename">Codename</string>
     <string name="brand">Marke</string>
     <string name="model">Modell</string>
     <string name="manufacturer">Hersteller</string>
-    <string name="board">Board</string>
+    <string name="board">Platine</string>
     <string name="serial">Seriennummer</string>
-    <string name="rooted">Rooted</string>
-    <string name="encrypted_storage">Encrypted Storage</string>
-    <string name="security_providers">Sicherheitsprovider</string>
+    <string name="rooted">Gerootet</string>
+    <string name="encrypted_storage">Verschlüsselter Speicher</string>
+    <string name="security_providers">Sicherheitsanbieter</string>
 
-    <!--Hardware-->
-    <string name="battery">Batterie</string>
-    <string name="wireless">Kabellos</string>
+    <string name="battery">Akku</string>
+    <string name="wireless">Drahtlos</string>
     <string name="sound_card">Soundkarte</string>
-    <string name="level">Ladestand</string>
+    <string name="level">Füllstand</string>
     <string name="voltage">Spannung</string>
     <string name="temperature">Temperatur</string>
     <string name="capacity">Kapazität</string>
     <string name="technology">Technologie</string>
-    <string name="is_charging">Lädt auf</string>
-    <string name="charging_type">Auflade-Typ</string>
-    <string name="wifi_mac">WLAN MAC</string>
-    <string name="bluetooth" translatable="false">Bluetooth</string>
-    <string name="bluetooth_le" translatable="false">Bluetooth LE</string>
-    <string name="bluetooth_mac">Bluetooth MAC</string>
+    <string name="is_charging">Wird geladen</string>
+    <string name="charging_type">Ladetyp</string>
+    <string name="wifi_mac">WLAN-MAC-Adresse</string>
+    <string name="bluetooth_mac">Bluetooth-MAC-Adresse</string>
     <string name="amount">Anzahl</string>
     <string name="card">Karte</string>
     <string name="cameras">Kameras</string>
     <string name="camera">Kamera</string>
     <string name="type">Typ</string>
     <string name="front">Vorderseite</string>
+    <string name="camera_external">Extern</string>
     <string name="back">Rückseite</string>
-    <string name="battery_health">Gesundheit</string>
+    <string name="battery_health">Zustand</string>
     <string name="battery_cold">Kalt</string>
     <string name="battery_good">Gut</string>
-    <string name="battery_dead">Tot</string>
-    <string name="battery_overheat">Überhitzung</string>
+    <string name="battery_dead">Leer</string>
+    <string name="battery_overheat">Überhitzt</string>
     <string name="battery_overvoltage">Überspannung</string>
     <string name="battery_unknown">Unbekannt</string>
-    <string name="battery_unspecified_failure">Unspezifizierter Fehler</string>
-    <string name="ir_emitter">IR Emitter</string>
+    <string name="battery_unspecified_failure">Fehler unbekannt</string>
+    <string name="ir_emitter">IR-Sender</string>
 
-    <!--Prefs-->
     <string name="general">Allgemein</string>
-    <string name="temperature_unit">Temperatur-Einheit</string>
+    <string name="temperature_unit">Temperatureinheit</string>
     <string name="pref_theme_dark">Dunkel</string>
     <string name="pref_theme_light">Hell</string>
-    <string name="pref_theme_default">Systemvorgabe</string>
-    <string name="pref_theme">Thema</string>
-    <string name="pref_theme_choose">Wähle das Thema</string>
+    <string name="pref_theme_default">Systemstandard</string>
+    <string name="pref_theme">Design</string>
+    <string name="pref_theme_choose">Design auswählen</string>
 
-    <!--Temp-->
-    <string name="no_temp_data">Temperatur-Sensoren konnten nicht gefunden werden :-(</string>
+    <string name="no_temp_data">Entschuldigung, ich kann keine Temperatursensoren finden :-(</string>
 
 </resources>
