@@ -19,8 +19,8 @@ package com.kgurgul.cpuinfo.testsuits.information
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.kgurgul.cpuinfo.core.BaseTestSuit
 import com.kgurgul.cpuinfo.pages.InfoContainerPage
+import org.junit.Test
 import org.junit.runner.RunWith
-import kotlin.test.Test
 
 @RunWith(AndroidJUnit4::class)
 class InfoTestSuit : BaseTestSuit() {

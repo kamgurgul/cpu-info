@@ -1,4 +1,5 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -14,8 +15,8 @@ plugins {
 
 subprojects {
     tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            freeCompilerArgs += listOf(
+        compilerOptions {
+            freeCompilerArgs.addAll(
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=kotlinx.coroutines.FlowPreview",
                 "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
@@ -23,10 +24,10 @@ subprojects {
                 "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
             )
             //allWarningsAsErrors = true
-            jvmTarget = JavaVersion.VERSION_11.toString()
+            jvmTarget = JvmTarget.JVM_11
 
             if (project.findProperty("composeCompilerReports") == "true") {
-                freeCompilerArgs += listOf(
+                freeCompilerArgs.addAll(
                     "-P",
                     "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
                             project.layout.buildDirectory.dir("compose_compiler").get()
@@ -34,7 +35,7 @@ subprojects {
                 )
             }
             if (project.findProperty("composeCompilerMetrics") == "true") {
-                freeCompilerArgs += listOf(
+                freeCompilerArgs.addAll(
                     "-P",
                     "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
                             project.layout.buildDirectory.dir("compose-metrics").get()

@@ -35,7 +35,7 @@ android {
 
     signingConfigs {
         getByName("debug") {
-            val debugSigningConfig = SigningConfig.getDebugProperties(rootProject.rootDir)
+            val debugSigningConfig = SigningConfig.getReleaseProperties(rootProject.rootDir)
             storeFile = file(debugSigningConfig.getProperty(SigningConfig.KEY_PATH))
             keyAlias = debugSigningConfig.getProperty(SigningConfig.KEY_ALIAS)
             keyPassword = debugSigningConfig.getProperty(SigningConfig.KEY_PASS)
@@ -55,6 +55,7 @@ android {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            applicationIdSuffix = ".release"
         }
         debug {
             signingConfig = signingConfigs.getByName("debug")
