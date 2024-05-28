@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,6 +27,7 @@ fun SurfaceTopAppBar(
     navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
+    scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
     CpuTopAppBar(
         title = title,
@@ -39,6 +41,7 @@ fun SurfaceTopAppBar(
             actionIconContentColor = MaterialTheme.colorScheme.onSurface,
         ),
         windowInsets = windowInsets,
+        scrollBehavior = scrollBehavior,
         modifier = modifier,
     )
 }
@@ -50,6 +53,7 @@ fun PrimaryTopAppBar(
     navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
+    scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
     CpuTopAppBar(
         title = title,
@@ -63,6 +67,7 @@ fun PrimaryTopAppBar(
             actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
         ),
         windowInsets = windowInsets,
+        scrollBehavior = scrollBehavior,
         modifier = modifier,
     )
 }
@@ -75,6 +80,7 @@ private fun CpuTopAppBar(
     navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
     TopAppBar(
         title = {
@@ -91,6 +97,7 @@ private fun CpuTopAppBar(
         actions = actions,
         colors = colors,
         windowInsets = windowInsets,
+        scrollBehavior = scrollBehavior,
         modifier = modifier,
     )
 }
