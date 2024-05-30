@@ -2,8 +2,8 @@
 
 <img src="info/icon_glow.png" width="100" height="100" />
 
-CPU Info (refactor-in-progress ⛏)
-=================================
+# CPU Info (refactor-in-progress ⛏)
+
 CPU Info provides information about Android device hardware and software. CPU data is based on
 external library [pytorch/cpuinfo](https://github.com/pytorch/cpuinfo)
 
@@ -21,18 +21,15 @@ alt='Get it on GitHub' height="80">](https://github.com/kamgurgul/cpu-info/relea
 [<img src="https://raw.githubusercontent.com/kamgurgul/cpu-info/master/info/amazon-badge.png"
 alt='Available on Amazon AppStore' height="80">](https://www.amazon.com/Kamil-Gurgul-KG-Soft-Info/dp/B088FYQTYR/ref=sr_1_5?keywords=cpu+info&qid=1661020642&s=mobile-apps&sr=1-5)
 
-TODO
-====
+# TODO
 
-* Handle different form factors
 * Add more information about battery
 * Bring back apps size - use StorageStatsManager if possible
 * Unit and UI tests
 * Add Kotlin Multiplatform module - migrate all libs to KMP
 * Add translations framework
 
-License
--------
+# License
 
     Copyright 2017 KG Soft
 
