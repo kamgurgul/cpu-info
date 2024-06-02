@@ -14,7 +14,7 @@ plugins {
 }
 
 subprojects {
-    tasks.withType<KotlinCompile>().configureEach {
+    tasks.withType<KotlinCompile>().all {
         compilerOptions {
             freeCompilerArgs.addAll(
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
