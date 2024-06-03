@@ -109,7 +109,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.profileinstaller)
 
     val composeBom = platform(libs.androidx.compose.bom)

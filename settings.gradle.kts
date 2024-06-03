@@ -1,3 +1,5 @@
+rootProject.name = "cpu-info"
+
 pluginManagement {
     repositories {
         google()
@@ -14,6 +16,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "cpu-info"
 include(":app")
 include(":baselineprofile")
