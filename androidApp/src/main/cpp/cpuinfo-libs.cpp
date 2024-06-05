@@ -2,7 +2,7 @@
 #include <jni.h>
 #include <cinttypes>
 #include <android/log.h>
-#include <cpuinfo.h>
+#include "cpuinfo.h"
 #include <string>
 
 #define LOGI(...) \

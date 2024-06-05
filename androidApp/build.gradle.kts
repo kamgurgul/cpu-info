@@ -9,6 +9,17 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
+/*kotlin {
+    androidTarget()
+    sourceSets {
+        val androidMain by getting {
+            dependencies {
+                implementation(project(":shared"))
+            }
+        }
+    }
+}*/
+
 android {
     compileSdk = Versions.COMPILE_SDK
 
