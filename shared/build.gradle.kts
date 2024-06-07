@@ -1,14 +1,15 @@
 plugins {
     kotlin("multiplatform")
-    //alias(libs.plugins.android.library)
-    //id("org.jetbrains.compose")
-    //id("kotlin-parcelize")
+    id(libs.plugins.android.library.get().pluginId)
+    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.compose.compiler)
+    id("kotlin-parcelize")
 }
 
 version = "1.0"
 
 kotlin {
-//    androidTarget()
+    androidTarget()
     jvm("desktop")
 
     listOf(
@@ -32,25 +33,24 @@ kotlin {
         }
 
         commonMain.dependencies {
-/*            implementation(compose.runtime)
+            implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.components.resources)
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")*/
+            implementation(libs.kotlinx.coroutines.core)
         }
 
-        /*        androidMain.dependencies {
+        androidMain.dependencies {
 
-                }*/
+        }
     }
 }
 
-/*
 android {
     compileSdk = Versions.COMPILE_SDK
     namespace = "com.kgurgul.cpuinfo.shared"
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].manifest.srcFile("src/main/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/main/res")
 
     defaultConfig {
         minSdk = Versions.MIN_SDK
@@ -62,4 +62,4 @@ android {
     kotlin {
         jvmToolchain(11)
     }
-}*/
+}
