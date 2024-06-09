@@ -36,6 +36,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.components.resources)
             implementation(libs.kotlinx.coroutines.core)
         }
@@ -43,14 +44,23 @@ kotlin {
         androidMain.dependencies {
 
         }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(kotlin("test-common"))
+            implementation(kotlin("test-annotations-common"))
+
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+        }
     }
 }
 
 android {
     compileSdk = Versions.COMPILE_SDK
     namespace = "com.kgurgul.cpuinfo.shared"
-    sourceSets["main"].manifest.srcFile("src/main/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/main/res")
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
 
     defaultConfig {
         minSdk = Versions.MIN_SDK

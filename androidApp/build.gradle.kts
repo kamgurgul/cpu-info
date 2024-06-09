@@ -1,6 +1,6 @@
 plugins {
+    kotlin("multiplatform")
     alias(libs.plugins.android.application)
-    kotlin("android")
     id("kotlin-parcelize")
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
-/*kotlin {
+kotlin {
     androidTarget()
     sourceSets {
         val androidMain by getting {
@@ -17,8 +17,21 @@ plugins {
                 implementation(project(":shared"))
             }
         }
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(kotlin("test-junit"))
+                implementation(libs.androidx.test.core)
+                implementation(libs.androidx.arch.core.testing)
+                implementation(libs.mockito.kotlin)
+                implementation(libs.turbine)
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.hilt.android.testing)
+                //ksp(libs.hilt.compiler)
+            }
+        }
     }
-}*/
+}
 
 android {
     compileSdk = Versions.COMPILE_SDK
@@ -78,7 +91,7 @@ android {
 
     externalNativeBuild {
         cmake {
-            path("src/main/cpp/CMakeLists.txt")
+            path("src/androidMain/cpp/CMakeLists.txt")
         }
     }
 
@@ -141,16 +154,6 @@ dependencies {
     implementation(libs.relinker)
     implementation(libs.coil)
 
-    testImplementation(kotlin("test"))
-    testImplementation(libs.junit)
-    testImplementation(libs.turbine)
-    testImplementation(libs.androidx.test.core)
-    testImplementation(libs.androidx.arch.core.testing)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.hilt.android.testing)
-    testImplementation(libs.mockito.kotlin)
-    kspTest(libs.hilt.compiler)
-
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.androidx.test.ext)
@@ -158,11 +161,11 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.contrib)
     androidTestImplementation(libs.androidx.compose.ui.test)
     androidTestImplementation(libs.hilt.android.testing)
-    kspAndroidTest(libs.hilt.compiler)
+    // kspAndroidTest(libs.hilt.compiler)
 
     androidTestUtil(libs.androidx.test.orchestrator)
 
-    "baselineProfile"(project(":baselineprofile"))
+    //"baselineProfile"(project(":baselineprofile"))
 }
 
 kover {

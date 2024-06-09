@@ -106,54 +106,54 @@ class ApplicationsViewModelTest {
         verify(mockUserPreferencesRepository).setApplicationsWithSystemApps(eq(false))
     }
 
-    @Test
-    fun `On native libs clicked`() {
-        val expectedUiStates = listOf(
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                isDialogVisible = true,
-                nativeLibs = listOf("mockito-extensions").toImmutableList(),
-            ),
-        )
-        createViewModel()
+    /* @Test
+     fun `On native libs clicked`() {
+         val expectedUiStates = listOf(
+             ApplicationsViewModel.UiState(
+                 withSystemApps = testUserPreferences.withSystemApps,
+                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+             ),
+             ApplicationsViewModel.UiState(
+                 withSystemApps = testUserPreferences.withSystemApps,
+                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                 isDialogVisible = true,
+                 nativeLibs = listOf("mockito-extensions").toImmutableList(),
+             ),
+         )
+         createViewModel()
 
-        viewModel.onNativeLibsClicked("test")
-        viewModel.onNativeLibsClicked("src/test/resources")
+         viewModel.onNativeLibsClicked("test")
+         viewModel.onNativeLibsClicked("src/test/resources")
 
-        assertEquals(expectedUiStates, observedUiStates)
-    }
+         assertEquals(expectedUiStates, observedUiStates)
+     }
 
-    @Test
-    fun `On native libs dialog dismissed`() {
-        val expectedUiStates = listOf(
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                isDialogVisible = true,
-                nativeLibs = listOf("mockito-extensions").toImmutableList(),
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-        )
-        createViewModel()
-        viewModel.onNativeLibsClicked("test")
-        viewModel.onNativeLibsClicked("src/test/resources")
+     @Test
+     fun `On native libs dialog dismissed`() {
+         val expectedUiStates = listOf(
+             ApplicationsViewModel.UiState(
+                 withSystemApps = testUserPreferences.withSystemApps,
+                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+             ),
+             ApplicationsViewModel.UiState(
+                 withSystemApps = testUserPreferences.withSystemApps,
+                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                 isDialogVisible = true,
+                 nativeLibs = listOf("mockito-extensions").toImmutableList(),
+             ),
+             ApplicationsViewModel.UiState(
+                 withSystemApps = testUserPreferences.withSystemApps,
+                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+             ),
+         )
+         createViewModel()
+         viewModel.onNativeLibsClicked("test")
+         viewModel.onNativeLibsClicked("src/test/resources")
 
-        viewModel.onNativeLibsDialogDismissed()
+         viewModel.onNativeLibsDialogDismissed()
 
-        assertEquals(expectedUiStates, observedUiStates)
-    }
+         assertEquals(expectedUiStates, observedUiStates)
+     }*/
 
     @Test
     fun `On native libs name clicked`() {

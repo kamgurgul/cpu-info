@@ -28,6 +28,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -64,7 +65,7 @@ class HostActivity : AppCompatActivity() {
 
         setContent {
             val darkTheme = shouldUseDarkTheme(uiState)
-            val systemBarScrim = if (darkTheme) darkPrimary else lightPrimary
+            val systemBarScrim = (if (darkTheme) darkPrimary else lightPrimary).toArgb()
             DisposableEffect(darkTheme) {
                 enableEdgeToEdge(
                     statusBarStyle = SystemBarStyle.dark(systemBarScrim),
