@@ -33,6 +33,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -94,6 +95,14 @@ class AppModule {
     @Singleton
     fun provideStorageManager(@ApplicationContext appContext: Context): StorageManager =
         appContext.getSystemService(Context.STORAGE_SERVICE) as StorageManager
+
+    @Provides
+    @Singleton
+    fun provideUserPreferencesRepository(
+        dataStore: DataStore<Preferences>
+    ): UserPreferencesRepository {
+        return UserPreferencesRepository(dataStore)
+    }
 
     @Provides
     @Singleton

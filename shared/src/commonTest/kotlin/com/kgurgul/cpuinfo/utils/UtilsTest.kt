@@ -16,25 +16,10 @@
 
 package com.kgurgul.cpuinfo.utils
 
-import org.junit.Assert.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class UtilsTest {
-
-    @Test
-    fun addPairIfExists() {
-        /* Given */
-        val testList = ArrayList<Pair<String, String>>()
-
-        /* When */
-        Utils.addPairIfExists(testList, "Key", null)
-        Utils.addPairIfExists(testList, "Key", "Value")
-
-        /* Then */
-        assertEquals(1, testList.size)
-        assertEquals("Key", testList[0].first)
-        assertEquals("Value", testList[0].second)
-    }
 
     @Test
     fun humanReadableByteCountFormatting() {

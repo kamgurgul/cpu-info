@@ -29,7 +29,6 @@ import android.os.Build
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.utils.CpuLogger
-import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.round2
 import java.io.File
 import java.io.FileFilter
@@ -129,11 +128,11 @@ class HardwareDataProvider @Inject constructor(
         if (batteryStatus != null) {
             // Technology
             val technology = batteryStatus.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY)
-            Utils.addPairIfExists(
-                functionsList,
-                resources.getString(R.string.technology),
-                technology
-            )
+            if (!technology.isNullOrEmpty()) {
+                functionsList.add(
+                    Pair(resources.getString(R.string.technology), technology)
+                )
+            }
 
             // Are we charging / is charged?
             val status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
@@ -306,7 +305,9 @@ class HardwareDataProvider @Inject constructor(
         }
         // ALSA
         val alsa = tryToGetAlsa()
-        Utils.addPairIfExists(functionsList, "ALSA", alsa)
+        if (!alsa.isNullOrEmpty()) {
+            functionsList.add(Pair("ALSA", alsa))
+        }
 
         return functionsList
     }

@@ -16,12 +16,9 @@
 
 package com.kgurgul.cpuinfo.domain.model
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-
 data class StorageItem(
-    @StringRes val labelRes: Int,
-    @DrawableRes val iconRes: Int,
+    val labelRes: Int,
+    val iconRes: Int,
     val storageTotal: Long,
     val storageUsed: Long,
 )

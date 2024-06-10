@@ -14,20 +14,10 @@
  * limitations under the License.
  */
 
-@file:JvmName("Extensions")
-
 package com.kgurgul.cpuinfo.utils
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import kotlin.math.roundToLong
 
-/**
- * All basic extensions
- *
- * @author kgurgul
- */
 fun Float.round1(): Float = try {
     (this * 10.0).roundToLong() / 10.0f
 } catch (e: Exception) {
@@ -50,14 +40,4 @@ fun Double.round2(): Double = try {
     (this * 100.0).roundToLong() / 100.0
 } catch (e: Exception) {
     0.0
-}
-
-/**
- * In the feature this method should be replaced with PackageManager
- */
-@Suppress("DEPRECATION")
-fun Context.uninstallApp(packageName: String) {
-    val uri = Uri.fromParts("package", packageName, null)
-    val uninstallIntent = Intent(Intent.ACTION_UNINSTALL_PACKAGE, uri)
-    startActivity(uninstallIntent)
 }

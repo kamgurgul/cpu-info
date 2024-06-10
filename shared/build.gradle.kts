@@ -33,11 +33,14 @@ kotlin {
         }
 
         commonMain.dependencies {
-            implementation(compose.runtime)
+            implementation(compose.components.resources)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.material3)
-            implementation(compose.components.resources)
+            implementation(compose.runtime)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
+            api(libs.androidx.datastore.preferences)
+            api(libs.kermit.kermit)
             implementation(libs.kotlinx.coroutines.core)
         }
 

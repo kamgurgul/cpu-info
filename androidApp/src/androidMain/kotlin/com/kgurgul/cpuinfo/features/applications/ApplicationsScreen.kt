@@ -79,8 +79,8 @@ import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.CpuLogger
-import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.observeWithLifecycle
+import com.kgurgul.cpuinfo.utils.searchInGoogle
 import com.kgurgul.cpuinfo.utils.uninstallApp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -139,7 +139,7 @@ fun ApplicationsScreen(
             }
 
             is ApplicationsViewModel.Event.SearchNativeLib -> {
-                Utils.searchInGoogle(context, event.name)
+                context.searchInGoogle(event.name)
             }
         }
     }
