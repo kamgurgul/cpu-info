@@ -1,13 +1,7 @@
 package com.kgurgul.cpuinfo.ui.components
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -17,8 +11,6 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 
 @Composable
 fun SurfaceTopAppBar(
@@ -100,51 +92,4 @@ private fun CpuTopAppBar(
         scrollBehavior = scrollBehavior,
         modifier = modifier,
     )
-}
-
-@Preview
-@Composable
-fun TopAppBarPreview() {
-    CpuInfoTheme {
-        Column {
-            SurfaceTopAppBar(
-                title = "Title",
-                navigationIcon = {
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null,
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = Icons.Default.MoreVert,
-                            contentDescription = null,
-                        )
-                    }
-                },
-            )
-            PrimaryTopAppBar(
-                title = "Title",
-                navigationIcon = {
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null,
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = Icons.Default.MoreVert,
-                            contentDescription = null,
-                        )
-                    }
-                },
-            )
-        }
-    }
 }

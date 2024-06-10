@@ -11,8 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 
 @Composable
@@ -39,18 +37,6 @@ fun CpuSwitchBox(
             checked = isChecked,
             onCheckedChange = null,
             modifier = Modifier.padding(start = spacingMedium),
-        )
-    }
-}
-
-@Preview
-@Composable
-fun CpuSwitchBoxPreview() {
-    CpuInfoTheme {
-        CpuCheckbox(
-            text = "Test",
-            isChecked = true,
-            onCheckedChange = {}
         )
     }
 }

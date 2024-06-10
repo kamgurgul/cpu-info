@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.ui.components
 
+import androidx.compose.animation.core.ExperimentalTransitionApi
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.rememberTransition
@@ -25,6 +26,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalTransitionApi::class)
 @Composable
 fun DraggableBox(
     isRevealed: Boolean,

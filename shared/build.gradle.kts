@@ -3,6 +3,7 @@ plugins {
     id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.ksp)
     id("kotlin-parcelize")
 }
 
@@ -29,23 +30,25 @@ kotlin {
         all {
             languageSettings {
                 optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
+                optIn("androidx.compose.material3.ExperimentalMaterial3Api")
             }
         }
 
         commonMain.dependencies {
-            implementation(compose.components.resources)
+            api(compose.components.resources)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.material3)
             implementation(compose.runtime)
-            implementation(libs.androidx.lifecycle.viewmodel.compose)
             api(libs.androidx.datastore.preferences)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
             api(libs.kermit.kermit)
             implementation(libs.kotlinx.coroutines.core)
         }
 
         androidMain.dependencies {
-
+            implementation(compose.preview)
+            implementation(compose.uiTooling)
         }
 
         commonTest.dependencies {
@@ -57,6 +60,12 @@ kotlin {
             implementation(compose.uiTest)
         }
     }
+}
+
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.kgurgul.cpuinfo.shared"
+    generateResClass = always
 }
 
 android {
@@ -74,5 +83,8 @@ android {
     }
     kotlin {
         jvmToolchain(11)
+    }
+    buildFeatures {
+        compose = true
     }
 }

@@ -24,6 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.StorageItem
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -77,7 +79,7 @@ fun StorageScreen(
     ) {
         items(
             uiState.storageItems,
-            key = { it.iconRes }
+            key = { it.id }
         ) { storageItem ->
             val label = stringResource(id = storageItem.labelRes)
             val totalReadable = Utils.humanReadableByteCount(storageItem.storageTotal)
@@ -89,7 +91,7 @@ fun StorageScreen(
                 label = storageDesc,
                 progress = progress,
                 progressHeight = 32.dp,
-                prefixImageRes = storageItem.iconRes,
+                prefixImageRes = storageItem.iconDrawable,
                 modifier = Modifier.focusable(),
             )
         }
@@ -104,8 +106,9 @@ fun StorageScreenPreview() {
             uiState = StorageInfoViewModel.UiState(
                 storageItems = listOf(
                     StorageItem(
+                        id = 0L,
                         labelRes = R.string.internal,
-                        iconRes = R.drawable.baseline_folder_special_24,
+                        iconDrawable = Res.drawable.baseline_folder_special_24,
                         storageTotal = 100,
                         storageUsed = 50,
                     )

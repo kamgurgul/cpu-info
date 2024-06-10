@@ -27,14 +27,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.kgurgul.cpuinfo.R
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CpuProgressBar(
@@ -42,7 +40,7 @@ fun CpuProgressBar(
     progress: Float,
     modifier: Modifier = Modifier,
     minMaxValues: Pair<String, String>? = null,
-    prefixImageRes: Int? = null,
+    prefixImageRes: DrawableResource? = null,
     contentColor: Color = MaterialTheme.colorScheme.onBackground,
     progressHeight: Dp = 16.dp,
 ) {
@@ -72,7 +70,7 @@ fun CpuProgressBar(
             Row {
                 prefixImageRes?.let {
                     Icon(
-                        painter = painterResource(id = it),
+                        painter = painterResource(it),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.inverseOnSurface,
                         modifier = Modifier
@@ -97,7 +95,7 @@ fun CpuProgressBar(
                     color = MaterialTheme.colorScheme.tertiary,
                     trackColor = Color.Unspecified,
                     strokeCap = strokeCap,
-                    drawStopIndicator = {},
+                    // drawStopIndicator = {},
                     modifier = Modifier
                         .fillMaxWidth()
                         .requiredHeight(progressHeight),
@@ -126,18 +124,5 @@ fun CpuProgressBar(
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun CpuProgressBarPreview() {
-    CpuInfoTheme {
-        CpuProgressBar(
-            label = "Label",
-            progress = 0.1f,
-            minMaxValues = "Min" to "Max",
-            prefixImageRes = R.drawable.baseline_folder_special_24,
-        )
     }
 }
