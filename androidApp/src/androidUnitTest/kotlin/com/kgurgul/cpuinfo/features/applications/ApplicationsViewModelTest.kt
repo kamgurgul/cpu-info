@@ -1,11 +1,14 @@
 package com.kgurgul.cpuinfo.features.applications
 
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.SortOrder
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.app_open
+import com.kgurgul.cpuinfo.shared.cpu_open
+import com.kgurgul.cpuinfo.shared.cpu_uninstall
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
 import com.kgurgul.cpuinfo.utils.wrappers.Result
 import kotlinx.collections.immutable.toImmutableList
@@ -178,7 +181,7 @@ class ApplicationsViewModelTest {
             ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                snackbarMessage = R.string.cpu_uninstall,
+                snackbarMessage = Res.string.cpu_uninstall,
             ),
         )
         val expectedEvents = listOf<ApplicationsViewModel.Event>(
@@ -216,7 +219,7 @@ class ApplicationsViewModelTest {
             ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                snackbarMessage = R.string.cpu_uninstall,
+                snackbarMessage = Res.string.cpu_uninstall,
             ),
             ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
@@ -241,7 +244,7 @@ class ApplicationsViewModelTest {
             ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                snackbarMessage = R.string.app_open,
+                snackbarMessage = Res.string.app_open,
             ),
         )
         createViewModel()
@@ -262,7 +265,7 @@ class ApplicationsViewModelTest {
             ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                snackbarMessage = R.string.cpu_open,
+                snackbarMessage = Res.string.cpu_open,
             ),
         )
         val expectedEvents = listOf<ApplicationsViewModel.Event>(

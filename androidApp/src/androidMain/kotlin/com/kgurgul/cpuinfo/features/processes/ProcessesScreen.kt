@@ -15,12 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.processes
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -28,6 +28,7 @@ import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.Utils
 import kotlinx.collections.immutable.ImmutableList
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ProcessesScreen(
@@ -44,7 +45,7 @@ fun ProcessesScreen(uiState: ProcessesViewModel.UiState) {
     Scaffold(
         topBar = {
             PrimaryTopAppBar(
-                title = stringResource(id = R.string.processes),
+                title = stringResource(Res.string.processes),
                 windowInsets = WindowInsets(0, 0, 0, 0),
             )
         },

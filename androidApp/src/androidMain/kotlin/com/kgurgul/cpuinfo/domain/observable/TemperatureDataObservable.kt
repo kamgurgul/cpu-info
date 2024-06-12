@@ -1,6 +1,5 @@
 package com.kgurgul.cpuinfo.domain.observable
 
-import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -9,9 +8,11 @@ import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.provider.TemperatureProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.battery
+import com.kgurgul.cpuinfo.shared.cpu
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.round1
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
@@ -20,10 +21,10 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import org.jetbrains.compose.resources.getString
 import javax.inject.Inject
 
 class TemperatureDataObservable @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val dispatchersProvider: IDispatchersProvider,
     private val temperatureProvider: TemperatureProvider,
     private val sensorManager: SensorManager,
@@ -46,7 +47,7 @@ class TemperatureDataObservable @Inject constructor(
                     TemperatureItem(
                         id = ID_BATTERY,
                         iconRes = R.drawable.ic_battery,
-                        name = context.getString(R.string.battery),
+                        name = getString(Res.string.battery),
                         temperature = it
                     )
                 )
@@ -56,7 +57,7 @@ class TemperatureDataObservable @Inject constructor(
                     TemperatureItem(
                         id = ID_CPU,
                         iconRes = R.drawable.ic_cpu_temp,
-                        name = context.getString(R.string.cpu),
+                        name = getString(Res.string.cpu),
                         temperature = it
                     )
                 )

@@ -24,19 +24,31 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.cancel
+import com.kgurgul.cpuinfo.shared.celsius
+import com.kgurgul.cpuinfo.shared.fahrenheit
+import com.kgurgul.cpuinfo.shared.general
+import com.kgurgul.cpuinfo.shared.kelvin
+import com.kgurgul.cpuinfo.shared.pref_theme
+import com.kgurgul.cpuinfo.shared.pref_theme_choose
+import com.kgurgul.cpuinfo.shared.pref_theme_dark
+import com.kgurgul.cpuinfo.shared.pref_theme_default
+import com.kgurgul.cpuinfo.shared.pref_theme_light
+import com.kgurgul.cpuinfo.shared.settings
+import com.kgurgul.cpuinfo.shared.temperature_unit
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingLarge
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import kotlinx.collections.immutable.ImmutableList
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SettingsScreen(
@@ -67,7 +79,7 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             PrimaryTopAppBar(
-                title = stringResource(id = R.string.settings),
+                title = stringResource(Res.string.settings),
                 windowInsets = WindowInsets(0, 0, 0, 0),
             )
         },
@@ -108,7 +120,7 @@ private fun SettingsList(
     ) {
         item(key = "__generalHeader") {
             Text(
-                text = stringResource(id = R.string.general),
+                text = stringResource(Res.string.general),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.tertiary,
             )
@@ -116,14 +128,14 @@ private fun SettingsList(
         }
         item(key = "__themeItem") {
             SettingsItem(
-                title = stringResource(id = R.string.pref_theme),
+                title = stringResource(Res.string.pref_theme),
                 subtitle = getThemeName(option = uiState.theme),
                 onClick = onThemeItemClicked,
             )
         }
         item(key = "__temperatureItem") {
             SettingsItem(
-                title = stringResource(id = R.string.temperature_unit),
+                title = stringResource(Res.string.temperature_unit),
                 subtitle = getTemperatureUnit(option = uiState.temperatureUnit),
                 onClick = onTemperatureItemClicked,
             )
@@ -169,7 +181,7 @@ private fun TemperatureUnitDialog(
         AlertDialog(
             onDismissRequest = onDismissRequest,
             title = {
-                Text(text = stringResource(id = R.string.temperature_unit))
+                Text(text = stringResource(Res.string.temperature_unit))
             },
             text = {
                 val scrollState = rememberScrollState()
@@ -208,7 +220,7 @@ private fun TemperatureUnitDialog(
                 Button(
                     onClick = onDismissRequest
                 ) {
-                    Text(text = stringResource(id = R.string.cancel))
+                    Text(text = stringResource(Res.string.cancel))
                 }
             }
         )
@@ -226,7 +238,7 @@ private fun ThemeDialog(
         AlertDialog(
             onDismissRequest = onDismissRequest,
             title = {
-                Text(text = stringResource(id = R.string.pref_theme_choose))
+                Text(text = stringResource(Res.string.pref_theme_choose))
             },
             text = {
                 val scrollState = rememberScrollState()
@@ -265,7 +277,7 @@ private fun ThemeDialog(
                 Button(
                     onClick = onDismissRequest
                 ) {
-                    Text(text = stringResource(id = R.string.cancel))
+                    Text(text = stringResource(Res.string.cancel))
                 }
             }
         )
@@ -275,9 +287,9 @@ private fun ThemeDialog(
 @Composable
 private fun getThemeName(option: String): String {
     return when (option) {
-        DarkThemeConfig.FOLLOW_SYSTEM.prefName -> stringResource(id = R.string.pref_theme_default)
-        DarkThemeConfig.LIGHT.prefName -> stringResource(id = R.string.pref_theme_light)
-        DarkThemeConfig.DARK.prefName -> stringResource(id = R.string.pref_theme_dark)
+        DarkThemeConfig.FOLLOW_SYSTEM.prefName -> stringResource(Res.string.pref_theme_default)
+        DarkThemeConfig.LIGHT.prefName -> stringResource(Res.string.pref_theme_light)
+        DarkThemeConfig.DARK.prefName -> stringResource(Res.string.pref_theme_dark)
         else -> throw IllegalArgumentException("Unknown theme")
     }
 }
@@ -285,9 +297,9 @@ private fun getThemeName(option: String): String {
 @Composable
 private fun getTemperatureUnit(option: Int): String {
     return when (option) {
-        TemperatureFormatter.CELSIUS -> stringResource(id = R.string.celsius)
-        TemperatureFormatter.FAHRENHEIT -> stringResource(id = R.string.fahrenheit)
-        TemperatureFormatter.KELVIN -> stringResource(id = R.string.kelvin)
+        TemperatureFormatter.CELSIUS -> stringResource(Res.string.celsius)
+        TemperatureFormatter.FAHRENHEIT -> stringResource(Res.string.fahrenheit)
+        TemperatureFormatter.KELVIN -> stringResource(Res.string.kelvin)
         else -> throw IllegalArgumentException("Unknown temperature unit")
     }
 }

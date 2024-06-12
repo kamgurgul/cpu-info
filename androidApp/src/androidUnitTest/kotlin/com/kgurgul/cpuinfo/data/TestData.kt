@@ -12,6 +12,7 @@ import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
+import com.kgurgul.cpuinfo.shared.internal
 import org.mockito.kotlin.mock
 
 object TestData {
@@ -108,7 +109,7 @@ object TestData {
     val storageData = listOf(
         StorageItem(
             id = 0L,
-            labelRes = R.string.internal,
+            label = Res.string.internal,
             iconDrawable = Res.drawable.baseline_folder_special_24,
             storageTotal = 100,
             storageUsed = 50,

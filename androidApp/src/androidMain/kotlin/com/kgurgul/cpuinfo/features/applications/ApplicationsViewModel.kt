@@ -2,12 +2,15 @@ package com.kgurgul.cpuinfo.features.applications
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.sortOrderFromBoolean
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.app_open
+import com.kgurgul.cpuinfo.shared.cpu_open
+import com.kgurgul.cpuinfo.shared.cpu_uninstall
 import com.kgurgul.cpuinfo.utils.wrappers.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -21,6 +24,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.StringResource
 import java.io.File
 import javax.inject.Inject
 
@@ -67,7 +71,7 @@ class ApplicationsViewModel @Inject constructor(
     fun onApplicationClicked(packageName: String) {
         viewModelScope.launch {
             if (getPackageNameInteractor.invoke(Unit) == packageName) {
-                _uiStateFlow.update { it.copy(snackbarMessage = R.string.cpu_open) }
+                _uiStateFlow.update { it.copy(snackbarMessage = Res.string.cpu_open) }
             } else {
                 _events.emit(Event.OpenApp(packageName))
             }
@@ -75,11 +79,11 @@ class ApplicationsViewModel @Inject constructor(
     }
 
     fun onCannotOpenApp() {
-        _uiStateFlow.update { it.copy(snackbarMessage = R.string.app_open) }
+        _uiStateFlow.update { it.copy(snackbarMessage = Res.string.app_open) }
     }
 
     fun onSnackbarDismissed() {
-        _uiStateFlow.update { it.copy(snackbarMessage = -1) }
+        _uiStateFlow.update { it.copy(snackbarMessage = null) }
     }
 
     fun onAppSettingsClicked(id: String) {
@@ -91,7 +95,7 @@ class ApplicationsViewModel @Inject constructor(
     fun onAppUninstallClicked(id: String) {
         viewModelScope.launch {
             if (getPackageNameInteractor.invoke(Unit) == id) {
-                _uiStateFlow.update { it.copy(snackbarMessage = R.string.cpu_uninstall) }
+                _uiStateFlow.update { it.copy(snackbarMessage = Res.string.cpu_uninstall) }
             } else {
                 _events.emit(Event.UninstallApp(id))
             }
@@ -165,6 +169,6 @@ class ApplicationsViewModel @Inject constructor(
         val isDialogVisible: Boolean = false,
         val nativeLibs: ImmutableList<String> = persistentListOf(),
         val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
-        val snackbarMessage: Int = -1,
+        val snackbarMessage: StringResource? = null,
     )
 }

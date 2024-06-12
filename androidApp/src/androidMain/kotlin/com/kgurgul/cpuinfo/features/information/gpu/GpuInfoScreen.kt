@@ -13,17 +13,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.GpuData
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.extensions
+import com.kgurgul.cpuinfo.shared.gles_version
+import com.kgurgul.cpuinfo.shared.renderer
+import com.kgurgul.cpuinfo.shared.vendor
+import com.kgurgul.cpuinfo.shared.vulkan_version
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.ItemValueRow
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import org.jetbrains.compose.resources.stringResource
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -77,7 +82,7 @@ fun GpuInfoScreen(
         uiState.gpuData?.let { gpuData ->
             item(key = "__vulkan_version") {
                 ItemValueRow(
-                    title = stringResource(id = R.string.vulkan_version),
+                    title = stringResource(Res.string.vulkan_version),
                     value = gpuData.vulkanVersion,
                     modifier = Modifier.focusable(),
                 )
@@ -86,7 +91,7 @@ fun GpuInfoScreen(
             }
             item(key = "__gles_version") {
                 ItemValueRow(
-                    title = stringResource(id = R.string.gles_version),
+                    title = stringResource(Res.string.gles_version),
                     value = gpuData.glesVersion,
                     modifier = Modifier.focusable(),
                 )
@@ -96,7 +101,7 @@ fun GpuInfoScreen(
             if (gpuData.glVendor != null) {
                 item(key = "__gl_vendor") {
                     ItemValueRow(
-                        title = stringResource(id = R.string.vendor),
+                        title = stringResource(Res.string.vendor),
                         value = gpuData.glVendor,
                         modifier = Modifier.focusable(),
                     )
@@ -107,7 +112,7 @@ fun GpuInfoScreen(
             if (gpuData.glRenderer != null) {
                 item(key = "__gl_renderer") {
                     ItemValueRow(
-                        title = stringResource(id = R.string.renderer),
+                        title = stringResource(Res.string.renderer),
                         value = gpuData.glRenderer,
                         modifier = Modifier.focusable(),
                     )
@@ -118,7 +123,7 @@ fun GpuInfoScreen(
             if (gpuData.glExtensions != null) {
                 item(key = "__gl_extensions") {
                     ItemValueRow(
-                        title = stringResource(id = R.string.extensions),
+                        title = stringResource(Res.string.extensions),
                         value = gpuData.glExtensions,
                         modifier = Modifier.focusable(),
                     )

@@ -20,7 +20,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
-import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.action_not_supported
+import kotlinx.coroutines.runBlocking
 
 /**
  * Open google with passed query
@@ -31,7 +33,10 @@ fun Context.searchInGoogle(query: String) {
     try {
         startActivity(intent)
     } catch (e: Exception) {
-        Toast.makeText(this, R.string.action_not_supported, Toast.LENGTH_SHORT).show()
+        val text = runBlocking {
+            org.jetbrains.compose.resources.getString(Res.string.action_not_supported)
+        }
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 }
 

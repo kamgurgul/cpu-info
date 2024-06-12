@@ -1,0 +1,166 @@
+<!--
+  ~ Copyright 2017 KG Soft
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="action_not_supported">Action not available</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <!--Tabs-->
+    <string name="cpu">CPU</string>
+    <string name="gpu">GPU</string>
+    <string name="ram">RAM</string>
+    <string name="storage">Storage</string>
+    <string name="screen">Screen</string>
+    <string name="android">Android</string>
+    <string name="hardware">Hardware</string>
+    <string name="sensors">Sensors</string>
+
+    <string name="processes">Processes</string>
+    <string name="applications">Applications</string>
+    <string name="temp">Temperature</string>
+    <string name="settings">Settings</string>
+
+    <string name="running_gc">Running Garbage Collector</string>
+
+    <!-- CPU -->
+    <string name="cpu_current_frequency" translatable="false">Core %1$d: %2$sMHz</string>
+    <string name="cpu_frequency" translatable="false">%1$sMhz</string>
+    <string name="cpu_frequency_stopped" translatable="false">Core %1$d: Stopped</string>
+    <string name="cpu_soc_name" translatable="false">SoC name</string>
+    <string name="cpu_cores" translatable="false">Cores</string>
+    <string name="cpu_has_neon" translatable="false">ARM Neon</string>
+    <string name="cpu_l1d" translatable="false">L1d cache</string>
+    <string name="cpu_l1i" translatable="false">L1i cache</string>
+    <string name="cpu_l2" translatable="false">L2 cache</string>
+    <string name="cpu_l3" translatable="false">L3 cache</string>
+    <string name="cpu_l4" translatable="false">L4 cache</string>
+    <string name="cpu_abi" translatable="false">ABI</string>
+
+    <!--Apps-->
+    <string name="app_open">Cannot open this application</string>
+    <string name="cpu_open">Don\'t open me twice :-)</string>
+    <string name="cpu_uninstall">Can\'t do that :-(</string>
+    <string name="native_libs" translatable="false">Native libs</string>
+    <string name="apps_show_system_apps">Show system apps</string>
+    <string name="apps_sort_order">Sort order</string>
+
+    <!--GPU-->
+    <string name="vulkan_version">Vulkan Version</string>
+    <string name="gles_version">GLES Version</string>
+    <string name="vendor">Vendor</string>
+    <string name="version">Version</string>
+    <string name="renderer">Renderer</string>
+    <string name="extensions">Extensions</string>
+
+    <!--RAM-->
+    <string name="total_memory">Total memory</string>
+    <string name="available_memory">Available memory</string>
+    <string name="threshold">Threshold</string>
+
+    <!--Storage-->
+    <string name="internal">Internal</string>
+    <string name="external">External</string>
+
+    <!--Screen-->
+    <string name="screen_class">Screen class</string>
+    <string name="small">Small</string>
+    <string name="normal">Normal</string>
+    <string name="large">Large</string>
+    <string name="unknown">Unknown</string>
+    <string name="density_class">Density class</string>
+    <string name="width">Width</string>
+    <string name="height">Height</string>
+    <string name="dp_width">Dp Width</string>
+    <string name="dp_height">Dp Height</string>
+    <string name="density">Density</string>
+    <string name="absolute_width">Absolute Width</string>
+    <string name="absolute_height">Absolute Height</string>
+    <string name="refresh_rate">Refresh rate</string>
+    <string name="orientation">Orientation</string>
+    <string name="camera_lens_number">Number of lenses</string>
+
+    <!--Android-->
+    <string name="codename">Codename</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="board">Board</string>
+    <string name="serial">Serial</string>
+    <string name="rooted">Rooted</string>
+    <string name="encrypted_storage">Encrypted Storage</string>
+    <string name="security_providers">Security providers</string>
+    <string name="sdk" translatable="false">SDK</string>
+    <string name="bootloader" translatable="false">Bootloader</string>
+    <string name="vm" translatable="false">VM</string>
+    <string name="kernel" translatable="false">Kernel</string>
+    <string name="android_id" translatable="false">Android ID</string>
+    <string name="google_services_framework_id" translatable="false">Google Services Framework ID</string>
+    <string name="strongbox" translatable="false">StrongBox</string>
+
+    <!--Hardware-->
+    <string name="battery">Battery</string>
+    <string name="wireless">Wireless</string>
+    <string name="sound_card">Sound card</string>
+    <string name="level">Level</string>
+    <string name="voltage">Voltage</string>
+    <string name="temperature">Temperature</string>
+    <string name="capacity">Capacity</string>
+    <string name="technology">Technology</string>
+    <string name="is_charging">Is charging</string>
+    <string name="charging_type">Charging type</string>
+    <string name="wifi_mac">Wi-Fi Mac</string>
+    <string name="bluetooth" translatable="false">Bluetooth</string>
+    <string name="bluetooth_le" translatable="false">Bluetooth LE</string>
+    <string name="bluetooth_mac">Bluetooth Mac</string>
+    <string name="amount">Amount</string>
+    <string name="card">Card</string>
+    <string name="cameras">Cameras</string>
+    <string name="camera">Camera</string>
+    <string name="type">Type</string>
+    <string name="front">Front</string>
+    <string name="camera_external">External</string>
+    <string name="back">Back</string>
+    <string name="battery_health">Health</string>
+    <string name="battery_cold">Cold</string>
+    <string name="battery_good">Good</string>
+    <string name="battery_dead">Dead</string>
+    <string name="battery_overheat">Overheat</string>
+    <string name="battery_overvoltage">Overvoltage</string>
+    <string name="battery_unknown">Unknown</string>
+    <string name="battery_unspecified_failure">Unspecified failure</string>
+    <string name="ir_emitter">IR Emitter</string>
+
+    <!--Prefs-->
+    <string name="general">General</string>
+    <string name="temperature_unit">Temperature unit</string>
+    <string name="pref_theme_dark">Dark</string>
+    <string name="pref_theme_light">Light</string>
+    <string name="pref_theme_default">System default</string>
+    <string name="pref_theme">Theme</string>
+    <string name="pref_theme_choose">Choose theme</string>
+
+    <!--Temp-->
+    <string name="no_temp_data">Sorry I can\'t find temperature sensors :-(</string>
+    <string name="celsius" translatable="false">&#176;C</string>
+    <string name="fahrenheit" translatable="false">&#176;F</string>
+    <string name="kelvin" translatable="false">&#176;K</string>
+
+</resources>

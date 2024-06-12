@@ -17,10 +17,11 @@
 package com.kgurgul.cpuinfo.domain.model
 
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
 
 data class StorageItem(
     val id: Long,
-    val labelRes: Int,
+    val label: StringResource,
     val iconDrawable: DrawableResource,
     val storageTotal: Long,
     val storageUsed: Long,

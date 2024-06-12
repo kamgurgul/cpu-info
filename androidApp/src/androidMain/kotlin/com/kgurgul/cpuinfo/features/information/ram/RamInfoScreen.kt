@@ -10,17 +10,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.RamData
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.available_memory
+import com.kgurgul.cpuinfo.shared.threshold
+import com.kgurgul.cpuinfo.shared.total_memory
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.ItemValueRow
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.Utils
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RamInfoScreen(
@@ -44,7 +47,7 @@ fun RamInfoScreen(
         uiState.ramData?.let { ramData ->
             item(key = "__total") {
                 ItemValueRow(
-                    title = stringResource(id = R.string.total_memory),
+                    title = stringResource(Res.string.total_memory),
                     value = Utils.convertBytesToMega(ramData.total),
                     modifier = Modifier.focusable(),
                 )
@@ -53,7 +56,7 @@ fun RamInfoScreen(
             }
             item(key = "__available") {
                 ItemValueRow(
-                    title = stringResource(id = R.string.available_memory),
+                    title = stringResource(Res.string.available_memory),
                     value = "${Utils.convertBytesToMega(ramData.available)} " +
                             "(${ramData.availablePercentage}%)",
                     modifier = Modifier.focusable(),
@@ -63,7 +66,7 @@ fun RamInfoScreen(
             }
             item(key = "__threshold") {
                 ItemValueRow(
-                    title = stringResource(id = R.string.threshold),
+                    title = stringResource(Res.string.threshold),
                     value = Utils.convertBytesToMega(ramData.threshold),
                     modifier = Modifier.focusable(),
                 )

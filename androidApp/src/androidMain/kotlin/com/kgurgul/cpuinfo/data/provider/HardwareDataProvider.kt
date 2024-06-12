@@ -19,17 +19,53 @@ package com.kgurgul.cpuinfo.data.provider
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.hardware.ConsumerIrManager
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.amount
+import com.kgurgul.cpuinfo.shared.back
+import com.kgurgul.cpuinfo.shared.battery
+import com.kgurgul.cpuinfo.shared.battery_cold
+import com.kgurgul.cpuinfo.shared.battery_dead
+import com.kgurgul.cpuinfo.shared.battery_good
+import com.kgurgul.cpuinfo.shared.battery_health
+import com.kgurgul.cpuinfo.shared.battery_overheat
+import com.kgurgul.cpuinfo.shared.battery_overvoltage
+import com.kgurgul.cpuinfo.shared.battery_unknown
+import com.kgurgul.cpuinfo.shared.battery_unspecified_failure
+import com.kgurgul.cpuinfo.shared.bluetooth
+import com.kgurgul.cpuinfo.shared.bluetooth_le
+import com.kgurgul.cpuinfo.shared.bluetooth_mac
+import com.kgurgul.cpuinfo.shared.camera
+import com.kgurgul.cpuinfo.shared.camera_external
+import com.kgurgul.cpuinfo.shared.camera_lens_number
+import com.kgurgul.cpuinfo.shared.cameras
+import com.kgurgul.cpuinfo.shared.capacity
+import com.kgurgul.cpuinfo.shared.card
+import com.kgurgul.cpuinfo.shared.charging_type
+import com.kgurgul.cpuinfo.shared.front
+import com.kgurgul.cpuinfo.shared.ir_emitter
+import com.kgurgul.cpuinfo.shared.is_charging
+import com.kgurgul.cpuinfo.shared.level
+import com.kgurgul.cpuinfo.shared.no
+import com.kgurgul.cpuinfo.shared.orientation
+import com.kgurgul.cpuinfo.shared.sound_card
+import com.kgurgul.cpuinfo.shared.technology
+import com.kgurgul.cpuinfo.shared.temperature
+import com.kgurgul.cpuinfo.shared.type
+import com.kgurgul.cpuinfo.shared.unknown
+import com.kgurgul.cpuinfo.shared.voltage
+import com.kgurgul.cpuinfo.shared.wifi_mac
+import com.kgurgul.cpuinfo.shared.wireless
+import com.kgurgul.cpuinfo.shared.yes
 import com.kgurgul.cpuinfo.utils.CpuLogger
 import com.kgurgul.cpuinfo.utils.round2
+import org.jetbrains.compose.resources.getString
 import java.io.File
 import java.io.FileFilter
 import java.io.RandomAccessFile
@@ -37,7 +73,6 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 
 class HardwareDataProvider @Inject constructor(
-    private val resources: Resources,
     private val temperatureProvider: TemperatureProvider,
     private val temperatureFormatter: TemperatureFormatter,
     private val packageManager: PackageManager,
@@ -48,24 +83,24 @@ class HardwareDataProvider @Inject constructor(
     private val cameraManager: CameraManager,
 ) {
 
-    fun getData(): List<Pair<String, String>> {
+    suspend fun getData(): List<Pair<String, String>> {
         return buildList {
-            add(Pair(resources.getString(R.string.battery), ""))
+            add(Pair(getString(Res.string.battery), ""))
             addAll(getBatteryStatus())
 
             if (hasCamera()) {
-                add(Pair(resources.getString(R.string.cameras), ""))
+                add(Pair(getString(Res.string.cameras), ""))
                 addAll(getCameraInfo())
             }
 
-            add(Pair(resources.getString(R.string.sound_card), ""))
+            add(Pair(getString(Res.string.sound_card), ""))
             addAll(getSoundCardInfo())
             addAll(getWirelessInfo())
             addAll(getUsbInfo())
         }
     }
 
-    private fun getBatteryStatus(): ArrayList<Pair<String, String>> {
+    private suspend fun getBatteryStatus(): ArrayList<Pair<String, String>> {
         val functionsList = ArrayList<Pair<String, String>>()
 
         val batteryStatus = batteryStatusProvider.getBatteryStatusIntent()
@@ -79,7 +114,7 @@ class HardwareDataProvider @Inject constructor(
                 val batteryPct = level / scale.toFloat() * 100.0
                 functionsList.add(
                     Pair(
-                        resources.getString(R.string.level),
+                        getString(Res.string.level),
                         "${batteryPct.round2()}%"
                     )
                 )
@@ -90,7 +125,7 @@ class HardwareDataProvider @Inject constructor(
             if (health != -1) {
                 functionsList.add(
                     Pair(
-                        resources.getString(R.string.battery_health),
+                        getString(Res.string.battery_health),
                         getBatteryHealthStatus(health)
                     )
                 )
@@ -101,7 +136,7 @@ class HardwareDataProvider @Inject constructor(
             if (voltage > 0) {
                 functionsList.add(
                     Pair(
-                        resources.getString(R.string.voltage),
+                        getString(Res.string.voltage),
                         "${voltage / 1000.0}V"
                     )
                 )
@@ -113,7 +148,7 @@ class HardwareDataProvider @Inject constructor(
         if (temperature != null) {
             functionsList.add(
                 Pair(
-                    resources.getString(R.string.temperature),
+                    getString(Res.string.temperature),
                     temperatureFormatter.format(temperature)
                 )
             )
@@ -122,7 +157,7 @@ class HardwareDataProvider @Inject constructor(
         // Capacity
         val capacity = batteryStatusProvider.getBatteryCapacity().round2()
         if (capacity != -1.0) {
-            functionsList.add(Pair(resources.getString(R.string.capacity), "${capacity}mAh"))
+            functionsList.add(Pair(getString(Res.string.capacity), "${capacity}mAh"))
         }
 
         if (batteryStatus != null) {
@@ -130,7 +165,7 @@ class HardwareDataProvider @Inject constructor(
             val technology = batteryStatus.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY)
             if (!technology.isNullOrEmpty()) {
                 functionsList.add(
-                    Pair(resources.getString(R.string.technology), technology)
+                    Pair(getString(Res.string.technology), technology)
                 )
             }
 
@@ -145,32 +180,32 @@ class HardwareDataProvider @Inject constructor(
             val acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC
 
             val charging =
-                if (isCharging) resources.getString(R.string.yes)
-                else resources.getString(R.string.no)
-            functionsList.add(Pair(resources.getString(R.string.is_charging), charging))
+                if (isCharging) getString(Res.string.yes)
+                else getString(Res.string.no)
+            functionsList.add(Pair(getString(Res.string.is_charging), charging))
             if (isCharging) {
                 val chargingType: String = when {
                     usbCharge -> "USB"
                     acCharge -> "AC"
-                    else -> resources.getString(R.string.unknown)
+                    else -> getString(Res.string.unknown)
                 }
-                functionsList.add(Pair(resources.getString(R.string.charging_type), chargingType))
+                functionsList.add(Pair(getString(Res.string.charging_type), chargingType))
             }
         }
 
         return functionsList
     }
 
-    private fun getBatteryHealthStatus(healthInt: Int): String {
+    private suspend fun getBatteryHealthStatus(healthInt: Int): String {
         return when (healthInt) {
-            BatteryManager.BATTERY_HEALTH_COLD -> resources.getString(R.string.battery_cold)
-            BatteryManager.BATTERY_HEALTH_GOOD -> resources.getString(R.string.battery_good)
-            BatteryManager.BATTERY_HEALTH_DEAD -> resources.getString(R.string.battery_dead)
-            BatteryManager.BATTERY_HEALTH_OVERHEAT -> resources.getString(R.string.battery_overheat)
-            BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE -> resources.getString(R.string.battery_overvoltage)
-            BatteryManager.BATTERY_HEALTH_UNKNOWN -> resources.getString(R.string.battery_unknown)
-            BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE -> resources.getString(R.string.battery_unspecified_failure)
-            else -> resources.getString(R.string.battery_unknown)
+            BatteryManager.BATTERY_HEALTH_COLD -> getString(Res.string.battery_cold)
+            BatteryManager.BATTERY_HEALTH_GOOD -> getString(Res.string.battery_good)
+            BatteryManager.BATTERY_HEALTH_DEAD -> getString(Res.string.battery_dead)
+            BatteryManager.BATTERY_HEALTH_OVERHEAT -> getString(Res.string.battery_overheat)
+            BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE -> getString(Res.string.battery_overvoltage)
+            BatteryManager.BATTERY_HEALTH_UNKNOWN -> getString(Res.string.battery_unknown)
+            BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE -> getString(Res.string.battery_unspecified_failure)
+            else -> getString(Res.string.battery_unknown)
         }
     }
 
@@ -178,19 +213,19 @@ class HardwareDataProvider @Inject constructor(
      * Get Wi-Fi and Bluetooth mac address and Bluetooth LE support
      */
     @SuppressLint("InlinedApi")
-    private fun getWirelessInfo(): List<Pair<String, String>> {
+    private suspend fun getWirelessInfo(): List<Pair<String, String>> {
         val functionsList = mutableListOf<Pair<String, String>>()
-        functionsList.add(resources.getString(R.string.wireless) to "")
+        functionsList.add(getString(Res.string.wireless) to "")
         // Bluetooth
         functionsList.add(
-            resources.getString(R.string.bluetooth) to getYesNoString(
+            getString(Res.string.bluetooth) to getYesNoString(
                 packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)
             )
         )
         val hasBluetoothLe = getYesNoString(
             packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)
         )
-        functionsList.add(resources.getString(R.string.bluetooth_le) to hasBluetoothLe)
+        functionsList.add(getString(Res.string.bluetooth_le) to hasBluetoothLe)
         // GPS
         functionsList.add(
             "GPS" to getYesNoString(
@@ -237,7 +272,7 @@ class HardwareDataProvider @Inject constructor(
                 "bluetooth_address"
             )
             if (bluetoothMac != null && bluetoothMac.isNotEmpty())
-                functionsList.add(resources.getString(R.string.bluetooth_mac) to bluetoothMac)
+                functionsList.add(getString(Res.string.bluetooth_mac) to bluetoothMac)
         } catch (e: Exception) {
             // ignored
         }
@@ -248,18 +283,18 @@ class HardwareDataProvider @Inject constructor(
             val reader = RandomAccessFile(filePath, "r")
             val value = reader.readLine()
             reader.close()
-            functionsList.add(resources.getString(R.string.wifi_mac) to value)
+            functionsList.add(getString(Res.string.wifi_mac) to value)
         } catch (ignored: Exception) {
         }
 
         // IR
         val hasIr = irManager?.hasIrEmitter() ?: false
-        functionsList.add(resources.getString(R.string.ir_emitter) to getYesNoString(hasIr))
+        functionsList.add(getString(Res.string.ir_emitter) to getYesNoString(hasIr))
 
         return functionsList
     }
 
-    private fun getUsbInfo(): List<Pair<String, String>> {
+    private suspend fun getUsbInfo(): List<Pair<String, String>> {
         val featureList = mutableListOf<Pair<String, String>>()
         featureList.add("USB" to "")
         featureList.add(
@@ -290,15 +325,15 @@ class HardwareDataProvider @Inject constructor(
     /**
      * Get available data connected with sound card like ALSA version etc.
      */
-    private fun getSoundCardInfo(): List<Pair<String, String>> {
+    private suspend fun getSoundCardInfo(): List<Pair<String, String>> {
         val functionsList = mutableListOf<Pair<String, String>>()
 
         val soundCardNumber = getSoundCardNumber()
-        functionsList.add(Pair(resources.getString(R.string.amount), soundCardNumber.toString()))
+        functionsList.add(Pair(getString(Res.string.amount), soundCardNumber.toString()))
         for (i in 0 until soundCardNumber) {
             functionsList.add(
                 Pair(
-                    "     ${resources.getString(R.string.card)} $i",
+                    "     ${getString(Res.string.card)} $i",
                     tryToGetSoundCardId(i)
                 )
             )
@@ -318,8 +353,8 @@ class HardwareDataProvider @Inject constructor(
      * @param cardPosition position of the sound card in files
      * @return id from "id" file
      */
-    private fun tryToGetSoundCardId(cardPosition: Int): String {
-        var id = resources.getString(R.string.unknown)
+    private suspend fun tryToGetSoundCardId(cardPosition: Int): String {
+        var id = getString(Res.string.unknown)
         val filePath = "/proc/asound/card$cardPosition/id"
 
         var reader: RandomAccessFile? = null
@@ -360,7 +395,7 @@ class HardwareDataProvider @Inject constructor(
     /**
      * Get number, type and orientation of the cameras
      */
-    private fun getCameraInfo(): List<Pair<String, String>> {
+    private suspend fun getCameraInfo(): List<Pair<String, String>> {
         val functionsList = mutableListOf<Pair<String, String>>()
 
         try {
@@ -368,14 +403,14 @@ class HardwareDataProvider @Inject constructor(
             val numberOfCameras = cameraIdList.size
             functionsList.add(
                 Pair(
-                    resources.getString(R.string.amount),
+                    getString(Res.string.amount),
                     numberOfCameras.toString()
                 )
             )
 
-            val cameraName = resources.getString(R.string.camera)
-            val cameraType = resources.getString(R.string.type)
-            val cameraOrientation = resources.getString(R.string.orientation)
+            val cameraName = getString(Res.string.camera)
+            val cameraType = getString(Res.string.type)
+            val cameraOrientation = getString(Res.string.orientation)
             for (cameraId in cameraIdList) {
                 functionsList.add(Pair("     $cameraName $cameraId", " "))
                 try {
@@ -389,7 +424,7 @@ class HardwareDataProvider @Inject constructor(
                         if (lensAmount > 0) {
                             functionsList.add(
                                 Pair(
-                                    "         ${resources.getString(R.string.camera_lens_number)}",
+                                    "         ${getString(Res.string.camera_lens_number)}",
                                     lensAmount.toString()
                                 )
                             )
@@ -401,29 +436,29 @@ class HardwareDataProvider @Inject constructor(
             }
         } catch (e: Exception) {
             CpuLogger.e(e) { "Cannot read camera list" }
-            functionsList.add(Pair(resources.getString(R.string.amount), "0"))
+            functionsList.add(Pair(getString(Res.string.amount), "0"))
         }
 
         return functionsList
     }
 
-    private fun getCameraFacing(facing: Int?): String =
+    private suspend fun getCameraFacing(facing: Int?): String =
         when (facing) {
             CameraCharacteristics.LENS_FACING_FRONT ->
-                resources.getString(R.string.front)
+                getString(Res.string.front)
 
             CameraCharacteristics.LENS_FACING_BACK ->
-                resources.getString(R.string.back)
+                getString(Res.string.back)
 
             CameraCharacteristics.LENS_FACING_EXTERNAL ->
-                resources.getString(R.string.camera_external)
+                getString(Res.string.camera_external)
 
-            else -> resources.getString(R.string.unknown)
+            else -> getString(Res.string.unknown)
         }
 
-    private fun getYesNoString(yesValue: Boolean) = if (yesValue) {
-        resources.getString(R.string.yes)
+    private suspend fun getYesNoString(yesValue: Boolean) = if (yesValue) {
+        getString(Res.string.yes)
     } else {
-        resources.getString(R.string.no)
+        getString(Res.string.no)
     }
 }

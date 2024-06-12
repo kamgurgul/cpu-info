@@ -2,15 +2,16 @@ package com.kgurgul.cpuinfo.data.provider
 
 import android.app.ActivityManager
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.os.Build
-import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.unknown
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.compose.resources.getString
 import javax.inject.Inject
 
 class GpuDataProvider @Inject constructor(
     private val activityManager: ActivityManager,
     private val packageManager: PackageManager,
-    private val resources: Resources,
 ) {
 
     fun getGlEsVersion(): String {
@@ -21,7 +22,7 @@ class GpuDataProvider @Inject constructor(
      * Obtain Vulkan version
      */
     fun getVulkanVersion(): String {
-        val default = resources.getString(R.string.unknown)
+        val default = runBlocking { getString(Res.string.unknown) }
         if (Build.VERSION.SDK_INT < 24) {
             return default
         }

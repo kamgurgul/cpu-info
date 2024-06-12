@@ -23,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,12 +30,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.local.StubUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.no_temp_data
+import com.kgurgul.cpuinfo.shared.temperature
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TemperatureScreen(
@@ -55,7 +58,7 @@ fun TemperatureScreen(
     Scaffold(
         topBar = {
             PrimaryTopAppBar(
-                title = stringResource(id = R.string.temperature),
+                title = stringResource(Res.string.temperature),
                 windowInsets = WindowInsets(0, 0, 0, 0),
             )
         },
@@ -148,7 +151,7 @@ private fun EmptyTemperatureList(
             .then(modifier),
     ) {
         Text(
-            text = stringResource(id = R.string.no_temp_data),
+            text = stringResource(Res.string.no_temp_data),
             color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.bodyLarge,
         )

@@ -57,7 +57,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -67,6 +66,13 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.applications
+import com.kgurgul.cpuinfo.shared.apps_show_system_apps
+import com.kgurgul.cpuinfo.shared.apps_sort_order
+import com.kgurgul.cpuinfo.shared.native_libs
+import com.kgurgul.cpuinfo.shared.ok
+import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
@@ -85,6 +91,8 @@ import com.kgurgul.cpuinfo.utils.uninstallApp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ApplicationsScreen(
@@ -179,9 +187,9 @@ fun ApplicationsScreen(
 
     LaunchedEffect(uiState.snackbarMessage) {
         scope.launch {
-            if (uiState.snackbarMessage != -1) {
+            if (uiState.snackbarMessage != null) {
                 val result = snackbarHostState.showSnackbar(
-                    context.getString(uiState.snackbarMessage)
+                    getString(uiState.snackbarMessage)
                 )
                 if (result == SnackbarResult.Dismissed) {
                     onSnackbarDismissed()
@@ -245,7 +253,7 @@ private fun TopBar(
 ) {
     var showMenu by remember { mutableStateOf(false) }
     PrimaryTopAppBar(
-        title = stringResource(id = R.string.applications),
+        title = stringResource(Res.string.applications),
         actions = {
             IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(
@@ -260,7 +268,7 @@ private fun TopBar(
                 DropdownMenuItem(
                     text = {
                         CpuSwitchBox(
-                            text = stringResource(id = R.string.apps_show_system_apps),
+                            text = stringResource(Res.string.apps_show_system_apps),
                             isChecked = withSystemApps,
                             onCheckedChange = { onSystemAppsSwitched(!withSystemApps) }
                         )
@@ -270,7 +278,7 @@ private fun TopBar(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = stringResource(id = R.string.apps_sort_order),
+                            text = stringResource(Res.string.apps_sort_order),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     },
@@ -331,7 +339,7 @@ private fun ApplicationsList(
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_settings),
                                     tint = MaterialTheme.colorScheme.onBackground,
-                                    contentDescription = stringResource(id = R.string.settings),
+                                    contentDescription = stringResource(Res.string.settings),
                                 )
                             }
                         )
@@ -409,7 +417,7 @@ private fun ApplicationItem(
             Spacer(modifier = Modifier.size(spacingXSmall))
             Icon(
                 painter = painterResource(id = R.drawable.ic_cpp_logo),
-                contentDescription = stringResource(id = R.string.native_libs),
+                contentDescription = stringResource(Res.string.native_libs),
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .requiredSize(40.dp)
@@ -430,7 +438,7 @@ private fun NativeLibsDialog(
         AlertDialog(
             onDismissRequest = onDismissRequest,
             title = {
-                Text(text = stringResource(id = R.string.native_libs))
+                Text(text = stringResource(Res.string.native_libs))
             },
             text = {
                 LazyColumn {
@@ -450,7 +458,7 @@ private fun NativeLibsDialog(
                 Button(
                     onClick = onDismissRequest
                 ) {
-                    Text(text = stringResource(id = R.string.ok))
+                    Text(text = stringResource(Res.string.ok))
                 }
             }
         )

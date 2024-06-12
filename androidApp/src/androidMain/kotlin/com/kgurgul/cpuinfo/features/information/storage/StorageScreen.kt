@@ -15,21 +15,21 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.RECEIVER_EXPORTED
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
+import com.kgurgul.cpuinfo.shared.internal
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.Utils
+import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
 
 @Composable
@@ -81,7 +81,7 @@ fun StorageScreen(
             uiState.storageItems,
             key = { it.id }
         ) { storageItem ->
-            val label = stringResource(id = storageItem.labelRes)
+            val label = stringResource(storageItem.label)
             val totalReadable = Utils.humanReadableByteCount(storageItem.storageTotal)
             val usedReadable = Utils.humanReadableByteCount(storageItem.storageUsed)
             val progress = storageItem.storageUsed.toFloat() / storageItem.storageTotal.toFloat()
@@ -107,7 +107,7 @@ fun StorageScreenPreview() {
                 storageItems = listOf(
                     StorageItem(
                         id = 0L,
-                        labelRes = R.string.internal,
+                        label = Res.string.internal,
                         iconDrawable = Res.drawable.baseline_folder_special_24,
                         storageTotal = 100,
                         storageUsed = 50,

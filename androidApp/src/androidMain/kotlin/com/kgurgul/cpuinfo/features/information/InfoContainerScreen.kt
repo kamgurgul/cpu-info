@@ -29,11 +29,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.ANDROID_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.CPU_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.GPU_POS
@@ -51,8 +49,19 @@ import com.kgurgul.cpuinfo.features.information.ram.RamInfoScreen
 import com.kgurgul.cpuinfo.features.information.screen.ScreenInfoScreen
 import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
 import com.kgurgul.cpuinfo.features.information.storage.StorageScreen
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.android
+import com.kgurgul.cpuinfo.shared.cpu
+import com.kgurgul.cpuinfo.shared.gpu
+import com.kgurgul.cpuinfo.shared.hardware
+import com.kgurgul.cpuinfo.shared.ram
+import com.kgurgul.cpuinfo.shared.running_gc
+import com.kgurgul.cpuinfo.shared.screen
+import com.kgurgul.cpuinfo.shared.sensors
+import com.kgurgul.cpuinfo.shared.storage
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun InfoContainerScreen(
@@ -78,7 +87,7 @@ fun InfoContainerScreen(
     Scaffold(
         topBar = {
             PrimaryTopAppBar(
-                title = stringResource(id = R.string.hardware),
+                title = stringResource(Res.string.hardware),
                 windowInsets = WindowInsets(0, 0, 0, 0),
                 actions = {
                     AnimatedVisibility(
@@ -89,7 +98,7 @@ fun InfoContainerScreen(
                         IconButton(onClick = onRamCleanupClicked) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
-                                contentDescription = stringResource(id = R.string.running_gc)
+                                contentDescription = stringResource(Res.string.running_gc)
                             )
                         }
                     }
@@ -173,15 +182,15 @@ private fun InfoContainer(
 
 @Composable
 private fun getTabTitle(position: Int) = stringResource(
-    id = when (position) {
-        CPU_POS -> R.string.cpu
-        GPU_POS -> R.string.gpu
-        RAM_POS -> R.string.ram
-        STORAGE_POS -> R.string.storage
-        SCREEN_POS -> R.string.screen
-        ANDROID_POS -> R.string.android
-        HARDWARE_POS -> R.string.hardware
-        SENSORS_POS -> R.string.sensors
+    when (position) {
+        CPU_POS -> Res.string.cpu
+        GPU_POS -> Res.string.gpu
+        RAM_POS -> Res.string.ram
+        STORAGE_POS -> Res.string.storage
+        SCREEN_POS -> Res.string.screen
+        ANDROID_POS -> Res.string.android
+        HARDWARE_POS -> Res.string.hardware
+        SENSORS_POS -> Res.string.sensors
         else -> throw IllegalArgumentException("Unknown position")
     }
 )

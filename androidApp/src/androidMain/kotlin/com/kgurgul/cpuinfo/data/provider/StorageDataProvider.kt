@@ -1,12 +1,13 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import android.os.Environment
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_24
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
 import com.kgurgul.cpuinfo.shared.baseline_sd_storage_24
+import com.kgurgul.cpuinfo.shared.external
+import com.kgurgul.cpuinfo.shared.internal
 import com.kgurgul.cpuinfo.utils.CpuLogger
 import java.io.BufferedReader
 import java.io.DataInputStream
@@ -29,7 +30,7 @@ class StorageDataProvider @Inject constructor() {
         return if (storageTotal > 0) {
             StorageItem(
                 id = 0L,
-                labelRes = R.string.internal,
+                label = Res.string.internal,
                 iconDrawable = Res.drawable.baseline_folder_special_24,
                 storageTotal = storageTotal,
                 storageUsed = storageUsed,
@@ -48,7 +49,7 @@ class StorageDataProvider @Inject constructor() {
             if (storageTotal > 0) {
                 StorageItem(
                     id = 1L,
-                    labelRes = R.string.external,
+                    label = Res.string.external,
                     iconDrawable = Res.drawable.baseline_folder_24,
                     storageTotal = storageTotal,
                     storageUsed = storageUsed,
@@ -77,7 +78,7 @@ class StorageDataProvider @Inject constructor() {
                     return if (storageTotal > 0) {
                         StorageItem(
                             id = 2L,
-                            labelRes = R.string.external,
+                            label = Res.string.external,
                             iconDrawable = Res.drawable.baseline_sd_storage_24,
                             storageTotal = storageTotal,
                             storageUsed = storageUsed,

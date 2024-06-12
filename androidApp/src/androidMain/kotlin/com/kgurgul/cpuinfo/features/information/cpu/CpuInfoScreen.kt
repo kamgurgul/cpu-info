@@ -11,17 +11,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.CpuData
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.cpu_abi
+import com.kgurgul.cpuinfo.shared.cpu_cores
+import com.kgurgul.cpuinfo.shared.cpu_current_frequency
+import com.kgurgul.cpuinfo.shared.cpu_frequency
+import com.kgurgul.cpuinfo.shared.cpu_frequency_stopped
+import com.kgurgul.cpuinfo.shared.cpu_has_neon
+import com.kgurgul.cpuinfo.shared.cpu_l1d
+import com.kgurgul.cpuinfo.shared.cpu_l1i
+import com.kgurgul.cpuinfo.shared.cpu_l2
+import com.kgurgul.cpuinfo.shared.cpu_l3
+import com.kgurgul.cpuinfo.shared.cpu_l4
+import com.kgurgul.cpuinfo.shared.cpu_soc_name
+import com.kgurgul.cpuinfo.shared.no
+import com.kgurgul.cpuinfo.shared.yes
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.components.ItemValueRow
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CpuInfoScreen(viewModel: CpuInfoViewModel = hiltViewModel()) {
@@ -55,7 +69,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
             }
             item(key = "__soc_name") {
                 ItemValueRow(
-                    title = stringResource(id = R.string.cpu_soc_name),
+                    title = stringResource(Res.string.cpu_soc_name),
                     value = cpuData.processorName,
                     modifier = Modifier
                         .focusable()
@@ -66,7 +80,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
             }
             item(key = "__abi") {
                 ItemValueRow(
-                    title = stringResource(id = R.string.cpu_abi),
+                    title = stringResource(Res.string.cpu_abi),
                     value = cpuData.abi,
                     modifier = Modifier.focusable(),
                 )
@@ -75,7 +89,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
             }
             item(key = "__cores") {
                 ItemValueRow(
-                    title = stringResource(id = R.string.cpu_cores),
+                    title = stringResource(Res.string.cpu_cores),
                     value = cpuData.coreNumber.toString(),
                     modifier = Modifier.focusable(),
                 )
@@ -84,11 +98,11 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
             }
             item(key = "__has_neon") {
                 ItemValueRow(
-                    title = stringResource(id = R.string.cpu_has_neon),
+                    title = stringResource(Res.string.cpu_has_neon),
                     value = if (cpuData.hasArmNeon) {
-                        stringResource(id = R.string.yes)
+                        stringResource(Res.string.yes)
                     } else {
-                        stringResource(id = R.string.no)
+                        stringResource(Res.string.no)
                     },
                     modifier = Modifier.focusable(),
                 )
@@ -99,7 +113,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                     CpuDivider()
                     Spacer(modifier = Modifier.requiredSize(spacingSmall))
                     ItemValueRow(
-                        title = stringResource(id = R.string.cpu_l1d),
+                        title = stringResource(Res.string.cpu_l1d),
                         value = cpuData.l1dCaches,
                         modifier = Modifier.focusable(),
                     )
@@ -110,7 +124,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                     CpuDivider()
                     Spacer(modifier = Modifier.requiredSize(spacingSmall))
                     ItemValueRow(
-                        title = stringResource(id = R.string.cpu_l1i),
+                        title = stringResource(Res.string.cpu_l1i),
                         value = cpuData.l1iCaches,
                         modifier = Modifier.focusable(),
                     )
@@ -121,7 +135,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                     CpuDivider()
                     Spacer(modifier = Modifier.requiredSize(spacingSmall))
                     ItemValueRow(
-                        title = stringResource(id = R.string.cpu_l2),
+                        title = stringResource(Res.string.cpu_l2),
                         value = cpuData.l2Caches,
                         modifier = Modifier.focusable(),
                     )
@@ -132,7 +146,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                     CpuDivider()
                     Spacer(modifier = Modifier.requiredSize(spacingSmall))
                     ItemValueRow(
-                        title = stringResource(id = R.string.cpu_l3),
+                        title = stringResource(Res.string.cpu_l3),
                         value = cpuData.l3Caches,
                         modifier = Modifier.focusable(),
                     )
@@ -143,7 +157,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                     CpuDivider()
                     Spacer(modifier = Modifier.requiredSize(spacingSmall))
                     ItemValueRow(
-                        title = stringResource(id = R.string.cpu_l4),
+                        title = stringResource(Res.string.cpu_l4),
                         value = cpuData.l4Caches,
                         modifier = Modifier.focusable(),
                     )
@@ -157,20 +171,20 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
 fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
     val currentFreq = if (frequency.current != -1L) {
         stringResource(
-            R.string.cpu_current_frequency,
+            Res.string.cpu_current_frequency,
             index,
             frequency.current.toString()
         )
     } else {
-        stringResource(R.string.cpu_frequency_stopped, index)
+        stringResource(Res.string.cpu_frequency_stopped, index)
     }
     val minFreq = if (frequency.min != -1L) {
-        stringResource(R.string.cpu_frequency, "0")
+        stringResource(Res.string.cpu_frequency, "0")
     } else {
         ""
     }
     val maxFreq = if (frequency.max != -1L) {
-        stringResource(R.string.cpu_frequency, frequency.max.toString())
+        stringResource(Res.string.cpu_frequency, frequency.max.toString())
     } else {
         ""
     }

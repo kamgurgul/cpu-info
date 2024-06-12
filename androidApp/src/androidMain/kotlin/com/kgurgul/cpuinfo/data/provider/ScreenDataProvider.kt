@@ -4,8 +4,24 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.util.DisplayMetrics
 import android.view.WindowManager
-import com.kgurgul.cpuinfo.R
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.absolute_height
+import com.kgurgul.cpuinfo.shared.absolute_width
+import com.kgurgul.cpuinfo.shared.density
+import com.kgurgul.cpuinfo.shared.density_class
+import com.kgurgul.cpuinfo.shared.dp_height
+import com.kgurgul.cpuinfo.shared.dp_width
+import com.kgurgul.cpuinfo.shared.height
+import com.kgurgul.cpuinfo.shared.large
+import com.kgurgul.cpuinfo.shared.normal
+import com.kgurgul.cpuinfo.shared.orientation
+import com.kgurgul.cpuinfo.shared.refresh_rate
+import com.kgurgul.cpuinfo.shared.screen_class
+import com.kgurgul.cpuinfo.shared.small
+import com.kgurgul.cpuinfo.shared.unknown
+import com.kgurgul.cpuinfo.shared.width
 import com.kgurgul.cpuinfo.utils.round2
+import org.jetbrains.compose.resources.getString
 import javax.inject.Inject
 
 class ScreenDataProvider @Inject constructor(
@@ -13,7 +29,7 @@ class ScreenDataProvider @Inject constructor(
     private val windowManager: WindowManager,
 ) {
 
-    fun getData(): List<Pair<String, String>> {
+    suspend fun getData(): List<Pair<String, String>> {
         return buildList {
             add(getScreenClass())
             add(getDensityClass())
@@ -21,19 +37,19 @@ class ScreenDataProvider @Inject constructor(
         }
     }
 
-    private fun getScreenClass(): Pair<String, String> {
+    private suspend fun getScreenClass(): Pair<String, String> {
         val screenClass: String = when (
             resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
         ) {
-            Configuration.SCREENLAYOUT_SIZE_LARGE -> resources.getString(R.string.large)
-            Configuration.SCREENLAYOUT_SIZE_NORMAL -> resources.getString(R.string.normal)
-            Configuration.SCREENLAYOUT_SIZE_SMALL -> resources.getString(R.string.small)
-            else -> resources.getString(R.string.unknown)
+            Configuration.SCREENLAYOUT_SIZE_LARGE -> getString(Res.string.large)
+            Configuration.SCREENLAYOUT_SIZE_NORMAL -> getString(Res.string.normal)
+            Configuration.SCREENLAYOUT_SIZE_SMALL -> getString(Res.string.small)
+            else -> getString(Res.string.unknown)
         }
-        return Pair(resources.getString(R.string.screen_class), screenClass)
+        return Pair(getString(Res.string.screen_class), screenClass)
     }
 
-    private fun getDensityClass(): Pair<String, String> {
+    private suspend fun getDensityClass(): Pair<String, String> {
         val densityDpi = resources.displayMetrics.densityDpi
         val densityClass: String
         when (densityDpi) {
@@ -63,14 +79,14 @@ class ScreenDataProvider @Inject constructor(
             }
 
             else -> {
-                densityClass = resources.getString(R.string.unknown)
+                densityClass = getString(Res.string.unknown)
             }
         }
-        return Pair(resources.getString(R.string.density_class), densityClass)
+        return Pair(getString(Res.string.density_class), densityClass)
     }
 
     @Suppress("DEPRECATION")
-    private fun getInfoFromDisplayMetrics(): List<Pair<String, String>> {
+    private suspend fun getInfoFromDisplayMetrics(): List<Pair<String, String>> {
         val functionsList = mutableListOf<Pair<String, String>>()
         val display = windowManager.defaultDisplay
         val metrics = DisplayMetrics()
@@ -78,13 +94,13 @@ class ScreenDataProvider @Inject constructor(
             display.getRealMetrics(metrics)
             functionsList.add(
                 Pair(
-                    resources.getString(R.string.width),
+                    getString(Res.string.width),
                     "${metrics.widthPixels}px"
                 )
             )
             functionsList.add(
                 Pair(
-                    resources.getString(R.string.height),
+                    getString(Res.string.height),
                     "${metrics.heightPixels}px"
                 )
             )
@@ -92,14 +108,14 @@ class ScreenDataProvider @Inject constructor(
             val density = metrics.density
             val dpHeight = metrics.heightPixels / density
             val dpWidth = metrics.widthPixels / density
-            functionsList.add(Pair(resources.getString(R.string.dp_width), "${dpWidth.toInt()}dp"))
+            functionsList.add(Pair(getString(Res.string.dp_width), "${dpWidth.toInt()}dp"))
             functionsList.add(
                 Pair(
-                    resources.getString(R.string.dp_height),
+                    getString(Res.string.dp_height),
                     "${dpHeight.toInt()}dp"
                 )
             )
-            functionsList.add(Pair(resources.getString(R.string.density), "$density"))
+            functionsList.add(Pair(getString(Res.string.density), "$density"))
         } catch (e: Exception) {
             // Do nothing
         }
@@ -107,13 +123,13 @@ class ScreenDataProvider @Inject constructor(
         display.getMetrics(metrics)
         functionsList.add(
             Pair(
-                resources.getString(R.string.absolute_width),
+                getString(Res.string.absolute_width),
                 "${metrics.widthPixels}px"
             )
         )
         functionsList.add(
             Pair(
-                resources.getString(R.string.absolute_height),
+                getString(Res.string.absolute_height),
                 "${metrics.heightPixels}px"
             )
         )
@@ -121,13 +137,13 @@ class ScreenDataProvider @Inject constructor(
         val refreshRate = display.refreshRate
         functionsList.add(
             Pair(
-                resources.getString(R.string.refresh_rate),
+                getString(Res.string.refresh_rate),
                 "${refreshRate.round2()}"
             )
         )
 
         val orientation = display.rotation
-        functionsList.add(Pair(resources.getString(R.string.orientation), "$orientation"))
+        functionsList.add(Pair(getString(Res.string.orientation), "$orientation"))
 
         return functionsList
     }

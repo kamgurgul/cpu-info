@@ -1,7 +1,6 @@
 package com.kgurgul.cpuinfo.features
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -13,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextOverflow
@@ -32,9 +30,17 @@ import com.kgurgul.cpuinfo.features.information.InfoContainerScreen
 import com.kgurgul.cpuinfo.features.processes.ProcessesScreen
 import com.kgurgul.cpuinfo.features.settings.SettingsScreen
 import com.kgurgul.cpuinfo.features.temperature.TemperatureScreen
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.applications
+import com.kgurgul.cpuinfo.shared.hardware
+import com.kgurgul.cpuinfo.shared.processes
+import com.kgurgul.cpuinfo.shared.settings
+import com.kgurgul.cpuinfo.shared.temp
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffold
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffoldDefault
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun HostScreen(
@@ -65,13 +71,13 @@ fun HostScreen(
                     icon = {
                         Icon(
                             painter = painterResource(item.iconRes),
-                            contentDescription = stringResource(item.labelRes),
+                            contentDescription = stringResource(item.label),
                         )
                     },
                     label = if (withLabel) {
                         {
                             Text(
-                                text = stringResource(item.labelRes),
+                                text = stringResource(item.label),
                                 style = MaterialTheme.typography.labelSmall,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
@@ -150,7 +156,7 @@ sealed class HostScreen(val route: String) {
 }
 
 data class HostNavigationItem(
-    @StringRes val labelRes: Int,
+    val label: StringResource,
     @DrawableRes val iconRes: Int,
     val route: String,
 ) {
@@ -160,14 +166,14 @@ data class HostNavigationItem(
             return buildList {
                 add(
                     HostNavigationItem(
-                        labelRes = R.string.hardware,
+                        label = Res.string.hardware,
                         iconRes = R.drawable.ic_cpu,
                         route = HostScreen.Information.route,
                     )
                 )
                 add(
                     HostNavigationItem(
-                        labelRes = R.string.applications,
+                        label = Res.string.applications,
                         iconRes = R.drawable.ic_android,
                         route = HostScreen.Applications.route,
                     )
@@ -175,7 +181,7 @@ data class HostNavigationItem(
                 if (isProcessesVisible) {
                     add(
                         HostNavigationItem(
-                            labelRes = R.string.processes,
+                            label = Res.string.processes,
                             iconRes = R.drawable.ic_process,
                             route = HostScreen.Processes.route,
                         )
@@ -183,14 +189,14 @@ data class HostNavigationItem(
                 }
                 add(
                     HostNavigationItem(
-                        labelRes = R.string.temp,
+                        label = Res.string.temp,
                         iconRes = R.drawable.ic_temperature,
                         route = HostScreen.Temperatures.route,
                     )
                 )
                 add(
                     HostNavigationItem(
-                        labelRes = R.string.settings,
+                        label = Res.string.settings,
                         iconRes = R.drawable.ic_settings,
                         route = HostScreen.Settings.route,
                     )
