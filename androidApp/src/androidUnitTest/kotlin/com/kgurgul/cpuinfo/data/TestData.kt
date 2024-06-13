@@ -1,6 +1,5 @@
 package com.kgurgul.cpuinfo.data
 
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.local.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
@@ -12,6 +11,7 @@ import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
+import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.shared.internal
 import org.mockito.kotlin.mock
 
@@ -54,7 +54,7 @@ object TestData {
     val temperatureData = listOf(
         TemperatureItem(
             id = -1,
-            iconRes = R.drawable.ic_cpu_temp,
+            icon = Res.drawable.ic_cpu_temp,
             name = "CPU",
             temperature = 10f
         )

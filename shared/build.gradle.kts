@@ -43,6 +43,7 @@ kotlin {
             api(libs.androidx.datastore.preferences)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             api(libs.kermit.kermit)
+            api(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
         }
 

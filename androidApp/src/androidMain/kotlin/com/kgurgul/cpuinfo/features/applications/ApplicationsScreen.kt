@@ -56,7 +56,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -64,12 +63,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.applications
 import com.kgurgul.cpuinfo.shared.apps_show_system_apps
 import com.kgurgul.cpuinfo.shared.apps_sort_order
+import com.kgurgul.cpuinfo.shared.ic_cpp_logo
+import com.kgurgul.cpuinfo.shared.ic_settings
+import com.kgurgul.cpuinfo.shared.ic_thrash
 import com.kgurgul.cpuinfo.shared.native_libs
 import com.kgurgul.cpuinfo.shared.ok
 import com.kgurgul.cpuinfo.shared.settings
@@ -92,6 +93,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -337,7 +339,7 @@ private fun ApplicationsList(
                             onClick = { onAppSettingsClicked(item.packageName) },
                             content = {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.ic_settings),
+                                    painter = painterResource(Res.drawable.ic_settings),
                                     tint = MaterialTheme.colorScheme.onBackground,
                                     contentDescription = stringResource(Res.string.settings),
                                 )
@@ -348,7 +350,7 @@ private fun ApplicationsList(
                             onClick = { onAppUninstallClicked(item.packageName) },
                             content = {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.ic_thrash),
+                                    painter = painterResource(Res.drawable.ic_thrash),
                                     tint = MaterialTheme.colorScheme.onBackground,
                                     contentDescription = null,
                                 )
@@ -416,7 +418,7 @@ private fun ApplicationItem(
             Spacer(modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.size(spacingXSmall))
             Icon(
-                painter = painterResource(id = R.drawable.ic_cpp_logo),
+                painter = painterResource(Res.drawable.ic_cpp_logo),
                 contentDescription = stringResource(Res.string.native_libs),
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier

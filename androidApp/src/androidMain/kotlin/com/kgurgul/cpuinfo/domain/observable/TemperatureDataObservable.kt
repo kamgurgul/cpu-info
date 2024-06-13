@@ -4,13 +4,15 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.provider.TemperatureProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.baseline_thermostat_24
 import com.kgurgul.cpuinfo.shared.battery
 import com.kgurgul.cpuinfo.shared.cpu
+import com.kgurgul.cpuinfo.shared.ic_battery
+import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.round1
 import kotlinx.coroutines.CoroutineDispatcher
@@ -46,7 +48,7 @@ class TemperatureDataObservable @Inject constructor(
                 emit(
                     TemperatureItem(
                         id = ID_BATTERY,
-                        iconRes = R.drawable.ic_battery,
+                        icon = Res.drawable.ic_battery,
                         name = getString(Res.string.battery),
                         temperature = it
                     )
@@ -56,7 +58,7 @@ class TemperatureDataObservable @Inject constructor(
                 emit(
                     TemperatureItem(
                         id = ID_CPU,
-                        iconRes = R.drawable.ic_cpu_temp,
+                        icon = Res.drawable.ic_cpu_temp,
                         name = getString(Res.string.cpu),
                         temperature = it
                     )
@@ -72,7 +74,7 @@ class TemperatureDataObservable @Inject constructor(
                 trySendBlocking(
                     TemperatureItem(
                         id = event.sensor.type,
-                        iconRes = R.drawable.baseline_thermostat_24,
+                        icon = Res.drawable.baseline_thermostat_24,
                         name = event.sensor.name,
                         temperature = event.values[0].round1()
                     )

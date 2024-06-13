@@ -22,15 +22,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.local.StubUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.ic_battery
+import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.shared.no_temp_data
 import com.kgurgul.cpuinfo.shared.temperature
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
@@ -39,6 +39,7 @@ import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -114,7 +115,7 @@ private fun TemperatureItem(
             .focusable(),
     ) {
         Icon(
-            painter = painterResource(id = item.iconRes),
+            painter = painterResource(item.icon),
             tint = MaterialTheme.colorScheme.onBackground,
             contentDescription = null,
             modifier = Modifier.requiredSize(60.dp),
@@ -169,13 +170,13 @@ fun TemperatureScreenPreview() {
                 temperatureItems = persistentListOf(
                     TemperatureItem(
                         id = 0,
-                        iconRes = R.drawable.ic_cpu_temp,
+                        icon = Res.drawable.ic_cpu_temp,
                         name = "CPU",
                         temperature = 30f
                     ),
                     TemperatureItem(
                         id = 1,
-                        iconRes = R.drawable.ic_battery,
+                        icon = Res.drawable.ic_battery,
                         name = "Battery",
                         temperature = 30f
                     )
