@@ -18,7 +18,10 @@ package com.kgurgul.cpuinfo
 
 import android.app.Application
 import com.kgurgul.cpuinfo.appinitializers.AppInitializers
+import com.kgurgul.cpuinfo.data.DataModule
 import dagger.hilt.android.HiltAndroidApp
+import org.koin.core.context.startKoin
+import org.koin.ksp.generated.module
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -30,5 +33,10 @@ class CpuInfoApp : Application() {
     override fun onCreate() {
         super.onCreate()
         initializers.init(this)
+        startKoin {
+            modules(
+                DataModule().module
+            )
+        }
     }
 }

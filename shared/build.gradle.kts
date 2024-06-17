@@ -43,6 +43,7 @@ kotlin {
             api(libs.androidx.datastore.preferences)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             api(libs.kermit.kermit)
+            api(libs.koin.annotations)
             api(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
         }
@@ -89,3 +90,12 @@ android {
         compose = true
     }
 }
+
+dependencies {
+    add("kspCommonMainMetadata", libs.koin.kspCompiler)
+    add("kspAndroid", libs.koin.kspCompiler)
+    add("kspIosX64", libs.koin.kspCompiler)
+    add("kspIosArm64", libs.koin.kspCompiler)
+    add("kspIosSimulatorArm64", libs.koin.kspCompiler)
+}
+
