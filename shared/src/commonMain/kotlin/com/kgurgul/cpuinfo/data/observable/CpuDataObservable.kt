@@ -1,4 +1,4 @@
-package com.kgurgul.cpuinfo.domain.observable
+package com.kgurgul.cpuinfo.data.observable
 
 import com.kgurgul.cpuinfo.data.provider.CpuDataNativeProvider
 import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
@@ -8,9 +8,10 @@ import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.Utils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
+import org.koin.core.annotation.Factory
 
-class CpuDataObservable @Inject constructor(
+@Factory
+class CpuDataObservable(
     dispatchersProvider: IDispatchersProvider,
     private val cpuDataProvider: CpuDataProvider,
     private val cpuDataNativeProvider: CpuDataNativeProvider

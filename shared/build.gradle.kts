@@ -11,18 +11,18 @@ version = "1.0"
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    // jvm("desktop")
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "shared"
-            isStatic = true
-        }
-    }
+//    listOf(
+//        iosX64(),
+//        iosArm64(),
+//        iosSimulatorArm64()
+//    ).forEach { iosTarget ->
+//        iosTarget.binaries.framework {
+//            baseName = "shared"
+//            isStatic = true
+//        }
+//    }
 
     applyDefaultHierarchyTemplate()
 
@@ -43,6 +43,7 @@ kotlin {
             api(libs.androidx.datastore.preferences)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             api(libs.kermit.kermit)
+            api(libs.koin.androidx.compose)
             api(libs.koin.annotations)
             api(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
@@ -51,6 +52,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(compose.uiTooling)
+            implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.relinker)
         }
 
@@ -95,8 +97,8 @@ android {
 dependencies {
     add("kspCommonMainMetadata", libs.koin.kspCompiler)
     add("kspAndroid", libs.koin.kspCompiler)
-    add("kspIosX64", libs.koin.kspCompiler)
-    add("kspIosArm64", libs.koin.kspCompiler)
-    add("kspIosSimulatorArm64", libs.koin.kspCompiler)
+    //add("kspIosX64", libs.koin.kspCompiler)
+    //add("kspIosArm64", libs.koin.kspCompiler)
+    //add("kspIosSimulatorArm64", libs.koin.kspCompiler)
 }
 

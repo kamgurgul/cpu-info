@@ -2,11 +2,10 @@ package com.kgurgul.cpuinfo.utils
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import javax.inject.Inject
-import javax.inject.Singleton
+import org.koin.core.annotation.Single
 
-@Singleton
-class DefaultDispatchersProvider @Inject constructor() : IDispatchersProvider {
+@Single
+class DefaultDispatchersProvider : IDispatchersProvider {
     override val main: CoroutineDispatcher
         get() = Dispatchers.Main
     override val io: CoroutineDispatcher

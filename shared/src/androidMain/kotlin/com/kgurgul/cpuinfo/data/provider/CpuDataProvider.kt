@@ -3,15 +3,14 @@ package com.kgurgul.cpuinfo.data.provider
 import android.os.Build
 import com.kgurgul.cpuinfo.utils.CpuLogger
 import java.io.RandomAccessFile
-import javax.inject.Inject
 
-class CpuDataProvider @Inject constructor() {
+actual class CpuDataProvider actual constructor() {
 
-    fun getAbi(): String {
+    actual fun getAbi(): String {
         return Build.SUPPORTED_ABIS[0]
     }
 
-    fun getNumberOfCores(): Int {
+    actual fun getNumberOfCores(): Int {
         return Runtime.getRuntime().availableProcessors()
     }
 
@@ -19,7 +18,7 @@ class CpuDataProvider @Inject constructor() {
      * Checking frequencies directories and return current value if exists (otherwise we can
      * assume that core is stopped - value -1)
      */
-    fun getCurrentFreq(coreNumber: Int): Long {
+    actual fun getCurrentFreq(coreNumber: Int): Long {
         val currentFreqPath = "${CPU_INFO_DIR}cpu$coreNumber/cpufreq/scaling_cur_freq"
         return try {
             RandomAccessFile(currentFreqPath, "r").use { it.readLine().toLong() / 1000 }
@@ -33,7 +32,7 @@ class CpuDataProvider @Inject constructor() {
      * Read max/min frequencies for specific [coreNumber]. Return [Pair] with min and max frequency
      * or [Pair] with -1.
      */
-    fun getMinMaxFreq(coreNumber: Int): Pair<Long, Long> {
+    actual fun getMinMaxFreq(coreNumber: Int): Pair<Long, Long> {
         val minPath = "${CPU_INFO_DIR}cpu$coreNumber/cpufreq/cpuinfo_min_freq"
         val maxPath = "${CPU_INFO_DIR}cpu$coreNumber/cpufreq/cpuinfo_max_freq"
         return try {

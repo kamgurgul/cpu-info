@@ -11,9 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.cpu_abi
@@ -33,13 +30,14 @@ import com.kgurgul.cpuinfo.shared.yes
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.components.ItemValueRow
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import org.jetbrains.compose.resources.stringResource
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun CpuInfoScreen(viewModel: CpuInfoViewModel = hiltViewModel()) {
-    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+fun CpuInfoScreen(viewModel: CpuInfoViewModel = koinViewModel()) {
+    val uiState by viewModel.uiStateFlow.collectAsStateMultiplatform()
     CpuInfoScreen(
         uiState = uiState,
     )
@@ -61,7 +59,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                         index = i,
                         frequency = frequency,
                     )
-                    if (i == uiState.cpuData.frequencies.lastIndex) {
+                    if (i == cpuData.frequencies.lastIndex) {
                         Spacer(modifier = Modifier.requiredSize(spacingSmall))
                         CpuDivider()
                     }
@@ -204,33 +202,4 @@ fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
 object CpuInfoScreenTestTags {
     const val LAZY_COLUMN = "cpu_info_lazy_column"
     const val SOCKET_NAME = "cpu_info_socket_name"
-}
-
-@Preview
-@Composable
-fun CpuInfoScreenPreview() {
-    CpuInfoTheme {
-        CpuInfoScreen(
-            uiState = CpuInfoViewModel.UiState(
-                cpuData = CpuData(
-                    processorName = "processorName",
-                    abi = "abi",
-                    coreNumber = 1,
-                    hasArmNeon = true,
-                    frequencies = listOf(
-                        CpuData.Frequency(
-                            min = 1,
-                            max = 2,
-                            current = 3
-                        ),
-                    ),
-                    l1dCaches = "l1dCaches",
-                    l1iCaches = "l1iCaches",
-                    l2Caches = "l2Caches",
-                    l3Caches = "l3Caches",
-                    l4Caches = "l4Caches",
-                )
-            )
-        )
-    }
 }

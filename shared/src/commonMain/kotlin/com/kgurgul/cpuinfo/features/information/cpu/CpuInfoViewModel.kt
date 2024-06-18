@@ -18,18 +18,17 @@ package com.kgurgul.cpuinfo.features.information.cpu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.data.observable.CpuDataObservable
 import com.kgurgul.cpuinfo.domain.model.CpuData
-import com.kgurgul.cpuinfo.domain.observable.CpuDataObservable
 import com.kgurgul.cpuinfo.domain.observe
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import javax.inject.Inject
+import org.koin.core.annotation.Factory
 
-@HiltViewModel
-class CpuInfoViewModel @Inject constructor(
+@Factory
+class CpuInfoViewModel(
     cpuDataObservable: CpuDataObservable
 ) : ViewModel() {
 

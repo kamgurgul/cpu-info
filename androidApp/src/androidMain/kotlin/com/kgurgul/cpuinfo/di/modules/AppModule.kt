@@ -35,6 +35,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
 import com.kgurgul.cpuinfo.data.provider.CpuDataNativeProvider
+import com.kgurgul.cpuinfo.utils.DefaultDispatchersProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -127,6 +128,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideCpuDataNativeProvider() = CpuDataNativeProvider()
+
+    @Provides
+    @Singleton
+    fun provideDispatchersProvider() = DefaultDispatchersProvider()
 
     companion object {
         const val USER_PREFERENCES_NAME = "user_preferences"

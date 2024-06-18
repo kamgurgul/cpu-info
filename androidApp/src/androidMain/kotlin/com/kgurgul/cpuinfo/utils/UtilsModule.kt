@@ -8,6 +8,7 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DispatchersModule {
+
     @Binds
     abstract fun bindDispatchersProvider(provider: DefaultDispatchersProvider): IDispatchersProvider
 }

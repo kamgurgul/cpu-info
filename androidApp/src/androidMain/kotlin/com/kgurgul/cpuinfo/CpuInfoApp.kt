@@ -20,6 +20,8 @@ import android.app.Application
 import com.kgurgul.cpuinfo.appinitializers.AppInitializerComponent
 import com.kgurgul.cpuinfo.appinitializers.AppInitializersModule
 import com.kgurgul.cpuinfo.data.DataModule
+import com.kgurgul.cpuinfo.features.FeaturesModule
+import com.kgurgul.cpuinfo.utils.UtilsModule
 import dagger.hilt.android.HiltAndroidApp
 import org.koin.core.context.startKoin
 import org.koin.ksp.generated.module
@@ -32,7 +34,9 @@ class CpuInfoApp : Application() {
         startKoin {
             modules(
                 AppInitializersModule().module,
-                DataModule().module
+                DataModule().module,
+                FeaturesModule().module,
+                UtilsModule().module,
             )
         }
         AppInitializerComponent().init(this)

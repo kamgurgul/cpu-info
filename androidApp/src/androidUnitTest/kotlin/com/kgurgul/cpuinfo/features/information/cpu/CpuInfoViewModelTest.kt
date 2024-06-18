@@ -1,7 +1,7 @@
 package com.kgurgul.cpuinfo.features.information.cpu
 
 import com.kgurgul.cpuinfo.data.TestData
-import com.kgurgul.cpuinfo.domain.observable.CpuDataObservable
+import com.kgurgul.cpuinfo.data.observable.CpuDataObservable
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf

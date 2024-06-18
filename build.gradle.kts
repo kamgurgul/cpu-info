@@ -23,6 +23,7 @@ subprojects {
                 "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
                 "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
                 "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+                "-Xexpect-actual-classes",
             )
             //allWarningsAsErrors = true
             jvmTarget = JvmTarget.JVM_11
