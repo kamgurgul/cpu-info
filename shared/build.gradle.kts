@@ -51,6 +51,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(compose.uiTooling)
+            implementation(libs.relinker)
         }
 
         commonTest.dependencies {

@@ -149,7 +149,6 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    implementation(libs.relinker)
     implementation(libs.coil)
 
     androidTestImplementation(libs.androidx.test.runner)

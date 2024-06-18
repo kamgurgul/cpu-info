@@ -34,6 +34,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
+import com.kgurgul.cpuinfo.data.provider.CpuDataNativeProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -122,6 +123,10 @@ class AppModule {
     @Singleton
     fun provideCameraManager(@ApplicationContext appContext: Context): CameraManager =
         appContext.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+
+    @Provides
+    @Singleton
+    fun provideCpuDataNativeProvider() = CpuDataNativeProvider()
 
     companion object {
         const val USER_PREFERENCES_NAME = "user_preferences"

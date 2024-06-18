@@ -1,10 +1,9 @@
 package com.kgurgul.cpuinfo.data.provider
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import org.koin.core.annotation.Single
 
-@Singleton
-class CpuDataNativeProvider @Inject constructor() {
+@Single(createdAtStart = true)
+class CpuDataNativeProvider {
 
     external fun initLibrary()
 

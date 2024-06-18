@@ -3,13 +3,14 @@ package com.kgurgul.cpuinfo.appinitializers
 import android.app.Application
 import com.getkeepsafe.relinker.ReLinker
 import com.kgurgul.cpuinfo.data.provider.CpuDataNativeProvider
-import javax.inject.Inject
+import org.koin.core.annotation.Single
 
-class NativeToolsInitializer @Inject constructor(
+@Single(createdAtStart = true)
+class NativeToolsInitializer(
     private val cpuDataNativeProvider: CpuDataNativeProvider
-) : AppInitializer {
+) {
 
-    override fun init(application: Application) {
+    fun init(application: Application) {
         ReLinker.loadLibrary(application, "cpuinfo-libs")
         cpuDataNativeProvider.initLibrary()
     }
