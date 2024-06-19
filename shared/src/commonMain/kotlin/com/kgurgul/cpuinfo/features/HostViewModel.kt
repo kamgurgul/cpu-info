@@ -5,16 +5,17 @@ import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.domain.observable.ProcessesDataObservable
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
+import org.koin.android.annotation.KoinViewModel
+import org.koin.core.annotation.Factory
 
-@HiltViewModel
-class HostViewModel @Inject constructor(
+@KoinViewModel
+@Factory
+class HostViewModel(
     processesDataObservable: ProcessesDataObservable,
     userPreferencesRepository: IUserPreferencesRepository,
 ) : ViewModel() {

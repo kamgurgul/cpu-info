@@ -24,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.data.local.StubUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
@@ -41,10 +40,11 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TemperatureScreen(
-    viewModel: TemperatureViewModel = hiltViewModel(),
+    viewModel: TemperatureViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     TemperatureScreen(

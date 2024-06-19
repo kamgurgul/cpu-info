@@ -1,4 +1,4 @@
-package com.kgurgul.cpuinfo.data.observable
+package com.kgurgul.cpuinfo.domain.observable
 
 import com.kgurgul.cpuinfo.data.provider.CpuDataNativeProvider
 import com.kgurgul.cpuinfo.data.provider.CpuDataProvider

@@ -25,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
@@ -49,10 +48,11 @@ import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.stringResource
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     SettingsScreen(

@@ -1,6 +1,5 @@
 package com.kgurgul.cpuinfo.domain.observable
 
-import android.hardware.SensorManager
 import app.cash.turbine.test
 import com.kgurgul.cpuinfo.data.provider.TemperatureProvider
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
@@ -28,12 +27,10 @@ class TemperatureDataObservableTest {
         on { getBatteryTemperature() } doReturn 30f
         on { getCpuTemp(any()) } doReturn 40f
     }
-    private val mockSensorManger = mock<SensorManager>()
 
     private val interactor = TemperatureDataObservable(
         dispatchersProvider = coroutineTestRule.testDispatcherProvider,
         temperatureProvider = mockTemperatureProvider,
-        sensorManager = mockSensorManger,
     )
 
     @Ignore("Reenable after migration to common")

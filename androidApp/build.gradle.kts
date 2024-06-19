@@ -150,6 +150,7 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.coil)
+    implementation(libs.koin.android)
 
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.rules)

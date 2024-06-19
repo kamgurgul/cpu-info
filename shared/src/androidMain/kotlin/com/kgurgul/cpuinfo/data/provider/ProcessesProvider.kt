@@ -19,24 +19,15 @@ package com.kgurgul.cpuinfo.data.provider
 import android.os.Build
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.utils.CpuLogger
+import org.koin.core.annotation.Factory
 import java.util.StringTokenizer
-import javax.inject.Inject
 
-class ProcessesProvider @Inject constructor() {
+@Factory
+actual class ProcessesProvider actual constructor() {
 
-    companion object {
-        private const val USER_POSITION = 0
-        private const val PID_POSITION = 1
-        private const val PPID_POSITION = 2
-        private const val VSIZE_POSITION = 3
-        private const val RSS_POSITION = 4
-        private const val NICENESS_POSITION = 6
-        private const val NAME_POSITION = 12
-    }
+    actual fun areProcessesSupported() = Build.VERSION.SDK_INT <= Build.VERSION_CODES.M
 
-    fun areProcessesSupported() = Build.VERSION.SDK_INT <= Build.VERSION_CODES.M
-
-    fun getProcessList(): List<ProcessItem> {
+    actual fun getProcessList(): List<ProcessItem> {
         val psCmdList = readPsCmd()
         return parsePs(psCmdList)
     }
@@ -87,5 +78,15 @@ class ProcessesProvider @Inject constructor() {
             }
         }
         return processItemList
+    }
+
+    companion object {
+        private const val USER_POSITION = 0
+        private const val PID_POSITION = 1
+        private const val PPID_POSITION = 2
+        private const val VSIZE_POSITION = 3
+        private const val RSS_POSITION = 4
+        private const val NICENESS_POSITION = 6
+        private const val NAME_POSITION = 12
     }
 }

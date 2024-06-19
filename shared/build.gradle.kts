@@ -47,12 +47,14 @@ kotlin {
             api(libs.koin.annotations)
             api(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.immutable)
         }
 
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(compose.uiTooling)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.koin.android)
             implementation(libs.relinker)
         }
 

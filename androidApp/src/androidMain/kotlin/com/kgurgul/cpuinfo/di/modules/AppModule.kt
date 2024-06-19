@@ -29,12 +29,6 @@ import android.hardware.camera2.CameraManager
 import android.net.wifi.WifiManager
 import android.os.storage.StorageManager
 import android.view.WindowManager
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStoreFile
-import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
-import com.kgurgul.cpuinfo.data.provider.CpuDataNativeProvider
 import com.kgurgul.cpuinfo.utils.DefaultDispatchersProvider
 import dagger.Module
 import dagger.Provides
@@ -100,23 +94,6 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideUserPreferencesRepository(
-        dataStore: DataStore<Preferences>
-    ): UserPreferencesRepository {
-        return UserPreferencesRepository(dataStore)
-    }
-
-    @Provides
-    @Singleton
-    fun providePreferencesDataStore(@ApplicationContext appContext: Context): DataStore<Preferences> =
-        PreferenceDataStoreFactory.create(
-            produceFile = {
-                appContext.preferencesDataStoreFile(USER_PREFERENCES_NAME)
-            }
-        )
-
-    @Provides
-    @Singleton
     fun provideIrManager(@ApplicationContext appContext: Context): ConsumerIrManager? =
         appContext.getSystemService(Context.CONSUMER_IR_SERVICE) as? ConsumerIrManager?
 
@@ -127,13 +104,5 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideCpuDataNativeProvider() = CpuDataNativeProvider()
-
-    @Provides
-    @Singleton
     fun provideDispatchersProvider() = DefaultDispatchersProvider()
-
-    companion object {
-        const val USER_PREFERENCES_NAME = "user_preferences"
-    }
 }

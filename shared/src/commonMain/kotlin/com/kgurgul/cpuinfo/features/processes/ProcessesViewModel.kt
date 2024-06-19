@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.domain.observable.ProcessesDataObservable
 import com.kgurgul.cpuinfo.domain.observe
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
@@ -14,10 +13,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
+import org.koin.core.annotation.Factory
 
-@HiltViewModel
-class ProcessesViewModel @Inject constructor(
+@Factory
+class ProcessesViewModel(
     processesDataObservable: ProcessesDataObservable,
 ) : ViewModel() {
 

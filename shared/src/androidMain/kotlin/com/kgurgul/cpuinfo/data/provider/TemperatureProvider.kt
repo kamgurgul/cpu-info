@@ -19,23 +19,66 @@ package com.kgurgul.cpuinfo.data.provider
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.BatteryManager
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.kgurgul.cpuinfo.domain.model.TemperatureItem
+import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion.GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE
+import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion.GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.baseline_thermostat_24
+import com.kgurgul.cpuinfo.utils.round1
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.flow.callbackFlow
+import org.koin.core.annotation.Factory
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.io.File
-import javax.inject.Inject
 
-class TemperatureProvider @Inject constructor(
-    @ApplicationContext val appContext: Context
-) {
+@Factory
+actual class TemperatureProvider actual constructor() : KoinComponent {
 
-    fun getBatteryTemperature(): Float? {
+    private val appContext: Context by inject()
+    private val sensorManager: SensorManager by inject()
+
+    actual val sensorsFlow = callbackFlow {
+        val sensorCallback = object : SensorEventListener {
+            override fun onSensorChanged(event: SensorEvent) {
+                trySendBlocking(
+                    TemperatureItem(
+                        id = event.sensor.type,
+                        icon = Res.drawable.baseline_thermostat_24,
+                        name = event.sensor.name,
+                        temperature = event.values[0].round1()
+                    )
+                )
+            }
+
+            override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
+            }
+        }
+        supportedSensors.mapNotNull { sensorManager.getDefaultSensor(it) }
+            .forEach {
+                sensorManager.registerListener(
+                    sensorCallback,
+                    it,
+                    SensorManager.SENSOR_DELAY_NORMAL
+                )
+            }
+        awaitClose { sensorManager.unregisterListener(sensorCallback) }
+    }
+
+    actual fun getBatteryTemperature(): Float? {
         val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         val batteryStatus = appContext.registerReceiver(null, filter)
         val temp = batteryStatus?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, Int.MIN_VALUE)
         return if (temp != null && temp != Int.MIN_VALUE) temp / 10f else null
     }
 
-    fun findCpuTemperatureLocation(): String? {
+    actual fun findCpuTemperatureLocation(): String? {
         for (location in CPU_TEMP_FILE_PATHS) {
             try {
                 val temp = File(location).bufferedReader().use { it.readLine().toDoubleOrNull() }
@@ -55,7 +98,7 @@ class TemperatureProvider @Inject constructor(
      *
      * @return CPU temperature
      */
-    fun getCpuTemp(path: String): Float? {
+    actual fun getCpuTemp(path: String): Float? {
         return File(path).bufferedReader().use { it.readLine().toDoubleOrNull() }?.let {
             if (isTemperatureValid(it)) {
                 it.toFloat()
@@ -96,6 +139,12 @@ class TemperatureProvider @Inject constructor(
             "/sys/htc/cpu_temp",
             "/sys/devices/platform/tegra-i2c.3/i2c-4/4-004c/ext_temperature",
             "/sys/devices/platform/tegra-tsensor/tsensor_temperature",
+        )
+
+        private val supportedSensors = listOf(
+            Sensor.TYPE_AMBIENT_TEMPERATURE,
+            GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE,
+            GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE,
         )
     }
 }

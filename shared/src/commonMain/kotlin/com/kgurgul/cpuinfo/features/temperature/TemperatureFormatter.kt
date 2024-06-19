@@ -20,9 +20,10 @@ import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.utils.round2
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
+import org.koin.core.annotation.Factory
 
-class TemperatureFormatter @Inject constructor(
+@Factory
+class TemperatureFormatter(
     private val userPreferencesRepository: IUserPreferencesRepository,
 ) {
 

@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.shared.Res
@@ -29,10 +28,11 @@ import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.Utils
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.stringResource
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProcessesScreen(
-    viewModel: ProcessesViewModel = hiltViewModel()
+    viewModel: ProcessesViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     ProcessesScreen(

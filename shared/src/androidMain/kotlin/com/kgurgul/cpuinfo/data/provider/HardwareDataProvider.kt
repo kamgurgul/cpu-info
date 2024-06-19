@@ -18,6 +18,9 @@ package com.kgurgul.cpuinfo.data.provider
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.hardware.ConsumerIrManager
 import android.hardware.camera2.CameraCharacteristics
@@ -66,24 +69,26 @@ import com.kgurgul.cpuinfo.shared.yes
 import com.kgurgul.cpuinfo.utils.CpuLogger
 import com.kgurgul.cpuinfo.utils.round2
 import org.jetbrains.compose.resources.getString
+import org.koin.core.annotation.Factory
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.io.File
 import java.io.FileFilter
 import java.io.RandomAccessFile
 import java.util.regex.Pattern
-import javax.inject.Inject
 
-class HardwareDataProvider @Inject constructor(
-    private val temperatureProvider: TemperatureProvider,
-    private val temperatureFormatter: TemperatureFormatter,
-    private val packageManager: PackageManager,
-    private val contentResolver: ContentResolver,
-    private val batteryStatusProvider: BatteryStatusProvider,
-    private val wifiManager: WifiManager,
-    private val irManager: ConsumerIrManager?,
-    private val cameraManager: CameraManager,
-) {
+@Factory
+actual class HardwareDataProvider actual constructor() : KoinComponent {
 
-    suspend fun getData(): List<Pair<String, String>> {
+    private val appContext: Context by inject()
+    private val temperatureProvider: TemperatureProvider by inject()
+    private val temperatureFormatter: TemperatureFormatter by inject()
+    private val packageManager: PackageManager by inject()
+    private val contentResolver: ContentResolver by inject()
+    private val wifiManager: WifiManager by inject()
+    private val cameraManager: CameraManager by inject()
+
+    actual suspend fun getData(): List<Pair<String, String>> {
         return buildList {
             add(Pair(getString(Res.string.battery), ""))
             addAll(getBatteryStatus())
@@ -103,8 +108,7 @@ class HardwareDataProvider @Inject constructor(
     private suspend fun getBatteryStatus(): ArrayList<Pair<String, String>> {
         val functionsList = ArrayList<Pair<String, String>>()
 
-        val batteryStatus = batteryStatusProvider.getBatteryStatusIntent()
-
+        val batteryStatus = getBatteryStatusIntent()
         if (batteryStatus != null) {
             // Level
             val level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
@@ -155,7 +159,7 @@ class HardwareDataProvider @Inject constructor(
         }
 
         // Capacity
-        val capacity = batteryStatusProvider.getBatteryCapacity().round2()
+        val capacity = getBatteryCapacity().round2()
         if (capacity != -1.0) {
             functionsList.add(Pair(getString(Res.string.capacity), "${capacity}mAh"))
         }
@@ -288,6 +292,8 @@ class HardwareDataProvider @Inject constructor(
         }
 
         // IR
+        val irManager = appContext
+            .getSystemService(Context.CONSUMER_IR_SERVICE) as? ConsumerIrManager?
         val hasIr = irManager?.hasIrEmitter() ?: false
         functionsList.add(getString(Res.string.ir_emitter) to getYesNoString(hasIr))
 
@@ -460,5 +466,32 @@ class HardwareDataProvider @Inject constructor(
         getString(Res.string.yes)
     } else {
         getString(Res.string.no)
+    }
+
+    /**
+     * @return [Intent] with battery information
+     */
+    private fun getBatteryStatusIntent(): Intent? {
+        val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        return appContext.registerReceiver(null, iFilter)
+    }
+
+    /**
+     * @return battery capacity from private API. In case of error it will return -1.
+     */
+    @SuppressLint("PrivateApi")
+    private fun getBatteryCapacity(): Double {
+        var capacity = -1.0
+        try {
+            val powerProfile = Class.forName("com.android.internal.os.PowerProfile")
+                .getConstructor(Context::class.java).newInstance(appContext)
+            capacity = Class
+                .forName("com.android.internal.os.PowerProfile")
+                .getMethod("getAveragePower", String::class.java)
+                .invoke(powerProfile, "battery.capacity") as Double
+        } catch (e: Exception) {
+            CpuLogger.e(e) { "Cannot read battery capacity" }
+        }
+        return capacity
     }
 }

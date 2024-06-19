@@ -7,9 +7,10 @@ import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
+import org.koin.core.annotation.Factory
 
-class ProcessesDataObservable @Inject constructor(
+@Factory
+class ProcessesDataObservable(
     private val dispatchersProvider: IDispatchersProvider,
     private val processesProvider: ProcessesProvider,
 ) : ImmutableInteractor<Unit, List<ProcessItem>>() {

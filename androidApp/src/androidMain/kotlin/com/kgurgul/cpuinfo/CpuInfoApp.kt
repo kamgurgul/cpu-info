@@ -20,9 +20,12 @@ import android.app.Application
 import com.kgurgul.cpuinfo.appinitializers.AppInitializerComponent
 import com.kgurgul.cpuinfo.appinitializers.AppInitializersModule
 import com.kgurgul.cpuinfo.data.DataModule
+import com.kgurgul.cpuinfo.di.androidModule
+import com.kgurgul.cpuinfo.domain.DomainModule
 import com.kgurgul.cpuinfo.features.FeaturesModule
 import com.kgurgul.cpuinfo.utils.UtilsModule
 import dagger.hilt.android.HiltAndroidApp
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.ksp.generated.module
 
@@ -32,9 +35,12 @@ class CpuInfoApp : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
+            androidContext(this@CpuInfoApp)
             modules(
+                androidModule,
                 AppInitializersModule().module,
                 DataModule().module,
+                DomainModule().module,
                 FeaturesModule().module,
                 UtilsModule().module,
             )

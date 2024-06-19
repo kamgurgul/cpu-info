@@ -18,8 +18,8 @@ package com.kgurgul.cpuinfo.features.information.cpu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kgurgul.cpuinfo.data.observable.CpuDataObservable
 import com.kgurgul.cpuinfo.domain.model.CpuData
+import com.kgurgul.cpuinfo.domain.observable.CpuDataObservable
 import com.kgurgul.cpuinfo.domain.observe
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged

@@ -18,15 +18,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.RECEIVER_EXPORTED
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HardwareInfoScreen(
-    viewModel: HardwareInfoViewModel = hiltViewModel(),
+    viewModel: HardwareInfoViewModel = koinViewModel(),
 ) {
     val context = LocalContext.current
     DisposableEffect(context) {

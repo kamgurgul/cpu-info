@@ -4,9 +4,10 @@ import com.kgurgul.cpuinfo.data.provider.HardwareDataProvider
 import com.kgurgul.cpuinfo.domain.ResultInteractor
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.CoroutineDispatcher
-import javax.inject.Inject
+import org.koin.core.annotation.Factory
 
-class GetHardwareDataInteractor @Inject constructor(
+@Factory
+class GetHardwareDataInteractor(
     private val dispatchersProvider: IDispatchersProvider,
     private val hardwareDataProvider: HardwareDataProvider,
 ) : ResultInteractor<Unit, List<Pair<String, String>>>() {

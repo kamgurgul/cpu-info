@@ -25,6 +25,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.io.File
 import javax.inject.Inject
 
@@ -32,8 +34,9 @@ import javax.inject.Inject
 class ApplicationsViewModel @Inject constructor(
     private val applicationsDataObservable: ApplicationsDataObservable,
     private val getPackageNameInteractor: GetPackageNameInteractor,
-    private val userPreferencesRepository: IUserPreferencesRepository,
-) : ViewModel() {
+) : ViewModel(), KoinComponent {
+
+    private val userPreferencesRepository: IUserPreferencesRepository by inject()
 
     private val _uiStateFlow = MutableStateFlow(UiState())
     val uiStateFlow = _uiStateFlow.asStateFlow()

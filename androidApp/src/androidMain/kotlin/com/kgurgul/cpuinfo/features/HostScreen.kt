@@ -14,7 +14,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -45,10 +44,11 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HostScreen(
-    viewModel: HostViewModel = hiltViewModel()
+    viewModel: HostViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     HostScreen(

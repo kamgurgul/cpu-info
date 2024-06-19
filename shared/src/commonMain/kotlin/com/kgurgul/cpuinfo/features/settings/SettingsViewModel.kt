@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,10 +13,10 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import org.koin.core.annotation.Factory
 
-@HiltViewModel
-class SettingsViewModel @Inject constructor(
+@Factory
+class SettingsViewModel(
     private val userPreferencesRepository: IUserPreferencesRepository,
 ) : ViewModel() {
 
