@@ -1,11 +1,11 @@
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.android.application)
-    id("kotlin-parcelize")
     alias(libs.plugins.ksp)
     alias(libs.plugins.kover)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.compose.compiler)
+    id("kotlin-parcelize")
 }
 
 kotlin {

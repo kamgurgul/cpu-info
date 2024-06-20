@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform")
-    id(libs.plugins.android.library.get().pluginId)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
