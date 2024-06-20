@@ -14,14 +14,14 @@ kotlin {
     // jvm("desktop")
 
     listOf(
-            iosX64(),
-            iosArm64(),
-            iosSimulatorArm64()
-        ).forEach { iosTarget ->
-            iosTarget.binaries.framework {
-                baseName = "shared"
-                isStatic = true
-            }
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "shared"
+            isStatic = true
+        }
     }
 
     applyDefaultHierarchyTemplate()
@@ -39,7 +39,7 @@ kotlin {
 
         commonMain.dependencies {
             api(compose.components.resources)
-            api(compose.foundation)
+            implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.material3)
             implementation(compose.runtime)
@@ -49,12 +49,12 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.coil)
-            api(libs.kermit.kermit)
-            api(libs.koin.annotations)
-            api(libs.koin.compose.viewodel)
-            api(libs.koin.core)
+            implementation(libs.kermit.kermit)
+            implementation(libs.koin.annotations)
+            implementation(libs.koin.compose.viewodel)
+            implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.immutable)
+            api(libs.kotlinx.immutable)
         }
 
         androidMain.dependencies {
@@ -109,4 +109,3 @@ dependencies {
     add("kspIosArm64", libs.koin.kspCompiler)
     add("kspIosSimulatorArm64", libs.koin.kspCompiler)
 }
-

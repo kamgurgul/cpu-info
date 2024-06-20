@@ -25,7 +25,7 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name="com.kgurgul.cpuinfo.features.HostActivity"
+            android:name="com.kgurgul.cpuinfo.HostActivity"
             android:exported="true"
             android:theme="@style/Theme.Launcher">
 
