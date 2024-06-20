@@ -30,7 +30,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.ANDROID_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.CPU_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.GPU_POS
@@ -59,6 +58,7 @@ import com.kgurgul.cpuinfo.shared.screen
 import com.kgurgul.cpuinfo.shared.sensors
 import com.kgurgul.cpuinfo.shared.storage
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
+import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
@@ -67,7 +67,7 @@ import org.koin.androidx.compose.koinViewModel
 fun InfoContainerScreen(
     viewModel: InfoContainerViewModel = koinViewModel()
 ) {
-    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiStateFlow.collectAsStateMultiplatform()
     InfoContainerScreen(
         uiState = uiState,
         onRamCleanupClicked = viewModel::onClearRamClicked,

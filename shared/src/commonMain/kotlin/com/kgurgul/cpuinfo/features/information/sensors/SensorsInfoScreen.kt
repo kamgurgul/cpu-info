@@ -17,19 +17,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.SensorData
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
+import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SensorsInfoScreen(
     viewModel: SensorsInfoViewModel = koinViewModel(),
 ) {
-    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiStateFlow.collectAsStateMultiplatform()
     SensorsInfoScreen(
         uiState = uiState,
     )

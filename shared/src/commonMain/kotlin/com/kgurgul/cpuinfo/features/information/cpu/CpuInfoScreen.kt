@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.cpu_abi
@@ -32,12 +31,13 @@ import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.components.ItemValueRow
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CpuInfoScreen(viewModel: CpuInfoViewModel = koinViewModel()) {
-    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiStateFlow.collectAsStateMultiplatform()
     CpuInfoScreen(
         uiState = uiState,
     )

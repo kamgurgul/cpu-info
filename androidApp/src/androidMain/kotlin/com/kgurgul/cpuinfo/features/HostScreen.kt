@@ -14,7 +14,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -40,6 +39,7 @@ import com.kgurgul.cpuinfo.shared.temp
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffold
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffoldDefault
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
@@ -50,7 +50,7 @@ import org.koin.androidx.compose.koinViewModel
 fun HostScreen(
     viewModel: HostViewModel = koinViewModel()
 ) {
-    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiStateFlow.collectAsStateMultiplatform()
     HostScreen(
         uiState = uiState,
     )

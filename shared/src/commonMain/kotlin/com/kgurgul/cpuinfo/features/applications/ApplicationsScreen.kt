@@ -50,7 +50,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
@@ -75,6 +74,7 @@ import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
+import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -90,7 +90,7 @@ fun ApplicationsScreen(
     registerUnistallListener(
         onRefresh = viewModel::onRefreshApplications,
     )
-    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiStateFlow.collectAsStateMultiplatform()
     ApplicationsScreen(
         uiState = uiState,
         onAppClicked = viewModel::onApplicationClicked,
