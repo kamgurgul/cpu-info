@@ -1,9 +1,5 @@
 package com.kgurgul.cpuinfo.features.information.hardware
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,15 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.RECEIVER_EXPORTED
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import org.koin.androidx.compose.koinViewModel
@@ -28,24 +18,9 @@ import org.koin.androidx.compose.koinViewModel
 fun HardwareInfoScreen(
     viewModel: HardwareInfoViewModel = koinViewModel(),
 ) {
-    val context = LocalContext.current
-    DisposableEffect(context) {
-        val filter = IntentFilter().apply {
-            addAction("android.intent.action.ACTION_POWER_CONNECTED")
-            addAction("android.intent.action.ACTION_POWER_DISCONNECTED")
-        }
-        val powerReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                viewModel.refreshHardwareInfo()
-            }
-        }
-        ContextCompat.registerReceiver(context, powerReceiver, filter, RECEIVER_EXPORTED)
-
-        onDispose {
-            context.unregisterReceiver(powerReceiver)
-        }
-    }
-
+    registerPowerPlugListener(
+        onRefresh = viewModel::refreshHardwareInfo
+    )
     val uiState by viewModel.uiStateFlow.collectAsStateMultiplatform()
     HardwareInfoScreen(
         uiState = uiState,
@@ -74,17 +49,5 @@ fun HardwareInfoScreen(
     }
 }
 
-@Preview
 @Composable
-fun HardwareInfoScreenPreview() {
-    CpuInfoTheme {
-        HardwareInfoScreen(
-            uiState = HardwareInfoViewModel.UiState(
-                listOf(
-                    "test" to "",
-                    "test" to "test",
-                )
-            ),
-        )
-    }
-}
+expect fun registerPowerPlugListener(onRefresh: () -> Unit)

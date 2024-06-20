@@ -15,13 +15,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.processes
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.Utils
@@ -127,16 +125,6 @@ private fun DoubleTextRow(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.weight(1f),
-        )
-    }
-}
-
-@Preview
-@Composable
-fun ProcessesScreenPreview() {
-    CpuInfoTheme {
-        ProcessesScreen(
-            uiState = ProcessesViewModel.UiState()
         )
     }
 }

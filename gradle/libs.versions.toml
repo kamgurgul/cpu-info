@@ -19,7 +19,7 @@ androidxTestRules = "1.5.0"
 androidxTestRunner = "1.5.2"
 baselineprofile = "1.2.4"
 benchmarkMacroJunit4 = "1.2.4"
-coil = "2.6.0"
+coil = "3.0.0-alpha06"
 composeMultiplatform = "1.6.11"
 dependencyUpdate = "0.51.0"
 junit = "4.13.2"
@@ -67,7 +67,7 @@ androidx-test-orchestrator = { group = "androidx.test", name = "orchestrator", v
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidxTestRules" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
 androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kermit-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }

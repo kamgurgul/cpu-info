@@ -48,10 +48,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.applications
@@ -69,14 +69,12 @@ import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.rememberDraggableBoxState
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.painterResource
@@ -405,43 +403,3 @@ private fun NativeLibsDialog(
 
 @Composable
 expect fun registerUnistallListener(onRefresh: () -> Unit)
-
-@Preview
-@Composable
-private fun ApplicationInfoPreview() {
-    CpuInfoTheme {
-        ApplicationsScreen(
-            uiState = ApplicationsViewModel.UiState(
-                applications = persistentListOf(previewAppData1, previewAppData2)
-            ),
-            onAppClicked = {},
-            onRefreshApplications = {},
-            onSnackbarDismissed = {},
-            onNativeLibsDialogDismissed = {},
-            onNativeLibNameClicked = {},
-            onAppSettingsClicked = {},
-            onAppUninstallClicked = {},
-            onNativeLibsClicked = {},
-            onSystemAppsSwitched = {},
-            onSortOrderChange = {},
-        )
-    }
-}
-
-private val previewAppData1 = ExtendedApplicationData(
-    name = "Cpu Info",
-    packageName = "com.kgurgul.cpuinfo",
-    sourceDir = "/testDir",
-    nativeLibs = emptyList(),
-    hasNativeLibs = false,
-    appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4"
-)
-
-private val previewAppData2 = ExtendedApplicationData(
-    name = "Cpu Info1",
-    packageName = "com.kgurgul.cpuinfo1",
-    sourceDir = "/testDir",
-    nativeLibs = emptyList(),
-    hasNativeLibs = false,
-    appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4"
-)

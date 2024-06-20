@@ -22,22 +22,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kgurgul.cpuinfo.data.local.StubUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.ic_battery
-import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.shared.no_temp_data
 import com.kgurgul.cpuinfo.shared.temperature
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
@@ -155,33 +149,6 @@ private fun EmptyTemperatureList(
             text = stringResource(Res.string.no_temp_data),
             color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.bodyLarge,
-        )
-    }
-}
-
-@Preview
-@Composable
-fun TemperatureScreenPreview() {
-    CpuInfoTheme {
-        TemperatureScreen(
-            uiState = TemperatureViewModel.UiState(
-                temperatureFormatter = TemperatureFormatter(StubUserPreferencesRepository()),
-                isLoading = false,
-                temperatureItems = persistentListOf(
-                    TemperatureItem(
-                        id = 0,
-                        icon = Res.drawable.ic_cpu_temp,
-                        name = "CPU",
-                        temperature = 30f
-                    ),
-                    TemperatureItem(
-                        id = 1,
-                        icon = Res.drawable.ic_battery,
-                        name = "Battery",
-                        temperature = 30f
-                    )
-                )
-            ),
         )
     }
 }

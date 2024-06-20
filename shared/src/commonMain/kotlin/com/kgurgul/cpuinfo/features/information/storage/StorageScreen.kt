@@ -9,14 +9,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kgurgul.cpuinfo.domain.model.StorageItem
-import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
-import com.kgurgul.cpuinfo.shared.internal
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
@@ -67,23 +61,3 @@ fun StorageScreen(
 
 @Composable
 expect fun registerStorageMountingListener(onRefresh: () -> Unit)
-
-@Preview
-@Composable
-fun StorageScreenPreview() {
-    CpuInfoTheme {
-        StorageScreen(
-            uiState = StorageInfoViewModel.UiState(
-                storageItems = listOf(
-                    StorageItem(
-                        id = 0L,
-                        label = Res.string.internal,
-                        iconDrawable = Res.drawable.baseline_folder_special_24,
-                        storageTotal = 100,
-                        storageUsed = 50,
-                    )
-                )
-            )
-        )
-    }
-}

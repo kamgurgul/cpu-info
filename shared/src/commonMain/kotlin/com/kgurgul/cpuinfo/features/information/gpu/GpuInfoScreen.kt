@@ -11,8 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.kgurgul.cpuinfo.domain.model.GpuData
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.extensions
 import com.kgurgul.cpuinfo.shared.gles_version
@@ -21,7 +19,6 @@ import com.kgurgul.cpuinfo.shared.vendor
 import com.kgurgul.cpuinfo.shared.vulkan_version
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.ItemValueRow
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import org.jetbrains.compose.resources.stringResource
@@ -112,21 +109,3 @@ fun GpuInfoScreen(
 
 @Composable
 expect fun InternalGLSurfaceView(onGlInfoReceived: (String, String, String) -> Unit)
-
-@Preview
-@Composable
-fun GpuInfoScreenPreview() {
-    CpuInfoTheme {
-        GpuInfoScreen(
-            uiState = GpuInfoViewModel.UiState(
-                gpuData = GpuData(
-                    vulkanVersion = "vulkanVersion",
-                    glesVersion = "glEsVersion",
-                    glVendor = "glVendor",
-                    glRenderer = "glRenderer",
-                    glExtensions = "glExtensions",
-                )
-            )
-        )
-    }
-}

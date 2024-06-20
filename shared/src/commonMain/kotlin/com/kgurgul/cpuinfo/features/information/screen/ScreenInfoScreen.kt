@@ -9,9 +9,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import org.koin.androidx.compose.koinViewModel
@@ -46,20 +44,5 @@ fun ScreenInfoScreen(
                 modifier = Modifier.focusable(),
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun ScreenInfoScreenPreview() {
-    CpuInfoTheme {
-        ScreenInfoScreen(
-            uiState = ScreenInfoViewModel.UiState(
-                listOf(
-                    "test" to "",
-                    "test" to "test",
-                )
-            ),
-        )
     }
 }

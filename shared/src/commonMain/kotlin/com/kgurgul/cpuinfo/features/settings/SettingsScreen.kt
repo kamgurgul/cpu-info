@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.shared.Res
@@ -41,7 +40,6 @@ import com.kgurgul.cpuinfo.shared.pref_theme_light
 import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.temperature_unit
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingLarge
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -301,21 +299,5 @@ private fun getTemperatureUnit(option: Int): String {
         TemperatureFormatter.FAHRENHEIT -> stringResource(Res.string.fahrenheit)
         TemperatureFormatter.KELVIN -> stringResource(Res.string.kelvin)
         else -> throw IllegalArgumentException("Unknown temperature unit")
-    }
-}
-
-@Preview
-@Composable
-fun SettingsScreenPreview() {
-    CpuInfoTheme {
-        SettingsScreen(
-            uiState = SettingsViewModel.UiState(),
-            onThemeItemClicked = {},
-            onTemperatureItemClicked = {},
-            onTemperatureDialogDismissRequest = {},
-            onTemperatureOptionClicked = {},
-            onThemeDialogDismissRequest = {},
-            onThemeOptionClicked = {},
-        )
     }
 }

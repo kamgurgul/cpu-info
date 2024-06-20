@@ -10,15 +10,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.kgurgul.cpuinfo.domain.model.RamData
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.available_memory
 import com.kgurgul.cpuinfo.shared.threshold
 import com.kgurgul.cpuinfo.shared.total_memory
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.ItemValueRow
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
@@ -72,22 +69,5 @@ fun RamInfoScreen(
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun RamInfoScreenPreview() {
-    CpuInfoTheme {
-        RamInfoScreen(
-            uiState = RamInfoViewModel.UiState(
-                ramData = RamData(
-                    total = 100,
-                    available = 50,
-                    availablePercentage = 50,
-                    threshold = 50,
-                ),
-            ),
-        )
     }
 }
