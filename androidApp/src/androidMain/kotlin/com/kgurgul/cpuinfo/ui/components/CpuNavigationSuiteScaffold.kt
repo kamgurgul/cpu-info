@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.ui.components
 
+/*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.NavigationDrawerItemDefaults
@@ -56,4 +57,4 @@ object CpuNavigationSuiteScaffoldDefault {
         ),
         navigationDrawerItemColors = NavigationDrawerItemDefaults.colors(),
     )
-}
+}*/

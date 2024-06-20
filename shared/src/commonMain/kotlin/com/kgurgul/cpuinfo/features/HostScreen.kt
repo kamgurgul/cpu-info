@@ -2,18 +2,18 @@ package com.kgurgul.cpuinfo.features
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -37,9 +37,6 @@ import com.kgurgul.cpuinfo.shared.ic_temperature
 import com.kgurgul.cpuinfo.shared.processes
 import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.temp
-import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffold
-import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffoldDefault
-import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
@@ -56,61 +53,69 @@ fun HostScreen(
     )
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HostScreen(
     uiState: HostViewModel.UiState
 ) {
     val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-    val withLabel = !uiState.isProcessSectionVisible
-    val itemDefaultColors = CpuNavigationSuiteScaffoldDefault.itemDefaultColors()
-    CpuNavigationSuiteScaffold(
-        navigationSuiteItems = {
-            HostNavigationItem.bottomNavigationItems(
-                isProcessesVisible = uiState.isProcessSectionVisible,
-            ).forEach { item ->
-                item(
-                    icon = {
-                        Icon(
-                            painter = painterResource(item.icon),
-                            contentDescription = stringResource(item.label),
-                        )
-                    },
-                    label = if (withLabel) {
-                        {
-                            Text(
-                                text = stringResource(item.label),
-                                style = MaterialTheme.typography.labelSmall,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
+    Scaffold(
+        bottomBar = {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+            ) {
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
+                val withLabel = !uiState.isProcessSectionVisible
+                HostNavigationItem.bottomNavigationItems(
+                    isProcessesVisible = uiState.isProcessSectionVisible,
+                ).forEach { item ->
+                    NavigationBarItem(
+                        icon = {
+                            Icon(
+                                painter = painterResource(item.icon),
+                                contentDescription = stringResource(item.label),
                             )
-                        }
-                    } else null,
-                    selected = currentDestination?.hierarchy
-                        ?.any { it.route == item.route } == true,
-                    onClick = {
-                        navController.navigate(item.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+                        },
+                        label = if (withLabel) {
+                            {
+                                Text(
+                                    text = stringResource(item.label),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
                             }
-                            launchSingleTop = true
-                            restoreState = true
+                        } else null,
+                        selected = currentDestination?.hierarchy
+                            ?.any { it.route == item.route } == true,
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                            selectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                            indicatorColor = MaterialTheme.colorScheme.secondary,
+                            unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
+                            unselectedTextColor = MaterialTheme.colorScheme.surfaceVariant,
+                        ),
+                        onClick = {
+                            navController.navigate(item.route) {
+                                navController.graph.findStartDestination().route?.let {
+                                    popUpTo(it) {
+                                        saveState = true
+                                    }
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         }
-                    },
-                    colors = itemDefaultColors,
-                )
+                    )
+                }
             }
         },
-        modifier = Modifier.semantics {
-            testTagsAsResourceId = true
-        }
-    ) {
+    ) { paddingValues ->
         NavHost(
             navController = navController,
             startDestination = HostScreen.Information.route,
-            modifier = Modifier.systemBarsPadding(),
+            modifier = Modifier.padding(paddingValues = paddingValues),
         ) {
             composable(
                 route = HostScreen.Information.route,
@@ -207,15 +212,5 @@ data class HostNavigationItem(
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun HostScreenPreview() {
-    CpuInfoTheme {
-        HostScreen(
-            uiState = HostViewModel.UiState(),
-        )
     }
 }
