@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.processes
@@ -23,7 +24,6 @@ import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.Utils
-import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
@@ -32,7 +32,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ProcessesScreen(
     viewModel: ProcessesViewModel = koinViewModel()
 ) {
-    val uiState by viewModel.uiStateFlow.collectAsStateMultiplatform()
+    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     ProcessesScreen(
         uiState = uiState
     )

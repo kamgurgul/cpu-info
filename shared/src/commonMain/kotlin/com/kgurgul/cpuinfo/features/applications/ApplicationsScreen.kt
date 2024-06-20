@@ -49,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
@@ -73,7 +74,6 @@ import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
-import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
@@ -88,7 +88,7 @@ fun ApplicationsScreen(
     registerUnistallListener(
         onRefresh = viewModel::onRefreshApplications,
     )
-    val uiState by viewModel.uiStateFlow.collectAsStateMultiplatform()
+    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     ApplicationsScreen(
         uiState = uiState,
         onAppClicked = viewModel::onApplicationClicked,

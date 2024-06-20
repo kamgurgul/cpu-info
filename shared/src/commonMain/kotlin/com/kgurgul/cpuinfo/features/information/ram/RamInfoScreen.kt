@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.available_memory
 import com.kgurgul.cpuinfo.shared.threshold
@@ -18,7 +19,6 @@ import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.ItemValueRow
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.Utils
-import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 
@@ -26,7 +26,7 @@ import org.koin.androidx.compose.koinViewModel
 fun RamInfoScreen(
     viewModel: RamInfoViewModel = koinViewModel(),
 ) {
-    val uiState by viewModel.uiStateFlow.collectAsStateMultiplatform()
+    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     RamInfoScreen(
         uiState = uiState,
     )

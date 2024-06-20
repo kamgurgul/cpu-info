@@ -10,10 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.Utils
-import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 import kotlin.math.roundToInt
@@ -23,7 +23,7 @@ fun StorageScreen(
     viewModel: StorageInfoViewModel = koinViewModel(),
 ) {
     registerStorageMountingListener(viewModel::onRefreshStorage)
-    val uiState by viewModel.uiStateFlow.collectAsStateMultiplatform()
+    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     StorageScreen(
         uiState = uiState
     )

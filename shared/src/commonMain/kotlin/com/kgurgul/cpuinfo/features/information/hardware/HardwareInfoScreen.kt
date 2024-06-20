@@ -9,9 +9,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
-import com.kgurgul.cpuinfo.utils.collectAsStateMultiplatform
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -21,7 +21,7 @@ fun HardwareInfoScreen(
     registerPowerPlugListener(
         onRefresh = viewModel::refreshHardwareInfo
     )
-    val uiState by viewModel.uiStateFlow.collectAsStateMultiplatform()
+    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     HardwareInfoScreen(
         uiState = uiState,
     )

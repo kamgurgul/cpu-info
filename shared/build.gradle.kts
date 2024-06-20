@@ -13,16 +13,16 @@ kotlin {
     androidTarget()
     // jvm("desktop")
 
-//    listOf(
-//        iosX64(),
-//        iosArm64(),
-//        iosSimulatorArm64()
-//    ).forEach { iosTarget ->
-//        iosTarget.binaries.framework {
-//            baseName = "shared"
-//            isStatic = true
-//        }
-//    }
+    /*listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "shared"
+            isStatic = true
+        }
+    }*/
 
     applyDefaultHierarchyTemplate()
 
@@ -44,6 +44,7 @@ kotlin {
             implementation(compose.ui)
             api(libs.androidx.datastore.preferences)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
+            implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.coil)
             api(libs.kermit.kermit)
             api(libs.koin.androidx.compose)
@@ -56,7 +57,6 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(compose.uiTooling)
-            implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.koin.android)
             implementation(libs.relinker)
         }
