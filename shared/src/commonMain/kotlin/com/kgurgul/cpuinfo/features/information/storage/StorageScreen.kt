@@ -15,7 +15,7 @@ import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.Utils
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
 
 @Composable

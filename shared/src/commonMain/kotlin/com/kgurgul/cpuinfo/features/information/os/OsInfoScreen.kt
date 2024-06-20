@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun OsInfoScreen(

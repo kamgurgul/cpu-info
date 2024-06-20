@@ -34,7 +34,7 @@ import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun TemperatureScreen(

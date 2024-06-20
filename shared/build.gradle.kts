@@ -13,16 +13,16 @@ kotlin {
     androidTarget()
     // jvm("desktop")
 
-    /*listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "shared"
-            isStatic = true
-        }
-    }*/
+    /*    listOf(
+            iosX64(),
+            iosArm64(),
+            iosSimulatorArm64()
+        ).forEach { iosTarget ->
+            iosTarget.binaries.framework {
+                baseName = "shared"
+                isStatic = true
+            }
+        }*/
 
     applyDefaultHierarchyTemplate()
 
@@ -31,7 +31,9 @@ kotlin {
             languageSettings {
                 optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
                 optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+                optIn("androidx.compose.material.ExperimentalMaterialApi")
                 optIn("androidx.compose.foundation.ExperimentalFoundationApi")
+                optIn("org.koin.core.annotation.KoinExperimentalAPI")
             }
         }
 
@@ -47,8 +49,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.coil)
             api(libs.kermit.kermit)
-            api(libs.koin.androidx.compose)
             api(libs.koin.annotations)
+            api(libs.koin.compose.viewodel)
             api(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.immutable)

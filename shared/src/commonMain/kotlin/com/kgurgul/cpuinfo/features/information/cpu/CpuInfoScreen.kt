@@ -33,7 +33,7 @@ import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.components.ItemValueRow
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun CpuInfoScreen(viewModel: CpuInfoViewModel = koinViewModel()) {
