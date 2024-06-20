@@ -41,3 +41,6 @@ fun Double.round2(): Double = try {
 } catch (e: Exception) {
     0.0
 }
+
+expect fun smartCompare(a: String, b: String): Int
+

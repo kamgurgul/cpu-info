@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import org.koin.core.annotation.Factory
+import org.koin.android.annotation.KoinViewModel
 
-@Factory
+@KoinViewModel
 class ProcessesViewModel(
     processesDataObservable: ProcessesDataObservable,
 ) : ViewModel() {

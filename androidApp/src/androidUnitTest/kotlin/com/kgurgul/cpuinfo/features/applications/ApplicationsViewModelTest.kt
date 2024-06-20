@@ -2,31 +2,14 @@ package com.kgurgul.cpuinfo.features.applications
 
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
-import com.kgurgul.cpuinfo.domain.model.SortOrder
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
-import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.app_open
-import com.kgurgul.cpuinfo.shared.cpu_open
-import com.kgurgul.cpuinfo.shared.cpu_uninstall
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
-import com.kgurgul.cpuinfo.utils.wrappers.Result
-import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.times
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
 import kotlin.test.Ignore
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 @Ignore("Reenable after migration to common")
 class ApplicationsViewModelTest {
@@ -44,72 +27,71 @@ class ApplicationsViewModelTest {
     }
 
     private val observedUiStates = mutableListOf<ApplicationsViewModel.UiState>()
-    private val observedEvents = mutableListOf<ApplicationsViewModel.Event>()
     private lateinit var viewModel: ApplicationsViewModel
 
-    @Test
-    fun `Load initial data with passed user preferences`() {
-        // Given
-        val expectedUiState = listOf(
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            )
-        )
+    /* @Test
+     fun `Load initial data with passed user preferences`() {
+         // Given
+         val expectedUiState = listOf(
+             ApplicationsViewModel.UiState(
+                 withSystemApps = testUserPreferences.withSystemApps,
+                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+             )
+         )
 
-        // When
-        createViewModel()
+         // When
+         createViewModel()
 
-        // Then
-        assertEquals(expectedUiState, observedUiStates)
-        verify(mockApplicationsDataObservable).invoke(
-            eq(
-                ApplicationsDataObservable.Params(
-                    withSystemApps = testUserPreferences.withSystemApps,
-                    sortOrder = SortOrder.ASCENDING,
-                )
-            )
-        )
-    }
+         // Then
+         assertEquals(expectedUiState, observedUiStates)
+         verify(mockApplicationsDataObservable).invoke(
+             eq(
+                 ApplicationsDataObservable.Params(
+                     withSystemApps = testUserPreferences.withSystemApps,
+                     sortOrder = SortOrder.ASCENDING,
+                 )
+             )
+         )
+     }
 
-    @Test
-    fun `Handle applications result`() = runTest {
-        whenever(mockApplicationsDataObservable.observe()).doReturn(
-            flowOf(
-                Result.Loading,
-                Result.Success(TestData.extendedApplicationsData),
-            )
-        )
-        val expectedUiStates = listOf(
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                applications = TestData.extendedApplicationsData.toImmutableList(),
-            ),
-        )
+     @Test
+     fun `Handle applications result`() = runTest {
+         whenever(mockApplicationsDataObservable.observe()).doReturn(
+             flowOf(
+                 Result.Loading,
+                 Result.Success(TestData.extendedApplicationsData),
+             )
+         )
+         val expectedUiStates = listOf(
+             ApplicationsViewModel.UiState(
+                 withSystemApps = testUserPreferences.withSystemApps,
+                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                 applications = TestData.extendedApplicationsData.toImmutableList(),
+             ),
+         )
 
-        createViewModel()
+         createViewModel()
 
-        assertEquals(expectedUiStates, observedUiStates)
-    }
+         assertEquals(expectedUiStates, observedUiStates)
+     }
 
-    @Test
-    fun `On sort order change clicked`() = runTest {
-        createViewModel()
+     @Test
+     fun `On sort order change clicked`() = runTest {
+         createViewModel()
 
-        viewModel.onSortOrderChange(false)
+         viewModel.onSortOrderChange(false)
 
-        verify(mockUserPreferencesRepository).setApplicationsSortingOrder(eq(false))
-    }
+         verify(mockUserPreferencesRepository).setApplicationsSortingOrder(eq(false))
+     }
 
-    @Test
-    fun `On system apps switched`() = runTest {
-        createViewModel()
+     @Test
+     fun `On system apps switched`() = runTest {
+         createViewModel()
 
-        viewModel.onSystemAppsSwitched(false)
+         viewModel.onSystemAppsSwitched(false)
 
-        verify(mockUserPreferencesRepository).setApplicationsWithSystemApps(eq(false))
-    }
+         verify(mockUserPreferencesRepository).setApplicationsWithSystemApps(eq(false))
+     }*/
 
     /* @Test
      fun `On native libs clicked`() {
@@ -160,7 +142,7 @@ class ApplicationsViewModelTest {
          assertEquals(expectedUiStates, observedUiStates)
      }*/
 
-    @Test
+    /*@Test
     fun `On native libs name clicked`() {
         val expectedEvents = listOf<ApplicationsViewModel.Event>(
             ApplicationsViewModel.Event.SearchNativeLib("test"),
@@ -313,5 +295,5 @@ class ApplicationsViewModelTest {
                 .onEach(observedEvents::add)
                 .launchIn(CoroutineScope(coroutineTestRule.testDispatcher))
         }
-    }
+    }*/
 }

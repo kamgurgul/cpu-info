@@ -6,7 +6,6 @@ object KoverConfig {
         "com.kgurgul.cpuinfo.ui",
         "com.kgurgul.cpuinfo.*.model*",
         "com.kgurgul.cpuinfo.*.models*",
-        "hilt_aggregated_deps",
     )
     val excludedClasses = listOf(
         "*Module*",
@@ -14,7 +13,6 @@ object KoverConfig {
         "*MembersInjector*",
         "*_Companion_*",
         "*_Factory*",
-        "*_HiltModules*",
     )
     val excludedAnnotations = "*Generated*"
 }

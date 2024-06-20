@@ -7,7 +7,6 @@ import androidx.annotation.RequiresApi
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
@@ -16,17 +15,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-@AndroidEntryPoint
 class CpuTileService : TileService(), CoroutineScope, KoinComponent {
 
     private val cpuDataProvider: CpuDataProvider by inject()
-
-    @Inject
-    lateinit var dispatchersProvider: IDispatchersProvider
+    private val dispatchersProvider: IDispatchersProvider by inject()
 
     private val job = SupervisorJob()
     override val coroutineContext: CoroutineContext

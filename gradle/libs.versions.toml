@@ -9,7 +9,6 @@ androidxCore = "1.13.1"
 androidxCoreSpalshscreen = "1.0.1"
 androidxDatastorePreferences = "1.1.1"
 androidxEspresso = "3.5.1"
-androidxHiltNavigationCompose = "1.2.0"
 androidxLifecycle = "2.8.0"
 androidxLifecycleAndroid = "2.8.2"
 androidxNavigation = "2.8.0-alpha02"
@@ -23,7 +22,6 @@ benchmarkMacroJunit4 = "1.2.4"
 coil = "2.6.0"
 composeMultiplatform = "1.6.11"
 dependencyUpdate = "0.51.0"
-hilt = "2.51.1"
 junit = "4.13.2"
 kermit = "2.0.4"
 koin = "3.6.0-Beta4"
@@ -57,7 +55,6 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSpalshscreen" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastorePreferences" }
-androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycleAndroid" }
 androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidxNavigation" }
@@ -71,9 +68,6 @@ androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
 androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kermit-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -98,7 +92,6 @@ baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineprof
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 dependencyUpdate = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdate" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }

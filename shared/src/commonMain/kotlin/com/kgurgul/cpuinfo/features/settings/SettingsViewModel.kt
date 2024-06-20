@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.annotation.Factory
+import org.koin.android.annotation.KoinViewModel
 
-@Factory
+@KoinViewModel
 class SettingsViewModel(
     private val userPreferencesRepository: IUserPreferencesRepository,
 ) : ViewModel() {

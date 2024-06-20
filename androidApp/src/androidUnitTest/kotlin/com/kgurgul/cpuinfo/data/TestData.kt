@@ -13,7 +13,6 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.shared.internal
-import org.mockito.kotlin.mock
 
 object TestData {
 
@@ -29,25 +28,25 @@ object TestData {
             name = "App1",
             packageName = "com.app1",
             sourceDir = "/data/app1",
-            nativeLibraryDir = "/data/app1/lib",
+            nativeLibs = listOf("/data/app1/lib"),
             hasNativeLibs = true,
-            appIconUri = mock(),
+            appIconUri = "uri",
         ),
         ExtendedApplicationData(
             name = "App2",
             packageName = "com.app2",
             sourceDir = "/data/app2",
-            nativeLibraryDir = "/data/app2/lib",
+            nativeLibs = listOf("/data/app2/lib"),
             hasNativeLibs = false,
-            appIconUri = mock(),
+            appIconUri = "uri",
         ),
         ExtendedApplicationData(
             name = "App3",
             packageName = "com.app3",
             sourceDir = "/data/app3",
-            nativeLibraryDir = "/data/app3/lib",
+            nativeLibs = listOf("/data/app3/lib"),
             hasNativeLibs = true,
-            appIconUri = mock(),
+            appIconUri = "uri",
         ),
     )
 

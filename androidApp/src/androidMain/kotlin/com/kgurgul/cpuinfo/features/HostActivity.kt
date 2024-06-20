@@ -36,13 +36,11 @@ import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.darkPrimary
 import com.kgurgul.cpuinfo.ui.theme.lightPrimary
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class HostActivity : AppCompatActivity() {
 
     private val viewModel: HostViewModel by viewModel()

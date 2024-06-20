@@ -25,9 +25,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import org.koin.core.annotation.Factory
+import org.koin.android.annotation.KoinViewModel
 
-@Factory
+@KoinViewModel
 class CpuInfoViewModel(
     cpuDataObservable: CpuDataObservable
 ) : ViewModel() {

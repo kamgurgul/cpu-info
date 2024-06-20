@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.android.application)
     id("kotlin-parcelize")
     alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.kover)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.compose.compiler)
@@ -26,8 +25,6 @@ kotlin {
                 implementation(libs.mockito.kotlin)
                 implementation(libs.turbine)
                 implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.hilt.android.testing)
-                //ksp(libs.hilt.compiler)
             }
         }
     }
@@ -128,7 +125,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -146,10 +142,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.testManifest)
 
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-
-    implementation(libs.coil)
     implementation(libs.koin.android)
 
     androidTestImplementation(libs.androidx.test.runner)
@@ -158,8 +150,6 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.test.espresso.contrib)
     androidTestImplementation(libs.androidx.compose.ui.test)
-    androidTestImplementation(libs.hilt.android.testing)
-    // kspAndroidTest(libs.hilt.compiler)
 
     androidTestUtil(libs.androidx.test.orchestrator)
 

@@ -30,7 +30,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.ANDROID_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.CPU_POS
@@ -41,10 +40,10 @@ import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.SCREEN_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.SENSORS_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.STORAGE_POS
-import com.kgurgul.cpuinfo.features.information.android.AndroidInfoScreen
 import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoScreen
 import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoScreen
 import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoScreen
+import com.kgurgul.cpuinfo.features.information.os.OsInfoScreen
 import com.kgurgul.cpuinfo.features.information.ram.RamInfoScreen
 import com.kgurgul.cpuinfo.features.information.screen.ScreenInfoScreen
 import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
@@ -62,10 +61,11 @@ import com.kgurgul.cpuinfo.shared.storage
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun InfoContainerScreen(
-    viewModel: InfoContainerViewModel = hiltViewModel()
+    viewModel: InfoContainerViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     InfoContainerScreen(
@@ -170,7 +170,7 @@ private fun InfoContainer(
                     RAM_POS -> RamInfoScreen()
                     STORAGE_POS -> StorageScreen()
                     SCREEN_POS -> ScreenInfoScreen()
-                    ANDROID_POS -> AndroidInfoScreen()
+                    ANDROID_POS -> OsInfoScreen()
                     HARDWARE_POS -> HardwareInfoScreen()
                     SENSORS_POS -> SensorsInfoScreen()
                     else -> throw IllegalArgumentException("Unknown position")
