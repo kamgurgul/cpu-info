@@ -16,67 +16,16 @@
 
 package com.kgurgul.cpuinfo.core
 
-import android.view.View
-import androidx.appcompat.widget.Toolbar
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.SemanticsNodeInteractionCollection
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsToggleable
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
 import androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.kgurgul.cpuinfo.core.CustomMatchers.atPosition
-import org.hamcrest.Description
-import org.hamcrest.Matcher
-
-
-/**
- * Singleton with custom matchers.
- *
- * @author kgurgul
- */
-object CustomMatchers {
-
-    /**
-     * Matcher for toolbar title
-     */
-    fun withToolbarTitle(textMatcher: Matcher<CharSequence>): Matcher<Any> {
-        return object : BoundedMatcher<Any, Toolbar>(Toolbar::class.java) {
-
-            public override fun matchesSafely(toolbar: Toolbar): Boolean {
-                return textMatcher.matches(toolbar.title)
-            }
-
-            override fun describeTo(description: Description) {
-                description.appendText("with toolbar title: ")
-                textMatcher.describeTo(description)
-            }
-        }
-    }
-
-    /**
-     * Matcher for [RecyclerView] items
-     */
-    fun atPosition(position: Int, itemMatcher: Matcher<View>): Matcher<View> {
-        return object : BoundedMatcher<View, RecyclerView>(RecyclerView::class.java) {
-
-            override fun describeTo(description: Description) {
-                description.appendText("has item at position $position: ")
-                itemMatcher.describeTo(description)
-            }
-
-            override fun matchesSafely(view: RecyclerView): Boolean {
-                val viewHolder = view.findViewHolderForAdapterPosition(position) ?: return false
-                return itemMatcher.matches(viewHolder.itemView)
-            }
-        }
-    }
-}
 
 fun ViewInteraction.isDisplayed(): Boolean {
     return try {
@@ -166,15 +115,6 @@ fun ViewInteraction.hasAnyElement(): Boolean {
 fun ViewInteraction.hasElementsCount(count: Int): Boolean {
     return try {
         check(matches(hasChildCount(count)))
-        true
-    } catch (e: Throwable) {
-        false
-    }
-}
-
-fun ViewInteraction.hasItemAtPosition(position: Int, itemMatcher: Matcher<View>): Boolean {
-    return try {
-        check(matches(atPosition(position, itemMatcher)))
         true
     } catch (e: Throwable) {
         false

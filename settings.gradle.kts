@@ -18,4 +18,4 @@ dependencyResolutionManagement {
 
 include(":androidApp")
 include(":shared")
-//include(":baselineprofile")
+include(":baselineprofile")
