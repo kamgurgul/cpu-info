@@ -812,6 +812,13 @@ struct cpuinfo_x86_isa {
     bool avx512vp2intersect;
     bool avx512_4vnniw;
     bool avx512_4fmaps;
+    bool amx_bf16;
+    bool amx_tile;
+    bool amx_int8;
+    bool amx_fp16;
+    bool avx_vnni_int8;
+    bool avx_vnni_int16;
+    bool avx_ne_convert;
     bool hle;
     bool rtm;
     bool xtest;
@@ -1323,6 +1330,98 @@ static inline bool cpuinfo_has_x86_avx512_4vnniw(void) {
 static inline bool cpuinfo_has_x86_avx512_4fmaps(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
     return cpuinfo_isa.avx512_4fmaps;
+#else
+    return false;
+#endif
+}
+
+/* [NOTE] Intel Advanced Matrix Extensions (AMX) detection
+ *
+ * I.  AMX is a new extensions to the x86 ISA to work on matrices, consists of
+ *   1) 2-dimentional registers (tiles), hold sub-matrices from larger matrices in memory
+ *   2) Accelerator called Tile Matrix Multiply (TMUL), contains instructions operating on tiles
+ *
+ * II. Platforms that supports AMX:
+ * +-----------------+-----+----------+----------+----------+----------+
+ * |    Platforms    | Gen | amx-bf16 | amx-tile | amx-int8 | amx-fp16 |
+ * +-----------------+-----+----------+----------+----------+----------+
+ * | Sapphire Rapids | 4th |   YES    |   YES    |   YES    |    NO    |
+ * +-----------------+-----+----------+----------+----------+----------+
+ * | Emerald Rapids  | 5th |   YES    |   YES    |   YES    |    NO    |
+ * +-----------------+-----+----------+----------+----------+----------+
+ * | Granite Rapids  | 6th |   YES    |   YES    |   YES    |   YES    |
+ * +-----------------+-----+----------+----------+----------+----------+
+ *
+ * Reference: https://www.intel.com/content/www/us/en/products/docs
+ *    /accelerator-engines/advanced-matrix-extensions/overview.html
+ */
+static inline bool cpuinfo_has_x86_amx_bf16(void) {
+#if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
+    return cpuinfo_isa.amx_bf16;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_x86_amx_tile(void) {
+#if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
+    return cpuinfo_isa.amx_tile;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_x86_amx_int8(void) {
+#if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
+    return cpuinfo_isa.amx_int8;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_x86_amx_fp16(void) {
+#if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
+    return cpuinfo_isa.amx_fp16;
+#else
+    return false;
+#endif
+}
+
+/*
+ * Intel AVX Vector Neural Network Instructions (VNNI) INT8
+ * Supported Platfroms: Sierra Forest, Arrow Lake, Lunar Lake
+ */
+static inline bool cpuinfo_has_x86_avx_vnni_int8(void) {
+#if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
+    return cpuinfo_isa.avx_vnni_int8;
+#else
+    return false;
+#endif
+}
+
+/*
+ * Intel AVX Vector Neural Network Instructions (VNNI) INT16
+ * Supported Platfroms: Arrow Lake, Lunar Lake
+ */
+static inline bool cpuinfo_has_x86_avx_vnni_int16(void) {
+#if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
+    return cpuinfo_isa.avx_vnni_int16;
+#else
+    return false;
+#endif
+}
+
+/*
+ * A new set of instructions, which can convert low precision floating point
+ * like BF16/FP16 to high precision floating point FP32, as well as convert FP32
+ * elements to BF16. This instruction allows the platform to have improved AI
+ * capabilities and better compatibility.
+ *
+ * Supported Platforms: Sierra Forest, Arrow Lake, Lunar Lake
+ */
+static inline bool cpuinfo_has_x86_avx_ne_convert(void) {
+#if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
+    return cpuinfo_isa.avx_ne_convert;
 #else
     return false;
 #endif
@@ -2040,42 +2139,26 @@ static inline bool cpuinfo_has_riscv_v(void) {
 }
 
 const struct cpuinfo_processor *CPUINFO_ABI cpuinfo_get_processors(void);
-
 const struct cpuinfo_core *CPUINFO_ABI cpuinfo_get_cores(void);
-
 const struct cpuinfo_cluster *CPUINFO_ABI cpuinfo_get_clusters(void);
-
 const struct cpuinfo_package *CPUINFO_ABI cpuinfo_get_packages(void);
-
 const struct cpuinfo_uarch_info *CPUINFO_ABI cpuinfo_get_uarchs(void);
-
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1i_caches(void);
-
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1d_caches(void);
-
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l2_caches(void);
-
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l3_caches(void);
-
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l4_caches(void);
 
 const struct cpuinfo_processor *CPUINFO_ABI cpuinfo_get_processor(uint32_t index);
-
 const struct cpuinfo_core *CPUINFO_ABI cpuinfo_get_core(uint32_t index);
-
 const struct cpuinfo_cluster *CPUINFO_ABI cpuinfo_get_cluster(uint32_t index);
-
 const struct cpuinfo_package *CPUINFO_ABI cpuinfo_get_package(uint32_t index);
-
 const struct cpuinfo_uarch_info *CPUINFO_ABI cpuinfo_get_uarch(uint32_t index);
-
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1i_cache(uint32_t index);
-
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1d_cache(uint32_t index);
-
 const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l2_cache(uint32_t index);
-const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l3_cache(uint32_t index);
-const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l4_cache(uint32_t index);
+const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l3_cache(uint32_t index);
+const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l4_cache(uint32_t index);
 
 uint32_t CPUINFO_ABI cpuinfo_get_processors_count(void);
 uint32_t CPUINFO_ABI cpuinfo_get_cores_count(void);
@@ -2100,7 +2183,7 @@ uint32_t CPUINFO_ABI cpuinfo_get_max_cache_size(void);
  * for any time. Callers should treat the result as only a hint, and be prepared
  * to handle NULL return value.
  */
-const struct cpuinfo_processor* CPUINFO_ABI cpuinfo_get_current_processor(void);
+const struct cpuinfo_processor *CPUINFO_ABI cpuinfo_get_current_processor(void);
 
 /**
  * Identify the core that executes the current thread.
@@ -2109,7 +2192,7 @@ const struct cpuinfo_processor* CPUINFO_ABI cpuinfo_get_current_processor(void);
  * time. Callers should treat the result as only a hint, and be prepared to
  * handle NULL return value.
  */
-const struct cpuinfo_core* CPUINFO_ABI cpuinfo_get_current_core(void);
+const struct cpuinfo_core *CPUINFO_ABI cpuinfo_get_current_core(void);
 
 /**
  * Identify the microarchitecture index of the core that executes the current
