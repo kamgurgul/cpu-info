@@ -16,17 +16,6 @@ kotlin {
                 implementation(project(":shared"))
             }
         }
-        val androidUnitTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
-                implementation(libs.androidx.test.core)
-                implementation(libs.androidx.arch.core.testing)
-                implementation(libs.mockito.kotlin)
-                implementation(libs.turbine)
-                implementation(libs.kotlinx.coroutines.test)
-            }
-        }
     }
 }
 

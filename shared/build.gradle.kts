@@ -11,7 +11,6 @@ version = "1.0"
 
 kotlin {
     androidTarget()
-    // jvm("desktop")
 
     listOf(
         iosX64(),
@@ -72,6 +71,18 @@ kotlin {
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
         }
+
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(kotlin("test-junit"))
+                implementation(libs.androidx.test.core)
+                implementation(libs.androidx.arch.core.testing)
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.mockito.kotlin)
+                implementation(libs.turbine)
+            }
+        }
     }
 }
 
@@ -99,6 +110,12 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+            isIncludeAndroidResources = true
+        }
     }
 }
 

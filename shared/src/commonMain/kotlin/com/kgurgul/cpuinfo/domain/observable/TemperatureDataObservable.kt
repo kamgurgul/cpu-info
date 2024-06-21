@@ -9,18 +9,19 @@ import com.kgurgul.cpuinfo.shared.cpu
 import com.kgurgul.cpuinfo.shared.ic_battery
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
+import com.kgurgul.cpuinfo.utils.resources.ILocalResources
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
-import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.Factory
 
 @Factory
 class TemperatureDataObservable(
     private val dispatchersProvider: IDispatchersProvider,
     private val temperatureProvider: TemperatureProvider,
+    private val localResources: ILocalResources,
 ) : ImmutableInteractor<Unit, List<TemperatureItem>>() {
 
     override val dispatcher: CoroutineDispatcher
@@ -34,7 +35,7 @@ class TemperatureDataObservable(
                     TemperatureItem(
                         id = ID_BATTERY,
                         icon = Res.drawable.ic_battery,
-                        name = getString(Res.string.battery),
+                        name = localResources.getString(Res.string.battery),
                         temperature = it
                     )
                 )
@@ -44,7 +45,7 @@ class TemperatureDataObservable(
                     TemperatureItem(
                         id = ID_CPU,
                         icon = Res.drawable.ic_cpu_temp,
-                        name = getString(Res.string.cpu),
+                        name = localResources.getString(Res.string.cpu),
                         temperature = it
                     )
                 )
