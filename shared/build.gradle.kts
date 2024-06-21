@@ -109,6 +109,17 @@ android {
 
     defaultConfig {
         minSdk = Versions.MIN_SDK
+        externalNativeBuild {
+            cmake {
+                arguments += "-DANDROID_STL=c++_static"
+            }
+        }
+    }
+    ndkVersion = Versions.NDK_VERSION
+    externalNativeBuild {
+        cmake {
+            path("src/androidMain/cpp/CMakeLists.txt")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

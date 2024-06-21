@@ -32,16 +32,9 @@ android {
 
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        externalNativeBuild {
-            cmake {
-                arguments += "-DANDROID_STL=c++_static"
-            }
-        }
     }
 
     namespace = "com.kgurgul.cpuinfo"
-
-    ndkVersion = Versions.NDK_VERSION
 
     signingConfigs {
         getByName("debug") {
@@ -72,12 +65,6 @@ android {
             isMinifyEnabled = false
             enableUnitTestCoverage = true
             applicationIdSuffix = ".debug"
-        }
-    }
-
-    externalNativeBuild {
-        cmake {
-            path("src/androidMain/cpp/CMakeLists.txt")
         }
     }
 
@@ -118,11 +105,12 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.test.espresso.contrib)
     androidTestImplementation(libs.compose.ui.test)
+
     debugImplementation(libs.compose.ui.testManifest)
 
     androidTestUtil(libs.androidx.test.orchestrator)
 
-    //"baselineProfile"(project(":baselineprofile"))
+    "baselineProfile"(project(":baselineprofile"))
 }
 
 kover {
