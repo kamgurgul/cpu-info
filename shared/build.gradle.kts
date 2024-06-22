@@ -1,7 +1,7 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 
 plugins {
-    kotlin("multiplatform")
+    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
@@ -70,7 +70,7 @@ kotlin {
             implementation(kotlin("test-common"))
             implementation(kotlin("test-annotations-common"))
 
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
         }
 
@@ -84,13 +84,6 @@ kotlin {
                 implementation(libs.mockito.kotlin)
                 implementation(libs.turbine)
             }
-        }
-
-        androidNativeTest.dependencies {
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
-            @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.uiTestJUnit4)
         }
     }
 }
@@ -136,6 +129,9 @@ android {
             isReturnDefaultValues = true
             isIncludeAndroidResources = true
         }
+    }
+    dependencies {
+        debugImplementation(compose.uiTooling)
     }
 }
 
