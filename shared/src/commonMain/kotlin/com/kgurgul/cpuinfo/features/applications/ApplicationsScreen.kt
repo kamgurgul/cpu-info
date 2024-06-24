@@ -85,7 +85,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun ApplicationsScreen(
     viewModel: ApplicationsViewModel = koinViewModel(),
 ) {
-    registerUnistallListener(
+    registerUninstallListener(
         onRefresh = viewModel::onRefreshApplications,
     )
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
@@ -402,4 +402,4 @@ private fun NativeLibsDialog(
 }
 
 @Composable
-expect fun registerUnistallListener(onRefresh: () -> Unit)
+expect fun registerUninstallListener(onRefresh: () -> Unit)

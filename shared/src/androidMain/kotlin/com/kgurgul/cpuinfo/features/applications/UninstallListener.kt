@@ -10,7 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 
 @Composable
-actual fun registerUnistallListener(onRefresh: () -> Unit) {
+actual fun registerUninstallListener(onRefresh: () -> Unit) {
     val context = LocalContext.current
     DisposableEffect(context) {
         val filter = IntentFilter().apply {

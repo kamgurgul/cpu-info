@@ -22,6 +22,7 @@ import com.kgurgul.cpuinfo.appinitializers.AppInitializersModule
 import com.kgurgul.cpuinfo.components.ComponentsModule
 import com.kgurgul.cpuinfo.data.DataModule
 import com.kgurgul.cpuinfo.di.androidModule
+import com.kgurgul.cpuinfo.di.viewModelModule
 import com.kgurgul.cpuinfo.domain.DomainModule
 import com.kgurgul.cpuinfo.features.FeaturesModule
 import com.kgurgul.cpuinfo.utils.UtilsModule
@@ -43,6 +44,7 @@ class CpuInfoApp : Application() {
                 DomainModule().module,
                 FeaturesModule().module,
                 UtilsModule().module,
+                viewModelModule,
             )
         }
         AppInitializerComponent().init(this)

@@ -2,6 +2,7 @@ package com.kgurgul.cpuinfo.utils
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import org.koin.core.annotation.Single
 
 @Single

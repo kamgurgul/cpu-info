@@ -25,9 +25,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.stateIn
-import org.koin.android.annotation.KoinViewModel
 
-@KoinViewModel
 class SensorsInfoViewModel(
     sensorsDataObservable: SensorsDataObservable,
 ) : ViewModel() {

@@ -23,9 +23,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
-import org.koin.android.annotation.KoinViewModel
 
-@KoinViewModel
 class ApplicationsViewModel(
     private val applicationsDataObservable: ApplicationsDataObservable,
     private val getPackageNameInteractor: GetPackageNameInteractor,

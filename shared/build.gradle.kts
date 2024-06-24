@@ -1,4 +1,5 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -38,31 +39,33 @@ kotlin {
             }
         }
 
-        commonMain.dependencies {
-            api(compose.components.resources)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.material3)
-            implementation(compose.runtime)
-            implementation(compose.ui)
-            implementation(libs.androidx.datastore.preferences)
-            implementation(libs.androidx.lifecycle.viewmodel.compose)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.androidx.navigation.compose)
-            implementation(libs.coil)
-            implementation(libs.kermit.kermit)
-            implementation(libs.koin.annotations)
-            implementation(libs.koin.compose.viewodel)
-            implementation(libs.koin.core)
-            implementation(libs.kotlinx.coroutines.core)
-            api(libs.kotlinx.immutable)
+        commonMain {
+            kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+            dependencies {
+                api(compose.components.resources)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.material3)
+                implementation(compose.runtime)
+                implementation(compose.ui)
+                implementation(libs.androidx.datastore.preferences)
+                implementation(libs.androidx.lifecycle.viewmodel.compose)
+                implementation(libs.androidx.lifecycle.runtime.compose)
+                implementation(libs.androidx.navigation.compose)
+                implementation(libs.coil)
+                implementation(libs.kermit.kermit)
+                implementation(libs.koin.annotations)
+                implementation(libs.koin.compose.viewodel)
+                implementation(libs.koin.core)
+                implementation(libs.kotlinx.coroutines.core)
+                api(libs.kotlinx.immutable)
+            }
         }
 
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(compose.uiTooling)
             implementation(libs.koin.android)
-            implementation(libs.relinker)
         }
 
         commonTest.dependencies {
@@ -137,8 +140,22 @@ android {
 
 dependencies {
     add("kspCommonMainMetadata", libs.koin.kspCompiler)
-    add("kspAndroid", libs.koin.kspCompiler)
-    add("kspIosX64", libs.koin.kspCompiler)
-    add("kspIosArm64", libs.koin.kspCompiler)
-    add("kspIosSimulatorArm64", libs.koin.kspCompiler)
+    //add("kspAndroid", libs.koin.kspCompiler)
+    //add("kspIosX64", libs.koin.kspCompiler)
+    //add("kspIosArm64", libs.koin.kspCompiler)
+    //add("kspIosSimulatorArm64", libs.koin.kspCompiler)
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+afterEvaluate {
+    tasks.filter {
+        it.name.contains("SourcesJar", true)
+    }.forEach {
+        println("SourceJarTask====>${it.name}")
+        it.dependsOn("kspCommonMainKotlinMetadata")
+    }
 }

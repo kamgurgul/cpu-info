@@ -90,6 +90,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    applicationVariants.all {
+        val variantName = name
+        sourceSets {
+            getByName("main") {
+                java.srcDir(File("build/generated/ksp/$variantName/kotlin"))
+            }
+        }
+    }
 }
 
 dependencies {
@@ -98,6 +107,10 @@ dependencies {
     implementation(libs.androidx.profileinstaller)
 
     implementation(libs.koin.android)
+    implementation(libs.koin.annotations)
+    ksp(libs.koin.kspCompiler)
+
+    implementation(libs.relinker)
 
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.rules)
