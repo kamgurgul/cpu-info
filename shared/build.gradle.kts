@@ -24,6 +24,12 @@ kotlin {
             baseName = "shared"
             isStatic = true
         }
+        iosTarget.compilations.getByName("main") {
+            val libcpuinfo by cinterops.creating {
+                definitionFile.set(project.file("src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.def"))
+                includeDirs("src/nativeInterop/cinterop/libcpuinfo/")
+            }
+        }
     }
 
     applyDefaultHierarchyTemplate()
@@ -86,6 +92,16 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.mockito.kotlin)
                 implementation(libs.turbine)
+            }
+        }
+    }
+
+    targets.configureEach {
+        compilations.configureEach {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    freeCompilerArgs.add("-Xexpect-actual-classes")
+                }
             }
         }
     }

@@ -1,0 +1,6 @@
+language = Objective-C
+headers = libcpuinfo.h
+staticLibraries = libcpuinfo.a
+libraryPaths = src/nativeInterop/cinterop/libcpuinfo
+package = libcpuinfo
+linkerOpts = -llibcpuinfo
