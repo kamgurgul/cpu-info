@@ -13,9 +13,6 @@ actual class CpuDataNativeProvider actual constructor() {
     }
 
     actual fun getCpuName(): String {
-        if (!cpuinfo_initialize()) {
-            return ""
-        }
         return ""
     }
 

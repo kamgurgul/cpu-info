@@ -1,4 +1,5 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -15,15 +16,14 @@ version = "1.0"
 kotlin {
     androidTarget()
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
+    val xcf = XCFramework()
+    val iosTargets = listOf(iosX64(), iosArm64(), iosSimulatorArm64())
+    iosTargets.forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "shared"
             isStatic = true
             binaryOption("bundleId", "com.kgurgul.cpuinfo.shared")
+            xcf.add(this)
         }
         iosTarget.compilations.getByName("main") {
             val libcpuinfo by cinterops.creating {

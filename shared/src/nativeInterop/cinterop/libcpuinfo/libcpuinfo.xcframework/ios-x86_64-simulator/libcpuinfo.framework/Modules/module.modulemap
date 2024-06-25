@@ -1,0 +1,5 @@
+framework module libcpuinfo {
+  umbrella header "libcpuinfo.h"
+  export *
+  module * { export * }
+}
