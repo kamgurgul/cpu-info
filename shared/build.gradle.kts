@@ -23,12 +23,26 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "shared"
             isStatic = true
+            binaryOption("bundleId", "com.kgurgul.cpuinfo.shared")
         }
         iosTarget.compilations.getByName("main") {
             val libcpuinfo by cinterops.creating {
-                definitionFile.set(project.file("src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.def"))
-                includeDirs("src/nativeInterop/cinterop/libcpuinfo/")
+                definitionFile.set(
+                    project.file("src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.def")
+                )
+                compilerOpts(
+                    "-framework",
+                    "libcpuinfo",
+                    "-F$projectDir/src/nativeInterop/cinterop/libcpuinfo/"
+                )
             }
+        }
+        iosTarget.binaries.all {
+            linkerOpts(
+                "-framework",
+                "libcpuinfo",
+                "-F$projectDir/src/nativeInterop/cinterop/libcpuinfo/"
+            )
         }
     }
 
