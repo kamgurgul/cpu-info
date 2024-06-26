@@ -25,10 +25,11 @@ kotlin {
             binaryOption("bundleId", "com.kgurgul.cpuinfo.shared")
             xcf.add(this)
         }
-        val libcpuinfoPath = if (iosTarget.name == "iosX64") {
-            "$projectDir/src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.xcframework/ios-x86_64-simulator/"
-        } else {
-            "$projectDir/src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.xcframework/ios-arm64/"
+
+        val libcpuinfoPath = when (iosTarget.name) {
+            "iosX65" -> "$projectDir/src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.xcframework/ios-x86_64-simulator/"
+            "iosSimulatorArm64" -> "$projectDir/src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.xcframework/ios-arm64-simulator/"
+            else -> "$projectDir/src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.xcframework/ios-arm64/"
         }
         iosTarget.compilations.getByName("main") {
             val libcpuinfo by cinterops.creating {
