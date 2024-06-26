@@ -15,6 +15,7 @@ fun initKoin() {
             DataModule().module,
             DomainModule().module,
             FeaturesModule().module,
+            iosModule,
             UtilsModule().module,
             viewModelModule,
         )

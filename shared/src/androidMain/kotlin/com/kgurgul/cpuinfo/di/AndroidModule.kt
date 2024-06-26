@@ -14,8 +14,6 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-private const val USER_PREFERENCES_NAME = "user_preferences"
-
 @SuppressLint("WifiManagerLeak")
 val androidModule = module {
     single { androidContext().resources }

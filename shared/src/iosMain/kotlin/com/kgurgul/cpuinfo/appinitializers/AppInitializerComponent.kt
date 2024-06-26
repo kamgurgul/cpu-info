@@ -8,7 +8,7 @@ class AppInitializerComponent : KoinComponent {
 
     private val cpuDataNativeProvider: CpuDataNativeProvider by inject()
 
-    fun init() {
+    fun doInit() {
         cpuDataNativeProvider.initLibrary()
     }
 }

@@ -6,6 +6,7 @@ struct iOSApp: App {
     
     init() {
         InjectorKt.doInitKoin()
+        AppInitializerComponent().doInit()
     }
     
     var body: some Scene {
