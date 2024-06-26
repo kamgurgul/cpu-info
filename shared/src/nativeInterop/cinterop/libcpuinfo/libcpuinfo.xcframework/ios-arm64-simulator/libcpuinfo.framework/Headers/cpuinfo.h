@@ -1094,9 +1094,9 @@ static inline bool cpuinfo_has_x86_ssse3(void) {
 static inline bool cpuinfo_has_x86_sse4_1(void) {
 #if CPUINFO_ARCH_X86_64
 #if defined(__ANDROID__)
-    return true;
+	return true;
 #else
-    return cpuinfo_isa.sse4_1;
+	return cpuinfo_isa.sse4_1;
 #endif
 #elif CPUINFO_ARCH_X86
     return cpuinfo_isa.sse4_1;
@@ -1108,9 +1108,9 @@ static inline bool cpuinfo_has_x86_sse4_1(void) {
 static inline bool cpuinfo_has_x86_sse4_2(void) {
 #if CPUINFO_ARCH_X86_64
 #if defined(__ANDROID__)
-    return true;
+	return true;
 #else
-    return cpuinfo_isa.sse4_2;
+	return cpuinfo_isa.sse4_2;
 #endif
 #elif CPUINFO_ARCH_X86
     return cpuinfo_isa.sse4_2;
@@ -1524,9 +1524,9 @@ static inline bool cpuinfo_has_x86_lzcnt(void) {
 static inline bool cpuinfo_has_x86_popcnt(void) {
 #if CPUINFO_ARCH_X86_64
 #if defined(__ANDROID__)
-    return true;
+	return true;
 #else
-    return cpuinfo_isa.popcnt;
+	return cpuinfo_isa.popcnt;
 #endif
 #elif CPUINFO_ARCH_X86
     return cpuinfo_isa.popcnt;
@@ -1636,47 +1636,47 @@ static inline bool cpuinfo_has_x86_sha(void) {
  * instead. */
 struct cpuinfo_arm_isa {
 #if CPUINFO_ARCH_ARM
-    bool thumb;
-    bool thumb2;
-    bool thumbee;
-    bool jazelle;
-    bool armv5e;
-    bool armv6;
-    bool armv6k;
-    bool armv7;
-    bool armv7mp;
-    bool armv8;
-    bool idiv;
+	bool thumb;
+	bool thumb2;
+	bool thumbee;
+	bool jazelle;
+	bool armv5e;
+	bool armv6;
+	bool armv6k;
+	bool armv7;
+	bool armv7mp;
+	bool armv8;
+	bool idiv;
 
-    bool vfpv2;
-    bool vfpv3;
-    bool d32;
-    bool fp16;
-    bool fma;
+	bool vfpv2;
+	bool vfpv3;
+	bool d32;
+	bool fp16;
+	bool fma;
 
-    bool wmmx;
-    bool wmmx2;
-    bool neon;
+	bool wmmx;
+	bool wmmx2;
+	bool neon;
 #endif
 #if CPUINFO_ARCH_ARM64
-    bool atomics;
-    bool bf16;
-    bool sve;
-    bool sve2;
-    bool i8mm;
+	bool atomics;
+	bool bf16;
+	bool sve;
+	bool sve2;
+	bool i8mm;
 #endif
-    bool rdm;
-    bool fp16arith;
-    bool dot;
-    bool jscvt;
-    bool fcma;
-    bool fhm;
+	bool rdm;
+	bool fp16arith;
+	bool dot;
+	bool jscvt;
+	bool fcma;
+	bool fhm;
 
-    bool aes;
-    bool sha1;
-    bool sha2;
-    bool pmull;
-    bool crc32;
+	bool aes;
+	bool sha1;
+	bool sha2;
+	bool pmull;
+	bool crc32;
 };
 
 extern struct cpuinfo_arm_isa cpuinfo_isa;
@@ -2040,28 +2040,28 @@ static inline bool cpuinfo_has_arm_sve2(void) {
 /* This structure is not a part of stable API. Use cpuinfo_has_riscv_* functions
  * instead. */
 struct cpuinfo_riscv_isa {
-    /**
-     * Keep fields in line with the canonical order as defined by
-     * Section 27.11 Subset Naming Convention.
-     */
-    /* RV32I/64I/128I Base ISA. */
-    bool i;
+	/**
+	 * Keep fields in line with the canonical order as defined by
+	 * Section 27.11 Subset Naming Convention.
+	 */
+	/* RV32I/64I/128I Base ISA. */
+	bool i;
 #if CPUINFO_ARCH_RISCV32
-    /* RV32E Base ISA. */
-    bool e;
+	/* RV32E Base ISA. */
+	bool e;
 #endif
-    /* Integer Multiply/Divide Extension. */
-    bool m;
-    /* Atomic Extension. */
-    bool a;
-    /* Single-Precision Floating-Point Extension. */
-    bool f;
-    /* Double-Precision Floating-Point Extension. */
-    bool d;
-    /* Compressed Extension. */
-    bool c;
-    /* Vector Extension. */
-    bool v;
+	/* Integer Multiply/Divide Extension. */
+	bool m;
+	/* Atomic Extension. */
+	bool a;
+	/* Single-Precision Floating-Point Extension. */
+	bool f;
+	/* Double-Precision Floating-Point Extension. */
+	bool d;
+	/* Compressed Extension. */
+	bool c;
+	/* Vector Extension. */
+	bool v;
 };
 
 extern struct cpuinfo_riscv_isa cpuinfo_isa;
