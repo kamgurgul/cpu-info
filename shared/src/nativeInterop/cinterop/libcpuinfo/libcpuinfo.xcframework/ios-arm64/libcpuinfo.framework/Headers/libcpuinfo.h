@@ -1,1 +1,1 @@
-#import <libcpuinfo/cpuinfo.h>
+#import "cpuinfo.h"
