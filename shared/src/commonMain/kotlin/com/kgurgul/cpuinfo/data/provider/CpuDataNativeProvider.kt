@@ -20,4 +20,6 @@ expect class CpuDataNativeProvider() {
     fun getL3Caches(): IntArray?
 
     fun getL4Caches(): IntArray?
+
+    fun getNumberOfCores(): Int
 }

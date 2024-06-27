@@ -128,3 +128,12 @@ Java_com_kgurgul_cpuinfo_data_provider_CpuDataNativeProvider_getL4Caches(JNIEnv 
     env->SetIntArrayRegion(result, 0, cacheCount, internalArray);
     return result;
 }
+
+extern "C" JNIEXPORT jint JNICALL
+Java_com_kgurgul_cpuinfo_data_provider_CpuDataNativeProvider_getNumberOfCores(JNIEnv *env,
+                                                                              jobject thiz) {
+    if (!cpuinfo_initialize()) {
+        return 1;
+    }
+    return cpuinfo_get_cores_count();
+}

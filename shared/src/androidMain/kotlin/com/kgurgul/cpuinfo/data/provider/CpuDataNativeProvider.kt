@@ -20,4 +20,6 @@ actual class CpuDataNativeProvider actual constructor() {
     actual external fun getL3Caches(): IntArray?
 
     actual external fun getL4Caches(): IntArray?
+
+    actual external fun getNumberOfCores(): Int
 }

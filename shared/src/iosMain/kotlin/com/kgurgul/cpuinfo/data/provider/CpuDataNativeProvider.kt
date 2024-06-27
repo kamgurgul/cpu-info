@@ -4,6 +4,7 @@ import kotlinx.cinterop.get
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.pointed
 import kotlinx.cinterop.toKString
+import libcpuinfo.cpuinfo_get_cores_count
 import libcpuinfo.cpuinfo_get_l1d_caches
 import libcpuinfo.cpuinfo_get_l1d_caches_count
 import libcpuinfo.cpuinfo_get_l1i_caches
@@ -131,5 +132,12 @@ actual class CpuDataNativeProvider actual constructor() {
             }
             result
         }
+    }
+
+    actual fun getNumberOfCores(): Int {
+        if (!cpuinfo_initialize()) {
+            return 1
+        }
+        return cpuinfo_get_cores_count().toInt()
     }
 }
