@@ -21,10 +21,10 @@ actual class CpuDataProvider actual constructor() : KoinComponent {
     }
 
     actual fun getCurrentFreq(coreNumber: Int): Long {
-        return 0L
+        return -1L
     }
 
     actual fun getMinMaxFreq(coreNumber: Int): Pair<Long, Long> {
-        return 0L to 0L
+        return -1L to -1L
     }
 }

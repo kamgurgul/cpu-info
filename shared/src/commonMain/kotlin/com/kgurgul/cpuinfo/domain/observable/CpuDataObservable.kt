@@ -44,7 +44,9 @@ class CpuDataObservable(
             for (i in 0 until coreNumber) {
                 val (min, max) = cpuDataProvider.getMinMaxFreq(i)
                 val current = cpuDataProvider.getCurrentFreq(i)
-                frequencies.add(CpuData.Frequency(min, max, current))
+                if (min != -1L && max != -1L) {
+                    frequencies.add(CpuData.Frequency(min, max, current))
+                }
             }
             emit(
                 CpuData(
