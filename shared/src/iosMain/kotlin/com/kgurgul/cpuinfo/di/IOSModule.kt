@@ -1,7 +1,6 @@
 package com.kgurgul.cpuinfo.di
 
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
-import kotlinx.cinterop.ExperimentalForeignApi
 import okio.Path.Companion.toPath
 import org.koin.dsl.module
 import platform.Foundation.NSDocumentDirectory
@@ -9,7 +8,6 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
 
-@OptIn(ExperimentalForeignApi::class)
 val iosModule = module {
     single {
         val documentDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(
