@@ -7,4 +7,6 @@ import org.koin.core.annotation.Factory
 expect class ApplicationsDataProvider() {
 
     fun getInstalledApplications(withSystemApps: Boolean): List<ExtendedApplicationData>
+
+    fun areApplicationsSupported(): Boolean
 }

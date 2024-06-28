@@ -69,6 +69,7 @@ fun HostScreen(
                 val withLabel = !uiState.isProcessSectionVisible
                 HostNavigationItem.bottomNavigationItems(
                     isProcessesVisible = uiState.isProcessSectionVisible,
+                    isApplicationsVisible = uiState.isApplicationSectionVisible,
                 ).forEach { item ->
                     NavigationBarItem(
                         icon = {
@@ -171,7 +172,10 @@ data class HostNavigationItem(
 ) {
 
     companion object {
-        fun bottomNavigationItems(isProcessesVisible: Boolean): List<HostNavigationItem> {
+        fun bottomNavigationItems(
+            isProcessesVisible: Boolean,
+            isApplicationsVisible: Boolean,
+        ): List<HostNavigationItem> {
             return buildList {
                 add(
                     HostNavigationItem(
@@ -180,13 +184,15 @@ data class HostNavigationItem(
                         route = HostScreen.Information.route,
                     )
                 )
-                add(
-                    HostNavigationItem(
-                        label = Res.string.applications,
-                        icon = Res.drawable.ic_android,
-                        route = HostScreen.Applications.route,
+                if (isApplicationsVisible) {
+                    add(
+                        HostNavigationItem(
+                            label = Res.string.applications,
+                            icon = Res.drawable.ic_android,
+                            route = HostScreen.Applications.route,
+                        )
                     )
-                )
+                }
                 if (isProcessesVisible) {
                     add(
                         HostNavigationItem(

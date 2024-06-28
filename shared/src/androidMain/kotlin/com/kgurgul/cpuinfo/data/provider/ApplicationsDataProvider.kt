@@ -41,6 +41,8 @@ actual class ApplicationsDataProvider actual constructor() : KoinComponent {
         }
     }
 
+    actual fun areApplicationsSupported() = true
+
     private fun ApplicationInfo.hasNativeLibs(): Boolean {
         return if (nativeLibraryDir != null) {
             val fileDir = File(nativeLibraryDir)

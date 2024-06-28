@@ -9,4 +9,6 @@ actual class ApplicationsDataProvider actual constructor() {
     actual fun getInstalledApplications(withSystemApps: Boolean): List<ExtendedApplicationData> {
         return emptyList()
     }
+
+    actual fun areApplicationsSupported() = false
 }

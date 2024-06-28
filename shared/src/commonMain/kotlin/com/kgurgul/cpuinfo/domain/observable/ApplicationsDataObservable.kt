@@ -29,6 +29,8 @@ class ApplicationsDataObservable(
         }
     }
 
+    fun areApplicationsSupported() = applicationsDataProvider.areApplicationsSupported()
+
     data class Params(
         val withSystemApps: Boolean,
         val sortOrder: SortOrder = SortOrder.NONE
