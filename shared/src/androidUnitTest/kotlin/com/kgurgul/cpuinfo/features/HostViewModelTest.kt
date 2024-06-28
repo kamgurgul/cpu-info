@@ -4,6 +4,7 @@ import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.data.local.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
+import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.observable.ProcessesDataObservable
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +26,9 @@ class HostViewModelTest {
     private val mockProcessesDataObservable = mock<ProcessesDataObservable> {
         on { areProcessesSupported() } doReturn true
     }
+    private val mockApplicationsDataObservable = mock<ApplicationsDataObservable> {
+        on { areApplicationsSupported() } doReturn true
+    }
     private val userPreferenceSharedFlow = MutableSharedFlow<UserPreferences>(replay = 1)
     private val mockUserPreferencesRepository = mock<IUserPreferencesRepository> {
         on { userPreferencesFlow } doReturn userPreferenceSharedFlow
@@ -40,6 +44,7 @@ class HostViewModelTest {
             HostViewModel.UiState(
                 isLoading = false,
                 isProcessSectionVisible = true,
+                isApplicationSectionVisible = true,
                 darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
             )
         )
@@ -53,6 +58,7 @@ class HostViewModelTest {
         observedUiStates.clear()
         viewModel = HostViewModel(
             processesDataObservable = mockProcessesDataObservable,
+            applicationsDataObservable = mockApplicationsDataObservable,
             userPreferencesRepository = mockUserPreferencesRepository,
         ).also {
             it.uiStateFlow
