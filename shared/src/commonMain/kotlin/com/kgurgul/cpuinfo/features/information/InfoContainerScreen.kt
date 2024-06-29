@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
@@ -88,7 +87,6 @@ fun InfoContainerScreen(
         topBar = {
             PrimaryTopAppBar(
                 title = stringResource(Res.string.hardware),
-                windowInsets = WindowInsets(0, 0, 0, 0),
                 actions = {
                     AnimatedVisibility(
                         visible = uiState.isRamCleanupVisible,
@@ -106,7 +104,6 @@ fun InfoContainerScreen(
                 scrollBehavior = scrollBehavior,
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { paddingValues ->
         val paddingModifier = Modifier.padding(paddingValues)

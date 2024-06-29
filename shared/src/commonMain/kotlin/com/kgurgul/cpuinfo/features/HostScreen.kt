@@ -2,7 +2,6 @@ package com.kgurgul.cpuinfo.features
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -12,7 +11,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -112,11 +110,10 @@ fun HostScreen(
                 }
             }
         },
-    ) { paddingValues ->
+    ) { _ ->
         NavHost(
             navController = navController,
             startDestination = HostScreen.Information.route,
-            modifier = Modifier.padding(paddingValues = paddingValues),
         ) {
             composable(
                 route = HostScreen.Information.route,
