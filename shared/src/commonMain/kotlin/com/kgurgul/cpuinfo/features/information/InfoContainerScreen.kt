@@ -106,10 +106,11 @@ fun InfoContainerScreen(
         },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { paddingValues ->
-        val paddingModifier = Modifier.padding(paddingValues)
         InfoContainer(
             onPageChanged = onPageChanged,
-            modifier = paddingModifier,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
         )
     }
 
