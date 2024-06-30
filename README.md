@@ -4,8 +4,7 @@
 
 # CPU Info (refactor-in-progress ⛏)
 
-CPU Info provides information about Android device hardware and software. CPU data is based on
-external library [pytorch/cpuinfo](https://github.com/pytorch/cpuinfo)
+CPU Info provides information about device hardware and software. 
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
 alt="Get it on F-Droid"
@@ -21,12 +20,24 @@ alt='Get it on GitHub' height="80">](https://github.com/kamgurgul/cpu-info/relea
 [<img src="https://raw.githubusercontent.com/kamgurgul/cpu-info/master/info/amazon-badge.png"
 alt='Available on Amazon AppStore' height="80">](https://www.amazon.com/Kamil-Gurgul-KG-Soft-Info/dp/B088FYQTYR/ref=sr_1_5?keywords=cpu+info&qid=1661020642&s=mobile-apps&sr=1-5)
 
+# Supported platforms 
+* Android
+* iOS
+
+# Tech stack
+* Kotlin
+* Compose Multiplatform
+* Common ViewModel/Lifecycle
+* Coroutines
+* Koin
+* External C libraries - [pytorch/cpuinfo](https://github.com/pytorch/cpuinfo)
+
 # TODO
 
+* iOS data providers 
+* Shared unit and UI tests
 * Add more information about battery
-* Bring back apps size - use StorageStatsManager if possible
-* Unit and UI tests
-* Add Kotlin Multiplatform module - migrate all libs to KMP
+* Bring back apps size - use StorageStatsManager on Android if possible
 * Add translations framework
 
 # License
