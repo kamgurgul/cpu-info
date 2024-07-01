@@ -20,7 +20,7 @@ class RamDataObservable(
         while (true) {
             val total = ramDataProvider.getTotalBytes()
             val available = ramDataProvider.getAvailableBytes()
-            val availablePercentage = ramDataProvider.getAvailablePercentage()
+            val availablePercentage = (available / total * 100).toInt()
             val threshold = ramDataProvider.getThreshold()
             emit(RamData(total, available, availablePercentage, threshold))
             delay(REFRESH_DELAY)

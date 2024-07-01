@@ -22,12 +22,6 @@ actual class RamDataProvider actual constructor() : KoinComponent {
         return memoryInfo.availMem
     }
 
-    actual fun getAvailablePercentage(): Int {
-        val total = getTotalBytes().toDouble()
-        val available = getAvailableBytes().toDouble()
-        return (available / total * 100).toInt()
-    }
-
     actual fun getThreshold(): Long {
         val memoryInfo = ActivityManager.MemoryInfo()
         activityManager.getMemoryInfo(memoryInfo)

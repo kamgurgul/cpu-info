@@ -9,7 +9,5 @@ expect class RamDataProvider() {
 
     fun getAvailableBytes(): Long
 
-    fun getAvailablePercentage(): Int
-
     fun getThreshold(): Long
 }

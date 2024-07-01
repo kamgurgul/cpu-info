@@ -61,12 +61,14 @@ fun RamInfoScreen(
                 Spacer(modifier = Modifier.requiredSize(spacingSmall))
                 CpuDivider()
             }
-            item(key = "__threshold") {
-                ItemValueRow(
-                    title = stringResource(Res.string.threshold),
-                    value = Utils.convertBytesToMega(ramData.threshold),
-                    modifier = Modifier.focusable(),
-                )
+            if (ramData.threshold != -1L) {
+                item(key = "__threshold") {
+                    ItemValueRow(
+                        title = stringResource(Res.string.threshold),
+                        value = Utils.convertBytesToMega(ramData.threshold),
+                        modifier = Modifier.focusable(),
+                    )
+                }
             }
         }
     }
