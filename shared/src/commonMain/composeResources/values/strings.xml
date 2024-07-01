@@ -64,6 +64,7 @@
 
     <!--GPU-->
     <string name="vulkan_version">Vulkan Version</string>
+    <string name="metal_version">Metal Version</string>
     <string name="gles_version">GLES Version</string>
     <string name="vendor">Vendor</string>
     <string name="version">Version</string>

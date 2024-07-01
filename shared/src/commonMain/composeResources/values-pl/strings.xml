@@ -49,6 +49,7 @@
 
     <!--GPU-->
     <string name="vulkan_version">Wersja Vulkan</string>
+    <string name="metal_version">Wersja Metal</string>
     <string name="gles_version">Wersja GLES</string>
     <string name="vendor">Producent</string>
     <string name="version">Wersja</string>

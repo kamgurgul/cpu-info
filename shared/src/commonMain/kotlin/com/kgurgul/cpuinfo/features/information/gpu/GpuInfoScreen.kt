@@ -15,6 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.extensions
 import com.kgurgul.cpuinfo.shared.gles_version
+import com.kgurgul.cpuinfo.shared.metal_version
 import com.kgurgul.cpuinfo.shared.renderer
 import com.kgurgul.cpuinfo.shared.vendor
 import com.kgurgul.cpuinfo.shared.vulkan_version
@@ -52,23 +53,38 @@ fun GpuInfoScreen(
         modifier = Modifier.fillMaxSize(),
     ) {
         uiState.gpuData?.let { gpuData ->
-            item(key = "__vulkan_version") {
-                ItemValueRow(
-                    title = stringResource(Res.string.vulkan_version),
-                    value = gpuData.vulkanVersion,
-                    modifier = Modifier.focusable(),
-                )
-                Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                CpuDivider()
+            if (gpuData.vulkanVersion.isNotEmpty()) {
+                item(key = "__vulkan_version") {
+                    ItemValueRow(
+                        title = stringResource(Res.string.vulkan_version),
+                        value = gpuData.vulkanVersion,
+                        modifier = Modifier.focusable(),
+                    )
+                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
+                    CpuDivider()
+                }
             }
-            item(key = "__gles_version") {
-                ItemValueRow(
-                    title = stringResource(Res.string.gles_version),
-                    value = gpuData.glesVersion,
-                    modifier = Modifier.focusable(),
-                )
-                Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                CpuDivider()
+            if (gpuData.metalVersion.isNotEmpty()) {
+                item(key = "__metal_version") {
+                    ItemValueRow(
+                        title = stringResource(Res.string.metal_version),
+                        value = gpuData.metalVersion,
+                        modifier = Modifier.focusable(),
+                    )
+                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
+                    CpuDivider()
+                }
+            }
+            if (gpuData.glesVersion.isNotEmpty()) {
+                item(key = "__gles_version") {
+                    ItemValueRow(
+                        title = stringResource(Res.string.gles_version),
+                        value = gpuData.glesVersion,
+                        modifier = Modifier.focusable(),
+                    )
+                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
+                    CpuDivider()
+                }
             }
             if (gpuData.glVendor != null) {
                 item(key = "__gl_vendor") {

@@ -18,11 +18,12 @@ class GpuDataObservable(
     override fun createObservable(params: Params) = flow {
         emit(
             GpuData(
-                gpuDataProvider.getVulkanVersion(),
-                gpuDataProvider.getGlEsVersion(),
-                params.glVendor,
-                params.glRenderer,
-                params.glExtensions
+                vulkanVersion = gpuDataProvider.getVulkanVersion(),
+                glesVersion = gpuDataProvider.getGlEsVersion(),
+                metalVersion = gpuDataProvider.getMetalVersion(),
+                glVendor = params.glVendor,
+                glRenderer = params.glRenderer,
+                glExtensions = params.glExtensions
             )
         )
     }

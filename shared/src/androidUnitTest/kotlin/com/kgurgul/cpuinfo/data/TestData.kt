@@ -100,6 +100,7 @@ object TestData {
     val gpuData = GpuData(
         vulkanVersion = "vulkanVersion",
         glesVersion = "glEsVersion",
+        metalVersion = "metalVersion",
         glVendor = "glVendor",
         glRenderer = "glRenderer",
         glExtensions = "glExtensions",

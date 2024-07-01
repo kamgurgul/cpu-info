@@ -45,4 +45,6 @@ actual class GpuDataProvider actual constructor() : KoinComponent {
         //
         return "$major.$minor.$patch"
     }
+
+    actual fun getMetalVersion() = ""
 }

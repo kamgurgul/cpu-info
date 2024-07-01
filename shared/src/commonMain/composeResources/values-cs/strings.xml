@@ -46,6 +46,7 @@
     <string name="apps_sort_order">Řazení</string>
 
     <string name="vulkan_version">Vulkan verze</string>
+    <string name="metal_version">Metal verze</string>
     <string name="gles_version">GLES verze</string>
     <string name="vendor">Výrobce</string>
     <string name="version">Verze</string>

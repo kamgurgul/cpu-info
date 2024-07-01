@@ -8,4 +8,6 @@ expect class GpuDataProvider() {
     fun getGlEsVersion(): String
 
     fun getVulkanVersion(): String
+
+    fun getMetalVersion(): String
 }
