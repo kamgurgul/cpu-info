@@ -26,10 +26,15 @@ kotlin {
             xcf.add(this)
         }
 
+        val baseCinteropPath = "$projectDir/src/nativeInterop/cinterop/"
         val libcpuinfoPath = when (iosTarget.name) {
-            "iosX65" -> "$projectDir/src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.xcframework/ios-x86_64-simulator/"
-            "iosSimulatorArm64" -> "$projectDir/src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.xcframework/ios-arm64-simulator/"
-            else -> "$projectDir/src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.xcframework/ios-arm64/"
+            "iosX65" -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-x86_64-simulator/"
+            "iosSimulatorArm64" -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-arm64-simulator/"
+            else -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-arm64/"
+        }
+        val cpuInfoFrameworkPath = when (iosTarget.name) {
+            "iosArm64" -> "${baseCinteropPath}cpuinfoframework/CpuInfoFramework.xcframework/ios-arm64/"
+            else -> "${baseCinteropPath}cpuinfoframework/CpuInfoFramework.xcframework/ios-arm64_x86_64-simulator/"
         }
         iosTarget.compilations.getByName("main") {
             val libcpuinfo by cinterops.creating {
@@ -42,12 +47,22 @@ kotlin {
                     "-F$libcpuinfoPath"
                 )
             }
+            val cpuInfoFramework by cinterops.creating {
+                definitionFile.set(
+                    project.file("src/nativeInterop/cinterop/cpuinfoframework/CpuInfoFramework.def")
+                )
+                compilerOpts(
+                    "-framework",
+                    "cpuinfoframework",
+                    "-F$cpuInfoFrameworkPath"
+                )
+            }
         }
         iosTarget.binaries.all {
             linkerOpts(
                 "-framework",
                 "libcpuinfo",
-                "-F$libcpuinfoPath"
+                "-F$libcpuinfoPath",
             )
         }
     }

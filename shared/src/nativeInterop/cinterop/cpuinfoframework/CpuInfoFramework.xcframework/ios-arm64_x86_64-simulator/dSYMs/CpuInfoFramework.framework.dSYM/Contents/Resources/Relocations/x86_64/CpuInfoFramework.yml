@@ -1,0 +1,17 @@
+---
+triple: 'x86_64-apple-darwin'
+binary-path: '/Users/kgurgul/Library/Developer/Xcode/DerivedData/iosApp-caarzfzpqkozoxflqfefggilsjga/Build/Intermediates.noindex/ArchiveIntermediates/CpuInfoFramework/InstallationBuildProductsLocation/Library/Frameworks/CpuInfoFramework.framework/CpuInfoFramework'
+relocations:
+  - { offsetInCU: 0x34, offset: 0x601FD, size: 0x8, addend: 0x0, symName: _CpuInfoFrameworkVersionString, symObjAddr: 0x0, symBinAddr: 0xE10, symSize: 0x0 }
+  - { offsetInCU: 0x69, offset: 0x60232, size: 0x8, addend: 0x0, symName: _CpuInfoFrameworkVersionNumber, symObjAddr: 0x30, symBinAddr: 0xE40, symSize: 0x0 }
+  - { offsetInCU: 0x27, offset: 0x6026F, size: 0x8, addend: 0x0, symName: '-[CpuInfoFramework getAvailableMemory]', symObjAddr: 0x0, symBinAddr: 0xC40, symSize: 0x3A }
+  - { offsetInCU: 0x7C, offset: 0x602C4, size: 0x8, addend: 0x0, symName: '-[CpuInfoFramework getAvailableMemory]', symObjAddr: 0x0, symBinAddr: 0xC40, symSize: 0x3A }
+  - { offsetInCU: 0x27, offset: 0x60389, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC18getAvailableMemorySiyF', symObjAddr: 0x0, symBinAddr: 0xC80, symSize: 0x10 }
+  - { offsetInCU: 0x61, offset: 0x603C3, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC18getAvailableMemorySiyFTo', symObjAddr: 0x10, symBinAddr: 0xC90, symSize: 0x10 }
+  - { offsetInCU: 0xBF, offset: 0x60421, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCACycfcTo', symObjAddr: 0x90, symBinAddr: 0xD10, symSize: 0x30 }
+  - { offsetInCU: 0x113, offset: 0x60475, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCMa', symObjAddr: 0x70, symBinAddr: 0xCF0, symSize: 0x20 }
+  - { offsetInCU: 0x19D, offset: 0x604FF, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC18getAvailableMemorySiyF', symObjAddr: 0x0, symBinAddr: 0xC80, symSize: 0x10 }
+  - { offsetInCU: 0x1D7, offset: 0x60539, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCACycfC', symObjAddr: 0x20, symBinAddr: 0xCA0, symSize: 0x20 }
+  - { offsetInCU: 0x1EB, offset: 0x6054D, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCACycfc', symObjAddr: 0x40, symBinAddr: 0xCC0, symSize: 0x30 }
+  - { offsetInCU: 0x222, offset: 0x60584, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCfD', symObjAddr: 0xC0, symBinAddr: 0xD40, symSize: 0x30 }
+...

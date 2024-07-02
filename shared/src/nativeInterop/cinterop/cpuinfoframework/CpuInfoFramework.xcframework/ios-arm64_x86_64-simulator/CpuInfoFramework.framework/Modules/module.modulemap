@@ -1,0 +1,6 @@
+framework module CpuInfoFramework {
+  umbrella header "CpuInfoFramework.h"
+  export *
+
+  module * { export * }
+}
