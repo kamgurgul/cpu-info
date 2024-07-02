@@ -63,6 +63,7 @@ kotlin {
                 optIn("androidx.compose.foundation.ExperimentalFoundationApi")
                 optIn("org.koin.core.annotation.KoinExperimentalAPI")
                 optIn("kotlinx.cinterop.ExperimentalForeignApi")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             }
         }
 
