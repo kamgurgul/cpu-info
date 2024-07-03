@@ -63,6 +63,9 @@ kotlin {
                 "-framework",
                 "libcpuinfo",
                 "-F$libcpuinfoPath",
+                "-framework",
+                "cpuinfoframework",
+                "-F$cpuInfoFrameworkPath"
             )
         }
     }

@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/CpuInfoFramework.h</key>
 		<data>
-		Nhj9o3NFQzTry+Xv6Hx5u//mD+I=
+		wdtKvn3umNqkkZVUASUwpNTJ21E=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -14,11 +14,11 @@
 		</data>
 		<key>Modules/CpuInfoFramework.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		2vYRrc5dtzaNUWUD8H7N8Y20tfg=
+		GpOptTi5qrJUlXw+qmLsnwtsZkg=
 		</data>
 		<key>Modules/CpuInfoFramework.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		YW2iX4yviwYwoL8ozpX5G7LNaJM=
+		8pPHF0JXhlqcjLfCci2g7M4mA7M=
 		</data>
 		<key>Modules/CpuInfoFramework.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -26,19 +26,19 @@
 		</data>
 		<key>Modules/CpuInfoFramework.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		YW2iX4yviwYwoL8ozpX5G7LNaJM=
+		8pPHF0JXhlqcjLfCci2g7M4mA7M=
 		</data>
 		<key>Modules/CpuInfoFramework.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		GX2LWvtxPbb9NswP92t376WvbIc=
+		Tr8bqq0K00J6OnU1p8HKTrlkaJk=
 		</data>
 		<key>Modules/CpuInfoFramework.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		2vYRrc5dtzaNUWUD8H7N8Y20tfg=
+		GpOptTi5qrJUlXw+qmLsnwtsZkg=
 		</data>
 		<key>Modules/CpuInfoFramework.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		RQDSmkg72tk0Y8l7fMrKb7iqKfo=
+		hP6oKf+0nkgDDDnfa67ZFL/OBFo=
 		</data>
 		<key>Modules/CpuInfoFramework.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -46,11 +46,11 @@
 		</data>
 		<key>Modules/CpuInfoFramework.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		RQDSmkg72tk0Y8l7fMrKb7iqKfo=
+		hP6oKf+0nkgDDDnfa67ZFL/OBFo=
 		</data>
 		<key>Modules/CpuInfoFramework.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		1uv6w4ND1HCKQOdVGzvYlNbfzgw=
+		j2ftj+RCU76Nc+pYot6vne8NU1s=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -63,21 +63,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			fetgnMP84ZUdAWWiGNiBne0F3+xFSBC2U+OFgNAwAI0=
+			vgzznVRzqIsJ08tlij2cooRyQ69mEx7O3jUthpVn2Y8=
 			</data>
 		</dict>
 		<key>Modules/CpuInfoFramework.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DFvb5DaK8LXATn4pSRhrUrtn5Z95a3s2n/BwT7H1FNI=
+			4ajOkMH+hFcd4ouFnixDM+DtxqUWba338tx4HCjUfS0=
 			</data>
 		</dict>
 		<key>Modules/CpuInfoFramework.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			vWbj2UMd7l9/+tIKqhdp4EEi93oCFBenfBpvuV5+jM8=
+			giskf9szYFzgwjptfWmZbb86Ut7PhZWHdYIp2asxTq8=
 			</data>
 		</dict>
 		<key>Modules/CpuInfoFramework.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
@@ -91,28 +91,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			vWbj2UMd7l9/+tIKqhdp4EEi93oCFBenfBpvuV5+jM8=
+			giskf9szYFzgwjptfWmZbb86Ut7PhZWHdYIp2asxTq8=
 			</data>
 		</dict>
 		<key>Modules/CpuInfoFramework.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Ap2LeMi3QptoQEPQM/U/7P+xugMFqIe6WGY0dRiHcj0=
+			k16ORRn68fA3cG4TG+O1cxsNjUEhxEjpSxLI5d7YZiQ=
 			</data>
 		</dict>
 		<key>Modules/CpuInfoFramework.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DFvb5DaK8LXATn4pSRhrUrtn5Z95a3s2n/BwT7H1FNI=
+			4ajOkMH+hFcd4ouFnixDM+DtxqUWba338tx4HCjUfS0=
 			</data>
 		</dict>
 		<key>Modules/CpuInfoFramework.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			oSDoITi5gF+wyeHp2WpS6iKlwudqcmNTqKumOXClWOI=
+			k7DQxHBMIwHQZZPtGKrtzwxcfTKBlKdNuJ1abUENxQg=
 			</data>
 		</dict>
 		<key>Modules/CpuInfoFramework.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -126,14 +126,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			oSDoITi5gF+wyeHp2WpS6iKlwudqcmNTqKumOXClWOI=
+			k7DQxHBMIwHQZZPtGKrtzwxcfTKBlKdNuJ1abUENxQg=
 			</data>
 		</dict>
 		<key>Modules/CpuInfoFramework.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			G7vianFD8xdcAWa2hXcMS68rg18/ap7huL744ZaGaFo=
+			9BYTN0CD7/zaGQGKQGqbERMZq3XoS/BFpDvqcqHINSI=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

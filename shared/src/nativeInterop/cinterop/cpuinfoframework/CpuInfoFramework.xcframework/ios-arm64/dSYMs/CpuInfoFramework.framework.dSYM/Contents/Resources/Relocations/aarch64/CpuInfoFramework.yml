@@ -2,17 +2,20 @@
 triple: 'arm64-apple-darwin'
 binary-path: '/Users/kgurgul/Library/Developer/Xcode/DerivedData/iosApp-caarzfzpqkozoxflqfefggilsjga/Build/Intermediates.noindex/ArchiveIntermediates/CpuInfoFramework/InstallationBuildProductsLocation/Library/Frameworks/CpuInfoFramework.framework/CpuInfoFramework'
 relocations:
-  - { offsetInCU: 0x34, offset: 0x5C749, size: 0x8, addend: 0x0, symName: _CpuInfoFrameworkVersionString, symObjAddr: 0x0, symBinAddr: 0x4200, symSize: 0x0 }
-  - { offsetInCU: 0x69, offset: 0x5C77E, size: 0x8, addend: 0x0, symName: _CpuInfoFrameworkVersionNumber, symObjAddr: 0x30, symBinAddr: 0x4230, symSize: 0x0 }
-  - { offsetInCU: 0x27, offset: 0x5C7BB, size: 0x8, addend: 0x0, symName: '-[CpuInfoFramework getAvailableMemory]', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x38 }
-  - { offsetInCU: 0x78, offset: 0x5C80C, size: 0x8, addend: 0x0, symName: '-[CpuInfoFramework getAvailableMemory]', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x38 }
-  - { offsetInCU: 0x27, offset: 0x5C8B1, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC18getAvailableMemorySiyF', symObjAddr: 0x0, symBinAddr: 0x4038, symSize: 0x4 }
-  - { offsetInCU: 0x61, offset: 0x5C8EB, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC18getAvailableMemorySiyFTo', symObjAddr: 0x4, symBinAddr: 0x403C, symSize: 0x4 }
-  - { offsetInCU: 0x81, offset: 0x5C90B, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC18getAvailableMemorySiyFTo', symObjAddr: 0x4, symBinAddr: 0x403C, symSize: 0x4 }
-  - { offsetInCU: 0xBF, offset: 0x5C949, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCACycfcTo', symObjAddr: 0x78, symBinAddr: 0x40B0, symSize: 0x3C }
-  - { offsetInCU: 0x111, offset: 0x5C99B, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCMa', symObjAddr: 0x58, symBinAddr: 0x4090, symSize: 0x20 }
-  - { offsetInCU: 0x19B, offset: 0x5CA25, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC18getAvailableMemorySiyF', symObjAddr: 0x0, symBinAddr: 0x4038, symSize: 0x4 }
-  - { offsetInCU: 0x1D5, offset: 0x5CA5F, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCACycfC', symObjAddr: 0x8, symBinAddr: 0x4040, symSize: 0x20 }
-  - { offsetInCU: 0x1E9, offset: 0x5CA73, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCACycfc', symObjAddr: 0x28, symBinAddr: 0x4060, symSize: 0x30 }
-  - { offsetInCU: 0x220, offset: 0x5CAAA, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCfD', symObjAddr: 0xB4, symBinAddr: 0x40EC, symSize: 0x30 }
+  - { offsetInCU: 0x34, offset: 0x5C739, size: 0x8, addend: 0x0, symName: _CpuInfoFrameworkVersionString, symObjAddr: 0x0, symBinAddr: 0x42C0, symSize: 0x0 }
+  - { offsetInCU: 0x69, offset: 0x5C76E, size: 0x8, addend: 0x0, symName: _CpuInfoFrameworkVersionNumber, symObjAddr: 0x30, symBinAddr: 0x42F0, symSize: 0x0 }
+  - { offsetInCU: 0x27, offset: 0x5C7AB, size: 0x8, addend: 0x0, symName: _getAvailableMemory, symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x3C }
+  - { offsetInCU: 0x67, offset: 0x5C7EB, size: 0x8, addend: 0x0, symName: _getAvailableMemory, symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x3C }
+  - { offsetInCU: 0x2B, offset: 0x5C83C, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC14sharedInstance_WZ', symObjAddr: 0x0, symBinAddr: 0x403C, symSize: 0x2C }
+  - { offsetInCU: 0x4F, offset: 0x5C860, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC14sharedInstanceACvpZ', symObjAddr: 0x1D40, symBinAddr: 0xC170, symSize: 0x0 }
+  - { offsetInCU: 0x97, offset: 0x5C8A8, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC14sharedInstanceACvgZTo', symObjAddr: 0x6C, symBinAddr: 0x40A8, symSize: 0x40 }
+  - { offsetInCU: 0xEC, offset: 0x5C8FD, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC18getAvailableMemorySiyFTo', symObjAddr: 0xB0, symBinAddr: 0x40EC, symSize: 0x4 }
+  - { offsetInCU: 0x10C, offset: 0x5C91D, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC18getAvailableMemorySiyFTo', symObjAddr: 0xB0, symBinAddr: 0x40EC, symSize: 0x4 }
+  - { offsetInCU: 0x134, offset: 0x5C945, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCACyc33_97E0B7D1FB6407F9B2D624EC543B3A0FLlfcTo', symObjAddr: 0xB4, symBinAddr: 0x40F0, symSize: 0x3C }
+  - { offsetInCU: 0x186, offset: 0x5C997, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC14sharedInstance_WZ', symObjAddr: 0x0, symBinAddr: 0x403C, symSize: 0x2C }
+  - { offsetInCU: 0x1C7, offset: 0x5C9D8, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCMa', symObjAddr: 0x120, symBinAddr: 0x415C, symSize: 0x20 }
+  - { offsetInCU: 0x1DB, offset: 0x5C9EC, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCfETo', symObjAddr: 0x140, symBinAddr: 0x417C, symSize: 0x4 }
+  - { offsetInCU: 0x29A, offset: 0x5CAAB, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC14sharedInstanceACvgZ', symObjAddr: 0x2C, symBinAddr: 0x4068, symSize: 0x40 }
+  - { offsetInCU: 0x2DA, offset: 0x5CAEB, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderC18getAvailableMemorySiyF', symObjAddr: 0xAC, symBinAddr: 0x40E8, symSize: 0x4 }
+  - { offsetInCU: 0x323, offset: 0x5CB34, size: 0x8, addend: 0x0, symName: '_$s16CpuInfoFramework20HardwareDataProviderCfD', symObjAddr: 0xF0, symBinAddr: 0x412C, symSize: 0x30 }
 ...

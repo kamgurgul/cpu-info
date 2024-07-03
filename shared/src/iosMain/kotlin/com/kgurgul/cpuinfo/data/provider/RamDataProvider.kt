@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.shared.cpuinfoframework.getAvailableMemory
 import org.koin.core.annotation.Factory
 import platform.Foundation.NSProcessInfo
 
@@ -11,7 +12,7 @@ actual class RamDataProvider actual constructor() {
     }
 
     actual fun getAvailableBytes(): Long {
-        return 0L
+        return getAvailableMemory()
     }
 
     actual fun getThreshold(): Long {

@@ -1,8 +1,12 @@
 import Foundation
 
-@objcMembers public class HardwareDataProvider: NSObject {
+@objc public class HardwareDataProvider: NSObject {
     
-    public func getAvailableMemory() -> Int {
+    @objc public static let sharedInstance = HardwareDataProvider()
+    
+    @objc public func getAvailableMemory() -> Int {
         return os_proc_available_memory()
     }
+    
+    private override init() {} 
 }

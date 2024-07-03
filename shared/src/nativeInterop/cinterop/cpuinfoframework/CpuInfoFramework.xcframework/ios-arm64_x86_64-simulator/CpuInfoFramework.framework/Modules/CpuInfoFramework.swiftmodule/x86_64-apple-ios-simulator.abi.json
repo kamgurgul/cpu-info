@@ -17,6 +17,59 @@
         "printedName": "HardwareDataProvider",
         "children": [
           {
+            "kind": "Var",
+            "name": "sharedInstance",
+            "printedName": "sharedInstance",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "HardwareDataProvider",
+                "printedName": "CpuInfoFramework.HardwareDataProvider",
+                "usr": "c:@M@CpuInfoFramework@objc(cs)HardwareDataProvider"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@CpuInfoFramework@objc(cs)HardwareDataProvider(cpy)sharedInstance",
+            "mangledName": "$s16CpuInfoFramework20HardwareDataProviderC14sharedInstanceACvpZ",
+            "moduleName": "CpuInfoFramework",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "HardwareDataProvider",
+                    "printedName": "CpuInfoFramework.HardwareDataProvider",
+                    "usr": "c:@M@CpuInfoFramework@objc(cs)HardwareDataProvider"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@CpuInfoFramework@objc(cs)HardwareDataProvider(cm)sharedInstance",
+                "mangledName": "$s16CpuInfoFramework20HardwareDataProviderC14sharedInstanceACvgZ",
+                "moduleName": "CpuInfoFramework",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
             "kind": "Function",
             "name": "getAvailableMemory",
             "printedName": "getAvailableMemory()",
@@ -37,32 +90,6 @@
               "ObjC"
             ],
             "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "HardwareDataProvider",
-                "printedName": "CpuInfoFramework.HardwareDataProvider",
-                "usr": "c:@M@CpuInfoFramework@objc(cs)HardwareDataProvider"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "c:@M@CpuInfoFramework@objc(cs)HardwareDataProvider(im)init",
-            "mangledName": "$s16CpuInfoFramework20HardwareDataProviderCACycfc",
-            "moduleName": "CpuInfoFramework",
-            "overriding": true,
-            "implicit": true,
-            "objc_name": "init",
-            "declAttributes": [
-              "Dynamic",
-              "ObjC",
-              "Override"
-            ],
-            "init_kind": "Designated"
           }
         ],
         "declKind": "Class",
@@ -71,10 +98,10 @@
         "moduleName": "CpuInfoFramework",
         "declAttributes": [
           "AccessControl",
-          "ObjCMembers",
           "ObjC"
         ],
         "superclassUsr": "c:objc(cs)NSObject",
+        "hasMissingDesignatedInitializers": true,
         "inheritsConvenienceInitializers": true,
         "superclassNames": [
           "ObjectiveC.NSObject"

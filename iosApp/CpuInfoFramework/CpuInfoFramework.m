@@ -9,11 +9,6 @@
 #import <CpuInfoFramework/CpuInfoFramework.h>
 #import <CpuInfoFramework-Swift.h>
 
-@implementation CpuInfoFramework
-
-- (long)getAvailableMemory {
-    HardwareDataProvider *hardwareDataProvider = [[HardwareDataProvider alloc] init];
-    return hardwareDataProvider.getAvailableMemory;
+const long getAvailableMemory(void) {
+    return [HardwareDataProvider.sharedInstance getAvailableMemory];
 }
-
-@end

@@ -7,8 +7,8 @@ import Swift
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
-@objc @_inheritsConvenienceInitializers @objcMembers public class HardwareDataProvider : ObjectiveC.NSObject {
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class HardwareDataProvider : ObjectiveC.NSObject {
+  @objc public static let sharedInstance: CpuInfoFramework.HardwareDataProvider
   @objc public func getAvailableMemory() -> Swift.Int
-  @objc override dynamic public init()
   @objc deinit
 }
