@@ -1,3 +1,0 @@
-language = Objective-C
-modules = CpuInfoFramework
-package = com.kgurgul.cpuinfo.shared.cpuinfoframework

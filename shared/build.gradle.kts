@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.swiftKlib)
     id("kotlin-parcelize")
 }
 
@@ -32,10 +33,6 @@ kotlin {
             "iosSimulatorArm64" -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-arm64-simulator/"
             else -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-arm64/"
         }
-        val cpuInfoFrameworkPath = when (iosTarget.name) {
-            "iosArm64" -> "${baseCinteropPath}cpuinfoframework/CpuInfoFramework.xcframework/ios-arm64/"
-            else -> "${baseCinteropPath}cpuinfoframework/CpuInfoFramework.xcframework/ios-arm64_x86_64-simulator/"
-        }
         iosTarget.compilations.getByName("main") {
             val libcpuinfo by cinterops.creating {
                 definitionFile.set(
@@ -47,15 +44,8 @@ kotlin {
                     "-F$libcpuinfoPath"
                 )
             }
-            val cpuInfoFramework by cinterops.creating {
-                definitionFile.set(
-                    project.file("src/nativeInterop/cinterop/cpuinfoframework/CpuInfoFramework.def")
-                )
-                compilerOpts(
-                    "-framework",
-                    "cpuinfoframework",
-                    "-F$cpuInfoFrameworkPath"
-                )
+            cinterops {
+                create("CpuInfoFramework")
             }
         }
         iosTarget.binaries.all {
@@ -63,9 +53,6 @@ kotlin {
                 "-framework",
                 "libcpuinfo",
                 "-F$libcpuinfoPath",
-                "-framework",
-                "cpuinfoframework",
-                "-F$cpuInfoFrameworkPath"
             )
         }
     }
@@ -207,11 +194,19 @@ tasks.withType<KotlinCompile>().configureEach {
         dependsOn("kspCommonMainKotlinMetadata")
     }
 }
+
 afterEvaluate {
     tasks.filter {
         it.name.contains("SourcesJar", true)
     }.forEach {
         println("SourceJarTask====>${it.name}")
         it.dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+
+swiftklib {
+    create("CpuInfoFramework") {
+        path = file("src/nativeInterop/cinterop/cpuinfoframework")
+        packageName("com.kgurgul.cpuinfo.shared")
     }
 }
