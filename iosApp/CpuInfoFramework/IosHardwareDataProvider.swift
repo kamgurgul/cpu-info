@@ -1,13 +1,13 @@
 import Foundation
 
-@objc public class HardwareDataProvider: NSObject {
-    
-    @objc public static let sharedInstance = HardwareDataProvider()
-    
+@objc public class IosHardwareDataProvider: NSObject {
+
+    @objc public static let sharedInstance = IosHardwareDataProvider()
+
     @objc public func getAvailableMemory() -> Int {
         return os_proc_available_memory()
     }
-    
+
     @objc public func getTotalDiskSpaceInBytes() -> Int64 {
         do {
             let systemAttributes = try FileManager.default
@@ -18,7 +18,7 @@ import Foundation
             return 0
         }
     }
-    
+
     @objc public func getFreeDiskSpaceInBytes() -> Int64 {
         do {
             let systemAttributes = try FileManager.default
@@ -29,6 +29,6 @@ import Foundation
             return 0
         }
     }
-    
+
     private override init() {}
 }

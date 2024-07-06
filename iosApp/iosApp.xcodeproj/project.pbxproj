@@ -14,7 +14,7 @@
 		98367C4D2C33D3A700C071E8 /* CpuInfoFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 98367C4C2C33D3A700C071E8 /* CpuInfoFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		98367C502C33D3A700C071E8 /* CpuInfoFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98367C4A2C33D3A700C071E8 /* CpuInfoFramework.framework */; };
 		98367C512C33D3A700C071E8 /* CpuInfoFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 98367C4A2C33D3A700C071E8 /* CpuInfoFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		98367C562C33D3EC00C071E8 /* HardwareDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98367C552C33D3EC00C071E8 /* HardwareDataProvider.swift */; };
+		98367C562C33D3EC00C071E8 /* IosHardwareDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98367C552C33D3EC00C071E8 /* IosHardwareDataProvider.swift */; };
 		98367C582C33E08200C071E8 /* CpuInfoFramework.m in Sources */ = {isa = PBXBuildFile; fileRef = 98367C572C33E08200C071E8 /* CpuInfoFramework.m */; };
 		9843E8962C2C12230005FFCC /* libcpuinfo.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */; };
 		9843E8972C2C12230005FFCC /* libcpuinfo.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -55,7 +55,7 @@
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98367C4A2C33D3A700C071E8 /* CpuInfoFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CpuInfoFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98367C4C2C33D3A700C071E8 /* CpuInfoFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CpuInfoFramework.h; sourceTree = "<group>"; };
-		98367C552C33D3EC00C071E8 /* HardwareDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardwareDataProvider.swift; sourceTree = "<group>"; };
+		98367C552C33D3EC00C071E8 /* IosHardwareDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosHardwareDataProvider.swift; sourceTree = "<group>"; };
 		98367C572C33E08200C071E8 /* CpuInfoFramework.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CpuInfoFramework.m; sourceTree = "<group>"; };
 		9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libcpuinfo.xcframework; path = ../shared/src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.xcframework; sourceTree = "<group>"; };
 		98A3D5772C2FF1A700C60DE5 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				98367C4C2C33D3A700C071E8 /* CpuInfoFramework.h */,
-				98367C552C33D3EC00C071E8 /* HardwareDataProvider.swift */,
+				98367C552C33D3EC00C071E8 /* IosHardwareDataProvider.swift */,
 				98367C572C33E08200C071E8 /* CpuInfoFramework.m */,
 			);
 			path = CpuInfoFramework;
@@ -299,7 +299,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98367C562C33D3EC00C071E8 /* HardwareDataProvider.swift in Sources */,
+				98367C562C33D3EC00C071E8 /* IosHardwareDataProvider.swift in Sources */,
 				98367C582C33E08200C071E8 /* CpuInfoFramework.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

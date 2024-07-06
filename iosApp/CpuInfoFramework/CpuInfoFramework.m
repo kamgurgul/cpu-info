@@ -10,5 +10,5 @@
 #import <CpuInfoFramework-Swift.h>
 
 const long getAvailableMemory(void) {
-    return [HardwareDataProvider.sharedInstance getAvailableMemory];
+    return [IosHardwareDataProvider.sharedInstance getAvailableMemory];
 }
