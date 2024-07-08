@@ -3,6 +3,9 @@ rootProject.name = "cpu-info"
 pluginManagement {
     repositories {
         google()
+        maven {
+            setUrl("${rootProject.projectDir}/external/m2/repository")
+        }
         mavenCentral()
         gradlePluginPortal()
     }

@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 @objc public class IosHardwareDataProvider: NSObject {
 
@@ -28,6 +29,18 @@ import Foundation
         } catch {
             return 0
         }
+    }
+    
+    @objc public func getScreenWidth() -> Int {
+        let widthPt = UIScreen.main.bounds.size.width
+        let scale = UIScreen.main.scale
+        return Int(widthPt * scale)
+    }
+    
+    @objc public func getScreenHeight() -> Int {
+        let heightPt = UIScreen.main.bounds.size.height
+        let scale = UIScreen.main.scale
+        return Int(heightPt * scale)
     }
 
     private override init() {}
