@@ -1,4 +1,3 @@
-import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -9,7 +8,6 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.swiftKlib)
     id("kotlin-parcelize")
 }
 
@@ -44,9 +42,6 @@ kotlin {
                     "libcpuinfo",
                     "-F$libcpuinfoPath"
                 )
-            }
-            cinterops {
-                create("CpuInfoFramework")
             }
         }
         iosTarget.binaries.all {
@@ -202,16 +197,5 @@ afterEvaluate {
     }.forEach {
         println("SourceJarTask====>${it.name}")
         it.dependsOn("kspCommonMainKotlinMetadata")
-    }
-}
-
-DefaultNativePlatform.getCurrentOperatingSystem().let { os ->
-    if (os.isMacOsX) {
-        swiftklib {
-            create("CpuInfoFramework") {
-                path = file("src/nativeInterop/cinterop/cpuinfoframework")
-                packageName("com.kgurgul.cpuinfo.shared")
-            }
-        }
     }
 }

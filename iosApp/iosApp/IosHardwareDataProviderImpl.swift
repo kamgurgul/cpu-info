@@ -1,12 +1,13 @@
 import Foundation
 import UIKit
+import shared
 
-@objc public class IosHardwareDataProvider: NSObject {
+@objc public class IosHardwareDataProviderImpl: NSObject, IosHardwareDataProvider {
 
-    @objc public static let sharedInstance = IosHardwareDataProvider()
+    @objc public static let sharedInstance = IosHardwareDataProviderImpl()
 
-    @objc public func getAvailableMemory() -> Int {
-        return os_proc_available_memory()
+    @objc public func getAvailableMemory() -> Int64 {
+        return Int64(os_proc_available_memory())
     }
 
     @objc public func getTotalDiskSpaceInBytes() -> Int64 {
@@ -31,16 +32,16 @@ import UIKit
         }
     }
     
-    @objc public func getScreenWidth() -> Int {
+    @objc public func getScreenWidth() -> Int32 {
         let widthPt = UIScreen.main.bounds.size.width
         let scale = UIScreen.main.scale
-        return Int(widthPt * scale)
+        return Int32(widthPt * scale)
     }
     
-    @objc public func getScreenHeight() -> Int {
+    @objc public func getScreenHeight() -> Int32 {
         let heightPt = UIScreen.main.bounds.size.height
         let scale = UIScreen.main.scale
-        return Int(heightPt * scale)
+        return Int32(heightPt * scale)
     }
 
     private override init() {}

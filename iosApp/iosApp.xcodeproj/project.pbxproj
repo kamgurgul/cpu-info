@@ -11,25 +11,11 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
-		98367C4D2C33D3A700C071E8 /* CpuInfoFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 98367C4C2C33D3A700C071E8 /* CpuInfoFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98367C502C33D3A700C071E8 /* CpuInfoFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98367C4A2C33D3A700C071E8 /* CpuInfoFramework.framework */; };
-		98367C512C33D3A700C071E8 /* CpuInfoFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 98367C4A2C33D3A700C071E8 /* CpuInfoFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		98367C562C33D3EC00C071E8 /* IosHardwareDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98367C552C33D3EC00C071E8 /* IosHardwareDataProvider.swift */; };
-		98367C582C33E08200C071E8 /* CpuInfoFramework.m in Sources */ = {isa = PBXBuildFile; fileRef = 98367C572C33E08200C071E8 /* CpuInfoFramework.m */; };
 		9843E8962C2C12230005FFCC /* libcpuinfo.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */; };
 		9843E8972C2C12230005FFCC /* libcpuinfo.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		98A3D5782C2FF1A700C60DE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98A3D5772C2FF1A700C60DE5 /* LaunchScreen.storyboard */; };
+		98E07D812C3CFD7F00B6C8C3 /* IosHardwareDataProviderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98367C552C33D3EC00C071E8 /* IosHardwareDataProviderImpl.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		98367C4E2C33D3A700C071E8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7555FF73242A565900829871 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 98367C492C33D3A700C071E8;
-			remoteInfo = CpuInfoFramework;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		98356FC52C2AC2FC0077BDD7 /* Embed Frameworks */ = {
@@ -39,7 +25,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9843E8972C2C12230005FFCC /* libcpuinfo.xcframework in Embed Frameworks */,
-				98367C512C33D3A700C071E8 /* CpuInfoFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -53,29 +38,18 @@
 		7555FF7B242A565900829871 /* CPU Info.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CPU Info.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		98367C4A2C33D3A700C071E8 /* CpuInfoFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CpuInfoFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		98367C4C2C33D3A700C071E8 /* CpuInfoFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CpuInfoFramework.h; sourceTree = "<group>"; };
-		98367C552C33D3EC00C071E8 /* IosHardwareDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosHardwareDataProvider.swift; sourceTree = "<group>"; };
-		98367C572C33E08200C071E8 /* CpuInfoFramework.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CpuInfoFramework.m; sourceTree = "<group>"; };
+		98367C552C33D3EC00C071E8 /* IosHardwareDataProviderImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosHardwareDataProviderImpl.swift; sourceTree = "<group>"; };
 		9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libcpuinfo.xcframework; path = ../shared/src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.xcframework; sourceTree = "<group>"; };
 		98A3D5772C2FF1A700C60DE5 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB3632DC29227652001CCB65 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		98367C472C33D3A700C071E8 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B92378962B6B1156000C7307 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				9843E8962C2C12230005FFCC /* libcpuinfo.xcframework in Frameworks */,
-				98367C502C33D3A700C071E8 /* CpuInfoFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,7 +78,6 @@
 				98A3D5772C2FF1A700C60DE5 /* LaunchScreen.storyboard */,
 				AB1DB47929225F7C00F7AF9C /* Configuration */,
 				7555FF7D242A565900829871 /* iosApp */,
-				98367C4B2C33D3A700C071E8 /* CpuInfoFramework */,
 				7555FF7C242A565900829871 /* Products */,
 				42799AB246E5F90AF97AA0EF /* Frameworks */,
 			);
@@ -114,7 +87,6 @@
 			isa = PBXGroup;
 			children = (
 				7555FF7B242A565900829871 /* CPU Info.app */,
-				98367C4A2C33D3A700C071E8 /* CpuInfoFramework.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -122,6 +94,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				98367C552C33D3EC00C071E8 /* IosHardwareDataProviderImpl.swift */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
@@ -129,16 +102,6 @@
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 			);
 			path = iosApp;
-			sourceTree = "<group>";
-		};
-		98367C4B2C33D3A700C071E8 /* CpuInfoFramework */ = {
-			isa = PBXGroup;
-			children = (
-				98367C4C2C33D3A700C071E8 /* CpuInfoFramework.h */,
-				98367C552C33D3EC00C071E8 /* IosHardwareDataProvider.swift */,
-				98367C572C33E08200C071E8 /* CpuInfoFramework.m */,
-			);
-			path = CpuInfoFramework;
 			sourceTree = "<group>";
 		};
 		AB1DB47929225F7C00F7AF9C /* Configuration */ = {
@@ -150,17 +113,6 @@
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
-
-/* Begin PBXHeadersBuildPhase section */
-		98367C452C33D3A700C071E8 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98367C4D2C33D3A700C071E8 /* CpuInfoFramework.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		7555FF7A242A565900829871 /* iosApp */ = {
@@ -176,7 +128,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				98367C4F2C33D3A700C071E8 /* PBXTargetDependency */,
 			);
 			name = iosApp;
 			packageProductDependencies = (
@@ -184,24 +135,6 @@
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* CPU Info.app */;
 			productType = "com.apple.product-type.application";
-		};
-		98367C492C33D3A700C071E8 /* CpuInfoFramework */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 98367C522C33D3A700C071E8 /* Build configuration list for PBXNativeTarget "CpuInfoFramework" */;
-			buildPhases = (
-				98367C452C33D3A700C071E8 /* Headers */,
-				98367C462C33D3A700C071E8 /* Sources */,
-				98367C472C33D3A700C071E8 /* Frameworks */,
-				98367C482C33D3A700C071E8 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = CpuInfoFramework;
-			productName = CpuInfoFramework;
-			productReference = 98367C4A2C33D3A700C071E8 /* CpuInfoFramework.framework */;
-			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -216,10 +149,6 @@
 				TargetAttributes = {
 					7555FF7A242A565900829871 = {
 						CreatedOnToolsVersion = 11.3.1;
-					};
-					98367C492C33D3A700C071E8 = {
-						CreatedOnToolsVersion = 15.4;
-						LastSwiftMigration = 1540;
 					};
 				};
 			};
@@ -239,7 +168,6 @@
 			projectRoot = "";
 			targets = (
 				7555FF7A242A565900829871 /* iosApp */,
-				98367C492C33D3A700C071E8 /* CpuInfoFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -252,13 +180,6 @@
 				98A3D5782C2FF1A700C60DE5 /* LaunchScreen.storyboard in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98367C482C33D3A700C071E8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,27 +213,11 @@
 			files = (
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98367C462C33D3A700C071E8 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98367C562C33D3EC00C071E8 /* IosHardwareDataProvider.swift in Sources */,
-				98367C582C33E08200C071E8 /* CpuInfoFramework.m in Sources */,
+				98E07D812C3CFD7F00B6C8C3 /* IosHardwareDataProviderImpl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		98367C4F2C33D3A700C071E8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 98367C492C33D3A700C071E8 /* CpuInfoFramework */;
-			targetProxy = 98367C4E2C33D3A700C071E8 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		7555FFA3242A565B00829871 /* Debug */ = {
@@ -438,7 +343,6 @@
 		7555FFA6242A565B00829871 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -476,7 +380,6 @@
 		7555FFA7242A565B00829871 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -512,96 +415,6 @@
 			};
 			name = Release;
 		};
-		98367C532C33D3A700C071E8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = B6LJ2PS259;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 KG Soft. All rights reserved.";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kgurgul.cpuinfo.shared.CpuInfoFramework;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		98367C542C33D3A700C071E8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = B6LJ2PS259;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 KG Soft. All rights reserved.";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kgurgul.cpuinfo.shared.CpuInfoFramework;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -619,15 +432,6 @@
 			buildConfigurations = (
 				7555FFA6242A565B00829871 /* Debug */,
 				7555FFA7242A565B00829871 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		98367C522C33D3A700C071E8 /* Build configuration list for PBXNativeTarget "CpuInfoFramework" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				98367C532C33D3A700C071E8 /* Debug */,
-				98367C542C33D3A700C071E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

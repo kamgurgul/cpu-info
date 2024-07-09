@@ -1,6 +1,7 @@
 package com.kgurgul.cpuinfo.di
 
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import com.kgurgul.cpuinfo.data.provider.IosHardwareDataProvider
 import okio.Path.Companion.toPath
 import org.koin.dsl.module
 import platform.Foundation.NSDocumentDirectory
@@ -8,7 +9,9 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
 
-val iosModule = module {
+fun iosModule(
+    iosHardwareDataProvider: IosHardwareDataProvider,
+) = module {
     single {
         val documentDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(
             directory = NSDocumentDirectory,
@@ -24,4 +27,5 @@ val iosModule = module {
             produceFile = { path }
         )
     }
+    single { iosHardwareDataProvider }
 }
