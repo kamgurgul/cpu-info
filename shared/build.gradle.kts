@@ -1,3 +1,4 @@
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -204,9 +205,13 @@ afterEvaluate {
     }
 }
 
-swiftklib {
-    create("CpuInfoFramework") {
-        path = file("src/nativeInterop/cinterop/cpuinfoframework")
-        packageName("com.kgurgul.cpuinfo.shared")
+DefaultNativePlatform.getCurrentOperatingSystem().let { os ->
+    if (os.isMacOsX) {
+        swiftklib {
+            create("CpuInfoFramework") {
+                path = file("src/nativeInterop/cinterop/cpuinfoframework")
+                packageName("com.kgurgul.cpuinfo.shared")
+            }
+        }
     }
 }
