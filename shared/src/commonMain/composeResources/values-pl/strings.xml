@@ -81,6 +81,9 @@
     <string name="absolute_height">Dostępna wysokość</string>
     <string name="refresh_rate">Odświeżanie</string>
     <string name="orientation">Orientacja</string>
+    <string name="screen_scale">Skala ekranu</string>
+    <string name="screen_brightness">Jasność ekranu</string>
+    <string name="screen_calibrated_latency">Kalibrowane opóźnienie</string>
 
     <!--Android-->
     <string name="codename">Nazwa kodowa</string>

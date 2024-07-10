@@ -76,6 +76,9 @@
     <string name="refresh_rate">Obnovovací frekvence</string>
     <string name="orientation">Orientace</string>
     <string name="camera_lens_number">Počet čoček</string>
+    <string name="screen_scale">Měřítko obrazovky</string>
+    <string name="screen_brightness">Jas obrazovky</string>
+    <string name="screen_calibrated_latency">Kalibrovaná latence</string>
 
     <string name="codename">Kódové označení</string>
     <string name="brand">Značka</string>

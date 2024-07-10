@@ -97,6 +97,10 @@
     <string name="refresh_rate">Refresh rate</string>
     <string name="orientation">Orientation</string>
     <string name="camera_lens_number">Number of lenses</string>
+    <string name="screen_scale">Screen scale</string>
+    <string name="screen_brightness">Screen brightness</string>
+    <string name="screen_max_fps" translatable="false">Max FPS</string>
+    <string name="screen_calibrated_latency">Calibrated latency</string>
 
     <!--Android-->
     <string name="codename">Codename</string>

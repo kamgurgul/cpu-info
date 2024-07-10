@@ -76,6 +76,9 @@
     <string name="refresh_rate">Bildwiederholrate</string>
     <string name="orientation">Ausrichtung</string>
     <string name="camera_lens_number">Anzahl Linsen</string>
+    <string name="screen_scale">Bildschirmskalierung</string>
+    <string name="screen_brightness">Bildschirmhelligkeit</string>
+    <string name="screen_calibrated_latency">Kalibrierte Latenz</string>
 
     <string name="codename">Codename</string>
     <string name="brand">Marke</string>
