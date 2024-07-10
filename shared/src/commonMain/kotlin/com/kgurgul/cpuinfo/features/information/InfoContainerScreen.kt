@@ -48,7 +48,6 @@ import com.kgurgul.cpuinfo.features.information.screen.ScreenInfoScreen
 import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
 import com.kgurgul.cpuinfo.features.information.storage.StorageScreen
 import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.android
 import com.kgurgul.cpuinfo.shared.cpu
 import com.kgurgul.cpuinfo.shared.gpu
 import com.kgurgul.cpuinfo.shared.hardware
@@ -57,6 +56,7 @@ import com.kgurgul.cpuinfo.shared.running_gc
 import com.kgurgul.cpuinfo.shared.screen
 import com.kgurgul.cpuinfo.shared.sensors
 import com.kgurgul.cpuinfo.shared.storage
+import com.kgurgul.cpuinfo.shared.tab_os
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -186,7 +186,7 @@ private fun getTabTitle(position: Int) = stringResource(
         RAM_POS -> Res.string.ram
         STORAGE_POS -> Res.string.storage
         SCREEN_POS -> Res.string.screen
-        ANDROID_POS -> Res.string.android
+        ANDROID_POS -> Res.string.tab_os
         HARDWARE_POS -> Res.string.hardware
         SENSORS_POS -> Res.string.sensors
         else -> throw IllegalArgumentException("Unknown position")

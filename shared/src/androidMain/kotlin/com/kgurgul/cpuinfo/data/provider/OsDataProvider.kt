@@ -24,6 +24,7 @@ import com.kgurgul.cpuinfo.shared.sdk
 import com.kgurgul.cpuinfo.shared.security_providers
 import com.kgurgul.cpuinfo.shared.serial
 import com.kgurgul.cpuinfo.shared.strongbox
+import com.kgurgul.cpuinfo.shared.tab_os
 import com.kgurgul.cpuinfo.shared.unknown
 import com.kgurgul.cpuinfo.shared.version
 import com.kgurgul.cpuinfo.shared.vm
@@ -46,6 +47,7 @@ actual class OsDataProvider actual constructor() : KoinComponent {
 
     actual suspend fun getData(): List<Pair<String, String>> {
         return buildList {
+            add(getString(Res.string.tab_os) to "Android")
             addAll(getBuildData())
             getAndroidIdData()?.let { add(it) }
             getGsfAndroidId()?.let { add(it) }

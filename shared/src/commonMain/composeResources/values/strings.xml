@@ -29,7 +29,7 @@
     <string name="ram">RAM</string>
     <string name="storage">Storage</string>
     <string name="screen">Screen</string>
-    <string name="android">Android</string>
+    <string name="tab_os" translatable="false">OS</string>
     <string name="hardware">Hardware</string>
     <string name="sensors">Sensors</string>
 
