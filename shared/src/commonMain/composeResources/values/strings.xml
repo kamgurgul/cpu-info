@@ -102,7 +102,7 @@
     <string name="screen_max_fps" translatable="false">Max FPS</string>
     <string name="screen_calibrated_latency">Calibrated latency</string>
 
-    <!--Android-->
+    <!--OS-->
     <string name="codename">Codename</string>
     <string name="brand">Brand</string>
     <string name="model">Model</string>
@@ -119,6 +119,9 @@
     <string name="android_id" translatable="false">Android ID</string>
     <string name="google_services_framework_id" translatable="false">Google Services Framework ID</string>
     <string name="strongbox" translatable="false">StrongBox</string>
+    <string name="os_multitasking_supported">Multitasking supported</string>
+    <string name="os_localized_model">Localized model</string>
+    <string name="os_vendor_identifier">Vendor identifier</string>
 
     <!--Hardware-->
     <string name="battery">Battery</string>

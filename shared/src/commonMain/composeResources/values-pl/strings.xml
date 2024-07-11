@@ -84,7 +84,7 @@
     <string name="screen_brightness">Jasność ekranu</string>
     <string name="screen_calibrated_latency">Kalibrowane opóźnienie</string>
 
-    <!--Android-->
+    <!--OS-->
     <string name="codename">Nazwa kodowa</string>
     <string name="brand">Marka</string>
     <string name="model">Model</string>
@@ -94,6 +94,9 @@
     <string name="rooted">Rooted</string>
     <string name="encrypted_storage">Encrypted Storage</string>
     <string name="security_providers">Dostawcy zabezpieczeń</string>
+    <string name="os_multitasking_supported">Obsługa wielozadaniowości</string>
+    <string name="os_localized_model">Zlokalizowany model</string>
+    <string name="os_vendor_identifier">Identyfikator dostawcy</string>
 
     <!--Hardware-->
     <string name="battery">Bateria</string>

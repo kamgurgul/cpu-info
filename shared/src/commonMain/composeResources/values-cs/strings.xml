@@ -88,6 +88,9 @@
     <string name="rooted">Root</string>
     <string name="encrypted_storage">Šifrované úložiště</string>
     <string name="security_providers">Poskytovatelé zabezpečení</string>
+    <string name="os_multitasking_supported">Podpora multitaskingu</string>
+    <string name="os_localized_model">Lokalizovaný model</string>
+    <string name="os_vendor_identifier">Identifikátor dodavatele</string>
 
     <string name="battery">Baterie</string>
     <string name="wireless">Bezdrátové připojení</string>

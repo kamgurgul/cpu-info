@@ -88,6 +88,9 @@
     <string name="rooted">Gerootet</string>
     <string name="encrypted_storage">Verschlüsselter Speicher</string>
     <string name="security_providers">Sicherheitsanbieter</string>
+    <string name="os_multitasking_supported">Multitasking unterstützt</string>
+    <string name="os_localized_model">Lokalisierte Modell</string>
+    <string name="os_vendor_identifier">Anbieterkennzeichnung</string>
 
     <string name="battery">Akku</string>
     <string name="wireless">Drahtlos</string>
