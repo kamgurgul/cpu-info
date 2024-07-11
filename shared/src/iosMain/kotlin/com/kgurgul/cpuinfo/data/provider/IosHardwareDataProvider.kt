@@ -7,16 +7,4 @@ interface IosHardwareDataProvider {
     fun getTotalDiskSpaceInBytes(): Long
 
     fun getFreeDiskSpaceInBytes(): Long
-
-    fun getScreenWidth(): Int
-
-    fun getScreenHeight(): Int
-
-    fun getScreenScale(): Float
-
-    fun getScreenBrightness(): Float
-
-    fun getScreenMaximumFramesPerSecond(): Int
-
-    fun getScreenCalibratedLatency(): Double
 }

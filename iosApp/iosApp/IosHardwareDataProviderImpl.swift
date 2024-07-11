@@ -1,5 +1,4 @@
 import Foundation
-import UIKit
 import shared
 
 @objc public class IosHardwareDataProviderImpl: NSObject, IosHardwareDataProvider {
@@ -30,34 +29,6 @@ import shared
         } catch {
             return 0
         }
-    }
-    
-    @objc public func getScreenWidth() -> Int32 {
-        let widthPt = UIScreen.main.bounds.size.width
-        let scale = UIScreen.main.scale
-        return Int32(widthPt * scale)
-    }
-    
-    @objc public func getScreenHeight() -> Int32 {
-        let heightPt = UIScreen.main.bounds.size.height
-        let scale = UIScreen.main.scale
-        return Int32(heightPt * scale)
-    }
-    
-    @objc public func getScreenScale() -> Float {
-        return Float(UIScreen.main.scale)
-    }
-    
-    @objc public func getScreenBrightness() -> Float {
-        return Float(UIScreen.main.brightness)
-    }
-    
-    @objc public func getScreenMaximumFramesPerSecond() -> Int32 {
-        return Int32(UIScreen.main.maximumFramesPerSecond)
-    }
-    
-    @objc public func getScreenCalibratedLatency() -> Double {
-        return UIScreen.main.calibratedLatency
     }
 
     private override init() {}
