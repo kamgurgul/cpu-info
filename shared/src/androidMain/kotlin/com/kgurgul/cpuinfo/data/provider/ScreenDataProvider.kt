@@ -14,13 +14,14 @@ import com.kgurgul.cpuinfo.shared.dp_width
 import com.kgurgul.cpuinfo.shared.height
 import com.kgurgul.cpuinfo.shared.large
 import com.kgurgul.cpuinfo.shared.normal
-import com.kgurgul.cpuinfo.shared.orientation
 import com.kgurgul.cpuinfo.shared.refresh_rate
 import com.kgurgul.cpuinfo.shared.screen_class
 import com.kgurgul.cpuinfo.shared.small
 import com.kgurgul.cpuinfo.shared.unknown
 import com.kgurgul.cpuinfo.shared.width
 import com.kgurgul.cpuinfo.utils.round2
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
@@ -38,6 +39,12 @@ actual class ScreenDataProvider actual constructor() : KoinComponent {
             add(getDensityClass())
             addAll(getInfoFromDisplayMetrics())
         }
+    }
+
+    @Suppress("DEPRECATION")
+    actual fun getOrientationFlow(): Flow<String> = flow {
+        val display = windowManager.defaultDisplay
+        emit(display.rotation.toString())
     }
 
     private suspend fun getScreenClass(): Pair<String, String> {
@@ -144,9 +151,6 @@ actual class ScreenDataProvider actual constructor() : KoinComponent {
                 "${refreshRate.round2()}"
             )
         )
-
-        val orientation = display.rotation
-        functionsList.add(Pair(getString(Res.string.orientation), "$orientation"))
 
         return functionsList
     }

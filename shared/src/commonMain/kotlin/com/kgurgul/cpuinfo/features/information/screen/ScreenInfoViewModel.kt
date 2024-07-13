@@ -18,28 +18,27 @@ package com.kgurgul.cpuinfo.features.information.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.domain.observe
 import com.kgurgul.cpuinfo.domain.result.GetScreenDataInteractor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class ScreenInfoViewModel(
-    private val getScreenDataInteractor: GetScreenDataInteractor,
+    getScreenDataInteractor: GetScreenDataInteractor,
 ) : ViewModel() {
 
     private val _uiStateFlow = MutableStateFlow(UiState())
     val uiStateFlow = _uiStateFlow.asStateFlow()
 
     init {
-        getData()
-    }
-
-    private fun getData() {
-        viewModelScope.launch {
-            val data = getScreenDataInteractor(Unit)
-            _uiStateFlow.update { it.copy(items = data) }
-        }
+        getScreenDataInteractor.observe()
+            .onEach { data ->
+                _uiStateFlow.update { it.copy(items = data) }
+            }
+            .launchIn(viewModelScope)
     }
 
     data class UiState(
