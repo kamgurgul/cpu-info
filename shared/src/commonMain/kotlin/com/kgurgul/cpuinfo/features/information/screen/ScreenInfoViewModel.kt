@@ -20,26 +20,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.observe
 import com.kgurgul.cpuinfo.domain.result.GetScreenDataInteractor
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 class ScreenInfoViewModel(
     getScreenDataInteractor: GetScreenDataInteractor,
 ) : ViewModel() {
 
-    private val _uiStateFlow = MutableStateFlow(UiState())
-    val uiStateFlow = _uiStateFlow.asStateFlow()
-
-    init {
-        getScreenDataInteractor.observe()
-            .onEach { data ->
-                _uiStateFlow.update { it.copy(items = data) }
-            }
-            .launchIn(viewModelScope)
-    }
+    val uiStateFlow = getScreenDataInteractor.observe()
+        .map { UiState(it) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), UiState())
 
     data class UiState(
         val items: List<Pair<String, String>> = emptyList(),
