@@ -4,6 +4,7 @@ import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.domain.result.GetScreenDataInteractor
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.junit.Rule
@@ -19,8 +20,9 @@ class ScreenInfoViewModelTest {
     val coroutineTestRule = CoroutineTestRule()
 
     private val items = TestData.itemRowData
+    private val screenDataFlow = flowOf(items)
     private val mockGetScreenDataInteractor = mock<GetScreenDataInteractor> {
-        onBlocking { invoke(anyOrNull()) } doReturn items
+        onBlocking { observe(anyOrNull()) } doReturn screenDataFlow
     }
 
     private val observedUiStates = mutableListOf<ScreenInfoViewModel.UiState>()
@@ -29,6 +31,7 @@ class ScreenInfoViewModelTest {
     @Test
     fun `Get CPU data observable`() {
         val expectedUiStates = listOf(
+            ScreenInfoViewModel.UiState(),
             ScreenInfoViewModel.UiState(
                 items = items,
             ),
