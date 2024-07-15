@@ -122,6 +122,7 @@
     <string name="os_multitasking_supported">Multitasking supported</string>
     <string name="os_localized_model">Localized model</string>
     <string name="os_vendor_identifier">Vendor identifier</string>
+    <string name="os_jailbroken" translatable="false">Jailbroken</string>
 
     <!--Hardware-->
     <string name="battery">Battery</string>

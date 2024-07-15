@@ -11,6 +11,7 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
+		9805A21C2C43EF9F009D4819 /* IosSoftwareDataProviderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805A21B2C43EF9F009D4819 /* IosSoftwareDataProviderImpl.swift */; };
 		9843E8962C2C12230005FFCC /* libcpuinfo.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */; };
 		9843E8972C2C12230005FFCC /* libcpuinfo.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		98A3D5782C2FF1A700C60DE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98A3D5772C2FF1A700C60DE5 /* LaunchScreen.storyboard */; };
@@ -38,6 +39,7 @@
 		7555FF7B242A565900829871 /* CPU Info.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CPU Info.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9805A21B2C43EF9F009D4819 /* IosSoftwareDataProviderImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosSoftwareDataProviderImpl.swift; sourceTree = "<group>"; };
 		98367C552C33D3EC00C071E8 /* IosHardwareDataProviderImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosHardwareDataProviderImpl.swift; sourceTree = "<group>"; };
 		9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libcpuinfo.xcframework; path = ../shared/src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.xcframework; sourceTree = "<group>"; };
 		98A3D5772C2FF1A700C60DE5 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
+				9805A21B2C43EF9F009D4819 /* IosSoftwareDataProviderImpl.swift */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				98E07D812C3CFD7F00B6C8C3 /* IosHardwareDataProviderImpl.swift in Sources */,
+				9805A21C2C43EF9F009D4819 /* IosSoftwareDataProviderImpl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
