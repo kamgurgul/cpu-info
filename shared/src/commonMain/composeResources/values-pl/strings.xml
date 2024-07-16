@@ -95,7 +95,6 @@
     <string name="encrypted_storage">Encrypted Storage</string>
     <string name="security_providers">Dostawcy zabezpieczeń</string>
     <string name="os_multitasking_supported">Obsługa wielozadaniowości</string>
-    <string name="os_localized_model">Zlokalizowany model</string>
     <string name="os_vendor_identifier">Identyfikator dostawcy</string>
 
     <!--Hardware-->
@@ -129,6 +128,7 @@
     <string name="battery_unspecified_failure">Nieznana usterka</string>
     <string name="ir_emitter">Nadajnik IR</string>
     <string name="camera_lens_number">Liczba soczewek</string>
+    <string name="hardware_microphones">Mikrofony</string>
 
     <!--Prefs-->
     <string name="general">Ogólne</string>

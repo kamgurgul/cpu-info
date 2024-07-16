@@ -120,7 +120,6 @@
     <string name="google_services_framework_id" translatable="false">Google Services Framework ID</string>
     <string name="strongbox" translatable="false">StrongBox</string>
     <string name="os_multitasking_supported">Multitasking supported</string>
-    <string name="os_localized_model">Localized model</string>
     <string name="os_vendor_identifier">Vendor identifier</string>
     <string name="os_jailbroken" translatable="false">Jailbroken</string>
 
@@ -156,6 +155,7 @@
     <string name="battery_unknown">Unknown</string>
     <string name="battery_unspecified_failure">Unspecified failure</string>
     <string name="ir_emitter">IR Emitter</string>
+    <string name="hardware_microphones">Microphones</string>
 
     <!--Prefs-->
     <string name="general">General</string>

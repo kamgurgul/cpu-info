@@ -18,14 +18,18 @@ package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.cameras
+import com.kgurgul.cpuinfo.shared.hardware_microphones
+import com.kgurgul.cpuinfo.shared.unknown
 import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.Factory
 import platform.AVFoundation.AVCaptureDevice
 import platform.AVFoundation.AVCaptureDeviceDiscoverySession
 import platform.AVFoundation.AVCaptureDevicePositionUnspecified
+import platform.AVFoundation.AVCaptureDeviceTypeBuiltInMicrophone
 import platform.AVFoundation.AVCaptureDeviceTypeBuiltInTelephotoCamera
 import platform.AVFoundation.AVCaptureDeviceTypeBuiltInUltraWideCamera
 import platform.AVFoundation.AVCaptureDeviceTypeBuiltInWideAngleCamera
+import platform.AVFoundation.AVMediaTypeAudio
 import platform.AVFoundation.AVMediaTypeVideo
 
 @Factory
@@ -33,22 +37,53 @@ actual class HardwareDataProvider actual constructor() {
 
     actual suspend fun getData(): List<Pair<String, String>> {
         return buildList {
-            val cameraDevices = AVCaptureDeviceDiscoverySession.discoverySessionWithDeviceTypes(
-                deviceTypes = listOf(
-                    AVCaptureDeviceTypeBuiltInWideAngleCamera,
-                    AVCaptureDeviceTypeBuiltInUltraWideCamera,
-                    AVCaptureDeviceTypeBuiltInTelephotoCamera,
-                ),
-                mediaType = AVMediaTypeVideo,
-                position = AVCaptureDevicePositionUnspecified
-            ).devices.map { it as AVCaptureDevice }
+            val cameraDevices = getCameraDevices()
             if (cameraDevices.isNotEmpty()) {
                 add(getString(Res.string.cameras) to "")
                 cameraDevices.forEach { camera ->
-                    val description = camera.manufacturer + "\n" + camera.uniqueID
+                    val description = getFormatedName(camera.manufacturer) + "\n" + camera.uniqueID
                     add(camera.localizedName to description)
                 }
             }
+            val microphoneDevices = getMicrophoneDevices()
+            if (microphoneDevices.isNotEmpty()) {
+                add(getString(Res.string.hardware_microphones) to "")
+                microphoneDevices.forEach { microphone ->
+                    val description = getFormatedName(microphone.manufacturer) +
+                            "\n" + microphone.uniqueID
+                    add(microphone.localizedName to description)
+                }
+            }
+        }
+    }
+
+    private fun getCameraDevices(): List<AVCaptureDevice> {
+        return AVCaptureDeviceDiscoverySession.discoverySessionWithDeviceTypes(
+            deviceTypes = listOf(
+                AVCaptureDeviceTypeBuiltInWideAngleCamera,
+                AVCaptureDeviceTypeBuiltInUltraWideCamera,
+                AVCaptureDeviceTypeBuiltInTelephotoCamera,
+            ),
+            mediaType = AVMediaTypeVideo,
+            position = AVCaptureDevicePositionUnspecified
+        ).devices.filterIsInstance<AVCaptureDevice>()
+    }
+
+    private fun getMicrophoneDevices(): List<AVCaptureDevice> {
+        return AVCaptureDeviceDiscoverySession.discoverySessionWithDeviceTypes(
+            deviceTypes = listOf(
+                AVCaptureDeviceTypeBuiltInMicrophone,
+            ),
+            mediaType = AVMediaTypeAudio,
+            position = AVCaptureDevicePositionUnspecified
+        ).devices.filterIsInstance<AVCaptureDevice>()
+    }
+
+    private suspend fun getFormatedName(name: String?): String {
+        return if (name == null || name == "null") {
+            getString(Res.string.unknown)
+        } else {
+            name
         }
     }
 }

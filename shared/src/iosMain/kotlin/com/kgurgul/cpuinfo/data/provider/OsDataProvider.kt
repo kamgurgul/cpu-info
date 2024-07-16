@@ -3,7 +3,6 @@ package com.kgurgul.cpuinfo.data.provider
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.model
 import com.kgurgul.cpuinfo.shared.os_jailbroken
-import com.kgurgul.cpuinfo.shared.os_localized_model
 import com.kgurgul.cpuinfo.shared.os_multitasking_supported
 import com.kgurgul.cpuinfo.shared.os_vendor_identifier
 import com.kgurgul.cpuinfo.shared.tab_os
@@ -26,7 +25,6 @@ actual class OsDataProvider actual constructor() : KoinComponent {
             add(getString(Res.string.tab_os) to UIDevice.currentDevice.systemName)
             add(getString(Res.string.version) to UIDevice.currentDevice.systemVersion)
             add(getString(Res.string.model) to UIDevice.currentDevice.model)
-            add(getString(Res.string.os_localized_model) to UIDevice.currentDevice.localizedModel)
             add(
                 getString(Res.string.os_multitasking_supported) to ResourceUtils.getYesNoString(
                     UIDevice.currentDevice.multitaskingSupported

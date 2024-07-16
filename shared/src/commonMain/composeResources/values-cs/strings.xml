@@ -89,7 +89,6 @@
     <string name="encrypted_storage">Šifrované úložiště</string>
     <string name="security_providers">Poskytovatelé zabezpečení</string>
     <string name="os_multitasking_supported">Podpora multitaskingu</string>
-    <string name="os_localized_model">Lokalizovaný model</string>
     <string name="os_vendor_identifier">Identifikátor dodavatele</string>
 
     <string name="battery">Baterie</string>
@@ -121,6 +120,7 @@
     <string name="battery_unknown">Neznámá</string>
     <string name="battery_unspecified_failure">Nespecifikovaná chyba</string>
     <string name="ir_emitter">IR vysílač</string>
+    <string name="hardware_microphones">Mikrofony</string>
 
     <string name="general">Obecné</string>
     <string name="temperature_unit">Jednotka teploty</string>
