@@ -95,7 +95,7 @@ fun CpuProgressBar(
                     color = MaterialTheme.colorScheme.tertiary,
                     trackColor = Color.Unspecified,
                     strokeCap = strokeCap,
-                    // drawStopIndicator = {},
+                    drawStopIndicator = {},
                     modifier = Modifier
                         .fillMaxWidth()
                         .requiredHeight(progressHeight),

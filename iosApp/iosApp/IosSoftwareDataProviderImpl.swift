@@ -54,7 +54,7 @@ private struct JailBrokenHelper {
     }
     
     static func canEditSystemFiles() -> Bool {
-        let jailBreakText = "Developer Insider"
+        let jailBreakText = "Jail"
         do {
             try jailBreakText.write(toFile: jailBreakText, atomically: true, encoding: .utf8)
             return true
