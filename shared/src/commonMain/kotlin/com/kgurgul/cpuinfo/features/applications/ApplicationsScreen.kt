@@ -353,7 +353,7 @@ private fun ApplicationItem(
             Icon(
                 painter = painterResource(Res.drawable.ic_cpp_logo),
                 contentDescription = stringResource(Res.string.native_libs),
-                tint = MaterialTheme.colorScheme.onBackground,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
                     .requiredSize(40.dp)
                     .clickable { appData.nativeLibs?.let { onNativeLibsClicked(it) } },
