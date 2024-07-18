@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.utils
 
+import kotlin.math.round
 import kotlin.math.roundToLong
 
 fun Float.round1(): Float = try {
@@ -38,6 +39,18 @@ fun Float.round2(): Float = try {
 
 fun Double.round2(): Double = try {
     (this * 100.0).roundToLong() / 100.0
+} catch (e: Exception) {
+    0.0
+}
+
+fun Float.round4(): Float = try {
+    round(this * 10000) / 10000
+} catch (e: Exception) {
+    0.0f
+}
+
+fun Double.round4(): Double = try {
+    round(this * 10000) / 10000
 } catch (e: Exception) {
     0.0
 }

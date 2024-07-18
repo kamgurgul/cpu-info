@@ -132,4 +132,7 @@
 
     <string name="no_temp_data">Entschuldigung, ich kann keine Temperatursensoren finden :-(</string>
 
+    <!--Sensors-->
+    <string name="sensors_accelerometer">Beschleunigungssensor</string>
+
 </resources>

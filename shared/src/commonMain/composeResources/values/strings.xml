@@ -172,4 +172,7 @@
     <string name="fahrenheit" translatable="false">&#176;F</string>
     <string name="kelvin" translatable="false">&#176;K</string>
 
+    <!--Sensors-->
+    <string name="sensors_accelerometer">Accelerometer</string>
+
 </resources>
