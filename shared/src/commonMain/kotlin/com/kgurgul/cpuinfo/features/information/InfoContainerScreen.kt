@@ -5,8 +5,14 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
@@ -14,7 +20,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
@@ -26,7 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.ANDROID_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.CPU_POS
@@ -78,36 +83,30 @@ fun InfoContainerScreen(
     onRamCleanupClicked: () -> Unit,
     onPageChanged: (Int) -> Unit,
 ) {
-    Scaffold(
-        topBar = {
-            PrimaryTopAppBar(
-                title = stringResource(Res.string.hardware),
-                actions = {
-                    AnimatedVisibility(
-                        visible = uiState.isRamCleanupVisible,
-                        enter = fadeIn(),
-                        exit = fadeOut(),
-                    ) {
-                        IconButton(onClick = onRamCleanupClicked) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = stringResource(Res.string.running_gc)
-                            )
-                        }
+    Column {
+        PrimaryTopAppBar(
+            title = stringResource(Res.string.hardware),
+            actions = {
+                AnimatedVisibility(
+                    visible = uiState.isRamCleanupVisible,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                ) {
+                    IconButton(onClick = onRamCleanupClicked) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = stringResource(Res.string.running_gc)
+                        )
                     }
-                },
-            )
-        },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
-    ) { paddingValues ->
+                }
+            },
+        )
         InfoContainer(
             onPageChanged = onPageChanged,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
+                .fillMaxSize(),
         )
     }
-
 }
 
 @Composable
@@ -126,9 +125,14 @@ private fun InfoContainer(
             .fillMaxSize()
             .then(modifier)
     ) {
+        val horizontalPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)
+            .asPaddingValues()
         ScrollableTabRow(
             selectedTabIndex = pagerState.currentPage,
-            edgePadding = 0.dp,
+            edgePadding = maxOf(
+                horizontalPadding.calculateStartPadding(LayoutDirection.Ltr),
+                horizontalPadding.calculateEndPadding(LayoutDirection.Ltr),
+            ),
             divider = {},
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary,
@@ -167,7 +171,8 @@ private fun InfoContainer(
                     SENSORS_POS -> SensorsInfoScreen()
                     else -> throw IllegalArgumentException("Unknown position")
                 }
-            }
+            },
+            modifier = Modifier.padding(horizontalPadding)
         )
     }
 }

@@ -27,7 +27,8 @@
         <activity
             android:name="com.kgurgul.cpuinfo.HostActivity"
             android:exported="true"
-            android:theme="@style/Theme.Launcher">
+            android:theme="@style/Theme.Launcher"
+            android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

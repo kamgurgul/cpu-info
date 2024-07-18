@@ -142,4 +142,7 @@
     <!--Temp-->
     <string name="no_temp_data">Przepraszam, nie mogłem znaleźć sensorów temperatury :-(</string>
 
+    <!--Sensors-->
+    <string name="sensors_accelerometer">Akcelerometr</string>
+
 </resources>

@@ -132,5 +132,8 @@
 
     <string name="no_temp_data">Je mi líto, nemohu najít žádné teplotní senzory :-(</string>
 
+    <!--Sensors-->
+    <string name="sensors_accelerometer">Akcelerometr</string>
+
 </resources>
 
