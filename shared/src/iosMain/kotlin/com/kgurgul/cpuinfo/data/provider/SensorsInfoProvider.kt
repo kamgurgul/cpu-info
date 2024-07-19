@@ -1,8 +1,6 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.SensorData
-import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.sensors_accelerometer
 import com.kgurgul.cpuinfo.utils.round4
 import kotlinx.cinterop.CValue
 import kotlinx.cinterop.useContents
@@ -10,13 +8,12 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.runBlocking
-import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.Factory
 import platform.CoreMotion.CMAcceleration
 import platform.CoreMotion.CMAttitudeReferenceFrameXMagneticNorthZVertical
 import platform.CoreMotion.CMDeviceMotion
 import platform.CoreMotion.CMMotionManager
+import platform.CoreMotion.CMRotationRate
 import platform.Foundation.NSOperationQueue
 
 @Factory
@@ -43,32 +40,51 @@ actual class SensorsInfoProvider actual constructor() {
             if (error != null) {
                 return@startDeviceMotionUpdatesUsingReferenceFrame
             }
-            motion?.let { channel.trySend(listOf(it.toSensorData())) }
+            motion?.let { channel.trySend(it.toSensorData()) }
         }
     }
 
-    private fun CMDeviceMotion.toSensorData(): SensorData {
-        val value = buildString {
-            appendLine("\tAcceleration:")
-            appendLine(convertAcceleration(userAcceleration))
-            appendLine("\tGravity:")
-            appendLine(convertAcceleration(gravity))
-            append("\tHeading: ${heading.round4()}")
-        }
-        return SensorData(
-            id = ID_ACCELEROMETER,
-            name = runBlocking { getString(Res.string.sensors_accelerometer) },
-            value = value,
+    private fun CMDeviceMotion.toSensorData(): List<SensorData> {
+        return listOf(
+            SensorData(
+                id = ID_ACCELERATION,
+                name = "Acceleration",
+                value = convertAcceleration(userAcceleration),
+            ),
+            SensorData(
+                id = ID_GRAVITY,
+                name = "Gravity",
+                value = convertAcceleration(gravity),
+            ),
+            SensorData(
+                id = ID_HEADING,
+                name = "Heading",
+                value = convertAcceleration(gravity),
+            ),
+            SensorData(
+                id = ID_ROTATION_RATE,
+                name = "Rotation rate",
+                value = convertRotationRate(rotationRate),
+            ),
         )
     }
 
     private fun convertAcceleration(acceleration: CValue<CMAcceleration>): String {
         return acceleration.useContents {
-            "\t\tX=${x.round4()}G\n\t\tY=${y.round4()}G\n\t\tZ=${z.round4()}G"
+            "X=${x.round4()}G  Y=${y.round4()}G  Z=${z.round4()}G"
+        }
+    }
+
+    private fun convertRotationRate(acceleration: CValue<CMRotationRate>): String {
+        return acceleration.useContents {
+            "X=${x.round4()}  Y=${y.round4()}  Z=${z.round4()}"
         }
     }
 
     companion object {
-        private const val ID_ACCELEROMETER = "ID_ACCELEROMETER"
+        private const val ID_ACCELERATION = "ID_ACCELERATION"
+        private const val ID_GRAVITY = "ID_GRAVITY"
+        private const val ID_HEADING = "ID_HEADING"
+        private const val ID_ROTATION_RATE = "ID_ROTATION_RATE"
     }
 }
