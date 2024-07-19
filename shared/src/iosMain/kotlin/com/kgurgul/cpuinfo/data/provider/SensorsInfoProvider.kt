@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import org.koin.core.annotation.Factory
 import platform.CoreMotion.CMAcceleration
+import platform.CoreMotion.CMAttitude
 import platform.CoreMotion.CMAttitudeReferenceFrameXMagneticNorthZVertical
 import platform.CoreMotion.CMDeviceMotion
 import platform.CoreMotion.CMMagneticField
@@ -87,6 +88,13 @@ actual class SensorsInfoProvider actual constructor() {
                     )
                 }
             }
+            add(
+                SensorData(
+                    id = ID_ATTITUDE,
+                    name = "Attitude",
+                    value = convertAttitude(attitude),
+                )
+            )
         }
     }
 
@@ -108,11 +116,18 @@ actual class SensorsInfoProvider actual constructor() {
         }
     }
 
+    private fun convertAttitude(attitude: CMAttitude): String {
+        return with(attitude) {
+            "Pitch=${pitch.round4()}  Roll=${roll.round4()}  Yaw=${yaw.round4()}"
+        }
+    }
+
     companion object {
         private const val ID_ACCELERATION = "ID_ACCELERATION"
         private const val ID_GRAVITY = "ID_GRAVITY"
         private const val ID_HEADING = "ID_HEADING"
         private const val ID_ROTATION_RATE = "ID_ROTATION_RATE"
         private const val ID_MAGNETIC_FIELD = "ID_ROTATION_RATE"
+        private const val ID_ATTITUDE = "ID_ATTITUDE"
     }
 }
