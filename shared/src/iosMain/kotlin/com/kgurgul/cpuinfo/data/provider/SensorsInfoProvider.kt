@@ -12,6 +12,8 @@ import org.koin.core.annotation.Factory
 import platform.CoreMotion.CMAcceleration
 import platform.CoreMotion.CMAttitudeReferenceFrameXMagneticNorthZVertical
 import platform.CoreMotion.CMDeviceMotion
+import platform.CoreMotion.CMMagneticField
+import platform.CoreMotion.CMMagneticFieldCalibrationAccuracyUncalibrated
 import platform.CoreMotion.CMMotionManager
 import platform.CoreMotion.CMRotationRate
 import platform.Foundation.NSOperationQueue
@@ -45,28 +47,47 @@ actual class SensorsInfoProvider actual constructor() {
     }
 
     private fun CMDeviceMotion.toSensorData(): List<SensorData> {
-        return listOf(
-            SensorData(
-                id = ID_ACCELERATION,
-                name = "Acceleration",
-                value = convertAcceleration(userAcceleration),
-            ),
-            SensorData(
-                id = ID_GRAVITY,
-                name = "Gravity",
-                value = convertAcceleration(gravity),
-            ),
-            SensorData(
-                id = ID_HEADING,
-                name = "Heading",
-                value = convertAcceleration(gravity),
-            ),
-            SensorData(
-                id = ID_ROTATION_RATE,
-                name = "Rotation rate",
-                value = convertRotationRate(rotationRate),
-            ),
-        )
+        return buildList {
+            add(
+                SensorData(
+                    id = ID_ACCELERATION,
+                    name = "Acceleration",
+                    value = convertAcceleration(userAcceleration),
+                )
+            )
+            add(
+                SensorData(
+                    id = ID_GRAVITY,
+                    name = "Gravity",
+                    value = convertAcceleration(gravity),
+                )
+            )
+            add(
+                SensorData(
+                    id = ID_HEADING,
+                    name = "Heading",
+                    value = convertAcceleration(gravity),
+                )
+            )
+            add(
+                SensorData(
+                    id = ID_ROTATION_RATE,
+                    name = "Rotation rate",
+                    value = convertRotationRate(rotationRate),
+                )
+            )
+            magneticField.useContents {
+                if (accuracy != CMMagneticFieldCalibrationAccuracyUncalibrated) {
+                    add(
+                        SensorData(
+                            id = ID_MAGNETIC_FIELD,
+                            name = "Magnetic field",
+                            value = convertMagneticField(field),
+                        )
+                    )
+                }
+            }
+        }
     }
 
     private fun convertAcceleration(acceleration: CValue<CMAcceleration>): String {
@@ -75,8 +96,14 @@ actual class SensorsInfoProvider actual constructor() {
         }
     }
 
-    private fun convertRotationRate(acceleration: CValue<CMRotationRate>): String {
-        return acceleration.useContents {
+    private fun convertRotationRate(rotationRate: CValue<CMRotationRate>): String {
+        return rotationRate.useContents {
+            "X=${x.round4()}  Y=${y.round4()}  Z=${z.round4()}"
+        }
+    }
+
+    private fun convertMagneticField(magneticField: CMMagneticField): String {
+        return with(magneticField) {
             "X=${x.round4()}  Y=${y.round4()}  Z=${z.round4()}"
         }
     }
@@ -86,5 +113,6 @@ actual class SensorsInfoProvider actual constructor() {
         private const val ID_GRAVITY = "ID_GRAVITY"
         private const val ID_HEADING = "ID_HEADING"
         private const val ID_ROTATION_RATE = "ID_ROTATION_RATE"
+        private const val ID_MAGNETIC_FIELD = "ID_ROTATION_RATE"
     }
 }
