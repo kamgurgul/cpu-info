@@ -17,14 +17,39 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.ic_temperature
+import com.kgurgul.cpuinfo.shared.unknown
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flow
+import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.Factory
+import platform.Foundation.NSProcessInfo
+import platform.Foundation.NSProcessInfoThermalState
+import platform.Foundation.thermalState
 
 @Factory
 actual class TemperatureProvider actual constructor() {
 
-    actual val sensorsFlow: Flow<TemperatureItem> = emptyFlow()
+    actual val sensorsFlow: Flow<TemperatureItem> = flow {
+        val thermalState = when (NSProcessInfo.processInfo.thermalState) {
+            NSProcessInfoThermalState.NSProcessInfoThermalStateNominal -> "Nominal"
+            NSProcessInfoThermalState.NSProcessInfoThermalStateFair -> "Fair"
+            NSProcessInfoThermalState.NSProcessInfoThermalStateSerious -> "Serious"
+            NSProcessInfoThermalState.NSProcessInfoThermalStateCritical -> "Critical"
+            else -> getString(Res.string.unknown)
+        }
+        emit(
+            TemperatureItem(
+                id = ID_THERMAL_STATE,
+                icon = Res.drawable.ic_temperature,
+                name = "Thermal state: $thermalState",
+                temperature = Float.NaN,
+            )
+        )
+        delay(REFRESH_DELAY)
+    }
 
     actual fun getBatteryTemperature(): Float? {
         return null
@@ -36,5 +61,10 @@ actual class TemperatureProvider actual constructor() {
 
     actual fun getCpuTemp(path: String): Float? {
         return null
+    }
+
+    companion object {
+        private const val REFRESH_DELAY = 5000L
+        private const val ID_THERMAL_STATE = 1000
     }
 }
