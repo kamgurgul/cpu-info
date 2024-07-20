@@ -127,11 +127,13 @@ private fun TemperatureItem(
                 color = MaterialTheme.colorScheme.onBackground,
             )
             Spacer(modifier = Modifier.requiredSize(spacingSmall))
-            Text(
-                text = temperatureFormatter.format(item.temperature),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
+            if (!item.temperature.isNaN()) {
+                Text(
+                    text = temperatureFormatter.format(item.temperature),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+            }
         }
     }
 }

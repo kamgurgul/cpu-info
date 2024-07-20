@@ -17,9 +17,16 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.battery
+import com.kgurgul.cpuinfo.shared.battery_charging
+import com.kgurgul.cpuinfo.shared.battery_full
+import com.kgurgul.cpuinfo.shared.battery_state
+import com.kgurgul.cpuinfo.shared.battery_unplugged
 import com.kgurgul.cpuinfo.shared.cameras
 import com.kgurgul.cpuinfo.shared.hardware_microphones
+import com.kgurgul.cpuinfo.shared.level
 import com.kgurgul.cpuinfo.shared.unknown
+import com.kgurgul.cpuinfo.utils.round2
 import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.Factory
 import platform.AVFoundation.AVCaptureDevice
@@ -31,12 +38,21 @@ import platform.AVFoundation.AVCaptureDeviceTypeBuiltInUltraWideCamera
 import platform.AVFoundation.AVCaptureDeviceTypeBuiltInWideAngleCamera
 import platform.AVFoundation.AVMediaTypeAudio
 import platform.AVFoundation.AVMediaTypeVideo
+import platform.UIKit.UIDevice
+import platform.UIKit.UIDeviceBatteryState
 
 @Factory
 actual class HardwareDataProvider actual constructor() {
 
     actual suspend fun getData(): List<Pair<String, String>> {
         return buildList {
+            UIDevice.currentDevice.batteryMonitoringEnabled = true
+            add(getString(Res.string.battery) to "")
+            val batteryLevel = (UIDevice.currentDevice.batteryLevel * 100).round2()
+            add(getString(Res.string.level) to "$batteryLevel%")
+            add(getString(Res.string.battery_state) to getBatteryState())
+            UIDevice.currentDevice.batteryMonitoringEnabled = false
+
             val cameraDevices = getCameraDevices()
             if (cameraDevices.isNotEmpty()) {
                 add(getString(Res.string.cameras) to "")
@@ -45,6 +61,7 @@ actual class HardwareDataProvider actual constructor() {
                     add(camera.localizedName to description)
                 }
             }
+
             val microphoneDevices = getMicrophoneDevices()
             if (microphoneDevices.isNotEmpty()) {
                 add(getString(Res.string.hardware_microphones) to "")
@@ -54,6 +71,22 @@ actual class HardwareDataProvider actual constructor() {
                     add(microphone.localizedName to description)
                 }
             }
+        }
+    }
+
+    private suspend fun getBatteryState(): String {
+        val batteryState = UIDevice.currentDevice.batteryState
+        return when (batteryState) {
+            UIDeviceBatteryState.UIDeviceBatteryStateUnplugged ->
+                getString(Res.string.battery_unplugged)
+
+            UIDeviceBatteryState.UIDeviceBatteryStateCharging ->
+                getString(Res.string.battery_charging)
+
+            UIDeviceBatteryState.UIDeviceBatteryStateFull ->
+                getString(Res.string.battery_full)
+
+            else -> getString(Res.string.unknown)
         }
     }
 

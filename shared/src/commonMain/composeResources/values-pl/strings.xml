@@ -126,6 +126,10 @@
     <string name="battery_overvoltage">Przepięcie</string>
     <string name="battery_unknown">Nieznana</string>
     <string name="battery_unspecified_failure">Nieznana usterka</string>
+    <string name="battery_state">Stan baterii</string>
+    <string name="battery_unplugged">Odłączona</string>
+    <string name="battery_charging">Ładowanie</string>
+    <string name="battery_full">Pełna</string>
     <string name="ir_emitter">Nadajnik IR</string>
     <string name="camera_lens_number">Liczba soczewek</string>
     <string name="hardware_microphones">Mikrofony</string>
@@ -141,6 +145,11 @@
 
     <!--Temp-->
     <string name="no_temp_data">Przepraszam, nie mogłem znaleźć sensorów temperatury :-(</string>
+    <string name="temp_thermal_state">Stan termiczny: %1$s</string>
+    <string name="temp_thermal_state_nominal">Nominalny</string>
+    <string name="temp_thermal_state_fair">Umiarkowany</string>
+    <string name="temp_thermal_state_serious">Poważny</string>
+    <string name="temp_thermal_state_critical">Krytyczny</string>
 
     <!--Sensors-->
     <string name="sensors_accelerometer">Akcelerometr</string>

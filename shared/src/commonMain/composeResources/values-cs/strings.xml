@@ -119,6 +119,10 @@
     <string name="battery_overvoltage">Přepětí</string>
     <string name="battery_unknown">Neznámá</string>
     <string name="battery_unspecified_failure">Nespecifikovaná chyba</string>
+    <string name="battery_state">Stav baterie</string>
+    <string name="battery_unplugged">Odpojeno</string>
+    <string name="battery_charging">Nabíjení</string>
+    <string name="battery_full">Plně nabitá</string>
     <string name="ir_emitter">IR vysílač</string>
     <string name="hardware_microphones">Mikrofony</string>
 
@@ -131,6 +135,11 @@
     <string name="pref_theme_choose">Vybrat motiv</string>
 
     <string name="no_temp_data">Je mi líto, nemohu najít žádné teplotní senzory :-(</string>
+    <string name="temp_thermal_state">Tepelný stav: %1$s</string>
+    <string name="temp_thermal_state_nominal">Nominální</string>
+    <string name="temp_thermal_state_fair">Dobrý</string>
+    <string name="temp_thermal_state_serious">Vážný</string>
+    <string name="temp_thermal_state_critical">Kritický</string>
 
     <!--Sensors-->
     <string name="sensors_accelerometer">Akcelerometr</string>

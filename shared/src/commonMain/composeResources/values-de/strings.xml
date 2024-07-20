@@ -119,6 +119,10 @@
     <string name="battery_overvoltage">Überspannung</string>
     <string name="battery_unknown">Unbekannt</string>
     <string name="battery_unspecified_failure">Fehler unbekannt</string>
+    <string name="battery_state">Batteriezustand</string>
+    <string name="battery_unplugged">Abgesteckt</string>
+    <string name="battery_charging">Lädt</string>
+    <string name="battery_full">Voll</string>
     <string name="ir_emitter">IR-Sender</string>
     <string name="hardware_microphones">Mikrofone</string>
 
@@ -131,6 +135,11 @@
     <string name="pref_theme_choose">Design auswählen</string>
 
     <string name="no_temp_data">Entschuldigung, ich kann keine Temperatursensoren finden :-(</string>
+    <string name="temp_thermal_state">Thermischer Zustand: %1$s</string>
+    <string name="temp_thermal_state_nominal">Nominal</string>
+    <string name="temp_thermal_state_fair">Gut</string>
+    <string name="temp_thermal_state_serious">Ernst</string>
+    <string name="temp_thermal_state_critical">Kritisch</string>
 
     <!--Sensors-->
     <string name="sensors_accelerometer">Beschleunigungssensor</string>

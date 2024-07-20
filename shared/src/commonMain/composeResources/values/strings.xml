@@ -154,6 +154,10 @@
     <string name="battery_overvoltage">Overvoltage</string>
     <string name="battery_unknown">Unknown</string>
     <string name="battery_unspecified_failure">Unspecified failure</string>
+    <string name="battery_state">Battery state</string>
+    <string name="battery_unplugged">Unplugged</string>
+    <string name="battery_charging">Charging</string>
+    <string name="battery_full">Full</string>
     <string name="ir_emitter">IR Emitter</string>
     <string name="hardware_microphones">Microphones</string>
 
@@ -171,6 +175,11 @@
     <string name="celsius" translatable="false">&#176;C</string>
     <string name="fahrenheit" translatable="false">&#176;F</string>
     <string name="kelvin" translatable="false">&#176;K</string>
+    <string name="temp_thermal_state">Thermal state: %1$s</string>
+    <string name="temp_thermal_state_nominal">Nominal</string>
+    <string name="temp_thermal_state_fair">Fair</string>
+    <string name="temp_thermal_state_serious">Serious</string>
+    <string name="temp_thermal_state_critical">Critical</string>
 
     <!--Sensors-->
     <string name="sensors_accelerometer">Accelerometer</string>
