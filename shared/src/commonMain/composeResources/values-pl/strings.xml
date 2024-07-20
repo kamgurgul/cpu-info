@@ -145,6 +145,11 @@
 
     <!--Temp-->
     <string name="no_temp_data">Przepraszam, nie mogłem znaleźć sensorów temperatury :-(</string>
+    <string name="temp_thermal_state">Stan termiczny: %1$s</string>
+    <string name="temp_thermal_state_nominal">Nominalny</string>
+    <string name="temp_thermal_state_fair">Umiarkowany</string>
+    <string name="temp_thermal_state_serious">Poważny</string>
+    <string name="temp_thermal_state_critical">Krytyczny</string>
 
     <!--Sensors-->
     <string name="sensors_accelerometer">Akcelerometr</string>

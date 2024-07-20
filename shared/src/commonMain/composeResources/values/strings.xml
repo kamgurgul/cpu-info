@@ -175,6 +175,11 @@
     <string name="celsius" translatable="false">&#176;C</string>
     <string name="fahrenheit" translatable="false">&#176;F</string>
     <string name="kelvin" translatable="false">&#176;K</string>
+    <string name="temp_thermal_state">Thermal state: %1$s</string>
+    <string name="temp_thermal_state_nominal">Nominal</string>
+    <string name="temp_thermal_state_fair">Fair</string>
+    <string name="temp_thermal_state_serious">Serious</string>
+    <string name="temp_thermal_state_critical">Critical</string>
 
     <!--Sensors-->
     <string name="sensors_accelerometer">Accelerometer</string>

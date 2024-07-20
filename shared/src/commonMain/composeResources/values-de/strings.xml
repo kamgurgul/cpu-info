@@ -135,6 +135,11 @@
     <string name="pref_theme_choose">Design auswählen</string>
 
     <string name="no_temp_data">Entschuldigung, ich kann keine Temperatursensoren finden :-(</string>
+    <string name="temp_thermal_state">Thermischer Zustand: %1$s</string>
+    <string name="temp_thermal_state_nominal">Nominal</string>
+    <string name="temp_thermal_state_fair">Gut</string>
+    <string name="temp_thermal_state_serious">Ernst</string>
+    <string name="temp_thermal_state_critical">Kritisch</string>
 
     <!--Sensors-->
     <string name="sensors_accelerometer">Beschleunigungssensor</string>

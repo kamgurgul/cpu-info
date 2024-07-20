@@ -19,6 +19,11 @@ package com.kgurgul.cpuinfo.data.provider
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.ic_temperature
+import com.kgurgul.cpuinfo.shared.temp_thermal_state
+import com.kgurgul.cpuinfo.shared.temp_thermal_state_critical
+import com.kgurgul.cpuinfo.shared.temp_thermal_state_fair
+import com.kgurgul.cpuinfo.shared.temp_thermal_state_nominal
+import com.kgurgul.cpuinfo.shared.temp_thermal_state_serious
 import com.kgurgul.cpuinfo.shared.unknown
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -34,17 +39,24 @@ actual class TemperatureProvider actual constructor() {
 
     actual val sensorsFlow: Flow<TemperatureItem> = flow {
         val thermalState = when (NSProcessInfo.processInfo.thermalState) {
-            NSProcessInfoThermalState.NSProcessInfoThermalStateNominal -> "Nominal"
-            NSProcessInfoThermalState.NSProcessInfoThermalStateFair -> "Fair"
-            NSProcessInfoThermalState.NSProcessInfoThermalStateSerious -> "Serious"
-            NSProcessInfoThermalState.NSProcessInfoThermalStateCritical -> "Critical"
+            NSProcessInfoThermalState.NSProcessInfoThermalStateNominal ->
+                getString(Res.string.temp_thermal_state_nominal)
+
+            NSProcessInfoThermalState.NSProcessInfoThermalStateFair ->
+                getString(Res.string.temp_thermal_state_fair)
+
+            NSProcessInfoThermalState.NSProcessInfoThermalStateSerious ->
+                getString(Res.string.temp_thermal_state_serious)
+
+            NSProcessInfoThermalState.NSProcessInfoThermalStateCritical ->
+                getString(Res.string.temp_thermal_state_critical)
             else -> getString(Res.string.unknown)
         }
         emit(
             TemperatureItem(
                 id = ID_THERMAL_STATE,
                 icon = Res.drawable.ic_temperature,
-                name = "Thermal state: $thermalState",
+                name = getString(Res.string.temp_thermal_state, thermalState),
                 temperature = Float.NaN,
             )
         )
