@@ -38,7 +38,7 @@ android {
 
     signingConfigs {
         getByName("debug") {
-            val debugSigningConfig = SigningConfig.getReleaseProperties(rootProject.rootDir)
+            val debugSigningConfig = SigningConfig.getDebugProperties(rootProject.rootDir)
             storeFile = file(debugSigningConfig.getProperty(SigningConfig.KEY_PATH))
             keyAlias = debugSigningConfig.getProperty(SigningConfig.KEY_ALIAS)
             keyPassword = debugSigningConfig.getProperty(SigningConfig.KEY_PASS)
@@ -123,7 +123,7 @@ dependencies {
 
     androidTestUtil(libs.androidx.test.orchestrator)
 
-    "baselineProfile"(project(":baselineprofile"))
+    "baselineProfile"(project(":androidApp:baselineprofile"))
 }
 
 kover {

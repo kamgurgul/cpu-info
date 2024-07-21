@@ -9,7 +9,7 @@ object SigningConfig {
     const val KEY_ALIAS = "KEYSTORE_ALIAS"
 
     fun getDebugProperties(rootDir: File) = Properties().apply {
-        setProperty(KEY_PATH, "${rootDir.path}/debug.keystore")
+        setProperty(KEY_PATH, "${rootDir.path}/androidApp/debug.keystore")
         setProperty(KEY_PASS, "android")
         setProperty(KEY_ALIAS, "androiddebugkey")
         setProperty(KEY_PASS, "android")
