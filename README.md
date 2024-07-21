@@ -34,7 +34,6 @@ alt='Available on Amazon AppStore' height="80">](https://www.amazon.com/Kamil-Gu
 
 # TODO
 
-* iOS data providers 
 * Shared unit and UI tests
 * Add more information about battery
 * Bring back apps size - use StorageStatsManager on Android if possible
