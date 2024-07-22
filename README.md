@@ -19,6 +19,9 @@ height="80">](https://appgallery.cloud.huawei.com/ag/n/app/C102414279?channelId=
 alt='Get it on GitHub' height="80">](https://github.com/kamgurgul/cpu-info/releases/latest)
 [<img src="https://raw.githubusercontent.com/kamgurgul/cpu-info/master/info/amazon-badge.png"
 alt='Available on Amazon AppStore' height="80">](https://www.amazon.com/Kamil-Gurgul-KG-Soft-Info/dp/B088FYQTYR/ref=sr_1_5?keywords=cpu+info&qid=1661020642&s=mobile-apps&sr=1-5)
+[<img src="info/app-store-badge.png"
+alt="Download on the App Store"
+height="80">](https://apps.apple.com/us/app/cpu-info/id6560116815)
 
 # Supported platforms 
 * Android
