@@ -24,10 +24,12 @@ alt="Download on the App Store"
 height="80">](https://apps.apple.com/us/app/cpu-info/id6560116815)
 
 # Supported platforms 
+
 * Android
 * iOS
 
 # Tech stack
+
 * Kotlin
 * Compose Multiplatform
 * Common ViewModel/Lifecycle
