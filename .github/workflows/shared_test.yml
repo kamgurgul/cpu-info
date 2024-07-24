@@ -1,4 +1,4 @@
-name: Build and test
+name: Shared tests
 on:
   pull_request:
   push:

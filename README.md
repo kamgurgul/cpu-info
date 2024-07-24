@@ -2,7 +2,7 @@
 
 <img src="info/icon_glow.png" width="100" height="100" />
 
-# CPU Info (refactor-in-progress ⛏)
+# CPU Info
 
 CPU Info provides information about device hardware and software. 
 
@@ -30,11 +30,11 @@ height="80">](https://apps.apple.com/us/app/cpu-info/id6560116815)
 
 # Tech stack
 
-* Kotlin
-* Compose Multiplatform
-* Common ViewModel/Lifecycle
-* Coroutines
-* Koin
+* [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html)
+* [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
+* [Common ViewModel/Lifecycle](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-lifecycle.html)
+* [Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
+* [Koin](https://github.com/InsertKoinIO/koin)
 * External C libraries - [pytorch/cpuinfo](https://github.com/pytorch/cpuinfo)
 
 # TODO
