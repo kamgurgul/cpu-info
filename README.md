@@ -1,4 +1,4 @@
-![Build and test](https://github.com/kamgurgul/cpu-info/actions/workflows/build_and_test.yml/badge.svg)
+![Build and test](https://github.com/kamgurgul/cpu-info/actions/workflows/shared_test.yml/badge.svg)
 
 <img src="info/icon_glow.png" width="100" height="100" />
 
