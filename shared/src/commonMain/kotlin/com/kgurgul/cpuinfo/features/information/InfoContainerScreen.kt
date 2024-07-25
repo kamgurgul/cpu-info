@@ -4,9 +4,9 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
@@ -83,34 +84,40 @@ fun InfoContainerScreen(
     onRamCleanupClicked: () -> Unit,
     onPageChanged: (Int) -> Unit,
 ) {
-    Column {
-        PrimaryTopAppBar(
-            title = stringResource(Res.string.hardware),
-            actions = {
-                AnimatedVisibility(
-                    visible = uiState.isRamCleanupVisible,
-                    enter = fadeIn(),
-                    exit = fadeOut(),
-                ) {
-                    IconButton(onClick = onRamCleanupClicked) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = stringResource(Res.string.running_gc)
-                        )
+    Scaffold(
+        topBar = {
+            PrimaryTopAppBar(
+                title = stringResource(Res.string.hardware),
+                actions = {
+                    AnimatedVisibility(
+                        visible = uiState.isRamCleanupVisible,
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                    ) {
+                        IconButton(onClick = onRamCleanupClicked) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = stringResource(Res.string.running_gc)
+                            )
+                        }
                     }
-                }
-            },
-        )
+                },
+            )
+        },
+        contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
+    ) { paddingValues ->
         InfoContainer(
+            paddingValues = paddingValues,
             onPageChanged = onPageChanged,
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
         )
     }
 }
 
 @Composable
 private fun InfoContainer(
+    paddingValues: PaddingValues,
     onPageChanged: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -122,16 +129,14 @@ private fun InfoContainer(
     }
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .padding(top = paddingValues.calculateTopPadding())
             .then(modifier)
     ) {
-        val horizontalPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)
-            .asPaddingValues()
         ScrollableTabRow(
             selectedTabIndex = pagerState.currentPage,
             edgePadding = maxOf(
-                horizontalPadding.calculateStartPadding(LayoutDirection.Ltr),
-                horizontalPadding.calculateEndPadding(LayoutDirection.Ltr),
+                paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                paddingValues.calculateEndPadding(LayoutDirection.Ltr),
             ),
             divider = {},
             containerColor = MaterialTheme.colorScheme.primary,
@@ -172,7 +177,10 @@ private fun InfoContainer(
                     else -> throw IllegalArgumentException("Unknown position")
                 }
             },
-            modifier = Modifier.padding(horizontalPadding)
+            modifier = Modifier.padding(
+                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+            )
         )
     }
 }

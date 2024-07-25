@@ -2,17 +2,11 @@ package com.kgurgul.cpuinfo.features
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -37,6 +31,8 @@ import com.kgurgul.cpuinfo.shared.ic_temperature
 import com.kgurgul.cpuinfo.shared.processes
 import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.temp
+import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffold
+import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffoldDefault
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
@@ -58,65 +54,52 @@ fun HostScreen(
     uiState: HostViewModel.UiState
 ) {
     val navController = rememberNavController()
-    Scaffold(
-        bottomBar = {
-            NavigationBar(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-            ) {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-                val withLabel = !uiState.isProcessSectionVisible
-                HostNavigationItem.bottomNavigationItems(
-                    isProcessesVisible = uiState.isProcessSectionVisible,
-                    isApplicationsVisible = uiState.isApplicationSectionVisible,
-                ).forEach { item ->
-                    NavigationBarItem(
-                        icon = {
-                            Icon(
-                                painter = painterResource(item.icon),
-                                contentDescription = stringResource(item.label),
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    val withLabel = !uiState.isProcessSectionVisible
+    val itemDefaultColors = CpuNavigationSuiteScaffoldDefault.itemDefaultColors()
+    CpuNavigationSuiteScaffold(
+        navigationSuiteItems = {
+            HostNavigationItem.bottomNavigationItems(
+                isProcessesVisible = uiState.isProcessSectionVisible,
+                isApplicationsVisible = uiState.isApplicationSectionVisible,
+            ).forEach { item ->
+                item(
+                    icon = {
+                        Icon(
+                            painter = painterResource(item.icon),
+                            contentDescription = stringResource(item.label),
+                        )
+                    },
+                    label = if (withLabel) {
+                        {
+                            Text(
+                                text = stringResource(item.label),
+                                style = MaterialTheme.typography.labelSmall,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
                             )
-                        },
-                        label = if (withLabel) {
-                            {
-                                Text(
-                                    text = stringResource(item.label),
-                                    style = MaterialTheme.typography.labelSmall,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                )
-                            }
-                        } else null,
-                        selected = currentDestination?.hierarchy
-                            ?.any { it.route == item.route } == true,
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                            selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-                            indicatorColor = MaterialTheme.colorScheme.secondary,
-                            unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
-                            unselectedTextColor = MaterialTheme.colorScheme.surfaceVariant,
-                        ),
-                        onClick = {
-                            navController.navigate(item.route) {
-                                navController.graph.findStartDestination().route?.let {
-                                    popUpTo(it) {
-                                        saveState = true
-                                    }
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
                         }
-                    )
-                }
+                    } else null,
+                    selected = currentDestination?.hierarchy
+                        ?.any { it.route == item.route } == true,
+                    onClick = {
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    colors = itemDefaultColors,
+                )
             }
         },
-    ) { paddingValues ->
+    ) {
         NavHost(
             navController = navController,
             startDestination = HostScreen.Information.route,
-            modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())
         ) {
             composable(
                 route = HostScreen.Information.route,

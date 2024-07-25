@@ -88,6 +88,7 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.coroutines.core)
                 api(libs.kotlinx.immutable)
+                implementation(libs.material3.windowSize)
             }
         }
 
