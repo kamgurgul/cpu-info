@@ -47,7 +47,7 @@ jobs:
         with:
           xcode-version: latest-stable
       - name: Import certs
-        uses: apple-actions/import-codesign-certs@v2
+        uses: apple-actions/import-codesign-certs@v3
         with:
           p12-file-base64: ${{ secrets.IOS_CERTIFICATES_P12 }}
           p12-password: ${{ secrets.IOS_CERTIFICATES_PASSWORD }}
