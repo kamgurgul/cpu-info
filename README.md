@@ -27,6 +27,7 @@ height="80">](https://apps.apple.com/us/app/cpu-info/id6560116815)
 
 * Android
 * iOS
+* Desktop (in progress)
 
 # Tech stack
 
@@ -35,6 +36,7 @@ height="80">](https://apps.apple.com/us/app/cpu-info/id6560116815)
 * [Common ViewModel/Lifecycle](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-lifecycle.html)
 * [Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 * [Koin](https://github.com/InsertKoinIO/koin)
+* [Coil](https://github.com/coil-kt/coil)
 * External C libraries - [pytorch/cpuinfo](https://github.com/pytorch/cpuinfo)
 
 # TODO
