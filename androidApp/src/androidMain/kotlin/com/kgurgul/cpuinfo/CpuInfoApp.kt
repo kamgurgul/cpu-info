@@ -19,13 +19,8 @@ package com.kgurgul.cpuinfo
 import android.app.Application
 import com.kgurgul.cpuinfo.appinitializers.AppInitializerComponent
 import com.kgurgul.cpuinfo.appinitializers.AppInitializersModule
-import com.kgurgul.cpuinfo.components.ComponentsModule
-import com.kgurgul.cpuinfo.data.DataModule
 import com.kgurgul.cpuinfo.di.androidModule
-import com.kgurgul.cpuinfo.di.viewModelModule
-import com.kgurgul.cpuinfo.domain.DomainModule
-import com.kgurgul.cpuinfo.features.FeaturesModule
-import com.kgurgul.cpuinfo.utils.UtilsModule
+import com.kgurgul.cpuinfo.di.sharedModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.ksp.generated.module
@@ -39,12 +34,7 @@ class CpuInfoApp : Application() {
             modules(
                 androidModule,
                 AppInitializersModule().module,
-                ComponentsModule().module,
-                DataModule().module,
-                DomainModule().module,
-                FeaturesModule().module,
-                UtilsModule().module,
-                viewModelModule,
+                sharedModule,
             )
         }
         AppInitializerComponent().init(this)

@@ -14,7 +14,7 @@ import com.kgurgul.cpuinfo.features.information.storage.StorageInfoViewModel
 import com.kgurgul.cpuinfo.features.processes.ProcessesViewModel
 import com.kgurgul.cpuinfo.features.settings.SettingsViewModel
 import com.kgurgul.cpuinfo.features.temperature.TemperatureViewModel
-import org.koin.compose.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val viewModelModule = module {
