@@ -406,7 +406,8 @@ object NavigationSuiteScaffoldDefaults {
     fun calculateFromAdaptiveInfo(adaptiveInfo: WindowSizeClass): NavigationSuiteType {
         return with(adaptiveInfo) {
             if (widthSizeClass == WindowWidthSizeClass.Expanded
-                && heightSizeClass == WindowHeightSizeClass.Medium
+                && (heightSizeClass == WindowHeightSizeClass.Medium
+                        || heightSizeClass == WindowHeightSizeClass.Expanded)
             ) {
                 NavigationSuiteType.NavigationRail
             } else {
