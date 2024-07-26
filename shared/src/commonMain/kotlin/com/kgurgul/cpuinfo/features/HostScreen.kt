@@ -85,8 +85,10 @@ fun HostScreen(
                         ?.any { it.route == item.route } == true,
                     onClick = {
                         navController.navigate(item.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+                            navController.graph.findStartDestination().route?.let {
+                                popUpTo(it) {
+                                    saveState = true
+                                }
                             }
                             launchSingleTop = true
                             restoreState = true

@@ -53,6 +53,8 @@ kotlin {
         }
     }
 
+    jvm("desktop")
+
     applyDefaultHierarchyTemplate()
 
     sourceSets {
@@ -96,6 +98,12 @@ kotlin {
             implementation(compose.preview)
             implementation(compose.uiTooling)
             implementation(libs.koin.android)
+        }
+
+        val desktopMain by getting
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
         }
 
         commonTest.dependencies {
