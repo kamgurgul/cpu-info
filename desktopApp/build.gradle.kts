@@ -25,19 +25,18 @@ compose.desktop {
             packageName = "CPUInfo"
             packageVersion = "1.0.0"
 
-            /* val iconsRoot = project.file("desktop-icons")
+            val iconsRoot = project.file("desktop-icons")
              macOS {
                  iconFile.set(iconsRoot.resolve("icon-mac.icns"))
              }
              windows {
                  iconFile.set(iconsRoot.resolve("icon-windows.ico"))
-                 menuGroup = "Compose Examples"
-                 // see https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
-                 upgradeUuid = "18159995-d967-4CD2-8885-77BFA97CFA9F"
+                 menuGroup = "CPU Info"
+                 upgradeUuid = "d4a688eb-758f-44e8-81bb-8367880c5c95"
              }
              linux {
                  iconFile.set(iconsRoot.resolve("icon-linux.png"))
-             }*/
+             }
         }
     }
 }
