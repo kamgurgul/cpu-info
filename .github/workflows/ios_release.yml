@@ -19,15 +19,6 @@ jobs:
           cache: gradle
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-home-cache-cleanup: true
-          cache-encryption-key: ${{ secrets.GRADLE_CACHE_ENCRYPTION_KEY }}
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
   build_and_release:
@@ -51,8 +42,6 @@ jobs:
         with:
           path: |
             ~/.konan
-            ~/.gradle/caches
-            ~/.gradle/wrapper
           key: ${{ runner.os }}-v1-${{ hashFiles('*.versions.toml') }}
       - uses: maxim-lobanov/setup-xcode@v1
         with:
