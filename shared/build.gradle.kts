@@ -85,7 +85,7 @@ kotlin {
                 implementation(libs.androidx.navigation.compose)
                 implementation(libs.coil)
                 implementation(libs.kermit.kermit)
-                implementation(libs.koin.annotations)
+                api(libs.koin.annotations)
                 implementation(libs.koin.compose.viewodel)
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.coroutines.core)

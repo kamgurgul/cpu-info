@@ -22,7 +22,7 @@ jobs:
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
   build_and_release:
-    needs: code-quality
+    needs: code_quality
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
