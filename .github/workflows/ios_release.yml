@@ -1,4 +1,4 @@
-name: IOS release
+name: iOS release
 on:
   workflow_dispatch:
     inputs:
@@ -55,6 +55,72 @@ jobs:
         uses: apple-actions/download-provisioning-profiles@v3
         with:
           bundle-id: ${{ secrets.IOS_BUNDLE_ID }}
+          issuer-id: ${{ secrets.IOS_APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.IOS_APPSTORE_KEY_ID }}
+          api-private-key: ${{ secrets.IOS_APPSTORE_PRIVATE_KEY }}
+      - name: Build archive
+        run: |
+          cd iosApp
+
+          xcrun xcodebuild \
+            -scheme "iosApp" \
+            -configuration "Release" \
+            -sdk "iphoneos" \
+            -parallelizeTargets \
+            -showBuildTimingSummary \
+            -disableAutomaticPackageResolution \
+            -derivedDataPath "${RUNNER_TEMP}/Build/DerivedData" \
+            -archivePath "${RUNNER_TEMP}/Build/Archives/cpuinfo.xcarchive" \
+            -resultBundlePath "${RUNNER_TEMP}/Build/Artifacts/cpuinfo.xcresult" \
+            -destination "generic/platform=iOS" \
+            DEVELOPMENT_TEAM="${{ secrets.IOS_APPSTORE_TEAM_ID }}" \
+            PRODUCT_BUNDLE_IDENTIFIER="${{ secrets.IOS_BUNDLE_ID }}" \
+            CODE_SIGN_STYLE="Manual" \
+            PROVISIONING_PROFILE_SPECIFIER="${{ secrets.IOS_DEV_PROVISIONING_PROFILE_NAME }}" \
+            archive
+      - name: "Generate ExportOptions.plist"
+        run: |
+          cat <<EOF > ${RUNNER_TEMP}/Build/ExportOptions.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+            <dict>
+              <key>destination</key>
+              <string>export</string>
+              <key>method</key>
+              <string>app-store</string>
+              <key>signingStyle</key>
+              <string>manual</string>
+              <key>generateAppStoreInformation</key>
+              <true/>
+              <key>stripSwiftSymbols</key>
+              <true/>
+              <key>teamID</key>
+              <string>${{ secrets.IOS_APPSTORE_TEAM_ID }}</string>
+              <key>uploadSymbols</key>
+              <true/>
+              <key>provisioningProfiles</key>
+              <dict>
+                <key>${{ secrets.IOS_BUNDLE_ID }}</key>
+                <string>${{ secrets.IOS_DIST_PROVISIONING_PROFILE_NAME }}</string>
+              </dict>
+            </dict>
+          </plist>
+          EOF
+      - id: build_ipa
+        name: Build IPA
+        run: |
+          xcrun xcodebuild \
+            -exportArchive \
+            -exportOptionsPlist "${RUNNER_TEMP}/Build/ExportOptions.plist" \
+            -archivePath "${RUNNER_TEMP}/Build/Archives/cpuinfo.xcarchive" \
+            -exportPath "${RUNNER_TEMP}/Build/Archives/cpuinfo.xcarchive" \
+            PRODUCT_BUNDLE_IDENTIFIER="${{ secrets.IOS_BUNDLE_ID }}"
+          
+          echo "ipa_path=${RUNNER_TEMP}/Build/Archives/cpuinfo.xcarchive/iosApp.ipa" >> $GITHUB_ENV
+      - uses: Apple-Actions/upload-testflight-build@v1
+        with:
+          app-path: ${{ env.ipa_path }}
           issuer-id: ${{ secrets.IOS_APPSTORE_ISSUER_ID }}
           api-key-id: ${{ secrets.IOS_APPSTORE_KEY_ID }}
           api-private-key: ${{ secrets.IOS_APPSTORE_PRIVATE_KEY }}
