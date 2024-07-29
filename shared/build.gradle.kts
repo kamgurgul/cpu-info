@@ -1,5 +1,6 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -191,12 +192,17 @@ dependencies {
     //add("kspIosSimulatorArm64", libs.koin.kspCompiler)
 }
 
-tasks.filter {
-    it.name.contains("compile", true)
-}.forEach {
-    if (it.name != "compileKotlinMetadata") {
-        it.dependsOn("kspCommonMainKotlinMetadata")
+tasks.withType<KotlinCompile>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
     }
+}
+
+tasks.filter {
+    it.name.contains("compileKotlinIos", true)
+            || it.name.contains("compileTestKotlinIos", true)
+}.forEach {
+    it.dependsOn("kspCommonMainKotlinMetadata")
 }
 
 afterEvaluate {
