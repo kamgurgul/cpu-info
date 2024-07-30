@@ -124,3 +124,9 @@ jobs:
           issuer-id: ${{ secrets.IOS_APPSTORE_ISSUER_ID }}
           api-key-id: ${{ secrets.IOS_APPSTORE_KEY_ID }}
           api-private-key: ${{ secrets.IOS_APPSTORE_PRIVATE_KEY }}
+      - name: Tag Release
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag ${{ github.event.inputs.version }}
+          git push origin ${{ github.event.inputs.version }}
