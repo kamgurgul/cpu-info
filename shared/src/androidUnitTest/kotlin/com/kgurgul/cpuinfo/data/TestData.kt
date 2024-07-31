@@ -12,7 +12,6 @@ import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
-import com.kgurgul.cpuinfo.shared.internal
 
 object TestData {
 
@@ -108,8 +107,8 @@ object TestData {
 
     val storageData = listOf(
         StorageItem(
-            id = 0L,
-            label = Res.string.internal,
+            id = "0",
+            label = "Internal",
             iconDrawable = Res.drawable.baseline_folder_special_24,
             storageTotal = 100,
             storageUsed = 50,

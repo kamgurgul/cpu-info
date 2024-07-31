@@ -7,7 +7,6 @@ import com.kgurgul.cpuinfo.features.information.storage.StorageInfoViewModel
 import com.kgurgul.cpuinfo.features.information.storage.StorageScreen
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
-import com.kgurgul.cpuinfo.shared.internal
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 
 @Preview
@@ -18,8 +17,8 @@ fun StorageScreenPreview() {
             uiState = StorageInfoViewModel.UiState(
                 storageItems = listOf(
                     StorageItem(
-                        id = 0L,
-                        label = Res.string.internal,
+                        id = "0",
+                        label = "Internal",
                         iconDrawable = Res.drawable.baseline_folder_special_24,
                         storageTotal = 100,
                         storageUsed = 50,

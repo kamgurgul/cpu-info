@@ -4,6 +4,8 @@ import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
 import com.kgurgul.cpuinfo.shared.internal
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -23,8 +25,8 @@ actual class StorageDataProvider actual constructor() : KoinComponent {
         val storageUsed = storageTotal - availableSpace
         return if (storageTotal > 0) {
             StorageItem(
-                id = 0L,
-                label = Res.string.internal,
+                id = "0",
+                label = runBlocking { getString(Res.string.internal) },
                 iconDrawable = Res.drawable.baseline_folder_special_24,
                 storageTotal = storageTotal,
                 storageUsed = storageUsed,

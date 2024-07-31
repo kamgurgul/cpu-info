@@ -14,7 +14,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.Utils
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
 
@@ -42,7 +41,7 @@ fun StorageScreen(
             uiState.storageItems,
             key = { it.id }
         ) { storageItem ->
-            val label = stringResource(storageItem.label)
+            val label = storageItem.label
             val totalReadable = Utils.humanReadableByteCount(storageItem.storageTotal)
             val usedReadable = Utils.humanReadableByteCount(storageItem.storageUsed)
             val progress = storageItem.storageUsed.toFloat() / storageItem.storageTotal.toFloat()

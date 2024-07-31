@@ -9,6 +9,8 @@ import com.kgurgul.cpuinfo.shared.baseline_sd_storage_24
 import com.kgurgul.cpuinfo.shared.external
 import com.kgurgul.cpuinfo.shared.internal
 import com.kgurgul.cpuinfo.utils.CpuLogger
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.Factory
 import java.io.BufferedReader
 import java.io.DataInputStream
@@ -30,8 +32,8 @@ actual class StorageDataProvider actual constructor() {
         val storageUsed = storageTotal - availableSpace
         return if (storageTotal > 0) {
             StorageItem(
-                id = 0L,
-                label = Res.string.internal,
+                id = "0",
+                label = runBlocking { getString(Res.string.internal) },
                 iconDrawable = Res.drawable.baseline_folder_special_24,
                 storageTotal = storageTotal,
                 storageUsed = storageUsed,
@@ -49,8 +51,8 @@ actual class StorageDataProvider actual constructor() {
             val storageUsed = storageTotal - availableSpace
             if (storageTotal > 0) {
                 StorageItem(
-                    id = 1L,
-                    label = Res.string.external,
+                    id = "1",
+                    label = runBlocking { getString(Res.string.external) },
                     iconDrawable = Res.drawable.baseline_folder_24,
                     storageTotal = storageTotal,
                     storageUsed = storageUsed,
@@ -78,8 +80,8 @@ actual class StorageDataProvider actual constructor() {
                     val storageUsed = storageTotal - availableSpace
                     return if (storageTotal > 0) {
                         StorageItem(
-                            id = 2L,
-                            label = Res.string.external,
+                            id = "2",
+                            label = runBlocking { getString(Res.string.external) },
                             iconDrawable = Res.drawable.baseline_sd_storage_24,
                             storageTotal = storageTotal,
                             storageUsed = storageUsed,
