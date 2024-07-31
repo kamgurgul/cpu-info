@@ -1,16 +1,22 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import org.koin.core.annotation.Factory
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import oshi.SystemInfo
 
 @Factory
-actual class CpuDataProvider actual constructor() {
+actual class CpuDataProvider actual constructor() : KoinComponent {
+
+    private val systemInfo: SystemInfo by inject()
+    private val processor = systemInfo.hardware.processor
 
     actual fun getAbi(): String {
-        return ""
+        return System.getProperty("os.arch")
     }
 
     actual fun getNumberOfCores(): Int {
-        return -1
+        return processor.physicalProcessorCount
     }
 
     actual fun getCurrentFreq(coreNumber: Int): Long {
