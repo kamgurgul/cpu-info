@@ -2,7 +2,7 @@ package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
+import com.kgurgul.cpuinfo.shared.ic_hard_drive
 import com.kgurgul.cpuinfo.shared.internal
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
@@ -27,7 +27,7 @@ actual class StorageDataProvider actual constructor() : KoinComponent {
             StorageItem(
                 id = "0",
                 label = runBlocking { getString(Res.string.internal) + ": " },
-                iconDrawable = Res.drawable.baseline_folder_special_24,
+                iconDrawable = Res.drawable.ic_hard_drive,
                 storageTotal = storageTotal,
                 storageUsed = storageUsed,
             )
