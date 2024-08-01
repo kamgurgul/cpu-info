@@ -33,7 +33,7 @@ actual class StorageDataProvider actual constructor() {
         return if (storageTotal > 0) {
             StorageItem(
                 id = "0",
-                label = runBlocking { getString(Res.string.internal) },
+                label = runBlocking { getString(Res.string.internal) + ": " },
                 iconDrawable = Res.drawable.baseline_folder_special_24,
                 storageTotal = storageTotal,
                 storageUsed = storageUsed,
@@ -52,7 +52,7 @@ actual class StorageDataProvider actual constructor() {
             if (storageTotal > 0) {
                 StorageItem(
                     id = "1",
-                    label = runBlocking { getString(Res.string.external) },
+                    label = runBlocking { getString(Res.string.external) + ": " },
                     iconDrawable = Res.drawable.baseline_folder_24,
                     storageTotal = storageTotal,
                     storageUsed = storageUsed,
@@ -81,7 +81,7 @@ actual class StorageDataProvider actual constructor() {
                     return if (storageTotal > 0) {
                         StorageItem(
                             id = "2",
-                            label = runBlocking { getString(Res.string.external) },
+                            label = runBlocking { getString(Res.string.external) + ": " },
                             iconDrawable = Res.drawable.baseline_sd_storage_24,
                             storageTotal = storageTotal,
                             storageUsed = storageUsed,

@@ -2,7 +2,7 @@ package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.baseline_folder_24
+import com.kgurgul.cpuinfo.shared.ic_hard_drive
 import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -17,11 +17,15 @@ actual class StorageDataProvider actual constructor() : KoinComponent {
     actual fun getStorageInfo(): List<StorageItem> {
         return buildList {
             fileStores.forEach { osFileStore ->
+                val label = buildString {
+                    appendLine(osFileStore.name)
+                    appendLine(osFileStore.type)
+                }
                 add(
                     StorageItem(
                         id = osFileStore.uuid,
-                        label = osFileStore.name,
-                        iconDrawable = Res.drawable.baseline_folder_24,
+                        label = label,
+                        iconDrawable = Res.drawable.ic_hard_drive,
                         storageTotal = osFileStore.totalSpace,
                         storageUsed = osFileStore.totalSpace - osFileStore.freeSpace,
                     )

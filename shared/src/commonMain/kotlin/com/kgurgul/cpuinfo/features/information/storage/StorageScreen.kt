@@ -46,12 +46,15 @@ fun StorageScreen(
             val usedReadable = Utils.humanReadableByteCount(storageItem.storageUsed)
             val progress = storageItem.storageUsed.toFloat() / storageItem.storageTotal.toFloat()
             val usedPercent = (progress * 100.0).roundToInt()
-            val storageDesc = "$label: $usedReadable / $totalReadable ($usedPercent%)"
+            val storageDesc = "$label$usedReadable / $totalReadable ($usedPercent%)"
+            val minMaxValues = Utils.humanReadableByteCount(0) to
+                    Utils.humanReadableByteCount(storageItem.storageTotal)
             CpuProgressBar(
                 label = storageDesc,
                 progress = progress,
                 progressHeight = 32.dp,
                 prefixImageRes = storageItem.iconDrawable,
+                minMaxValues = minMaxValues,
                 modifier = Modifier.focusable(),
             )
         }
