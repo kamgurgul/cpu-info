@@ -4,7 +4,6 @@ import com.kgurgul.cpuinfo.data.local.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
-import com.kgurgul.cpuinfo.domain.model.GpuData
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.domain.model.RamData
 import com.kgurgul.cpuinfo.domain.model.StorageItem
@@ -96,13 +95,13 @@ object TestData {
         threshold = 50,
     )
 
-    val gpuData = GpuData(
-        vulkanVersion = "vulkanVersion",
-        glesVersion = "glEsVersion",
-        metalVersion = "metalVersion",
-        glVendor = "glVendor",
-        glRenderer = "glRenderer",
-        glExtensions = "glExtensions",
+    val gpuData = listOf(
+        "vulkanVersion" to "vulkanVersion",
+        "glesVersion" to "glEsVersion",
+        "metalVersion" to "metalVersion",
+        "glVendor" to "glVendor",
+        "glRenderer" to "glRenderer",
+        "glExtensions" to "glExtensions",
     )
 
     val storageData = listOf(
