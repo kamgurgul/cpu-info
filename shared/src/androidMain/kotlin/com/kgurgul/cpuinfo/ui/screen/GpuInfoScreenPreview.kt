@@ -2,7 +2,6 @@ package com.kgurgul.cpuinfo.ui.screen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.kgurgul.cpuinfo.domain.model.GpuData
 import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoScreen
 import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoViewModel
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -13,13 +12,13 @@ fun GpuInfoScreenPreview() {
     CpuInfoTheme {
         GpuInfoScreen(
             uiState = GpuInfoViewModel.UiState(
-                gpuData = GpuData(
-                    vulkanVersion = "vulkanVersion",
-                    glesVersion = "glEsVersion",
-                    metalVersion = "metalVersion",
-                    glVendor = "glVendor",
-                    glRenderer = "glRenderer",
-                    glExtensions = "glExtensions",
+                gpuData = listOf(
+                    "vulkanVersion" to "vulkanVersion",
+                    "glesVersion" to "glEsVersion",
+                    "metalVersion" to "metalVersion",
+                    "glVendor" to "glVendor",
+                    "glRenderer" to "glRenderer",
+                    "glExtensions" to "glExtensions",
                 )
             )
         )

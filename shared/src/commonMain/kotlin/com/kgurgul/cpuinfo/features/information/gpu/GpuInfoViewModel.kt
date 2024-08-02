@@ -18,7 +18,6 @@ package com.kgurgul.cpuinfo.features.information.gpu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kgurgul.cpuinfo.domain.model.GpuData
 import com.kgurgul.cpuinfo.domain.observable.GpuDataObservable
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -43,6 +42,6 @@ class GpuInfoViewModel(
     }
 
     data class UiState(
-        val gpuData: GpuData? = null
+        val gpuData: List<Pair<String, String>> = emptyList()
     )
 }

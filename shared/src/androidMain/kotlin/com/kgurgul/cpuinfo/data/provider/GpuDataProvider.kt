@@ -4,7 +4,9 @@ import android.app.ActivityManager
 import android.content.pm.PackageManager
 import android.os.Build
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.gles_version
 import com.kgurgul.cpuinfo.shared.unknown
+import com.kgurgul.cpuinfo.shared.vulkan_version
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.Factory
@@ -17,14 +19,24 @@ actual class GpuDataProvider actual constructor() : KoinComponent {
     private val activityManager: ActivityManager by inject()
     private val packageManager: PackageManager by inject()
 
-    actual fun getGlEsVersion(): String {
+    actual suspend fun getData(): List<Pair<String, String>> {
+        return buildList {
+            val vulcanVersion = getVulkanVersion()
+            if (vulcanVersion.isNotEmpty()) {
+                add(getString(Res.string.vulkan_version) to vulcanVersion)
+            }
+            val glVersion = getGlEsVersion()
+            if (glVersion.isNotEmpty()) {
+                add(getString(Res.string.gles_version) to glVersion)
+            }
+        }
+    }
+
+    private fun getGlEsVersion(): String {
         return activityManager.deviceConfigurationInfo.glEsVersion
     }
 
-    /**
-     * Obtain Vulkan version
-     */
-    actual fun getVulkanVersion(): String {
+    private fun getVulkanVersion(): String {
         val default = runBlocking { getString(Res.string.unknown) }
         if (Build.VERSION.SDK_INT < 24) {
             return default
@@ -45,6 +57,4 @@ actual class GpuDataProvider actual constructor() : KoinComponent {
         //
         return "$major.$minor.$patch"
     }
-
-    actual fun getMetalVersion() = ""
 }

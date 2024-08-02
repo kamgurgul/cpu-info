@@ -4,25 +4,15 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.extensions
-import com.kgurgul.cpuinfo.shared.gles_version
-import com.kgurgul.cpuinfo.shared.metal_version
-import com.kgurgul.cpuinfo.shared.renderer
-import com.kgurgul.cpuinfo.shared.vendor
-import com.kgurgul.cpuinfo.shared.vulkan_version
-import com.kgurgul.cpuinfo.ui.components.CpuDivider
-import com.kgurgul.cpuinfo.ui.components.ItemValueRow
+import com.kgurgul.cpuinfo.features.information.base.InformationRow
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -52,73 +42,16 @@ fun GpuInfoScreen(
         verticalArrangement = Arrangement.spacedBy(spacingSmall),
         modifier = Modifier.fillMaxSize(),
     ) {
-        uiState.gpuData?.let { gpuData ->
-            if (gpuData.vulkanVersion.isNotEmpty()) {
-                item(key = "__vulkan_version") {
-                    ItemValueRow(
-                        title = stringResource(Res.string.vulkan_version),
-                        value = gpuData.vulkanVersion,
-                        modifier = Modifier.focusable(),
-                    )
-                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                    CpuDivider()
-                }
-            }
-            if (gpuData.metalVersion.isNotEmpty()) {
-                item(key = "__metal_version") {
-                    ItemValueRow(
-                        title = stringResource(Res.string.metal_version),
-                        value = gpuData.metalVersion,
-                        modifier = Modifier.focusable(),
-                    )
-                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                    CpuDivider()
-                }
-            }
-            if (gpuData.glesVersion.isNotEmpty()) {
-                item(key = "__gles_version") {
-                    ItemValueRow(
-                        title = stringResource(Res.string.gles_version),
-                        value = gpuData.glesVersion,
-                        modifier = Modifier.focusable(),
-                    )
-                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                    CpuDivider()
-                }
-            }
-            if (gpuData.glVendor != null) {
-                item(key = "__gl_vendor") {
-                    ItemValueRow(
-                        title = stringResource(Res.string.vendor),
-                        value = gpuData.glVendor,
-                        modifier = Modifier.focusable(),
-                    )
-                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                    CpuDivider()
-                }
-            }
-            if (gpuData.glRenderer != null) {
-                item(key = "__gl_renderer") {
-                    ItemValueRow(
-                        title = stringResource(Res.string.renderer),
-                        value = gpuData.glRenderer,
-                        modifier = Modifier.focusable(),
-                    )
-                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                    CpuDivider()
-                }
-            }
-            if (gpuData.glExtensions != null) {
-                item(key = "__gl_extensions") {
-                    ItemValueRow(
-                        title = stringResource(Res.string.extensions),
-                        value = gpuData.glExtensions,
-                        modifier = Modifier.focusable(),
-                    )
-                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                    CpuDivider()
-                }
-            }
+        itemsIndexed(
+            uiState.gpuData,
+            key = { _, pair -> pair.first }
+        ) { index, (title, value) ->
+            InformationRow(
+                title = title,
+                value = value,
+                isLastItem = index == uiState.gpuData.lastIndex,
+                modifier = Modifier.focusable(),
+            )
         }
     }
 }

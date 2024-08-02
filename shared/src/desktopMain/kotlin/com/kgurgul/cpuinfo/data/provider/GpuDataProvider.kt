@@ -11,13 +11,7 @@ actual class GpuDataProvider actual constructor() : KoinComponent {
     private val systemInfo: SystemInfo by inject()
     private val gpu = systemInfo.hardware.graphicsCards
 
-    actual fun getGlEsVersion(): String {
-        return ""
+    actual suspend fun getData(): List<Pair<String, String>> {
+        return gpu.map { it.vendor to it.name }
     }
-
-    actual fun getVulkanVersion(): String {
-        return ""
-    }
-
-    actual fun getMetalVersion() = ""
 }
