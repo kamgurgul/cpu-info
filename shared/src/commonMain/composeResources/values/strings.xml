@@ -22,6 +22,8 @@
     <string name="no">No</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="id" translatable="false">ID</string>
+    <string name="vram" translatable="false">VRAM</string>
 
     <!--Tabs-->
     <string name="cpu">CPU</string>
