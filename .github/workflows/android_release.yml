@@ -18,7 +18,7 @@ jobs:
           distribution: 'corretto'
           cache: gradle
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
       - name: Generate code coverage
@@ -46,7 +46,7 @@ jobs:
           distribution: 'corretto'
           cache: gradle
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
       - name: Decode Keystore
         env:
           ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_ENCODED }}
