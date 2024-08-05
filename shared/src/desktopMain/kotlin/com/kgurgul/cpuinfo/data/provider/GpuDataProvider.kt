@@ -24,7 +24,9 @@ actual class GpuDataProvider actual constructor() : KoinComponent {
                 add(gpu.name to "")
                 add(getString(Res.string.vendor) to gpu.vendor)
                 add(getString(Res.string.id) to gpu.deviceId)
-                add(getString(Res.string.vram) to Utils.humanReadableByteCount(gpu.vRam))
+                if (gpu.vRam != 0L) {
+                    add(getString(Res.string.vram) to Utils.humanReadableByteCount(gpu.vRam))
+                }
                 add(getString(Res.string.version) to gpu.versionInfo)
             }
         }
