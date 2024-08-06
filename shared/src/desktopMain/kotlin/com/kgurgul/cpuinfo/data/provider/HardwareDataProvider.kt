@@ -16,13 +16,77 @@
 
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.hardware_computer_system
+import com.kgurgul.cpuinfo.shared.hardware_firmware
+import com.kgurgul.cpuinfo.shared.hardware_motherboard
+import com.kgurgul.cpuinfo.shared.hardware_uuid
+import com.kgurgul.cpuinfo.shared.manufacturer
+import com.kgurgul.cpuinfo.shared.model
+import com.kgurgul.cpuinfo.shared.serial
+import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import oshi.SystemInfo
 
 @Factory
 actual class HardwareDataProvider actual constructor() : KoinComponent {
 
+    private val systemInfo: SystemInfo by inject()
+    private val hardware = systemInfo.hardware
+
     actual suspend fun getData(): List<Pair<String, String>> {
-        return emptyList()
+        return buildList {
+            add(getString(Res.string.hardware_computer_system) to "")
+            add(getString(Res.string.manufacturer) to hardware.computerSystem.manufacturer)
+            add(getString(Res.string.model) to hardware.computerSystem.model)
+            add(getString(Res.string.serial) to hardware.computerSystem.serialNumber)
+            add(getString(Res.string.hardware_uuid) to hardware.computerSystem.hardwareUUID)
+            val firmware = buildString {
+                if (hardware.computerSystem.firmware.manufacturer != UNKNOWN) {
+                    append(hardware.computerSystem.firmware.manufacturer)
+                    append(" ")
+                }
+                if (hardware.computerSystem.firmware.name != UNKNOWN) {
+                    append(hardware.computerSystem.firmware.name)
+                    append(" ")
+                }
+                if (hardware.computerSystem.firmware.version != UNKNOWN) {
+                    append(hardware.computerSystem.firmware.version)
+                    append(" ")
+                }
+                if (hardware.computerSystem.firmware.description != UNKNOWN) {
+                    append(hardware.computerSystem.firmware.description)
+                    append(" ")
+                }
+                if (hardware.computerSystem.firmware.releaseDate != UNKNOWN) {
+                    append(hardware.computerSystem.firmware.releaseDate)
+                }
+            }.trim()
+            val motherboard = buildString {
+                if (hardware.computerSystem.baseboard.manufacturer != UNKNOWN) {
+                    append(hardware.computerSystem.baseboard.manufacturer)
+                    append(" ")
+                }
+                if (hardware.computerSystem.baseboard.model != UNKNOWN) {
+                    append(hardware.computerSystem.baseboard.model)
+                    append(" ")
+                }
+                if (hardware.computerSystem.baseboard.version != UNKNOWN) {
+                    append(hardware.computerSystem.baseboard.version)
+                    append(" ")
+                }
+                if (hardware.computerSystem.baseboard.serialNumber != UNKNOWN) {
+                    append(hardware.computerSystem.baseboard.serialNumber)
+                }
+            }.trim()
+            add(getString(Res.string.hardware_firmware) to firmware)
+            add(getString(Res.string.hardware_motherboard) to motherboard)
+        }
+    }
+
+    companion object {
+        private const val UNKNOWN = "unknown"
     }
 }

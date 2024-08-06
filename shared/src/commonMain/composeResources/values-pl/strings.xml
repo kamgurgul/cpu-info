@@ -133,6 +133,8 @@
     <string name="ir_emitter">Nadajnik IR</string>
     <string name="camera_lens_number">Liczba soczewek</string>
     <string name="hardware_microphones">Mikrofony</string>
+    <string name="hardware_computer_system">System komputerowy</string>
+    <string name="hardware_motherboard">Płyta główna</string>
 
     <!--Prefs-->
     <string name="general">Ogólne</string>

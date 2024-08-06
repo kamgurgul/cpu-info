@@ -163,6 +163,10 @@
     <string name="battery_full">Full</string>
     <string name="ir_emitter">IR Emitter</string>
     <string name="hardware_microphones">Microphones</string>
+    <string name="hardware_computer_system">Computer system</string>
+    <string name="hardware_firmware" translatable="false">Firmware</string>
+    <string name="hardware_motherboard">Motherboard</string>
+    <string name="hardware_uuid" translatable="false">UUID</string>
 
     <!--Prefs-->
     <string name="general">General</string>

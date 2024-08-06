@@ -125,6 +125,8 @@
     <string name="battery_full">Plně nabitá</string>
     <string name="ir_emitter">IR vysílač</string>
     <string name="hardware_microphones">Mikrofony</string>
+    <string name="hardware_computer_system">Počítačový systém</string>
+    <string name="hardware_motherboard">Základní deska</string>
 
     <string name="general">Obecné</string>
     <string name="temperature_unit">Jednotka teploty</string>
