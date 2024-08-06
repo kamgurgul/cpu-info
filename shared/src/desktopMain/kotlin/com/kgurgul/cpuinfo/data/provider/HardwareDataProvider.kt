@@ -24,6 +24,7 @@ import com.kgurgul.cpuinfo.shared.hardware_uuid
 import com.kgurgul.cpuinfo.shared.manufacturer
 import com.kgurgul.cpuinfo.shared.model
 import com.kgurgul.cpuinfo.shared.serial
+import com.kgurgul.cpuinfo.shared.sound_card
 import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
@@ -83,6 +84,13 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             }.trim()
             add(getString(Res.string.hardware_firmware) to firmware)
             add(getString(Res.string.hardware_motherboard) to motherboard)
+
+            if (hardware.soundCards.isNotEmpty()) {
+                add(getString(Res.string.sound_card) to "")
+                hardware.soundCards.forEach { soundCard ->
+                    add(soundCard.name to soundCard.driverVersion)
+                }
+            }
         }
     }
 
