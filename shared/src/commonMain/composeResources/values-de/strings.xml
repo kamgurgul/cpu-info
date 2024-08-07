@@ -127,6 +127,7 @@
     <string name="hardware_microphones">Mikrofone</string>
     <string name="hardware_computer_system">Computersystem</string>
     <string name="hardware_motherboard">Motherboard</string>
+    <string name="hardware_network_interfaces">Netzwerkschnittstellen</string>
 
     <string name="general">Allgemein</string>
     <string name="temperature_unit">Temperatureinheit</string>

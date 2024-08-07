@@ -20,6 +20,7 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.hardware_computer_system
 import com.kgurgul.cpuinfo.shared.hardware_firmware
 import com.kgurgul.cpuinfo.shared.hardware_motherboard
+import com.kgurgul.cpuinfo.shared.hardware_network_interfaces
 import com.kgurgul.cpuinfo.shared.hardware_uuid
 import com.kgurgul.cpuinfo.shared.manufacturer
 import com.kgurgul.cpuinfo.shared.model
@@ -89,6 +90,22 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                 add(getString(Res.string.sound_card) to "")
                 hardware.soundCards.forEach { soundCard ->
                     add(soundCard.name to soundCard.driverVersion)
+                }
+            }
+
+            if (hardware.networkIFs.isNotEmpty()) {
+                add(getString(Res.string.hardware_network_interfaces) to "")
+                hardware.networkIFs.forEach { networkIF ->
+                    val value = buildString {
+                        appendLine(networkIF.macaddr)
+                        if (networkIF.iPv4addr.isNotEmpty()) {
+                            appendLine(networkIF.iPv4addr.joinToString { "\n" })
+                        }
+                        if (networkIF.iPv6addr.isNotEmpty()) {
+                            appendLine(networkIF.iPv6addr.joinToString { "\n" })
+                        }
+                    }.trim()
+                    add(networkIF.name to value)
                 }
             }
         }

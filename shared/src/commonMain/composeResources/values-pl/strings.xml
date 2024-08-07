@@ -135,6 +135,7 @@
     <string name="hardware_microphones">Mikrofony</string>
     <string name="hardware_computer_system">System komputerowy</string>
     <string name="hardware_motherboard">Płyta główna</string>
+    <string name="hardware_network_interfaces">Interfejsy sieciowe</string>
 
     <!--Prefs-->
     <string name="general">Ogólne</string>

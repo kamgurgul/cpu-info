@@ -167,6 +167,7 @@
     <string name="hardware_firmware" translatable="false">Firmware</string>
     <string name="hardware_motherboard">Motherboard</string>
     <string name="hardware_uuid" translatable="false">UUID</string>
+    <string name="hardware_network_interfaces">Network interfaces</string>
 
     <!--Prefs-->
     <string name="general">General</string>

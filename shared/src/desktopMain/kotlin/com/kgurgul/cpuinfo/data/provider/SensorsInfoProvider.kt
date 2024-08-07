@@ -19,11 +19,10 @@ import oshi.SystemInfo
 actual class SensorsInfoProvider actual constructor() : KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
-    private val hardware = systemInfo.hardware
     private val temperatureFormatter: TemperatureFormatter by inject()
 
     actual fun getSensorData(): Flow<List<SensorData>> = flow {
-        val sensors = hardware.sensors
+        val sensors = systemInfo.hardware.sensors
         val sensorList = buildList {
             if (!sensors.cpuTemperature.isNaN() && sensors.cpuTemperature != 0.0) {
                 add(
