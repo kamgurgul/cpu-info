@@ -56,7 +56,6 @@ fun HostScreen(
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    val withLabel = !uiState.isProcessSectionVisible
     val itemDefaultColors = CpuNavigationSuiteScaffoldDefault.itemDefaultColors()
     CpuNavigationSuiteScaffold(
         navigationSuiteItems = {
@@ -71,16 +70,14 @@ fun HostScreen(
                             contentDescription = stringResource(item.label),
                         )
                     },
-                    label = if (withLabel) {
-                        {
-                            Text(
-                                text = stringResource(item.label),
-                                style = MaterialTheme.typography.labelSmall,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                        }
-                    } else null,
+                    label = {
+                        Text(
+                            text = stringResource(item.label),
+                            style = MaterialTheme.typography.labelSmall,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    },
                     selected = currentDestination?.hierarchy
                         ?.any { it.route == item.route } == true,
                     onClick = {

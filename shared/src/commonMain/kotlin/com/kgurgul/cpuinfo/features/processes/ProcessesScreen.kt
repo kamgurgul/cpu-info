@@ -102,8 +102,8 @@ private fun ProcessItem(item: ProcessItem) {
             text2 = "USER: ${item.user}",
         )
         DoubleTextRow(
-            text1 = "RSS: ${Utils.humanReadableByteCount(item.rss.toLong() * 1024)}",
-            text2 = "VSZ: ${Utils.humanReadableByteCount(item.vsize.toLong() * 1024)}",
+            text1 = "RSS: ${Utils.humanReadableByteCount(item.rss.toLong())}",
+            text2 = "VSZ: ${Utils.humanReadableByteCount(item.vsize.toLong())}",
         )
     }
 }

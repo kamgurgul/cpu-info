@@ -18,13 +18,30 @@ package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import org.koin.core.annotation.Factory
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import oshi.SystemInfo
+import oshi.software.os.OperatingSystem.ProcessSorting
 
 @Factory
-actual class ProcessesProvider actual constructor() {
+actual class ProcessesProvider actual constructor() : KoinComponent {
 
-    actual fun areProcessesSupported() = false
+    private val systemInfo: SystemInfo by inject()
+    private val operatingSystem = systemInfo.operatingSystem
+
+    actual fun areProcessesSupported() = true
 
     actual fun getProcessList(): List<ProcessItem> {
-        return emptyList()
+        return operatingSystem.getProcesses(null, ProcessSorting.NAME_ASC, 0).map {
+            ProcessItem(
+                name = it.name,
+                pid = it.processID.toString(),
+                ppid = it.parentProcessID.toString(),
+                niceness = it.priority.toString(),
+                user = it.user,
+                rss = it.residentSetSize.toString(),
+                vsize = it.virtualSize.toString()
+            )
+        }
     }
 }
