@@ -19,21 +19,24 @@ package com.kgurgul.cpuinfo.features.information.hardware
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
+import com.kgurgul.cpuinfo.domain.invoke
 import com.kgurgul.cpuinfo.domain.result.GetHardwareDataInteractor
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 
 class HardwareInfoViewModel(
     userPreferencesRepository: IUserPreferencesRepository,
     private val getHardwareDataInteractor: GetHardwareDataInteractor,
 ) : ViewModel() {
 
-    private val _uiStateFlow = MutableStateFlow(UiState())
-    val uiStateFlow = _uiStateFlow.asStateFlow()
+    val uiStateFlow = getHardwareDataInteractor.observe()
+        .map { UiState(it) }
+        .onStart { refreshHardwareInfo() }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), UiState())
 
     init {
         userPreferencesRepository.userPreferencesFlow
@@ -42,11 +45,7 @@ class HardwareInfoViewModel(
     }
 
     fun refreshHardwareInfo() {
-        viewModelScope.launch {
-            _uiStateFlow.update {
-                it.copy(hardwareItems = getHardwareDataInteractor(Unit))
-            }
-        }
+        getHardwareDataInteractor.invoke()
     }
 
     data class UiState(
