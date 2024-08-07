@@ -190,5 +190,8 @@
 
     <!--Sensors-->
     <string name="sensors_accelerometer">Accelerometer</string>
+    <string name="sensors_cpu_temperature">CPU temperature</string>
+    <string name="sensors_cpu_voltage">CPU voltage</string>
+    <string name="sensors_max_fan_speeds">Max fan speeds</string>
 
 </resources>
