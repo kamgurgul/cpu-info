@@ -128,6 +128,7 @@
     <string name="hardware_computer_system">Počítačový systém</string>
     <string name="hardware_motherboard">Základní deska</string>
     <string name="hardware_network_interfaces">Síťové rozhraní</string>
+    <string name="hardware_power_sources">Zdroje energie</string>
 
     <string name="general">Obecné</string>
     <string name="temperature_unit">Jednotka teploty</string>

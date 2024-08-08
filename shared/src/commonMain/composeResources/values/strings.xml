@@ -168,6 +168,7 @@
     <string name="hardware_motherboard">Motherboard</string>
     <string name="hardware_uuid" translatable="false">UUID</string>
     <string name="hardware_network_interfaces">Network interfaces</string>
+    <string name="hardware_power_sources">Power sources</string>
 
     <!--Prefs-->
     <string name="general">General</string>

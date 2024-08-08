@@ -21,6 +21,7 @@ import com.kgurgul.cpuinfo.shared.hardware_computer_system
 import com.kgurgul.cpuinfo.shared.hardware_firmware
 import com.kgurgul.cpuinfo.shared.hardware_motherboard
 import com.kgurgul.cpuinfo.shared.hardware_network_interfaces
+import com.kgurgul.cpuinfo.shared.hardware_power_sources
 import com.kgurgul.cpuinfo.shared.hardware_uuid
 import com.kgurgul.cpuinfo.shared.manufacturer
 import com.kgurgul.cpuinfo.shared.model
@@ -106,6 +107,13 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                         }
                     }.trim()
                     add(networkIF.name to value)
+                }
+            }
+
+            if (hardware.powerSources.isNotEmpty()) {
+                add(getString(Res.string.hardware_power_sources) to "")
+                hardware.powerSources.forEach { powerSource ->
+                    add(powerSource.name to powerSource.deviceName)
                 }
             }
         }
