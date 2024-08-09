@@ -5,7 +5,7 @@ import shared
 struct iOSApp: App {
     
     init() {
-        InjectorIosKt.doInitKoin(
+        Injector_iosKt.doInitKoin(
             iosHardwareDataProvider: IosHardwareDataProviderImpl.sharedInstance,
             iosSoftwareDataProvider: IosSoftwareDataProviderImpl.sharedInstance
         )
