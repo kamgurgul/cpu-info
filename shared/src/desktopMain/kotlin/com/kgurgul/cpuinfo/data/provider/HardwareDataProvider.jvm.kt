@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.hardware_computer_system
 import com.kgurgul.cpuinfo.shared.hardware_firmware
@@ -27,6 +28,7 @@ import com.kgurgul.cpuinfo.shared.manufacturer
 import com.kgurgul.cpuinfo.shared.model
 import com.kgurgul.cpuinfo.shared.serial
 import com.kgurgul.cpuinfo.shared.sound_card
+import com.kgurgul.cpuinfo.shared.temperature
 import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
@@ -38,6 +40,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
     private val hardware = systemInfo.hardware
+
+    private val temperatureFormatter: TemperatureFormatter by inject()
 
     actual suspend fun getData(): List<Pair<String, String>> {
         return buildList {
@@ -114,6 +118,12 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                 add(getString(Res.string.hardware_power_sources) to "")
                 hardware.powerSources.forEach { powerSource ->
                     add(powerSource.name to powerSource.deviceName)
+                    if (powerSource.temperature != 0.0) {
+                        add(
+                            getString(Res.string.temperature) to
+                                    temperatureFormatter.format(powerSource.temperature.toFloat())
+                        )
+                    }
                 }
             }
         }
