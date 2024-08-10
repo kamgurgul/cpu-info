@@ -149,6 +149,6 @@
     <string name="sensors_accelerometer">Beschleunigungssensor</string>
     <string name="sensors_cpu_temperature">CPU-Temperatur</string>
     <string name="sensors_cpu_voltage">CPU-Spannung</string>
-    <string name="sensors_max_fan_speeds">Maximale Lüftergeschwindigkeit</string>
+    <string name="sensors_fan_speeds">Lüftergeschwindigkeiten</string>
 
 </resources>

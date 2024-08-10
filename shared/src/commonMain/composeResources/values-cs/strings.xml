@@ -149,7 +149,7 @@
     <string name="sensors_accelerometer">Akcelerometr</string>
     <string name="sensors_cpu_temperature">Teplota CPU</string>
     <string name="sensors_cpu_voltage">Napětí CPU</string>
-    <string name="sensors_max_fan_speeds">Maximální rychlost ventilátoru</string>
+    <string name="sensors_fan_speeds">Rychlosti ventilátoru</string>
 
 </resources>
 

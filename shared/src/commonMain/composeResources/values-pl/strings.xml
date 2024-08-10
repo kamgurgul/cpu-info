@@ -159,6 +159,6 @@
     <string name="sensors_accelerometer">Akcelerometr</string>
     <string name="sensors_cpu_temperature">Temperatura CPU</string>
     <string name="sensors_cpu_voltage">Napięcie CPU</string>
-    <string name="sensors_max_fan_speeds">Maksymalna prędkość wentylatora</string>
+    <string name="sensors_fan_speeds">Prędkości wentylatora</string>
 
 </resources>

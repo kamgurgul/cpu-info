@@ -5,7 +5,7 @@ import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.sensors_cpu_temperature
 import com.kgurgul.cpuinfo.shared.sensors_cpu_voltage
-import com.kgurgul.cpuinfo.shared.sensors_max_fan_speeds
+import com.kgurgul.cpuinfo.shared.sensors_fan_speeds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -51,7 +51,7 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                 add(
                     SensorData(
                         id = FAN_SPEED_ID,
-                        name = getString(Res.string.sensors_max_fan_speeds),
+                        name = getString(Res.string.sensors_fan_speeds),
                         value = fanSpeeds
                     )
                 )
