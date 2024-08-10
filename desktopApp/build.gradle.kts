@@ -38,5 +38,10 @@ compose.desktop {
                  iconFile.set(iconsRoot.resolve("icon-linux.png"))
              }
         }
+
+        buildTypes.release.proguard {
+            isEnabled = false
+            configurationFiles.from("rules.pro")
+        }
     }
 }
