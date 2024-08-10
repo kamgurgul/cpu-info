@@ -22,7 +22,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "CPUInfo"
+            packageName = "CPU Info"
             packageVersion = "1.0.0"
 
             val iconsRoot = project.file("desktop-icons")
