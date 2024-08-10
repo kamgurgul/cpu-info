@@ -27,7 +27,7 @@ height="80">](https://apps.apple.com/us/app/cpu-info/id6560116815)
 
 * Android
 * iOS
-* Desktop (in progress)
+* Desktop
 
 # Tech stack
 
