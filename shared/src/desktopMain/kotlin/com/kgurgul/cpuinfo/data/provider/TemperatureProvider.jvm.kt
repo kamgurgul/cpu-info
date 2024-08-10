@@ -21,21 +21,33 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import oshi.SystemInfo
 
 @Factory
 actual class TemperatureProvider actual constructor() : KoinComponent {
 
+    private val systemInfo: SystemInfo by inject()
+
     actual val sensorsFlow: Flow<TemperatureItem> = emptyFlow()
 
     actual fun getBatteryTemperature(): Float? {
-        return null
+        return systemInfo.hardware.powerSources
+            .find { it.temperature != 0.0 }
+            ?.temperature
+            ?.toFloat()
     }
 
     actual fun findCpuTemperatureLocation(): String? {
-        return null
+        return ""
     }
 
     actual fun getCpuTemp(path: String): Float? {
-        return null
+        val cpuTemp = systemInfo.hardware.sensors.cpuTemperature
+        return if (cpuTemp.isNaN() || cpuTemp == 0.0) {
+            null
+        } else {
+            cpuTemp.toFloat()
+        }
     }
 }

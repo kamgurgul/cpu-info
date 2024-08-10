@@ -62,7 +62,7 @@ fun TemperatureScreen(
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
     ) { paddingValues ->
         val paddingModifier = Modifier.padding(paddingValues)
-        if (!uiState.isLoading && uiState.temperatureItems.isEmpty()) {
+        if (uiState.temperatureItems.isEmpty()) {
             EmptyTemperatureList(
                 modifier = paddingModifier,
             )
