@@ -31,7 +31,7 @@ compose.desktop {
              }
              windows {
                  iconFile.set(iconsRoot.resolve("icon-windows.ico"))
-                 menuGroup = "CPU Info"
+                 menuGroup = "CPU-Info"
                  upgradeUuid = "d4a688eb-758f-44e8-81bb-8367880c5c95"
              }
              linux {
