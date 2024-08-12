@@ -48,8 +48,11 @@ actual class HardwareDataProvider actual constructor() {
         return buildList {
             UIDevice.currentDevice.batteryMonitoringEnabled = true
             add(getString(Res.string.battery) to "")
-            val batteryLevel = (UIDevice.currentDevice.batteryLevel * 100).round2()
-            add(getString(Res.string.level) to "$batteryLevel%")
+            val batteryLevel = UIDevice.currentDevice.batteryLevel
+            if (batteryLevel != -1f) {
+                val batteryLevelPercentage = (batteryLevel * 100).round2()
+                add(getString(Res.string.level) to "$batteryLevelPercentage%")
+            }
             add(getString(Res.string.battery_state) to getBatteryState())
             UIDevice.currentDevice.batteryMonitoringEnabled = false
 
