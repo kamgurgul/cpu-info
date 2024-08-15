@@ -22,8 +22,8 @@ alt='Available on Amazon AppStore' height="80">](https://www.amazon.com/Kamil-Gu
 [<img src="info/app-store-badge.png"
 alt="Download on the App Store"
 height="80">](https://apps.apple.com/us/app/cpu-info/id6560116815)
-[<img src="info/ms-badge.svg"
-alt="Download from Microsoft Store"
+[<img src="info/ms_badge.png"
+alt="Get it from Microsoft"
 height="80">](https://www.microsoft.com/store/apps/9PHXQ0F4KNBL)
 
 # Supported platforms 
