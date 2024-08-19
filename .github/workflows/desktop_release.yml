@@ -53,7 +53,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: "desktopApp\build\compose\binaries\main-release\msi\*.msi"
+          artifacts: "desktopApp/build/compose/binaries/main-release/msi/*.msi"
           draft: true
           name: ${{ github.event.inputs.version }}
           tag: ${{ github.event.inputs.version }}
