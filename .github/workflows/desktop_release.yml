@@ -25,10 +25,6 @@ jobs:
   build_and_release:
     needs: code_quality
     runs-on: windows-latest
-    #    strategy:
-    #      matrix:
-    #        os: [windows-latest]
-    #        arch: [x64, arm64]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -45,14 +41,19 @@ jobs:
       - name: Build MSI
         run: |
           ./gradlew :desktopApp:packageReleaseMsi
-      #      - name: Upload MSI
-      #        uses: actions/upload-artifact@v3
-      #        with:
-      #          name: CPU-Info-${{ matrix.arch }}-${{ github.event.inputs.version }}.msi
-      #          path: build/distributions/CPU-Info-${{ matrix.arch }}-${{ github.event.inputs.version }}.msi
       - name: Tag Release
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git tag ${{ github.event.inputs.version }}
           git push origin ${{ github.event.inputs.version }}
+            - name: Create Release
+      - name: Create Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "desktopApp\build\compose\binaries\main-release\msi\*.msi"
+          draft: true
+          name: ${{ github.event.inputs.version }}
+          tag: ${{ github.event.inputs.version }}

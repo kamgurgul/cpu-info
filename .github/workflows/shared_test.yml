@@ -25,4 +25,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage.xml
-          path: app/build/coverage-report/result.xml
+          path: androidApp/build/coverage-report/result.xml

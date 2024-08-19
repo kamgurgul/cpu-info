@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage.xml
-          path: app/build/coverage-report/result.xml
+          path: androidApp/build/coverage-report/result.xml
   build:
     needs: unit_tests
     runs-on: ubuntu-latest
@@ -52,7 +52,7 @@ jobs:
           ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_ENCODED }}
         run: |
           echo $ENCODED_KEYSTORE > keystore-b64.txt
-          base64 -d keystore-b64.txt > ./app/keystore.jks
+          base64 -d keystore-b64.txt > ./androidApp/keystore.jks
       - name: Build release
         env:
           KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
@@ -63,12 +63,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release.${{ matrix.format.type }}
-          path: app/build/outputs/${{ matrix.format.output }}/release/*.${{ matrix.format.type }}
+          path: androidApp/build/outputs/${{ matrix.format.output }}/release/*.${{ matrix.format.type }}
       - name: Upload mapping folder
         uses: actions/upload-artifact@v4
         with:
           name: mapping-${{ matrix.format.type }}
-          path: app/build/outputs/mapping/
+          path: androidApp/build/outputs/mapping/
   release:
     needs: build
     permissions:
