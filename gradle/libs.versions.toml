@@ -66,7 +66,7 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
 material3-windowSize = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "windowSize" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
-oshi = { group = "com.github.oshi", name = "oshi-core", version = "6.6.2" }
+oshi = { group = "com.github.oshi", name = "oshi-core", version = "6.6.3" }
 relinker = { group = "com.getkeepsafe.relinker", name = "relinker", version.ref = "relinker" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
