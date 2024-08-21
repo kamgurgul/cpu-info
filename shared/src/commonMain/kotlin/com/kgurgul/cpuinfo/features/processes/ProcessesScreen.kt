@@ -2,21 +2,26 @@ package com.kgurgul.cpuinfo.features.processes
 
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
@@ -51,11 +56,24 @@ fun ProcessesScreen(uiState: ProcessesViewModel.UiState) {
         },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
     ) { paddingValues ->
-        val paddingModifier = Modifier.padding(paddingValues)
-        ProcessList(
-            processes = uiState.processes,
-            modifier = paddingModifier
+        val pullRefreshState = rememberPullRefreshState(
+            refreshing = uiState.isLoading,
+            onRefresh = { },
         )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+        ) {
+            ProcessList(
+                processes = uiState.processes,
+            )
+            PullRefreshIndicator(
+                refreshing = uiState.isLoading,
+                state = pullRefreshState,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
+        }
     }
 }
 
@@ -70,7 +88,7 @@ private fun ProcessList(
     ) {
         itemsIndexed(
             processes,
-            key = { _, process -> process.pid },
+            key = { _, process -> process.name + process.pid + process.ppid },
         ) { index, process ->
             ProcessItem(process)
             if (index < processes.lastIndex) {
