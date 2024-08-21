@@ -10,7 +10,7 @@ import org.jetbrains.skia.DirectContext
 
 fun main() {
     initKoin()
-    if (System.getProperty("os.name") == "Linux") {
+    if (System.getProperty("os.name").equals("Linux", ignoreCase = true)) {
         try {
             DirectContext.makeGL().flush().close()
         } catch (e: Throwable) {
