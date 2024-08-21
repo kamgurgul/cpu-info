@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -32,6 +34,7 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.no_temp_data
 import com.kgurgul.cpuinfo.shared.temperature
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
+import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import kotlinx.collections.immutable.ImmutableList
@@ -82,20 +85,32 @@ private fun TemperatureList(
     temperatureFormatter: TemperatureFormatter,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .then(modifier),
+    Box(
+        modifier = Modifier.fillMaxSize(),
     ) {
-        items(
-            items = temperatureItems,
-            key = { item -> item.id },
-        ) { item ->
-            TemperatureItem(
-                item = item,
-                temperatureFormatter = temperatureFormatter,
-            )
+        val listState = rememberLazyListState()
+        LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .fillMaxSize()
+                .then(modifier),
+        ) {
+            items(
+                items = temperatureItems,
+                key = { item -> item.id },
+            ) { item ->
+                TemperatureItem(
+                    item = item,
+                    temperatureFormatter = temperatureFormatter,
+                )
+            }
         }
+        VerticalScrollbar(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .fillMaxHeight(),
+            scrollState = listState,
+        )
     }
 }
 

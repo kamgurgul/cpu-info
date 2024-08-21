@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
@@ -29,6 +31,7 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.processes
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
+import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.Utils
@@ -82,21 +85,33 @@ private fun ProcessList(
     processes: ImmutableList<ProcessItem>,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        contentPadding = PaddingValues(spacingSmall),
-        modifier = modifier,
+    Box(
+        modifier = Modifier.fillMaxSize(),
     ) {
-        itemsIndexed(
-            processes,
-            key = { _, process -> process.name + process.pid + process.ppid },
-        ) { index, process ->
-            ProcessItem(process)
-            if (index < processes.lastIndex) {
-                CpuDivider(
-                    modifier = Modifier.padding(vertical = spacingSmall),
-                )
+        val listState = rememberLazyListState()
+        LazyColumn(
+            contentPadding = PaddingValues(spacingSmall),
+            state = listState,
+            modifier = modifier,
+        ) {
+            itemsIndexed(
+                processes,
+                key = { _, process -> process.name + process.pid + process.ppid },
+            ) { index, process ->
+                ProcessItem(process)
+                if (index < processes.lastIndex) {
+                    CpuDivider(
+                        modifier = Modifier.padding(vertical = spacingSmall),
+                    )
+                }
             }
         }
+        VerticalScrollbar(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .fillMaxHeight(),
+            scrollState = listState,
+        )
     }
 }
 

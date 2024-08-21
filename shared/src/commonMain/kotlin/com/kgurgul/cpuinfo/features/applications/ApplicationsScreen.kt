@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
@@ -72,6 +73,7 @@ import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
+import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.components.rememberDraggableBoxState
 import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
@@ -247,70 +249,80 @@ private fun ApplicationsList(
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (libs: List<String>) -> Unit,
 ) {
-    val listState = rememberLazyListState()
-    var revealedCardId: String? by rememberSaveable { mutableStateOf(null) }
-    LazyColumn(
-        state = listState,
-        modifier = Modifier
-            .fillMaxSize(),
+    Box(
+        modifier = Modifier.fillMaxSize(),
     ) {
-        itemsIndexed(
-            items = appList,
-            key = { _, item -> item.packageName }
-        ) { index, item ->
-            val draggableBoxState = rememberDraggableBoxState()
-            val isRevealed by remember {
-                derivedStateOf { revealedCardId == item.packageName }
-            }
-            DraggableBox(
-                key = item.packageName,
-                isRevealed = isRevealed,
-                state = draggableBoxState,
-                onExpand = { revealedCardId = item.packageName },
-                onCollapse = { revealedCardId = null },
-                actionRow = {
-                    Row {
-                        IconButton(
-                            modifier = Modifier.size(rowActionIconSize),
-                            onClick = { onAppSettingsClicked(item.packageName) },
-                            content = {
-                                Icon(
-                                    painter = painterResource(Res.drawable.ic_settings),
-                                    tint = MaterialTheme.colorScheme.onBackground,
-                                    contentDescription = stringResource(Res.string.settings),
-                                )
-                            }
+        val listState = rememberLazyListState()
+        var revealedCardId: String? by rememberSaveable { mutableStateOf(null) }
+        LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .fillMaxSize(),
+        ) {
+            itemsIndexed(
+                items = appList,
+                key = { _, item -> item.packageName }
+            ) { index, item ->
+                val draggableBoxState = rememberDraggableBoxState()
+                val isRevealed by remember {
+                    derivedStateOf { revealedCardId == item.packageName }
+                }
+                DraggableBox(
+                    key = item.packageName,
+                    isRevealed = isRevealed,
+                    state = draggableBoxState,
+                    onExpand = { revealedCardId = item.packageName },
+                    onCollapse = { revealedCardId = null },
+                    actionRow = {
+                        Row {
+                            IconButton(
+                                modifier = Modifier.size(rowActionIconSize),
+                                onClick = { onAppSettingsClicked(item.packageName) },
+                                content = {
+                                    Icon(
+                                        painter = painterResource(Res.drawable.ic_settings),
+                                        tint = MaterialTheme.colorScheme.onBackground,
+                                        contentDescription = stringResource(Res.string.settings),
+                                    )
+                                }
+                            )
+                            IconButton(
+                                modifier = Modifier.size(56.dp),
+                                onClick = { onAppUninstallClicked(item.packageName) },
+                                content = {
+                                    Icon(
+                                        painter = painterResource(Res.drawable.ic_thrash),
+                                        tint = MaterialTheme.colorScheme.onBackground,
+                                        contentDescription = null,
+                                    )
+                                }
+                            )
+                        }
+                    },
+                    content = {
+                        ApplicationItem(
+                            appData = item,
+                            onAppClicked = onAppClicked,
+                            onNativeLibsClicked = onNativeLibsClicked,
                         )
-                        IconButton(
-                            modifier = Modifier.size(56.dp),
-                            onClick = { onAppUninstallClicked(item.packageName) },
-                            content = {
-                                Icon(
-                                    painter = painterResource(Res.drawable.ic_thrash),
-                                    tint = MaterialTheme.colorScheme.onBackground,
-                                    contentDescription = null,
-                                )
-                            }
-                        )
-                    }
-                },
-                content = {
-                    ApplicationItem(
-                        appData = item,
-                        onAppClicked = onAppClicked,
-                        onNativeLibsClicked = onNativeLibsClicked,
-                    )
-                },
-                modifier = Modifier
-                    // .animateItem()
-                    .focusable(),
-            )
-            if (index < appList.lastIndex) {
-                CpuDivider(
-                    modifier = Modifier.padding(horizontal = spacingSmall),
+                    },
+                    modifier = Modifier
+                        // .animateItem()
+                        .focusable(),
                 )
+                if (index < appList.lastIndex) {
+                    CpuDivider(
+                        modifier = Modifier.padding(horizontal = spacingSmall),
+                    )
+                }
             }
         }
+        VerticalScrollbar(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .fillMaxHeight(),
+            scrollState = listState,
+        )
     }
 }
 
