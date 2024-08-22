@@ -31,6 +31,7 @@ actual class StorageDataProvider actual constructor() : KoinComponent {
                     )
                 )
             }
-        }.sortedBy { it.label }
+        }.distinctBy { it.id }
+            .sortedBy { it.label }
     }
 }
