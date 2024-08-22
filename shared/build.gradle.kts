@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kover)
     id("kotlin-parcelize")
 }
 
@@ -211,5 +212,30 @@ afterEvaluate {
         it.name.contains("SourcesJar", true)
     }.forEach {
         it.dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+
+kover {
+    reports {
+        variant("debug") {
+            filters {
+                includes {
+                    packages(KoverConfig.includedPackages)
+                }
+                excludes {
+                    packages(KoverConfig.excludedPackages)
+                    classes(KoverConfig.excludedClasses)
+                    annotatedBy(KoverConfig.excludedAnnotations)
+                }
+            }
+
+            html {
+                htmlDir = layout.buildDirectory.dir("coverage-report/html")
+            }
+
+            xml {
+                xmlFile = layout.buildDirectory.file("coverage-report/result.xml")
+            }
+        }
     }
 }

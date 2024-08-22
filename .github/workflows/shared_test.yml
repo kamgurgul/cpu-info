@@ -20,9 +20,9 @@ jobs:
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
       - name: Generate code coverage
-        run: ./gradlew androidApp:koverXmlReportDebug
+        run: ./gradlew shared:koverXmlReportDebug
       - name: Upload test coverage
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage.xml
-          path: androidApp/build/coverage-report/result.xml
+          path: shared/build/coverage-report/result.xml

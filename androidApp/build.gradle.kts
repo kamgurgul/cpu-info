@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.application)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kover)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.compose.compiler)
     id("kotlin-parcelize")
@@ -123,29 +122,4 @@ dependencies {
     androidTestUtil(libs.androidx.test.orchestrator)
 
     "baselineProfile"(project(":androidApp:baselineprofile"))
-}
-
-kover {
-    reports {
-        variant("debug") {
-            filters {
-                includes {
-                    packages(KoverConfig.includedPackages)
-                }
-                excludes {
-                    packages(KoverConfig.excludedPackages)
-                    classes(KoverConfig.excludedClasses)
-                    annotatedBy(KoverConfig.excludedAnnotations)
-                }
-            }
-
-            html {
-                htmlDir = layout.buildDirectory.dir("coverage-report/html")
-            }
-
-            xml {
-                xmlFile = layout.buildDirectory.file("coverage-report/result.xml")
-            }
-        }
-    }
 }
