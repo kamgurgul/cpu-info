@@ -85,19 +85,21 @@ kotlin {
                 implementation(libs.androidx.lifecycle.runtime.compose)
                 implementation(libs.androidx.navigation.compose)
                 implementation(libs.coil)
+                implementation(libs.compose.adaptive)
                 implementation(libs.kermit.kermit)
                 api(libs.koin.annotations)
                 implementation(libs.koin.compose.viewodel)
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.coroutines.core)
                 api(libs.kotlinx.immutable)
-                implementation(libs.material3.windowSize)
             }
         }
 
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(compose.uiTooling)
+            // Workaround for https://youtrack.jetbrains.com/issue/CMP-5959/Invalid-redirect-in-window-core#focus=Comments-27-10365630.0-0
+            implementation(libs.androidx.window)
             implementation(libs.koin.android)
         }
 
@@ -238,4 +240,9 @@ kover {
             }
         }
     }
+}
+
+// Workaround for https://youtrack.jetbrains.com/issue/CMP-5959/Invalid-redirect-in-window-core#focus=Comments-27-10365630.0-0
+configurations.configureEach {
+    exclude("androidx.window.core", "window-core")
 }

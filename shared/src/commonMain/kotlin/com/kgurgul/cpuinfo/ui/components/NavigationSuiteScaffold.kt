@@ -31,12 +31,9 @@ import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.WindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.contentColorFor
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collection.MutableVector
@@ -50,6 +47,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.util.fastFirst
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import kotlin.jvm.JvmInline
 
 /**
@@ -403,11 +402,14 @@ object NavigationSuiteScaffoldDefaults {
      * @param adaptiveInfo the provided [WindowAdaptiveInfo]
      * @see NavigationSuiteScaffold
      */
-    fun calculateFromAdaptiveInfo(adaptiveInfo: WindowSizeClass): NavigationSuiteType {
+    fun calculateFromAdaptiveInfo(adaptiveInfo: WindowAdaptiveInfo): NavigationSuiteType {
         return with(adaptiveInfo) {
-            if (widthSizeClass == WindowWidthSizeClass.Expanded
-                && (heightSizeClass == WindowHeightSizeClass.Medium
-                        || heightSizeClass == WindowHeightSizeClass.Expanded)
+            if (windowPosture.isTabletop ||
+                windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT
+            ) {
+                NavigationSuiteType.NavigationBar
+            } else if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED ||
+                windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.MEDIUM
             ) {
                 NavigationSuiteType.NavigationRail
             } else {
@@ -539,9 +541,8 @@ class NavigationSuiteItemColors(
     val navigationDrawerItemColors: NavigationDrawerItemColors,
 )
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 internal val WindowAdaptiveInfoDefault
-    @Composable get() = calculateWindowSizeClass()
+    @Composable get() = currentWindowAdaptiveInfo()
 
 private interface NavigationSuiteItemProvider {
     val itemsCount: Int
