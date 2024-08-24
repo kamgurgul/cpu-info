@@ -40,6 +40,7 @@ height="80">](https://www.microsoft.com/store/apps/9PHXQ0F4KNBL)
 * [Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 * [Koin](https://github.com/InsertKoinIO/koin)
 * [Coil](https://github.com/coil-kt/coil)
+* [DataStore](https://developer.android.com/kotlin/multiplatform/datastore)
 * External C libraries - [pytorch/cpuinfo](https://github.com/pytorch/cpuinfo)
 * [OSHI](https://github.com/oshi/oshi)
 
