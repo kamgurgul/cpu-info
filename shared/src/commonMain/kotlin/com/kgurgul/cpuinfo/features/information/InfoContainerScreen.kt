@@ -3,6 +3,8 @@ package com.kgurgul.cpuinfo.features.information
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -10,29 +12,33 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.ANDROID_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.CPU_POS
@@ -61,6 +67,7 @@ import com.kgurgul.cpuinfo.shared.screen
 import com.kgurgul.cpuinfo.shared.sensors
 import com.kgurgul.cpuinfo.shared.storage
 import com.kgurgul.cpuinfo.shared.tab_os
+import com.kgurgul.cpuinfo.ui.components.HorizontalScrollbar
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -132,34 +139,52 @@ private fun InfoContainer(
             .padding(top = paddingValues.calculateTopPadding())
             .then(modifier)
     ) {
-        ScrollableTabRow(
-            selectedTabIndex = pagerState.currentPage,
-            edgePadding = maxOf(
-                paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-            ),
-            divider = {},
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            indicator = { tabPositions ->
-                SecondaryIndicator(
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier
-                        .tabIndicatorOffset(tabPositions[pagerState.currentPage]),
-                )
-            },
+        val scrollState = rememberScrollState()
+        Box(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.primary)
+                .fillMaxWidth()
         ) {
-            tabTitles.forEachIndexed { index, title ->
-                Tab(
-                    selected = pagerState.currentPage == index,
-                    onClick = {
-                        scrollCoroutineScope.launch {
-                            pagerState.animateScrollToPage(index)
-                        }
-                    },
-                    text = { Text(text = title) }
-                )
+            SecondaryScrollableTabRow(
+                selectedTabIndex = pagerState.currentPage,
+                edgePadding = maxOf(
+                    paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                    paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                ),
+                divider = {},
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                indicator = {
+                    SecondaryIndicator(
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier
+                            .tabIndicatorOffset(pagerState.currentPage),
+                    )
+                },
+                scrollState = scrollState,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                tabTitles.forEachIndexed { index, title ->
+                    Tab(
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            scrollCoroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
+                        text = { Text(text = title) }
+                    )
+                }
             }
+
+            HorizontalScrollbar(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .height(3.dp),
+                scrollState = scrollState,
+            )
         }
 
         HorizontalPager(

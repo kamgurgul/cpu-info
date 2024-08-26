@@ -16,3 +16,15 @@ actual fun VerticalScrollbar(
     modifier: Modifier,
     scrollState: LazyListState
 ) = Unit
+
+@Composable
+actual fun HorizontalScrollbar(
+    modifier: Modifier,
+    scrollState: ScrollState
+) = Unit
+
+@Composable
+actual fun HorizontalScrollbar(
+    modifier: Modifier,
+    scrollState: LazyListState
+) = Unit

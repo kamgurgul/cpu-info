@@ -33,3 +33,29 @@ actual fun VerticalScrollbar(
     ),
     modifier = modifier,
 )
+
+@Composable
+actual fun HorizontalScrollbar(
+    modifier: Modifier,
+    scrollState: ScrollState
+) = androidx.compose.foundation.HorizontalScrollbar(
+    adapter = rememberScrollbarAdapter(scrollState),
+    style = defaultScrollbarStyle().copy(
+        unhoverColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.30f),
+        hoverColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.50f),
+    ),
+    modifier = modifier,
+)
+
+@Composable
+actual fun HorizontalScrollbar(
+    modifier: Modifier,
+    scrollState: LazyListState
+) = androidx.compose.foundation.HorizontalScrollbar(
+    adapter = rememberScrollbarAdapter(scrollState),
+    style = defaultScrollbarStyle().copy(
+        unhoverColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.30f),
+        hoverColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.50f),
+    ),
+    modifier = modifier,
+)
