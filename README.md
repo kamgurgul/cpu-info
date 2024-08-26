@@ -30,7 +30,7 @@ height="80">](https://www.microsoft.com/store/apps/9PHXQ0F4KNBL)
 
 * Android
 * iOS
-* Desktop
+* Desktop (JVM)
 
 # Tech stack
 
