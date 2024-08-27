@@ -5,7 +5,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
 
-@Single(createdAtStart = true)
+@Single
 actual class CpuDataNativeProvider actual constructor() : KoinComponent {
 
     private val systemInfo: SystemInfo by inject()

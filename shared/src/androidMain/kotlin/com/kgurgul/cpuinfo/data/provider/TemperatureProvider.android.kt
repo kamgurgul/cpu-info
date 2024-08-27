@@ -47,14 +47,17 @@ actual class TemperatureProvider actual constructor() : KoinComponent {
     actual val sensorsFlow = callbackFlow {
         val sensorCallback = object : SensorEventListener {
             override fun onSensorChanged(event: SensorEvent) {
-                trySendBlocking(
-                    TemperatureItem(
-                        id = event.sensor.type,
-                        icon = Res.drawable.baseline_thermostat_24,
-                        name = event.sensor.name,
-                        temperature = event.values[0].round1()
+                val temp = event.values[0].round1()
+                if (isTemperatureValid(temp.toDouble())) {
+                    trySendBlocking(
+                        TemperatureItem(
+                            id = event.sensor.type,
+                            icon = Res.drawable.baseline_thermostat_24,
+                            name = event.sensor.name,
+                            temperature = temp
+                        )
                     )
-                )
+                }
             }
 
             override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
@@ -108,12 +111,7 @@ actual class TemperatureProvider actual constructor() : KoinComponent {
         }
     }
 
-    /**
-     * Check if passed temperature is in normal range: -30 - 250 Celsius
-     *
-     * @param temp current temperature
-     */
-    private fun isTemperatureValid(temp: Double): Boolean = temp in -30.0..250.0
+    private fun isTemperatureValid(temp: Double): Boolean = temp in -50.0..250.0
 
     companion object {
         // Ugly but currently the easiest working solution is to search well known locations

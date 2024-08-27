@@ -20,7 +20,7 @@ import libcpuinfo.cpuinfo_has_arm_neon
 import libcpuinfo.cpuinfo_initialize
 import org.koin.core.annotation.Single
 
-@Single(createdAtStart = true)
+@Single
 actual class CpuDataNativeProvider actual constructor() {
 
     actual fun initLibrary() {
