@@ -25,9 +25,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
@@ -69,6 +66,7 @@ import com.kgurgul.cpuinfo.shared.native_libs
 import com.kgurgul.cpuinfo.shared.ok
 import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
+import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
@@ -154,13 +152,11 @@ fun ApplicationsScreen(
             }
         },
     ) { innerPaddingModifier ->
-        val pullRefreshState = rememberPullRefreshState(
-            refreshing = uiState.isLoading,
+        CpuPullToRefreshBox(
+            isRefreshing = uiState.isLoading,
             onRefresh = { onRefreshApplications() },
-        )
-        Box(
             modifier = Modifier
-                .pullRefresh(pullRefreshState)
+                .fillMaxSize()
                 .padding(innerPaddingModifier),
         ) {
             ApplicationsList(
@@ -169,11 +165,6 @@ fun ApplicationsScreen(
                 onAppUninstallClicked = onAppUninstallClicked,
                 onAppSettingsClicked = onAppSettingsClicked,
                 onNativeLibsClicked = onNativeLibsClicked,
-            )
-            PullRefreshIndicator(
-                refreshing = uiState.isLoading,
-                state = pullRefreshState,
-                modifier = Modifier.align(Alignment.TopCenter)
             )
         }
         NativeLibsDialog(

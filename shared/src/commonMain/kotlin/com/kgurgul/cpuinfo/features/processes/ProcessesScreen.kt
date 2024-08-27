@@ -16,8 +16,6 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,6 +28,7 @@ import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.processes
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
+import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -59,22 +58,16 @@ fun ProcessesScreen(uiState: ProcessesViewModel.UiState) {
         },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
     ) { paddingValues ->
-        val pullRefreshState = rememberPullRefreshState(
-            refreshing = uiState.isLoading,
+        CpuPullToRefreshBox(
+            isRefreshing = uiState.isLoading,
             onRefresh = { },
-        )
-        Box(
+            enabled = false,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
         ) {
             ProcessList(
                 processes = uiState.processes,
-            )
-            PullRefreshIndicator(
-                refreshing = uiState.isLoading,
-                state = pullRefreshState,
-                modifier = Modifier.align(Alignment.TopCenter)
             )
         }
     }
