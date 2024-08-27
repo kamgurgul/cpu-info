@@ -22,6 +22,9 @@ alt='Available on Amazon AppStore' height="80">](https://www.amazon.com/Kamil-Gu
 [<img src="info/app-store-badge.png"
 alt="Download on the App Store"
 height="80">](https://apps.apple.com/us/app/cpu-info/id6560116815)
+[<img src="info/flathub_badge.png"
+alt="Get it on Flathub"
+height="80">](https://flathub.org/apps/com.kgurgul.cpuinfo)
 [<img src="info/ms_badge.png"
 alt="Get it from Microsoft"
 height="80">](https://www.microsoft.com/store/apps/9PHXQ0F4KNBL)
