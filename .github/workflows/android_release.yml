@@ -35,7 +35,7 @@ jobs:
       matrix:
         format: [
           { type: "apk", command: "assembleRelease", output: "apk" },
-          { type: "aab", command: "bundleRelease", output: "bundle" }
+          { type: "aab", command: "generateReleaseBaseline bundleRelease", output: "bundle" }
         ]
     steps:
       - uses: actions/checkout@v4

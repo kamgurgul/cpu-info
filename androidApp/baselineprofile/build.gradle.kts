@@ -14,17 +14,26 @@ android {
     }
 
     defaultConfig {
-        minSdk = 28
-        targetSdk = 34
+        minSdk = 23
+        targetSdk = Versions.TARGET_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     targetProjectPath = ":androidApp"
+
+    testOptions.managedDevices.devices {
+        create<com.android.build.api.dsl.ManagedVirtualDevice>("pixel6Api31") {
+            device = "Pixel 6"
+            apiLevel = 31
+            systemImageSource = "aosp"
+        }
+    }
 }
 
 baselineProfile {
-    useConnectedDevices = true
+    managedDevices += "pixel6Api31"
+    useConnectedDevices = false
 }
 
 dependencies {

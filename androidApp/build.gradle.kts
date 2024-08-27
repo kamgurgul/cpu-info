@@ -99,6 +99,10 @@ android {
     }
 }
 
+baselineProfile {
+    saveInSrc = true
+}
+
 dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.splashscreen)
