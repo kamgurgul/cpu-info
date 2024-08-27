@@ -11,7 +11,8 @@ import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 fun ProcessesScreenPreview() {
     CpuInfoTheme {
         ProcessesScreen(
-            uiState = ProcessesViewModel.UiState()
+            uiState = ProcessesViewModel.UiState(),
+            onSortOrderChange = {},
         )
     }
 }

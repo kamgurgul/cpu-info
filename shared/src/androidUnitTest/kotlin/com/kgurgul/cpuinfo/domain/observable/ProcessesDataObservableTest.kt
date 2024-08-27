@@ -3,7 +3,7 @@ package com.kgurgul.cpuinfo.domain.observable
 import app.cash.turbine.test
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.provider.ProcessesProvider
-import com.kgurgul.cpuinfo.domain.observe
+import com.kgurgul.cpuinfo.domain.model.SortOrder
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -29,7 +29,7 @@ class ProcessesDataObservableTest {
         whenever(mockProcessesProvider.getProcessList()).thenReturn(TestData.processes)
         val expectedItems = TestData.processes
 
-        interactor.observe().test {
+        interactor.observe(ProcessesDataObservable.Params(SortOrder.ASCENDING)).test {
             assertEquals(expectedItems, awaitItem())
         }
     }

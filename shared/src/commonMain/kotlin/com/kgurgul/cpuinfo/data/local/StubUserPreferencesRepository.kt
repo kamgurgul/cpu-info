@@ -1,13 +1,19 @@
 package com.kgurgul.cpuinfo.data.local
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.emptyFlow
 
 class StubUserPreferencesRepository : IUserPreferencesRepository {
+
+    var preferencesFlow: Flow<UserPreferences> = emptyFlow()
+
     override val userPreferencesFlow: Flow<UserPreferences>
-        get() = flow { }
+        get() = preferencesFlow
 
     override suspend fun setApplicationsSortingOrder(isAscending: Boolean) {
+    }
+
+    override suspend fun setProcessesSortingOrder(isAscending: Boolean) {
     }
 
     override suspend fun setApplicationsWithSystemApps(withSystemApps: Boolean) {

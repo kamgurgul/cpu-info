@@ -16,16 +16,28 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.apps_sort_order
 import com.kgurgul.cpuinfo.shared.processes
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
@@ -44,16 +56,21 @@ fun ProcessesScreen(
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     ProcessesScreen(
-        uiState = uiState
+        uiState = uiState,
+        onSortOrderChange = viewModel::onSortOrderChange,
     )
 }
 
 @Composable
-fun ProcessesScreen(uiState: ProcessesViewModel.UiState) {
+fun ProcessesScreen(
+    uiState: ProcessesViewModel.UiState,
+    onSortOrderChange: (ascending: Boolean) -> Unit,
+) {
     Scaffold(
         topBar = {
-            PrimaryTopAppBar(
-                title = stringResource(Res.string.processes),
+            ProcessesTopBar(
+                isSortAscending = uiState.isSortAscending,
+                onSortOrderChange = onSortOrderChange,
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
@@ -71,6 +88,53 @@ fun ProcessesScreen(uiState: ProcessesViewModel.UiState) {
             )
         }
     }
+}
+
+@Composable
+private fun ProcessesTopBar(
+    isSortAscending: Boolean,
+    onSortOrderChange: (ascending: Boolean) -> Unit,
+) {
+    var showMenu by remember { mutableStateOf(false) }
+    PrimaryTopAppBar(
+        title = stringResource(Res.string.processes),
+        actions = {
+            IconButton(onClick = { showMenu = !showMenu }) {
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = null
+                )
+            }
+            DropdownMenu(
+                expanded = showMenu,
+                onDismissRequest = { showMenu = false }
+            ) {
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            text = stringResource(Res.string.apps_sort_order),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    },
+                    onClick = {
+                        onSortOrderChange(!isSortAscending)
+                        showMenu = false
+                    },
+                    trailingIcon = {
+                        val icon = if (isSortAscending) {
+                            Icons.Default.KeyboardArrowDown
+                        } else {
+                            Icons.Default.KeyboardArrowUp
+                        }
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = null
+                        )
+                    }
+                )
+            }
+        },
+    )
 }
 
 @Composable

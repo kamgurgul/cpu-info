@@ -1,6 +1,7 @@
 package com.kgurgul.cpuinfo.features.processes
 
 import com.kgurgul.cpuinfo.data.TestData
+import com.kgurgul.cpuinfo.data.local.StubUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.observable.ProcessesDataObservable
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
 import kotlinx.collections.immutable.toImmutableList
@@ -24,6 +25,9 @@ class ProcessesViewModelTest {
     private val mockProcessesDataObservable = mock<ProcessesDataObservable> {
         on { observe(anyOrNull()) } doReturn flowOf(processes)
     }
+    private val stubUserPreferencesRepository = StubUserPreferencesRepository().apply {
+        preferencesFlow = flowOf(TestData.userPreferences)
+    }
 
     private val observedUiStates = mutableListOf<ProcessesViewModel.UiState>()
     private lateinit var viewModel: ProcessesViewModel
@@ -46,6 +50,7 @@ class ProcessesViewModelTest {
         observedUiStates.clear()
         viewModel = ProcessesViewModel(
             processesDataObservable = mockProcessesDataObservable,
+            userPreferencesRepository = stubUserPreferencesRepository,
         ).also {
             it.uiStateFlow
                 .onEach(observedUiStates::add)

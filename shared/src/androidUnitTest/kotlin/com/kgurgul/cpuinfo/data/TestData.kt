@@ -16,6 +16,7 @@ object TestData {
 
     val userPreferences = UserPreferences(
         isApplicationsSortingAscending = true,
+        isProcessesSortingAscending = true,
         withSystemApps = false,
         temperatureUnit = 0,
         theme = DarkThemeConfig.FOLLOW_SYSTEM.prefName,

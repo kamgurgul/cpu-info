@@ -39,6 +39,12 @@ class UserPreferencesRepository(
         }
     }
 
+    override suspend fun setProcessesSortingOrder(isAscending: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.SORTING_PROCESSES] = isAscending
+        }
+    }
+
     override suspend fun setApplicationsWithSystemApps(withSystemApps: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.WITH_SYSTEM_APPS] = withSystemApps
@@ -60,6 +66,7 @@ class UserPreferencesRepository(
     private fun mapUserPreferences(preferences: Preferences): UserPreferences {
         return UserPreferences(
             isApplicationsSortingAscending = preferences[PreferencesKeys.SORTING_APPS] ?: true,
+            isProcessesSortingAscending = preferences[PreferencesKeys.SORTING_PROCESSES] ?: true,
             withSystemApps = preferences[PreferencesKeys.WITH_SYSTEM_APPS] ?: false,
             temperatureUnit = preferences[PreferencesKeys.TEMPERATURE_UNIT] ?: 0,
             theme = preferences[PreferencesKeys.THEME] ?: DarkThemeConfig.FOLLOW_SYSTEM.prefName,
@@ -68,6 +75,7 @@ class UserPreferencesRepository(
 
     private object PreferencesKeys {
         val SORTING_APPS = booleanPreferencesKey("sorting_apps")
+        val SORTING_PROCESSES = booleanPreferencesKey("sorting_processes")
         val WITH_SYSTEM_APPS = booleanPreferencesKey("with_system_apps")
         val TEMPERATURE_UNIT = intPreferencesKey("temperature_unit")
         val THEME = stringPreferencesKey("theme")
@@ -76,6 +84,7 @@ class UserPreferencesRepository(
 
 data class UserPreferences(
     val isApplicationsSortingAscending: Boolean,
+    val isProcessesSortingAscending: Boolean,
     val withSystemApps: Boolean,
     val temperatureUnit: Int,
     val theme: String,

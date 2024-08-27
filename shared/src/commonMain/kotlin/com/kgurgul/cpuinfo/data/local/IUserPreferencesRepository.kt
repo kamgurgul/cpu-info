@@ -8,6 +8,8 @@ interface IUserPreferencesRepository {
 
     suspend fun setApplicationsSortingOrder(isAscending: Boolean)
 
+    suspend fun setProcessesSortingOrder(isAscending: Boolean)
+
     suspend fun setApplicationsWithSystemApps(withSystemApps: Boolean)
 
     suspend fun setTemperatureUnit(temperatureUnit: Int)

@@ -16,6 +16,8 @@
 
 package com.kgurgul.cpuinfo.domain.model
 
+import com.kgurgul.cpuinfo.utils.smartCompare
+
 data class ProcessItem(
     val name: String,
     val pid: String,
@@ -24,4 +26,9 @@ data class ProcessItem(
     val user: String,
     val rss: String,
     val vsize: String,
-)
+) : Comparable<ProcessItem> {
+
+    override fun compareTo(other: ProcessItem): Int {
+        return smartCompare(name, other.name)
+    }
+}
