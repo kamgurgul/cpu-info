@@ -63,7 +63,6 @@ kotlin {
             languageSettings {
                 optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
                 optIn("androidx.compose.material3.ExperimentalMaterial3Api")
-                optIn("androidx.compose.material.ExperimentalMaterialApi")
                 optIn("androidx.compose.foundation.ExperimentalFoundationApi")
                 optIn("org.koin.core.annotation.KoinExperimentalAPI")
                 optIn("kotlinx.cinterop.ExperimentalForeignApi")
