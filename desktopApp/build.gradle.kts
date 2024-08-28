@@ -28,6 +28,8 @@ compose.desktop {
             val iconsRoot = project.file("desktop-icons")
             macOS {
                 iconFile.set(iconsRoot.resolve("icon-mac.icns"))
+                provisioningProfile.set(project.file("embedded.provisionprofile"))
+                runtimeProvisioningProfile.set(project.file("runtime.provisionprofile"))
             }
             windows {
                 iconFile.set(iconsRoot.resolve("icon-windows.ico"))
