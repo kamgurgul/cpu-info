@@ -21,6 +21,9 @@ import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.invoke
 import com.kgurgul.cpuinfo.domain.result.GetHardwareDataInteractor
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -34,7 +37,7 @@ class HardwareInfoViewModel(
 ) : ViewModel() {
 
     val uiStateFlow = getHardwareDataInteractor.observe()
-        .map { UiState(it) }
+        .map { UiState(it.toImmutableList()) }
         .onStart { refreshHardwareInfo() }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), UiState())
 
@@ -49,6 +52,6 @@ class HardwareInfoViewModel(
     }
 
     data class UiState(
-        val hardwareItems: List<Pair<String, String>> = emptyList(),
+        val hardwareItems: ImmutableList<Pair<String, String>> = persistentListOf(),
     )
 }

@@ -19,6 +19,9 @@ package com.kgurgul.cpuinfo.features.information.os
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.result.GetOsDataInteractor
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -38,11 +41,11 @@ class OsInfoViewModel(
     private fun getData() {
         viewModelScope.launch {
             val data = getOsDataInteractor(Unit)
-            _uiStateFlow.update { it.copy(items = data) }
+            _uiStateFlow.update { it.copy(items = data.toImmutableList()) }
         }
     }
 
     data class UiState(
-        val items: List<Pair<String, String>> = emptyList(),
+        val items: ImmutableList<Pair<String, String>> = persistentListOf(),
     )
 }

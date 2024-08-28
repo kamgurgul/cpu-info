@@ -6,6 +6,7 @@ import com.kgurgul.cpuinfo.domain.model.SensorData
 import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
 import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoViewModel
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import kotlinx.collections.immutable.persistentListOf
 
 @Preview
 @Composable
@@ -13,7 +14,7 @@ fun SensorsInfoScreenPreview() {
     CpuInfoTheme {
         SensorsInfoScreen(
             uiState = SensorsInfoViewModel.UiState(
-                listOf(
+                persistentListOf(
                     SensorData(
                         id = "test",
                         name = "test",

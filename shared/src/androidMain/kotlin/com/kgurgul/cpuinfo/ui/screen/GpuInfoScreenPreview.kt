@@ -5,6 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoScreen
 import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoViewModel
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import kotlinx.collections.immutable.persistentListOf
 
 @Preview
 @Composable
@@ -12,7 +13,7 @@ fun GpuInfoScreenPreview() {
     CpuInfoTheme {
         GpuInfoScreen(
             uiState = GpuInfoViewModel.UiState(
-                gpuData = listOf(
+                gpuData = persistentListOf(
                     "vulkanVersion" to "vulkanVersion",
                     "glesVersion" to "glEsVersion",
                     "metalVersion" to "metalVersion",

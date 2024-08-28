@@ -19,6 +19,9 @@ package com.kgurgul.cpuinfo.features.information.gpu
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.observable.GpuDataObservable
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -30,7 +33,7 @@ class GpuInfoViewModel(
 
     val uiStateFlow = observableGpuData.observe()
         .distinctUntilChanged()
-        .map { UiState(it) }
+        .map { UiState(it.toImmutableList()) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     init {
@@ -42,6 +45,6 @@ class GpuInfoViewModel(
     }
 
     data class UiState(
-        val gpuData: List<Pair<String, String>> = emptyList()
+        val gpuData: ImmutableList<Pair<String, String>> = persistentListOf()
     )
 }

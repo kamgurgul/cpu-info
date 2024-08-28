@@ -20,6 +20,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.observe
 import com.kgurgul.cpuinfo.domain.result.GetScreenDataInteractor
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -29,10 +32,10 @@ class ScreenInfoViewModel(
 ) : ViewModel() {
 
     val uiStateFlow = getScreenDataInteractor.observe()
-        .map { UiState(it) }
+        .map { UiState(it.toImmutableList()) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), UiState())
 
     data class UiState(
-        val items: List<Pair<String, String>> = emptyList(),
+        val items: ImmutableList<Pair<String, String>> = persistentListOf(),
     )
 }

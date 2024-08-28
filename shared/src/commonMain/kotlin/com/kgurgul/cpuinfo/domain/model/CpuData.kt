@@ -1,5 +1,8 @@
 package com.kgurgul.cpuinfo.domain.model
 
+import androidx.compose.runtime.Stable
+
+@Stable
 data class CpuData(
     val processorName: String,
     val abi: String,

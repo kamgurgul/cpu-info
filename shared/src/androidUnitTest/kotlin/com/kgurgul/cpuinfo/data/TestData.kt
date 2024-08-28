@@ -11,6 +11,7 @@ import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
+import kotlinx.collections.immutable.persistentListOf
 
 object TestData {
 
@@ -96,7 +97,7 @@ object TestData {
         threshold = 50,
     )
 
-    val gpuData = listOf(
+    val gpuData = persistentListOf(
         "vulkanVersion" to "vulkanVersion",
         "glesVersion" to "glEsVersion",
         "metalVersion" to "metalVersion",
@@ -105,7 +106,7 @@ object TestData {
         "glExtensions" to "glExtensions",
     )
 
-    val storageData = listOf(
+    val storageData = persistentListOf(
         StorageItem(
             id = "0",
             label = "Internal",
@@ -115,7 +116,7 @@ object TestData {
         )
     )
 
-    val itemRowData = listOf(
+    val itemRowData = persistentListOf(
         "test" to "",
         "test" to "test",
     )

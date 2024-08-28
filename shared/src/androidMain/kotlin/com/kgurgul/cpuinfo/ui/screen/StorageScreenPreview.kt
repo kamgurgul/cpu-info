@@ -8,6 +8,7 @@ import com.kgurgul.cpuinfo.features.information.storage.StorageScreen
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import kotlinx.collections.immutable.persistentListOf
 
 @Preview
 @Composable
@@ -15,7 +16,7 @@ fun StorageScreenPreview() {
     CpuInfoTheme {
         StorageScreen(
             uiState = StorageInfoViewModel.UiState(
-                storageItems = listOf(
+                storageItems = persistentListOf(
                     StorageItem(
                         id = "0",
                         label = "Internal",

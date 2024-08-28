@@ -21,6 +21,9 @@ import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.invoke
 import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.domain.observable.StorageDataObservable
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -32,7 +35,7 @@ class StorageInfoViewModel(
 
     val uiStateFlow = storageDataObservable.observe()
         .distinctUntilChanged()
-        .map { UiState(it) }
+        .map { UiState(it.toImmutableList()) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     init {
@@ -44,6 +47,6 @@ class StorageInfoViewModel(
     }
 
     data class UiState(
-        val storageItems: List<StorageItem> = emptyList(),
+        val storageItems: ImmutableList<StorageItem> = persistentListOf(),
     )
 }

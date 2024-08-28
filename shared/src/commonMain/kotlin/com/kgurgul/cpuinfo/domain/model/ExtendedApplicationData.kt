@@ -16,8 +16,10 @@
 
 package com.kgurgul.cpuinfo.domain.model
 
+import androidx.compose.runtime.Stable
 import com.kgurgul.cpuinfo.utils.smartCompare
 
+@Stable
 data class ExtendedApplicationData(
     val name: String,
     val packageName: String,

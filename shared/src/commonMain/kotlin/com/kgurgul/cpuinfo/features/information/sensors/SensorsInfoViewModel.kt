@@ -21,6 +21,9 @@ import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.model.SensorData
 import com.kgurgul.cpuinfo.domain.observable.SensorsDataObservable
 import com.kgurgul.cpuinfo.domain.observe
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.scan
@@ -51,10 +54,10 @@ class SensorsInfoViewModel(
                 }
             }
         }
-        .map { UiState(it) }
+        .map { UiState(it.toImmutableList()) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     data class UiState(
-        val sensors: List<SensorData> = emptyList()
+        val sensors: ImmutableList<SensorData> = persistentListOf()
     )
 }
