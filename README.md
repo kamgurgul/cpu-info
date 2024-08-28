@@ -27,7 +27,7 @@ alt="Get it on Flathub"
 height="80">](https://flathub.org/apps/com.kgurgul.cpuinfo)
 [<img src="info/ms_badge.png"
 alt="Get it from Microsoft"
-height="80">](https://www.microsoft.com/store/apps/9PHXQ0F4KNBL)
+height="80">](https://apps.microsoft.com/detail/9phxq0f4knbl)
 
 # Supported platforms 
 
