@@ -18,25 +18,7 @@ plugins {
 subprojects {
     tasks.withType<KotlinCompile>().all {
         compilerOptions {
-            //allWarningsAsErrors = true
             jvmTarget = JvmTarget.JVM_11
-
-            if (project.findProperty("composeCompilerReports") == "true") {
-                freeCompilerArgs.addAll(
-                    "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
-                            project.layout.buildDirectory.dir("compose_compiler").get()
-                                .asFile.absolutePath
-                )
-            }
-            if (project.findProperty("composeCompilerMetrics") == "true") {
-                freeCompilerArgs.addAll(
-                    "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
-                            project.layout.buildDirectory.dir("compose-metrics").get()
-                                .asFile.absolutePath
-                )
-            }
         }
     }
 }

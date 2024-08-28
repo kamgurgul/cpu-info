@@ -145,6 +145,11 @@ compose.resources {
     generateResClass = always
 }
 
+composeCompiler {
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
+    metricsDestination = layout.buildDirectory.dir("compose_compiler")
+}
+
 android {
     compileSdk = Versions.COMPILE_SDK
     namespace = "com.kgurgul.cpuinfo.shared"
