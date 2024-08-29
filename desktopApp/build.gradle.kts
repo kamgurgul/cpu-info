@@ -21,12 +21,13 @@ compose.desktop {
         mainClass = "com.kgurgul.cpuinfo.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Pkg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "CPU-Info"
             packageVersion = "1.3.0"
 
             val iconsRoot = project.file("desktop-icons")
             macOS {
+                bundleID = "com.kgurgul.cpuinfo"
                 iconFile.set(iconsRoot.resolve("icon-mac.icns"))
                 provisioningProfile.set(project.file("embedded.provisionprofile"))
                 runtimeProvisioningProfile.set(project.file("runtime.provisionprofile"))
