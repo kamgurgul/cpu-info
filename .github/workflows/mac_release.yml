@@ -70,3 +70,14 @@ jobs:
           base64 -d -i desktopApp/runtime.provisionprofile.b64 > desktopApp/runtime.provisionprofile
         env:
           RUNTIME_PROVISION: ${{ secrets.MAC_RUNTIME_PROVISION }}
+
+      - name: Create PKG
+        run: ./gradlew packageReleasePkg -PmacOsAppStoreRelease=true
+
+      - uses: Apple-Actions/upload-testflight-build@v1
+        with:
+          app-type: 'osx'
+          app-path: desktopApp/build/compose/binaries/main-release/pkg/CPU-Info-${{ github.event.inputs.version }}.pkg
+          issuer-id: ${{ secrets.IOS_APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.IOS_APPSTORE_KEY_ID }}
+          api-private-key: ${{ secrets.IOS_APPSTORE_PRIVATE_KEY }}
