@@ -27,16 +27,21 @@ compose.desktop {
 
             val iconsRoot = project.file("desktop-icons")
             macOS {
+                bundleID = "com.kgurgul.cpuinfo"
+                iconFile.set(iconsRoot.resolve("icon-mac.icns"))
+                minimumSystemVersion = "12.0"
+
                 val isAppStoreRelease = project.property("macOsAppStoreRelease")
                     .toString()
                     .toBoolean()
-                bundleID = "com.kgurgul.cpuinfo"
-                iconFile.set(iconsRoot.resolve("icon-mac.icns"))
                 appStore = isAppStoreRelease
-                minimumSystemVersion = "12.0"
                 if (isAppStoreRelease) {
                     provisioningProfile.set(project.file("embedded.provisionprofile"))
                     runtimeProvisioningProfile.set(project.file("runtime.provisionprofile"))
+                }
+                signing {
+                    sign.set(isAppStoreRelease)
+                    identity.set("Kamil Gurgul")
                 }
             }
             windows {
