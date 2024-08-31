@@ -1,4 +1,4 @@
-name: iOS release
+name: Mac Ap Store release
 on:
   workflow_dispatch:
     inputs:
