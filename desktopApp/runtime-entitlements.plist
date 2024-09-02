@@ -16,5 +16,9 @@
     <true/>
     <key>com.apple.security.device.audio-input</key>
     <true/>
+    <key>com.apple.security.temporary-exception.iokit-user-client-class</key>
+    <array>
+        <string>AppleSMCClient</string>
+    </array>
 </dict>
 </plist>
