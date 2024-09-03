@@ -105,13 +105,12 @@ jobs:
           echo "RELEASE_NAME=$name" >> $GITHUB_ENV
           echo "RELEASE_PATH=$path" >> $GITHUB_ENV
 
-      - name: Create DMG
-        run: ./gradlew desktopApp:packageReleaseDmg
-
-      - name: Notarization
+      - name: Create and notarize DMG
         run: |
-          xcrun notarytool submit $RELEASE_PATH --apple-id $MAC_NOTARIZATION_ID --password $MAC_NOTARIZATION_PWD --team-id $MAC_APPSTORE_TEAM_ID --wait
-          xcrun stapler staple $RELEASE_PATH
+          ./gradlew desktopApp:notarizeReleaseDmg \
+          -Pcompose.desktop.mac.notarization.appleID=$MAC_NOTARIZATION_ID \
+          -Pcompose.desktop.mac.notarization.password=$MAC_NOTARIZATION_PWD \
+          -Pcompose.desktop.mac.notarization.teamID=$MAC_APPSTORE_TEAM_ID
         env:
           MAC_NOTARIZATION_ID: ${{ secrets.MAC_NOTARIZATION_ID }}
           MAC_NOTARIZATION_PWD: ${{ secrets.MAC_NOTARIZATION_PWD }}
