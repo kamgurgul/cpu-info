@@ -107,7 +107,7 @@ jobs:
 
       - name: Create and notarize DMG
         run: |
-          ./gradlew desktopApp:notarizeReleaseDmg \
+          ./gradlew desktopApp:notarizeReleaseDmg -PmacOsNotarization=true \
           -Pcompose.desktop.mac.notarization.appleID=$MAC_NOTARIZATION_ID \
           -Pcompose.desktop.mac.notarization.password=$MAC_NOTARIZATION_PWD \
           -Pcompose.desktop.mac.notarization.teamID=$MAC_APPSTORE_TEAM_ID

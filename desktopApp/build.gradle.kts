@@ -34,6 +34,9 @@ compose.desktop {
                 val isAppStoreRelease = project.property("macOsAppStoreRelease")
                     .toString()
                     .toBoolean()
+                val withNotarization = project.property("macOsNotarization")
+                    .toString()
+                    .toBoolean()
                 appStore = isAppStoreRelease
                 if (isAppStoreRelease) {
                     provisioningProfile.set(project.file("embedded.provisionprofile"))
@@ -42,7 +45,7 @@ compose.desktop {
                     runtimeEntitlementsFile.set(project.file("runtime-entitlements.plist"))
                 }
                 signing {
-                    sign.set(isAppStoreRelease)
+                    sign.set(isAppStoreRelease || withNotarization)
                     identity.set("Kamil Gurgul")
                 }
             }
