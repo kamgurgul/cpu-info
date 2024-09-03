@@ -94,8 +94,8 @@ jobs:
       - name: Import certs
         uses: apple-actions/import-codesign-certs@v3
         with:
-          p12-file-base64: ${{ secrets.MAC_CERTIFICATES_P12 }}
-          p12-password: ${{ secrets.MAC_CERTIFICATES_PASSWORD }}
+          p12-file-base64: ${{ secrets.MAC_NOTARIZATION_CERT }}
+          p12-password: ${{ secrets.MAC_NOTARIZATION_CERT_PASS }}
 
       - name: Create path variables
         id: path_variables
