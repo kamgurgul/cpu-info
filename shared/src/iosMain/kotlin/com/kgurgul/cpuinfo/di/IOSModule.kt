@@ -1,6 +1,8 @@
 package com.kgurgul.cpuinfo.di
 
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.emptyPreferences
 import com.kgurgul.cpuinfo.data.provider.IosHardwareDataProvider
 import com.kgurgul.cpuinfo.data.provider.IosSoftwareDataProvider
 import okio.Path.Companion.toPath
@@ -26,6 +28,9 @@ fun iosModule(
                 requireNotNull(documentDirectory).path + "/$USER_PREFERENCES_NAME.preferences_pb"
                 ).toPath()
         PreferenceDataStoreFactory.createWithPath(
+            corruptionHandler = ReplaceFileCorruptionHandler(
+                produceNewData = { emptyPreferences() }
+            ),
             produceFile = { path }
         )
     }

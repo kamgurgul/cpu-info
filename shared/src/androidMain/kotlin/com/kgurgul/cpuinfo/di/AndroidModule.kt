@@ -9,7 +9,9 @@ import android.hardware.camera2.CameraManager
 import android.net.wifi.WifiManager
 import android.os.storage.StorageManager
 import android.view.WindowManager
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -30,6 +32,9 @@ val androidModule = module {
     single { androidContext().getSystemService(Context.CAMERA_SERVICE) as CameraManager }
     single {
         PreferenceDataStoreFactory.create(
+            corruptionHandler = ReplaceFileCorruptionHandler(
+                produceNewData = { emptyPreferences() }
+            ),
             produceFile = {
                 androidContext().preferencesDataStoreFile(USER_PREFERENCES_NAME)
             }

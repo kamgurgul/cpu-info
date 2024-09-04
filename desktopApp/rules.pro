@@ -4,3 +4,8 @@
 
 # Obfuscation breaks coroutines/ktor for some reason
 -dontobfuscate
+
+# DataStore
+-keepclassmembers class * extends androidx.datastore.preferences.protobuf.GeneratedMessageLite {
+    <fields>;
+}
