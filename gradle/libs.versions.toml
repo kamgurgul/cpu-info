@@ -1,11 +1,11 @@
 [versions]
 androidGradlePlugin = "8.6.0"
-androidxActivity = "1.9.1"
+androidxActivity = "1.9.2"
 androidxArchCoreTesting = "2.2.0"
 androidxCoreSpalshscreen = "1.0.1"
 androidxDatastorePreferences = "1.1.1"
 androidxEspresso = "3.6.1"
-androidxLifecycle = "2.8.0"
+androidxLifecycle = "2.8.1"
 androidxNavigation = "2.8.0-alpha09"
 androidxOrchestrator = "1.5.0"
 androidxTestCore = "1.6.1"
