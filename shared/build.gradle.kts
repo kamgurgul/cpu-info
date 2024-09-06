@@ -96,8 +96,6 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(compose.uiTooling)
-            // Workaround for https://youtrack.jetbrains.com/issue/CMP-5959/Invalid-redirect-in-window-core#focus=Comments-27-10365630.0-0
-            implementation(libs.androidx.window)
             implementation(libs.koin.android)
         }
 
@@ -243,9 +241,4 @@ kover {
             }
         }
     }
-}
-
-// Workaround for https://youtrack.jetbrains.com/issue/CMP-5959/Invalid-redirect-in-window-core#focus=Comments-27-10365630.0-0
-configurations.configureEach {
-    exclude("androidx.window.core", "window-core")
 }

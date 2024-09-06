@@ -298,7 +298,7 @@ private fun ApplicationsList(
                         )
                     },
                     modifier = Modifier
-                        // .animateItem()
+                        .animateItem()
                         .focusable(),
                 )
                 if (index < appList.lastIndex) {
