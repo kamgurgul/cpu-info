@@ -155,7 +155,12 @@ private fun ProcessList(
                 processes,
                 key = { _, process -> process.name + process.pid + process.ppid },
             ) { index, process ->
-                ProcessItem(process)
+                ProcessItem(
+                    item = process,
+                    modifier = Modifier
+                        .focusable()
+                        .animateItem()
+                )
                 if (index < processes.lastIndex) {
                     CpuDivider(
                         modifier = Modifier.padding(vertical = spacingSmall),
@@ -173,10 +178,10 @@ private fun ProcessList(
 }
 
 @Composable
-private fun ProcessItem(item: ProcessItem) {
+private fun ProcessItem(item: ProcessItem, modifier: Modifier) {
     Column(
         verticalArrangement = Arrangement.spacedBy(spacingXSmall),
-        modifier = Modifier.focusable(),
+        modifier = modifier,
     ) {
         Text(
             text = item.name,
