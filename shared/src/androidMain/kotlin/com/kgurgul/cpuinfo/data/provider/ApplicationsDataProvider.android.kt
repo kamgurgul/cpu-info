@@ -2,7 +2,6 @@ package com.kgurgul.cpuinfo.data.provider
 
 import android.content.ContentResolver
 import android.content.pm.ApplicationInfo
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -63,17 +62,16 @@ actual class ApplicationsDataProvider actual constructor() : KoinComponent {
     }
 
     private fun getResourceId(packageName: String): Int {
-        val packageInfo: PackageInfo
-        try {
-            packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        return try {
+            val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
             } else {
                 packageManager.getPackageInfo(packageName, 0)
             }
+            packageInfo.applicationInfo?.icon ?: 0
         } catch (e: PackageManager.NameNotFoundException) {
-            return 0
+            0
         }
-        return packageInfo.applicationInfo.icon
     }
 
     private fun getNativeLibs(nativeLibsDir: String?): List<String> {
