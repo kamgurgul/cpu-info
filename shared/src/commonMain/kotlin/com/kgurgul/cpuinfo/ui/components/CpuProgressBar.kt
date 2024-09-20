@@ -22,7 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -61,7 +61,7 @@ fun CpuProgressBar(
                 )
                 .padding(spacingXSmall)
         ) {
-            var currentProgress by remember { mutableFloatStateOf(0f) }
+            var currentProgress by rememberSaveable { mutableFloatStateOf(0f) }
             val progressAnimation by animateFloatAsState(
                 targetValue = currentProgress,
                 animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
