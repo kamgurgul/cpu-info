@@ -42,7 +42,11 @@ jobs:
           { type: "apk", command: "assembleRelease", output: "apk" },
           {
             type: "aab",
-            command: "generateReleaseBaseline -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect bundleRelease",
+            command: "bundleRelease -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
+            -Pandroid.testoptions.manageddevices.emulator.gpu=\"swiftshader_indirect\"
+            -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
+            -Pandroid.experimental.androidTest.numManagedDeviceShards=1
+            -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1",
             output: "bundle"
           }
         ]
@@ -58,6 +62,9 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+
+      - name: Clean GMD
+        run: ./gradlew cleanManagedDevices --unused-only
 
       - name: Decode Keystore
         env:
