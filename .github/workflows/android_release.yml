@@ -40,7 +40,11 @@ jobs:
       matrix:
         format: [
           { type: "apk", command: "assembleRelease", output: "apk" },
-          { type: "aab", command: "generateReleaseBaseline bundleRelease", output: "bundle" }
+          {
+            type: "aab",
+            command: "generateReleaseBaseline -Pandroid.testoptions.manageddevices.emulator.gpu=\"swiftshader_indirect\" bundleRelease",
+            output: "bundle"
+          }
         ]
     steps:
       - uses: actions/checkout@v4
@@ -54,9 +58,6 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
 
       - name: Decode Keystore
         env:
