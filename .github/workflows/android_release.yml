@@ -42,7 +42,7 @@ jobs:
           { type: "apk", command: "assembleRelease", output: "apk" },
           {
             type: "aab",
-            command: "generateReleaseBaseline -Pandroid.testoptions.manageddevices.emulator.gpu=\"swiftshader_indirect\" bundleRelease",
+            command: "generateReleaseBaseline -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect bundleRelease",
             output: "bundle"
           }
         ]
