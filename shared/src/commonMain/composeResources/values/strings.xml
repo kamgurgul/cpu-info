@@ -59,8 +59,8 @@
 
     <!--Apps-->
     <string name="app_open">Cannot open this application</string>
-    <string name="cpu_open">Don\'t open me twice :-)</string>
-    <string name="cpu_uninstall">Can\'t do that :-(</string>
+    <string name="cpu_open">Don't open me twice :-)</string>
+    <string name="cpu_uninstall">Can't do that :-(</string>
     <string name="native_libs" translatable="false">Native libs</string>
     <string name="apps_show_system_apps">Show system apps</string>
     <string name="apps_sort_order">Sort order</string>
@@ -180,7 +180,7 @@
     <string name="pref_theme_choose">Choose theme</string>
 
     <!--Temp-->
-    <string name="no_temp_data">Sorry I can\'t find temperature sensors :-(</string>
+    <string name="no_temp_data">Sorry I can't find temperature sensors :-(</string>
     <string name="celsius" translatable="false">&#176;C</string>
     <string name="fahrenheit" translatable="false">&#176;F</string>
     <string name="kelvin" translatable="false">&#176;K</string>
