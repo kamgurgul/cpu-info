@@ -8,7 +8,7 @@ on:
 
 jobs:
   unit_tests:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -35,7 +35,7 @@ jobs:
           path: shared/build/coverage-report/result.xml
   build:
     needs: unit_tests
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         format: [
@@ -48,6 +48,7 @@ jobs:
             -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
             -Pandroid.experimental.androidTest.numManagedDeviceShards=1
             -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1
+            --no-configuration-cache
             bundleRelease",
             output: "bundle"
           }
@@ -62,6 +63,12 @@ jobs:
           distribution: 'corretto'
           cache: gradle
 
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
@@ -73,7 +80,7 @@ jobs:
           ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_ENCODED }}
         run: |
           echo $ENCODED_KEYSTORE > keystore-b64.txt
-          base64 -d -i keystore-b64.txt > ./androidApp/keystore.jks
+          base64 -d keystore-b64.txt > ./androidApp/keystore.jks
 
       - name: Build release
         env:
