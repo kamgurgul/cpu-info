@@ -42,11 +42,13 @@ jobs:
           { type: "apk", command: "assembleRelease", output: "apk" },
           {
             type: "aab",
-            command: "bundleRelease -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
+            command: "generateReleaseBaseline 
+            -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
             -Pandroid.testoptions.manageddevices.emulator.gpu=\"swiftshader_indirect\"
             -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
             -Pandroid.experimental.androidTest.numManagedDeviceShards=1
-            -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1",
+            -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1
+            bundleRelease",
             output: "bundle"
           }
         ]
