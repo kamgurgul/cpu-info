@@ -39,7 +39,17 @@ jobs:
     strategy:
       matrix:
         format: [
-          { type: "apk", command: "assembleRelease", output: "apk" },
+          {
+            type: "apk",
+            command: "assembleRelease
+            -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
+            -Pandroid.testoptions.manageddevices.emulator.gpu=\"swiftshader_indirect\"
+            -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
+            -Pandroid.experimental.androidTest.numManagedDeviceShards=1
+            -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1
+            --no-configuration-cache",
+            output: "apk"
+          },
           {
             type: "aab",
             command: "generateReleaseBaseline 
@@ -113,8 +123,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git tag ${{ github.event.inputs.version }}
-          git push origin ${{ github.event.inputs.version }}
+          git tag android-${{ github.event.inputs.version }}
+          git push origin android-${{ github.event.inputs.version }}
 
       - name: Download APK
         uses: actions/download-artifact@v4
@@ -153,5 +163,5 @@ jobs:
           allowUpdates: true
           artifacts: "*.apk,*.aab,mapping-apk.zip,mapping-aab.zip"
           draft: true
-          name: ${{ github.event.inputs.version }}
-          tag: ${{ github.event.inputs.version }}
+          name: "[Android] ${{ github.event.inputs.version }}"
+          tag: android-${{ github.event.inputs.version }}
