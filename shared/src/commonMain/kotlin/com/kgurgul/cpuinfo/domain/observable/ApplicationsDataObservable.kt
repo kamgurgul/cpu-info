@@ -1,6 +1,6 @@
 package com.kgurgul.cpuinfo.domain.observable
 
-import com.kgurgul.cpuinfo.data.provider.ApplicationsDataProvider
+import com.kgurgul.cpuinfo.data.provider.IApplicationsDataProvider
 import com.kgurgul.cpuinfo.domain.MutableInteractor
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.SortOrder
@@ -13,7 +13,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class ApplicationsDataObservable(
     dispatchersProvider: IDispatchersProvider,
-    private val applicationsDataProvider: ApplicationsDataProvider,
+    private val applicationsDataProvider: IApplicationsDataProvider,
 ) : MutableInteractor<ApplicationsDataObservable.Params, Result<List<ExtendedApplicationData>>>() {
 
     override val dispatcher = dispatchersProvider.io

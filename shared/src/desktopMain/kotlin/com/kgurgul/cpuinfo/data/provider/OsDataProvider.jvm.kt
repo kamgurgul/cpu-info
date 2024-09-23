@@ -11,12 +11,12 @@ import org.koin.core.component.inject
 import oshi.SystemInfo
 
 @Factory
-actual class OsDataProvider actual constructor() : KoinComponent {
+actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
     private val operatingSystem = systemInfo.operatingSystem
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<Pair<String, String>> {
         return buildList {
             add(getString(Res.string.tab_os) to operatingSystem.family)
             add(getString(Res.string.version) to operatingSystem.versionInfo.toString())

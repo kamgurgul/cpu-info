@@ -111,6 +111,8 @@ kotlin {
             implementation(kotlin("test-common"))
             implementation(kotlin("test-annotations-common"))
 
+            implementation(libs.kotlinx.coroutines.test)
+
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
         }

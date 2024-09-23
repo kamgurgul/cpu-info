@@ -16,11 +16,11 @@ import org.koin.core.component.inject
 import platform.UIKit.UIDevice
 
 @Factory
-actual class OsDataProvider actual constructor() : KoinComponent {
+actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponent {
 
     private val iosSoftwareDataProvider: IosSoftwareDataProvider by inject()
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<Pair<String, String>> {
         return buildList {
             add(getString(Res.string.tab_os) to UIDevice.currentDevice.systemName)
             add(getString(Res.string.version) to UIDevice.currentDevice.systemVersion)

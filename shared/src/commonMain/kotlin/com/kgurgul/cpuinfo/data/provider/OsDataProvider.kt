@@ -3,7 +3,7 @@ package com.kgurgul.cpuinfo.data.provider
 import org.koin.core.annotation.Factory
 
 @Factory
-expect class OsDataProvider() {
+expect class OsDataProvider() : IOsDataProvider {
 
-    suspend fun getData(): List<Pair<String, String>>
+    override suspend fun getData(): List<Pair<String, String>>
 }

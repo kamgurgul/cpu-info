@@ -12,11 +12,14 @@ import org.koin.core.component.inject
 import java.io.File
 
 @Factory
-actual class ApplicationsDataProvider actual constructor() : KoinComponent {
+actual class ApplicationsDataProvider actual constructor() : IApplicationsDataProvider,
+    KoinComponent {
 
     private val packageManager: PackageManager by inject()
 
-    actual fun getInstalledApplications(withSystemApps: Boolean): List<ExtendedApplicationData> {
+    actual override fun getInstalledApplications(
+        withSystemApps: Boolean
+    ): List<ExtendedApplicationData> {
         val applications = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             packageManager.getInstalledApplications(
                 PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
@@ -40,7 +43,7 @@ actual class ApplicationsDataProvider actual constructor() : KoinComponent {
         }
     }
 
-    actual fun areApplicationsSupported() = true
+    actual override fun areApplicationsSupported() = true
 
     private fun ApplicationInfo.hasNativeLibs(): Boolean {
         return if (nativeLibraryDir != null) {

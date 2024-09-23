@@ -4,11 +4,13 @@ import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import org.koin.core.annotation.Factory
 
 @Factory
-actual class ApplicationsDataProvider actual constructor() {
+actual class ApplicationsDataProvider actual constructor() : IApplicationsDataProvider {
 
-    actual fun getInstalledApplications(withSystemApps: Boolean): List<ExtendedApplicationData> {
+    actual override fun getInstalledApplications(
+        withSystemApps: Boolean
+    ): List<ExtendedApplicationData> {
         return emptyList()
     }
 
-    actual fun areApplicationsSupported() = false
+    actual override fun areApplicationsSupported() = false
 }

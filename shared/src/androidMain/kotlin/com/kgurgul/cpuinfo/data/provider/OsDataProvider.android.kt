@@ -39,13 +39,13 @@ import java.io.InputStreamReader
 import java.security.Security
 
 @Factory
-actual class OsDataProvider actual constructor() : KoinComponent {
+actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponent {
 
     private val contentResolver: ContentResolver by inject()
     private val packageManager: PackageManager by inject()
     private val devicePolicyManager: DevicePolicyManager by inject()
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<Pair<String, String>> {
         return buildList {
             add(getString(Res.string.tab_os) to "Android")
             addAll(getBuildData())

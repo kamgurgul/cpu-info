@@ -4,9 +4,9 @@ import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import org.koin.core.annotation.Factory
 
 @Factory
-expect class ApplicationsDataProvider() {
+expect class ApplicationsDataProvider() : IApplicationsDataProvider {
 
-    fun getInstalledApplications(withSystemApps: Boolean): List<ExtendedApplicationData>
+    override fun getInstalledApplications(withSystemApps: Boolean): List<ExtendedApplicationData>
 
-    fun areApplicationsSupported(): Boolean
+    override fun areApplicationsSupported(): Boolean
 }

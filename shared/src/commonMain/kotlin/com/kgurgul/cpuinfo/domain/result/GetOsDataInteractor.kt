@@ -1,6 +1,6 @@
 package com.kgurgul.cpuinfo.domain.result
 
-import com.kgurgul.cpuinfo.data.provider.OsDataProvider
+import com.kgurgul.cpuinfo.data.provider.IOsDataProvider
 import com.kgurgul.cpuinfo.domain.ResultInteractor
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.CoroutineDispatcher
@@ -9,7 +9,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class GetOsDataInteractor(
     private val dispatchersProvider: IDispatchersProvider,
-    private val osDataProvider: OsDataProvider,
+    private val osDataProvider: IOsDataProvider,
 ) : ResultInteractor<Unit, List<Pair<String, String>>>() {
 
     override val dispatcher: CoroutineDispatcher
