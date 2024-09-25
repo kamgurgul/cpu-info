@@ -24,14 +24,14 @@ import oshi.SystemInfo
 import oshi.software.os.OperatingSystem.ProcessSorting
 
 @Factory
-actual class ProcessesProvider actual constructor() : KoinComponent {
+actual class ProcessesProvider actual constructor() : KoinComponent, IProcessesProvider {
 
     private val systemInfo: SystemInfo by inject()
     private val operatingSystem = systemInfo.operatingSystem
 
-    actual fun areProcessesSupported() = true
+    actual override fun areProcessesSupported() = true
 
-    actual fun getProcessList(): List<ProcessItem> {
+    actual override fun getProcessList(): List<ProcessItem> {
         return operatingSystem.getProcesses(null, ProcessSorting.NAME_ASC, 0).map {
             ProcessItem(
                 name = it.name,

@@ -2,31 +2,39 @@ package com.kgurgul.cpuinfo.domain.observable
 
 import app.cash.turbine.test
 import com.kgurgul.cpuinfo.data.TestData
-import com.kgurgul.cpuinfo.data.provider.ProcessesProvider
+import com.kgurgul.cpuinfo.data.provider.FakeProcessesProvider
 import com.kgurgul.cpuinfo.domain.model.SortOrder
-import com.kgurgul.cpuinfo.utils.CoroutineTestRule
+import com.kgurgul.cpuinfo.utils.CoroutineTestSuit
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ProcessesDataObservableTest {
 
-    @get:Rule
-    val coroutineTestRule = CoroutineTestRule()
+    val coroutineTestRule = CoroutineTestSuit()
 
-    private val mockProcessesProvider: ProcessesProvider = mock()
+    private val fakeProcessesProvider = FakeProcessesProvider()
 
     private val interactor = ProcessesDataObservable(
         dispatchersProvider = coroutineTestRule.testDispatcherProvider,
-        processesProvider = mockProcessesProvider,
+        processesProvider = fakeProcessesProvider,
     )
+
+    @BeforeTest
+    fun setup() {
+        coroutineTestRule.onStar()
+    }
+
+    @AfterTest
+    fun tearDown() {
+        coroutineTestRule.onFinished()
+    }
 
     @Test
     fun `Get processes data observable`() = runTest {
-        whenever(mockProcessesProvider.getProcessList()).thenReturn(TestData.processes)
+        fakeProcessesProvider.processesList = TestData.processes
         val expectedItems = TestData.processes
 
         interactor.observe(ProcessesDataObservable.Params(SortOrder.ASCENDING)).test {

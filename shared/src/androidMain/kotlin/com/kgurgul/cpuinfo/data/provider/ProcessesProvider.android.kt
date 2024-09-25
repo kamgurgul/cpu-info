@@ -23,11 +23,11 @@ import org.koin.core.annotation.Factory
 import java.util.StringTokenizer
 
 @Factory
-actual class ProcessesProvider actual constructor() {
+actual class ProcessesProvider actual constructor() : IProcessesProvider {
 
-    actual fun areProcessesSupported() = Build.VERSION.SDK_INT <= Build.VERSION_CODES.M
+    actual override fun areProcessesSupported() = Build.VERSION.SDK_INT <= Build.VERSION_CODES.M
 
-    actual fun getProcessList(): List<ProcessItem> {
+    actual override fun getProcessList(): List<ProcessItem> {
         val psCmdList = readPsCmd()
         return parsePs(psCmdList)
     }

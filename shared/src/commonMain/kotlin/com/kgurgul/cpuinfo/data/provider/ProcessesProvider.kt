@@ -4,9 +4,9 @@ import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import org.koin.core.annotation.Factory
 
 @Factory
-expect class ProcessesProvider() {
+expect class ProcessesProvider() : IProcessesProvider {
 
-    fun areProcessesSupported(): Boolean
+    override fun areProcessesSupported(): Boolean
 
-    fun getProcessList(): List<ProcessItem>
+    override fun getProcessList(): List<ProcessItem>
 }

@@ -112,6 +112,7 @@ kotlin {
             implementation(kotlin("test-annotations-common"))
 
             implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.turbine)
 
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
@@ -125,7 +126,6 @@ kotlin {
                 implementation(libs.androidx.arch.core.testing)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.mockito.kotlin)
-                implementation(libs.turbine)
             }
         }
     }

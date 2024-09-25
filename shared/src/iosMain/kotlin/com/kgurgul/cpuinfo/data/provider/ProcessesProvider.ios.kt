@@ -20,11 +20,11 @@ import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import org.koin.core.annotation.Factory
 
 @Factory
-actual class ProcessesProvider actual constructor() {
+actual class ProcessesProvider actual constructor() : IProcessesProvider {
 
-    actual fun areProcessesSupported() = false
+    actual override fun areProcessesSupported() = false
 
-    actual fun getProcessList(): List<ProcessItem> {
+    actual override fun getProcessList(): List<ProcessItem> {
         return emptyList()
     }
 }

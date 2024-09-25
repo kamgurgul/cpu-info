@@ -1,6 +1,6 @@
 package com.kgurgul.cpuinfo.domain.observable
 
-import com.kgurgul.cpuinfo.data.provider.ProcessesProvider
+import com.kgurgul.cpuinfo.data.provider.IProcessesProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.domain.model.SortOrder
@@ -13,7 +13,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class ProcessesDataObservable(
     private val dispatchersProvider: IDispatchersProvider,
-    private val processesProvider: ProcessesProvider,
+    private val processesProvider: IProcessesProvider,
 ) : ImmutableInteractor<ProcessesDataObservable.Params, List<ProcessItem>>() {
 
     override val dispatcher: CoroutineDispatcher
