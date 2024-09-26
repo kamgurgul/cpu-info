@@ -13,6 +13,7 @@ import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.kgurgul.cpuinfo.appinitializers.NativeToolsInitializer
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -30,6 +31,7 @@ val androidModule = module {
     single { androidContext().getSystemService(Context.WIFI_SERVICE) as WifiManager }
     single { androidContext().getSystemService(Context.STORAGE_SERVICE) as StorageManager }
     single { androidContext().getSystemService(Context.CAMERA_SERVICE) as CameraManager }
+    single { NativeToolsInitializer(get()) }
     single {
         PreferenceDataStoreFactory.create(
             corruptionHandler = ReplaceFileCorruptionHandler(

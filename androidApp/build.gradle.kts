@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.application)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.compose.compiler)
     id("kotlin-parcelize")
@@ -114,10 +113,6 @@ dependencies {
     implementation(libs.androidx.profileinstaller)
 
     implementation(libs.koin.android)
-    implementation(libs.koin.annotations)
-    ksp(libs.koin.kspCompiler)
-
-    implementation(libs.relinker)
 
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.rules)

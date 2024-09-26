@@ -18,12 +18,10 @@ package com.kgurgul.cpuinfo
 
 import android.app.Application
 import com.kgurgul.cpuinfo.appinitializers.AppInitializerComponent
-import com.kgurgul.cpuinfo.appinitializers.AppInitializersModule
 import com.kgurgul.cpuinfo.di.androidModule
 import com.kgurgul.cpuinfo.di.sharedModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import org.koin.ksp.generated.module
 
 class CpuInfoApp : Application() {
 
@@ -33,7 +31,6 @@ class CpuInfoApp : Application() {
             androidContext(this@CpuInfoApp)
             modules(
                 androidModule,
-                AppInitializersModule().module,
                 sharedModule,
             )
         }

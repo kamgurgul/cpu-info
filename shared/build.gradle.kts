@@ -97,6 +97,7 @@ kotlin {
             implementation(compose.preview)
             implementation(compose.uiTooling)
             implementation(libs.koin.android)
+            implementation(libs.relinker)
         }
 
         val desktopMain by getting
