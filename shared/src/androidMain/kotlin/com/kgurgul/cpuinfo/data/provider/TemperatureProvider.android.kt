@@ -39,12 +39,12 @@ import org.koin.core.component.inject
 import java.io.File
 
 @Factory
-actual class TemperatureProvider actual constructor() : KoinComponent {
+actual class TemperatureProvider actual constructor() : KoinComponent, ITemperatureProvider {
 
     private val appContext: Context by inject()
     private val sensorManager: SensorManager by inject()
 
-    actual val sensorsFlow = callbackFlow {
+    actual override val sensorsFlow = callbackFlow {
         val sensorCallback = object : SensorEventListener {
             override fun onSensorChanged(event: SensorEvent) {
                 val temp = event.values[0].round1()
@@ -74,14 +74,14 @@ actual class TemperatureProvider actual constructor() : KoinComponent {
         awaitClose { sensorManager.unregisterListener(sensorCallback) }
     }
 
-    actual fun getBatteryTemperature(): Float? {
+    actual override fun getBatteryTemperature(): Float? {
         val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         val batteryStatus = appContext.registerReceiver(null, filter)
         val temp = batteryStatus?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, Int.MIN_VALUE)
         return if (temp != null && temp != Int.MIN_VALUE) temp / 10f else null
     }
 
-    actual fun findCpuTemperatureLocation(): String? {
+    actual override fun findCpuTemperatureLocation(): String? {
         for (location in CPU_TEMP_FILE_PATHS) {
             try {
                 val temp = File(location).bufferedReader().use { it.readLine().toDoubleOrNull() }
@@ -101,7 +101,7 @@ actual class TemperatureProvider actual constructor() : KoinComponent {
      *
      * @return CPU temperature
      */
-    actual fun getCpuTemp(path: String): Float? {
+    actual override fun getCpuTemperature(path: String): Float? {
         return File(path).bufferedReader().use { it.readLine().toDoubleOrNull() }?.let {
             if (isTemperatureValid(it)) {
                 it.toFloat()

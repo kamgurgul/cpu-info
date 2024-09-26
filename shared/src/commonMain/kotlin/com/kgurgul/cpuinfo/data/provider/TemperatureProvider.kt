@@ -5,13 +5,13 @@ import kotlinx.coroutines.flow.Flow
 import org.koin.core.annotation.Factory
 
 @Factory
-expect class TemperatureProvider() {
+expect class TemperatureProvider() : ITemperatureProvider {
 
-    val sensorsFlow: Flow<TemperatureItem>
+    override val sensorsFlow: Flow<TemperatureItem>
 
-    fun getBatteryTemperature(): Float?
+    override fun getBatteryTemperature(): Float?
 
-    fun findCpuTemperatureLocation(): String?
+    override fun findCpuTemperatureLocation(): String?
 
-    fun getCpuTemp(path: String): Float?
+    override fun getCpuTemperature(path: String): Float?
 }

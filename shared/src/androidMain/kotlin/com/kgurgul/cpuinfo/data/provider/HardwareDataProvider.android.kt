@@ -81,7 +81,7 @@ import java.util.regex.Pattern
 actual class HardwareDataProvider actual constructor() : KoinComponent {
 
     private val appContext: Context by inject()
-    private val temperatureProvider: TemperatureProvider by inject()
+    private val temperatureProvider: ITemperatureProvider by inject()
     private val temperatureFormatter: TemperatureFormatter by inject()
     private val packageManager: PackageManager by inject()
     private val contentResolver: ContentResolver by inject()

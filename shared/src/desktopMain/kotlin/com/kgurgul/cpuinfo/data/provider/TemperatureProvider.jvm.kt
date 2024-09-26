@@ -25,24 +25,24 @@ import org.koin.core.component.inject
 import oshi.SystemInfo
 
 @Factory
-actual class TemperatureProvider actual constructor() : KoinComponent {
+actual class TemperatureProvider actual constructor() : KoinComponent, ITemperatureProvider {
 
     private val systemInfo: SystemInfo by inject()
 
-    actual val sensorsFlow: Flow<TemperatureItem> = emptyFlow()
+    actual override val sensorsFlow: Flow<TemperatureItem> = emptyFlow()
 
-    actual fun getBatteryTemperature(): Float? {
+    actual override fun getBatteryTemperature(): Float? {
         return systemInfo.hardware.powerSources
             .find { it.temperature != 0.0 }
             ?.temperature
             ?.toFloat()
     }
 
-    actual fun findCpuTemperatureLocation(): String? {
+    actual override fun findCpuTemperatureLocation(): String? {
         return ""
     }
 
-    actual fun getCpuTemp(path: String): Float? {
+    actual override fun getCpuTemperature(path: String): Float? {
         val cpuTemp = systemInfo.hardware.sensors.cpuTemperature
         return if (cpuTemp.isNaN() || cpuTemp == 0.0) {
             null

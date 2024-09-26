@@ -35,9 +35,9 @@ import platform.Foundation.NSProcessInfoThermalState
 import platform.Foundation.thermalState
 
 @Factory
-actual class TemperatureProvider actual constructor() {
+actual class TemperatureProvider actual constructor() : ITemperatureProvider {
 
-    actual val sensorsFlow: Flow<TemperatureItem> = flow {
+    actual override val sensorsFlow: Flow<TemperatureItem> = flow {
         val thermalState = when (NSProcessInfo.processInfo.thermalState) {
             NSProcessInfoThermalState.NSProcessInfoThermalStateNominal ->
                 getString(Res.string.temp_thermal_state_nominal)
@@ -63,15 +63,15 @@ actual class TemperatureProvider actual constructor() {
         delay(REFRESH_DELAY)
     }
 
-    actual fun getBatteryTemperature(): Float? {
+    actual override fun getBatteryTemperature(): Float? {
         return null
     }
 
-    actual fun findCpuTemperatureLocation(): String? {
+    actual override fun findCpuTemperatureLocation(): String? {
         return null
     }
 
-    actual fun getCpuTemp(path: String): Float? {
+    actual override fun getCpuTemperature(path: String): Float? {
         return null
     }
 

@@ -1,6 +1,6 @@
 package com.kgurgul.cpuinfo.domain.observable
 
-import com.kgurgul.cpuinfo.data.provider.TemperatureProvider
+import com.kgurgul.cpuinfo.data.provider.ITemperatureProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.shared.Res
@@ -20,7 +20,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class TemperatureDataObservable(
     private val dispatchersProvider: IDispatchersProvider,
-    private val temperatureProvider: TemperatureProvider,
+    private val temperatureProvider: ITemperatureProvider,
     private val localResources: ILocalResources,
 ) : ImmutableInteractor<Unit, List<TemperatureItem>>() {
 
@@ -40,7 +40,7 @@ class TemperatureDataObservable(
                     )
                 )
             }
-            cpuTempPath?.let { temperatureProvider.getCpuTemp(it) }?.let {
+            cpuTempPath?.let { temperatureProvider.getCpuTemperature(it) }?.let {
                 emit(
                     TemperatureItem(
                         id = ID_CPU,
