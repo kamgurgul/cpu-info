@@ -152,13 +152,13 @@ composeCompiler {
 }
 
 android {
-    compileSdk = Versions.COMPILE_SDK
+    compileSdk = AndroidVersions.COMPILE_SDK
     namespace = "com.kgurgul.cpuinfo.shared"
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
 
     defaultConfig {
-        minSdk = Versions.MIN_SDK
+        minSdk = AndroidVersions.MIN_SDK
         externalNativeBuild {
             cmake {
                 arguments += listOf(
@@ -168,7 +168,7 @@ android {
             }
         }
     }
-    ndkVersion = Versions.NDK_VERSION
+    ndkVersion = AndroidVersions.NDK_VERSION
     externalNativeBuild {
         cmake {
             path("src/androidMain/cpp/CMakeLists.txt")

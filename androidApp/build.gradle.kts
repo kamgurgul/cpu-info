@@ -18,15 +18,15 @@ kotlin {
 }
 
 android {
-    compileSdk = Versions.COMPILE_SDK
+    compileSdk = AndroidVersions.COMPILE_SDK
 
     defaultConfig {
         applicationId = "com.kgurgul.cpuinfo"
 
-        minSdk = Versions.MIN_SDK
-        targetSdk = Versions.TARGET_SDK
-        versionCode = Versions.VERSION_CODE
-        versionName = Versions.VERSION_NAME
+        minSdk = AndroidVersions.MIN_SDK
+        targetSdk = AndroidVersions.TARGET_SDK
+        versionCode = AndroidVersions.VERSION_CODE
+        versionName = AndroidVersions.VERSION_NAME
 
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -36,18 +36,19 @@ android {
 
     signingConfigs {
         getByName("debug") {
-            val debugSigningConfig = SigningConfig.getDebugProperties(rootProject.rootDir)
-            storeFile = file(debugSigningConfig.getProperty(SigningConfig.KEY_PATH))
-            keyAlias = debugSigningConfig.getProperty(SigningConfig.KEY_ALIAS)
-            keyPassword = debugSigningConfig.getProperty(SigningConfig.KEY_PASS)
-            storePassword = debugSigningConfig.getProperty(SigningConfig.KEY_PASS)
+            val debugSigningConfig = AndroidSigningConfig.getDebugProperties(rootProject.rootDir)
+            storeFile = file(debugSigningConfig.getProperty(AndroidSigningConfig.KEY_PATH))
+            keyAlias = debugSigningConfig.getProperty(AndroidSigningConfig.KEY_ALIAS)
+            keyPassword = debugSigningConfig.getProperty(AndroidSigningConfig.KEY_PASS)
+            storePassword = debugSigningConfig.getProperty(AndroidSigningConfig.KEY_PASS)
         }
         create("release") {
-            val releaseSigningConfig = SigningConfig.getReleaseProperties(rootProject.rootDir)
-            storeFile = file(releaseSigningConfig.getProperty(SigningConfig.KEY_PATH))
-            keyAlias = releaseSigningConfig.getProperty(SigningConfig.KEY_ALIAS)
-            keyPassword = releaseSigningConfig.getProperty(SigningConfig.KEY_PASS)
-            storePassword = releaseSigningConfig.getProperty(SigningConfig.KEY_PASS)
+            val releaseSigningConfig =
+                AndroidSigningConfig.getReleaseProperties(rootProject.rootDir)
+            storeFile = file(releaseSigningConfig.getProperty(AndroidSigningConfig.KEY_PATH))
+            keyAlias = releaseSigningConfig.getProperty(AndroidSigningConfig.KEY_ALIAS)
+            keyPassword = releaseSigningConfig.getProperty(AndroidSigningConfig.KEY_PASS)
+            storePassword = releaseSigningConfig.getProperty(AndroidSigningConfig.KEY_PASS)
         }
     }
 

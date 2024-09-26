@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.kgurgul.cpuinfo.baselineprofile"
-    compileSdk = Versions.COMPILE_SDK
+    compileSdk = AndroidVersions.COMPILE_SDK
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         minSdk = 23
-        targetSdk = Versions.TARGET_SDK
+        targetSdk = AndroidVersions.TARGET_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -2,7 +2,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
 
-object SigningConfig {
+object AndroidSigningConfig {
 
     const val KEY_PATH = "KEYSTORE_PATH"
     const val KEY_PASS = "KEYSTORE_PASS"
