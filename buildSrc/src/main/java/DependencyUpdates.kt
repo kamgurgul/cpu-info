@@ -4,7 +4,8 @@ enum class ReleaseType(private val level: Int) {
     ALPHA(10),
     BETA(20),
     RC(60),
-    RELEASE(100);
+    RELEASE(100),
+    ;
 
     fun isEqualOrMoreStableThan(other: ReleaseType): Boolean = level >= other.level
 

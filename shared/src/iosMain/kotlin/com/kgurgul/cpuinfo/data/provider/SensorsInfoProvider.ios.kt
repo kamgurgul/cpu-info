@@ -38,7 +38,7 @@ actual class SensorsInfoProvider actual constructor() {
     private fun startProvidingAccelerometerData(channel: SendChannel<List<SensorData>>) {
         manager.startDeviceMotionUpdatesUsingReferenceFrame(
             referenceFrame = CMAttitudeReferenceFrameXMagneticNorthZVertical,
-            toQueue = queue
+            toQueue = queue,
         ) { motion, error ->
             if (error != null) {
                 return@startDeviceMotionUpdatesUsingReferenceFrame
@@ -54,28 +54,28 @@ actual class SensorsInfoProvider actual constructor() {
                     id = ID_ACCELERATION,
                     name = "Acceleration",
                     value = convertAcceleration(userAcceleration),
-                )
+                ),
             )
             add(
                 SensorData(
                     id = ID_GRAVITY,
                     name = "Gravity",
                     value = convertAcceleration(gravity),
-                )
+                ),
             )
             add(
                 SensorData(
                     id = ID_HEADING,
                     name = "Heading",
                     value = convertAcceleration(gravity),
-                )
+                ),
             )
             add(
                 SensorData(
                     id = ID_ROTATION_RATE,
                     name = "Rotation rate",
                     value = convertRotationRate(rotationRate),
-                )
+                ),
             )
             magneticField.useContents {
                 if (accuracy != CMMagneticFieldCalibrationAccuracyUncalibrated) {
@@ -84,7 +84,7 @@ actual class SensorsInfoProvider actual constructor() {
                             id = ID_MAGNETIC_FIELD,
                             name = "Magnetic field",
                             value = convertMagneticField(field),
-                        )
+                        ),
                     )
                 }
             }
@@ -93,7 +93,7 @@ actual class SensorsInfoProvider actual constructor() {
                     id = ID_ATTITUDE,
                     name = "Attitude",
                     value = convertAttitude(attitude),
-                )
+                ),
             )
         }
     }

@@ -17,7 +17,7 @@ import org.koin.core.annotation.Single
 
 @Single
 class UserPreferencesRepository(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : IUserPreferencesRepository {
 
     override val userPreferencesFlow: Flow<UserPreferences>

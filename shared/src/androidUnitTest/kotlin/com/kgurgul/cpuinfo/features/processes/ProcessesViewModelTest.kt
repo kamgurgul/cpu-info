@@ -4,6 +4,8 @@ import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.local.StubUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.observable.ProcessesDataObservable
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
@@ -13,8 +15,6 @@ import org.junit.Rule
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class ProcessesViewModelTest {
 
@@ -38,7 +38,7 @@ class ProcessesViewModelTest {
             ProcessesViewModel.UiState(
                 isLoading = false,
                 processes = processes.toImmutableList(),
-            )
+            ),
         )
 
         createViewModel()

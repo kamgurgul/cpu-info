@@ -25,9 +25,9 @@ fun CpuSwitchBox(
             .toggleable(
                 value = isChecked,
                 onValueChange = onCheckedChange,
-                role = Role.Switch
+                role = Role.Switch,
             ),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = text,

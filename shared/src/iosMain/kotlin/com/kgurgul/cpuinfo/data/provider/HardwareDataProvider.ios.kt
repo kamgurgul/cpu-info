@@ -70,7 +70,7 @@ actual class HardwareDataProvider actual constructor() {
                 add(getString(Res.string.hardware_microphones) to "")
                 microphoneDevices.forEach { microphone ->
                     val description = getFormatedName(microphone.manufacturer) +
-                            "\n" + microphone.uniqueID
+                        "\n" + microphone.uniqueID
                     add(microphone.localizedName to description)
                 }
             }
@@ -101,7 +101,7 @@ actual class HardwareDataProvider actual constructor() {
                 AVCaptureDeviceTypeBuiltInTelephotoCamera,
             ),
             mediaType = AVMediaTypeVideo,
-            position = AVCaptureDevicePositionUnspecified
+            position = AVCaptureDevicePositionUnspecified,
         ).devices.filterIsInstance<AVCaptureDevice>()
     }
 
@@ -111,7 +111,7 @@ actual class HardwareDataProvider actual constructor() {
                 AVCaptureDeviceTypeBuiltInMicrophone,
             ),
             mediaType = AVMediaTypeAudio,
-            position = AVCaptureDevicePositionUnspecified
+            position = AVCaptureDevicePositionUnspecified,
         ).devices.filterIsInstance<AVCaptureDevice>()
     }
 

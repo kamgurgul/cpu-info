@@ -3,6 +3,8 @@ package com.kgurgul.cpuinfo.features.information.os
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.domain.result.GetOsDataInteractor
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -10,8 +12,6 @@ import org.junit.Rule
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class OsInfoViewModelTest {
 

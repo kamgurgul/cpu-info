@@ -38,8 +38,8 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                     SensorData(
                         id = event.sensor.getUniqueId(),
                         name = event.sensor.name,
-                        value = getSensorData(event.sensor.type, event.values)
-                    )
+                        value = getSensorData(event.sensor.type, event.values),
+                    ),
                 )
                 trySend(updatedSensor)
             }
@@ -57,19 +57,19 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                                 SensorData(
                                     id = event.sensor.getUniqueId(),
                                     name = event.sensor.name,
-                                    value = getSensorData(event.sensor.type, event.values)
-                                )
+                                    value = getSensorData(event.sensor.type, event.values),
+                                ),
                             )
                             trySend(updatedSensor)
                         }
                     },
-                    sensor
+                    sensor,
                 )
             } else {
                 sensorManager.registerListener(
                     sensorListener,
                     sensor,
-                    SensorManager.SENSOR_DELAY_NORMAL
+                    SensorManager.SENSOR_DELAY_NORMAL,
                 )
             }
         }
@@ -118,7 +118,8 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
 
             Sensor.TYPE_AMBIENT_TEMPERATURE,
             GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE,
-            GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE ->
+            GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE,
+            ->
                 data = "Temperature=${values[0].round1()}°C"
 
             Sensor.TYPE_LIGHT ->

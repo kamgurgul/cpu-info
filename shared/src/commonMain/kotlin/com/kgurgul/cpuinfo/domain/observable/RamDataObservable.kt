@@ -11,7 +11,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class RamDataObservable(
     dispatchersProvider: IDispatchersProvider,
-    private val ramDataProvider: RamDataProvider
+    private val ramDataProvider: RamDataProvider,
 ) : ImmutableInteractor<Unit, RamData>() {
 
     override val dispatcher = dispatchersProvider.io
@@ -27,8 +27,8 @@ class RamDataObservable(
                     total = total,
                     available = available,
                     availablePercentage = availablePercentage,
-                    threshold = threshold
-                )
+                    threshold = threshold,
+                ),
             )
             delay(REFRESH_DELAY)
         }

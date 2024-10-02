@@ -51,9 +51,9 @@ actual class GpuDataProvider actual constructor() : KoinComponent {
 
         // Extract versions from bit field
         // See: https://developer.android.com/reference/android/content/pm/PackageManager#FEATURE_VULKAN_HARDWARE_VERSION
-        val major = vulkan shr 22           // Higher 10 bits
-        val minor = vulkan shl 10 shr 22    // Middle 10 bits
-        val patch = vulkan shl 20 shr 22    // Lower 12 bits
+        val major = vulkan shr 22 // Higher 10 bits
+        val minor = vulkan shl 10 shr 22 // Middle 10 bits
+        val patch = vulkan shl 20 shr 22 // Lower 12 bits
         //
         return "$major.$minor.$patch"
     }

@@ -36,11 +36,11 @@ actual class ScreenDataProvider actual constructor() : KoinComponent {
             add(getString(Res.string.screen_brightness) to getScreenBrightness().toString())
             add(
                 getString(Res.string.screen_max_fps)
-                        to getScreenMaximumFramesPerSecond().toString()
+                    to getScreenMaximumFramesPerSecond().toString(),
             )
             add(
                 getString(Res.string.screen_calibrated_latency)
-                        to getScreenCalibratedLatency().toString()
+                    to getScreenCalibratedLatency().toString(),
             )
         }
     }
@@ -54,7 +54,7 @@ actual class ScreenDataProvider actual constructor() : KoinComponent {
             notificationCenter.addObserver(
                 observer = listener,
                 selector = NSSelectorFromString(
-                    OrientationListener::orientationDidChange.name + ":"
+                    OrientationListener::orientationDidChange.name + ":",
                 ),
                 name = notificationName,
                 `object` = null,

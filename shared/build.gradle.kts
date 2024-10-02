@@ -36,12 +36,12 @@ kotlin {
         iosTarget.compilations.getByName("main") {
             val libcpuinfo by cinterops.creating {
                 definitionFile.set(
-                    project.file("src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.def")
+                    project.file("src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.def"),
                 )
                 compilerOpts(
                     "-framework",
                     "libcpuinfo",
-                    "-F$libcpuinfoPath"
+                    "-F$libcpuinfoPath",
                 )
             }
         }
@@ -197,10 +197,10 @@ android {
 
 dependencies {
     add("kspCommonMainMetadata", libs.koin.kspCompiler)
-    //add("kspAndroid", libs.koin.kspCompiler)
-    //add("kspIosX64", libs.koin.kspCompiler)
-    //add("kspIosArm64", libs.koin.kspCompiler)
-    //add("kspIosSimulatorArm64", libs.koin.kspCompiler)
+    // add("kspAndroid", libs.koin.kspCompiler)
+    // add("kspIosX64", libs.koin.kspCompiler)
+    // add("kspIosArm64", libs.koin.kspCompiler)
+    // add("kspIosSimulatorArm64", libs.koin.kspCompiler)
 }
 
 tasks.withType<KotlinCompile>().configureEach {
@@ -210,8 +210,8 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 tasks.filter {
-    it.name.contains("compileKotlinIos", true)
-            || it.name.contains("compileTestKotlinIos", true)
+    it.name.contains("compileKotlinIos", true) ||
+        it.name.contains("compileTestKotlinIos", true)
 }.forEach {
     it.dependsOn("kspCommonMainKotlinMetadata")
 }

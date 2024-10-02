@@ -52,7 +52,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ProcessesScreen(
-    viewModel: ProcessesViewModel = koinViewModel()
+    viewModel: ProcessesViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     ProcessesScreen(
@@ -102,12 +102,12 @@ private fun ProcessesTopBar(
             IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
             DropdownMenu(
                 expanded = showMenu,
-                onDismissRequest = { showMenu = false }
+                onDismissRequest = { showMenu = false },
             ) {
                 DropdownMenuItem(
                     text = {
@@ -128,9 +128,9 @@ private fun ProcessesTopBar(
                         }
                         Icon(
                             imageVector = icon,
-                            contentDescription = null
+                            contentDescription = null,
                         )
-                    }
+                    },
                 )
             }
         },
@@ -159,7 +159,7 @@ private fun ProcessList(
                     item = process,
                     modifier = Modifier
                         .focusable()
-                        .animateItem()
+                        .animateItem(),
                 )
                 if (index < processes.lastIndex) {
                     CpuDivider(
@@ -209,7 +209,7 @@ private fun DoubleTextRow(
     text2: String,
 ) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(spacingSmall)
+        horizontalArrangement = Arrangement.spacedBy(spacingSmall),
     ) {
         Text(
             text = text1,

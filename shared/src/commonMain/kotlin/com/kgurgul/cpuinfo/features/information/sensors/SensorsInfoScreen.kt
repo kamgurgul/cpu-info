@@ -53,12 +53,12 @@ fun SensorsInfoScreen(
         ) {
             itemsIndexed(
                 uiState.sensors,
-                key = { _, sensorData -> sensorData.id }
+                key = { _, sensorData -> sensorData.id },
             ) { index, sensorData ->
                 SensorItem(
                     title = sensorData.name,
                     value = sensorData.value,
-                    isLastItem = index == uiState.sensors.lastIndex
+                    isLastItem = index == uiState.sensors.lastIndex,
                 )
             }
         }

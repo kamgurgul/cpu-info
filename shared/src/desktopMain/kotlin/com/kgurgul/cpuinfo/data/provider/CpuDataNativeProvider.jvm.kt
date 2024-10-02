@@ -12,7 +12,6 @@ actual class CpuDataNativeProvider actual constructor() : KoinComponent {
     private val processor = systemInfo.hardware.processor
 
     actual fun initLibrary() {
-
     }
 
     actual fun getCpuName(): String {

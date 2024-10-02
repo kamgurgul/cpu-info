@@ -9,13 +9,13 @@ import com.kgurgul.cpuinfo.shared.ic_battery
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.utils.CoroutineTestSuit
 import com.kgurgul.cpuinfo.utils.resources.ILocalResources
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.test.runTest
-import org.jetbrains.compose.resources.StringResource
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.test.runTest
+import org.jetbrains.compose.resources.StringResource
 
 class TemperatureDataObservableTest {
 

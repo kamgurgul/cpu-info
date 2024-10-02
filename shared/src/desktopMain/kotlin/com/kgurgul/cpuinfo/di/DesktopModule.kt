@@ -11,9 +11,9 @@ val desktopModule = module {
     single {
         PreferenceDataStoreFactory.createWithPath(
             corruptionHandler = ReplaceFileCorruptionHandler(
-                produceNewData = { emptyPreferences() }
+                produceNewData = { emptyPreferences() },
             ),
-            produceFile = { "$USER_PREFERENCES_NAME.preferences_pb".toPath() }
+            produceFile = { "$USER_PREFERENCES_NAME.preferences_pb".toPath() },
         )
     }
     single { SystemInfo() }

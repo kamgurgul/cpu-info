@@ -19,6 +19,8 @@ package com.kgurgul.cpuinfo.features.temperature
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
@@ -28,8 +30,6 @@ import org.junit.Rule
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class TemperatureViewModelTest {
 
@@ -52,7 +52,7 @@ class TemperatureViewModelTest {
                 temperatureFormatter = mockTemperatureFormatter,
                 isLoading = false,
                 temperatureItems = temperatureData.toPersistentList(),
-            )
+            ),
         )
 
         createViewModel()

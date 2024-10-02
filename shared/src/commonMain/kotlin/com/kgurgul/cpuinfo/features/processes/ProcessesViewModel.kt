@@ -34,9 +34,9 @@ class ProcessesViewModel(
                 processesDataObservable.observe(
                     ProcessesDataObservable.Params(
                         sortOrder = sortOrderFromBoolean(
-                            userPreferences.isProcessesSortingAscending
-                        )
-                    )
+                            userPreferences.isProcessesSortingAscending,
+                        ),
+                    ),
                 )
             }.onEach(::handleProcessesResult)
             .launchIn(viewModelScope)

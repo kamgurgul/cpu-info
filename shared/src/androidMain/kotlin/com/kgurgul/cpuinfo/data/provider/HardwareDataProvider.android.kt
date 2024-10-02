@@ -68,14 +68,14 @@ import com.kgurgul.cpuinfo.shared.wireless
 import com.kgurgul.cpuinfo.shared.yes
 import com.kgurgul.cpuinfo.utils.CpuLogger
 import com.kgurgul.cpuinfo.utils.round2
-import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import java.io.File
 import java.io.FileFilter
 import java.io.RandomAccessFile
 import java.util.regex.Pattern
+import org.jetbrains.compose.resources.getString
+import org.koin.core.annotation.Factory
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 @Factory
 actual class HardwareDataProvider actual constructor() : KoinComponent {
@@ -119,8 +119,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                 functionsList.add(
                     Pair(
                         getString(Res.string.level),
-                        "${batteryPct.round2()}%"
-                    )
+                        "${batteryPct.round2()}%",
+                    ),
                 )
             }
 
@@ -130,8 +130,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                 functionsList.add(
                     Pair(
                         getString(Res.string.battery_health),
-                        getBatteryHealthStatus(health)
-                    )
+                        getBatteryHealthStatus(health),
+                    ),
                 )
             }
 
@@ -141,8 +141,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                 functionsList.add(
                     Pair(
                         getString(Res.string.voltage),
-                        "${voltage / 1000.0}V"
-                    )
+                        "${voltage / 1000.0}V",
+                    ),
                 )
             }
         }
@@ -153,8 +153,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             functionsList.add(
                 Pair(
                     getString(Res.string.temperature),
-                    temperatureFormatter.format(temperature)
-                )
+                    temperatureFormatter.format(temperature),
+                ),
             )
         }
 
@@ -169,14 +169,14 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             val technology = batteryStatus.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY)
             if (!technology.isNullOrEmpty()) {
                 functionsList.add(
-                    Pair(getString(Res.string.technology), technology)
+                    Pair(getString(Res.string.technology), technology),
                 )
             }
 
             // Are we charging / is charged?
             val status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
             val isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                    status == BatteryManager.BATTERY_STATUS_FULL
+                status == BatteryManager.BATTERY_STATUS_FULL
 
             // How we charging?
             val chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
@@ -184,8 +184,11 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             val acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC
 
             val charging =
-                if (isCharging) getString(Res.string.yes)
-                else getString(Res.string.no)
+                if (isCharging) {
+                    getString(Res.string.yes)
+                } else {
+                    getString(Res.string.no)
+                }
             functionsList.add(Pair(getString(Res.string.is_charging), charging))
             if (isCharging) {
                 val chargingType: String = when {
@@ -223,29 +226,29 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
         // Bluetooth
         functionsList.add(
             getString(Res.string.bluetooth) to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)
-            )
+                packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH),
+            ),
         )
         val hasBluetoothLe = getYesNoString(
-            packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)
+            packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE),
         )
         functionsList.add(getString(Res.string.bluetooth_le) to hasBluetoothLe)
         // GPS
         functionsList.add(
             "GPS" to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)
-            )
+                packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS),
+            ),
         )
         // NFC
         functionsList.add(
             "NFC" to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_NFC)
-            )
+                packageManager.hasSystemFeature(PackageManager.FEATURE_NFC),
+            ),
         )
         functionsList.add(
             "NFC Card Emulation" to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_NFC_HOST_CARD_EMULATION)
-            )
+                packageManager.hasSystemFeature(PackageManager.FEATURE_NFC_HOST_CARD_EMULATION),
+            ),
         )
         // Wi-Fi
         val hasWiFi = packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)
@@ -253,18 +256,18 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
         if (hasWiFi) {
             functionsList.add(
                 "Wi-Fi Aware" to getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)
-                )
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE),
+                ),
             )
             functionsList.add(
                 "Wi-Fi Direct" to getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT)
-                )
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT),
+                ),
             )
             functionsList.add(
                 "Wi-Fi Passpoint" to getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_PASSPOINT)
-                )
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_PASSPOINT),
+                ),
             )
             functionsList.add("Wi-Fi 5Ghz" to getYesNoString(wifiManager.is5GHzBandSupported))
             functionsList.add("Wi-Fi P2P" to getYesNoString(wifiManager.isP2pSupported))
@@ -273,10 +276,11 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
         try {
             val bluetoothMac = android.provider.Settings.Secure.getString(
                 contentResolver,
-                "bluetooth_address"
+                "bluetooth_address",
             )
-            if (bluetoothMac != null && bluetoothMac.isNotEmpty())
+            if (bluetoothMac != null && bluetoothMac.isNotEmpty()) {
                 functionsList.add(getString(Res.string.bluetooth_mac) to bluetoothMac)
+            }
         } catch (e: Exception) {
             // ignored
         }
@@ -305,8 +309,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
         featureList.add("USB" to "")
         featureList.add(
             "OTG" to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_USB_HOST)
-            )
+                packageManager.hasSystemFeature(PackageManager.FEATURE_USB_HOST),
+            ),
         )
         return featureList
     }
@@ -340,8 +344,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             functionsList.add(
                 Pair(
                     "     ${getString(Res.string.card)} $i",
-                    tryToGetSoundCardId(i)
-                )
+                    tryToGetSoundCardId(i),
+                ),
             )
         }
         // ALSA
@@ -410,8 +414,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             functionsList.add(
                 Pair(
                     getString(Res.string.amount),
-                    numberOfCameras.toString()
-                )
+                    numberOfCameras.toString(),
+                ),
             )
 
             val cameraName = getString(Res.string.camera)
@@ -431,8 +435,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                             functionsList.add(
                                 Pair(
                                     "         ${getString(Res.string.camera_lens_number)}",
-                                    lensAmount.toString()
-                                )
+                                    lensAmount.toString(),
+                                ),
                             )
                         }
                     }

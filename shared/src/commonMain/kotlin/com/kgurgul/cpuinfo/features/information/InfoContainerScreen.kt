@@ -75,7 +75,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun InfoContainerScreen(
-    viewModel: InfoContainerViewModel = koinViewModel()
+    viewModel: InfoContainerViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     InfoContainerScreen(
@@ -104,7 +104,7 @@ fun InfoContainerScreen(
                         IconButton(onClick = onRamCleanupClicked) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
-                                contentDescription = stringResource(Res.string.running_gc)
+                                contentDescription = stringResource(Res.string.running_gc),
                             )
                         }
                     }
@@ -117,7 +117,7 @@ fun InfoContainerScreen(
             paddingValues = paddingValues,
             onPageChanged = onPageChanged,
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
         )
     }
 }
@@ -137,13 +137,13 @@ private fun InfoContainer(
     Column(
         modifier = Modifier
             .padding(top = paddingValues.calculateTopPadding())
-            .then(modifier)
+            .then(modifier),
     ) {
         val scrollState = rememberScrollState()
         Box(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primary)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             SecondaryScrollableTabRow(
                 selectedTabIndex = pagerState.currentPage,
@@ -163,7 +163,7 @@ private fun InfoContainer(
                 },
                 scrollState = scrollState,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 tabTitles.forEachIndexed { index, title ->
                     Tab(
@@ -173,7 +173,7 @@ private fun InfoContainer(
                                 pagerState.animateScrollToPage(index)
                             }
                         },
-                        text = { Text(text = title) }
+                        text = { Text(text = title) },
                     )
                 }
             }
@@ -205,7 +205,7 @@ private fun InfoContainer(
             modifier = Modifier.padding(
                 start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
                 end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-            )
+            ),
         )
     }
 }
@@ -222,5 +222,5 @@ private fun getTabTitle(position: Int) = stringResource(
         HARDWARE_POS -> Res.string.hardware
         SENSORS_POS -> Res.string.sensors
         else -> throw IllegalArgumentException("Unknown position")
-    }
+    },
 )

@@ -29,8 +29,8 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                     SensorData(
                         id = CPU_TEMP_ID,
                         name = getString(Res.string.sensors_cpu_temperature),
-                        value = temperatureFormatter.format(sensors.cpuTemperature.toFloat())
-                    )
+                        value = temperatureFormatter.format(sensors.cpuTemperature.toFloat()),
+                    ),
                 )
             }
             if (sensors.cpuTemperature != 0.0) {
@@ -38,8 +38,8 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                     SensorData(
                         id = CPU_VOLTAGE_ID,
                         name = getString(Res.string.sensors_cpu_voltage),
-                        value = "${sensors.cpuVoltage}V"
-                    )
+                        value = "${sensors.cpuVoltage}V",
+                    ),
                 )
             }
             if (sensors.fanSpeeds.isNotEmpty()) {
@@ -52,8 +52,8 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                     SensorData(
                         id = FAN_SPEED_ID,
                         name = getString(Res.string.sensors_fan_speeds),
-                        value = fanSpeeds
-                    )
+                        value = fanSpeeds,
+                    ),
                 )
             }
         }

@@ -16,7 +16,7 @@ fun HardwareInfoScreenPreview() {
                 persistentListOf(
                     "test" to "",
                     "test" to "test",
-                )
+                ),
             ),
         )
     }

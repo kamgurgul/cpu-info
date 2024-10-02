@@ -58,7 +58,7 @@ actual class TemperatureProvider actual constructor() : ITemperatureProvider {
                 icon = Res.drawable.ic_temperature,
                 name = getString(Res.string.temp_thermal_state, thermalState),
                 temperature = Float.NaN,
-            )
+            ),
         )
         delay(REFRESH_DELAY)
     }

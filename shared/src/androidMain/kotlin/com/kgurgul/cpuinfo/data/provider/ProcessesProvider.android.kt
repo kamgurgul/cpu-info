@@ -19,8 +19,8 @@ package com.kgurgul.cpuinfo.data.provider
 import android.os.Build
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.utils.CpuLogger
-import org.koin.core.annotation.Factory
 import java.util.StringTokenizer
+import org.koin.core.annotation.Factory
 
 @Factory
 actual class ProcessesProvider actual constructor() : IProcessesProvider {

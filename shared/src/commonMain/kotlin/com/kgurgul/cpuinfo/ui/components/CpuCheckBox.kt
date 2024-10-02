@@ -25,19 +25,19 @@ fun CpuCheckbox(
             .toggleable(
                 value = isChecked,
                 onValueChange = onCheckedChange,
-                role = Role.Checkbox
+                role = Role.Checkbox,
             )
             .padding(spacingMedium),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Checkbox(
             checked = isChecked,
-            onCheckedChange = null
+            onCheckedChange = null,
         )
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(start = spacingMedium)
+            modifier = Modifier.padding(start = spacingMedium),
         )
     }
 }

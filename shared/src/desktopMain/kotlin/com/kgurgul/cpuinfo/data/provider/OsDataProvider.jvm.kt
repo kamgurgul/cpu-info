@@ -11,7 +11,9 @@ import org.koin.core.component.inject
 import oshi.SystemInfo
 
 @Factory
-actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponent {
+actual class OsDataProvider actual constructor() :
+    IOsDataProvider,
+    KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
     private val operatingSystem = systemInfo.operatingSystem

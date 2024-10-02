@@ -23,7 +23,10 @@ actual fun registerUninstallListener(onRefresh: () -> Unit) {
             }
         }
         ContextCompat.registerReceiver(
-            context, uninstallReceiver, filter, ContextCompat.RECEIVER_EXPORTED
+            context,
+            uninstallReceiver,
+            filter,
+            ContextCompat.RECEIVER_EXPORTED,
         )
 
         onDispose {

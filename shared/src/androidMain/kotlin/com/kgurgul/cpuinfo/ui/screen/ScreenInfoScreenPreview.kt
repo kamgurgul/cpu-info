@@ -16,7 +16,7 @@ fun ScreenInfoScreenPreview() {
                 persistentListOf(
                     "test" to "",
                     "test" to "test",
-                )
+                ),
             ),
         )
     }

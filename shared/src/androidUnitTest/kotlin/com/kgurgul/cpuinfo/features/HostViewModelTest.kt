@@ -7,6 +7,8 @@ import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.observable.ProcessesDataObservable
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
@@ -15,8 +17,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class HostViewModelTest {
 
@@ -46,7 +46,7 @@ class HostViewModelTest {
                 isProcessSectionVisible = true,
                 isApplicationSectionVisible = true,
                 darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-            )
+            ),
         )
 
         createViewModel()

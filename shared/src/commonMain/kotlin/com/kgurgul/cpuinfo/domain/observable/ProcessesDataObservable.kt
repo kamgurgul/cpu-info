@@ -27,7 +27,7 @@ class ProcessesDataObservable(
                     SortOrder.ASCENDING -> processes.sorted()
                     SortOrder.DESCENDING -> processes.sortedDescending()
                     else -> processes
-                }
+                },
             )
             delay(REFRESH_DELAY)
         }
@@ -36,7 +36,7 @@ class ProcessesDataObservable(
     fun areProcessesSupported() = processesProvider.areProcessesSupported()
 
     data class Params(
-        val sortOrder: SortOrder = SortOrder.NONE
+        val sortOrder: SortOrder = SortOrder.NONE,
     )
 
     companion object {

@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class CpuInfoViewModel(
-    cpuDataObservable: CpuDataObservable
+    cpuDataObservable: CpuDataObservable,
 ) : ViewModel() {
 
     val uiStateFlow = cpuDataObservable.observe()

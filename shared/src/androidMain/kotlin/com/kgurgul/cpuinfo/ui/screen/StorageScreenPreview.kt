@@ -23,9 +23,9 @@ fun StorageScreenPreview() {
                         iconDrawable = Res.drawable.baseline_folder_special_24,
                         storageTotal = 100,
                         storageUsed = 50,
-                    )
-                )
-            )
+                    ),
+                ),
+            ),
         )
     }
 }

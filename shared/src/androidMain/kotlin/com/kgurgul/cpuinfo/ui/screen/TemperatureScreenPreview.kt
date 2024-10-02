@@ -26,15 +26,15 @@ fun TemperatureScreenPreview() {
                         id = 0,
                         icon = Res.drawable.ic_cpu_temp,
                         name = "CPU",
-                        temperature = 30f
+                        temperature = 30f,
                     ),
                     TemperatureItem(
                         id = 1,
                         icon = Res.drawable.ic_battery,
                         name = "Battery",
-                        temperature = 30f
-                    )
-                )
+                        temperature = 30f,
+                    ),
+                ),
             ),
         )
     }

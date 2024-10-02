@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class GpuInfoViewModel(
-    private val observableGpuData: GpuDataObservable
+    private val observableGpuData: GpuDataObservable,
 ) : ViewModel() {
 
     val uiStateFlow = observableGpuData.observe()
@@ -45,6 +45,6 @@ class GpuInfoViewModel(
     }
 
     data class UiState(
-        val gpuData: ImmutableList<Pair<String, String>> = persistentListOf()
+        val gpuData: ImmutableList<Pair<String, String>> = persistentListOf(),
     )
 }

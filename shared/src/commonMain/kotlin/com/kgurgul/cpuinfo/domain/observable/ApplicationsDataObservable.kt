@@ -33,6 +33,6 @@ class ApplicationsDataObservable(
 
     data class Params(
         val withSystemApps: Boolean,
-        val sortOrder: SortOrder = SortOrder.NONE
+        val sortOrder: SortOrder = SortOrder.NONE,
     )
 }

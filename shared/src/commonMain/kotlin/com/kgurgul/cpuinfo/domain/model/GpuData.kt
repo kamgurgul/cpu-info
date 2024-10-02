@@ -6,5 +6,5 @@ data class GpuData(
     val metalVersion: String,
     val glVendor: String?,
     val glRenderer: String?,
-    val glExtensions: String?
+    val glExtensions: String?,
 )

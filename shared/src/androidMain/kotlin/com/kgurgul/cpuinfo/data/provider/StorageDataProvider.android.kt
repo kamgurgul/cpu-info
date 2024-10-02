@@ -9,14 +9,14 @@ import com.kgurgul.cpuinfo.shared.baseline_sd_storage_24
 import com.kgurgul.cpuinfo.shared.external
 import com.kgurgul.cpuinfo.shared.internal
 import com.kgurgul.cpuinfo.utils.CpuLogger
-import kotlinx.coroutines.runBlocking
-import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 import java.io.BufferedReader
 import java.io.DataInputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.compose.resources.getString
+import org.koin.core.annotation.Factory
 
 @Factory
 actual class StorageDataProvider actual constructor() {
@@ -109,33 +109,35 @@ actual class StorageDataProvider actual constructor() {
                 val strLine = br.readLine()
                 if (strLine == null) {
                     break
-                } else if (!(strLine.contains("asec")
-                            || strLine.contains("legacy")
-                            || strLine.contains("Android/obb"))
+                } else if (!(
+                        strLine.contains("asec") ||
+                            strLine.contains("legacy") ||
+                            strLine.contains("Android/obb")
+                        )
                 ) {
-                    if (strLine.startsWith("/dev/block/vold/")
-                        || strLine.startsWith("/dev/block/sd")
-                        || strLine.startsWith("/dev/fuse")
-                        || strLine.startsWith("/mnt/media_rw")
+                    if (strLine.startsWith("/dev/block/vold/") ||
+                        strLine.startsWith("/dev/block/sd") ||
+                        strLine.startsWith("/dev/fuse") ||
+                        strLine.startsWith("/mnt/media_rw")
                     ) {
                         val lineElements = strLine
                             .split(" ".toRegex()).dropLastWhile { it.isEmpty() }
                             .toTypedArray()
                         val path = File(lineElements[1])
-                        if ((path.exists() || path.isDirectory || path.canWrite())
-                            && path.exists()
-                            //&& path.canRead()
-                            && !path.path.contains("/system")
-                            && !sdDirList.contains(lineElements[1])
-                            && lineElements[1] != externalDir
-                            && lineElements[1] != "/storage/emulated"
-                            && !sdDirList.any {
+                        if ((path.exists() || path.isDirectory || path.canWrite()) &&
+                            path.exists() &&
+                            // && path.canRead()
+                            !path.path.contains("/system") &&
+                            !sdDirList.contains(lineElements[1]) &&
+                            lineElements[1] != externalDir &&
+                            lineElements[1] != "/storage/emulated" &&
+                            !sdDirList.any {
                                 it.endsWith(
                                     lineElements[1]
                                         .substring(
                                             lineElements[1].lastIndexOf("/"),
-                                            lineElements[1].length
-                                        )
+                                            lineElements[1].length,
+                                        ),
                                 )
                             }
                         ) {

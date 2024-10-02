@@ -20,8 +20,8 @@ fun GpuInfoScreenPreview() {
                     "glVendor" to "glVendor",
                     "glRenderer" to "glRenderer",
                     "glExtensions" to "glExtensions",
-                )
-            )
+                ),
+            ),
         )
     }
 }

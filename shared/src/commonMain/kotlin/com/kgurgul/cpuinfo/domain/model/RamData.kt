@@ -4,5 +4,5 @@ data class RamData(
     val total: Long,
     val available: Long,
     val availablePercentage: Int,
-    val threshold: Long
+    val threshold: Long,
 )

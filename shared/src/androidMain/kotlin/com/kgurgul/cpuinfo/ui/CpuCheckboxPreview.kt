@@ -12,7 +12,7 @@ fun CpuCheckboxPreview() {
         CpuCheckbox(
             text = "Test",
             isChecked = true,
-            onCheckedChange = {}
+            onCheckedChange = {},
         )
     }
 }

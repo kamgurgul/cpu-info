@@ -128,7 +128,7 @@ fun ApplicationsScreen(
         scope.launch {
             if (uiState.snackbarMessage != null) {
                 val result = snackbarHostState.showSnackbar(
-                    getString(uiState.snackbarMessage)
+                    getString(uiState.snackbarMessage),
                 )
                 if (result == SnackbarResult.Dismissed) {
                     onSnackbarDismissed()
@@ -190,19 +190,19 @@ private fun TopBar(
             IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
             DropdownMenu(
                 expanded = showMenu,
-                onDismissRequest = { showMenu = false }
+                onDismissRequest = { showMenu = false },
             ) {
                 DropdownMenuItem(
                     text = {
                         CpuSwitchBox(
                             text = stringResource(Res.string.apps_show_system_apps),
                             isChecked = withSystemApps,
-                            onCheckedChange = { onSystemAppsSwitched(!withSystemApps) }
+                            onCheckedChange = { onSystemAppsSwitched(!withSystemApps) },
                         )
                     },
                     onClick = { onSystemAppsSwitched(!withSystemApps) },
@@ -223,9 +223,9 @@ private fun TopBar(
                         }
                         Icon(
                             imageVector = icon,
-                            contentDescription = null
+                            contentDescription = null,
                         )
-                    }
+                    },
                 )
             }
         },
@@ -252,7 +252,7 @@ private fun ApplicationsList(
         ) {
             itemsIndexed(
                 items = appList,
-                key = { _, item -> item.packageName }
+                key = { _, item -> item.packageName },
             ) { index, item ->
                 val draggableBoxState = rememberDraggableBoxState()
                 val isRevealed by remember {
@@ -275,7 +275,7 @@ private fun ApplicationsList(
                                         tint = MaterialTheme.colorScheme.onBackground,
                                         contentDescription = stringResource(Res.string.settings),
                                     )
-                                }
+                                },
                             )
                             IconButton(
                                 modifier = Modifier.size(56.dp),
@@ -286,7 +286,7 @@ private fun ApplicationsList(
                                         tint = MaterialTheme.colorScheme.onBackground,
                                         contentDescription = null,
                                     )
-                                }
+                                },
                             )
                         }
                     },
@@ -340,7 +340,7 @@ private fun ApplicationItem(
             modifier = Modifier.size(50.dp),
         )
         Column(
-            modifier = Modifier.padding(horizontal = spacingXSmall)
+            modifier = Modifier.padding(horizontal = spacingXSmall),
         ) {
             Text(
                 text = appData.name,
@@ -397,11 +397,11 @@ private fun NativeLibsDialog(
             },
             confirmButton = {
                 Button(
-                    onClick = onDismissRequest
+                    onClick = onDismissRequest,
                 ) {
                     Text(text = stringResource(Res.string.ok))
                 }
-            }
+            },
         )
     }
 }

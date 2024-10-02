@@ -7,7 +7,7 @@ import org.koin.core.annotation.Single
 
 @Single
 class NativeToolsInitializer(
-    private val cpuDataNativeProvider: CpuDataNativeProvider
+    private val cpuDataNativeProvider: CpuDataNativeProvider,
 ) {
 
     fun init(application: Application) {

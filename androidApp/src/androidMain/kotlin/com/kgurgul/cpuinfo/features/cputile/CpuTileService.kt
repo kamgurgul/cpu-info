@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
@@ -15,10 +16,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import kotlin.coroutines.CoroutineContext
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-class CpuTileService : TileService(), CoroutineScope, KoinComponent {
+class CpuTileService :
+    TileService(),
+    CoroutineScope,
+    KoinComponent {
 
     private val cpuDataProvider: CpuDataProvider by inject()
     private val dispatchersProvider: IDispatchersProvider by inject()
@@ -45,7 +48,7 @@ class CpuTileService : TileService(), CoroutineScope, KoinComponent {
         mapOf(
             CPULoad.Low to Icon.createWithResource(this, R.drawable.ic_cpu_low),
             CPULoad.Medium to Icon.createWithResource(this, R.drawable.ic_cpu_med),
-            CPULoad.High to Icon.createWithResource(this, R.drawable.ic_cpu_high)
+            CPULoad.High to Icon.createWithResource(this, R.drawable.ic_cpu_high),
         )
     }
     private val defaultIcon by lazy { Icon.createWithResource(this, R.drawable.ic_cpu_high) }
@@ -97,7 +100,7 @@ class CpuTileService : TileService(), CoroutineScope, KoinComponent {
     enum class CPULoad {
         Low,
         Medium,
-        High
+        High,
     }
 
     companion object {

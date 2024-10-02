@@ -65,7 +65,7 @@ fun RamInfoScreen(
                     ItemValueRow(
                         title = stringResource(Res.string.available_memory),
                         value = "${Utils.convertBytesToMega(ramData.available)} " +
-                                "(${ramData.availablePercentage}%)",
+                            "(${ramData.availablePercentage}%)",
                         modifier = Modifier.focusable(),
                     )
                     Spacer(modifier = Modifier.requiredSize(spacingSmall))

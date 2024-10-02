@@ -19,12 +19,12 @@ package com.kgurgul.cpuinfo.features.temperature
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.data.local.UserPreferences
+import kotlin.test.Test
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import kotlin.test.Test
 
 class TemperatureFormatterTest {
 
@@ -37,7 +37,7 @@ class TemperatureFormatterTest {
     @Test
     fun formatCelsius() = runTest {
         userPreferenceSharedFlow.emit(
-            TestData.userPreferences.copy(temperatureUnit = TemperatureFormatter.CELSIUS)
+            TestData.userPreferences.copy(temperatureUnit = TemperatureFormatter.CELSIUS),
         )
 
         val temp = formatter.format(9f)
@@ -48,7 +48,7 @@ class TemperatureFormatterTest {
     @Test
     fun formatFahrenheit() = runTest {
         userPreferenceSharedFlow.emit(
-            TestData.userPreferences.copy(temperatureUnit = TemperatureFormatter.FAHRENHEIT)
+            TestData.userPreferences.copy(temperatureUnit = TemperatureFormatter.FAHRENHEIT),
         )
 
         val temp = formatter.format(9f)

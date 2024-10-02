@@ -25,7 +25,7 @@ fun SensorsInfoScreenPreview() {
                         name = "test",
                         value = "test",
                     ),
-                )
+                ),
             ),
         )
     }

@@ -21,7 +21,7 @@ class SettingsViewModel(
     private val _uiStateFlow = MutableStateFlow(UiState())
     val uiStateFlow = combine(
         _uiStateFlow,
-        userPreferencesRepository.userPreferencesFlow
+        userPreferencesRepository.userPreferencesFlow,
     ) { uiState, userPreferences ->
         uiState.copy(
             temperatureUnit = userPreferences.temperatureUnit,

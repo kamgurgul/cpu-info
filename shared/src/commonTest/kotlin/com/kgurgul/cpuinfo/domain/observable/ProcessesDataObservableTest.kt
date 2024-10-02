@@ -5,11 +5,11 @@ import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.provider.FakeProcessesProvider
 import com.kgurgul.cpuinfo.domain.model.SortOrder
 import com.kgurgul.cpuinfo.utils.CoroutineTestSuit
-import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.test.runTest
 
 class ProcessesDataObservableTest {
 

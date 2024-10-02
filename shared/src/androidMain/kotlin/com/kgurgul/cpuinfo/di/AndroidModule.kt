@@ -35,11 +35,11 @@ val androidModule = module {
     single {
         PreferenceDataStoreFactory.create(
             corruptionHandler = ReplaceFileCorruptionHandler(
-                produceNewData = { emptyPreferences() }
+                produceNewData = { emptyPreferences() },
             ),
             produceFile = {
                 androidContext().preferencesDataStoreFile(USER_PREFERENCES_NAME)
-            }
+            },
         )
     }
 }

@@ -22,15 +22,15 @@ object AndroidSigningConfig {
         } catch (e: Exception) {
             println("Cannot load local.properties")
         }
-        return if (releaseProperties.getProperty(KEY_PATH, "").isNotEmpty()
-            && releaseProperties.getProperty(KEY_PASS, "").isNotEmpty()
-            && releaseProperties.getProperty(KEY_ALIAS, "").isNotEmpty()
+        return if (releaseProperties.getProperty(KEY_PATH, "").isNotEmpty() &&
+            releaseProperties.getProperty(KEY_PASS, "").isNotEmpty() &&
+            releaseProperties.getProperty(KEY_ALIAS, "").isNotEmpty()
         ) {
             println("Using local.properties for signing")
             releaseProperties
-        } else if (!System.getenv(KEY_PATH).isNullOrEmpty()
-            && !System.getenv(KEY_PASS).isNullOrEmpty()
-            && !System.getenv(KEY_ALIAS).isNullOrEmpty()
+        } else if (!System.getenv(KEY_PATH).isNullOrEmpty() &&
+            !System.getenv(KEY_PASS).isNullOrEmpty() &&
+            !System.getenv(KEY_ALIAS).isNullOrEmpty()
         ) {
             println("Using system env variables for signing")
             releaseProperties[KEY_PATH] = System.getenv(KEY_PATH)

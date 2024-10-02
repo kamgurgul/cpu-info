@@ -117,7 +117,7 @@ private fun TemperatureList(
 @Composable
 private fun TemperatureItem(
     item: TemperatureItem,
-    temperatureFormatter: TemperatureFormatter
+    temperatureFormatter: TemperatureFormatter,
 ) {
     Row(
         modifier = Modifier

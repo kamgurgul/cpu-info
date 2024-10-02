@@ -61,7 +61,7 @@ class StartupBenchmarks {
             measureBlock = {
                 startActivityAndWait()
                 waitForAsyncContent()
-            }
+            },
         )
     }
 }

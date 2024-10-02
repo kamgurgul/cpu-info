@@ -16,7 +16,7 @@ fun OsInfoScreenPreview() {
                 persistentListOf(
                     "test" to "",
                     "test" to "test",
-                )
+                ),
             ),
         )
     }

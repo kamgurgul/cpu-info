@@ -14,7 +14,7 @@ private fun ApplicationsScreenPreview() {
     CpuInfoTheme {
         ApplicationsScreen(
             uiState = ApplicationsViewModel.UiState(
-                applications = persistentListOf(previewAppData1, previewAppData2)
+                applications = persistentListOf(previewAppData1, previewAppData2),
             ),
             onAppClicked = {},
             onRefreshApplications = {},
@@ -36,7 +36,7 @@ private val previewAppData1 = ExtendedApplicationData(
     sourceDir = "/testDir",
     nativeLibs = emptyList(),
     hasNativeLibs = false,
-    appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4"
+    appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4",
 )
 
 private val previewAppData2 = ExtendedApplicationData(
@@ -45,5 +45,5 @@ private val previewAppData2 = ExtendedApplicationData(
     sourceDir = "/testDir",
     nativeLibs = emptyList(),
     hasNativeLibs = false,
-    appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4"
+    appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4",
 )

@@ -46,7 +46,7 @@ class SensorsInfoViewModel(
                                 id = newSensorData.id,
                                 name = newSensorData.name,
                                 value = newSensorData.value,
-                            )
+                            ),
                         )
                     } else {
                         add(newSensorData)
@@ -58,6 +58,6 @@ class SensorsInfoViewModel(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     data class UiState(
-        val sensors: ImmutableList<SensorData> = persistentListOf()
+        val sensors: ImmutableList<SensorData> = persistentListOf(),
     )
 }

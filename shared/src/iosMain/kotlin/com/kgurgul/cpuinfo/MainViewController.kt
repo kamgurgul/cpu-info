@@ -17,7 +17,7 @@ fun IOSComposeApp(hostViewModel: HostViewModel = koinViewModel()) {
     val uiState by hostViewModel.uiStateFlow.collectAsStateWithLifecycle()
     val darkTheme = shouldUseDarkTheme(uiState)
     CpuInfoTheme(
-        useDarkTheme = darkTheme
+        useDarkTheme = darkTheme,
     ) {
         HostScreen(hostViewModel)
     }

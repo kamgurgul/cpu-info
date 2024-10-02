@@ -9,7 +9,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 
 class CoroutineTestSuit(
-    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
+    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler()),
 ) {
 
     val testDispatcherProvider = object : IDispatchersProvider {

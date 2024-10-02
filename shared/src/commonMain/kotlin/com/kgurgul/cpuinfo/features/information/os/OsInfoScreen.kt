@@ -45,7 +45,7 @@ fun OsInfoScreen(
         ) {
             itemsIndexed(
                 uiState.items,
-                key = { _, pair -> pair.first }
+                key = { _, pair -> pair.first },
             ) { index, (title, value) ->
                 InformationRow(
                     title = title,

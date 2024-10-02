@@ -39,12 +39,14 @@ class TemperatureFormatter(
         return if (tempUnit == FAHRENHEIT) {
             val fahrenheit = temp * 9 / 5 + 32
             "${fahrenheit.round2()}\u00B0F"
-        } else return if (tempUnit == KELVIN) {
-            val kelvin = temp + 273.15
-            "${kelvin.round2()}\u00B0K"
         } else {
-            val tempFormatted = "${temp.toInt()}\u00B0C"
-            tempFormatted
+            return if (tempUnit == KELVIN) {
+                val kelvin = temp + 273.15
+                "${kelvin.round2()}\u00B0K"
+            } else {
+                val tempFormatted = "${temp.toInt()}\u00B0C"
+                tempFormatted
+            }
         }
     }
 

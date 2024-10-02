@@ -24,7 +24,7 @@ fun HardwareInfoScreen(
     viewModel: HardwareInfoViewModel = koinViewModel(),
 ) {
     registerPowerPlugListener(
-        onRefresh = viewModel::refreshHardwareInfo
+        onRefresh = viewModel::refreshHardwareInfo,
     )
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     HardwareInfoScreen(
@@ -47,7 +47,7 @@ fun HardwareInfoScreen(
             modifier = Modifier.fillMaxSize(),
         ) {
             itemsIndexed(
-                uiState.hardwareItems
+                uiState.hardwareItems,
             ) { index, (title, value) ->
                 InformationRow(
                     title = title,

@@ -26,7 +26,7 @@ object Utils {
     fun humanReadableByteCount(
         byteCount: Long,
         decimalPlaces: Int = 2,
-        zeroPadFraction: Boolean = false
+        zeroPadFraction: Boolean = false,
     ): String {
         require(byteCount > Long.MIN_VALUE) { "Out of range" }
         require(decimalPlaces >= 0) { "Negative decimal places unsupported" }

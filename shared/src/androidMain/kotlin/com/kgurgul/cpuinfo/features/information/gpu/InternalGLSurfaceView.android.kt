@@ -20,7 +20,7 @@ actual fun InternalGLSurfaceView(onGlInfoReceived: (String, String, String) -> U
                             onGlInfoReceived(
                                 gl.glGetString(GL10.GL_VENDOR),
                                 gl.glGetString(GL10.GL_RENDERER),
-                                gl.glGetString(GL10.GL_EXTENSIONS)
+                                gl.glGetString(GL10.GL_EXTENSIONS),
                             )
                         }
 
@@ -29,10 +29,10 @@ actual fun InternalGLSurfaceView(onGlInfoReceived: (String, String, String) -> U
 
                         override fun onDrawFrame(gl: GL10) {
                         }
-                    }
+                    },
                 )
             }
         },
-        modifier = Modifier.alpha(0f)
+        modifier = Modifier.alpha(0f),
     )
 }

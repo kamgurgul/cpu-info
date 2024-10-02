@@ -47,6 +47,5 @@ operator fun <T> MutableInteractor<Unit, T>.invoke() = invoke(Unit)
 
 fun <I : MutableInteractor<P, T>, P, T> CoroutineScope.launchObserve(
     interactor: I,
-    f: suspend (Flow<T>) -> Unit
+    f: suspend (Flow<T>) -> Unit,
 ) = launch(interactor.dispatcher) { f(interactor.observe()) }
-

@@ -18,8 +18,8 @@ class InfoContainerViewModel(
     fun onPageChanged(index: Int) {
         _uiStateFlow.update {
             it.copy(
-                isRamCleanupVisible = ramCleanupAction.isCleanupActionAvailable()
-                        && index == RAM_POS
+                isRamCleanupVisible = ramCleanupAction.isCleanupActionAvailable() &&
+                    index == RAM_POS,
             )
         }
     }

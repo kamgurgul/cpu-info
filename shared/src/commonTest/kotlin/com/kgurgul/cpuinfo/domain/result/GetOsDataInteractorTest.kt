@@ -2,11 +2,11 @@ package com.kgurgul.cpuinfo.domain.result
 
 import com.kgurgul.cpuinfo.data.provider.FakeOsDataProvider
 import com.kgurgul.cpuinfo.utils.CoroutineTestSuit
-import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.test.runTest
 
 class GetOsDataInteractorTest {
 
@@ -32,7 +32,7 @@ class GetOsDataInteractorTest {
     @Test
     fun `Get OS data`() = runTest {
         val expectedItems = listOf(
-            "OS" to "Test OS"
+            "OS" to "Test OS",
         )
 
         val result = interactor.invoke(Unit)

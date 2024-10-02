@@ -16,7 +16,9 @@ import org.koin.core.component.inject
 import platform.UIKit.UIDevice
 
 @Factory
-actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponent {
+actual class OsDataProvider actual constructor() :
+    IOsDataProvider,
+    KoinComponent {
 
     private val iosSoftwareDataProvider: IosSoftwareDataProvider by inject()
 
@@ -27,17 +29,19 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
             add(getString(Res.string.model) to UIDevice.currentDevice.model)
             add(
                 getString(Res.string.os_multitasking_supported) to ResourceUtils.getYesNoString(
-                    UIDevice.currentDevice.multitaskingSupported
-                )
+                    UIDevice.currentDevice.multitaskingSupported,
+                ),
             )
             add(
                 getString(Res.string.os_vendor_identifier) to
-                        (UIDevice.currentDevice.identifierForVendor
-                            ?.UUIDString ?: getString(Res.string.unknown))
+                    (
+                        UIDevice.currentDevice.identifierForVendor
+                            ?.UUIDString ?: getString(Res.string.unknown)
+                        ),
             )
             add(
                 getString(Res.string.os_jailbroken) to
-                        ResourceUtils.getYesNoString(iosSoftwareDataProvider.isJailBroken())
+                    ResourceUtils.getYesNoString(iosSoftwareDataProvider.isJailBroken()),
             )
         }
     }

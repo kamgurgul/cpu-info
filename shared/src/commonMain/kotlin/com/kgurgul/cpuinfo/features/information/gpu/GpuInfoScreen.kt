@@ -29,10 +29,10 @@ fun GpuInfoScreen(
         InternalGLSurfaceView(
             onGlInfoReceived = { vendor, renderer, extensions ->
                 viewModel.onGlInfoReceived(vendor, renderer, extensions)
-            }
+            },
         )
         GpuInfoScreen(
-            uiState = uiState
+            uiState = uiState,
         )
     }
 }
@@ -53,7 +53,7 @@ fun GpuInfoScreen(
         ) {
             itemsIndexed(
                 uiState.gpuData,
-                key = { _, pair -> pair.first }
+                key = { _, pair -> pair.first },
             ) { index, (title, value) ->
                 InformationRow(
                     title = title,

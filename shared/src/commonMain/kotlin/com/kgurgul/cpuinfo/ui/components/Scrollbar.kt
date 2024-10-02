@@ -8,23 +8,23 @@ import androidx.compose.ui.Modifier
 @Composable
 expect fun VerticalScrollbar(
     modifier: Modifier,
-    scrollState: ScrollState
+    scrollState: ScrollState,
 )
 
 @Composable
 expect fun VerticalScrollbar(
     modifier: Modifier,
-    scrollState: LazyListState
+    scrollState: LazyListState,
 )
 
 @Composable
 expect fun HorizontalScrollbar(
     modifier: Modifier,
-    scrollState: ScrollState
+    scrollState: ScrollState,
 )
 
 @Composable
 expect fun HorizontalScrollbar(
     modifier: Modifier,
-    scrollState: LazyListState
+    scrollState: LazyListState,
 )

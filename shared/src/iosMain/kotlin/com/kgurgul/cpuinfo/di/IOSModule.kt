@@ -25,13 +25,13 @@ fun iosModule(
             error = null,
         )
         val path = (
-                requireNotNull(documentDirectory).path + "/$USER_PREFERENCES_NAME.preferences_pb"
-                ).toPath()
+            requireNotNull(documentDirectory).path + "/$USER_PREFERENCES_NAME.preferences_pb"
+            ).toPath()
         PreferenceDataStoreFactory.createWithPath(
             corruptionHandler = ReplaceFileCorruptionHandler(
-                produceNewData = { emptyPreferences() }
+                produceNewData = { emptyPreferences() },
             ),
-            produceFile = { path }
+            produceFile = { path },
         )
     }
     single { iosHardwareDataProvider }

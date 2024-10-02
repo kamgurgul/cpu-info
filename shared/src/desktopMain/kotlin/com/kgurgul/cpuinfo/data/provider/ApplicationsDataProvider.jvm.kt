@@ -5,7 +5,8 @@ import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 
 @Factory
-actual class ApplicationsDataProvider actual constructor() : IApplicationsDataProvider,
+actual class ApplicationsDataProvider actual constructor() :
+    IApplicationsDataProvider,
     KoinComponent {
 
     actual override fun getInstalledApplications(withSystemApps: Boolean): List<ExtendedApplicationData> {

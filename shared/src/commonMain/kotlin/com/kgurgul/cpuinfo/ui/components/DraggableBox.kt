@@ -72,7 +72,7 @@ fun DraggableBox(
                         val summed = original + Offset(x = dragAmount, y = 0f)
                         val newValue = Offset(
                             x = summed.x.coerceIn(-actionRowOffset.toFloat(), 0f),
-                            y = 0f
+                            y = 0f,
                         )
                         if (newValue.x <= -10) {
                             onExpand()

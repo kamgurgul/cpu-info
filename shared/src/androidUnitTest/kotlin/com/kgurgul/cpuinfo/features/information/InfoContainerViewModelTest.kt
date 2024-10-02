@@ -2,6 +2,7 @@ package com.kgurgul.cpuinfo.features.information
 
 import com.kgurgul.cpuinfo.domain.action.RamCleanupAction
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
+import kotlin.test.Test
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -10,7 +11,6 @@ import org.junit.Rule
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
-import kotlin.test.Test
 
 class InfoContainerViewModelTest {
 

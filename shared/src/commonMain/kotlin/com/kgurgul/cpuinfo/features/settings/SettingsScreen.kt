@@ -59,7 +59,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = koinViewModel()
+    viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     SettingsScreen(
@@ -222,8 +222,8 @@ private fun TemperatureUnitDialog(
                                 selected = option == currentSelection,
                                 onClick = null,
                                 colors = RadioButtonDefaults.colors(
-                                    selectedColor = MaterialTheme.colorScheme.tertiary
-                                )
+                                    selectedColor = MaterialTheme.colorScheme.tertiary,
+                                ),
                             )
                             Text(
                                 text = getTemperatureUnit(option = option),
@@ -236,11 +236,11 @@ private fun TemperatureUnitDialog(
             },
             confirmButton = {
                 Button(
-                    onClick = onDismissRequest
+                    onClick = onDismissRequest,
                 ) {
                     Text(text = stringResource(Res.string.cancel))
                 }
-            }
+            },
         )
     }
 }
@@ -279,8 +279,8 @@ private fun ThemeDialog(
                                 selected = option == currentSelection,
                                 onClick = null,
                                 colors = RadioButtonDefaults.colors(
-                                    selectedColor = MaterialTheme.colorScheme.tertiary
-                                )
+                                    selectedColor = MaterialTheme.colorScheme.tertiary,
+                                ),
                             )
                             Text(
                                 text = getThemeName(option = option),
@@ -293,11 +293,11 @@ private fun ThemeDialog(
             },
             confirmButton = {
                 Button(
-                    onClick = onDismissRequest
+                    onClick = onDismissRequest,
                 ) {
                     Text(text = stringResource(Res.string.cancel))
                 }
-            }
+            },
         )
     }
 }

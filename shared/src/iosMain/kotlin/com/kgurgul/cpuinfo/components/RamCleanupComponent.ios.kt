@@ -6,7 +6,6 @@ import org.koin.core.annotation.Factory
 actual class RamCleanupComponent actual constructor() {
 
     actual fun cleanup() {
-
     }
 
     actual fun isCleanupActionAvailable(): Boolean {

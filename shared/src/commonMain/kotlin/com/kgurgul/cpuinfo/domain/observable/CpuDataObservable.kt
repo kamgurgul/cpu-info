@@ -14,7 +14,7 @@ import org.koin.core.annotation.Factory
 class CpuDataObservable(
     dispatchersProvider: IDispatchersProvider,
     private val cpuDataProvider: CpuDataProvider,
-    private val cpuDataNativeProvider: CpuDataNativeProvider
+    private val cpuDataNativeProvider: CpuDataNativeProvider,
 ) : ImmutableInteractor<Unit, CpuData>() {
 
     override val dispatcher = dispatchersProvider.io
@@ -51,8 +51,8 @@ class CpuDataObservable(
             emit(
                 CpuData(
                     processorName, abi, coreNumber, hasArmNeon, frequencies,
-                    l1dCaches, l1iCaches, l2Caches, l3Caches, l4Caches
-                )
+                    l1dCaches, l1iCaches, l2Caches, l3Caches, l4Caches,
+                ),
             )
             delay(REFRESH_DELAY)
         }

@@ -55,8 +55,8 @@ object TestData {
             id = -1,
             icon = Res.drawable.ic_cpu_temp,
             name = "CPU",
-            temperature = 10f
-        )
+            temperature = 10f,
+        ),
     )
 
     val processes = listOf(
@@ -68,7 +68,7 @@ object TestData {
             user = "user",
             rss = "rss",
             vsize = "vsize",
-        )
+        ),
     )
 
     val cpuData = CpuData(
@@ -80,14 +80,14 @@ object TestData {
             CpuData.Frequency(
                 min = 1,
                 max = 2,
-                current = 3
-            )
+                current = 3,
+            ),
         ),
         l1dCaches = "l1dCaches",
         l1iCaches = "l1iCaches",
         l2Caches = "l2Caches",
         l3Caches = "l3Caches",
-        l4Caches = "l4Caches"
+        l4Caches = "l4Caches",
     )
 
     val ramData = RamData(
@@ -113,7 +113,7 @@ object TestData {
             iconDrawable = Res.drawable.baseline_folder_special_24,
             storageTotal = 100,
             storageUsed = 50,
-        )
+        ),
     )
 
     val itemRowData = persistentListOf(

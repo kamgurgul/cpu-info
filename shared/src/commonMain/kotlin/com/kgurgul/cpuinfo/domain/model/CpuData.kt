@@ -13,12 +13,12 @@ data class CpuData(
     val l1iCaches: String,
     val l2Caches: String,
     val l3Caches: String,
-    val l4Caches: String
+    val l4Caches: String,
 ) {
 
     data class Frequency(
         val min: Long,
         val max: Long,
-        val current: Long
+        val current: Long,
     )
 }

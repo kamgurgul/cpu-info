@@ -6,23 +6,24 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import java.io.File
 import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.io.File
 
 @Factory
-actual class ApplicationsDataProvider actual constructor() : IApplicationsDataProvider,
+actual class ApplicationsDataProvider actual constructor() :
+    IApplicationsDataProvider,
     KoinComponent {
 
     private val packageManager: PackageManager by inject()
 
     actual override fun getInstalledApplications(
-        withSystemApps: Boolean
+        withSystemApps: Boolean,
     ): List<ExtendedApplicationData> {
         val applications = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             packageManager.getInstalledApplications(
-                PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+                PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong()),
             )
         } else {
             packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
@@ -38,7 +39,7 @@ actual class ApplicationsDataProvider actual constructor() : IApplicationsDataPr
                 it.sourceDir,
                 getNativeLibs(it.nativeLibraryDir),
                 it.hasNativeLibs(),
-                getAppIconUri(it.packageName)
+                getAppIconUri(it.packageName),
             )
         }
     }

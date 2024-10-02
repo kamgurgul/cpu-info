@@ -23,6 +23,5 @@ class InfoContainerPage(
 ) {
 
     fun assertViewDisplayed() {
-
     }
 }

@@ -28,7 +28,7 @@ actual class StorageDataProvider actual constructor() : KoinComponent {
                         iconDrawable = Res.drawable.ic_hard_drive,
                         storageTotal = osFileStore.totalSpace,
                         storageUsed = osFileStore.totalSpace - osFileStore.freeSpace,
-                    )
+                    ),
                 )
             }
         }.distinctBy { it.id }

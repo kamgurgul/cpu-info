@@ -80,7 +80,8 @@ actual class ScreenDataProvider actual constructor() : KoinComponent {
             }
 
             DisplayMetrics.DENSITY_XXHIGH, DisplayMetrics.DENSITY_360, DisplayMetrics.DENSITY_400,
-            DisplayMetrics.DENSITY_420 -> {
+            DisplayMetrics.DENSITY_420,
+            -> {
                 densityClass = "xxhdpi"
             }
 
@@ -105,14 +106,14 @@ actual class ScreenDataProvider actual constructor() : KoinComponent {
             functionsList.add(
                 Pair(
                     getString(Res.string.width),
-                    "${metrics.widthPixels}px"
-                )
+                    "${metrics.widthPixels}px",
+                ),
             )
             functionsList.add(
                 Pair(
                     getString(Res.string.height),
-                    "${metrics.heightPixels}px"
-                )
+                    "${metrics.heightPixels}px",
+                ),
             )
 
             val density = metrics.density
@@ -122,8 +123,8 @@ actual class ScreenDataProvider actual constructor() : KoinComponent {
             functionsList.add(
                 Pair(
                     getString(Res.string.dp_height),
-                    "${dpHeight.toInt()}dp"
-                )
+                    "${dpHeight.toInt()}dp",
+                ),
             )
             functionsList.add(Pair(getString(Res.string.density), "$density"))
         } catch (e: Exception) {
@@ -134,22 +135,22 @@ actual class ScreenDataProvider actual constructor() : KoinComponent {
         functionsList.add(
             Pair(
                 getString(Res.string.absolute_width),
-                "${metrics.widthPixels}px"
-            )
+                "${metrics.widthPixels}px",
+            ),
         )
         functionsList.add(
             Pair(
                 getString(Res.string.absolute_height),
-                "${metrics.heightPixels}px"
-            )
+                "${metrics.heightPixels}px",
+            ),
         )
 
         val refreshRate = display.refreshRate
         functionsList.add(
             Pair(
                 getString(Res.string.refresh_rate),
-                "${refreshRate.round2()}"
-            )
+                "${refreshRate.round2()}",
+            ),
         )
 
         return functionsList

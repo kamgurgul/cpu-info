@@ -4,5 +4,4 @@ import androidx.compose.runtime.Composable
 
 @Composable
 actual fun registerPowerPlugListener(onRefresh: () -> Unit) {
-
 }

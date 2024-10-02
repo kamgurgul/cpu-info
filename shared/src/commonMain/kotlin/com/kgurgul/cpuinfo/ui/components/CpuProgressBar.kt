@@ -59,13 +59,13 @@ fun CpuProgressBar(
                     color = MaterialTheme.colorScheme.surfaceVariant,
                     shape = MaterialTheme.shapes.small,
                 )
-                .padding(spacingXSmall)
+                .padding(spacingXSmall),
         ) {
             var currentProgress by rememberSaveable { mutableFloatStateOf(0f) }
             val progressAnimation by animateFloatAsState(
                 targetValue = currentProgress,
                 animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
-                label = "__progressAnimation"
+                label = "__progressAnimation",
             )
             Row {
                 prefixImageRes?.let {
@@ -104,7 +104,6 @@ fun CpuProgressBar(
                     currentProgress = if (progress.isNaN()) 0.0f else progress
                 }
             }
-
         }
         minMaxValues?.let {
             Spacer(modifier = Modifier.requiredSize(spacingXSmall))

@@ -36,7 +36,7 @@ class TemperatureViewModel(
 ) : ViewModel() {
 
     private val _uiStateFlow = MutableStateFlow(
-        UiState(temperatureFormatter = temperatureFormatter)
+        UiState(temperatureFormatter = temperatureFormatter),
     )
     val uiStateFlow = _uiStateFlow.asStateFlow()
 
@@ -50,7 +50,7 @@ class TemperatureViewModel(
         _uiStateFlow.update {
             it.copy(
                 isLoading = false,
-                temperatureItems = temperatures.toPersistentList()
+                temperatureItems = temperatures.toPersistentList(),
             )
         }
     }
@@ -58,6 +58,6 @@ class TemperatureViewModel(
     data class UiState(
         val temperatureFormatter: TemperatureFormatter,
         val isLoading: Boolean = true,
-        val temperatureItems: ImmutableList<TemperatureItem> = persistentListOf()
+        val temperatureItems: ImmutableList<TemperatureItem> = persistentListOf(),
     )
 }

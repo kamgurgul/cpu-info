@@ -9,7 +9,7 @@ import co.touchlab.kermit.platformLogWriter
 object CpuLogger : Logger(
     config = loggerConfigInit(
         platformLogWriter(NoTagFormatter),
-        minSeverity = Severity.Info
+        minSeverity = Severity.Info,
     ),
     tag = "CpuInfo",
 )

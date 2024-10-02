@@ -36,8 +36,8 @@ class TemperatureDataObservable(
                         id = ID_BATTERY,
                         icon = Res.drawable.ic_battery,
                         name = localResources.getString(Res.string.battery),
-                        temperature = it
-                    )
+                        temperature = it,
+                    ),
                 )
             }
             cpuTempPath?.let { temperatureProvider.getCpuTemperature(it) }?.let {
@@ -46,8 +46,8 @@ class TemperatureDataObservable(
                         id = ID_CPU,
                         icon = Res.drawable.ic_cpu_temp,
                         name = localResources.getString(Res.string.cpu),
-                        temperature = it
-                    )
+                        temperature = it,
+                    ),
                 )
             }
             delay(REFRESH_DELAY)

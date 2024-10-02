@@ -24,7 +24,9 @@ import oshi.SystemInfo
 import oshi.software.os.OperatingSystem.ProcessSorting
 
 @Factory
-actual class ProcessesProvider actual constructor() : KoinComponent, IProcessesProvider {
+actual class ProcessesProvider actual constructor() :
+    KoinComponent,
+    IProcessesProvider {
 
     private val systemInfo: SystemInfo by inject()
     private val operatingSystem = systemInfo.operatingSystem
@@ -40,7 +42,7 @@ actual class ProcessesProvider actual constructor() : KoinComponent, IProcessesP
                 niceness = it.priority.toString(),
                 user = it.user,
                 rss = it.residentSetSize.toString(),
-                vsize = it.virtualSize.toString()
+                vsize = it.virtualSize.toString(),
             )
         }
     }

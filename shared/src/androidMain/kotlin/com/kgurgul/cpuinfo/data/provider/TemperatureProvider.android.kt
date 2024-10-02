@@ -30,16 +30,18 @@ import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_thermostat_24
 import com.kgurgul.cpuinfo.utils.round1
+import java.io.File
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.callbackFlow
 import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.io.File
 
 @Factory
-actual class TemperatureProvider actual constructor() : KoinComponent, ITemperatureProvider {
+actual class TemperatureProvider actual constructor() :
+    KoinComponent,
+    ITemperatureProvider {
 
     private val appContext: Context by inject()
     private val sensorManager: SensorManager by inject()
@@ -54,8 +56,8 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
                             id = event.sensor.type,
                             icon = Res.drawable.baseline_thermostat_24,
                             name = event.sensor.name,
-                            temperature = temp
-                        )
+                            temperature = temp,
+                        ),
                     )
                 }
             }
@@ -68,7 +70,7 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
                 sensorManager.registerListener(
                     sensorCallback,
                     it,
-                    SensorManager.SENSOR_DELAY_NORMAL
+                    SensorManager.SENSOR_DELAY_NORMAL,
                 )
             }
         awaitClose { sensorManager.unregisterListener(sensorCallback) }

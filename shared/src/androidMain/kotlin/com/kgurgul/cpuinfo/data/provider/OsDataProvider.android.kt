@@ -29,17 +29,19 @@ import com.kgurgul.cpuinfo.shared.unknown
 import com.kgurgul.cpuinfo.shared.version
 import com.kgurgul.cpuinfo.shared.vm
 import com.kgurgul.cpuinfo.shared.yes
-import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.security.Security
+import org.jetbrains.compose.resources.getString
+import org.koin.core.annotation.Factory
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 @Factory
-actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponent {
+actual class OsDataProvider actual constructor() :
+    IOsDataProvider,
+    KoinComponent {
 
     private val contentResolver: ContentResolver by inject()
     private val packageManager: PackageManager by inject()
@@ -130,7 +132,7 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
         val paths = arrayOf(
             "/system/app/Superuser.apk", "/sbin/su", "/system/bin/su", "/system/xbin/su",
             "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
-            "/system/bin/failsafe/su", "/data/local/su"
+            "/system/bin/failsafe/su", "/data/local/su",
         )
         return paths.any { File(it).exists() }
     }

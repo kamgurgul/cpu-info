@@ -14,7 +14,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class GpuDataObservable(
     dispatchersProvider: IDispatchersProvider,
-    private val gpuDataProvider: GpuDataProvider
+    private val gpuDataProvider: GpuDataProvider,
 ) : MutableInteractor<GpuDataObservable.Params, List<Pair<String, String>>>() {
 
     override val dispatcher = dispatchersProvider.io
@@ -32,13 +32,13 @@ class GpuDataObservable(
                 if (!params.glExtensions.isNullOrEmpty()) {
                     add(getString(Res.string.extensions) to params.glExtensions)
                 }
-            }
+            },
         )
     }
 
     data class Params(
         val glVendor: String? = null,
         val glRenderer: String? = null,
-        val glExtensions: String? = null
+        val glExtensions: String? = null,
     )
 }

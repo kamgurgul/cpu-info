@@ -11,12 +11,12 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun DesktopApp(
-    hostViewModel: HostViewModel = koinViewModel()
+    hostViewModel: HostViewModel = koinViewModel(),
 ) {
     val uiState by hostViewModel.uiStateFlow.collectAsStateWithLifecycle()
     val darkTheme = shouldUseDarkTheme(uiState)
     CpuInfoTheme(
-        useDarkTheme = darkTheme
+        useDarkTheme = darkTheme,
     ) {
         HostScreen(hostViewModel)
     }

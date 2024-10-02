@@ -21,8 +21,8 @@ class HostViewModel(
     private val _uiStateFlow = MutableStateFlow(
         UiState(
             isProcessSectionVisible = processesDataObservable.areProcessesSupported(),
-            isApplicationSectionVisible = applicationsDataObservable.areApplicationsSupported()
-        )
+            isApplicationSectionVisible = applicationsDataObservable.areApplicationsSupported(),
+        ),
     )
     val uiStateFlow = _uiStateFlow.asStateFlow()
 
@@ -36,7 +36,7 @@ class HostViewModel(
                             DarkThemeConfig.LIGHT.prefName -> DarkThemeConfig.LIGHT
                             DarkThemeConfig.DARK.prefName -> DarkThemeConfig.DARK
                             else -> DarkThemeConfig.FOLLOW_SYSTEM
-                        }
+                        },
                     )
                 }
             }

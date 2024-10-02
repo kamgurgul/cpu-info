@@ -25,7 +25,9 @@ import org.koin.core.component.inject
 import oshi.SystemInfo
 
 @Factory
-actual class TemperatureProvider actual constructor() : KoinComponent, ITemperatureProvider {
+actual class TemperatureProvider actual constructor() :
+    KoinComponent,
+    ITemperatureProvider {
 
     private val systemInfo: SystemInfo by inject()
 

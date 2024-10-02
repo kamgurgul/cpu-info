@@ -19,8 +19,8 @@ import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.Utils
-import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun StorageScreen(
@@ -29,7 +29,7 @@ fun StorageScreen(
     registerStorageMountingListener(viewModel::onRefreshStorage)
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     StorageScreen(
-        uiState = uiState
+        uiState = uiState,
     )
 }
 
@@ -49,7 +49,7 @@ fun StorageScreen(
         ) {
             items(
                 uiState.storageItems,
-                key = { it.id }
+                key = { it.id },
             ) { storageItem ->
                 val label = storageItem.label
                 val totalReadable = Utils.humanReadableByteCount(storageItem.storageTotal)
@@ -59,7 +59,7 @@ fun StorageScreen(
                 val usedPercent = (progress * 100.0).roundToInt()
                 val storageDesc = "$label$usedReadable / $totalReadable ($usedPercent%)"
                 val minMaxValues = Utils.humanReadableByteCount(0) to
-                        Utils.humanReadableByteCount(storageItem.storageTotal)
+                    Utils.humanReadableByteCount(storageItem.storageTotal)
                 CpuProgressBar(
                     label = storageDesc,
                     progress = progress,

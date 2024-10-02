@@ -41,7 +41,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HostScreen(
-    viewModel: HostViewModel = koinViewModel()
+    viewModel: HostViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     HostScreen(
@@ -51,7 +51,7 @@ fun HostScreen(
 
 @Composable
 fun HostScreen(
-    uiState: HostViewModel.UiState
+    uiState: HostViewModel.UiState,
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -164,7 +164,7 @@ data class HostNavigationItem(
                         label = Res.string.hardware,
                         icon = Res.drawable.ic_cpu,
                         route = HostScreen.Information.route,
-                    )
+                    ),
                 )
                 if (isApplicationsVisible) {
                     add(
@@ -172,7 +172,7 @@ data class HostNavigationItem(
                             label = Res.string.applications,
                             icon = Res.drawable.ic_android,
                             route = HostScreen.Applications.route,
-                        )
+                        ),
                     )
                 }
                 if (isProcessesVisible) {
@@ -181,7 +181,7 @@ data class HostNavigationItem(
                             label = Res.string.processes,
                             icon = Res.drawable.ic_process,
                             route = HostScreen.Processes.route,
-                        )
+                        ),
                     )
                 }
                 add(
@@ -189,14 +189,14 @@ data class HostNavigationItem(
                         label = Res.string.temp,
                         icon = Res.drawable.ic_temperature,
                         route = HostScreen.Temperatures.route,
-                    )
+                    ),
                 )
                 add(
                     HostNavigationItem(
                         label = Res.string.settings,
                         icon = Res.drawable.ic_settings,
                         route = HostScreen.Settings.route,
-                    )
+                    ),
                 )
             }
         }

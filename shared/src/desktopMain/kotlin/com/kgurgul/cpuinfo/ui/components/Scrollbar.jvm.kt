@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 @Composable
 actual fun VerticalScrollbar(
     modifier: Modifier,
-    scrollState: ScrollState
+    scrollState: ScrollState,
 ) = androidx.compose.foundation.VerticalScrollbar(
     adapter = rememberScrollbarAdapter(scrollState),
     style = defaultScrollbarStyle().copy(
@@ -24,7 +24,7 @@ actual fun VerticalScrollbar(
 @Composable
 actual fun VerticalScrollbar(
     modifier: Modifier,
-    scrollState: LazyListState
+    scrollState: LazyListState,
 ) = androidx.compose.foundation.VerticalScrollbar(
     adapter = rememberScrollbarAdapter(scrollState),
     style = defaultScrollbarStyle().copy(
@@ -37,7 +37,7 @@ actual fun VerticalScrollbar(
 @Composable
 actual fun HorizontalScrollbar(
     modifier: Modifier,
-    scrollState: ScrollState
+    scrollState: ScrollState,
 ) = androidx.compose.foundation.HorizontalScrollbar(
     adapter = rememberScrollbarAdapter(scrollState),
     style = defaultScrollbarStyle().copy(
@@ -50,7 +50,7 @@ actual fun HorizontalScrollbar(
 @Composable
 actual fun HorizontalScrollbar(
     modifier: Modifier,
-    scrollState: LazyListState
+    scrollState: LazyListState,
 ) = androidx.compose.foundation.HorizontalScrollbar(
     adapter = rememberScrollbarAdapter(scrollState),
     style = defaultScrollbarStyle().copy(

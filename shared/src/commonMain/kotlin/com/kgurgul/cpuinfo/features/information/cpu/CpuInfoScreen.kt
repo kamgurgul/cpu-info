@@ -114,7 +114,6 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                         },
                         modifier = Modifier.focusable(),
                     )
-
                 }
                 if (cpuData.l1dCaches.isNotEmpty()) {
                     item(key = "__l1d") {
@@ -188,7 +187,7 @@ fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
         stringResource(
             Res.string.cpu_current_frequency,
             index,
-            frequency.current.toString()
+            frequency.current.toString(),
         )
     } else {
         stringResource(Res.string.cpu_frequency_stopped, index)

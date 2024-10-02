@@ -12,6 +12,8 @@ import com.kgurgul.cpuinfo.shared.cpu_open
 import com.kgurgul.cpuinfo.shared.cpu_uninstall
 import com.kgurgul.cpuinfo.utils.CoroutineTestRule
 import com.kgurgul.cpuinfo.utils.wrappers.Result
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
@@ -25,8 +27,6 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class ApplicationsViewModelTest {
 
@@ -53,7 +53,7 @@ class ApplicationsViewModelTest {
             ApplicationsViewModel.UiState(
                 withSystemApps = testUserPreferences.withSystemApps,
                 isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            )
+            ),
         )
 
         // When
@@ -66,8 +66,8 @@ class ApplicationsViewModelTest {
                 ApplicationsDataObservable.Params(
                     withSystemApps = testUserPreferences.withSystemApps,
                     sortOrder = SortOrder.ASCENDING,
-                )
-            )
+                ),
+            ),
         )
     }
 
@@ -77,7 +77,7 @@ class ApplicationsViewModelTest {
             flowOf(
                 Result.Loading,
                 Result.Success(TestData.extendedApplicationsData),
-            )
+            ),
         )
         val expectedUiStates = listOf(
             ApplicationsViewModel.UiState(
@@ -295,8 +295,8 @@ class ApplicationsViewModelTest {
                 ApplicationsDataObservable.Params(
                     withSystemApps = testUserPreferences.withSystemApps,
                     sortOrder = SortOrder.ASCENDING,
-                )
-            )
+                ),
+            ),
         )
     }
 

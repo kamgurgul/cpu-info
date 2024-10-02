@@ -21,20 +21,20 @@ fun CpuPullToRefreshBox(
         Indicator(
             modifier = Modifier.align(Alignment.TopCenter),
             isRefreshing = isRefreshing,
-            state = state
+            state = state,
         )
     },
     enabled: Boolean = true,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit,
 ) {
     Box(
         modifier.pullToRefresh(
             state = state,
             isRefreshing = isRefreshing,
             onRefresh = onRefresh,
-            enabled = enabled
+            enabled = enabled,
         ),
-        contentAlignment = contentAlignment
+        contentAlignment = contentAlignment,
     ) {
         content()
         indicator()

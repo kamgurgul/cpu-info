@@ -121,7 +121,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                     if (powerSource.temperature != 0.0) {
                         add(
                             getString(Res.string.temperature) to
-                                    temperatureFormatter.format(powerSource.temperature.toFloat())
+                                temperatureFormatter.format(powerSource.temperature.toFloat()),
                         )
                     }
                 }

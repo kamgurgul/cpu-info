@@ -56,8 +56,8 @@ class ApplicationsViewModel(
         applicationsDataObservable.invoke(
             ApplicationsDataObservable.Params(
                 withSystemApps = currentUiState.withSystemApps,
-                sortOrderFromBoolean(currentUiState.isSortAscending)
-            )
+                sortOrderFromBoolean(currentUiState.isSortAscending),
+            ),
         )
     }
 
@@ -97,7 +97,7 @@ class ApplicationsViewModel(
             _uiStateFlow.update {
                 it.copy(
                     isDialogVisible = true,
-                    nativeLibs = libs.toImmutableList()
+                    nativeLibs = libs.toImmutableList(),
                 )
             }
         }

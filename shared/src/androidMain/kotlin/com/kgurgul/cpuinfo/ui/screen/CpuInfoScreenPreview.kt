@@ -22,7 +22,7 @@ fun CpuInfoScreenPreview() {
                         CpuData.Frequency(
                             min = 1,
                             max = 2,
-                            current = 3
+                            current = 3,
                         ),
                     ),
                     l1dCaches = "l1dCaches",
@@ -30,8 +30,8 @@ fun CpuInfoScreenPreview() {
                     l2Caches = "l2Caches",
                     l3Caches = "l3Caches",
                     l4Caches = "l4Caches",
-                )
-            )
+                ),
+            ),
         )
     }
 }

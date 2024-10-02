@@ -11,7 +11,7 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
 class CoroutineTestRule(
-    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
+    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler()),
 ) : TestWatcher() {
 
     val testDispatcherProvider = object : IDispatchersProvider {
