@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
+import com.kgurgul.cpuinfo.ui.components.SelectableText
 
 @Composable
 fun ItemValueRow(
@@ -24,7 +25,7 @@ fun ItemValueRow(
             .then(modifier),
     ) {
         val titleWeight = if (value == null) 1f else .4f
-        Text(
+        SelectableText(
             text = title,
             style = MaterialTheme.typography.titleSmall,
             color = contentColor,
@@ -32,7 +33,7 @@ fun ItemValueRow(
         )
         value?.let {
             Spacer(modifier = Modifier.size(spacingXSmall))
-            Text(
+            SelectableText(
                 text = it,
                 style = MaterialTheme.typography.bodyMedium,
                 color = contentColor.copy(alpha = .7f),
@@ -41,3 +42,4 @@ fun ItemValueRow(
         }
     }
 }
+
