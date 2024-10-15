@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -179,27 +180,29 @@ private fun ProcessList(
 
 @Composable
 private fun ProcessItem(item: ProcessItem, modifier: Modifier) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(spacingXSmall),
-        modifier = modifier,
-    ) {
-        Text(
-            text = item.name,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-        )
-        DoubleTextRow(
-            text1 = "PID: ${item.pid}",
-            text2 = "PPID: ${item.ppid}",
-        )
-        DoubleTextRow(
-            text1 = "NICENESS: ${item.niceness}",
-            text2 = "USER: ${item.user}",
-        )
-        DoubleTextRow(
-            text1 = "RSS: ${Utils.humanReadableByteCount(item.rss.toLong())}",
-            text2 = "VSZ: ${Utils.humanReadableByteCount(item.vsize.toLong())}",
-        )
+    SelectionContainer {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(spacingXSmall),
+            modifier = modifier,
+        ) {
+            Text(
+                text = item.name,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+            DoubleTextRow(
+                text1 = "PID: ${item.pid}",
+                text2 = "PPID: ${item.ppid}",
+            )
+            DoubleTextRow(
+                text1 = "NICENESS: ${item.niceness}",
+                text2 = "USER: ${item.user}",
+            )
+            DoubleTextRow(
+                text1 = "RSS: ${Utils.humanReadableByteCount(item.rss.toLong())}",
+                text2 = "VSZ: ${Utils.humanReadableByteCount(item.vsize.toLong())}",
+            )
+        }
     }
 }
 

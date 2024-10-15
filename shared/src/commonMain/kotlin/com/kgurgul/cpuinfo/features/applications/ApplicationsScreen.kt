@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -339,19 +340,21 @@ private fun ApplicationItem(
             contentDescription = null,
             modifier = Modifier.size(50.dp),
         )
-        Column(
-            modifier = Modifier.padding(horizontal = spacingXSmall),
-        ) {
-            Text(
-                text = appData.name,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-            Text(
-                text = appData.packageName,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
+        SelectionContainer {
+            Column(
+                modifier = Modifier.padding(horizontal = spacingXSmall),
+            ) {
+                Text(
+                    text = appData.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+                Text(
+                    text = appData.packageName,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+            }
         }
         if (appData.hasNativeLibs) {
             Spacer(modifier = Modifier.weight(1f))
