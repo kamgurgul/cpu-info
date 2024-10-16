@@ -35,10 +35,10 @@ fun DraggableBox(
     state: DraggableBoxState,
     onExpand: () -> Unit,
     onCollapse: () -> Unit,
-    actionRow: @Composable () -> Unit,
-    content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     key: Any = Unit,
+    actionRow: @Composable () -> Unit,
+    content: @Composable () -> Unit,
 ) {
     var offsetX by remember { mutableFloatStateOf(0f) }
     var actionRowOffset by remember { mutableIntStateOf(0) }
