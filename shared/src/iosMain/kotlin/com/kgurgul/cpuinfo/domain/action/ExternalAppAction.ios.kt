@@ -1,8 +1,5 @@
 package com.kgurgul.cpuinfo.domain.action
 
-import org.koin.core.annotation.Factory
-
-@Factory
 actual class ExternalAppAction actual constructor() {
 
     actual fun launch(packageName: String): Result<Unit> {

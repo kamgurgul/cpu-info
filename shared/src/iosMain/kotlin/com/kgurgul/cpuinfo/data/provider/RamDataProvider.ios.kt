@@ -1,11 +1,9 @@
 package com.kgurgul.cpuinfo.data.provider
 
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import platform.Foundation.NSProcessInfo
 
-@Factory
 actual class RamDataProvider actual constructor() : KoinComponent {
 
     private val iosHardwareDataProvider: IosHardwareDataProvider by inject()

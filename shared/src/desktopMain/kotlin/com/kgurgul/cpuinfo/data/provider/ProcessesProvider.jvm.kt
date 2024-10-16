@@ -17,13 +17,11 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
 import oshi.software.os.OperatingSystem.ProcessSorting
 
-@Factory
 actual class ProcessesProvider actual constructor() :
     KoinComponent,
     IProcessesProvider {

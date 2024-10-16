@@ -10,12 +10,10 @@ import com.kgurgul.cpuinfo.shared.unknown
 import com.kgurgul.cpuinfo.shared.version
 import com.kgurgul.cpuinfo.utils.ResourceUtils
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import platform.UIKit.UIDevice
 
-@Factory
 actual class OsDataProvider actual constructor() :
     IOsDataProvider,
     KoinComponent {

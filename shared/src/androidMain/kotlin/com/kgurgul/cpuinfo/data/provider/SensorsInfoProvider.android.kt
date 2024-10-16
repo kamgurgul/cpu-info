@@ -13,11 +13,9 @@ import com.kgurgul.cpuinfo.utils.round1
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-@Factory
 actual class SensorsInfoProvider actual constructor() : KoinComponent {
 
     private val sensorManager: SensorManager by inject()

@@ -5,12 +5,10 @@ import com.kgurgul.cpuinfo.shared.manufacturer
 import com.kgurgul.cpuinfo.shared.tab_os
 import com.kgurgul.cpuinfo.shared.version
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
 
-@Factory
 actual class OsDataProvider actual constructor() :
     IOsDataProvider,
     KoinComponent {

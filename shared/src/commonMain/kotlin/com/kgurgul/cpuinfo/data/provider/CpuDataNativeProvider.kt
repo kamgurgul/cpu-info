@@ -1,8 +1,5 @@
 package com.kgurgul.cpuinfo.data.provider
 
-import org.koin.core.annotation.Single
-
-@Single
 expect class CpuDataNativeProvider() {
 
     fun initLibrary()

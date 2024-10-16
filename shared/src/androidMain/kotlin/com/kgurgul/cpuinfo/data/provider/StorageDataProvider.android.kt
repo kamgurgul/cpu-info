@@ -16,9 +16,7 @@ import java.io.FileInputStream
 import java.io.InputStreamReader
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 
-@Factory
 actual class StorageDataProvider actual constructor() {
 
     actual fun getStorageInfo(): List<StorageItem> {

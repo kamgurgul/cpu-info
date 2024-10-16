@@ -34,11 +34,9 @@ import java.io.File
 import java.io.InputStreamReader
 import java.security.Security
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-@Factory
 actual class OsDataProvider actual constructor() :
     IOsDataProvider,
     KoinComponent {

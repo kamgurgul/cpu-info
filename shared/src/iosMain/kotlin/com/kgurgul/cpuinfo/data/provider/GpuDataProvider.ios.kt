@@ -5,13 +5,11 @@ import com.kgurgul.cpuinfo.shared.gles_version
 import com.kgurgul.cpuinfo.shared.metal_version
 import kotlinx.cinterop.memScoped
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 import platform.EAGL.EAGLContext
 import platform.EAGL.kEAGLRenderingAPIOpenGLES3
 import platform.Metal.MTLCreateSystemDefaultDevice
 import platform.Metal.MTLGPUFamilyMetal3
 
-@Factory
 actual class GpuDataProvider actual constructor() {
 
     actual suspend fun getData(): List<Pair<String, String>> {

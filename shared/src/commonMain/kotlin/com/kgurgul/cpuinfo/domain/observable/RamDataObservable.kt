@@ -6,9 +6,7 @@ import com.kgurgul.cpuinfo.domain.model.RamData
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import org.koin.core.annotation.Factory
 
-@Factory
 class RamDataObservable(
     dispatchersProvider: IDispatchersProvider,
     private val ramDataProvider: RamDataProvider,

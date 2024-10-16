@@ -1,9 +1,7 @@
 package com.kgurgul.cpuinfo.domain.action
 
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 
-@Factory
 actual class ExternalAppAction actual constructor() : KoinComponent {
 
     actual fun launch(packageName: String): Result<Unit> {

@@ -28,7 +28,6 @@ import com.kgurgul.cpuinfo.shared.level
 import com.kgurgul.cpuinfo.shared.unknown
 import com.kgurgul.cpuinfo.utils.round2
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 import platform.AVFoundation.AVCaptureDevice
 import platform.AVFoundation.AVCaptureDeviceDiscoverySession
 import platform.AVFoundation.AVCaptureDevicePositionUnspecified
@@ -41,7 +40,6 @@ import platform.AVFoundation.AVMediaTypeVideo
 import platform.UIKit.UIDevice
 import platform.UIKit.UIDeviceBatteryState
 
-@Factory
 actual class HardwareDataProvider actual constructor() {
 
     actual suspend fun getData(): List<Pair<String, String>> {

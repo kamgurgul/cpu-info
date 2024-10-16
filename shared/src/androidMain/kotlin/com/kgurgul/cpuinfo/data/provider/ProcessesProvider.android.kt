@@ -20,9 +20,7 @@ import android.os.Build
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.utils.CpuLogger
 import java.util.StringTokenizer
-import org.koin.core.annotation.Factory
 
-@Factory
 actual class ProcessesProvider actual constructor() : IProcessesProvider {
 
     actual override fun areProcessesSupported() = Build.VERSION.SDK_INT <= Build.VERSION_CODES.M

@@ -8,9 +8,7 @@ import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.Utils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import org.koin.core.annotation.Factory
 
-@Factory
 class CpuDataObservable(
     dispatchersProvider: IDispatchersProvider,
     private val cpuDataProvider: CpuDataProvider,

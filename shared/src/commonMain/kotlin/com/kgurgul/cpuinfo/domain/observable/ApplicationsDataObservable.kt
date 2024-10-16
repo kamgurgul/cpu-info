@@ -8,9 +8,7 @@ import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.wrapToResultFlow
 import com.kgurgul.cpuinfo.utils.wrappers.Result
 import kotlinx.coroutines.flow.Flow
-import org.koin.core.annotation.Factory
 
-@Factory
 class ApplicationsDataObservable(
     dispatchersProvider: IDispatchersProvider,
     private val applicationsDataProvider: IApplicationsDataProvider,

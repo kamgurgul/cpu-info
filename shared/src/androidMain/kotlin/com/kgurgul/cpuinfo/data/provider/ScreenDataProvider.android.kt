@@ -23,11 +23,9 @@ import com.kgurgul.cpuinfo.utils.round2
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-@Factory
 actual class ScreenDataProvider actual constructor() : KoinComponent {
 
     private val resources: Resources by inject()

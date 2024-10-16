@@ -1,8 +1,9 @@
 package com.kgurgul.cpuinfo.features
 
-import org.koin.core.annotation.ComponentScan
-import org.koin.core.annotation.Module
+import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.module
 
-@Module
-@ComponentScan
-class FeaturesModule
+val featuresModule = module {
+    factoryOf(::TemperatureFormatter)
+}

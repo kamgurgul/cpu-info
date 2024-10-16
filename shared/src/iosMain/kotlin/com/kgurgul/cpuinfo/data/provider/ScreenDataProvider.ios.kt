@@ -15,7 +15,6 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import platform.Foundation.NSNotification
 import platform.Foundation.NSNotificationCenter
@@ -25,7 +24,6 @@ import platform.UIKit.UIDeviceOrientationDidChangeNotification
 import platform.UIKit.UIScreen
 import platform.darwin.NSObject
 
-@Factory
 actual class ScreenDataProvider actual constructor() : KoinComponent {
 
     actual suspend fun getData(): List<Pair<String, String>> {

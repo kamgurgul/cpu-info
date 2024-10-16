@@ -8,7 +8,6 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import org.koin.core.annotation.Factory
 import platform.CoreMotion.CMAcceleration
 import platform.CoreMotion.CMAttitude
 import platform.CoreMotion.CMAttitudeReferenceFrameXMagneticNorthZVertical
@@ -19,7 +18,6 @@ import platform.CoreMotion.CMMotionManager
 import platform.CoreMotion.CMRotationRate
 import platform.Foundation.NSOperationQueue
 
-@Factory
 actual class SensorsInfoProvider actual constructor() {
 
     private val queue = NSOperationQueue.mainQueue

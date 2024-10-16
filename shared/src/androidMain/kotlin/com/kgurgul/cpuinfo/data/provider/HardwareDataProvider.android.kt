@@ -73,11 +73,9 @@ import java.io.FileFilter
 import java.io.RandomAccessFile
 import java.util.regex.Pattern
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-@Factory
 actual class HardwareDataProvider actual constructor() : KoinComponent {
 
     private val appContext: Context by inject()

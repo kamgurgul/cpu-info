@@ -6,9 +6,7 @@ import com.kgurgul.cpuinfo.domain.model.SensorData
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import org.koin.core.annotation.Factory
 
-@Factory
 class SensorsDataObservable(
     private val dispatchersProvider: IDispatchersProvider,
     private val sensorsInfoProvider: SensorsInfoProvider,

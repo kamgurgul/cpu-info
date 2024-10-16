@@ -4,6 +4,7 @@ import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.emptyPreferences
 import okio.Path.Companion.toPath
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import oshi.SystemInfo
 
@@ -16,5 +17,5 @@ val desktopModule = module {
             produceFile = { "$USER_PREFERENCES_NAME.preferences_pb".toPath() },
         )
     }
-    single { SystemInfo() }
+    singleOf(::SystemInfo)
 }

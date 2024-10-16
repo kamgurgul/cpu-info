@@ -12,9 +12,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 
-@Factory
 class GetScreenDataInteractor(
     private val dispatchersProvider: IDispatchersProvider,
     private val screenDataProvider: ScreenDataProvider,

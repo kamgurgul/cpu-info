@@ -4,11 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-@Factory
 actual class ExternalAppAction actual constructor() : KoinComponent {
 
     private val context: Context by inject()

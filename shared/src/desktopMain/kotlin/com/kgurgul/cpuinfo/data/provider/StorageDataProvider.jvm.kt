@@ -3,12 +3,10 @@ package com.kgurgul.cpuinfo.data.provider
 import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.ic_hard_drive
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
 
-@Factory
 actual class StorageDataProvider actual constructor() : KoinComponent {
 
     private val systemInfo: SystemInfo by inject()

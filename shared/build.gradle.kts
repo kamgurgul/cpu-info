@@ -1,6 +1,5 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -64,14 +63,12 @@ kotlin {
                 optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
                 optIn("androidx.compose.material3.ExperimentalMaterial3Api")
                 optIn("androidx.compose.foundation.ExperimentalFoundationApi")
-                optIn("org.koin.core.annotation.KoinExperimentalAPI")
                 optIn("kotlinx.cinterop.ExperimentalForeignApi")
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             }
         }
 
         commonMain {
-            kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
             dependencies {
                 api(compose.components.resources)
                 implementation(compose.foundation)
@@ -85,7 +82,6 @@ kotlin {
                 implementation(libs.coil)
                 implementation(libs.compose.adaptive)
                 implementation(libs.kermit.kermit)
-                api(libs.koin.annotations)
                 implementation(libs.koin.compose.viewodel)
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.coroutines.core)
@@ -192,35 +188,6 @@ android {
     }
     dependencies {
         debugImplementation(compose.uiTooling)
-    }
-}
-
-dependencies {
-    add("kspCommonMainMetadata", libs.koin.kspCompiler)
-    // add("kspAndroid", libs.koin.kspCompiler)
-    // add("kspIosX64", libs.koin.kspCompiler)
-    // add("kspIosArm64", libs.koin.kspCompiler)
-    // add("kspIosSimulatorArm64", libs.koin.kspCompiler)
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    if (name != "kspCommonMainKotlinMetadata") {
-        dependsOn("kspCommonMainKotlinMetadata")
-    }
-}
-
-tasks.filter {
-    it.name.contains("compileKotlinIos", true) ||
-        it.name.contains("compileTestKotlinIos", true)
-}.forEach {
-    it.dependsOn("kspCommonMainKotlinMetadata")
-}
-
-afterEvaluate {
-    tasks.filter {
-        it.name.contains("SourcesJar", true)
-    }.forEach {
-        it.dependsOn("kspCommonMainKotlinMetadata")
     }
 }
 

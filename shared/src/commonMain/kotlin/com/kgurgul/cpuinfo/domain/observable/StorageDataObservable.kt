@@ -6,9 +6,7 @@ import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
-import org.koin.core.annotation.Factory
 
-@Factory
 class StorageDataObservable(
     private val dispatchersProvider: IDispatchersProvider,
     private val storageDataProvider: StorageDataProvider,

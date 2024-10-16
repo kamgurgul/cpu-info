@@ -2,11 +2,9 @@ package com.kgurgul.cpuinfo.data.provider
 
 import kotlin.experimental.ExperimentalNativeApi
 import kotlin.native.Platform.cpuArchitecture
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-@Factory
 actual class CpuDataProvider actual constructor() : KoinComponent {
 
     private val cpuDataNativeProvider: CpuDataNativeProvider by inject()

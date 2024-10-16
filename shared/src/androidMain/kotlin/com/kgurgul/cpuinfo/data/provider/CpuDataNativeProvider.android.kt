@@ -1,8 +1,5 @@
 package com.kgurgul.cpuinfo.data.provider
 
-import org.koin.core.annotation.Single
-
-@Single
 actual class CpuDataNativeProvider actual constructor() {
 
     actual external fun initLibrary()

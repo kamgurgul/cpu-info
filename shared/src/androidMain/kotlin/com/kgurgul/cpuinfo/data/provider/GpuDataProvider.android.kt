@@ -9,11 +9,9 @@ import com.kgurgul.cpuinfo.shared.unknown
 import com.kgurgul.cpuinfo.shared.vulkan_version
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-@Factory
 actual class GpuDataProvider actual constructor() : KoinComponent {
 
     private val activityManager: ActivityManager by inject()

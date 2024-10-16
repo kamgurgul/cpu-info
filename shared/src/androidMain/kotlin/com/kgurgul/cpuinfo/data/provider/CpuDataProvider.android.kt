@@ -3,9 +3,7 @@ package com.kgurgul.cpuinfo.data.provider
 import android.os.Build
 import com.kgurgul.cpuinfo.utils.CpuLogger
 import java.io.RandomAccessFile
-import org.koin.core.annotation.Factory
 
-@Factory
 actual class CpuDataProvider actual constructor() {
 
     actual fun getAbi(): String {

@@ -29,12 +29,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 import platform.Foundation.NSProcessInfo
 import platform.Foundation.NSProcessInfoThermalState
 import platform.Foundation.thermalState
 
-@Factory
 actual class TemperatureProvider actual constructor() : ITemperatureProvider {
 
     actual override val sensorsFlow: Flow<TemperatureItem> = flow {

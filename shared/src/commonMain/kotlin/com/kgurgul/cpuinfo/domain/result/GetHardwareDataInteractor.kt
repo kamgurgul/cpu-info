@@ -6,9 +6,7 @@ import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import org.koin.core.annotation.Factory
 
-@Factory
 class GetHardwareDataInteractor(
     private val dispatchersProvider: IDispatchersProvider,
     private val hardwareDataProvider: HardwareDataProvider,

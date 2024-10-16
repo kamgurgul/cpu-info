@@ -31,9 +31,9 @@ height="80">](https://apps.microsoft.com/detail/9phxq0f4knbl)
 
 # Supported platforms 
 
-| Android | iOS | Desktop |                Wasm                 |
-|:-------:|:---:|:-------:|:-----------------------------------:|
-|    ✅    |  ✅  |    ✅    | ❌<br/>Blocked by Koin and DataStore |
+| Android | iOS | Desktop |            Wasm            |
+|:-------:|:---:|:-------:|:--------------------------:|
+|    ✅    |  ✅  |    ✅    | ❌<br/>Blocked by DataStore |
 
 # Tech stack
 

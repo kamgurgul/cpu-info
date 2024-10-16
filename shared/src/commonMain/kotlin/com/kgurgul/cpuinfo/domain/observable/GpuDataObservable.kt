@@ -9,9 +9,7 @@ import com.kgurgul.cpuinfo.shared.vendor
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.flow.flow
 import org.jetbrains.compose.resources.getString
-import org.koin.core.annotation.Factory
 
-@Factory
 class GpuDataObservable(
     dispatchersProvider: IDispatchersProvider,
     private val gpuDataProvider: GpuDataProvider,

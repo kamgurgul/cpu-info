@@ -1,11 +1,9 @@
 package com.kgurgul.cpuinfo.data.provider
 
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
 
-@Factory
 actual class CpuDataProvider actual constructor() : KoinComponent {
 
     private val systemInfo: SystemInfo by inject()

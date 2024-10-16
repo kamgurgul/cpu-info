@@ -34,11 +34,9 @@ import java.io.File
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.callbackFlow
-import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-@Factory
 actual class TemperatureProvider actual constructor() :
     KoinComponent,
     ITemperatureProvider {
