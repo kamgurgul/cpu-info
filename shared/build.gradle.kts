@@ -121,6 +121,7 @@ kotlin {
                 implementation(kotlin("test-junit"))
                 implementation(libs.androidx.test.core)
                 implementation(libs.androidx.arch.core.testing)
+                implementation(libs.koin.test)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.mockito.kotlin)
             }
