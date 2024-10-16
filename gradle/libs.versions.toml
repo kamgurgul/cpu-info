@@ -30,7 +30,7 @@ mockitoKotlin = "5.4.0"
 oshi = "6.6.5"
 profileinstaller = "1.4.1"
 relinker = "1.4.5"
-turbine = "1.1.0"
+turbine = "1.2.0"
 uiautomator = "2.3.0"
 
 [libraries]
