@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.kgurgul.cpuinfo.data.local.model.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.utils.CpuLogger
 import kotlinx.coroutines.flow.Flow
@@ -79,11 +80,3 @@ class UserPreferencesRepository(
         val THEME = stringPreferencesKey("theme")
     }
 }
-
-data class UserPreferences(
-    val isApplicationsSortingAscending: Boolean,
-    val isProcessesSortingAscending: Boolean,
-    val withSystemApps: Boolean,
-    val temperatureUnit: Int,
-    val theme: String,
-)

@@ -18,7 +18,7 @@ package com.kgurgul.cpuinfo.features.temperature
 
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
-import com.kgurgul.cpuinfo.data.local.UserPreferences
+import com.kgurgul.cpuinfo.data.local.model.UserPreferences
 import kotlin.test.Test
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.test.runTest

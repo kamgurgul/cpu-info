@@ -1,6 +1,6 @@
 package com.kgurgul.cpuinfo.data
 
-import com.kgurgul.cpuinfo.data.local.UserPreferences
+import com.kgurgul.cpuinfo.data.local.model.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData

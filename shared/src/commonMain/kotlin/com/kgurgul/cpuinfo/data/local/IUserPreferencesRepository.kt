@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.data.local
 
+import com.kgurgul.cpuinfo.data.local.model.UserPreferences
 import kotlinx.coroutines.flow.Flow
 
 interface IUserPreferencesRepository {

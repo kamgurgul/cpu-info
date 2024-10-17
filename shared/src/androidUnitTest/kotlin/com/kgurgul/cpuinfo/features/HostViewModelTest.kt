@@ -2,7 +2,7 @@ package com.kgurgul.cpuinfo.features
 
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
-import com.kgurgul.cpuinfo.data.local.UserPreferences
+import com.kgurgul.cpuinfo.data.local.model.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.observable.ProcessesDataObservable
