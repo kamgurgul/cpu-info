@@ -75,7 +75,6 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.runtime)
                 implementation(compose.ui)
-                implementation(libs.androidx.datastore.preferences)
                 implementation(libs.androidx.lifecycle.viewmodel.compose)
                 implementation(libs.androidx.lifecycle.runtime.compose)
                 implementation(libs.androidx.navigation.compose)
@@ -92,13 +91,19 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(compose.uiTooling)
+            implementation(libs.androidx.datastore.preferences)
             implementation(libs.koin.android)
             implementation(libs.relinker)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.androidx.datastore.preferences)
         }
 
         val desktopMain by getting
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.androidx.datastore.preferences)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.oshi)
         }

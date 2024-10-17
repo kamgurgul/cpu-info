@@ -1,6 +1,8 @@
 package com.kgurgul.cpuinfo.data
 
+import com.kgurgul.cpuinfo.data.local.IDataStore
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
+import com.kgurgul.cpuinfo.data.local.LocalDataStore
 import com.kgurgul.cpuinfo.data.local.UserPreferencesRepository
 import com.kgurgul.cpuinfo.data.provider.ApplicationsDataProvider
 import com.kgurgul.cpuinfo.data.provider.CpuDataNativeProvider
@@ -39,5 +41,6 @@ val dataModule = module {
 
     singleOf(::ApplicationsDataProvider) bind IApplicationsDataProvider::class
     singleOf(::CpuDataNativeProvider)
+    singleOf(::LocalDataStore) bind IDataStore::class
     singleOf(::UserPreferencesRepository) bind IUserPreferencesRepository::class
 }
