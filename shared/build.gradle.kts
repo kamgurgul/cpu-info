@@ -1,4 +1,5 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
@@ -55,7 +56,16 @@ kotlin {
 
     jvm("desktop")
 
-    applyDefaultHierarchyTemplate()
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    applyDefaultHierarchyTemplate {
+        common {
+            group("mobile") {
+                withIos()
+                withAndroidTarget()
+                withJvm()
+            }
+        }
+    }
 
     sourceSets {
         all {
@@ -88,19 +98,32 @@ kotlin {
             }
         }
 
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(compose.uiTooling)
-            implementation(libs.androidx.datastore.preferences)
-            implementation(libs.koin.android)
-            implementation(libs.relinker)
+        val mobileMain by getting {
+            dependencies {
+                implementation(libs.androidx.datastore.preferences)
+            }
         }
 
-        iosMain.dependencies {
-            implementation(libs.androidx.datastore.preferences)
+        androidMain {
+            dependsOn(mobileMain)
+            dependencies {
+                implementation(compose.preview)
+                implementation(compose.uiTooling)
+                implementation(libs.androidx.datastore.preferences)
+                implementation(libs.koin.android)
+                implementation(libs.relinker)
+            }
+        }
+
+        iosMain {
+            dependsOn(mobileMain)
+            dependencies {
+                implementation(libs.androidx.datastore.preferences)
+            }
         }
 
         val desktopMain by getting
+        desktopMain.dependsOn(mobileMain)
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.androidx.datastore.preferences)
