@@ -57,6 +57,11 @@ kotlin {
 
     jvm("desktop")
 
+    js {
+        browser()
+        useEsModules()
+    }
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
@@ -69,6 +74,10 @@ kotlin {
                 withIos()
                 withAndroidTarget()
                 withJvm()
+            }
+            group("web") {
+                withJs()
+                withWasmJs()
             }
         }
     }
@@ -128,13 +137,24 @@ kotlin {
             }
         }
 
-        val desktopMain by getting
-        desktopMain.dependsOn(mobileMain)
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.androidx.datastore.preferences)
-            implementation(libs.kotlinx.coroutines.swing)
-            implementation(libs.oshi)
+        val desktopMain by getting {
+            dependsOn(mobileMain)
+            dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation(libs.androidx.datastore.preferences)
+                implementation(libs.kotlinx.coroutines.swing)
+                implementation(libs.oshi)
+            }
+        }
+
+        val webMain by getting
+
+        wasmJsMain {
+            dependsOn(webMain)
+        }
+
+        jsMain {
+            dependsOn(webMain)
         }
 
         commonTest.dependencies {
