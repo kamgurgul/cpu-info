@@ -19,7 +19,6 @@ package com.kgurgul.cpuinfo.features.temperature
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.utils.round2
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 
 class TemperatureFormatter(
     private val userPreferencesRepository: IUserPreferencesRepository,
@@ -30,10 +29,8 @@ class TemperatureFormatter(
      *
      * @param temp formatting temperature which will be formatted (passed in Celsius unit)
      */
-    fun format(temp: Float): String {
-        val tempUnit = runBlocking {
-            userPreferencesRepository.userPreferencesFlow.first().temperatureUnit
-        }
+    suspend fun format(temp: Float): String {
+        val tempUnit = userPreferencesRepository.userPreferencesFlow.first().temperatureUnit
         return if (tempUnit == FAHRENHEIT) {
             val fahrenheit = temp * 9 / 5 + 32
             "${fahrenheit.round2()}\u00B0F"

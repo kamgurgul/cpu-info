@@ -1,7 +1,10 @@
+@file:JvmName("CoroutinesExtensions")
 package com.kgurgul.cpuinfo.utils
 
 import com.kgurgul.cpuinfo.utils.wrappers.Result
+import kotlin.jvm.JvmName
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -39,3 +42,5 @@ fun <T> (suspend () -> T).asResultFlow(): Flow<Result<T>> = flow {
         emit(Result.Error(throwable))
     }
 }
+
+expect val ioDispatcher: CoroutineDispatcher
