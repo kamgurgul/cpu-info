@@ -30,6 +30,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -64,11 +67,7 @@ fun SettingsScreen(
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     SettingsScreen(
         uiState = uiState,
-        onThemeItemClicked = viewModel::onThemeOptionClicked,
-        onTemperatureItemClicked = viewModel::onTemperatureOptionClicked,
-        onTemperatureDialogDismissRequest = viewModel::onTemperatureDialogDismissed,
         onTemperatureOptionClicked = viewModel::setTemperatureUnit,
-        onThemeDialogDismissRequest = viewModel::onThemeDialogDismissed,
         onThemeOptionClicked = viewModel::setTheme,
     )
 }
@@ -76,11 +75,7 @@ fun SettingsScreen(
 @Composable
 fun SettingsScreen(
     uiState: SettingsViewModel.UiState,
-    onThemeItemClicked: () -> Unit,
-    onTemperatureItemClicked: () -> Unit,
-    onTemperatureDialogDismissRequest: () -> Unit,
     onTemperatureOptionClicked: (Int) -> Unit,
-    onThemeDialogDismissRequest: () -> Unit,
     onThemeOptionClicked: (String) -> Unit,
 ) {
     Scaffold(
@@ -91,21 +86,24 @@ fun SettingsScreen(
         },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
     ) { paddingValues ->
-        val paddingModifier = Modifier.padding(paddingValues)
+        var isTemperatureDialogVisible by remember { mutableStateOf(false) }
+        var isThemeDialogVisible by remember { mutableStateOf(false) }
         SettingsList(
             uiState = uiState,
-            modifier = paddingModifier,
-            onThemeItemClicked = onThemeItemClicked,
-            onTemperatureItemClicked = onTemperatureItemClicked,
+            modifier = Modifier.padding(paddingValues),
+            onThemeItemClicked = { isThemeDialogVisible = true },
+            onTemperatureItemClicked = { isTemperatureDialogVisible = true },
         )
         TemperatureUnitDialog(
-            onDismissRequest = onTemperatureDialogDismissRequest,
+            isDialogVisible = isTemperatureDialogVisible,
+            onDismissRequest = { isTemperatureDialogVisible = false },
             currentSelection = uiState.temperatureUnit,
             options = uiState.temperatureDialogOptions,
             onOptionClicked = onTemperatureOptionClicked,
         )
         ThemeDialog(
-            onDismissRequest = onThemeDialogDismissRequest,
+            isDialogVisible = isThemeDialogVisible,
+            onDismissRequest = { isThemeDialogVisible = false },
             currentSelection = uiState.theme,
             options = uiState.themeDialogOptions,
             onOptionClicked = onThemeOptionClicked,
@@ -190,12 +188,13 @@ private fun SettingsItem(
 
 @Composable
 private fun TemperatureUnitDialog(
+    isDialogVisible: Boolean,
     onDismissRequest: () -> Unit,
     currentSelection: Int,
-    options: ImmutableList<Int>?,
+    options: ImmutableList<Int>,
     onOptionClicked: (Int) -> Unit,
 ) {
-    if (options != null) {
+    if (isDialogVisible) {
         AlertDialog(
             onDismissRequest = onDismissRequest,
             title = {
@@ -247,12 +246,13 @@ private fun TemperatureUnitDialog(
 
 @Composable
 private fun ThemeDialog(
+    isDialogVisible: Boolean,
     onDismissRequest: () -> Unit,
     currentSelection: String,
-    options: ImmutableList<String>?,
+    options: ImmutableList<String>,
     onOptionClicked: (String) -> Unit,
 ) {
-    if (options != null) {
+    if (isDialogVisible) {
         AlertDialog(
             onDismissRequest = onDismissRequest,
             title = {

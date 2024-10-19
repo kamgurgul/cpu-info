@@ -120,7 +120,6 @@ kotlin {
         }
 
         androidMain {
-            dependsOn(mobileMain)
             dependencies {
                 implementation(compose.preview)
                 implementation(compose.uiTooling)
@@ -131,30 +130,18 @@ kotlin {
         }
 
         iosMain {
-            dependsOn(mobileMain)
             dependencies {
                 implementation(libs.androidx.datastore.preferences)
             }
         }
 
         val desktopMain by getting {
-            dependsOn(mobileMain)
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.androidx.datastore.preferences)
                 implementation(libs.kotlinx.coroutines.swing)
                 implementation(libs.oshi)
             }
-        }
-
-        val webMain by getting
-
-        wasmJsMain {
-            dependsOn(webMain)
-        }
-
-        jsMain {
-            dependsOn(webMain)
         }
 
         commonTest.dependencies {

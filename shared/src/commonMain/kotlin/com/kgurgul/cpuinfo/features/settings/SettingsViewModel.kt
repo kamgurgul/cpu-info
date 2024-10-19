@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
@@ -29,42 +28,6 @@ class SettingsViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
-    private val temperatureDialogOptions = persistentListOf(
-        TemperatureFormatter.CELSIUS,
-        TemperatureFormatter.FAHRENHEIT,
-        TemperatureFormatter.KELVIN,
-    )
-
-    private val themeDialogOptions = persistentListOf(
-        DarkThemeConfig.FOLLOW_SYSTEM.prefName,
-        DarkThemeConfig.LIGHT.prefName,
-        DarkThemeConfig.DARK.prefName,
-    )
-
-    fun onTemperatureOptionClicked() {
-        _uiStateFlow.update {
-            it.copy(temperatureDialogOptions = temperatureDialogOptions)
-        }
-    }
-
-    fun onTemperatureDialogDismissed() {
-        _uiStateFlow.update {
-            it.copy(temperatureDialogOptions = null)
-        }
-    }
-
-    fun onThemeOptionClicked() {
-        _uiStateFlow.update {
-            it.copy(themeDialogOptions = themeDialogOptions)
-        }
-    }
-
-    fun onThemeDialogDismissed() {
-        _uiStateFlow.update {
-            it.copy(themeDialogOptions = null)
-        }
-    }
-
     fun setTemperatureUnit(temperatureUnit: Int) {
         viewModelScope.launch {
             userPreferencesRepository.setTemperatureUnit(temperatureUnit)
@@ -80,7 +43,15 @@ class SettingsViewModel(
     data class UiState(
         val temperatureUnit: Int = 0,
         val theme: String = DarkThemeConfig.FOLLOW_SYSTEM.prefName,
-        val temperatureDialogOptions: ImmutableList<Int>? = null,
-        val themeDialogOptions: ImmutableList<String>? = null,
+        val temperatureDialogOptions: ImmutableList<Int> = persistentListOf(
+            TemperatureFormatter.CELSIUS,
+            TemperatureFormatter.FAHRENHEIT,
+            TemperatureFormatter.KELVIN,
+        ),
+        val themeDialogOptions: ImmutableList<String> = persistentListOf(
+            DarkThemeConfig.FOLLOW_SYSTEM.prefName,
+            DarkThemeConfig.LIGHT.prefName,
+            DarkThemeConfig.DARK.prefName,
+        ),
     )
 }

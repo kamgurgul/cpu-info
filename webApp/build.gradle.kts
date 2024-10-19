@@ -8,8 +8,6 @@ plugins {
 }
 
 kotlin {
-    applyDefaultHierarchyTemplate()
-
     js {
         moduleName = "cpuinfoApp"
         browser {
@@ -25,13 +23,12 @@ kotlin {
     wasmJs {
         moduleName = "cpuinfoApp"
         browser {
-            val projectDirPath = project.projectDir.path
             commonWebpackConfig {
                 outputFileName = "cpuinfoApp.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
                     static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(projectDirPath)
+                        add(project.rootDir.path)
+                        add(project.projectDir.path)
                     }
                 }
             }
