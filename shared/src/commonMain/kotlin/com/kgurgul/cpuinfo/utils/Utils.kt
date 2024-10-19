@@ -56,9 +56,15 @@ object Utils {
     fun convertBytesToMega(bytes: Long): String {
         val megaBytes = bytes.toDouble() / (1024.0 * 1024.0)
         val roundedMegaBytes = round(megaBytes * 100) / 100
-        val formatted = roundedMegaBytes.toString()
-            .dropLastWhile { it == '0' }
-            .dropLastWhile { it == '.' }
+        val roundedMegaBytesString = roundedMegaBytes.toString()
+        val formatted = if (roundedMegaBytesString.contains(".")) {
+            roundedMegaBytesString
+                .dropLastWhile { it == '0' }
+                .dropLastWhile { it == '.' }
+        } else {
+            roundedMegaBytesString
+        }
+
         return "${formatted}MB"
     }
 }

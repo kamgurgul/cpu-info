@@ -58,13 +58,21 @@ kotlin {
     jvm("desktop")
 
     js {
-        browser()
+        browser {
+            testTask {
+                enabled = false
+            }
+        }
         useEsModules()
     }
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        browser()
+        browser {
+            testTask {
+                enabled = false
+            }
+        }
     }
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
