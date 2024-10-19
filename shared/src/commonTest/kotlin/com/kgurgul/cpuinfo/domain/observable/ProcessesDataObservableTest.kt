@@ -33,7 +33,7 @@ class ProcessesDataObservableTest {
     }
 
     @Test
-    fun `Get processes data observable`() = runTest {
+    fun getProcessesDataObservable() = runTest {
         fakeProcessesProvider.processesList = TestData.processes
         val expectedItems = TestData.processes
 

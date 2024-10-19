@@ -48,7 +48,7 @@ class TemperatureDataObservableTest {
     }
 
     @Test
-    fun `Get temperature data observable`() = runTest {
+    fun getTemperatureDataObservable() = runTest {
         val expectedData = listOf(
             TemperatureItem(
                 id = -2,

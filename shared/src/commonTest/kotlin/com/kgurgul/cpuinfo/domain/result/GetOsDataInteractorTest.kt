@@ -30,7 +30,7 @@ class GetOsDataInteractorTest {
     }
 
     @Test
-    fun `Get OS data`() = runTest {
+    fun getOSData() = runTest {
         val expectedItems = listOf(
             "OS" to "Test OS",
         )
