@@ -12,11 +12,7 @@ fun SettingsScreenPreview() {
     CpuInfoTheme {
         SettingsScreen(
             uiState = SettingsViewModel.UiState(),
-            onThemeItemClicked = {},
-            onTemperatureItemClicked = {},
-            onTemperatureDialogDismissRequest = {},
             onTemperatureOptionClicked = {},
-            onThemeDialogDismissRequest = {},
             onThemeOptionClicked = {},
         )
     }
