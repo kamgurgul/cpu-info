@@ -115,12 +115,11 @@ fun NavigationSuiteScaffold(
                     Modifier.consumeWindowInsets(
                         when (layoutType) {
                             NavigationSuiteType.NavigationBar ->
-                                NavigationBarDefaults.windowInsets
+                                NavigationBarDefaults.windowInsets.only(WindowInsetsSides.Bottom)
                             NavigationSuiteType.NavigationRail ->
-                                NavigationRailDefaults.windowInsets
+                                WindowInsets.safeDrawing.only(WindowInsetsSides.Start)
                             NavigationSuiteType.NavigationDrawer ->
-                                DrawerDefaults.windowInsets
-
+                                DrawerDefaults.windowInsets.only(WindowInsetsSides.Start)
                             else -> WindowInsets(0, 0, 0, 0)
                         }
                     )
