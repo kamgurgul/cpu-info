@@ -104,7 +104,7 @@ kotlin {
         commonMain {
             dependencies {
                 api(compose.components.resources)
-                implementation(compose.foundation)
+                api(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.runtime)
                 implementation(compose.ui)

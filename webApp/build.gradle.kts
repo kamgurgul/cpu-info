@@ -40,15 +40,11 @@ kotlin {
         wasmJsMain {
             dependencies {
                 implementation(project(":shared"))
-                implementation(compose.runtime)
-                implementation(compose.foundation)
             }
         }
         jsMain {
             dependencies {
                 implementation(project(":shared"))
-                implementation(compose.runtime)
-                implementation(compose.foundation)
             }
         }
     }
