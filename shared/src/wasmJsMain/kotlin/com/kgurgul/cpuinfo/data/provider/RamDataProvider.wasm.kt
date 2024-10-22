@@ -4,9 +4,7 @@ import org.koin.core.component.KoinComponent
 
 actual class RamDataProvider actual constructor() : KoinComponent {
 
-    actual fun getTotalBytes(): Long {
-        return -1L
-    }
+    actual fun getTotalBytes(): Long = getWebAssemblyMemoryBuffer()
 
     actual fun getAvailableBytes(): Long {
         return -1L
@@ -16,3 +14,5 @@ actual class RamDataProvider actual constructor() : KoinComponent {
         return -1L
     }
 }
+
+private fun getWebAssemblyMemoryBuffer(): Long = js("performance.memory.totalJSHeapSize")
