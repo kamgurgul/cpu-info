@@ -8,17 +8,6 @@ plugins {
 }
 
 kotlin {
-    js {
-        moduleName = "cpuinfoApp"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "cpuinfoApp.js"
-            }
-        }
-        binaries.executable()
-        useEsModules()
-    }
-
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "cpuinfoApp"
@@ -38,11 +27,6 @@ kotlin {
 
     sourceSets {
         wasmJsMain {
-            dependencies {
-                implementation(project(":shared"))
-            }
-        }
-        jsMain {
             dependencies {
                 implementation(project(":shared"))
             }

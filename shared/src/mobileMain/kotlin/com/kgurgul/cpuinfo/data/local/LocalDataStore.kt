@@ -11,7 +11,6 @@ import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.kgurgul.cpuinfo.data.local.model.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.utils.CpuLogger
@@ -71,12 +70,6 @@ actual class LocalDataStore actual constructor() : IDataStore, KoinComponent {
     override suspend fun setValue(key: String, value: Long) {
         dataStore.edit { preferences ->
             preferences[longPreferencesKey(key)] = value
-        }
-    }
-
-    override suspend fun setValue(key: String, value: Set<String>) {
-        dataStore.edit { preferences ->
-            preferences[stringSetPreferencesKey(key)] = value
         }
     }
 

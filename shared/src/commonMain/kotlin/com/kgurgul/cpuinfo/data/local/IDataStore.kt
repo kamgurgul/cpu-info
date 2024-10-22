@@ -18,6 +18,4 @@ interface IDataStore {
     suspend fun setValue(key: String, value: Double)
 
     suspend fun setValue(key: String, value: Long)
-
-    suspend fun setValue(key: String, value: Set<String>)
 }

@@ -57,15 +57,6 @@ kotlin {
 
     jvm("desktop")
 
-    js {
-        browser {
-            testTask {
-                enabled = false
-            }
-        }
-        useEsModules()
-    }
-
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser {
@@ -82,10 +73,6 @@ kotlin {
                 withIos()
                 withAndroidTarget()
                 withJvm()
-            }
-            group("web") {
-                withJs()
-                withWasmJs()
             }
         }
     }
@@ -149,6 +136,12 @@ kotlin {
                 implementation(libs.androidx.datastore.preferences)
                 implementation(libs.kotlinx.coroutines.swing)
                 implementation(libs.oshi)
+            }
+        }
+
+        val wasmJsMain by getting {
+            dependencies {
+                implementation(libs.kotlinx.browser)
             }
         }
 
