@@ -202,7 +202,7 @@ fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
     } else {
         ""
     }
-    val progress = if (frequency.current != -1L) {
+    val progress = if (frequency.current != -1L && frequency.max != 0L) {
         frequency.current.toFloat() / frequency.max.toFloat()
     } else {
         0f

@@ -54,8 +54,9 @@ fun StorageScreen(
                 val label = storageItem.label
                 val totalReadable = Utils.humanReadableByteCount(storageItem.storageTotal)
                 val usedReadable = Utils.humanReadableByteCount(storageItem.storageUsed)
-                val progress =
+                val progress = if (storageItem.storageTotal != 0L)
                     storageItem.storageUsed.toFloat() / storageItem.storageTotal.toFloat()
+                else 0f
                 val usedPercent = (progress * 100.0).roundToInt()
                 val storageDesc = "$label$usedReadable / $totalReadable ($usedPercent%)"
                 val minMaxValues = Utils.humanReadableByteCount(0) to
