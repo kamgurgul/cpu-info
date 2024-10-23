@@ -13,7 +13,7 @@ actual class StorageDataProvider actual constructor() : KoinComponent {
 
     private val iosHardwareDataProvider: IosHardwareDataProvider by inject()
 
-    actual fun getStorageInfo(): List<StorageItem> {
+    actual suspend fun getStorageInfo(): List<StorageItem> {
         return listOfNotNull(getInternalStorage())
     }
 

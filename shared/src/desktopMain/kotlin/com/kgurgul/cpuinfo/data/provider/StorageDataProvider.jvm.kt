@@ -12,7 +12,7 @@ actual class StorageDataProvider actual constructor() : KoinComponent {
     private val systemInfo: SystemInfo by inject()
     private val fileStores = systemInfo.operatingSystem.fileSystem.fileStores
 
-    actual fun getStorageInfo(): List<StorageItem> {
+    actual suspend fun getStorageInfo(): List<StorageItem> {
         return buildList {
             fileStores.forEach { osFileStore ->
                 val label = buildString {

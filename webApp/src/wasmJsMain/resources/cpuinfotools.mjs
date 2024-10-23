@@ -13,3 +13,21 @@ function getTotalHeapSize() {
         return -1;
     }
 }
+
+async function getTotalStorage() {
+    if ("storage" in navigator && "estimate" in navigator.storage) {
+        const { usage, quota } = await navigator.storage.estimate();
+        return BigInt(quota);
+    } else {
+        return BigInt(-1);
+    }
+}
+
+async function getUsedStorage() {
+    if ("storage" in navigator && "estimate" in navigator.storage) {
+        const { usage, quota } = await navigator.storage.estimate();
+        return BigInt(usage);
+    } else {
+        return BigInt(-1);
+    }
+}

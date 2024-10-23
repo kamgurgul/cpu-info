@@ -19,7 +19,7 @@ import org.jetbrains.compose.resources.getString
 
 actual class StorageDataProvider actual constructor() {
 
-    actual fun getStorageInfo(): List<StorageItem> {
+    actual suspend fun getStorageInfo(): List<StorageItem> {
         return listOfNotNull(getInternalStorage(), getExternalStorage(), getSdCardStorage())
     }
 

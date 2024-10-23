@@ -1,5 +1,7 @@
 package com.kgurgul.cpuinfo.utils
 
+import kotlin.js.Promise
+
 actual fun smartCompare(a: String, b: String): Int {
     val collator = Intl.Collator()
     return collator.compare(a.lowercase(), b.lowercase())
@@ -14,3 +16,7 @@ external class Intl {
 external fun getUsedHeapSize(): Int
 
 external fun getTotalHeapSize(): Int
+
+external fun getTotalStorage(): Promise<JsBigInt>
+
+external fun getUsedStorage(): Promise<JsBigInt>
