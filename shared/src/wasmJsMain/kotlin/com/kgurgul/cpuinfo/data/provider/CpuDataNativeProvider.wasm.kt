@@ -8,7 +8,7 @@ actual class CpuDataNativeProvider actual constructor() : KoinComponent {
     }
 
     actual fun getCpuName(): String {
-        return "CPU from web"
+        return "Browser"
     }
 
     actual fun hasArmNeon(): Boolean {

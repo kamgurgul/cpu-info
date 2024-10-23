@@ -5,7 +5,7 @@ import org.koin.core.component.KoinComponent
 actual class CpuDataProvider actual constructor() : KoinComponent {
 
     actual fun getAbi(): String {
-        return "wasm"
+        return "WASM"
     }
 
     actual fun getNumberOfCores(): Int {
