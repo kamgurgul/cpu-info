@@ -4,10 +4,16 @@ import org.koin.core.component.KoinComponent
 
 actual class RamDataProvider actual constructor() : KoinComponent {
 
-    actual fun getTotalBytes(): Long = getWebAssemblyMemoryBuffer()
+    actual fun getTotalBytes(): Long {
+        return runCatching { getTotalJSHeapSize().toLong() }
+            .getOrElse { -1L }
+    }
 
     actual fun getAvailableBytes(): Long {
-        return -1L
+        return runCatching {
+            (
+                getTotalJSHeapSize() - getUsedJSHeapSize()).toLong()
+        }.getOrElse { -1L }
     }
 
     actual fun getThreshold(): Long {
@@ -15,4 +21,5 @@ actual class RamDataProvider actual constructor() : KoinComponent {
     }
 }
 
-private fun getWebAssemblyMemoryBuffer(): Long = js("performance.memory.totalJSHeapSize")
+private fun getTotalJSHeapSize(): Int = js("performance.memory.totalJSHeapSize")
+private fun getUsedJSHeapSize(): Int = js("performance.memory.usedJSHeapSize")
