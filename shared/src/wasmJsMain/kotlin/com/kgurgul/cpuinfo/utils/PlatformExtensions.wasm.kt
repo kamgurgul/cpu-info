@@ -10,3 +10,7 @@ external class Intl {
         fun compare(a: String, b: String): Int
     }
 }
+
+external fun getUsedHeapSize(): Int
+
+external fun getTotalHeapSize(): Int
