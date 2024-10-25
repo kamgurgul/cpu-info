@@ -7,6 +7,14 @@ actual fun smartCompare(a: String, b: String): Int {
     return collator.compare(a.lowercase(), b.lowercase())
 }
 
+fun JsArray<out JsString>.toList(): List<String> {
+    val list = mutableListOf<String>()
+    for (i in 0 until this.length) {
+        this[i]?.let { list.add(it.toString()) }
+    }
+    return list
+}
+
 external class Intl {
     class Collator {
         fun compare(a: String, b: String): Int

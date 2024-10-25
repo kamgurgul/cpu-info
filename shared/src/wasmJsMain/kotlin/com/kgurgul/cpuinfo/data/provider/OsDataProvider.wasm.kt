@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.utils.toList
 import kotlinx.browser.window
 import org.koin.core.component.KoinComponent
 
@@ -33,6 +34,13 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
             }
             if (window.navigator.vendorSub.isNotEmpty()) {
                 add("Vendor sub" to window.navigator.vendorSub)
+            }
+            if (window.navigator.language.isNotEmpty()) {
+                add("Language" to window.navigator.language)
+            }
+            val languages = window.navigator.languages.toList()
+            if (languages.isNotEmpty()) {
+                add("Languages" to languages.joinToString())
             }
         }
     }
