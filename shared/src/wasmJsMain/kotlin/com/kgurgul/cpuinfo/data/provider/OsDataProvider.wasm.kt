@@ -42,6 +42,7 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
             if (languages.isNotEmpty()) {
                 add("Languages" to languages.joinToString())
             }
+            add("Cookies enabled" to window.navigator.cookieEnabled.toString())
         }
     }
 }
