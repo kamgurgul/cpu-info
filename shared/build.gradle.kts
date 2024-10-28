@@ -92,7 +92,7 @@ kotlin {
             dependencies {
                 api(compose.components.resources)
                 api(compose.foundation)
-                implementation(compose.material3)
+                api(compose.material3)
                 implementation(compose.runtime)
                 implementation(compose.ui)
                 implementation(libs.androidx.lifecycle.viewmodel.compose)
