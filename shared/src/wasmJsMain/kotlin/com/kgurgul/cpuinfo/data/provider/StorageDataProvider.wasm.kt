@@ -6,9 +6,8 @@ import com.kgurgul.cpuinfo.shared.ic_hard_drive
 import com.kgurgul.cpuinfo.utils.getTotalStorage
 import com.kgurgul.cpuinfo.utils.getUsedStorage
 import kotlinx.coroutines.await
-import org.koin.core.component.KoinComponent
 
-actual class StorageDataProvider actual constructor() : KoinComponent {
+actual class StorageDataProvider actual constructor() {
 
     actual suspend fun getStorageInfo(): List<StorageItem> {
         return listOf(

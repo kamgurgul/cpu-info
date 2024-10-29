@@ -2,9 +2,8 @@ package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.utils.toList
 import kotlinx.browser.window
-import org.koin.core.component.KoinComponent
 
-actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponent {
+actual class OsDataProvider actual constructor() : IOsDataProvider {
 
     actual override suspend fun getData(): List<Pair<String, String>> {
         return buildList {

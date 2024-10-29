@@ -1,8 +1,6 @@
 package com.kgurgul.cpuinfo.data.provider
 
-import org.koin.core.component.KoinComponent
-
-actual class CpuDataProvider actual constructor() : KoinComponent {
+actual class CpuDataProvider actual constructor() {
 
     actual fun getAbi(): String {
         return "WASM"

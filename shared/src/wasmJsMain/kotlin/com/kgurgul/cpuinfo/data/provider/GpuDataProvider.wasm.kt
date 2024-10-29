@@ -2,10 +2,9 @@ package com.kgurgul.cpuinfo.data.provider
 
 import kotlinx.browser.document
 import org.khronos.webgl.WebGLRenderingContext
-import org.koin.core.component.KoinComponent
 import org.w3c.dom.HTMLCanvasElement
 
-actual class GpuDataProvider actual constructor() : KoinComponent {
+actual class GpuDataProvider actual constructor() {
 
     actual suspend fun getData(): List<Pair<String, String>> {
         return buildList {

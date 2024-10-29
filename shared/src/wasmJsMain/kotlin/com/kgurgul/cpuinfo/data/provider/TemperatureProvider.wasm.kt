@@ -19,9 +19,8 @@ package com.kgurgul.cpuinfo.data.provider
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import org.koin.core.component.KoinComponent
 
-actual class TemperatureProvider actual constructor() : KoinComponent, ITemperatureProvider {
+actual class TemperatureProvider actual constructor() : ITemperatureProvider {
 
     actual override val sensorsFlow: Flow<TemperatureItem> = emptyFlow()
 

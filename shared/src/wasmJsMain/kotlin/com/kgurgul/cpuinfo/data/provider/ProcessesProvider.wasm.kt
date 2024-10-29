@@ -17,9 +17,8 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
-import org.koin.core.component.KoinComponent
 
-actual class ProcessesProvider actual constructor() : KoinComponent, IProcessesProvider {
+actual class ProcessesProvider actual constructor() : IProcessesProvider {
 
     actual override fun areProcessesSupported() = false
 

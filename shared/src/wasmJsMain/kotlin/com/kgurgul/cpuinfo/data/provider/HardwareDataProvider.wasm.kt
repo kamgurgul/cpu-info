@@ -16,9 +16,7 @@
 
 package com.kgurgul.cpuinfo.data.provider
 
-import org.koin.core.component.KoinComponent
-
-actual class HardwareDataProvider actual constructor() : KoinComponent {
+actual class HardwareDataProvider actual constructor() {
 
     actual suspend fun getData(): List<Pair<String, String>> {
         return emptyList()

@@ -2,9 +2,8 @@ package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.utils.getTotalHeapSize
 import com.kgurgul.cpuinfo.utils.getUsedHeapSize
-import org.koin.core.component.KoinComponent
 
-actual class RamDataProvider actual constructor() : KoinComponent {
+actual class RamDataProvider actual constructor() {
 
     actual fun getTotalBytes(): Long {
         return getTotalHeapSize().toLong()
