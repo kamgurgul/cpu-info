@@ -63,6 +63,7 @@
     <!--Storage-->
     <string name="internal">Wewnętrzna</string>
     <string name="external">Zewnętrzna</string>
+    <string name="storage_estimated">Szacowane</string>
 
     <!--Screen-->
     <string name="screen_class">Klasa ekranu</string>
@@ -83,6 +84,10 @@
     <string name="screen_scale">Skala ekranu</string>
     <string name="screen_brightness">Jasność ekranu</string>
     <string name="screen_calibrated_latency">Kalibrowane opóźnienie</string>
+    <string name="screen_inner_width">Wewnętrzna szerokość</string>
+    <string name="screen_inner_height">Wewnętrzna wysokość</string>
+    <string name="screen_available_width">Dostępna szerokość ekranu</string>
+    <string name="screen_available_height">Dostępna wysokość ekranu</string>
 
     <!--OS-->
     <string name="codename">Nazwa kodowa</string>
@@ -96,6 +101,18 @@
     <string name="security_providers">Dostawcy zabezpieczeń</string>
     <string name="os_multitasking_supported">Obsługa wielozadaniowości</string>
     <string name="os_vendor_identifier">Identyfikator dostawcy</string>
+    <string name="os_platform">Platforma</string>
+    <string name="os_app_code_name">Kodowa nazwa aplikacji</string>
+    <string name="os_app_name">Nazwa aplikacji</string>
+    <string name="os_app_version">Wersja aplikacji</string>
+    <string name="os_product">Produkt</string>
+    <string name="os_product_sub">Podprodukt</string>
+    <string name="os_user_agent">User Agent</string>
+    <string name="os_vendor_sub">Subdostawca</string>
+    <string name="os_language">Język</string>
+    <string name="os_languages">Języki</string>
+    <string name="os_cookies_enabled">Cookies włączone</string>
+    <string name="os_history_length">Długość historii</string>
 
     <!--Hardware-->
     <string name="battery">Bateria</string>

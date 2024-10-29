@@ -82,6 +82,7 @@
     <!--Storage-->
     <string name="internal">Internal</string>
     <string name="external">External</string>
+    <string name="storage_estimated">Estimated</string>
 
     <!--Screen-->
     <string name="screen_class">Screen class</string>
@@ -104,6 +105,10 @@
     <string name="screen_brightness">Screen brightness</string>
     <string name="screen_max_fps" translatable="false">Max FPS</string>
     <string name="screen_calibrated_latency">Calibrated latency</string>
+    <string name="screen_inner_width">Inner width</string>
+    <string name="screen_inner_height">Inner height</string>
+    <string name="screen_available_width">Screen available width</string>
+    <string name="screen_available_height">Screen available height</string>
 
     <!--OS-->
     <string name="codename">Codename</string>
@@ -125,6 +130,18 @@
     <string name="os_multitasking_supported">Multitasking supported</string>
     <string name="os_vendor_identifier">Vendor identifier</string>
     <string name="os_jailbroken" translatable="false">Jailbroken</string>
+    <string name="os_platform">Platform</string>
+    <string name="os_app_code_name">App code name</string>
+    <string name="os_app_name">App name</string>
+    <string name="os_app_version">App version</string>
+    <string name="os_product">Product</string>
+    <string name="os_product_sub">Product sub</string>
+    <string name="os_user_agent">User agent</string>
+    <string name="os_vendor_sub">Vendor sub</string>
+    <string name="os_language">Language</string>
+    <string name="os_languages">Languages</string>
+    <string name="os_cookies_enabled">Cookies enabled</string>
+    <string name="os_history_length">History length</string>
 
     <!--Hardware-->
     <string name="battery">Battery</string>

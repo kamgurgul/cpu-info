@@ -58,6 +58,7 @@
 
     <string name="internal">Interní</string>
     <string name="external">Externí</string>
+    <string name="storage_estimated">Odhad</string>
 
     <string name="screen_class">Třída obrazovky</string>
     <string name="small">Malá</string>
@@ -78,6 +79,10 @@
     <string name="screen_scale">Měřítko obrazovky</string>
     <string name="screen_brightness">Jas obrazovky</string>
     <string name="screen_calibrated_latency">Kalibrovaná latence</string>
+    <string name="screen_inner_width">Vnitřní šířka</string>
+    <string name="screen_inner_height">Vnitřní výška</string>
+    <string name="screen_available_width">Dostupná šířka obrazovky</string>
+    <string name="screen_available_height">Dostupná výška obrazovky</string>
 
     <string name="codename">Kódové označení</string>
     <string name="brand">Značka</string>
@@ -90,6 +95,18 @@
     <string name="security_providers">Poskytovatelé zabezpečení</string>
     <string name="os_multitasking_supported">Podpora multitaskingu</string>
     <string name="os_vendor_identifier">Identifikátor dodavatele</string>
+    <string name="os_platform">Platforma</string>
+    <string name="os_app_code_name">Kódové jméno aplikace</string>
+    <string name="os_app_name">Název aplikace</string>
+    <string name="os_app_version">Verze aplikace</string>
+    <string name="os_product">Produkt</string>
+    <string name="os_product_sub">Subprodukt</string>
+    <string name="os_user_agent">User Agent</string>
+    <string name="os_vendor_sub">Subdodavatel</string>
+    <string name="os_language">Jazyk</string>
+    <string name="os_languages">Jazyky</string>
+    <string name="os_cookies_enabled">Cookies povoleny</string>
+    <string name="os_history_length">Délka historie</string>
 
     <string name="battery">Baterie</string>
     <string name="wireless">Bezdrátové připojení</string>
