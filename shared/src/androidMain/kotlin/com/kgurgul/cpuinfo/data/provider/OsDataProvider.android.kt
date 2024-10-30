@@ -19,6 +19,7 @@ import com.kgurgul.cpuinfo.shared.kernel
 import com.kgurgul.cpuinfo.shared.manufacturer
 import com.kgurgul.cpuinfo.shared.model
 import com.kgurgul.cpuinfo.shared.no
+import com.kgurgul.cpuinfo.shared.os_language
 import com.kgurgul.cpuinfo.shared.rooted
 import com.kgurgul.cpuinfo.shared.sdk
 import com.kgurgul.cpuinfo.shared.security_providers
@@ -33,6 +34,7 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.security.Security
+import java.util.Locale
 import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -49,6 +51,7 @@ actual class OsDataProvider actual constructor() :
         return buildList {
             add(getString(Res.string.tab_os) to "Android")
             addAll(getBuildData())
+            add(getString(Res.string.os_language) to Locale.getDefault().language)
             getAndroidIdData()?.let { add(it) }
             getGsfAndroidId()?.let { add(it) }
             add(getString(Res.string.rooted) to getYesNoString(isDeviceRooted()))
