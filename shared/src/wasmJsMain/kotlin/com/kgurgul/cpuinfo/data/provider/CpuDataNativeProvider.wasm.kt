@@ -6,7 +6,7 @@ actual class CpuDataNativeProvider actual constructor() {
     }
 
     actual fun getCpuName(): String {
-        return "Browser"
+        return "Unknown"
     }
 
     actual fun hasArmNeon(): Boolean {

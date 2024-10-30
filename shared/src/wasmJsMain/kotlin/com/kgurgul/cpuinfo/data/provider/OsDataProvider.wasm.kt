@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.utils.isPdfViewerEnabled
 import com.kgurgul.cpuinfo.utils.toList
 import kotlinx.browser.window
 
@@ -42,6 +43,7 @@ actual class OsDataProvider actual constructor() : IOsDataProvider {
                 add("Languages" to languages.joinToString())
             }
             add("Cookies enabled" to window.navigator.cookieEnabled.toString())
+            add("PDF Viewer enabled" to isPdfViewerEnabled().toString())
             add("History length" to window.history.length.toString())
         }
     }

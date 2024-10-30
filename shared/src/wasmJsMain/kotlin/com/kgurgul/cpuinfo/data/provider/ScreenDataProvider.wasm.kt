@@ -12,6 +12,8 @@ actual class ScreenDataProvider actual constructor() {
             add("Inner height" to "${window.innerHeight}px")
             add("Screen available width" to "${window.screen.availWidth}px")
             add("Screen available height" to "${window.screen.availHeight}px")
+            add("Color depth" to window.screen.colorDepth.toString())
+            add("Pixel depth" to window.screen.pixelDepth.toString())
         }
     }
 

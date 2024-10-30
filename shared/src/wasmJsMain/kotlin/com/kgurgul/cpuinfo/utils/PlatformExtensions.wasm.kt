@@ -28,3 +28,5 @@ external fun getTotalHeapSize(): Int
 external fun getTotalStorage(): Promise<JsBigInt>
 
 external fun getUsedStorage(): Promise<JsBigInt>
+
+external fun isPdfViewerEnabled(): Boolean

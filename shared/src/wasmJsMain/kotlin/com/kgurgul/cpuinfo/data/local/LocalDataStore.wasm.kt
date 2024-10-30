@@ -6,9 +6,8 @@ import kotlinx.browser.localStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.mapLatest
-import org.koin.core.component.KoinComponent
 
-actual class LocalDataStore actual constructor() : IDataStore, KoinComponent {
+actual class LocalDataStore actual constructor() : IDataStore {
 
     private val refreshPrefs = MutableSharedFlow<Unit>(extraBufferCapacity = 1).also {
         it.tryEmit(Unit)

@@ -1,5 +1,7 @@
 package com.kgurgul.cpuinfo.data.provider
 
+import kotlinx.browser.window
+
 actual class CpuDataProvider actual constructor() {
 
     actual fun getAbi(): String {
@@ -7,7 +9,7 @@ actual class CpuDataProvider actual constructor() {
     }
 
     actual fun getNumberOfCores(): Int {
-        return 1
+        return window.navigator.hardwareConcurrency.toInt()
     }
 
     actual fun getCurrentFreq(coreNumber: Int): Long {

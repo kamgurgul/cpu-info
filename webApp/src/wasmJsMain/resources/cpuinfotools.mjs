@@ -31,3 +31,11 @@ async function getUsedStorage() {
         return BigInt(-1);
     }
 }
+
+function isPdfViewerEnabled() {
+    if ("pdfViewerEnabled" in navigator) {
+        return navigator.pdfViewerEnabled;
+    } else {
+        return false;
+    }
+}
