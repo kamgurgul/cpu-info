@@ -83,6 +83,8 @@
     <string name="screen_inner_height">Vnitřní výška</string>
     <string name="screen_available_width">Dostupná šířka obrazovky</string>
     <string name="screen_available_height">Dostupná výška obrazovky</string>
+    <string name="screen_color_depth">Barevná hloubka</string>
+    <string name="screen_pixel_depth">Hloubka pixelů</string>
 
     <string name="codename">Kódové označení</string>
     <string name="brand">Značka</string>
@@ -106,6 +108,7 @@
     <string name="os_language">Jazyk</string>
     <string name="os_languages">Jazyky</string>
     <string name="os_cookies_enabled">Cookies povoleny</string>
+    <string name="os_pdf_viewer_enabled">Prohlížeč PDF povolen</string>
     <string name="os_history_length">Délka historie</string>
 
     <string name="battery">Baterie</string>

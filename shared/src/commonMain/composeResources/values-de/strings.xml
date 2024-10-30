@@ -83,6 +83,8 @@
     <string name="screen_inner_height">Innere Höhe</string>
     <string name="screen_available_width">Verfügbare Bildschirmbreite</string>
     <string name="screen_available_height">Verfügbare Bildschirmhöhe</string>
+    <string name="screen_color_depth">Farbtiefe</string>
+    <string name="screen_pixel_depth">Pixeltiefe</string>
 
     <string name="codename">Codename</string>
     <string name="brand">Marke</string>
@@ -106,6 +108,7 @@
     <string name="os_language">Sprache</string>
     <string name="os_languages">Sprachen</string>
     <string name="os_cookies_enabled">Cookies aktiviert</string>
+    <string name="os_pdf_viewer_enabled">PDF-Viewer aktiviert</string>
     <string name="os_history_length">Verlaufslänge</string>
 
     <string name="battery">Akku</string>

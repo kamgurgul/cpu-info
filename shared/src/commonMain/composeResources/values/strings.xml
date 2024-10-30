@@ -109,6 +109,8 @@
     <string name="screen_inner_height">Inner height</string>
     <string name="screen_available_width">Screen available width</string>
     <string name="screen_available_height">Screen available height</string>
+    <string name="screen_color_depth">Color depth</string>
+    <string name="screen_pixel_depth">Pixel depth</string>
 
     <!--OS-->
     <string name="codename">Codename</string>
@@ -141,6 +143,7 @@
     <string name="os_language">Language</string>
     <string name="os_languages">Languages</string>
     <string name="os_cookies_enabled">Cookies enabled</string>
+    <string name="os_pdf_viewer_enabled">PDF Viewer enabled</string>
     <string name="os_history_length">History length</string>
 
     <!--Hardware-->

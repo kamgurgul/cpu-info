@@ -88,6 +88,8 @@
     <string name="screen_inner_height">Wewnętrzna wysokość</string>
     <string name="screen_available_width">Dostępna szerokość ekranu</string>
     <string name="screen_available_height">Dostępna wysokość ekranu</string>
+    <string name="screen_color_depth">Głębia kolorów</string>
+    <string name="screen_pixel_depth">Głębia pikseli</string>
 
     <!--OS-->
     <string name="codename">Nazwa kodowa</string>
@@ -112,6 +114,7 @@
     <string name="os_language">Język</string>
     <string name="os_languages">Języki</string>
     <string name="os_cookies_enabled">Cookies włączone</string>
+    <string name="os_pdf_viewer_enabled">Przeglądarka PDF włączona</string>
     <string name="os_history_length">Długość historii</string>
 
     <!--Hardware-->
