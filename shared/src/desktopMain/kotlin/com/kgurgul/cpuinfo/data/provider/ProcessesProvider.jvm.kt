@@ -27,11 +27,11 @@ actual class ProcessesProvider actual constructor() :
     IProcessesProvider {
 
     private val systemInfo: SystemInfo by inject()
-    private val operatingSystem = systemInfo.operatingSystem
 
     actual override fun areProcessesSupported() = true
 
     actual override fun getProcessList(): List<ProcessItem> {
+        val operatingSystem = systemInfo.operatingSystem
         return operatingSystem.getProcesses(null, ProcessSorting.NAME_ASC, 0).map {
             ProcessItem(
                 name = it.name,

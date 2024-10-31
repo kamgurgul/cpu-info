@@ -10,9 +10,9 @@ import oshi.SystemInfo
 actual class StorageDataProvider actual constructor() : KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
-    private val fileStores = systemInfo.operatingSystem.fileSystem.fileStores
 
     actual suspend fun getStorageInfo(): List<StorageItem> {
+        val fileStores = systemInfo.operatingSystem.fileSystem.fileStores
         return buildList {
             fileStores.forEach { osFileStore ->
                 val label = buildString {

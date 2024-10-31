@@ -14,9 +14,9 @@ import oshi.SystemInfo
 actual class GpuDataProvider actual constructor() : KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
-    private val graphicsCards = systemInfo.hardware.graphicsCards
 
     actual suspend fun getData(): List<Pair<String, String>> {
+        val graphicsCards = systemInfo.hardware.graphicsCards
         return buildList {
             graphicsCards.forEach { gpu ->
                 add(gpu.name to "")

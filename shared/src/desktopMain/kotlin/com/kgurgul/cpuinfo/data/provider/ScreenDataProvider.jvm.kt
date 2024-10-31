@@ -12,9 +12,9 @@ import oshi.SystemInfo
 actual class ScreenDataProvider actual constructor() : KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
-    private val displays = systemInfo.hardware.displays
 
     actual suspend fun getData(): List<Pair<String, String>> {
+        val displays = systemInfo.hardware.displays
         val displaysEDID = displays.map { it.edid }.joinToString(separator = "\n")
         return buildList {
             if (displaysEDID.isNotEmpty()) {

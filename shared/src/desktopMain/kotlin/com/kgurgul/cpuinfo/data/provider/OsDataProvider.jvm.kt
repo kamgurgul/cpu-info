@@ -16,9 +16,9 @@ actual class OsDataProvider actual constructor() :
     KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
-    private val operatingSystem = systemInfo.operatingSystem
 
     actual override suspend fun getData(): List<Pair<String, String>> {
+        val operatingSystem = systemInfo.operatingSystem
         return buildList {
             add(getString(Res.string.tab_os) to operatingSystem.family)
             add(getString(Res.string.version) to operatingSystem.versionInfo.toString())

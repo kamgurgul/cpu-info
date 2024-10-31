@@ -37,11 +37,11 @@ import oshi.SystemInfo
 actual class HardwareDataProvider actual constructor() : KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
-    private val hardware = systemInfo.hardware
 
     private val temperatureFormatter: TemperatureFormatter by inject()
 
     actual suspend fun getData(): List<Pair<String, String>> {
+        val hardware = systemInfo.hardware
         return buildList {
             add(getString(Res.string.hardware_computer_system) to "")
             add(getString(Res.string.manufacturer) to hardware.computerSystem.manufacturer)

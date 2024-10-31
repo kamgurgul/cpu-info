@@ -7,14 +7,13 @@ import oshi.SystemInfo
 actual class RamDataProvider actual constructor() : KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
-    private val memory = systemInfo.hardware.memory
 
     actual fun getTotalBytes(): Long {
-        return memory.total
+        return systemInfo.hardware.memory.total
     }
 
     actual fun getAvailableBytes(): Long {
-        return memory.available
+        return systemInfo.hardware.memory.available
     }
 
     actual fun getThreshold(): Long {
