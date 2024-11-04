@@ -73,7 +73,6 @@ import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
-import com.kgurgul.cpuinfo.ui.components.rememberDraggableBoxState
 import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -255,14 +254,12 @@ private fun ApplicationsList(
                 items = appList,
                 key = { _, item -> item.packageName },
             ) { index, item ->
-                val draggableBoxState = rememberDraggableBoxState()
                 val isRevealed by remember {
                     derivedStateOf { revealedCardId == item.packageName }
                 }
                 DraggableBox(
                     key = item.packageName,
                     isRevealed = isRevealed,
-                    state = draggableBoxState,
                     onExpand = { revealedCardId = item.packageName },
                     onCollapse = { revealedCardId = null },
                     actionRow = {

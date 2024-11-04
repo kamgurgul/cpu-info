@@ -11,11 +11,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -32,7 +30,6 @@ import kotlin.math.roundToInt
 @Composable
 fun DraggableBox(
     isRevealed: Boolean,
-    state: DraggableBoxState,
     onExpand: () -> Unit,
     onCollapse: () -> Unit,
     modifier: Modifier = Modifier,
@@ -44,7 +41,6 @@ fun DraggableBox(
     var actionRowOffset by remember { mutableIntStateOf(0) }
     val transitionState = remember { MutableTransitionState(false) }
     SideEffect {
-        state.isRevealed = isRevealed
         transitionState.targetState = isRevealed
     }
     val transition = rememberTransition(transitionState, "boxTransition")
@@ -101,18 +97,4 @@ fun DraggableBox(
             content()
         }
     }
-}
-
-@Stable
-class DraggableBoxState(
-    isRevealed: Boolean = false,
-) {
-    var isRevealed by mutableStateOf(isRevealed)
-}
-
-@Composable
-fun rememberDraggableBoxState(
-    isRevealed: Boolean = false,
-): DraggableBoxState {
-    return remember { DraggableBoxState(isRevealed) }
 }
