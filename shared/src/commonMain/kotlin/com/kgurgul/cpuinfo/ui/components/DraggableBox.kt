@@ -44,7 +44,7 @@ fun DraggableBox(
     var actionRowOffset by remember { mutableIntStateOf(0) }
     val transitionState = remember { MutableTransitionState(false) }
     SideEffect {
-        state.setRevealed(isRevealed)
+        state.isRevealed = isRevealed
         transitionState.targetState = isRevealed
     }
     val transition = rememberTransition(transitionState, "boxTransition")
@@ -107,11 +107,7 @@ fun DraggableBox(
 class DraggableBoxState(
     isRevealed: Boolean = false,
 ) {
-    internal var isRevealed by mutableStateOf(isRevealed)
-
-    fun setRevealed(isRevealed: Boolean) {
-        this.isRevealed = isRevealed
-    }
+    var isRevealed by mutableStateOf(isRevealed)
 }
 
 @Composable
