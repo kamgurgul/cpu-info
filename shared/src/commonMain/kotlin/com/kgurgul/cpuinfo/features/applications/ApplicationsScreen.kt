@@ -49,6 +49,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
@@ -245,6 +246,7 @@ private fun ApplicationsList(
     ) {
         val listState = rememberLazyListState()
         var revealedCardId: String? by rememberSaveable { mutableStateOf(null) }
+        val density = LocalDensity.current
         LazyColumn(
             state = listState,
             modifier = Modifier
@@ -258,10 +260,14 @@ private fun ApplicationsList(
                     derivedStateOf { revealedCardId == item.packageName }
                 }
                 DraggableBox(
-                    key = item.packageName,
                     isRevealed = isRevealed,
                     onExpand = { revealedCardId = item.packageName },
-                    onCollapse = { revealedCardId = null },
+                    onCollapse = {
+                        if (revealedCardId == item.packageName) {
+                            revealedCardId = null
+                        }
+                    },
+                    actionRowOffset = with(density) { rowActionIconSize.toPx() * 2 },
                     actionRow = {
                         Row {
                             IconButton(
@@ -276,7 +282,7 @@ private fun ApplicationsList(
                                 },
                             )
                             IconButton(
-                                modifier = Modifier.size(56.dp),
+                                modifier = Modifier.size(rowActionIconSize),
                                 onClick = { onAppUninstallClicked(item.packageName) },
                                 content = {
                                     Icon(
