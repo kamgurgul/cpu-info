@@ -51,9 +51,6 @@ height="80">](https://apps.microsoft.com/detail/9phxq0f4knbl)
 
 * Shared unit and UI tests
 * Upload to brew cask
-* Add more information about battery
-* Bring back apps size - use StorageStatsManager on Android if possible
-* Add translations framework
 
 # License
 
