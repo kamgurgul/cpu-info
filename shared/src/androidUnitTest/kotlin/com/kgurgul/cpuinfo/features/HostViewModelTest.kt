@@ -42,6 +42,11 @@ class HostViewModelTest {
         userPreferenceSharedFlow.emit(TestData.userPreferences)
         val expectedUiStates = listOf(
             HostViewModel.UiState(
+                isLoading = true,
+                isProcessSectionVisible = true,
+                isApplicationSectionVisible = true,
+            ),
+            HostViewModel.UiState(
                 isLoading = false,
                 isProcessSectionVisible = true,
                 isApplicationSectionVisible = true,
