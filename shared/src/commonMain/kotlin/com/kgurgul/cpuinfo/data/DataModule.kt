@@ -10,8 +10,10 @@ import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
 import com.kgurgul.cpuinfo.data.provider.GpuDataProvider
 import com.kgurgul.cpuinfo.data.provider.HardwareDataProvider
 import com.kgurgul.cpuinfo.data.provider.IApplicationsDataProvider
+import com.kgurgul.cpuinfo.data.provider.IGpuDataProvider
 import com.kgurgul.cpuinfo.data.provider.IOsDataProvider
 import com.kgurgul.cpuinfo.data.provider.IProcessesProvider
+import com.kgurgul.cpuinfo.data.provider.IStorageDataProvider
 import com.kgurgul.cpuinfo.data.provider.ITemperatureProvider
 import com.kgurgul.cpuinfo.data.provider.OsDataProvider
 import com.kgurgul.cpuinfo.data.provider.PackageNameProvider
@@ -28,7 +30,7 @@ import org.koin.dsl.module
 
 val dataModule = module {
     factoryOf(::CpuDataProvider)
-    factoryOf(::GpuDataProvider)
+    factoryOf(::GpuDataProvider) bind IGpuDataProvider::class
     factoryOf(::HardwareDataProvider)
     factoryOf(::OsDataProvider) bind IOsDataProvider::class
     factoryOf(::PackageNameProvider)
@@ -36,7 +38,7 @@ val dataModule = module {
     factoryOf(::RamDataProvider)
     factoryOf(::ScreenDataProvider)
     factoryOf(::SensorsInfoProvider)
-    factoryOf(::StorageDataProvider)
+    factoryOf(::StorageDataProvider) bind IStorageDataProvider::class
     factoryOf(::TemperatureProvider) bind ITemperatureProvider::class
 
     singleOf(::ApplicationsDataProvider) bind IApplicationsDataProvider::class

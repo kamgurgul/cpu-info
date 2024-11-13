@@ -10,9 +10,9 @@ import platform.EAGL.kEAGLRenderingAPIOpenGLES3
 import platform.Metal.MTLCreateSystemDefaultDevice
 import platform.Metal.MTLGPUFamilyMetal3
 
-actual class GpuDataProvider actual constructor() {
+actual class GpuDataProvider actual constructor() : IGpuDataProvider {
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<Pair<String, String>> {
         return buildList {
             val metalVersion = getMetalVersion()
             if (metalVersion.isNotEmpty()) {

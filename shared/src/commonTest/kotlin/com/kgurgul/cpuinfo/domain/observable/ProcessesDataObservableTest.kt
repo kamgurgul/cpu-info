@@ -24,7 +24,7 @@ class ProcessesDataObservableTest {
 
     @BeforeTest
     fun setup() {
-        coroutineTestRule.onStar()
+        coroutineTestRule.onStart()
     }
 
     @AfterTest

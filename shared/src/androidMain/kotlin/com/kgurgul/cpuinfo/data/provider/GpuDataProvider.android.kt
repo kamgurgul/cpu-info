@@ -12,12 +12,12 @@ import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-actual class GpuDataProvider actual constructor() : KoinComponent {
+actual class GpuDataProvider actual constructor() : IGpuDataProvider, KoinComponent {
 
     private val activityManager: ActivityManager by inject()
     private val packageManager: PackageManager by inject()
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<Pair<String, String>> {
         return buildList {
             val vulcanVersion = getVulkanVersion()
             if (vulcanVersion.isNotEmpty()) {

@@ -1,6 +1,6 @@
 package com.kgurgul.cpuinfo.domain.observable
 
-import com.kgurgul.cpuinfo.data.provider.GpuDataProvider
+import com.kgurgul.cpuinfo.data.provider.IGpuDataProvider
 import com.kgurgul.cpuinfo.domain.MutableInteractor
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.extensions
@@ -12,7 +12,7 @@ import org.jetbrains.compose.resources.getString
 
 class GpuDataObservable(
     dispatchersProvider: IDispatchersProvider,
-    private val gpuDataProvider: GpuDataProvider,
+    private val gpuDataProvider: IGpuDataProvider,
 ) : MutableInteractor<GpuDataObservable.Params, List<Pair<String, String>>>() {
 
     override val dispatcher = dispatchersProvider.io

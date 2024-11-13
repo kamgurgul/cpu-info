@@ -7,9 +7,9 @@ import com.kgurgul.cpuinfo.utils.getTotalStorage
 import com.kgurgul.cpuinfo.utils.getUsedStorage
 import kotlinx.coroutines.await
 
-actual class StorageDataProvider actual constructor() {
+actual class StorageDataProvider actual constructor() : IStorageDataProvider {
 
-    actual suspend fun getStorageInfo(): List<StorageItem> {
+    actual override suspend fun getStorageInfo(): List<StorageItem> {
         return listOf(
             StorageItem(
                 id = "0",

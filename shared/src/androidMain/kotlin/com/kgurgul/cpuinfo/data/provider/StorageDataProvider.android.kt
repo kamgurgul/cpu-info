@@ -17,9 +17,9 @@ import java.io.InputStreamReader
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
 
-actual class StorageDataProvider actual constructor() {
+actual class StorageDataProvider actual constructor() : IStorageDataProvider {
 
-    actual suspend fun getStorageInfo(): List<StorageItem> {
+    actual override suspend fun getStorageInfo(): List<StorageItem> {
         return listOfNotNull(getInternalStorage(), getExternalStorage(), getSdCardStorage())
     }
 

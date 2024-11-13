@@ -23,7 +23,7 @@ class CoroutineTestSuit(
             get() = testDispatcher
     }
 
-    fun onStar() {
+    fun onStart() {
         Dispatchers.setMain(testDispatcher)
     }
 

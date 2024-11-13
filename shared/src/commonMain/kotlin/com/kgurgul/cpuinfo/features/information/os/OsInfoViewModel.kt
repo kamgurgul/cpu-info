@@ -18,8 +18,8 @@ package com.kgurgul.cpuinfo.features.information.os
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.domain.observable.GetOsDataInteractor
 import com.kgurgul.cpuinfo.domain.observe
-import com.kgurgul.cpuinfo.domain.result.GetOsDataInteractor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList

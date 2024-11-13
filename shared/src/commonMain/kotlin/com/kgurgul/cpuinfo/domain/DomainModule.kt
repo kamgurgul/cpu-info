@@ -4,6 +4,7 @@ import com.kgurgul.cpuinfo.domain.action.ExternalAppAction
 import com.kgurgul.cpuinfo.domain.action.RamCleanupAction
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.observable.CpuDataObservable
+import com.kgurgul.cpuinfo.domain.observable.GetOsDataInteractor
 import com.kgurgul.cpuinfo.domain.observable.GpuDataObservable
 import com.kgurgul.cpuinfo.domain.observable.ProcessesDataObservable
 import com.kgurgul.cpuinfo.domain.observable.RamDataObservable
@@ -11,7 +12,6 @@ import com.kgurgul.cpuinfo.domain.observable.SensorsDataObservable
 import com.kgurgul.cpuinfo.domain.observable.StorageDataObservable
 import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable
 import com.kgurgul.cpuinfo.domain.result.GetHardwareDataInteractor
-import com.kgurgul.cpuinfo.domain.result.GetOsDataInteractor
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
 import com.kgurgul.cpuinfo.domain.result.GetScreenDataInteractor
 import org.koin.core.module.dsl.factoryOf

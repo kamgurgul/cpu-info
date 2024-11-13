@@ -1,5 +1,7 @@
-package com.kgurgul.cpuinfo.domain.result
+package com.kgurgul.cpuinfo.domain.observable
 
+import app.cash.turbine.test
+import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.provider.FakeOsDataProvider
 import com.kgurgul.cpuinfo.utils.CoroutineTestSuit
 import kotlin.test.AfterTest
@@ -21,7 +23,7 @@ class GetOsDataInteractorTest {
 
     @BeforeTest
     fun setup() {
-        coroutineTestRule.onStar()
+        coroutineTestRule.onStart()
     }
 
     @AfterTest
@@ -30,13 +32,11 @@ class GetOsDataInteractorTest {
     }
 
     @Test
-    fun getOSData() = runTest {
-        val expectedItems = listOf(
-            "OS" to "Test OS",
-        )
+    fun getOSDataObservable() = runTest {
+        val expectedItems = TestData.itemRowData
 
-        val result = interactor.invoke(Unit)
-
-        assertEquals(expectedItems, result)
+        interactor.observe(Unit).test {
+            assertEquals(expectedItems, awaitItem())
+        }
     }
 }

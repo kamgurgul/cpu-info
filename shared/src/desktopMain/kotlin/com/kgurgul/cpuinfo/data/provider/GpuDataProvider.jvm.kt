@@ -11,11 +11,11 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
 
-actual class GpuDataProvider actual constructor() : KoinComponent {
+actual class GpuDataProvider actual constructor() : IGpuDataProvider, KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<Pair<String, String>> {
         val graphicsCards = systemInfo.hardware.graphicsCards
         return buildList {
             graphicsCards.forEach { gpu ->

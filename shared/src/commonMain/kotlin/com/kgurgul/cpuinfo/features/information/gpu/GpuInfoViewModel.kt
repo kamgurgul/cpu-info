@@ -28,16 +28,16 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class GpuInfoViewModel(
-    private val observableGpuData: GpuDataObservable,
+    private val gpuDataObservable: GpuDataObservable,
 ) : ViewModel() {
 
-    val uiStateFlow = observableGpuData.observe(GpuDataObservable.Params())
+    val uiStateFlow = gpuDataObservable.observe(GpuDataObservable.Params())
         .distinctUntilChanged()
         .map { UiState(it.toImmutableList()) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     fun onGlInfoReceived(glVendor: String?, glRenderer: String?, glExtensions: String?) {
-        observableGpuData(GpuDataObservable.Params(glVendor, glRenderer, glExtensions))
+        gpuDataObservable(GpuDataObservable.Params(glVendor, glRenderer, glExtensions))
     }
 
     data class UiState(

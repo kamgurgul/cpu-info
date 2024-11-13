@@ -1,6 +1,6 @@
 package com.kgurgul.cpuinfo.data.provider
 
-expect class GpuDataProvider() {
+expect class GpuDataProvider() : IGpuDataProvider {
 
-    suspend fun getData(): List<Pair<String, String>>
+    override suspend fun getData(): List<Pair<String, String>>
 }

@@ -39,7 +39,7 @@ class TemperatureDataObservableTest {
 
     @BeforeTest
     fun setup() {
-        coroutineTestRule.onStar()
+        coroutineTestRule.onStart()
     }
 
     @AfterTest

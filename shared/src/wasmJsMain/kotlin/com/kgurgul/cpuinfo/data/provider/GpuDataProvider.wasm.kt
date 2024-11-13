@@ -4,9 +4,9 @@ import kotlinx.browser.document
 import org.khronos.webgl.WebGLRenderingContext
 import org.w3c.dom.HTMLCanvasElement
 
-actual class GpuDataProvider actual constructor() {
+actual class GpuDataProvider actual constructor() : IGpuDataProvider {
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<Pair<String, String>> {
         return buildList {
             val canvas = document.createElement("canvas") as HTMLCanvasElement
             val gl = canvas.getContext("webgl") as? WebGLRenderingContext

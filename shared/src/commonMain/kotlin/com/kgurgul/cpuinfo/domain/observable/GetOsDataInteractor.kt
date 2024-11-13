@@ -1,4 +1,4 @@
-package com.kgurgul.cpuinfo.domain.result
+package com.kgurgul.cpuinfo.domain.observable
 
 import com.kgurgul.cpuinfo.data.provider.IOsDataProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor

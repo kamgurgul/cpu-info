@@ -2,7 +2,7 @@ package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.StorageItem
 
-expect class StorageDataProvider() {
+expect class StorageDataProvider() : IStorageDataProvider {
 
-    suspend fun getStorageInfo(): List<StorageItem>
+    override suspend fun getStorageInfo(): List<StorageItem>
 }

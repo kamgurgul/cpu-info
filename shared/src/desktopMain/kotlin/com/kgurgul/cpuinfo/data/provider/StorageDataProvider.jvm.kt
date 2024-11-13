@@ -7,11 +7,11 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
 
-actual class StorageDataProvider actual constructor() : KoinComponent {
+actual class StorageDataProvider actual constructor() : IStorageDataProvider, KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
 
-    actual suspend fun getStorageInfo(): List<StorageItem> {
+    actual override suspend fun getStorageInfo(): List<StorageItem> {
         val fileStores = systemInfo.operatingSystem.fileSystem.fileStores
         return buildList {
             fileStores.forEach { osFileStore ->
