@@ -23,18 +23,18 @@ import kotlin.math.roundToInt
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun StorageScreen(
+fun StorageInfoScreen(
     viewModel: StorageInfoViewModel = koinViewModel(),
 ) {
     registerStorageMountingListener(viewModel::onRefreshStorage)
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    StorageScreen(
+    StorageInfoScreen(
         uiState = uiState,
     )
 }
 
 @Composable
-fun StorageScreen(
+fun StorageInfoScreen(
     uiState: StorageInfoViewModel.UiState,
 ) {
     Box(

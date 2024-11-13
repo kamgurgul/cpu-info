@@ -56,7 +56,7 @@ import com.kgurgul.cpuinfo.features.information.os.OsInfoScreen
 import com.kgurgul.cpuinfo.features.information.ram.RamInfoScreen
 import com.kgurgul.cpuinfo.features.information.screen.ScreenInfoScreen
 import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
-import com.kgurgul.cpuinfo.features.information.storage.StorageScreen
+import com.kgurgul.cpuinfo.features.information.storage.StorageInfoScreen
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.cpu
 import com.kgurgul.cpuinfo.shared.gpu
@@ -194,7 +194,7 @@ private fun InfoContainer(
                     CPU_POS -> CpuInfoScreen()
                     GPU_POS -> GpuInfoScreen()
                     RAM_POS -> RamInfoScreen()
-                    STORAGE_POS -> StorageScreen()
+                    STORAGE_POS -> StorageInfoScreen()
                     SCREEN_POS -> ScreenInfoScreen()
                     ANDROID_POS -> OsInfoScreen()
                     HARDWARE_POS -> HardwareInfoScreen()
