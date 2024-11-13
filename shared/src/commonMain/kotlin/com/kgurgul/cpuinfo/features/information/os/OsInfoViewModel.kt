@@ -18,32 +18,22 @@ package com.kgurgul.cpuinfo.features.information.os
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.domain.observe
 import com.kgurgul.cpuinfo.domain.result.GetOsDataInteractor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 class OsInfoViewModel(
-    private val getOsDataInteractor: GetOsDataInteractor,
+    getOsDataInteractor: GetOsDataInteractor,
 ) : ViewModel() {
 
-    private val _uiStateFlow = MutableStateFlow(UiState())
-    val uiStateFlow = _uiStateFlow.asStateFlow()
-
-    init {
-        getData()
-    }
-
-    private fun getData() {
-        viewModelScope.launch {
-            val data = getOsDataInteractor(Unit)
-            _uiStateFlow.update { it.copy(items = data.toImmutableList()) }
-        }
-    }
+    val uiStateFlow = getOsDataInteractor.observe()
+        .map { UiState(it.toImmutableList()) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     data class UiState(
         val items: ImmutableList<Pair<String, String>> = persistentListOf(),
