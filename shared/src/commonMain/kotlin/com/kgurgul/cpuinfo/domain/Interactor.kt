@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -30,6 +31,13 @@ abstract class MutableInteractor<P : Any, T> : Interactor {
 
     fun observe(): Flow<T> = sharedFlow
         .flatMapLatest { createObservable(it).flowOn(dispatcher) }
+
+    fun observe(params: P): Flow<T> = sharedFlow
+        .flatMapLatest {
+            createObservable(it)
+                .flowOn(dispatcher)
+        }
+        .onStart { sharedFlow.emit(params) }
 }
 
 abstract class ResultInteractor<in P, R> : Interactor {

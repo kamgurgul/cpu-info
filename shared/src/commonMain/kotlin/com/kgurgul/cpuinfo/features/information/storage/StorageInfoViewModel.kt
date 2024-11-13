@@ -33,14 +33,10 @@ class StorageInfoViewModel(
     private val storageDataObservable: StorageDataObservable,
 ) : ViewModel() {
 
-    val uiStateFlow = storageDataObservable.observe()
+    val uiStateFlow = storageDataObservable.observe(Unit)
         .distinctUntilChanged()
         .map { UiState(it.toImmutableList()) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
-
-    init {
-        onRefreshStorage()
-    }
 
     fun onRefreshStorage() {
         storageDataObservable.invoke()

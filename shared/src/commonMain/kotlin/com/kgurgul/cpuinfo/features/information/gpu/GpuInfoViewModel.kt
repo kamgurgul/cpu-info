@@ -31,14 +31,10 @@ class GpuInfoViewModel(
     private val observableGpuData: GpuDataObservable,
 ) : ViewModel() {
 
-    val uiStateFlow = observableGpuData.observe()
+    val uiStateFlow = observableGpuData.observe(GpuDataObservable.Params())
         .distinctUntilChanged()
         .map { UiState(it.toImmutableList()) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
-
-    init {
-        observableGpuData(GpuDataObservable.Params())
-    }
 
     fun onGlInfoReceived(glVendor: String?, glRenderer: String?, glExtensions: String?) {
         observableGpuData(GpuDataObservable.Params(glVendor, glRenderer, glExtensions))

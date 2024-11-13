@@ -25,10 +25,8 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
 class HardwareInfoViewModel(
@@ -36,19 +34,14 @@ class HardwareInfoViewModel(
     private val getHardwareDataInteractor: GetHardwareDataInteractor,
 ) : ViewModel() {
 
-    val uiStateFlow = getHardwareDataInteractor.observe()
-        .map { UiState(it.toImmutableList()) }
-        .onStart { refreshHardwareInfo() }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), UiState())
-
-    init {
-        userPreferencesRepository.userPreferencesFlow
-            .onEach { refreshHardwareInfo() }
-            .launchIn(viewModelScope)
-    }
+    val uiStateFlow = userPreferencesRepository.userPreferencesFlow
+        .flatMapLatest {
+            getHardwareDataInteractor.observe(Unit)
+                .map { UiState(it.toImmutableList()) }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     fun refreshHardwareInfo() {
-        getHardwareDataInteractor.invoke()
+        getHardwareDataInteractor()
     }
 
     data class UiState(
