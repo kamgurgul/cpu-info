@@ -52,7 +52,7 @@ object TestData {
 
     val temperatureData = listOf(
         TemperatureItem(
-            id = -1,
+            id = -2,
             icon = Res.drawable.ic_cpu_temp,
             name = "CPU",
             temperature = 10f,

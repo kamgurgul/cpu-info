@@ -8,14 +8,13 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.ic_battery
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.utils.CoroutineTestSuit
-import com.kgurgul.cpuinfo.utils.resources.ILocalResources
+import com.kgurgul.cpuinfo.utils.resources.FakeLocalResources
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.test.runTest
-import org.jetbrains.compose.resources.StringResource
 
 class TemperatureDataObservableTest {
 
@@ -27,14 +26,12 @@ class TemperatureDataObservableTest {
         cpuTempLocation = "/sys/class/thermal/thermal_zone0/temp",
         cpuTemp = 40f,
     )
-    private val stubLocalResources = object : ILocalResources {
-        override suspend fun getString(resource: StringResource): String = "Test"
-    }
+    private val fakeLocalResources = FakeLocalResources()
 
     private val interactor = TemperatureDataObservable(
         dispatchersProvider = coroutineTestRule.testDispatcherProvider,
         temperatureProvider = fakeTemperatureProvider,
-        localResources = stubLocalResources,
+        localResources = fakeLocalResources,
     )
 
     @BeforeTest

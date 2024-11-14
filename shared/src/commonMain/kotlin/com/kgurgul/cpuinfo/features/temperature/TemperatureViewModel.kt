@@ -23,37 +23,30 @@ import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable
 import com.kgurgul.cpuinfo.domain.observe
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 class TemperatureViewModel(
     temperatureFormatter: TemperatureFormatter,
     temperatureDataObservable: TemperatureDataObservable,
 ) : ViewModel() {
 
-    private val _uiStateFlow = MutableStateFlow(
-        UiState(temperatureFormatter = temperatureFormatter),
-    )
-    val uiStateFlow = _uiStateFlow.asStateFlow()
-
-    init {
-        temperatureDataObservable.observe()
-            .onEach(::handleTemperatures)
-            .launchIn(viewModelScope)
-    }
-
-    private fun handleTemperatures(temperatures: List<TemperatureItem>) {
-        _uiStateFlow.update {
-            it.copy(
+    val uiStateFlow = temperatureDataObservable.observe()
+        .map {
+            UiState(
+                temperatureFormatter = temperatureFormatter,
                 isLoading = false,
-                temperatureItems = temperatures.toPersistentList(),
+                temperatureItems = it.toImmutableList(),
             )
-        }
-    }
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5_000),
+            UiState(
+                temperatureFormatter = temperatureFormatter,
+            )
+        )
 
     data class UiState(
         val temperatureFormatter: TemperatureFormatter,

@@ -17,22 +17,20 @@
 package com.kgurgul.cpuinfo.features.temperature
 
 import com.kgurgul.cpuinfo.data.TestData
-import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
+import com.kgurgul.cpuinfo.data.local.FakeUserPreferencesRepository
 import com.kgurgul.cpuinfo.data.local.model.UserPreferences
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
 
 class TemperatureFormatterTest {
 
     private val userPreferenceSharedFlow = MutableSharedFlow<UserPreferences>(replay = 1)
-    private val mockUserPreferencesRepository = mock<IUserPreferencesRepository> {
-        on { userPreferencesFlow } doReturn userPreferenceSharedFlow
-    }
-    private val formatter = TemperatureFormatter(mockUserPreferencesRepository)
+    private val fakeUserPreferencesRepository = FakeUserPreferencesRepository(
+        preferencesFlow = userPreferenceSharedFlow,
+    )
+    private val formatter = TemperatureFormatter(fakeUserPreferencesRepository)
 
     @Test
     fun formatCelsius() = runTest {

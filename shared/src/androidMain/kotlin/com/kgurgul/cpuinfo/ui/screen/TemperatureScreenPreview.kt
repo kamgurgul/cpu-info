@@ -2,7 +2,7 @@ package com.kgurgul.cpuinfo.ui.screen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.kgurgul.cpuinfo.data.local.StubUserPreferencesRepository
+import com.kgurgul.cpuinfo.data.local.FakeUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.features.temperature.TemperatureScreen
@@ -19,7 +19,7 @@ fun TemperatureScreenPreview() {
     CpuInfoTheme {
         TemperatureScreen(
             uiState = TemperatureViewModel.UiState(
-                temperatureFormatter = TemperatureFormatter(StubUserPreferencesRepository()),
+                temperatureFormatter = TemperatureFormatter(FakeUserPreferencesRepository()),
                 isLoading = false,
                 temperatureItems = persistentListOf(
                     TemperatureItem(

@@ -2,7 +2,7 @@ package com.kgurgul.cpuinfo.features.processes
 
 import app.cash.turbine.test
 import com.kgurgul.cpuinfo.data.TestData
-import com.kgurgul.cpuinfo.data.local.StubUserPreferencesRepository
+import com.kgurgul.cpuinfo.data.local.FakeUserPreferencesRepository
 import com.kgurgul.cpuinfo.data.provider.FakeProcessesProvider
 import com.kgurgul.cpuinfo.domain.observable.ProcessesDataObservable
 import com.kgurgul.cpuinfo.utils.CoroutineTestSuit
@@ -27,9 +27,9 @@ class ProcessesViewModelTest {
         dispatchersProvider = coroutineTestRule.testDispatcherProvider,
         processesProvider = fakeProcessesProvider,
     )
-    private val stubUserPreferencesRepository = StubUserPreferencesRepository().apply {
+    private val fakeUserPreferencesRepository = FakeUserPreferencesRepository(
         preferencesFlow = flowOf(TestData.userPreferences)
-    }
+    )
 
     private lateinit var viewModel: ProcessesViewModel
 
@@ -38,7 +38,7 @@ class ProcessesViewModelTest {
         coroutineTestRule.onStart()
         viewModel = ProcessesViewModel(
             processesDataObservable = processesDataObservable,
-            userPreferencesRepository = stubUserPreferencesRepository,
+            userPreferencesRepository = fakeUserPreferencesRepository,
         )
     }
 

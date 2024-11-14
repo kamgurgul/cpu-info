@@ -4,9 +4,9 @@ import com.kgurgul.cpuinfo.data.local.model.UserPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
-class StubUserPreferencesRepository : IUserPreferencesRepository {
-
-    var preferencesFlow: Flow<UserPreferences> = emptyFlow()
+class FakeUserPreferencesRepository(
+    val preferencesFlow: Flow<UserPreferences> = emptyFlow()
+) : IUserPreferencesRepository {
 
     override val userPreferencesFlow: Flow<UserPreferences>
         get() = preferencesFlow
