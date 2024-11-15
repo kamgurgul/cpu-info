@@ -4,9 +4,9 @@ import kotlinx.browser.window
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
-actual class ScreenDataProvider actual constructor() {
+actual class ScreenDataProvider actual constructor() : IScreenDataProvider {
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<Pair<String, String>> {
         return buildList {
             add("Inner width" to "${window.innerWidth}px")
             add("Inner height" to "${window.innerHeight}px")
@@ -17,5 +17,5 @@ actual class ScreenDataProvider actual constructor() {
         }
     }
 
-    actual fun getOrientationFlow(): Flow<String> = emptyFlow()
+    actual override fun getOrientationFlow(): Flow<String> = emptyFlow()
 }

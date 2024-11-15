@@ -2,9 +2,9 @@ package com.kgurgul.cpuinfo.data.provider
 
 import kotlinx.coroutines.flow.Flow
 
-expect class ScreenDataProvider() {
+expect class ScreenDataProvider() : IScreenDataProvider {
 
-    suspend fun getData(): List<Pair<String, String>>
+    override suspend fun getData(): List<Pair<String, String>>
 
-    fun getOrientationFlow(): Flow<String>
+    override fun getOrientationFlow(): Flow<String>
 }

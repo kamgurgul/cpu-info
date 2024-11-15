@@ -24,9 +24,9 @@ import platform.UIKit.UIDeviceOrientationDidChangeNotification
 import platform.UIKit.UIScreen
 import platform.darwin.NSObject
 
-actual class ScreenDataProvider actual constructor() : KoinComponent {
+actual class ScreenDataProvider actual constructor() : IScreenDataProvider, KoinComponent {
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<Pair<String, String>> {
         return buildList {
             add(getString(Res.string.width) to "${getScreenWidth()}px")
             add(getString(Res.string.height) to "${getScreenHeight()}px")
@@ -43,7 +43,7 @@ actual class ScreenDataProvider actual constructor() : KoinComponent {
         }
     }
 
-    actual fun getOrientationFlow(): Flow<String> {
+    actual override fun getOrientationFlow(): Flow<String> {
         return callbackFlow {
             trySend(UIDevice.currentDevice.orientation.toString())
             val notificationCenter = NSNotificationCenter.defaultCenter

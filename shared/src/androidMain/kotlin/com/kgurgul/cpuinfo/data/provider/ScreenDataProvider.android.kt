@@ -26,12 +26,12 @@ import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-actual class ScreenDataProvider actual constructor() : KoinComponent {
+actual class ScreenDataProvider actual constructor() : IScreenDataProvider, KoinComponent {
 
     private val resources: Resources by inject()
     private val windowManager: WindowManager by inject()
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<Pair<String, String>> {
         return buildList {
             add(getScreenClass())
             add(getDensityClass())
@@ -40,7 +40,7 @@ actual class ScreenDataProvider actual constructor() : KoinComponent {
     }
 
     @Suppress("DEPRECATION")
-    actual fun getOrientationFlow(): Flow<String> = flow {
+    actual override fun getOrientationFlow(): Flow<String> = flow {
         val display = windowManager.defaultDisplay
         emit(display.rotation.toString())
     }

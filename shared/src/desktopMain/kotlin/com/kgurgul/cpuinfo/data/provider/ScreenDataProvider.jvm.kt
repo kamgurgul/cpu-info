@@ -9,11 +9,11 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
 
-actual class ScreenDataProvider actual constructor() : KoinComponent {
+actual class ScreenDataProvider actual constructor() : IScreenDataProvider, KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<Pair<String, String>> {
         val displays = systemInfo.hardware.displays
         val displaysEDID = displays.map { it.edid }.joinToString(separator = "\n")
         return buildList {
@@ -23,5 +23,5 @@ actual class ScreenDataProvider actual constructor() : KoinComponent {
         }
     }
 
-    actual fun getOrientationFlow(): Flow<String> = emptyFlow()
+    actual override fun getOrientationFlow(): Flow<String> = emptyFlow()
 }
