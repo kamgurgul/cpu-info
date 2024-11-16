@@ -22,8 +22,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
+import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import kotlinx.coroutines.flow.collectLatest
 
@@ -92,12 +95,24 @@ fun DraggableBox(
                     IntOffset(x = state.requireOffset().roundToInt(), y = 0)
                 }
                 .shadow(
-                    elevation = if (state.offset != 0f) 40.dp else 0.dp,
-                    spotColor = MaterialTheme.colorScheme.onBackground
+                    elevation = calculateElevation(state.offset, actionRowOffset),
+                    spotColor = MaterialTheme.colorScheme.onBackground,
                 ),
         ) {
             content()
         }
+    }
+}
+
+private fun calculateElevation(
+    offset: Float,
+    actionRowOffset: Float,
+    maxElevation: Dp = 8.dp
+): Dp {
+    return if (offset.absoluteValue == 0f) {
+        0.dp
+    } else {
+        (offset.absoluteValue * 100f / actionRowOffset.absoluteValue) / 100f * maxElevation
     }
 }
 
