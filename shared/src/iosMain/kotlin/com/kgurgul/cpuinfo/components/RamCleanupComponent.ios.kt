@@ -1,11 +1,11 @@
 package com.kgurgul.cpuinfo.components
 
-actual class RamCleanupComponent actual constructor() {
+actual class RamCleanupComponent actual constructor() : IRamCleanupComponent {
 
-    actual fun cleanup() {
+    actual override fun cleanup() {
     }
 
-    actual fun isCleanupActionAvailable(): Boolean {
+    actual override fun isCleanupActionAvailable(): Boolean {
         return false
     }
 }

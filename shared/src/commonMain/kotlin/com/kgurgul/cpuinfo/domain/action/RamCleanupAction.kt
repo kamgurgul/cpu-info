@@ -1,12 +1,12 @@
 package com.kgurgul.cpuinfo.domain.action
 
-import com.kgurgul.cpuinfo.components.RamCleanupComponent
+import com.kgurgul.cpuinfo.components.IRamCleanupComponent
 import com.kgurgul.cpuinfo.domain.ResultInteractor
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 
 class RamCleanupAction(
     dispatchersProvider: IDispatchersProvider,
-    private val ramCleanupComponent: RamCleanupComponent,
+    private val ramCleanupComponent: IRamCleanupComponent,
 ) : ResultInteractor<Unit, Unit>() {
 
     override val dispatcher = dispatchersProvider.io

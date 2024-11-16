@@ -1,8 +1,8 @@
 package com.kgurgul.cpuinfo.components
 
-expect class RamCleanupComponent() {
+expect class RamCleanupComponent() : IRamCleanupComponent {
 
-    fun cleanup()
+    override fun cleanup()
 
-    fun isCleanupActionAvailable(): Boolean
+    override fun isCleanupActionAvailable(): Boolean
 }
