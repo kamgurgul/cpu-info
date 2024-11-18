@@ -1,7 +1,7 @@
 package com.kgurgul.cpuinfo.domain.observable
 
-import com.kgurgul.cpuinfo.data.provider.CpuDataNativeProvider
-import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
+import com.kgurgul.cpuinfo.data.provider.ICpuDataNativeProvider
+import com.kgurgul.cpuinfo.data.provider.ICpuDataProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.flow
 
 class CpuDataObservable(
     dispatchersProvider: IDispatchersProvider,
-    private val cpuDataProvider: CpuDataProvider,
-    private val cpuDataNativeProvider: CpuDataNativeProvider,
+    private val cpuDataProvider: ICpuDataProvider,
+    private val cpuDataNativeProvider: ICpuDataNativeProvider,
 ) : ImmutableInteractor<Unit, CpuData>() {
 
     override val dispatcher = dispatchersProvider.io

@@ -1,39 +1,39 @@
 package com.kgurgul.cpuinfo.data.provider
 
-actual class CpuDataNativeProvider actual constructor() {
+actual class CpuDataNativeProvider actual constructor() : ICpuDataNativeProvider {
 
-    actual fun initLibrary() {
+    actual override fun initLibrary() {
     }
 
-    actual fun getCpuName(): String {
+    actual override fun getCpuName(): String {
         return "Unknown"
     }
 
-    actual fun hasArmNeon(): Boolean {
+    actual override fun hasArmNeon(): Boolean {
         return false
     }
 
-    actual fun getL1dCaches(): IntArray? {
+    actual override fun getL1dCaches(): IntArray? {
         return null
     }
 
-    actual fun getL1iCaches(): IntArray? {
+    actual override fun getL1iCaches(): IntArray? {
         return null
     }
 
-    actual fun getL2Caches(): IntArray? {
+    actual override fun getL2Caches(): IntArray? {
         return null
     }
 
-    actual fun getL3Caches(): IntArray? {
+    actual override fun getL3Caches(): IntArray? {
         return null
     }
 
-    actual fun getL4Caches(): IntArray? {
+    actual override fun getL4Caches(): IntArray? {
         return null
     }
 
-    actual fun getNumberOfCores(): Int {
+    actual override fun getNumberOfCores(): Int {
         return 1
     }
 }

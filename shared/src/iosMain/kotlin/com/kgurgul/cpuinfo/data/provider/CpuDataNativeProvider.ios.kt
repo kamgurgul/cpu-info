@@ -19,13 +19,13 @@ import libcpuinfo.cpuinfo_get_package
 import libcpuinfo.cpuinfo_has_arm_neon
 import libcpuinfo.cpuinfo_initialize
 
-actual class CpuDataNativeProvider actual constructor() {
+actual class CpuDataNativeProvider actual constructor() : ICpuDataNativeProvider {
 
-    actual fun initLibrary() {
+    actual override fun initLibrary() {
         cpuinfo_initialize()
     }
 
-    actual fun getCpuName(): String {
+    actual override fun getCpuName(): String {
         if (!cpuinfo_initialize()) {
             return ""
         }
@@ -35,14 +35,14 @@ actual class CpuDataNativeProvider actual constructor() {
         }
     }
 
-    actual fun hasArmNeon(): Boolean {
+    actual override fun hasArmNeon(): Boolean {
         if (!cpuinfo_initialize()) {
             return false
         }
         return cpuinfo_has_arm_neon()
     }
 
-    actual fun getL1dCaches(): IntArray? {
+    actual override fun getL1dCaches(): IntArray? {
         if (!cpuinfo_initialize() || cpuinfo_get_l1d_caches_count() == 0.toUInt()) {
             return null
         }
@@ -60,7 +60,7 @@ actual class CpuDataNativeProvider actual constructor() {
         }
     }
 
-    actual fun getL1iCaches(): IntArray? {
+    actual override fun getL1iCaches(): IntArray? {
         if (!cpuinfo_initialize() || cpuinfo_get_l1i_caches_count() == 0.toUInt()) {
             return null
         }
@@ -78,7 +78,7 @@ actual class CpuDataNativeProvider actual constructor() {
         }
     }
 
-    actual fun getL2Caches(): IntArray? {
+    actual override fun getL2Caches(): IntArray? {
         if (!cpuinfo_initialize() || cpuinfo_get_l2_caches_count() == 0.toUInt()) {
             return null
         }
@@ -96,7 +96,7 @@ actual class CpuDataNativeProvider actual constructor() {
         }
     }
 
-    actual fun getL3Caches(): IntArray? {
+    actual override fun getL3Caches(): IntArray? {
         if (!cpuinfo_initialize() || cpuinfo_get_l3_caches_count() == 0.toUInt()) {
             return null
         }
@@ -114,7 +114,7 @@ actual class CpuDataNativeProvider actual constructor() {
         }
     }
 
-    actual fun getL4Caches(): IntArray? {
+    actual override fun getL4Caches(): IntArray? {
         if (!cpuinfo_initialize() || cpuinfo_get_l4_caches_count() == 0.toUInt()) {
             return null
         }
@@ -132,7 +132,7 @@ actual class CpuDataNativeProvider actual constructor() {
         }
     }
 
-    actual fun getNumberOfCores(): Int {
+    actual override fun getNumberOfCores(): Int {
         if (!cpuinfo_initialize()) {
             return 1
         }

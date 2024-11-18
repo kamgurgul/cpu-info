@@ -1,12 +1,12 @@
 package com.kgurgul.cpuinfo.data.provider
 
-expect class CpuDataProvider() {
+expect class CpuDataProvider() : ICpuDataProvider {
 
-    fun getAbi(): String
+    override fun getAbi(): String
 
-    fun getNumberOfCores(): Int
+    override fun getNumberOfCores(): Int
 
-    fun getCurrentFreq(coreNumber: Int): Long
+    override fun getCurrentFreq(coreNumber: Int): Long
 
-    fun getMinMaxFreq(coreNumber: Int): Pair<Long, Long>
+    override fun getMinMaxFreq(coreNumber: Int): Pair<Long, Long>
 }

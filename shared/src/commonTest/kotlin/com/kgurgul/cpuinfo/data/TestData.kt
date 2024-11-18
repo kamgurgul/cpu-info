@@ -72,22 +72,16 @@ object TestData {
     )
 
     val cpuData = CpuData(
-        processorName = "processorName",
-        abi = "abi",
+        processorName = "CPU_NAME",
+        abi = "ABI",
         coreNumber = 1,
         hasArmNeon = true,
-        frequencies = listOf(
-            CpuData.Frequency(
-                min = 1,
-                max = 2,
-                current = 3,
-            ),
-        ),
-        l1dCaches = "l1dCaches",
-        l1iCaches = "l1iCaches",
-        l2Caches = "l2Caches",
-        l3Caches = "l3Caches",
-        l4Caches = "l4Caches",
+        frequencies = emptyList(),
+        l1dCaches = "",
+        l1iCaches = "",
+        l2Caches = "",
+        l3Caches = "",
+        l4Caches = "",
     )
 
     val ramData = RamData(

@@ -1,22 +1,22 @@
 package com.kgurgul.cpuinfo.data.provider
 
-expect class CpuDataNativeProvider() {
+expect class CpuDataNativeProvider() : ICpuDataNativeProvider {
 
-    fun initLibrary()
+    override fun initLibrary()
 
-    fun getCpuName(): String
+    override fun getCpuName(): String
 
-    fun hasArmNeon(): Boolean
+    override fun hasArmNeon(): Boolean
 
-    fun getL1dCaches(): IntArray?
+    override fun getL1dCaches(): IntArray?
 
-    fun getL1iCaches(): IntArray?
+    override fun getL1iCaches(): IntArray?
 
-    fun getL2Caches(): IntArray?
+    override fun getL2Caches(): IntArray?
 
-    fun getL3Caches(): IntArray?
+    override fun getL3Caches(): IntArray?
 
-    fun getL4Caches(): IntArray?
+    override fun getL4Caches(): IntArray?
 
-    fun getNumberOfCores(): Int
+    override fun getNumberOfCores(): Int
 }
