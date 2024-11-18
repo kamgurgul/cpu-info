@@ -4,19 +4,19 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import platform.Foundation.NSProcessInfo
 
-actual class RamDataProvider actual constructor() : KoinComponent {
+actual class RamDataProvider actual constructor() : IRamDataProvider, KoinComponent {
 
     private val iosHardwareDataProvider: IosHardwareDataProvider by inject()
 
-    actual fun getTotalBytes(): Long {
+    actual override fun getTotalBytes(): Long {
         return NSProcessInfo.processInfo().physicalMemory.toLong()
     }
 
-    actual fun getAvailableBytes(): Long {
+    actual override fun getAvailableBytes(): Long {
         return iosHardwareDataProvider.getAvailableMemory()
     }
 
-    actual fun getThreshold(): Long {
+    actual override fun getThreshold(): Long {
         return -1L
     }
 }

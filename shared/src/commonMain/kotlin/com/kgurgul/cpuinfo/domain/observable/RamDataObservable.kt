@@ -1,6 +1,6 @@
 package com.kgurgul.cpuinfo.domain.observable
 
-import com.kgurgul.cpuinfo.data.provider.RamDataProvider
+import com.kgurgul.cpuinfo.data.provider.IRamDataProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.RamData
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 
 class RamDataObservable(
     dispatchersProvider: IDispatchersProvider,
-    private val ramDataProvider: RamDataProvider,
+    private val ramDataProvider: IRamDataProvider,
 ) : ImmutableInteractor<Unit, RamData>() {
 
     override val dispatcher = dispatchersProvider.io

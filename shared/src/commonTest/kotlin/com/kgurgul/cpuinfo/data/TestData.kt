@@ -91,10 +91,10 @@ object TestData {
     )
 
     val ramData = RamData(
-        total = 100,
-        available = 50,
+        total = 1024L,
+        available = 512L,
         availablePercentage = 50,
-        threshold = 50,
+        threshold = 256L,
     )
 
     val gpuData = persistentListOf(

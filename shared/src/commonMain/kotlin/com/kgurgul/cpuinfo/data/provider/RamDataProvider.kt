@@ -1,10 +1,10 @@
 package com.kgurgul.cpuinfo.data.provider
 
-expect class RamDataProvider() {
+expect class RamDataProvider() : IRamDataProvider {
 
-    fun getTotalBytes(): Long
+    override fun getTotalBytes(): Long
 
-    fun getAvailableBytes(): Long
+    override fun getAvailableBytes(): Long
 
-    fun getThreshold(): Long
+    override fun getThreshold(): Long
 }
