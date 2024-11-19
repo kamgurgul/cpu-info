@@ -1,6 +1,7 @@
 package com.kgurgul.cpuinfo.domain
 
 import com.kgurgul.cpuinfo.domain.action.ExternalAppAction
+import com.kgurgul.cpuinfo.domain.action.IExternalAppAction
 import com.kgurgul.cpuinfo.domain.action.RamCleanupAction
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.observable.CpuDataObservable
@@ -15,10 +16,11 @@ import com.kgurgul.cpuinfo.domain.result.GetHardwareDataInteractor
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
 import com.kgurgul.cpuinfo.domain.result.GetScreenDataInteractor
 import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val domainModule = module {
-    factoryOf(::ExternalAppAction)
+    factoryOf(::ExternalAppAction) bind IExternalAppAction::class
     factoryOf(::RamCleanupAction)
     factoryOf(::ApplicationsDataObservable)
     factoryOf(::CpuDataObservable)

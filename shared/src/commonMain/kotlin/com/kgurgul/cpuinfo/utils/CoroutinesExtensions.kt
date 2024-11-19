@@ -1,4 +1,5 @@
 @file:JvmName("CoroutinesExtensions")
+
 package com.kgurgul.cpuinfo.utils
 
 import com.kgurgul.cpuinfo.utils.wrappers.Result

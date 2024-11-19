@@ -14,6 +14,7 @@ import com.kgurgul.cpuinfo.data.provider.ICpuDataNativeProvider
 import com.kgurgul.cpuinfo.data.provider.ICpuDataProvider
 import com.kgurgul.cpuinfo.data.provider.IGpuDataProvider
 import com.kgurgul.cpuinfo.data.provider.IOsDataProvider
+import com.kgurgul.cpuinfo.data.provider.IPackageNameProvider
 import com.kgurgul.cpuinfo.data.provider.IProcessesProvider
 import com.kgurgul.cpuinfo.data.provider.IRamDataProvider
 import com.kgurgul.cpuinfo.data.provider.IScreenDataProvider
@@ -37,7 +38,7 @@ val dataModule = module {
     factoryOf(::GpuDataProvider) bind IGpuDataProvider::class
     factoryOf(::HardwareDataProvider)
     factoryOf(::OsDataProvider) bind IOsDataProvider::class
-    factoryOf(::PackageNameProvider)
+    factoryOf(::PackageNameProvider) bind IPackageNameProvider::class
     factoryOf(::ProcessesProvider) bind IProcessesProvider::class
     factoryOf(::RamDataProvider) bind IRamDataProvider::class
     factoryOf(::ScreenDataProvider) bind IScreenDataProvider::class

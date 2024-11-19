@@ -1,6 +1,6 @@
 package com.kgurgul.cpuinfo.data.provider
 
-expect class PackageNameProvider() {
+expect class PackageNameProvider() : IPackageNameProvider {
 
-    suspend fun getPackageName(): String
+    override suspend fun getPackageName(): String
 }

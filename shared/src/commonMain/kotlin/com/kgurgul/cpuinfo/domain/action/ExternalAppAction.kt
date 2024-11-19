@@ -1,12 +1,12 @@
 package com.kgurgul.cpuinfo.domain.action
 
-expect class ExternalAppAction() {
+expect class ExternalAppAction() : IExternalAppAction {
 
-    fun launch(packageName: String): Result<Unit>
+    override fun launch(packageName: String): Result<Unit>
 
-    fun openSettings(packageName: String): Result<Unit>
+    override fun openSettings(packageName: String): Result<Unit>
 
-    fun uninstall(packageName: String): Result<Unit>
+    override fun uninstall(packageName: String): Result<Unit>
 
-    fun searchOnWeb(phrase: String): Result<Unit>
+    override fun searchOnWeb(phrase: String): Result<Unit>
 }

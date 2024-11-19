@@ -4,11 +4,11 @@ import android.content.Context
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-actual class PackageNameProvider actual constructor() : KoinComponent {
+actual class PackageNameProvider actual constructor() : IPackageNameProvider, KoinComponent {
 
     private val context: Context by inject()
 
-    actual suspend fun getPackageName(): String {
+    actual override suspend fun getPackageName(): String {
         return context.packageName
     }
 }

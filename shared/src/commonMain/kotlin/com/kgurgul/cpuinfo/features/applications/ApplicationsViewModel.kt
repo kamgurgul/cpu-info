@@ -3,7 +3,7 @@ package com.kgurgul.cpuinfo.features.applications
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
-import com.kgurgul.cpuinfo.domain.action.ExternalAppAction
+import com.kgurgul.cpuinfo.domain.action.IExternalAppAction
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.sortOrderFromBoolean
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
@@ -17,9 +17,11 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
@@ -28,31 +30,47 @@ class ApplicationsViewModel(
     private val applicationsDataObservable: ApplicationsDataObservable,
     private val getPackageNameInteractor: GetPackageNameInteractor,
     private val userPreferencesRepository: IUserPreferencesRepository,
-    private val externalAppAction: ExternalAppAction,
+    private val externalAppAction: IExternalAppAction,
 ) : ViewModel() {
 
-    private val _uiStateFlow = MutableStateFlow(UiState())
-    val uiStateFlow = _uiStateFlow.asStateFlow()
-
-    init {
-        userPreferencesRepository.userPreferencesFlow
-            .onEach { userPreferences ->
-                _uiStateFlow.update {
-                    it.copy(
-                        withSystemApps = userPreferences.withSystemApps,
-                        isSortAscending = userPreferences.isApplicationsSortingAscending,
-                    )
-                }
-                onRefreshApplications()
+    private val localDataFlow = MutableStateFlow(LocalUiState())
+    private val remoteDataFlow = userPreferencesRepository.userPreferencesFlow
+        .flatMapLatest { userPreferences ->
+            applicationsDataObservable.observe(
+                ApplicationsDataObservable.Params(
+                    withSystemApps = userPreferences.withSystemApps,
+                    sortOrderFromBoolean(userPreferences.isApplicationsSortingAscending),
+                )
+            ).map { applicationsResult ->
+                RemoteUiState(
+                    isLoading = applicationsResult is Result.Loading,
+                    withSystemApps = userPreferences.withSystemApps,
+                    isSortAscending = userPreferences.isApplicationsSortingAscending,
+                    applications = if (applicationsResult is Result.Success) {
+                        applicationsResult.data.toImmutableList()
+                    } else {
+                        persistentListOf()
+                    },
+                )
             }
-            .launchIn(viewModelScope)
-        applicationsDataObservable.observe()
-            .onEach(::handleApplicationsResult)
-            .launchIn(viewModelScope)
-    }
+        }
+    val uiStateFlow = combine(
+        localDataFlow,
+        remoteDataFlow,
+    ) { localData, remoteData ->
+        UiState(
+            isLoading = remoteData.isLoading,
+            withSystemApps = remoteData.withSystemApps,
+            isSortAscending = remoteData.isSortAscending,
+            isDialogVisible = localData.isDialogVisible,
+            nativeLibs = localData.nativeLibs,
+            applications = remoteData.applications,
+            snackbarMessage = localData.snackbarMessage,
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     fun onRefreshApplications() {
-        val currentUiState = _uiStateFlow.value
+        val currentUiState = uiStateFlow.value
         applicationsDataObservable.invoke(
             ApplicationsDataObservable.Params(
                 withSystemApps = currentUiState.withSystemApps,
@@ -64,18 +82,18 @@ class ApplicationsViewModel(
     fun onApplicationClicked(packageName: String) {
         viewModelScope.launch {
             if (getPackageNameInteractor.invoke(Unit) == packageName) {
-                _uiStateFlow.update { it.copy(snackbarMessage = Res.string.cpu_open) }
+                localDataFlow.update { it.copy(snackbarMessage = Res.string.cpu_open) }
             } else {
                 externalAppAction.launch(packageName)
                     .onFailure {
-                        _uiStateFlow.update { it.copy(snackbarMessage = Res.string.app_open) }
+                        localDataFlow.update { it.copy(snackbarMessage = Res.string.app_open) }
                     }
             }
         }
     }
 
     fun onSnackbarDismissed() {
-        _uiStateFlow.update { it.copy(snackbarMessage = null) }
+        localDataFlow.update { it.copy(snackbarMessage = null) }
     }
 
     fun onAppSettingsClicked(id: String) {
@@ -85,7 +103,7 @@ class ApplicationsViewModel(
     fun onAppUninstallClicked(id: String) {
         viewModelScope.launch {
             if (getPackageNameInteractor.invoke(Unit) == id) {
-                _uiStateFlow.update { it.copy(snackbarMessage = Res.string.cpu_uninstall) }
+                localDataFlow.update { it.copy(snackbarMessage = Res.string.cpu_uninstall) }
             } else {
                 externalAppAction.uninstall(id)
             }
@@ -94,7 +112,7 @@ class ApplicationsViewModel(
 
     fun onNativeLibsClicked(libs: List<String>) {
         if (libs.isNotEmpty()) {
-            _uiStateFlow.update {
+            localDataFlow.update {
                 it.copy(
                     isDialogVisible = true,
                     nativeLibs = libs.toImmutableList(),
@@ -104,7 +122,7 @@ class ApplicationsViewModel(
     }
 
     fun onNativeLibsDialogDismissed() {
-        _uiStateFlow.update {
+        localDataFlow.update {
             it.copy(
                 isDialogVisible = false,
                 nativeLibs = persistentListOf(),
@@ -128,18 +146,18 @@ class ApplicationsViewModel(
         }
     }
 
-    private fun handleApplicationsResult(result: Result<List<ExtendedApplicationData>>) {
-        _uiStateFlow.update {
-            it.copy(
-                isLoading = result is Result.Loading,
-                applications = if (result is Result.Success) {
-                    result.data.toImmutableList()
-                } else {
-                    it.applications
-                },
-            )
-        }
-    }
+    data class LocalUiState(
+        val isDialogVisible: Boolean = false,
+        val nativeLibs: ImmutableList<String> = persistentListOf(),
+        val snackbarMessage: StringResource? = null,
+    )
+
+    data class RemoteUiState(
+        val isLoading: Boolean = false,
+        val withSystemApps: Boolean = false,
+        val isSortAscending: Boolean = true,
+        val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
+    )
 
     data class UiState(
         val isLoading: Boolean = false,
