@@ -165,7 +165,6 @@ kotlin {
                 implementation(libs.androidx.arch.core.testing)
                 implementation(libs.koin.test)
                 implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.mockito.kotlin)
             }
         }
     }

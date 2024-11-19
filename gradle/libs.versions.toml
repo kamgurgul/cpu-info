@@ -27,7 +27,6 @@ kotlinxCoroutines = "1.9.0"
 kotlinxImmutable = "0.3.8"
 kover = "0.8.3"
 ksp = "2.0.21-1.0.28"
-mockitoKotlin = "5.4.0"
 oshi = "6.6.5"
 profileinstaller = "1.4.1"
 relinker = "1.4.5"
@@ -66,7 +65,6 @@ kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
-mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
 oshi = { group = "com.github.oshi", name = "oshi-core", version.ref = "oshi" }
 relinker = { group = "com.getkeepsafe.relinker", name = "relinker", version.ref = "relinker" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
