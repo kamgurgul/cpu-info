@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.invoke
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.domain.result.GetHardwareDataInteractor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -45,6 +46,6 @@ class HardwareInfoViewModel(
     }
 
     data class UiState(
-        val hardwareItems: ImmutableList<Pair<String, String>> = persistentListOf(),
+        val hardwareItems: ImmutableList<ItemValue> = persistentListOf(),
     )
 }

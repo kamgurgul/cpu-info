@@ -189,6 +189,14 @@
     <string name="hardware_uuid" translatable="false">UUID</string>
     <string name="hardware_network_interfaces">Network interfaces</string>
     <string name="hardware_power_sources">Power sources</string>
+    <string name="hardware_usb" translatable="false">USB</string>
+    <string name="hardware_ac" translatable="false">AC</string>
+    <string name="hardware_otg" translatable="false">OTG</string>
+    <string name="hardware_camera_name_format" translatable="false">\t%1$s %2$s</string>
+    <string name="hardware_camera_type_format" translatable="false">\t%1$s</string>
+    <string name="hardware_camera_orientation_format" translatable="false">\t\t%1$s</string>
+    <string name="hardware_sound_card_format" translatable="false">\t%1$s %2$s</string>
+    <string name="hardware_camera_lens_format" translatable="false">\t\t%1$s</string>
 
     <!--Prefs-->
     <string name="general">General</string>

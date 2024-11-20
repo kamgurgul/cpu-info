@@ -16,9 +16,11 @@
 
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.domain.model.ItemValue
+
 actual class HardwareDataProvider actual constructor() {
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual suspend fun getData(): List<ItemValue> {
         return emptyList()
     }
 }

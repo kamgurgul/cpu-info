@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.hardware_computer_system
@@ -29,7 +30,6 @@ import com.kgurgul.cpuinfo.shared.model
 import com.kgurgul.cpuinfo.shared.serial
 import com.kgurgul.cpuinfo.shared.sound_card
 import com.kgurgul.cpuinfo.shared.temperature
-import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
@@ -40,14 +40,24 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
 
     private val temperatureFormatter: TemperatureFormatter by inject()
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual suspend fun getData(): List<ItemValue> {
         val hardware = systemInfo.hardware
         return buildList {
-            add(getString(Res.string.hardware_computer_system) to "")
-            add(getString(Res.string.manufacturer) to hardware.computerSystem.manufacturer)
-            add(getString(Res.string.model) to hardware.computerSystem.model)
-            add(getString(Res.string.serial) to hardware.computerSystem.serialNumber)
-            add(getString(Res.string.hardware_uuid) to hardware.computerSystem.hardwareUUID)
+            add(ItemValue.NameResource(Res.string.hardware_computer_system, ""))
+            add(
+                ItemValue.NameResource(
+                    Res.string.manufacturer,
+                    hardware.computerSystem.manufacturer
+                )
+            )
+            add(ItemValue.NameResource(Res.string.model, hardware.computerSystem.model))
+            add(ItemValue.NameResource(Res.string.serial, hardware.computerSystem.serialNumber))
+            add(
+                ItemValue.NameResource(
+                    Res.string.hardware_uuid,
+                    hardware.computerSystem.hardwareUUID
+                )
+            )
             val firmware = buildString {
                 if (hardware.computerSystem.firmware.manufacturer != UNKNOWN) {
                     append(hardware.computerSystem.firmware.manufacturer)
@@ -86,18 +96,18 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                     append(hardware.computerSystem.baseboard.serialNumber)
                 }
             }.trim()
-            add(getString(Res.string.hardware_firmware) to firmware)
-            add(getString(Res.string.hardware_motherboard) to motherboard)
+            add(ItemValue.NameResource(Res.string.hardware_firmware, firmware))
+            add(ItemValue.NameResource(Res.string.hardware_motherboard, motherboard))
 
             if (hardware.soundCards.isNotEmpty()) {
-                add(getString(Res.string.sound_card) to "")
+                add(ItemValue.NameResource(Res.string.sound_card, ""))
                 hardware.soundCards.forEach { soundCard ->
-                    add(soundCard.name to soundCard.driverVersion)
+                    add(ItemValue.Text(soundCard.name, soundCard.driverVersion))
                 }
             }
 
             if (hardware.networkIFs.isNotEmpty()) {
-                add(getString(Res.string.hardware_network_interfaces) to "")
+                add(ItemValue.NameResource(Res.string.hardware_network_interfaces, ""))
                 hardware.networkIFs.forEach { networkIF ->
                     val value = buildString {
                         appendLine(networkIF.macaddr)
@@ -108,18 +118,20 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                             appendLine(networkIF.iPv6addr.joinToString { "\n" })
                         }
                     }.trim()
-                    add(networkIF.name to value)
+                    add(ItemValue.Text(networkIF.name, value))
                 }
             }
 
             if (hardware.powerSources.isNotEmpty()) {
-                add(getString(Res.string.hardware_power_sources) to "")
+                add(ItemValue.NameResource(Res.string.hardware_power_sources, ""))
                 hardware.powerSources.forEach { powerSource ->
-                    add(powerSource.name to powerSource.deviceName)
+                    add(ItemValue.Text(powerSource.name, powerSource.deviceName))
                     if (powerSource.temperature != 0.0) {
                         add(
-                            getString(Res.string.temperature) to
+                            ItemValue.NameResource(
+                                Res.string.temperature,
                                 temperatureFormatter.format(powerSource.temperature.toFloat()),
+                            )
                         )
                     }
                 }

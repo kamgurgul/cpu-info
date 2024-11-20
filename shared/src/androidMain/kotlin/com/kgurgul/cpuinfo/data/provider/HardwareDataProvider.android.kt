@@ -28,6 +28,7 @@ import android.hardware.camera2.CameraManager
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.amount
@@ -52,6 +53,14 @@ import com.kgurgul.cpuinfo.shared.capacity
 import com.kgurgul.cpuinfo.shared.card
 import com.kgurgul.cpuinfo.shared.charging_type
 import com.kgurgul.cpuinfo.shared.front
+import com.kgurgul.cpuinfo.shared.hardware_ac
+import com.kgurgul.cpuinfo.shared.hardware_camera_lens_format
+import com.kgurgul.cpuinfo.shared.hardware_camera_name_format
+import com.kgurgul.cpuinfo.shared.hardware_camera_orientation_format
+import com.kgurgul.cpuinfo.shared.hardware_camera_type_format
+import com.kgurgul.cpuinfo.shared.hardware_otg
+import com.kgurgul.cpuinfo.shared.hardware_sound_card_format
+import com.kgurgul.cpuinfo.shared.hardware_usb
 import com.kgurgul.cpuinfo.shared.ir_emitter
 import com.kgurgul.cpuinfo.shared.is_charging
 import com.kgurgul.cpuinfo.shared.level
@@ -70,9 +79,8 @@ import com.kgurgul.cpuinfo.utils.CpuLogger
 import com.kgurgul.cpuinfo.utils.round2
 import java.io.File
 import java.io.FileFilter
-import java.io.RandomAccessFile
 import java.util.regex.Pattern
-import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.StringResource
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -86,25 +94,25 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
     private val wifiManager: WifiManager by inject()
     private val cameraManager: CameraManager by inject()
 
-    actual suspend fun getData(): List<Pair<String, String>> {
+    actual suspend fun getData(): List<ItemValue> {
         return buildList {
-            add(Pair(getString(Res.string.battery), ""))
+            add(ItemValue.NameResource(Res.string.battery, ""))
             addAll(getBatteryStatus())
 
             if (hasCamera()) {
-                add(Pair(getString(Res.string.cameras), ""))
+                add(ItemValue.NameResource(Res.string.cameras, ""))
                 addAll(getCameraInfo())
             }
 
-            add(Pair(getString(Res.string.sound_card), ""))
+            add(ItemValue.NameResource(Res.string.sound_card, ""))
             addAll(getSoundCardInfo())
             addAll(getWirelessInfo())
             addAll(getUsbInfo())
         }
     }
 
-    private suspend fun getBatteryStatus(): ArrayList<Pair<String, String>> {
-        val functionsList = ArrayList<Pair<String, String>>()
+    private suspend fun getBatteryStatus(): List<ItemValue> {
+        val functionsList = mutableListOf<ItemValue>()
 
         val batteryStatus = getBatteryStatusIntent()
         if (batteryStatus != null) {
@@ -115,8 +123,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             if (level != -1 && scale != -1) {
                 val batteryPct = level / scale.toFloat() * 100.0
                 functionsList.add(
-                    Pair(
-                        getString(Res.string.level),
+                    ItemValue.NameResource(
+                        Res.string.level,
                         "${batteryPct.round2()}%",
                     ),
                 )
@@ -126,8 +134,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             val health = batteryStatus.getIntExtra(BatteryManager.EXTRA_HEALTH, -1)
             if (health != -1) {
                 functionsList.add(
-                    Pair(
-                        getString(Res.string.battery_health),
+                    ItemValue.NameValueResource(
+                        Res.string.battery_health,
                         getBatteryHealthStatus(health),
                     ),
                 )
@@ -137,8 +145,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             val voltage = batteryStatus.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1)
             if (voltage > 0) {
                 functionsList.add(
-                    Pair(
-                        getString(Res.string.voltage),
+                    ItemValue.NameResource(
+                        Res.string.voltage,
                         "${voltage / 1000.0}V",
                     ),
                 )
@@ -149,8 +157,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
         val temperature = temperatureProvider.getBatteryTemperature()
         if (temperature != null) {
             functionsList.add(
-                Pair(
-                    getString(Res.string.temperature),
+                ItemValue.NameResource(
+                    Res.string.temperature,
                     temperatureFormatter.format(temperature),
                 ),
             )
@@ -159,7 +167,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
         // Capacity
         val capacity = getBatteryCapacity().round2()
         if (capacity != -1.0) {
-            functionsList.add(Pair(getString(Res.string.capacity), "${capacity}mAh"))
+            functionsList.add(ItemValue.NameResource(Res.string.capacity, "${capacity}mAh"))
         }
 
         if (batteryStatus != null) {
@@ -167,7 +175,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             val technology = batteryStatus.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY)
             if (!technology.isNullOrEmpty()) {
                 functionsList.add(
-                    Pair(getString(Res.string.technology), technology),
+                    ItemValue.NameResource(Res.string.technology, technology),
                 )
             }
 
@@ -181,36 +189,33 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             val usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB
             val acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC
 
-            val charging =
-                if (isCharging) {
-                    getString(Res.string.yes)
-                } else {
-                    getString(Res.string.no)
-                }
-            functionsList.add(Pair(getString(Res.string.is_charging), charging))
+            val charging = getYesNoStringResource(isCharging)
+            functionsList.add(ItemValue.NameValueResource(Res.string.is_charging, charging))
             if (isCharging) {
-                val chargingType: String = when {
-                    usbCharge -> "USB"
-                    acCharge -> "AC"
-                    else -> getString(Res.string.unknown)
+                val chargingType = when {
+                    usbCharge -> Res.string.hardware_usb
+                    acCharge -> Res.string.hardware_ac
+                    else -> Res.string.unknown
                 }
-                functionsList.add(Pair(getString(Res.string.charging_type), chargingType))
+                functionsList.add(
+                    ItemValue.NameValueResource(Res.string.charging_type, chargingType)
+                )
             }
         }
 
         return functionsList
     }
 
-    private suspend fun getBatteryHealthStatus(healthInt: Int): String {
+    private fun getBatteryHealthStatus(healthInt: Int): StringResource {
         return when (healthInt) {
-            BatteryManager.BATTERY_HEALTH_COLD -> getString(Res.string.battery_cold)
-            BatteryManager.BATTERY_HEALTH_GOOD -> getString(Res.string.battery_good)
-            BatteryManager.BATTERY_HEALTH_DEAD -> getString(Res.string.battery_dead)
-            BatteryManager.BATTERY_HEALTH_OVERHEAT -> getString(Res.string.battery_overheat)
-            BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE -> getString(Res.string.battery_overvoltage)
-            BatteryManager.BATTERY_HEALTH_UNKNOWN -> getString(Res.string.battery_unknown)
-            BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE -> getString(Res.string.battery_unspecified_failure)
-            else -> getString(Res.string.battery_unknown)
+            BatteryManager.BATTERY_HEALTH_COLD -> Res.string.battery_cold
+            BatteryManager.BATTERY_HEALTH_GOOD -> Res.string.battery_good
+            BatteryManager.BATTERY_HEALTH_DEAD -> Res.string.battery_dead
+            BatteryManager.BATTERY_HEALTH_OVERHEAT -> Res.string.battery_overheat
+            BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE -> Res.string.battery_overvoltage
+            BatteryManager.BATTERY_HEALTH_UNKNOWN -> Res.string.battery_unknown
+            BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE -> Res.string.battery_unspecified_failure
+            else -> Res.string.battery_unknown
         }
     }
 
@@ -218,57 +223,87 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
      * Get Wi-Fi and Bluetooth mac address and Bluetooth LE support
      */
     @SuppressLint("InlinedApi")
-    private suspend fun getWirelessInfo(): List<Pair<String, String>> {
-        val functionsList = mutableListOf<Pair<String, String>>()
-        functionsList.add(getString(Res.string.wireless) to "")
+    private fun getWirelessInfo(): List<ItemValue> {
+        val functionsList = mutableListOf<ItemValue>()
+        functionsList.add(ItemValue.NameResource(Res.string.wireless, ""))
         // Bluetooth
         functionsList.add(
-            getString(Res.string.bluetooth) to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH),
+            ItemValue.NameValueResource(
+                Res.string.bluetooth,
+                getYesNoStringResource(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH),
+                )
             ),
         )
-        val hasBluetoothLe = getYesNoString(
+        val hasBluetoothLe = getYesNoStringResource(
             packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE),
         )
-        functionsList.add(getString(Res.string.bluetooth_le) to hasBluetoothLe)
+        functionsList.add(ItemValue.NameValueResource(Res.string.bluetooth_le, hasBluetoothLe))
         // GPS
         functionsList.add(
-            "GPS" to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS),
+            ItemValue.ValueResource(
+                "GPS",
+                getYesNoStringResource(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS),
+                )
             ),
         )
         // NFC
         functionsList.add(
-            "NFC" to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_NFC),
+            ItemValue.ValueResource(
+                "NFC",
+                getYesNoStringResource(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_NFC),
+                )
             ),
         )
         functionsList.add(
-            "NFC Card Emulation" to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_NFC_HOST_CARD_EMULATION),
+            ItemValue.ValueResource(
+                "NFC Card Emulation",
+                getYesNoStringResource(
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_NFC_HOST_CARD_EMULATION),
+                )
             ),
         )
         // Wi-Fi
         val hasWiFi = packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)
-        functionsList.add("Wi-Fi" to getYesNoString(hasWiFi))
+        functionsList.add(ItemValue.ValueResource("Wi-Fi", getYesNoStringResource(hasWiFi)))
         if (hasWiFi) {
             functionsList.add(
-                "Wi-Fi Aware" to getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE),
+                ItemValue.ValueResource(
+                    "Wi-Fi Aware", getYesNoStringResource(
+                        packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE),
+                    )
                 ),
             )
             functionsList.add(
-                "Wi-Fi Direct" to getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT),
+                ItemValue.ValueResource(
+                    "Wi-Fi Direct",
+                    getYesNoStringResource(
+                        packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT),
+                    )
                 ),
             )
             functionsList.add(
-                "Wi-Fi Passpoint" to getYesNoString(
-                    packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_PASSPOINT),
-                ),
+                ItemValue.ValueResource(
+                    "Wi-Fi Passpoint",
+                    getYesNoStringResource(
+                        packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_PASSPOINT),
+                    )
+                )
             )
-            functionsList.add("Wi-Fi 5Ghz" to getYesNoString(wifiManager.is5GHzBandSupported))
-            functionsList.add("Wi-Fi P2P" to getYesNoString(wifiManager.isP2pSupported))
+            functionsList.add(
+                ItemValue.ValueResource(
+                    "Wi-Fi 5Ghz",
+                    getYesNoStringResource(wifiManager.is5GHzBandSupported)
+                )
+            )
+            functionsList.add(
+                ItemValue.ValueResource(
+                    "Wi-Fi P2P",
+                    getYesNoStringResource(wifiManager.isP2pSupported)
+                )
+            )
         }
 
         try {
@@ -277,7 +312,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                 "bluetooth_address",
             )
             if (bluetoothMac != null && bluetoothMac.isNotEmpty()) {
-                functionsList.add(getString(Res.string.bluetooth_mac) to bluetoothMac)
+                functionsList.add(ItemValue.NameResource(Res.string.bluetooth_mac, bluetoothMac))
             }
         } catch (e: Exception) {
             // ignored
@@ -286,10 +321,9 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
         // Wi-Fi mac
         val filePath = "/sys/class/net/wlan0/address"
         try {
-            val reader = RandomAccessFile(filePath, "r")
-            val value = reader.readLine()
-            reader.close()
-            functionsList.add(getString(Res.string.wifi_mac) to value)
+            File(filePath).readLines().firstOrNull()?.let {
+                functionsList.add(ItemValue.NameResource(Res.string.wifi_mac, it))
+            }
         } catch (ignored: Exception) {
         }
 
@@ -297,20 +331,25 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
         val irManager = appContext
             .getSystemService(Context.CONSUMER_IR_SERVICE) as? ConsumerIrManager?
         val hasIr = irManager?.hasIrEmitter() ?: false
-        functionsList.add(getString(Res.string.ir_emitter) to getYesNoString(hasIr))
+        functionsList.add(
+            ItemValue.NameValueResource(Res.string.ir_emitter, getYesNoStringResource(hasIr))
+        )
 
         return functionsList
     }
 
-    private suspend fun getUsbInfo(): List<Pair<String, String>> {
-        val featureList = mutableListOf<Pair<String, String>>()
-        featureList.add("USB" to "")
-        featureList.add(
-            "OTG" to getYesNoString(
-                packageManager.hasSystemFeature(PackageManager.FEATURE_USB_HOST),
-            ),
-        )
-        return featureList
+    private fun getUsbInfo(): List<ItemValue> {
+        return buildList {
+            add(ItemValue.NameResource(Res.string.hardware_usb, ""))
+            add(
+                ItemValue.NameValueResource(
+                    Res.string.hardware_otg,
+                    getYesNoStringResource(
+                        packageManager.hasSystemFeature(PackageManager.FEATURE_USB_HOST)
+                    )
+                )
+            )
+        }
     }
 
     /**
@@ -333,68 +372,47 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
     /**
      * Get available data connected with sound card like ALSA version etc.
      */
-    private suspend fun getSoundCardInfo(): List<Pair<String, String>> {
-        val functionsList = mutableListOf<Pair<String, String>>()
+    private suspend fun getSoundCardInfo(): List<ItemValue> {
+        val functionsList = mutableListOf<ItemValue>()
 
         val soundCardNumber = getSoundCardNumber()
-        functionsList.add(Pair(getString(Res.string.amount), soundCardNumber.toString()))
+        functionsList.add(ItemValue.NameResource(Res.string.amount, soundCardNumber.toString()))
         for (i in 0 until soundCardNumber) {
-            functionsList.add(
-                Pair(
-                    "     ${getString(Res.string.card)} $i",
-                    tryToGetSoundCardId(i),
-                ),
-            )
+            tryToGetSoundCardId(i)?.let {
+                functionsList.add(
+                    ItemValue.FormattedNameResource(
+                        Res.string.hardware_sound_card_format,
+                        listOf(Res.string.card, i),
+                        it,
+                    )
+                )
+            }
         }
         // ALSA
         val alsa = tryToGetAlsa()
         if (!alsa.isNullOrEmpty()) {
-            functionsList.add(Pair("ALSA", alsa))
+            functionsList.add(ItemValue.Text("ALSA", alsa))
         }
 
         return functionsList
     }
 
-    /**
-     * Try to read id of the sound card.
-     *
-     * @param cardPosition position of the sound card in files
-     * @return id from "id" file
-     */
-    private suspend fun tryToGetSoundCardId(cardPosition: Int): String {
-        var id = getString(Res.string.unknown)
+    private fun tryToGetSoundCardId(cardPosition: Int): String? {
         val filePath = "/proc/asound/card$cardPosition/id"
-
-        var reader: RandomAccessFile? = null
-        try {
-            reader = RandomAccessFile(filePath, "r")
-            id = reader.readLine()
-        } catch (ignored: Exception) {
-        } finally {
-            reader?.close()
+        return try {
+            File(filePath).readLines().firstOrNull()
+        } catch (e: Exception) {
+            null
         }
-
-        return id
     }
 
-    /**
-     * @return ALSA version if exists, otherwise null
-     */
     private fun tryToGetAlsa(): String? {
-        var alsa: String? = null
         val filePath = "/proc/asound/version"
-
-        var reader: RandomAccessFile? = null
-        try {
-            reader = RandomAccessFile(filePath, "r")
-            val version = reader.readLine()
-            alsa = version
-        } catch (ignored: Exception) {
-        } finally {
-            reader?.close()
+        return try {
+            File(filePath).readLines().firstOrNull()
+        } catch (e: Exception) {
+            null
         }
-
-        return alsa
     }
 
     private fun hasCamera(): Boolean =
@@ -403,38 +421,60 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
     /**
      * Get number, type and orientation of the cameras
      */
-    private suspend fun getCameraInfo(): List<Pair<String, String>> {
-        val functionsList = mutableListOf<Pair<String, String>>()
+    private fun getCameraInfo(): List<ItemValue> {
+        val functionsList = mutableListOf<ItemValue>()
 
         try {
             val cameraIdList = cameraManager.cameraIdList
             val numberOfCameras = cameraIdList.size
             functionsList.add(
-                Pair(
-                    getString(Res.string.amount),
+                ItemValue.NameResource(
+                    Res.string.amount,
                     numberOfCameras.toString(),
                 ),
             )
-
-            val cameraName = getString(Res.string.camera)
-            val cameraType = getString(Res.string.type)
-            val cameraOrientation = getString(Res.string.orientation)
             for (cameraId in cameraIdList) {
-                functionsList.add(Pair("     $cameraName $cameraId", " "))
+                functionsList.add(
+                    ItemValue.FormattedNameResource(
+                        Res.string.hardware_camera_name_format,
+                        listOf(Res.string.camera, cameraId),
+                        " ",
+                    )
+                )
                 try {
                     val characteristics = cameraManager.getCameraCharacteristics(cameraId)
                     val orientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)
                     val facing = characteristics.get(CameraCharacteristics.LENS_FACING)
-                    functionsList.add(Pair("         $cameraType", getCameraFacing(facing)))
-                    functionsList.add(Pair("         $cameraOrientation", orientation.toString()))
+                    functionsList.add(
+                        ItemValue.FormattedNameValueResource(
+                            Res.string.hardware_camera_type_format,
+                            listOf(Res.string.type),
+                            getCameraFacing(facing),
+                        )
+                    )
+                    functionsList.add(
+                        ItemValue.FormattedNameResource(
+                            Res.string.hardware_camera_orientation_format,
+                            listOf(Res.string.orientation),
+                            orientation.toString(),
+                        )
+                    )
                     if (Build.VERSION.SDK_INT >= 28) {
                         val lensAmount = characteristics.physicalCameraIds.size
                         if (lensAmount > 0) {
                             functionsList.add(
-                                Pair(
-                                    "         ${getString(Res.string.camera_lens_number)}",
+                                ItemValue.FormattedNameResource(
+                                    Res.string.hardware_camera_orientation_format,
+                                    listOf(Res.string.orientation),
+                                    orientation.toString(),
+                                )
+                            )
+                            functionsList.add(
+                                ItemValue.FormattedNameResource(
+                                    Res.string.hardware_camera_lens_format,
+                                    listOf(Res.string.camera_lens_number),
                                     lensAmount.toString(),
-                                ),
+                                )
                             )
                         }
                     }
@@ -444,30 +484,24 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             }
         } catch (e: Exception) {
             CpuLogger.e(e) { "Cannot read camera list" }
-            functionsList.add(Pair(getString(Res.string.amount), "0"))
+            functionsList.add(ItemValue.NameResource(Res.string.amount, "0"))
         }
 
         return functionsList
     }
 
-    private suspend fun getCameraFacing(facing: Int?): String =
+    private fun getCameraFacing(facing: Int?): StringResource =
         when (facing) {
-            CameraCharacteristics.LENS_FACING_FRONT ->
-                getString(Res.string.front)
-
-            CameraCharacteristics.LENS_FACING_BACK ->
-                getString(Res.string.back)
-
-            CameraCharacteristics.LENS_FACING_EXTERNAL ->
-                getString(Res.string.camera_external)
-
-            else -> getString(Res.string.unknown)
+            CameraCharacteristics.LENS_FACING_FRONT -> Res.string.front
+            CameraCharacteristics.LENS_FACING_BACK -> Res.string.back
+            CameraCharacteristics.LENS_FACING_EXTERNAL -> Res.string.camera_external
+            else -> Res.string.unknown
         }
 
-    private suspend fun getYesNoString(yesValue: Boolean) = if (yesValue) {
-        getString(Res.string.yes)
+    private fun getYesNoStringResource(yesValue: Boolean) = if (yesValue) {
+        Res.string.yes
     } else {
-        getString(Res.string.no)
+        Res.string.no
     }
 
     /**

@@ -12,4 +12,10 @@ object ResourceUtils {
     } else {
         getString(Res.string.no)
     }
+
+    fun getYesNoStringResource(yesValue: Boolean) = if (yesValue) {
+        Res.string.yes
+    } else {
+        Res.string.no
+    }
 }
