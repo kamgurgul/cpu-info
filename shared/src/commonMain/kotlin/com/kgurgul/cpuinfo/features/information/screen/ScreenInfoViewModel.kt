@@ -18,6 +18,7 @@ package com.kgurgul.cpuinfo.features.information.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.domain.observe
 import com.kgurgul.cpuinfo.domain.result.GetScreenDataInteractor
 import kotlinx.collections.immutable.ImmutableList
@@ -36,6 +37,6 @@ class ScreenInfoViewModel(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), UiState())
 
     data class UiState(
-        val items: ImmutableList<Pair<String, String>> = persistentListOf(),
+        val items: ImmutableList<ItemValue> = persistentListOf(),
     )
 }

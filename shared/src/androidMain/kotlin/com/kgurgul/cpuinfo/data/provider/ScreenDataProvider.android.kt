@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.util.DisplayMetrics
 import android.view.WindowManager
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.absolute_height
 import com.kgurgul.cpuinfo.shared.absolute_width
@@ -31,7 +32,7 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
     private val resources: Resources by inject()
     private val windowManager: WindowManager by inject()
 
-    actual override suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<ItemValue> {
         return buildList {
             add(getScreenClass())
             add(getDensityClass())
@@ -45,7 +46,7 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
         emit(display.rotation.toString())
     }
 
-    private suspend fun getScreenClass(): Pair<String, String> {
+    private suspend fun getScreenClass(): ItemValue {
         val screenClass: String = when (
             resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
         ) {
@@ -54,10 +55,10 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
             Configuration.SCREENLAYOUT_SIZE_SMALL -> getString(Res.string.small)
             else -> getString(Res.string.unknown)
         }
-        return Pair(getString(Res.string.screen_class), screenClass)
+        return ItemValue.NameResource(Res.string.screen_class, screenClass)
     }
 
-    private suspend fun getDensityClass(): Pair<String, String> {
+    private suspend fun getDensityClass(): ItemValue {
         val densityDpi = resources.displayMetrics.densityDpi
         val densityClass: String
         when (densityDpi) {
@@ -91,25 +92,25 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
                 densityClass = getString(Res.string.unknown)
             }
         }
-        return Pair(getString(Res.string.density_class), densityClass)
+        return ItemValue.NameResource(Res.string.density_class, densityClass)
     }
 
     @Suppress("DEPRECATION")
-    private suspend fun getInfoFromDisplayMetrics(): List<Pair<String, String>> {
-        val functionsList = mutableListOf<Pair<String, String>>()
+    private suspend fun getInfoFromDisplayMetrics(): List<ItemValue> {
+        val functionsList = mutableListOf<ItemValue>()
         val display = windowManager.defaultDisplay
         val metrics = DisplayMetrics()
         try {
             display.getRealMetrics(metrics)
             functionsList.add(
-                Pair(
-                    getString(Res.string.width),
+                ItemValue.NameResource(
+                    Res.string.width,
                     "${metrics.widthPixels}px",
                 ),
             )
             functionsList.add(
-                Pair(
-                    getString(Res.string.height),
+                ItemValue.NameResource(
+                    Res.string.height,
                     "${metrics.heightPixels}px",
                 ),
             )
@@ -117,36 +118,36 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
             val density = metrics.density
             val dpHeight = metrics.heightPixels / density
             val dpWidth = metrics.widthPixels / density
-            functionsList.add(Pair(getString(Res.string.dp_width), "${dpWidth.toInt()}dp"))
+            functionsList.add(ItemValue.NameResource(Res.string.dp_width, "${dpWidth.toInt()}dp"))
             functionsList.add(
-                Pair(
-                    getString(Res.string.dp_height),
+                ItemValue.NameResource(
+                    Res.string.dp_height,
                     "${dpHeight.toInt()}dp",
                 ),
             )
-            functionsList.add(Pair(getString(Res.string.density), "$density"))
+            functionsList.add(ItemValue.NameResource(Res.string.density, "$density"))
         } catch (e: Exception) {
             // Do nothing
         }
 
         display.getMetrics(metrics)
         functionsList.add(
-            Pair(
-                getString(Res.string.absolute_width),
+            ItemValue.NameResource(
+                Res.string.absolute_width,
                 "${metrics.widthPixels}px",
             ),
         )
         functionsList.add(
-            Pair(
-                getString(Res.string.absolute_height),
+            ItemValue.NameResource(
+                Res.string.absolute_height,
                 "${metrics.heightPixels}px",
             ),
         )
 
         val refreshRate = display.refreshRate
         functionsList.add(
-            Pair(
-                getString(Res.string.refresh_rate),
+            ItemValue.NameResource(
+                Res.string.refresh_rate,
                 "${refreshRate.round2()}",
             ),
         )

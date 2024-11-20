@@ -3,6 +3,7 @@ package com.kgurgul.cpuinfo.data.provider
 import android.app.ActivityManager
 import android.content.pm.PackageManager
 import android.os.Build
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.gles_version
 import com.kgurgul.cpuinfo.shared.unknown
@@ -17,15 +18,15 @@ actual class GpuDataProvider actual constructor() : IGpuDataProvider, KoinCompon
     private val activityManager: ActivityManager by inject()
     private val packageManager: PackageManager by inject()
 
-    actual override suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<ItemValue> {
         return buildList {
             val vulcanVersion = getVulkanVersion()
             if (vulcanVersion.isNotEmpty()) {
-                add(getString(Res.string.vulkan_version) to vulcanVersion)
+                add(ItemValue.NameResource(Res.string.vulkan_version, vulcanVersion))
             }
             val glVersion = getGlEsVersion()
             if (glVersion.isNotEmpty()) {
-                add(getString(Res.string.gles_version) to glVersion)
+                add(ItemValue.NameResource(Res.string.gles_version, glVersion))
             }
         }
     }

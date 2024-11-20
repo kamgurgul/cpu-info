@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.height
 import com.kgurgul.cpuinfo.shared.screen_brightness
@@ -14,7 +15,6 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import platform.Foundation.NSNotification
 import platform.Foundation.NSNotificationCenter
@@ -26,19 +26,28 @@ import platform.darwin.NSObject
 
 actual class ScreenDataProvider actual constructor() : IScreenDataProvider, KoinComponent {
 
-    actual override suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<ItemValue> {
         return buildList {
-            add(getString(Res.string.width) to "${getScreenWidth()}px")
-            add(getString(Res.string.height) to "${getScreenHeight()}px")
-            add(getString(Res.string.screen_scale) to getScreenScale().toString())
-            add(getString(Res.string.screen_brightness) to getScreenBrightness().toString())
+            add(ItemValue.NameResource(Res.string.width, "${getScreenWidth()}px"))
+            add(ItemValue.NameResource(Res.string.height, "${getScreenHeight()}px"))
+            add(ItemValue.NameResource(Res.string.screen_scale, getScreenScale().toString()))
             add(
-                getString(Res.string.screen_max_fps)
-                    to getScreenMaximumFramesPerSecond().toString(),
+                ItemValue.NameResource(
+                    Res.string.screen_brightness,
+                    getScreenBrightness().toString()
+                )
             )
             add(
-                getString(Res.string.screen_calibrated_latency)
-                    to getScreenCalibratedLatency().toString(),
+                ItemValue.NameResource(
+                    Res.string.screen_max_fps,
+                    getScreenMaximumFramesPerSecond().toString(),
+                )
+            )
+            add(
+                ItemValue.NameResource(
+                    Res.string.screen_calibrated_latency,
+                    getScreenCalibratedLatency().toString(),
+                )
             )
         }
     }

@@ -1,10 +1,10 @@
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.gles_version
 import com.kgurgul.cpuinfo.shared.metal_version
 import kotlinx.cinterop.memScoped
-import org.jetbrains.compose.resources.getString
 import platform.EAGL.EAGLContext
 import platform.EAGL.kEAGLRenderingAPIOpenGLES3
 import platform.Metal.MTLCreateSystemDefaultDevice
@@ -12,15 +12,15 @@ import platform.Metal.MTLGPUFamilyMetal3
 
 actual class GpuDataProvider actual constructor() : IGpuDataProvider {
 
-    actual override suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<ItemValue> {
         return buildList {
             val metalVersion = getMetalVersion()
             if (metalVersion.isNotEmpty()) {
-                add(getString(Res.string.metal_version) to metalVersion)
+                add(ItemValue.NameResource(Res.string.metal_version, metalVersion))
             }
             val glVersion = getGlEsVersion()
             if (glVersion.isNotEmpty()) {
-                add(getString(Res.string.gles_version) to glVersion)
+                add(ItemValue.NameResource(Res.string.gles_version, glVersion))
             }
         }
     }

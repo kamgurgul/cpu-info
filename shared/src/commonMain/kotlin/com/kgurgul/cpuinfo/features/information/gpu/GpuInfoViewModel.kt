@@ -18,6 +18,7 @@ package com.kgurgul.cpuinfo.features.information.gpu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.domain.observable.GpuDataObservable
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -41,6 +42,6 @@ class GpuInfoViewModel(
     }
 
     data class UiState(
-        val gpuData: ImmutableList<Pair<String, String>> = persistentListOf(),
+        val gpuData: ImmutableList<ItemValue> = persistentListOf(),
     )
 }

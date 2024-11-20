@@ -14,6 +14,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kgurgul.cpuinfo.domain.model.getKey
+import com.kgurgul.cpuinfo.domain.model.getName
+import com.kgurgul.cpuinfo.domain.model.getValue
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -45,11 +48,11 @@ fun ScreenInfoScreen(
         ) {
             itemsIndexed(
                 uiState.items,
-                key = { _, pair -> pair.first },
-            ) { index, (title, value) ->
+                key = { _, itemValue -> itemValue.getKey() },
+            ) { index, itemValue ->
                 InformationRow(
-                    title = title,
-                    value = value,
+                    title = itemValue.getName(),
+                    value = itemValue.getValue(),
                     isLastItem = index == uiState.items.lastIndex,
                     modifier = Modifier.focusable(),
                 )

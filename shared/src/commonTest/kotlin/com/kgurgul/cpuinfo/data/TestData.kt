@@ -4,6 +4,7 @@ import com.kgurgul.cpuinfo.data.local.model.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.domain.model.RamData
 import com.kgurgul.cpuinfo.domain.model.StorageItem
@@ -92,12 +93,12 @@ object TestData {
     )
 
     val gpuData = persistentListOf(
-        "vulkanVersion" to "vulkanVersion",
-        "glesVersion" to "glEsVersion",
-        "metalVersion" to "metalVersion",
-        "glVendor" to "glVendor",
-        "glRenderer" to "glRenderer",
-        "glExtensions" to "glExtensions",
+        ItemValue.Text("vulkanVersion", "vulkanVersion"),
+        ItemValue.Text("glesVersion", "glEsVersion"),
+        ItemValue.Text("metalVersion", "metalVersion"),
+        ItemValue.Text("glVendor", "glVendor"),
+        ItemValue.Text("glRenderer", "glRenderer"),
+        ItemValue.Text("glExtensions", "glExtensions"),
     )
 
     val storageData = persistentListOf(
@@ -113,5 +114,10 @@ object TestData {
     val itemRowData = persistentListOf(
         "test" to "",
         "test" to "test",
+    )
+
+    val itemValueRowData = persistentListOf(
+        ItemValue.Text("test", ""),
+        ItemValue.Text("test", "test"),
     )
 }

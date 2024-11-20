@@ -1,12 +1,12 @@
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.id
 import com.kgurgul.cpuinfo.shared.vendor
 import com.kgurgul.cpuinfo.shared.version
 import com.kgurgul.cpuinfo.shared.vram
 import com.kgurgul.cpuinfo.utils.Utils
-import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
@@ -15,17 +15,22 @@ actual class GpuDataProvider actual constructor() : IGpuDataProvider, KoinCompon
 
     private val systemInfo: SystemInfo by inject()
 
-    actual override suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<ItemValue> {
         val graphicsCards = systemInfo.hardware.graphicsCards
         return buildList {
             graphicsCards.forEach { gpu ->
-                add(gpu.name to "")
-                add(getString(Res.string.vendor) to gpu.vendor)
-                add(getString(Res.string.id) to gpu.deviceId)
+                add(ItemValue.Text(gpu.name, ""))
+                add(ItemValue.NameResource(Res.string.vendor, gpu.vendor))
+                add(ItemValue.NameResource(Res.string.id, gpu.deviceId))
                 if (gpu.vRam != 0L) {
-                    add(getString(Res.string.vram) to Utils.humanReadableByteCount(gpu.vRam))
+                    add(
+                        ItemValue.NameResource(
+                            Res.string.vram,
+                            Utils.humanReadableByteCount(gpu.vRam)
+                        )
+                    )
                 }
-                add(getString(Res.string.version) to gpu.versionInfo)
+                add(ItemValue.NameResource(Res.string.version, gpu.versionInfo))
             }
         }
     }

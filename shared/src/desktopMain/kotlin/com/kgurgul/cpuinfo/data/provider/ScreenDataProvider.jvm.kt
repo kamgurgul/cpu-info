@@ -1,10 +1,10 @@
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.edid
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
@@ -13,12 +13,12 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
 
     private val systemInfo: SystemInfo by inject()
 
-    actual override suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<ItemValue> {
         val displays = systemInfo.hardware.displays
         val displaysEDID = displays.map { it.edid }.joinToString(separator = "\n")
         return buildList {
             if (displaysEDID.isNotEmpty()) {
-                add(getString(Res.string.edid) to displaysEDID)
+                add(ItemValue.NameResource(Res.string.edid, displaysEDID))
             }
         }
     }
