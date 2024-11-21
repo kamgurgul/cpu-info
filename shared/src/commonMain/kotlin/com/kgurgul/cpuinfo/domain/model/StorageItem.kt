@@ -20,7 +20,7 @@ import org.jetbrains.compose.resources.DrawableResource
 
 data class StorageItem(
     val id: String,
-    val label: String,
+    val label: TextResource,
     val iconDrawable: DrawableResource,
     val storageTotal: Long,
     val storageUsed: Long,

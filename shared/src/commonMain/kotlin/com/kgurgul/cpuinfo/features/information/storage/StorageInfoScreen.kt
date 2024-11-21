@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -51,7 +52,13 @@ fun StorageInfoScreen(
                 uiState.storageItems,
                 key = { it.id },
             ) { storageItem ->
-                val label = storageItem.label
+                val label = buildString {
+                    val notFormattedLabel = storageItem.label.asString().trim()
+                    if (notFormattedLabel.isNotEmpty()) {
+                        append(notFormattedLabel)
+                        append(": ")
+                    }
+                }
                 val totalReadable = Utils.humanReadableByteCount(storageItem.storageTotal)
                 val usedReadable = Utils.humanReadableByteCount(storageItem.storageUsed)
                 val progress = if (storageItem.storageTotal != 0L)

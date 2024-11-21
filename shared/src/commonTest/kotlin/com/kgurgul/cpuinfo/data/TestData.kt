@@ -9,6 +9,7 @@ import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.domain.model.RamData
 import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
@@ -104,7 +105,7 @@ object TestData {
     val storageData = persistentListOf(
         StorageItem(
             id = "0",
-            label = "Internal",
+            label = TextResource.Text("Internal"),
             iconDrawable = Res.drawable.baseline_folder_special_24,
             storageTotal = 100,
             storageUsed = 50,

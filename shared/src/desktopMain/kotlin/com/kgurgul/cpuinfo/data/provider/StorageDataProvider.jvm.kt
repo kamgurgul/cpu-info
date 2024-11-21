@@ -1,6 +1,7 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.StorageItem
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.ic_hard_drive
 import org.koin.core.component.KoinComponent
@@ -22,7 +23,7 @@ actual class StorageDataProvider actual constructor() : IStorageDataProvider, Ko
                 add(
                     StorageItem(
                         id = osFileStore.uuid,
-                        label = label,
+                        label = TextResource.Text(label),
                         iconDrawable = Res.drawable.ic_hard_drive,
                         storageTotal = osFileStore.totalSpace,
                         storageUsed = osFileStore.totalSpace - osFileStore.freeSpace,
@@ -30,6 +31,6 @@ actual class StorageDataProvider actual constructor() : IStorageDataProvider, Ko
                 )
             }
         }.distinctBy { it.id }
-            .sortedBy { it.label }
+            .sortedBy { (it.label as? TextResource.Text)?.value }
     }
 }

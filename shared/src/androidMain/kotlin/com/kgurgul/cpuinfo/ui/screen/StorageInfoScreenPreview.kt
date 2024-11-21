@@ -3,6 +3,7 @@ package com.kgurgul.cpuinfo.ui.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.kgurgul.cpuinfo.domain.model.StorageItem
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.features.information.storage.StorageInfoScreen
 import com.kgurgul.cpuinfo.features.information.storage.StorageInfoViewModel
 import com.kgurgul.cpuinfo.shared.Res
@@ -19,7 +20,7 @@ fun StorageInfoScreenPreview() {
                 storageItems = persistentListOf(
                     StorageItem(
                         id = "0",
-                        label = "Internal",
+                        label = TextResource.Text("Internal"),
                         iconDrawable = Res.drawable.baseline_folder_special_24,
                         storageTotal = 100,
                         storageUsed = 50,

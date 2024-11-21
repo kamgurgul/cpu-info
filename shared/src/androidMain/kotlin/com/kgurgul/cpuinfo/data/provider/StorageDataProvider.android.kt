@@ -2,6 +2,7 @@ package com.kgurgul.cpuinfo.data.provider
 
 import android.os.Environment
 import com.kgurgul.cpuinfo.domain.model.StorageItem
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_24
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
@@ -14,8 +15,6 @@ import java.io.DataInputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
-import kotlinx.coroutines.runBlocking
-import org.jetbrains.compose.resources.getString
 
 actual class StorageDataProvider actual constructor() : IStorageDataProvider {
 
@@ -31,7 +30,7 @@ actual class StorageDataProvider actual constructor() : IStorageDataProvider {
         return if (storageTotal > 0) {
             StorageItem(
                 id = "0",
-                label = runBlocking { getString(Res.string.internal) + ": " },
+                label = TextResource.Resource(Res.string.internal),
                 iconDrawable = Res.drawable.baseline_folder_special_24,
                 storageTotal = storageTotal,
                 storageUsed = storageUsed,
@@ -50,7 +49,7 @@ actual class StorageDataProvider actual constructor() : IStorageDataProvider {
             if (storageTotal > 0) {
                 StorageItem(
                     id = "1",
-                    label = runBlocking { getString(Res.string.external) + ": " },
+                    label = TextResource.Resource(Res.string.external),
                     iconDrawable = Res.drawable.baseline_folder_24,
                     storageTotal = storageTotal,
                     storageUsed = storageUsed,
@@ -79,7 +78,7 @@ actual class StorageDataProvider actual constructor() : IStorageDataProvider {
                     return if (storageTotal > 0) {
                         StorageItem(
                             id = "2",
-                            label = runBlocking { getString(Res.string.external) + ": " },
+                            label = TextResource.Resource(Res.string.external),
                             iconDrawable = Res.drawable.baseline_sd_storage_24,
                             storageTotal = storageTotal,
                             storageUsed = storageUsed,
