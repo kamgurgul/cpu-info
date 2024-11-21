@@ -18,6 +18,7 @@ package com.kgurgul.cpuinfo.features.information.os
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.domain.observable.GetOsDataInteractor
 import com.kgurgul.cpuinfo.domain.observe
 import kotlinx.collections.immutable.ImmutableList
@@ -36,6 +37,6 @@ class OsInfoViewModel(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     data class UiState(
-        val items: ImmutableList<Pair<String, String>> = persistentListOf(),
+        val items: ImmutableList<ItemValue> = persistentListOf(),
     )
 }

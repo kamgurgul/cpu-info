@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.android_id
 import com.kgurgul.cpuinfo.shared.board
@@ -18,7 +19,6 @@ import com.kgurgul.cpuinfo.shared.google_services_framework_id
 import com.kgurgul.cpuinfo.shared.kernel
 import com.kgurgul.cpuinfo.shared.manufacturer
 import com.kgurgul.cpuinfo.shared.model
-import com.kgurgul.cpuinfo.shared.no
 import com.kgurgul.cpuinfo.shared.os_language
 import com.kgurgul.cpuinfo.shared.rooted
 import com.kgurgul.cpuinfo.shared.sdk
@@ -26,16 +26,14 @@ import com.kgurgul.cpuinfo.shared.security_providers
 import com.kgurgul.cpuinfo.shared.serial
 import com.kgurgul.cpuinfo.shared.strongbox
 import com.kgurgul.cpuinfo.shared.tab_os
-import com.kgurgul.cpuinfo.shared.unknown
 import com.kgurgul.cpuinfo.shared.version
 import com.kgurgul.cpuinfo.shared.vm
-import com.kgurgul.cpuinfo.shared.yes
+import com.kgurgul.cpuinfo.utils.ResourceUtils
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.security.Security
 import java.util.Locale
-import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -47,14 +45,19 @@ actual class OsDataProvider actual constructor() :
     private val packageManager: PackageManager by inject()
     private val devicePolicyManager: DevicePolicyManager by inject()
 
-    actual override suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<ItemValue> {
         return buildList {
-            add(getString(Res.string.tab_os) to "Android")
+            add(ItemValue.NameResource(Res.string.tab_os, "Android"))
             addAll(getBuildData())
-            add(getString(Res.string.os_language) to Locale.getDefault().language)
+            add(ItemValue.NameResource(Res.string.os_language, Locale.getDefault().language))
             getAndroidIdData()?.let { add(it) }
             getGsfAndroidId()?.let { add(it) }
-            add(getString(Res.string.rooted) to getYesNoString(isDeviceRooted()))
+            add(
+                ItemValue.NameValueResource(
+                    Res.string.rooted,
+                    ResourceUtils.getYesNoStringResource(isDeviceRooted())
+                )
+            )
             getDeviceEncryptionStatus()?.let { add(it) }
             add(getStrongBoxData())
             addAll(getSecurityData())
@@ -65,20 +68,20 @@ actual class OsDataProvider actual constructor() :
      * Retrieve data from static Build class and system property "java.vm.version"
      */
     @SuppressLint("HardwareIds")
-    private suspend fun getBuildData(): List<Pair<String, String>> {
+    private fun getBuildData(): List<ItemValue> {
         return buildList {
-            add(getString(Res.string.version) to Build.VERSION.RELEASE)
-            add(getString(Res.string.sdk) to Build.VERSION.SDK_INT.toString())
-            add(getString(Res.string.codename) to Build.VERSION.CODENAME)
-            add(getString(Res.string.bootloader) to Build.BOOTLOADER)
-            add(getString(Res.string.brand) to Build.BRAND)
-            add(getString(Res.string.model) to Build.MODEL)
-            add(getString(Res.string.manufacturer) to Build.MANUFACTURER)
-            add(getString(Res.string.board) to Build.BOARD)
-            add(getString(Res.string.vm) to getVmVersion())
-            add(getString(Res.string.kernel) to (System.getProperty("os.version") ?: ""))
+            add(ItemValue.NameResource(Res.string.version, Build.VERSION.RELEASE))
+            add(ItemValue.NameResource(Res.string.sdk, Build.VERSION.SDK_INT.toString()))
+            add(ItemValue.NameResource(Res.string.codename, Build.VERSION.CODENAME))
+            add(ItemValue.NameResource(Res.string.bootloader, Build.BOOTLOADER))
+            add(ItemValue.NameResource(Res.string.brand, Build.BRAND))
+            add(ItemValue.NameResource(Res.string.model, Build.MODEL))
+            add(ItemValue.NameResource(Res.string.manufacturer, Build.MANUFACTURER))
+            add(ItemValue.NameResource(Res.string.board, Build.BOARD))
+            add(ItemValue.NameResource(Res.string.vm, getVmVersion()))
+            add(ItemValue.NameResource(Res.string.kernel, (System.getProperty("os.version") ?: "")))
             @Suppress("DEPRECATION")
-            add(getString(Res.string.serial) to Build.SERIAL)
+            add(ItemValue.NameResource(Res.string.serial, Build.SERIAL))
         }
     }
 
@@ -86,10 +89,10 @@ actual class OsDataProvider actual constructor() :
      * Get AndroidID. Keep in mind that from Android O it is unique per app.
      */
     @SuppressLint("HardwareIds")
-    private suspend fun getAndroidIdData(): Pair<String, String>? {
+    private fun getAndroidIdData(): ItemValue? {
         val androidId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
         return if (androidId != null) {
-            getString(Res.string.android_id) to androidId
+            ItemValue.NameResource(Res.string.android_id, androidId)
         } else {
             null
         }
@@ -99,7 +102,7 @@ actual class OsDataProvider actual constructor() :
      * Add information about device encrypted storage status
      */
     @Suppress("DEPRECATION")
-    private suspend fun getDeviceEncryptionStatus(): Pair<String, String>? {
+    private fun getDeviceEncryptionStatus(): ItemValue? {
         return try {
             val statusText = when (devicePolicyManager.storageEncryptionStatus) {
                 DevicePolicyManager.ENCRYPTION_STATUS_UNSUPPORTED -> ENCRYPTION_STATUS_UNSUPPORTED
@@ -109,9 +112,9 @@ actual class OsDataProvider actual constructor() :
                 DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE_PER_USER ->
                     ENCRYPTION_STATUS_ACTIVE_PER_USER
 
-                else -> getString(Res.string.unknown)
+                else -> ENCRYPTION_STATUS_UNKNOWN
             }
-            getString(Res.string.encrypted_storage) to statusText
+            ItemValue.NameResource(Res.string.encrypted_storage, statusText)
         } catch (ignored: Exception) {
             null
         }
@@ -166,17 +169,18 @@ actual class OsDataProvider actual constructor() :
     /**
      * Get information about security providers
      */
-    private suspend fun getSecurityData(): List<Pair<String, String>> {
-        val securityProviders = Security.getProviders().map { Pair(it.name, it.version.toString()) }
+    private fun getSecurityData(): List<ItemValue> {
+        val securityProviders = Security.getProviders()
+            .map { ItemValue.Text(it.name, it.version.toString()) }
         return buildList {
             if (securityProviders.isNotEmpty()) {
-                add(getString(Res.string.security_providers) to "")
+                add(ItemValue.NameResource(Res.string.security_providers, ""))
                 addAll(securityProviders)
             }
         }
     }
 
-    private suspend fun getGsfAndroidId(): Pair<String, String>? {
+    private fun getGsfAndroidId(): ItemValue? {
         val uri = Uri.parse("content://com.google.android.gsf.gservices")
         val idKey = "android_id"
         val params = arrayOf(idKey)
@@ -184,26 +188,22 @@ actual class OsDataProvider actual constructor() :
             contentResolver.query(uri, null, null, params, null)?.use {
                 it.moveToFirst()
                 val hexId = java.lang.Long.toHexString(it.getString(1).toLong())
-                getString(Res.string.google_services_framework_id) to hexId
+                ItemValue.NameResource(Res.string.google_services_framework_id, hexId)
             }
         } catch (e: Exception) {
             null
         }
     }
 
-    private suspend fun getStrongBoxData(): Pair<String, String> {
+    private fun getStrongBoxData(): ItemValue {
         val hasStrongBox = if (Build.VERSION.SDK_INT >= 28) {
             packageManager.hasSystemFeature(PackageManager.FEATURE_STRONGBOX_KEYSTORE)
         } else {
             false
         }
-        return getString(Res.string.strongbox) to getYesNoString(hasStrongBox)
-    }
-
-    private suspend fun getYesNoString(value: Boolean) = if (value) {
-        getString(Res.string.yes)
-    } else {
-        getString(Res.string.no)
+        return ItemValue.NameValueResource(
+            Res.string.strongbox, ResourceUtils.getYesNoStringResource(hasStrongBox)
+        )
     }
 
     companion object {
@@ -212,5 +212,6 @@ actual class OsDataProvider actual constructor() :
         private const val ENCRYPTION_STATUS_ACTIVATING = "ACTIVATING"
         private const val ENCRYPTION_STATUS_ACTIVE = "ACTIVE"
         private const val ENCRYPTION_STATUS_ACTIVE_PER_USER = "ACTIVE_PER_USER"
+        private const val ENCRYPTION_STATUS_UNKNOWN = "UNKNOWN"
     }
 }

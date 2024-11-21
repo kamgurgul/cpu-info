@@ -33,7 +33,7 @@ class GetOsDataInteractorTest {
 
     @Test
     fun getOSDataObservable() = runTest {
-        val expectedItems = TestData.itemRowData
+        val expectedItems = TestData.itemValueRowData
 
         interactor.observe(Unit).test {
             assertEquals(expectedItems, awaitItem())

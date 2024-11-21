@@ -15,7 +15,7 @@ class OsInfoViewModelTest {
 
     private val coroutineTestRule = CoroutineTestSuit()
 
-    private val items = TestData.itemRowData
+    private val items = TestData.itemValueRowData
     private val fakeOsDataProvider = FakeOsDataProvider()
     private val getOsDataInteractor = GetOsDataInteractor(
         dispatchersProvider = coroutineTestRule.testDispatcherProvider,

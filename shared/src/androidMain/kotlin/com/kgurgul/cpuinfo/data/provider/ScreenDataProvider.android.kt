@@ -23,7 +23,6 @@ import com.kgurgul.cpuinfo.shared.width
 import com.kgurgul.cpuinfo.utils.round2
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -46,19 +45,19 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
         emit(display.rotation.toString())
     }
 
-    private suspend fun getScreenClass(): ItemValue {
-        val screenClass: String = when (
+    private fun getScreenClass(): ItemValue {
+        val screenClass = when (
             resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
         ) {
-            Configuration.SCREENLAYOUT_SIZE_LARGE -> getString(Res.string.large)
-            Configuration.SCREENLAYOUT_SIZE_NORMAL -> getString(Res.string.normal)
-            Configuration.SCREENLAYOUT_SIZE_SMALL -> getString(Res.string.small)
-            else -> getString(Res.string.unknown)
+            Configuration.SCREENLAYOUT_SIZE_LARGE -> Res.string.large
+            Configuration.SCREENLAYOUT_SIZE_NORMAL -> Res.string.normal
+            Configuration.SCREENLAYOUT_SIZE_SMALL -> Res.string.small
+            else -> Res.string.unknown
         }
-        return ItemValue.NameResource(Res.string.screen_class, screenClass)
+        return ItemValue.NameValueResource(Res.string.screen_class, screenClass)
     }
 
-    private suspend fun getDensityClass(): ItemValue {
+    private fun getDensityClass(): ItemValue {
         val densityDpi = resources.displayMetrics.densityDpi
         val densityClass: String
         when (densityDpi) {
@@ -89,14 +88,14 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
             }
 
             else -> {
-                densityClass = getString(Res.string.unknown)
+                densityClass = ""
             }
         }
         return ItemValue.NameResource(Res.string.density_class, densityClass)
     }
 
     @Suppress("DEPRECATION")
-    private suspend fun getInfoFromDisplayMetrics(): List<ItemValue> {
+    private fun getInfoFromDisplayMetrics(): List<ItemValue> {
         val functionsList = mutableListOf<ItemValue>()
         val display = windowManager.defaultDisplay
         val metrics = DisplayMetrics()

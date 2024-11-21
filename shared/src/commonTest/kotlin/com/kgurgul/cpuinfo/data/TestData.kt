@@ -111,11 +111,6 @@ object TestData {
         ),
     )
 
-    val itemRowData = persistentListOf(
-        "test" to "",
-        "test" to "test",
-    )
-
     val itemValueRowData = persistentListOf(
         ItemValue.Text("test", ""),
         ItemValue.Text("test", "test"),

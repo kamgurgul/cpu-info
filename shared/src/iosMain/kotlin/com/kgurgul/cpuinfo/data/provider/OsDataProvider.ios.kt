@@ -1,15 +1,14 @@
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.model
 import com.kgurgul.cpuinfo.shared.os_jailbroken
 import com.kgurgul.cpuinfo.shared.os_multitasking_supported
 import com.kgurgul.cpuinfo.shared.os_vendor_identifier
 import com.kgurgul.cpuinfo.shared.tab_os
-import com.kgurgul.cpuinfo.shared.unknown
 import com.kgurgul.cpuinfo.shared.version
 import com.kgurgul.cpuinfo.utils.ResourceUtils
-import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import platform.UIKit.UIDevice
@@ -20,26 +19,30 @@ actual class OsDataProvider actual constructor() :
 
     private val iosSoftwareDataProvider: IosSoftwareDataProvider by inject()
 
-    actual override suspend fun getData(): List<Pair<String, String>> {
+    actual override suspend fun getData(): List<ItemValue> {
         return buildList {
-            add(getString(Res.string.tab_os) to UIDevice.currentDevice.systemName)
-            add(getString(Res.string.version) to UIDevice.currentDevice.systemVersion)
-            add(getString(Res.string.model) to UIDevice.currentDevice.model)
+            add(ItemValue.NameResource(Res.string.tab_os, UIDevice.currentDevice.systemName))
+            add(ItemValue.NameResource(Res.string.version, UIDevice.currentDevice.systemVersion))
+            add(ItemValue.NameResource(Res.string.model, UIDevice.currentDevice.model))
             add(
-                getString(Res.string.os_multitasking_supported) to ResourceUtils.getYesNoString(
-                    UIDevice.currentDevice.multitaskingSupported,
-                ),
+                ItemValue.NameValueResource(
+                    Res.string.os_multitasking_supported,
+                    ResourceUtils.getYesNoStringResource(
+                        UIDevice.currentDevice.multitaskingSupported,
+                    ),
+                )
             )
             add(
-                getString(Res.string.os_vendor_identifier) to
-                    (
-                        UIDevice.currentDevice.identifierForVendor
-                            ?.UUIDString ?: getString(Res.string.unknown)
-                        ),
+                ItemValue.NameResource(
+                    Res.string.os_vendor_identifier,
+                    UIDevice.currentDevice.identifierForVendor?.UUIDString ?: "",
+                )
             )
             add(
-                getString(Res.string.os_jailbroken) to
-                    ResourceUtils.getYesNoString(iosSoftwareDataProvider.isJailBroken()),
+                ItemValue.NameValueResource(
+                    Res.string.os_jailbroken,
+                    ResourceUtils.getYesNoStringResource(iosSoftwareDataProvider.isJailBroken()),
+                )
             )
         }
     }

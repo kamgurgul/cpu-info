@@ -6,10 +6,7 @@ import android.os.Build
 import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.gles_version
-import com.kgurgul.cpuinfo.shared.unknown
 import com.kgurgul.cpuinfo.shared.vulkan_version
-import kotlinx.coroutines.runBlocking
-import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -36,7 +33,7 @@ actual class GpuDataProvider actual constructor() : IGpuDataProvider, KoinCompon
     }
 
     private fun getVulkanVersion(): String {
-        val default = runBlocking { getString(Res.string.unknown) }
+        val default = ""
         if (Build.VERSION.SDK_INT < 24) {
             return default
         }

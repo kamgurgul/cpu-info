@@ -368,7 +368,7 @@ private fun ApplicationItem(
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
                     .requiredSize(40.dp)
-                    .clickable { appData.nativeLibs?.let { onNativeLibsClicked(it) } },
+                    .clickable { onNativeLibsClicked(appData.nativeLibs) },
             )
         }
     }
