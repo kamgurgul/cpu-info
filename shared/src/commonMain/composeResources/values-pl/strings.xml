@@ -180,5 +180,10 @@
     <string name="sensors_cpu_temperature">Temperatura CPU</string>
     <string name="sensors_cpu_voltage">Napięcie CPU</string>
     <string name="sensors_fan_speeds">Prędkości wentylatora</string>
+    <string name="sensors_acceleration">Przyspieszenie</string>
+    <string name="sensors_gravity">Grawitacja</string>
+    <string name="sensors_rotation_rate">Prędkość obrotu</string>
+    <string name="sensors_magnetic_field">Pole magnetyczne</string>
+    <string name="sensors_attitude">Postawa</string>
 
 </resources>

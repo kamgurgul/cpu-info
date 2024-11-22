@@ -1,6 +1,13 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.SensorData
+import com.kgurgul.cpuinfo.domain.model.TextResource
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.sensors_acceleration
+import com.kgurgul.cpuinfo.shared.sensors_attitude
+import com.kgurgul.cpuinfo.shared.sensors_gravity
+import com.kgurgul.cpuinfo.shared.sensors_magnetic_field
+import com.kgurgul.cpuinfo.shared.sensors_rotation_rate
 import com.kgurgul.cpuinfo.utils.round4
 import kotlinx.cinterop.CValue
 import kotlinx.cinterop.useContents
@@ -50,28 +57,21 @@ actual class SensorsInfoProvider actual constructor() {
             add(
                 SensorData(
                     id = ID_ACCELERATION,
-                    name = "Acceleration",
+                    name = TextResource.Resource(Res.string.sensors_acceleration),
                     value = convertAcceleration(userAcceleration),
                 ),
             )
             add(
                 SensorData(
                     id = ID_GRAVITY,
-                    name = "Gravity",
-                    value = convertAcceleration(gravity),
-                ),
-            )
-            add(
-                SensorData(
-                    id = ID_HEADING,
-                    name = "Heading",
+                    name = TextResource.Resource(Res.string.sensors_gravity),
                     value = convertAcceleration(gravity),
                 ),
             )
             add(
                 SensorData(
                     id = ID_ROTATION_RATE,
-                    name = "Rotation rate",
+                    name = TextResource.Resource(Res.string.sensors_rotation_rate),
                     value = convertRotationRate(rotationRate),
                 ),
             )
@@ -80,7 +80,7 @@ actual class SensorsInfoProvider actual constructor() {
                     add(
                         SensorData(
                             id = ID_MAGNETIC_FIELD,
-                            name = "Magnetic field",
+                            name = TextResource.Resource(Res.string.sensors_magnetic_field),
                             value = convertMagneticField(field),
                         ),
                     )
@@ -89,7 +89,7 @@ actual class SensorsInfoProvider actual constructor() {
             add(
                 SensorData(
                     id = ID_ATTITUDE,
-                    name = "Attitude",
+                    name = TextResource.Resource(Res.string.sensors_attitude),
                     value = convertAttitude(attitude),
                 ),
             )
@@ -123,7 +123,6 @@ actual class SensorsInfoProvider actual constructor() {
     companion object {
         private const val ID_ACCELERATION = "ID_ACCELERATION"
         private const val ID_GRAVITY = "ID_GRAVITY"
-        private const val ID_HEADING = "ID_HEADING"
         private const val ID_ROTATION_RATE = "ID_ROTATION_RATE"
         private const val ID_MAGNETIC_FIELD = "ID_ROTATION_RATE"
         private const val ID_ATTITUDE = "ID_ATTITUDE"

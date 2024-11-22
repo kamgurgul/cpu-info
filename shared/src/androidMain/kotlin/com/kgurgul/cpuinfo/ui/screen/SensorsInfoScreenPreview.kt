@@ -3,6 +3,7 @@ package com.kgurgul.cpuinfo.ui.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.kgurgul.cpuinfo.domain.model.SensorData
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
 import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoViewModel
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -17,12 +18,12 @@ fun SensorsInfoScreenPreview() {
                 persistentListOf(
                     SensorData(
                         id = "test",
-                        name = "test",
+                        name = TextResource.Text("test"),
                         value = "",
                     ),
                     SensorData(
                         id = "test",
-                        name = "test",
+                        name = TextResource.Text("test"),
                         value = "test",
                     ),
                 ),

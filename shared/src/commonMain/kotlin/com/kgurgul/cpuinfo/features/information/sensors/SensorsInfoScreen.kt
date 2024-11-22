@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -56,7 +57,7 @@ fun SensorsInfoScreen(
                 key = { _, sensorData -> sensorData.id },
             ) { index, sensorData ->
                 SensorItem(
-                    title = sensorData.name,
+                    title = sensorData.name.asString(),
                     value = sensorData.value,
                     isLastItem = index == uiState.sensors.lastIndex,
                 )

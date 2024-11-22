@@ -170,6 +170,11 @@
     <string name="sensors_cpu_temperature">Teplota CPU</string>
     <string name="sensors_cpu_voltage">Napětí CPU</string>
     <string name="sensors_fan_speeds">Rychlosti ventilátoru</string>
+    <string name="sensors_acceleration">Zrychlení</string>
+    <string name="sensors_gravity">Gravitace</string>
+    <string name="sensors_rotation_rate">Rychlost rotace</string>
+    <string name="sensors_magnetic_field">Magnetické pole</string>
+    <string name="sensors_attitude">Orientace</string>
 
 </resources>
 

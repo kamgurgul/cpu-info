@@ -7,6 +7,7 @@ import android.hardware.SensorManager
 import android.hardware.TriggerEvent
 import android.hardware.TriggerEventListener
 import com.kgurgul.cpuinfo.domain.model.SensorData
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion.GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE
 import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion.GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE
 import com.kgurgul.cpuinfo.utils.round1
@@ -25,7 +26,7 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
         val initialData = sensorList.map {
             SensorData(
                 id = it.getUniqueId(),
-                name = it.name,
+                name = TextResource.Text(it.name),
                 value = " ",
             )
         }
@@ -35,7 +36,7 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                 val updatedSensor = listOf(
                     SensorData(
                         id = event.sensor.getUniqueId(),
-                        name = event.sensor.name,
+                        name = TextResource.Text(event.sensor.name),
                         value = getSensorData(event.sensor.type, event.values),
                     ),
                 )
@@ -54,7 +55,7 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                             val updatedSensor = listOf(
                                 SensorData(
                                     id = event.sensor.getUniqueId(),
-                                    name = event.sensor.name,
+                                    name = TextResource.Text(event.sensor.name),
                                     value = getSensorData(event.sensor.type, event.values),
                                 ),
                             )

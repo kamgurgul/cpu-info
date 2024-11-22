@@ -170,5 +170,10 @@
     <string name="sensors_cpu_temperature">CPU-Temperatur</string>
     <string name="sensors_cpu_voltage">CPU-Spannung</string>
     <string name="sensors_fan_speeds">Lüftergeschwindigkeiten</string>
+    <string name="sensors_acceleration">Beschleunigung</string>
+    <string name="sensors_gravity">Schwerkraft</string>
+    <string name="sensors_rotation_rate">Rotationsgeschwindigkeit</string>
+    <string name="sensors_magnetic_field">Magnetfeld</string>
+    <string name="sensors_attitude">Ausrichtung</string>
 
 </resources>

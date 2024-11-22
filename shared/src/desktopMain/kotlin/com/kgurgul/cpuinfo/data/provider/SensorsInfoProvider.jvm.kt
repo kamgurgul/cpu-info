@@ -1,6 +1,7 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.SensorData
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.sensors_cpu_temperature
@@ -9,7 +10,6 @@ import com.kgurgul.cpuinfo.shared.sensors_fan_speeds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
@@ -26,7 +26,7 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                 add(
                     SensorData(
                         id = CPU_TEMP_ID,
-                        name = getString(Res.string.sensors_cpu_temperature),
+                        name = TextResource.Resource(Res.string.sensors_cpu_temperature),
                         value = temperatureFormatter.format(sensors.cpuTemperature.toFloat()),
                     ),
                 )
@@ -35,7 +35,7 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                 add(
                     SensorData(
                         id = CPU_VOLTAGE_ID,
-                        name = getString(Res.string.sensors_cpu_voltage),
+                        name = TextResource.Resource(Res.string.sensors_cpu_voltage),
                         value = "${sensors.cpuVoltage}V",
                     ),
                 )
@@ -49,7 +49,7 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                 add(
                     SensorData(
                         id = FAN_SPEED_ID,
-                        name = getString(Res.string.sensors_fan_speeds),
+                        name = TextResource.Resource(Res.string.sensors_fan_speeds),
                         value = fanSpeeds,
                     ),
                 )

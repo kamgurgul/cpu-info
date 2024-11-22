@@ -223,5 +223,10 @@
     <string name="sensors_cpu_temperature">CPU temperature</string>
     <string name="sensors_cpu_voltage">CPU voltage</string>
     <string name="sensors_fan_speeds">Fan speeds</string>
+    <string name="sensors_acceleration">Acceleration</string>
+    <string name="sensors_gravity">Gravity</string>
+    <string name="sensors_rotation_rate">Rotation rate</string>
+    <string name="sensors_magnetic_field">Magnetic field</string>
+    <string name="sensors_attitude">Attitude</string>
 
 </resources>
