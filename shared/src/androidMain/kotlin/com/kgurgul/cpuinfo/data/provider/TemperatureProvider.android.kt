@@ -25,6 +25,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.BatteryManager
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion.GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE
 import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion.GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE
 import com.kgurgul.cpuinfo.shared.Res
@@ -53,7 +54,7 @@ actual class TemperatureProvider actual constructor() :
                         TemperatureItem(
                             id = event.sensor.type,
                             icon = Res.drawable.baseline_thermostat_24,
-                            name = event.sensor.name,
+                            name = TextResource.Text(event.sensor.name),
                             temperature = temp,
                         ),
                     )

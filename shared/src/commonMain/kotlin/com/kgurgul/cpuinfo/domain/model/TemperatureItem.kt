@@ -21,6 +21,6 @@ import org.jetbrains.compose.resources.DrawableResource
 data class TemperatureItem(
     val id: Int,
     val icon: DrawableResource,
-    val name: String,
+    val name: TextResource,
     val temperature: Float,
 )

@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
+import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.no_temp_data
 import com.kgurgul.cpuinfo.shared.temperature
@@ -143,7 +144,7 @@ private fun TemperatureItem(
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = item.name,
+                text = item.name.asString(),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onBackground,
             )

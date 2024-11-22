@@ -22,7 +22,6 @@ import com.kgurgul.cpuinfo.data.local.FakeUserPreferencesRepository
 import com.kgurgul.cpuinfo.data.provider.FakeTemperatureProvider
 import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable
 import com.kgurgul.cpuinfo.utils.CoroutineTestSuit
-import com.kgurgul.cpuinfo.utils.resources.FakeLocalResources
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -43,13 +42,9 @@ class TemperatureViewModelTest {
         cpuTemp = 10f,
     )
     private val temperatureFormatter = TemperatureFormatter(fakeUserPreferencesRepository)
-    private val fakeLocalResources = FakeLocalResources(
-        stringValue = "CPU",
-    )
     private val temperatureDataObservable = TemperatureDataObservable(
         dispatchersProvider = coroutineTestRule.testDispatcherProvider,
         temperatureProvider = fakeTemperatureProvider,
-        localResources = fakeLocalResources,
     )
 
     private lateinit var viewModel: TemperatureViewModel

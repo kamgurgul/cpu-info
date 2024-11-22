@@ -17,6 +17,7 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.ic_temperature
 import com.kgurgul.cpuinfo.shared.temp_thermal_state
@@ -28,7 +29,6 @@ import com.kgurgul.cpuinfo.shared.unknown
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import org.jetbrains.compose.resources.getString
 import platform.Foundation.NSProcessInfo
 import platform.Foundation.NSProcessInfoThermalState
 import platform.Foundation.thermalState
@@ -38,23 +38,24 @@ actual class TemperatureProvider actual constructor() : ITemperatureProvider {
     actual override val sensorsFlow: Flow<TemperatureItem> = flow {
         val thermalState = when (NSProcessInfo.processInfo.thermalState) {
             NSProcessInfoThermalState.NSProcessInfoThermalStateNominal ->
-                getString(Res.string.temp_thermal_state_nominal)
+                Res.string.temp_thermal_state_nominal
 
             NSProcessInfoThermalState.NSProcessInfoThermalStateFair ->
-                getString(Res.string.temp_thermal_state_fair)
+                Res.string.temp_thermal_state_fair
 
             NSProcessInfoThermalState.NSProcessInfoThermalStateSerious ->
-                getString(Res.string.temp_thermal_state_serious)
+                Res.string.temp_thermal_state_serious
 
             NSProcessInfoThermalState.NSProcessInfoThermalStateCritical ->
-                getString(Res.string.temp_thermal_state_critical)
-            else -> getString(Res.string.unknown)
+                Res.string.temp_thermal_state_critical
+
+            else -> Res.string.unknown
         }
         emit(
             TemperatureItem(
                 id = ID_THERMAL_STATE,
                 icon = Res.drawable.ic_temperature,
-                name = getString(Res.string.temp_thermal_state, thermalState),
+                name = TextResource.Formatted(Res.string.temp_thermal_state, listOf(thermalState)),
                 temperature = Float.NaN,
             ),
         )

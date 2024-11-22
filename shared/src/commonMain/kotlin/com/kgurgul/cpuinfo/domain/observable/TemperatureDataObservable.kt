@@ -3,13 +3,13 @@ package com.kgurgul.cpuinfo.domain.observable
 import com.kgurgul.cpuinfo.data.provider.ITemperatureProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.battery
 import com.kgurgul.cpuinfo.shared.cpu
 import com.kgurgul.cpuinfo.shared.ic_battery
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
-import com.kgurgul.cpuinfo.utils.resources.ILocalResources
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.merge
 class TemperatureDataObservable(
     private val dispatchersProvider: IDispatchersProvider,
     private val temperatureProvider: ITemperatureProvider,
-    private val localResources: ILocalResources,
 ) : ImmutableInteractor<Unit, List<TemperatureItem>>() {
 
     override val dispatcher: CoroutineDispatcher
@@ -33,7 +32,7 @@ class TemperatureDataObservable(
                     TemperatureItem(
                         id = ID_BATTERY,
                         icon = Res.drawable.ic_battery,
-                        name = localResources.getString(Res.string.battery),
+                        name = TextResource.Resource(Res.string.battery),
                         temperature = it,
                     ),
                 )
@@ -43,7 +42,7 @@ class TemperatureDataObservable(
                     TemperatureItem(
                         id = ID_CPU,
                         icon = Res.drawable.ic_cpu_temp,
-                        name = localResources.getString(Res.string.cpu),
+                        name = TextResource.Resource(Res.string.cpu),
                         temperature = it,
                     ),
                 )

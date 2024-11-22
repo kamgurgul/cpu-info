@@ -12,6 +12,7 @@ import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
+import com.kgurgul.cpuinfo.shared.cpu
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import kotlinx.collections.immutable.persistentListOf
 
@@ -56,7 +57,7 @@ object TestData {
         TemperatureItem(
             id = -2,
             icon = Res.drawable.ic_cpu_temp,
-            name = "CPU",
+            name = TextResource.Resource(Res.string.cpu),
             temperature = 10f,
         ),
     )

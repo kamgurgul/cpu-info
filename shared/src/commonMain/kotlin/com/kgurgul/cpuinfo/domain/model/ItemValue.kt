@@ -69,7 +69,7 @@ fun ItemValue.getValue(): String {
 }
 
 @Composable
-private fun resolveArgs(args: List<Any>): Array<String> {
+fun resolveArgs(args: List<Any>): Array<String> {
     return args.map {
         when (it) {
             is StringResource -> stringResource(it)
