@@ -80,7 +80,6 @@ import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -125,12 +124,11 @@ fun ApplicationsScreen(
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(uiState.snackbarMessage) {
+    val snackbarMessageString = uiState.snackbarMessage?.let { stringResource(it) }
+    LaunchedEffect(snackbarMessageString) {
         scope.launch {
-            if (uiState.snackbarMessage != null) {
-                val result = snackbarHostState.showSnackbar(
-                    getString(uiState.snackbarMessage),
-                )
+            if (snackbarMessageString != null) {
+                val result = snackbarHostState.showSnackbar(snackbarMessageString)
                 if (result == SnackbarResult.Dismissed) {
                     onSnackbarDismissed()
                 }

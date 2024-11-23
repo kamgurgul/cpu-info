@@ -91,6 +91,7 @@ kotlin {
         commonMain {
             dependencies {
                 api(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
                 api(compose.foundation)
                 api(compose.material3)
                 implementation(compose.runtime)
@@ -117,7 +118,6 @@ kotlin {
         androidMain {
             dependencies {
                 implementation(compose.preview)
-                implementation(compose.uiTooling)
                 implementation(libs.androidx.datastore.preferences)
                 implementation(libs.koin.android)
                 implementation(libs.relinker)
@@ -173,9 +173,14 @@ kotlin {
         compilations.configureEach {
             compileTaskProvider.get().compilerOptions {
                 freeCompilerArgs.add("-Xexpect-actual-classes")
+                freeCompilerArgs.add("-Xwasm-use-new-exception-proposal")
             }
         }
     }
+}
+
+dependencies {
+    debugImplementation(compose.uiTooling)
 }
 
 compose.resources {
@@ -227,9 +232,6 @@ android {
             isReturnDefaultValues = true
             isIncludeAndroidResources = true
         }
-    }
-    dependencies {
-        debugImplementation(compose.uiTooling)
     }
 }
 
