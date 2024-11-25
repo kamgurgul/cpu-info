@@ -31,9 +31,9 @@ height="80">](https://apps.microsoft.com/detail/9phxq0f4knbl)
 
 # Supported platforms 
 
-| Android | iOS | Desktop |                                                                Wasm                                                                |
-|:-------:|:---:|:-------:|:----------------------------------------------------------------------------------------------------------------------------------:|
-|    ✅    |  ✅  |    ✅    | ❌<br/>In progress<br/>Known issues: [1](https://youtrack.jetbrains.com/issue/CMP-6900/NavigationRail-items-not-visible-on-WASM-JS) |
+| Android | iOS | Desktop |                                                                                   Wasm                                                                                   |
+|:-------:|:---:|:-------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|    ✅    |  ✅  |    ✅    | ✅<br/>[In preview](https://kgurgul.com/assets/cpuinfo/)<br/>Known issues: [1](https://youtrack.jetbrains.com/issue/CMP-6900/NavigationRail-items-not-visible-on-WASM-JS) |
 
 # Tech stack
 
