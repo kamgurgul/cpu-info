@@ -338,7 +338,7 @@ private fun ApplicationItem(
                 .data(appData.appIconUri)
                 .crossfade(true)
                 .build(),
-            contentDescription = null,
+            contentDescription = appData.name,
             modifier = Modifier.size(50.dp),
         )
         SelectionContainer {
