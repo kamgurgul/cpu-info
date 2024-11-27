@@ -269,27 +269,25 @@ private fun ApplicationsList(
                     actionRow = {
                         Row {
                             IconButton(
-                                modifier = Modifier.size(rowActionIconSize),
+                                modifier = Modifier.requiredSize(rowActionIconSize),
                                 onClick = { onAppSettingsClicked(item.packageName) },
-                                content = {
-                                    Icon(
-                                        painter = painterResource(Res.drawable.ic_settings),
-                                        tint = MaterialTheme.colorScheme.onBackground,
-                                        contentDescription = stringResource(Res.string.settings),
-                                    )
-                                },
-                            )
+                            ) {
+                                Icon(
+                                    painter = painterResource(Res.drawable.ic_settings),
+                                    tint = MaterialTheme.colorScheme.onBackground,
+                                    contentDescription = stringResource(Res.string.settings),
+                                )
+                            }
                             IconButton(
-                                modifier = Modifier.size(rowActionIconSize),
+                                modifier = Modifier.requiredSize(rowActionIconSize),
                                 onClick = { onAppUninstallClicked(item.packageName) },
-                                content = {
-                                    Icon(
-                                        painter = painterResource(Res.drawable.ic_thrash),
-                                        tint = MaterialTheme.colorScheme.onBackground,
-                                        contentDescription = null,
-                                    )
-                                },
-                            )
+                            ) {
+                                Icon(
+                                    painter = painterResource(Res.drawable.ic_thrash),
+                                    tint = MaterialTheme.colorScheme.onBackground,
+                                    contentDescription = null,
+                                )
+                            }
                         }
                     },
                     content = {
