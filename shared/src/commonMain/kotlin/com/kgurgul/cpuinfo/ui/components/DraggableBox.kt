@@ -88,15 +88,13 @@ fun DraggableBox(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .offset { IntOffset(x = state.requireOffset().roundToInt(), y = 0) }
                 .anchoredDraggable(
                     state = state,
                     orientation = Orientation.Horizontal,
                     overscrollEffect = overscrollEffect,
                 )
                 .overscroll(overscrollEffect)
-                .offset {
-                    IntOffset(x = state.requireOffset().roundToInt(), y = 0)
-                }
                 .shadow(
                     elevation = calculateElevation(state.offset, actionRowOffset),
                     spotColor = MaterialTheme.colorScheme.onBackground,
