@@ -360,14 +360,17 @@ private fun ApplicationItem(
         if (appData.hasNativeLibs) {
             Spacer(modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.size(spacingXSmall))
-            Icon(
-                painter = painterResource(Res.drawable.ic_cpp_logo),
-                contentDescription = stringResource(Res.string.native_libs),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier
-                    .requiredSize(40.dp)
-                    .clickable { onNativeLibsClicked(appData.nativeLibs) },
-            )
+            IconButton(
+                onClick = { onNativeLibsClicked(appData.nativeLibs) },
+                modifier = Modifier.requiredSize(rowActionIconSize),
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.ic_cpp_logo),
+                    contentDescription = stringResource(Res.string.native_libs),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(spacingSmall),
+                )
+            }
         }
     }
 }
