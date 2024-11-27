@@ -1,11 +1,15 @@
 package com.kgurgul.cpuinfo.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 
 val LightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -80,6 +84,24 @@ fun CpuInfoTheme(
     MaterialTheme(
         colorScheme = colors,
         typography = CpuInfoTypography,
-        content = content,
-    )
+    ) {
+        val selectionColors = rememberTextSelectionColors(colors)
+        CompositionLocalProvider(
+            LocalTextSelectionColors provides selectionColors,
+            content = content,
+        )
+    }
 }
+
+@Composable
+private fun rememberTextSelectionColors(colorScheme: ColorScheme): TextSelectionColors {
+    val onBackground = colorScheme.onBackground
+    return remember(onBackground) {
+        TextSelectionColors(
+            handleColor = onBackground,
+            backgroundColor = onBackground.copy(alpha = TextSelectionBackgroundOpacity),
+        )
+    }
+}
+
+private const val TextSelectionBackgroundOpacity = 0.3f
