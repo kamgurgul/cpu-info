@@ -30,6 +30,9 @@ import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import kotlinx.coroutines.flow.collectLatest
 
+private const val VELOCITY_THRESHOLD = 125
+private const val SNAP_ANIMATION_MS = 150
+
 @Composable
 fun DraggableBox(
     isRevealed: Boolean,
@@ -46,8 +49,8 @@ fun DraggableBox(
         AnchoredDraggableState(
             initialValue = if (isRevealed) DraggableState.Revealed else DraggableState.Collapsed,
             positionalThreshold = { velocity: Float -> velocity * 0.5f },
-            velocityThreshold = { with(density) { 125.dp.toPx() } },
-            snapAnimationSpec = tween(durationMillis = 150),
+            velocityThreshold = { with(density) { VELOCITY_THRESHOLD.dp.toPx() } },
+            snapAnimationSpec = tween(durationMillis = SNAP_ANIMATION_MS),
             decayAnimationSpec = decayAnimationSpec,
         )
     }
