@@ -1,7 +1,6 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -18,19 +17,17 @@ version = "1.0"
 kotlin {
     androidTarget()
 
-    val xcf = XCFramework()
     val iosTargets = listOf(iosX64(), iosArm64())
     iosTargets.forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "shared"
             isStatic = true
             binaryOption("bundleId", "com.kgurgul.cpuinfo.shared")
-            xcf.add(this)
         }
 
         val baseCinteropPath = "$projectDir/src/nativeInterop/cinterop/"
         val libcpuinfoPath = when (iosTarget.name) {
-            "iosX65" -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-x86_64-simulator/"
+            "iosX64" -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-x86_64-simulator/"
             "iosSimulatorArm64" -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-arm64-simulator/"
             else -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-arm64/"
         }
