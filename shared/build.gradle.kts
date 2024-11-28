@@ -173,7 +173,6 @@ kotlin {
         compilations.configureEach {
             compileTaskProvider.get().compilerOptions {
                 freeCompilerArgs.add("-Xexpect-actual-classes")
-                freeCompilerArgs.add("-Xwasm-use-new-exception-proposal")
             }
         }
     }
