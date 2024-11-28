@@ -12,20 +12,20 @@
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		9805A21C2C43EF9F009D4819 /* IosSoftwareDataProviderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805A21B2C43EF9F009D4819 /* IosSoftwareDataProviderImpl.swift */; };
-		9843E8962C2C12230005FFCC /* libcpuinfo.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */; };
-		9843E8972C2C12230005FFCC /* libcpuinfo.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9878BEA22CF8E8A3007810F2 /* libcpuinfo.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */; };
+		9878BEA32CF8E8A3007810F2 /* libcpuinfo.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9843E8952C2C12230005FFCC /* libcpuinfo.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		98A3D5782C2FF1A700C60DE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98A3D5772C2FF1A700C60DE5 /* LaunchScreen.storyboard */; };
 		98E07D812C3CFD7F00B6C8C3 /* IosHardwareDataProviderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98367C552C33D3EC00C071E8 /* IosHardwareDataProviderImpl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		98356FC52C2AC2FC0077BDD7 /* Embed Frameworks */ = {
+		9878BEA42CF8E8A3007810F2 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9843E8972C2C12230005FFCC /* libcpuinfo.xcframework in Embed Frameworks */,
+				9878BEA32CF8E8A3007810F2 /* libcpuinfo.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9843E8962C2C12230005FFCC /* libcpuinfo.xcframework in Frameworks */,
+				9878BEA22CF8E8A3007810F2 /* libcpuinfo.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,7 +126,7 @@
 				7555FF77242A565900829871 /* Sources */,
 				B92378962B6B1156000C7307 /* Frameworks */,
 				7555FF79242A565900829871 /* Resources */,
-				98356FC52C2AC2FC0077BDD7 /* Embed Frameworks */,
+				9878BEA42CF8E8A3007810F2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
