@@ -28,7 +28,6 @@ kotlin {
         val baseCinteropPath = "$projectDir/src/nativeInterop/cinterop/"
         val libcpuinfoPath = when (iosTarget.name) {
             "iosX64" -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-x86_64-simulator/"
-            "iosSimulatorArm64" -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-arm64-simulator/"
             else -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-arm64/"
         }
         iosTarget.compilations.getByName("main") {
