@@ -9,40 +9,61 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRestorer
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.tv.material3.Tab
+import androidx.tv.material3.TabRow
+import androidx.tv.material3.TabRowDefaults
+import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.ANDROID_POS
+import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.CPU_POS
+import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.GPU_POS
+import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.HARDWARE_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.INFO_PAGE_AMOUNT
+import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.RAM_POS
+import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.SCREEN_POS
+import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.SENSORS_POS
+import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.STORAGE_POS
+import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoScreen
+import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoScreen
+import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoScreen
+import com.kgurgul.cpuinfo.features.information.os.OsInfoScreen
+import com.kgurgul.cpuinfo.features.information.ram.RamInfoScreen
+import com.kgurgul.cpuinfo.features.information.screen.ScreenInfoScreen
+import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
+import com.kgurgul.cpuinfo.features.information.storage.StorageInfoScreen
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.hardware
 import com.kgurgul.cpuinfo.shared.running_gc
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
+import com.kgurgul.cpuinfo.ui.theme.spacingMedium
+import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -107,34 +128,46 @@ private fun InfoContainer(
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page -> onPageChanged(page) }
     }
-    val tabs = listOf("Tab 1", "Tab 2", "Tab 3")
-    var selectedTabIndex by remember { mutableStateOf(0) }
-
     Column(
         modifier = Modifier
             .padding(top = paddingValues.calculateTopPadding())
             .then(modifier),
     ) {
         TabRow(
-            selectedTabIndex = selectedTabIndex,
-            modifier = Modifier.focusRestorer()
+            selectedTabIndex = pagerState.currentPage,
+            indicator = { tabPositions, doesTabRowHaveFocus ->
+                TabRowDefaults.PillIndicator(
+                    currentTabPosition = tabPositions[pagerState.currentPage],
+                    doesTabRowHaveFocus = doesTabRowHaveFocus,
+                    activeColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f),
+                )
+            },
+            modifier = Modifier
+                .focusRestorer()
+                .padding(spacingSmall)
         ) {
-            tabs.forEachIndexed { index, tab ->
+            tabTitles.forEachIndexed { index, tab ->
                 key(index) {
                     Tab(
-                        selected = index == selectedTabIndex,
-                        onClick = { selectedTabIndex = index },
+                        selected = index == pagerState.currentPage,
+                        onFocus = {
+                            scrollCoroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
                     ) {
                         Text(
                             text = tab,
                             fontSize = 12.sp,
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
+                            modifier = Modifier.padding(
+                                horizontal = spacingMedium,
+                                vertical = spacingSmall,
+                            )
                         )
                     }
                 }
             }
         }
-
         /*SecondaryScrollableTabRow(
             selectedTabIndex = pagerState.currentPage,
             edgePadding = maxOf(
@@ -151,12 +184,11 @@ private fun InfoContainer(
                         .tabIndicatorOffset(pagerState.currentPage),
                 )
             },
-            scrollState = scrollState,
             modifier = Modifier
                 .fillMaxWidth(),
         ) {
             tabTitles.forEachIndexed { index, title ->
-                Tab(
+                androidx.compose.material3.Tab(
                     selected = pagerState.currentPage == index,
                     onClick = {
                         scrollCoroutineScope.launch {
@@ -167,35 +199,26 @@ private fun InfoContainer(
                 )
             }
         }
-
-        HorizontalScrollbar(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .height(3.dp),
-            scrollState = scrollState,
+*/
+        HorizontalPager(
+            state = pagerState,
+            pageContent = {
+                when (it) {
+                    CPU_POS -> CpuInfoScreen()
+                    GPU_POS -> GpuInfoScreen()
+                    RAM_POS -> RamInfoScreen()
+                    STORAGE_POS -> StorageInfoScreen()
+                    SCREEN_POS -> ScreenInfoScreen()
+                    ANDROID_POS -> OsInfoScreen()
+                    HARDWARE_POS -> HardwareInfoScreen()
+                    SENSORS_POS -> SensorsInfoScreen()
+                    else -> throw IllegalArgumentException("Unknown position")
+                }
+            },
+            modifier = Modifier.padding(
+                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+            ),
         )
-    }*/
-
-        /* HorizontalPager(
-        state = pagerState,
-        pageContent = {
-            when (it) {
-                CPU_POS -> CpuInfoScreen()
-                GPU_POS -> GpuInfoScreen()
-                RAM_POS -> RamInfoScreen()
-                STORAGE_POS -> StorageInfoScreen()
-                SCREEN_POS -> ScreenInfoScreen()
-                ANDROID_POS -> OsInfoScreen()
-                HARDWARE_POS -> HardwareInfoScreen()
-                SENSORS_POS -> SensorsInfoScreen()
-                else -> throw IllegalArgumentException("Unknown position")
-            }
-        },
-        modifier = Modifier.padding(
-            start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-            end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-        ),
-    )*/
     }
 }
