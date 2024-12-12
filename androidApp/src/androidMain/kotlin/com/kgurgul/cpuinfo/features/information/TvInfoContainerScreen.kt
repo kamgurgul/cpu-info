@@ -50,7 +50,7 @@ import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.SCREEN_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.SENSORS_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.STORAGE_POS
-import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoScreen
+import com.kgurgul.cpuinfo.features.information.cpu.TvCpuInfoScreen
 import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoScreen
 import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoScreen
 import com.kgurgul.cpuinfo.features.information.os.OsInfoScreen
@@ -135,7 +135,8 @@ private fun InfoContainer(
                 TabRowDefaults.PillIndicator(
                     currentTabPosition = tabPositions[selectedTabIndex],
                     doesTabRowHaveFocus = doesTabRowHaveFocus,
-                    activeColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f),
+                    activeColor = MaterialTheme.colorScheme.surfaceTint,
+                    inactiveColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.4f),
                 )
             },
             modifier = Modifier
@@ -173,7 +174,7 @@ private fun InfoContainer(
             ),
         ) { targetPos ->
             when (targetPos) {
-                CPU_POS -> CpuInfoScreen()
+                CPU_POS -> TvCpuInfoScreen()
                 GPU_POS -> GpuInfoScreen()
                 RAM_POS -> RamInfoScreen()
                 STORAGE_POS -> StorageInfoScreen()
