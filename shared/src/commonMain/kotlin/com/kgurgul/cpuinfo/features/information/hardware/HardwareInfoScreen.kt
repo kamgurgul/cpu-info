@@ -1,6 +1,5 @@
 package com.kgurgul.cpuinfo.features.information.hardware
 
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -55,7 +54,6 @@ fun HardwareInfoScreen(
                     title = itemValue.getName(),
                     value = itemValue.getValue(),
                     isLastItem = index == uiState.hardwareItems.lastIndex,
-                    modifier = Modifier.focusable(),
                 )
             }
         }

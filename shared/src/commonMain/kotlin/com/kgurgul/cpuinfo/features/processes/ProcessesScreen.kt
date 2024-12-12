@@ -1,6 +1,5 @@
 package com.kgurgul.cpuinfo.features.processes
 
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -158,9 +157,7 @@ private fun ProcessList(
             ) { index, process ->
                 ProcessItem(
                     item = process,
-                    modifier = Modifier
-                        .focusable()
-                        .animateItem(),
+                    modifier = Modifier.animateItem(),
                 )
                 if (index < processes.lastIndex) {
                     CpuDivider(

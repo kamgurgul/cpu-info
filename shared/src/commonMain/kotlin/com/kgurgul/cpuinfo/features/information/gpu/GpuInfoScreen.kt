@@ -1,6 +1,5 @@
 package com.kgurgul.cpuinfo.features.information.gpu
 
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -62,7 +61,6 @@ fun GpuInfoScreen(
                     title = itemValue.getName(),
                     value = itemValue.getValue(),
                     isLastItem = index == uiState.gpuData.lastIndex,
-                    modifier = Modifier.focusable(),
                 )
             }
         }

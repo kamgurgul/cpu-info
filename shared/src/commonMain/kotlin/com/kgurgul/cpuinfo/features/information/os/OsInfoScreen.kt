@@ -1,6 +1,5 @@
 package com.kgurgul.cpuinfo.features.information.os
 
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -54,7 +53,6 @@ fun OsInfoScreen(
                     title = itemValue.getName(),
                     value = itemValue.getValue(),
                     isLastItem = index == uiState.items.lastIndex,
-                    modifier = Modifier.focusable(),
                 )
             }
         }

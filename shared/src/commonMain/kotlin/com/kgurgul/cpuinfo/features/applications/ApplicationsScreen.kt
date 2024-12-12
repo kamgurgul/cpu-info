@@ -2,7 +2,6 @@ package com.kgurgul.cpuinfo.features.applications
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -297,9 +296,7 @@ private fun ApplicationsList(
                             onNativeLibsClicked = onNativeLibsClicked,
                         )
                     },
-                    modifier = Modifier
-                        .animateItem()
-                        .focusable(),
+                    modifier = Modifier.animateItem(),
                 )
                 if (index < appList.lastIndex) {
                     CpuDivider(
