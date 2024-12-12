@@ -2,9 +2,12 @@
 
 package com.kgurgul.cpuinfo.features.information
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -15,8 +18,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,11 +27,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRestorer
@@ -63,7 +64,6 @@ import com.kgurgul.cpuinfo.shared.running_gc
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -122,22 +122,18 @@ private fun InfoContainer(
     onPageChanged: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val pagerState = rememberPagerState(pageCount = { INFO_PAGE_AMOUNT })
-    val scrollCoroutineScope = rememberCoroutineScope()
     val tabTitles = (0 until INFO_PAGE_AMOUNT).map { getTabTitle(position = it) }
-    LaunchedEffect(pagerState) {
-        snapshotFlow { pagerState.currentPage }.collect { page -> onPageChanged(page) }
-    }
+    var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
     Column(
         modifier = Modifier
             .padding(top = paddingValues.calculateTopPadding())
             .then(modifier),
     ) {
         TabRow(
-            selectedTabIndex = pagerState.currentPage,
+            selectedTabIndex = selectedTabIndex,
             indicator = { tabPositions, doesTabRowHaveFocus ->
                 TabRowDefaults.PillIndicator(
-                    currentTabPosition = tabPositions[pagerState.currentPage],
+                    currentTabPosition = tabPositions[selectedTabIndex],
                     doesTabRowHaveFocus = doesTabRowHaveFocus,
                     activeColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f),
                 )
@@ -149,12 +145,8 @@ private fun InfoContainer(
             tabTitles.forEachIndexed { index, tab ->
                 key(index) {
                     Tab(
-                        selected = index == pagerState.currentPage,
-                        onFocus = {
-                            scrollCoroutineScope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
-                        },
+                        selected = index == selectedTabIndex,
+                        onFocus = { selectedTabIndex = index },
                     ) {
                         Text(
                             text = tab,
@@ -168,57 +160,30 @@ private fun InfoContainer(
                 }
             }
         }
-        /*SecondaryScrollableTabRow(
-            selectedTabIndex = pagerState.currentPage,
-            edgePadding = maxOf(
-                paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-            ),
-            divider = {},
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            indicator = {
-                SecondaryIndicator(
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier
-                        .tabIndicatorOffset(pagerState.currentPage),
-                )
-            },
-            modifier = Modifier
-                .fillMaxWidth(),
-        ) {
-            tabTitles.forEachIndexed { index, title ->
-                androidx.compose.material3.Tab(
-                    selected = pagerState.currentPage == index,
-                    onClick = {
-                        scrollCoroutineScope.launch {
-                            pagerState.animateScrollToPage(index)
-                        }
-                    },
-                    text = { Text(text = title) },
-                )
-            }
-        }
-*/
-        HorizontalPager(
-            state = pagerState,
-            pageContent = {
-                when (it) {
-                    CPU_POS -> CpuInfoScreen()
-                    GPU_POS -> GpuInfoScreen()
-                    RAM_POS -> RamInfoScreen()
-                    STORAGE_POS -> StorageInfoScreen()
-                    SCREEN_POS -> ScreenInfoScreen()
-                    ANDROID_POS -> OsInfoScreen()
-                    HARDWARE_POS -> HardwareInfoScreen()
-                    SENSORS_POS -> SensorsInfoScreen()
-                    else -> throw IllegalArgumentException("Unknown position")
-                }
+        AnimatedContent(
+            targetState = selectedTabIndex,
+            label = "screen_transition",
+            transitionSpec = {
+                fadeIn(animationSpec = tween(220, delayMillis = 90))
+                    .togetherWith(fadeOut(animationSpec = tween(90)))
             },
             modifier = Modifier.padding(
                 start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
                 end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
             ),
-        )
+        ) { targetPos ->
+            when (targetPos) {
+                CPU_POS -> CpuInfoScreen()
+                GPU_POS -> GpuInfoScreen()
+                RAM_POS -> RamInfoScreen()
+                STORAGE_POS -> StorageInfoScreen()
+                SCREEN_POS -> ScreenInfoScreen()
+                ANDROID_POS -> OsInfoScreen()
+                HARDWARE_POS -> HardwareInfoScreen()
+                SENSORS_POS -> SensorsInfoScreen()
+                else -> throw IllegalArgumentException("Unknown position")
+            }
+            onPageChanged(targetPos)
+        }
     }
 }
