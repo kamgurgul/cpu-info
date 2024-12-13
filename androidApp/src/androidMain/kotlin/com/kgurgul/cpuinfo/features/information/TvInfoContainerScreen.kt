@@ -36,7 +36,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Tab
 import androidx.tv.material3.TabRow
@@ -51,13 +50,13 @@ import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.SENSORS_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.STORAGE_POS
 import com.kgurgul.cpuinfo.features.information.cpu.TvCpuInfoScreen
-import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoScreen
-import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoScreen
-import com.kgurgul.cpuinfo.features.information.os.OsInfoScreen
-import com.kgurgul.cpuinfo.features.information.ram.RamInfoScreen
-import com.kgurgul.cpuinfo.features.information.screen.ScreenInfoScreen
-import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
-import com.kgurgul.cpuinfo.features.information.storage.StorageInfoScreen
+import com.kgurgul.cpuinfo.features.information.gpu.TvGpuInfoScreen
+import com.kgurgul.cpuinfo.features.information.hardware.TvHardwareInfoScreen
+import com.kgurgul.cpuinfo.features.information.os.TvOsInfoScreen
+import com.kgurgul.cpuinfo.features.information.ram.TvRamInfoScreen
+import com.kgurgul.cpuinfo.features.information.screen.TvScreenInfoScreen
+import com.kgurgul.cpuinfo.features.information.sensors.TvSensorsInfoScreen
+import com.kgurgul.cpuinfo.features.information.storage.TvStorageInfoScreen
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.hardware
 import com.kgurgul.cpuinfo.shared.running_gc
@@ -151,7 +150,7 @@ private fun InfoContainer(
                     ) {
                         Text(
                             text = tab,
-                            fontSize = 12.sp,
+                            style = MaterialTheme.typography.labelLarge,
                             modifier = Modifier.padding(
                                 horizontal = spacingMedium,
                                 vertical = spacingSmall,
@@ -175,13 +174,13 @@ private fun InfoContainer(
         ) { targetPos ->
             when (targetPos) {
                 CPU_POS -> TvCpuInfoScreen()
-                GPU_POS -> GpuInfoScreen()
-                RAM_POS -> RamInfoScreen()
-                STORAGE_POS -> StorageInfoScreen()
-                SCREEN_POS -> ScreenInfoScreen()
-                ANDROID_POS -> OsInfoScreen()
-                HARDWARE_POS -> HardwareInfoScreen()
-                SENSORS_POS -> SensorsInfoScreen()
+                GPU_POS -> TvGpuInfoScreen()
+                RAM_POS -> TvRamInfoScreen()
+                STORAGE_POS -> TvStorageInfoScreen()
+                SCREEN_POS -> TvScreenInfoScreen()
+                ANDROID_POS -> TvOsInfoScreen()
+                HARDWARE_POS -> TvHardwareInfoScreen()
+                SENSORS_POS -> TvSensorsInfoScreen()
                 else -> throw IllegalArgumentException("Unknown position")
             }
             onPageChanged(targetPos)

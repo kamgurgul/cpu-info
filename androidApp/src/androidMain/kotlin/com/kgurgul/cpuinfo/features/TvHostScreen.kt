@@ -20,14 +20,10 @@ import com.kgurgul.cpuinfo.features.information.TvInfoContainerScreen
 import com.kgurgul.cpuinfo.features.settings.SettingsScreen
 import com.kgurgul.cpuinfo.features.temperature.TemperatureScreen
 import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.applications
 import com.kgurgul.cpuinfo.shared.hardware
-import com.kgurgul.cpuinfo.shared.ic_android
 import com.kgurgul.cpuinfo.shared.ic_cpu
 import com.kgurgul.cpuinfo.shared.ic_settings
-import com.kgurgul.cpuinfo.shared.ic_temperature
 import com.kgurgul.cpuinfo.shared.settings
-import com.kgurgul.cpuinfo.shared.temp
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffold
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffoldDefault
 import org.jetbrains.compose.resources.DrawableResource
@@ -153,7 +149,7 @@ data class TvHostNavigationItem(
                         route = HostScreen.Information.route,
                     ),
                 )
-                if (isApplicationsVisible) {
+                /*if (isApplicationsVisible) {
                     add(
                         HostNavigationItem(
                             label = Res.string.applications,
@@ -168,7 +164,7 @@ data class TvHostNavigationItem(
                         icon = Res.drawable.ic_temperature,
                         route = HostScreen.Temperatures.route,
                     ),
-                )
+                )*/
                 add(
                     HostNavigationItem(
                         label = Res.string.settings,
