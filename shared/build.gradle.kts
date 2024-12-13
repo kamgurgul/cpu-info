@@ -94,11 +94,11 @@ kotlin {
                 implementation(compose.ui)
                 implementation(libs.androidx.lifecycle.viewmodel.compose)
                 implementation(libs.androidx.lifecycle.runtime.compose)
-                implementation(libs.androidx.navigation.compose)
+                api(libs.androidx.navigation.compose)
                 implementation(libs.coil)
                 implementation(libs.compose.adaptive)
                 implementation(libs.kermit.kermit)
-                implementation(libs.koin.compose.viewodel)
+                api(libs.koin.compose.viewodel)
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.coroutines.core)
                 api(libs.kotlinx.immutable)
@@ -115,6 +115,7 @@ kotlin {
             dependencies {
                 implementation(compose.preview)
                 implementation(libs.androidx.datastore.preferences)
+                api(libs.androidx.tv)
                 implementation(libs.koin.android)
                 implementation(libs.relinker)
             }

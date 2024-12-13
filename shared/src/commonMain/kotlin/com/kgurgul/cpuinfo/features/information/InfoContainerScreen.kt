@@ -211,7 +211,7 @@ private fun InfoContainer(
 }
 
 @Composable
-private fun getTabTitle(position: Int) = stringResource(
+fun getTabTitle(position: Int) = stringResource(
     when (position) {
         CPU_POS -> Res.string.cpu
         GPU_POS -> Res.string.gpu

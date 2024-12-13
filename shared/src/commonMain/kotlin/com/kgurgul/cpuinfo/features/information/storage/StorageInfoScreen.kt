@@ -1,6 +1,5 @@
 package com.kgurgul.cpuinfo.features.information.storage
 
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -74,7 +73,6 @@ fun StorageInfoScreen(
                     progressHeight = 32.dp,
                     prefixImageRes = storageItem.iconDrawable,
                     minMaxValues = minMaxValues,
-                    modifier = Modifier.focusable(),
                 )
             }
         }
