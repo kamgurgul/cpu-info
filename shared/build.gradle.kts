@@ -95,7 +95,7 @@ kotlin {
                 implementation(libs.androidx.lifecycle.viewmodel.compose)
                 implementation(libs.androidx.lifecycle.runtime.compose)
                 api(libs.androidx.navigation.compose)
-                implementation(libs.coil)
+                api(libs.coil)
                 implementation(libs.compose.adaptive)
                 implementation(libs.kermit.kermit)
                 api(libs.koin.compose.viewodel)

@@ -16,7 +16,7 @@ fun TvListItem(
         onClick = {},
         scale = ListItemDefaults.scale(focusedScale = 1.01f),
         colors = ListItemDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.25f),
+            focusedContainerColor = MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.3f),
         ),
         headlineContent = headlineContent,
         modifier = modifier,

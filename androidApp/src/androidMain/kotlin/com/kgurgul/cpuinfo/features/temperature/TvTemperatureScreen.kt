@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
@@ -17,7 +16,6 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -30,16 +28,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.no_temp_data
-import com.kgurgul.cpuinfo.shared.temperature
-import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
-import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
+import com.kgurgul.cpuinfo.ui.components.tv.TvListItem
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import kotlinx.collections.immutable.ImmutableList
@@ -49,34 +47,29 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun TemperatureScreen(
+fun TvTemperatureScreen(
     viewModel: TemperatureViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    TemperatureScreen(
+    TvTemperatureScreen(
         uiState = uiState,
     )
 }
 
 @Composable
-fun TemperatureScreen(
+fun TvTemperatureScreen(
     uiState: TemperatureViewModel.UiState,
 ) {
     Scaffold(
-        topBar = {
-            PrimaryTopAppBar(
-                title = stringResource(Res.string.temperature),
-            )
-        },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
     ) { paddingValues ->
         val paddingModifier = Modifier.padding(paddingValues)
         if (uiState.temperatureItems.isEmpty()) {
-            EmptyTemperatureList(
+            TvEmptyTemperatureList(
                 modifier = paddingModifier,
             )
         } else {
-            TemperatureList(
+            TvTemperatureList(
                 temperatureItems = uiState.temperatureItems,
                 temperatureFormatter = uiState.temperatureFormatter,
                 modifier = paddingModifier,
@@ -85,43 +78,35 @@ fun TemperatureScreen(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun TemperatureList(
+private fun TvTemperatureList(
     temperatureItems: ImmutableList<TemperatureItem>,
     temperatureFormatter: TemperatureFormatter,
     modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .focusRestorer()
+            .then(modifier),
     ) {
-        val listState = rememberLazyListState()
-        LazyColumn(
-            state = listState,
-            modifier = Modifier
-                .fillMaxSize()
-                .then(modifier),
-        ) {
-            items(
-                items = temperatureItems,
-                key = { item -> item.id },
-            ) { item ->
-                TemperatureItem(
+        items(
+            items = temperatureItems,
+            key = { item -> item.id },
+        ) { item ->
+            TvListItem {
+                TvTemperatureItem(
                     item = item,
                     temperatureFormatter = temperatureFormatter,
                 )
             }
         }
-        VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
-            scrollState = listState,
-        )
     }
 }
 
 @Composable
-private fun TemperatureItem(
+private fun TvTemperatureItem(
     item: TemperatureItem,
     temperatureFormatter: TemperatureFormatter,
 ) {
@@ -166,7 +151,7 @@ private fun TemperatureItem(
 }
 
 @Composable
-private fun EmptyTemperatureList(
+private fun TvEmptyTemperatureList(
     modifier: Modifier = Modifier,
 ) {
     Box(
