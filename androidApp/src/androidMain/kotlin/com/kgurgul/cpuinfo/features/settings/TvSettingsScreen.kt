@@ -2,22 +2,14 @@ package com.kgurgul.cpuinfo.features.settings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -32,26 +24,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRestorer
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
-import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.cancel
-import com.kgurgul.cpuinfo.shared.celsius
-import com.kgurgul.cpuinfo.shared.fahrenheit
 import com.kgurgul.cpuinfo.shared.general
-import com.kgurgul.cpuinfo.shared.kelvin
 import com.kgurgul.cpuinfo.shared.pref_theme
 import com.kgurgul.cpuinfo.shared.pref_theme_choose
-import com.kgurgul.cpuinfo.shared.pref_theme_dark
-import com.kgurgul.cpuinfo.shared.pref_theme_default
-import com.kgurgul.cpuinfo.shared.pref_theme_light
-import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.temperature_unit
-import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
-import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
+import com.kgurgul.cpuinfo.ui.components.tv.TvListItem
 import com.kgurgul.cpuinfo.ui.theme.spacingLarge
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -60,11 +43,11 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun SettingsScreen(
+fun TvSettingsScreen(
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    SettingsScreen(
+    TvSettingsScreen(
         uiState = uiState,
         onTemperatureOptionClicked = viewModel::setTemperatureUnit,
         onThemeOptionClicked = viewModel::setTheme,
@@ -72,19 +55,12 @@ fun SettingsScreen(
 }
 
 @Composable
-fun SettingsScreen(
+fun TvSettingsScreen(
     uiState: SettingsViewModel.UiState,
     onTemperatureOptionClicked: (Int) -> Unit,
     onThemeOptionClicked: (String) -> Unit,
 ) {
-    Scaffold(
-        topBar = {
-            PrimaryTopAppBar(
-                title = stringResource(Res.string.settings),
-            )
-        },
-        contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         var isTemperatureDialogVisible by remember { mutableStateOf(false) }
         var isThemeDialogVisible by remember { mutableStateOf(false) }
         SettingsList(
@@ -110,6 +86,7 @@ fun SettingsScreen(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun SettingsList(
     uiState: SettingsViewModel.UiState,
@@ -117,44 +94,32 @@ private fun SettingsList(
     onTemperatureItemClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
+    LazyColumn(
+        contentPadding = PaddingValues(spacingMedium),
+        modifier = modifier.focusRestorer(),
     ) {
-        val listState = rememberLazyListState()
-        LazyColumn(
-            contentPadding = PaddingValues(spacingMedium),
-            state = listState,
-            modifier = modifier,
-        ) {
-            item(key = "__generalHeader") {
-                Text(
-                    text = stringResource(Res.string.general),
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.tertiary,
-                )
-                Spacer(modifier = Modifier.requiredSize(spacingMedium))
-            }
-            item(key = "__themeItem") {
-                SettingsItem(
-                    title = stringResource(Res.string.pref_theme),
-                    subtitle = getThemeName(option = uiState.theme),
-                    onClick = onThemeItemClicked,
-                )
-            }
-            item(key = "__temperatureItem") {
-                SettingsItem(
-                    title = stringResource(Res.string.temperature_unit),
-                    subtitle = getTemperatureUnit(option = uiState.temperatureUnit),
-                    onClick = onTemperatureItemClicked,
-                )
-            }
+        item(key = "__generalHeader") {
+            Text(
+                text = stringResource(Res.string.general),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.tertiary,
+            )
+            Spacer(modifier = Modifier.requiredSize(spacingMedium))
         }
-        VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
-            scrollState = listState,
-        )
+        item(key = "__themeItem") {
+            SettingsItem(
+                title = stringResource(Res.string.pref_theme),
+                subtitle = getThemeName(option = uiState.theme),
+                onClick = onThemeItemClicked,
+            )
+        }
+        item(key = "__temperatureItem") {
+            SettingsItem(
+                title = stringResource(Res.string.temperature_unit),
+                subtitle = getTemperatureUnit(option = uiState.temperatureUnit),
+                onClick = onTemperatureItemClicked,
+            )
+        }
     }
 }
 
@@ -164,23 +129,26 @@ private fun SettingsItem(
     subtitle: String,
     onClick: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(vertical = spacingMedium)
-            .padding(start = spacingLarge),
+    TvListItem(
+        onClick = onClick,
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-        )
-        Text(
-            text = subtitle,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = spacingMedium)
+                .padding(start = spacingLarge),
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
     }
 }
 
@@ -297,25 +265,5 @@ private fun ThemeDialog(
                 }
             },
         )
-    }
-}
-
-@Composable
-fun getThemeName(option: String): String {
-    return when (option) {
-        DarkThemeConfig.FOLLOW_SYSTEM.prefName -> stringResource(Res.string.pref_theme_default)
-        DarkThemeConfig.LIGHT.prefName -> stringResource(Res.string.pref_theme_light)
-        DarkThemeConfig.DARK.prefName -> stringResource(Res.string.pref_theme_dark)
-        else -> throw IllegalArgumentException("Unknown theme")
-    }
-}
-
-@Composable
-fun getTemperatureUnit(option: Int): String {
-    return when (option) {
-        TemperatureFormatter.CELSIUS -> stringResource(Res.string.celsius)
-        TemperatureFormatter.FAHRENHEIT -> stringResource(Res.string.fahrenheit)
-        TemperatureFormatter.KELVIN -> stringResource(Res.string.kelvin)
-        else -> throw IllegalArgumentException("Unknown temperature unit")
     }
 }

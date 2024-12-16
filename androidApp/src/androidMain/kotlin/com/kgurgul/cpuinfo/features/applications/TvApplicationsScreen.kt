@@ -2,13 +2,11 @@ package com.kgurgul.cpuinfo.features.applications
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
@@ -18,20 +16,15 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -40,18 +33,20 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.tv.material3.Button
+import androidx.tv.material3.Icon
+import androidx.tv.material3.IconButton
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
@@ -67,13 +62,11 @@ import com.kgurgul.cpuinfo.shared.ic_thrash
 import com.kgurgul.cpuinfo.shared.native_libs
 import com.kgurgul.cpuinfo.shared.ok
 import com.kgurgul.cpuinfo.shared.settings
-import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
-import com.kgurgul.cpuinfo.ui.components.DraggableBox
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
-import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
+import com.kgurgul.cpuinfo.ui.components.tv.TvListItem
 import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -154,6 +147,7 @@ fun TvApplicationsScreen(
     ) { innerPaddingModifier ->
         CpuPullToRefreshBox(
             isRefreshing = uiState.isLoading,
+            enabled = false,
             onRefresh = { onRefreshApplications() },
             modifier = Modifier
                 .fillMaxSize()
@@ -233,6 +227,7 @@ private fun TopBar(
     )
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun ApplicationsList(
     appList: ImmutableList<ExtendedApplicationData>,
@@ -241,79 +236,48 @@ private fun ApplicationsList(
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (libs: List<String>) -> Unit,
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
+    LazyColumn(
+        modifier = Modifier
+            .focusRestorer()
+            .fillMaxSize(),
     ) {
-        val listState = rememberLazyListState()
-        var revealedCardId: String? by rememberSaveable { mutableStateOf(null) }
-        val density = LocalDensity.current
-        LazyColumn(
-            state = listState,
-            modifier = Modifier
-                .fillMaxSize(),
-        ) {
-            itemsIndexed(
-                items = appList,
-                key = { _, item -> item.packageName },
-            ) { index, item ->
-                val isRevealed by remember {
-                    derivedStateOf { revealedCardId == item.packageName }
-                }
-                DraggableBox(
-                    isRevealed = isRevealed,
-                    onExpand = { revealedCardId = item.packageName },
-                    onCollapse = {
-                        if (revealedCardId == item.packageName) {
-                            revealedCardId = null
-                        }
-                    },
-                    actionRowOffset = with(density) { rowActionIconSize.toPx() * 2 },
-                    actionRow = {
-                        Row {
-                            IconButton(
-                                modifier = Modifier.requiredSize(rowActionIconSize),
-                                onClick = { onAppSettingsClicked(item.packageName) },
-                            ) {
-                                Icon(
-                                    painter = painterResource(Res.drawable.ic_settings),
-                                    tint = MaterialTheme.colorScheme.onBackground,
-                                    contentDescription = stringResource(Res.string.settings),
-                                )
-                            }
-                            IconButton(
-                                modifier = Modifier.requiredSize(rowActionIconSize),
-                                onClick = { onAppUninstallClicked(item.packageName) },
-                            ) {
-                                Icon(
-                                    painter = painterResource(Res.drawable.ic_thrash),
-                                    tint = MaterialTheme.colorScheme.onBackground,
-                                    contentDescription = null,
-                                )
-                            }
-                        }
-                    },
-                    content = {
-                        ApplicationItem(
-                            appData = item,
-                            onAppClicked = onAppClicked,
-                            onNativeLibsClicked = onNativeLibsClicked,
-                        )
-                    },
-                    modifier = Modifier.animateItem(),
-                )
-                if (index < appList.lastIndex) {
-                    CpuDivider(
-                        modifier = Modifier.padding(horizontal = spacingSmall),
+        items(
+            items = appList,
+            key = { item -> item.packageName },
+        ) { item ->
+            TvListItem {
+                Row(
+                    modifier = Modifier.animateItem()
+                ) {
+                    ApplicationItem(
+                        appData = item,
+                        onAppClicked = onAppClicked,
+                        onNativeLibsClicked = onNativeLibsClicked,
+                        modifier = Modifier.weight(1f),
                     )
+                    IconButton(
+                        modifier = Modifier.requiredSize(rowActionIconSize),
+                        onClick = { onAppSettingsClicked(item.packageName) },
+                    ) {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_settings),
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            contentDescription = stringResource(Res.string.settings),
+                        )
+                    }
+                    IconButton(
+                        modifier = Modifier.requiredSize(rowActionIconSize),
+                        onClick = { onAppUninstallClicked(item.packageName) },
+                    ) {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_thrash),
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            contentDescription = null,
+                        )
+                    }
                 }
             }
         }
-        VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
-            scrollState = listState,
-        )
     }
 }
 
@@ -322,14 +286,15 @@ private fun ApplicationItem(
     appData: ExtendedApplicationData,
     onAppClicked: (packageName: String) -> Unit,
     onNativeLibsClicked: (libs: List<String>) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxWidth()
             .background(color = MaterialTheme.colorScheme.background)
             .clickable(onClick = { onAppClicked(appData.packageName) })
-            .padding(spacingSmall),
+            .padding(spacingSmall)
+            .then(modifier),
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalPlatformContext.current)

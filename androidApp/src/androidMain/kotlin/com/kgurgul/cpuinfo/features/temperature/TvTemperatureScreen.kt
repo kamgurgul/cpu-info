@@ -88,6 +88,7 @@ private fun TvTemperatureList(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
+            .padding(spacingMedium)
             .focusRestorer()
             .then(modifier),
     ) {
@@ -95,12 +96,10 @@ private fun TvTemperatureList(
             items = temperatureItems,
             key = { item -> item.id },
         ) { item ->
-            TvListItem {
-                TvTemperatureItem(
-                    item = item,
-                    temperatureFormatter = temperatureFormatter,
-                )
-            }
+            TvTemperatureItem(
+                item = item,
+                temperatureFormatter = temperatureFormatter,
+            )
         }
     }
 }
@@ -111,40 +110,41 @@ private fun TvTemperatureItem(
     temperatureFormatter: TemperatureFormatter,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    Row(
-        modifier = Modifier
-            .height(IntrinsicSize.Min)
-            .padding(spacingMedium),
-    ) {
-        Icon(
-            painter = painterResource(item.icon),
-            tint = MaterialTheme.colorScheme.onBackground,
-            contentDescription = null,
-            modifier = Modifier.requiredSize(60.dp),
-        )
-        Spacer(modifier = Modifier.requiredSize(spacingSmall))
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
+    TvListItem {
+        Row(
+            modifier = Modifier
+                .height(IntrinsicSize.Min),
         ) {
-            Text(
-                text = item.name.asString(),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground,
+            Icon(
+                painter = painterResource(item.icon),
+                tint = MaterialTheme.colorScheme.onBackground,
+                contentDescription = null,
+                modifier = Modifier.requiredSize(60.dp),
             )
             Spacer(modifier = Modifier.requiredSize(spacingSmall))
-            if (!item.temperature.isNaN()) {
-                var formattedTemp by remember { mutableStateOf("") }
-                LaunchedEffect(item.temperature) {
-                    coroutineScope.launch {
-                        formattedTemp = temperatureFormatter.format(item.temperature)
-                    }
-                }
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+            ) {
                 Text(
-                    text = formattedTemp,
-                    style = MaterialTheme.typography.titleLarge,
+                    text = item.name.asString(),
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
+                Spacer(modifier = Modifier.requiredSize(spacingSmall))
+                if (!item.temperature.isNaN()) {
+                    var formattedTemp by remember { mutableStateOf("") }
+                    LaunchedEffect(item.temperature) {
+                        coroutineScope.launch {
+                            formattedTemp = temperatureFormatter.format(item.temperature)
+                        }
+                    }
+                    Text(
+                        text = formattedTemp,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
             }
         }
     }
