@@ -1,6 +1,5 @@
 package com.kgurgul.cpuinfo.features.settings
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -25,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.cancel
@@ -32,6 +31,7 @@ import com.kgurgul.cpuinfo.shared.general
 import com.kgurgul.cpuinfo.shared.pref_theme
 import com.kgurgul.cpuinfo.shared.pref_theme_choose
 import com.kgurgul.cpuinfo.shared.temperature_unit
+import com.kgurgul.cpuinfo.ui.components.tv.TvButton
 import com.kgurgul.cpuinfo.ui.components.tv.TvListItem
 import com.kgurgul.cpuinfo.ui.theme.spacingLarge
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
@@ -163,6 +163,8 @@ private fun TemperatureUnitDialog(
             title = {
                 Text(text = stringResource(Res.string.temperature_unit))
             },
+            tonalElevation = 0.dp,
+            containerColor = MaterialTheme.colorScheme.surface,
             text = {
                 val scrollState = rememberScrollState()
                 Column(
@@ -170,34 +172,37 @@ private fun TemperatureUnitDialog(
                     modifier = Modifier.verticalScroll(scrollState),
                 ) {
                     for (option in options) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(spacingMedium),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onOptionClicked(option)
-                                    onDismissRequest()
-                                }
-                                .padding(vertical = spacingSmall),
+                        TvListItem(
+                            onClick = {
+                                onOptionClicked(option)
+                                onDismissRequest()
+                            },
                         ) {
-                            RadioButton(
-                                selected = option == currentSelection,
-                                onClick = null,
-                                colors = RadioButtonDefaults.colors(
-                                    selectedColor = MaterialTheme.colorScheme.tertiary,
-                                ),
-                            )
-                            Text(
-                                text = getTemperatureUnit(option = option),
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onBackground,
-                            )
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(spacingMedium),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = spacingSmall),
+                            ) {
+                                RadioButton(
+                                    selected = option == currentSelection,
+                                    onClick = null,
+                                    colors = RadioButtonDefaults.colors(
+                                        selectedColor = MaterialTheme.colorScheme.tertiary,
+                                    ),
+                                )
+                                Text(
+                                    text = getTemperatureUnit(option = option),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                )
+                            }
                         }
                     }
                 }
             },
             confirmButton = {
-                Button(
+                TvButton(
                     onClick = onDismissRequest,
                 ) {
                     Text(text = stringResource(Res.string.cancel))
@@ -221,6 +226,8 @@ private fun ThemeDialog(
             title = {
                 Text(text = stringResource(Res.string.pref_theme_choose))
             },
+            tonalElevation = 0.dp,
+            containerColor = MaterialTheme.colorScheme.surface,
             text = {
                 val scrollState = rememberScrollState()
                 Column(
@@ -228,34 +235,37 @@ private fun ThemeDialog(
                     modifier = Modifier.verticalScroll(scrollState),
                 ) {
                     for (option in options) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(spacingMedium),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onOptionClicked(option)
-                                    onDismissRequest()
-                                }
-                                .padding(vertical = spacingSmall),
+                        TvListItem(
+                            onClick = {
+                                onOptionClicked(option)
+                                onDismissRequest()
+                            },
                         ) {
-                            RadioButton(
-                                selected = option == currentSelection,
-                                onClick = null,
-                                colors = RadioButtonDefaults.colors(
-                                    selectedColor = MaterialTheme.colorScheme.tertiary,
-                                ),
-                            )
-                            Text(
-                                text = getThemeName(option = option),
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onBackground,
-                            )
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(spacingMedium),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = spacingSmall),
+                            ) {
+                                RadioButton(
+                                    selected = option == currentSelection,
+                                    onClick = null,
+                                    colors = RadioButtonDefaults.colors(
+                                        selectedColor = MaterialTheme.colorScheme.tertiary,
+                                    ),
+                                )
+                                Text(
+                                    text = getThemeName(option = option),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                )
+                            }
                         }
                     }
                 }
             },
             confirmButton = {
-                Button(
+                TvButton(
                     onClick = onDismissRequest,
                 ) {
                     Text(text = stringResource(Res.string.cancel))
