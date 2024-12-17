@@ -24,9 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusRestorer
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.cancel
@@ -86,7 +84,6 @@ fun TvSettingsScreen(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun SettingsList(
     uiState: SettingsViewModel.UiState,
@@ -96,7 +93,7 @@ private fun SettingsList(
 ) {
     LazyColumn(
         contentPadding = PaddingValues(spacingMedium),
-        modifier = modifier.focusRestorer(),
+        modifier = modifier,
     ) {
         item(key = "__generalHeader") {
             Text(

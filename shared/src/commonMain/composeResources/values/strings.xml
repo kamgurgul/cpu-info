@@ -22,6 +22,7 @@
     <string name="no">No</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="refresh">Refresh</string>
     <string name="id" translatable="false">ID</string>
     <string name="vram" translatable="false">VRAM</string>
     <string name="edid" translatable="false">EDID</string>

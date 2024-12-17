@@ -28,9 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
@@ -78,7 +76,6 @@ fun TvTemperatureScreen(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun TvTemperatureList(
     temperatureItems: ImmutableList<TemperatureItem>,
@@ -89,7 +86,6 @@ private fun TvTemperatureList(
         modifier = Modifier
             .fillMaxSize()
             .padding(spacingMedium)
-            .focusRestorer()
             .then(modifier),
     ) {
         items(

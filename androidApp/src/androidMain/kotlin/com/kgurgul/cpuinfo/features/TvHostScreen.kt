@@ -30,7 +30,9 @@ import com.kgurgul.cpuinfo.features.information.TvInfoContainerScreen
 import com.kgurgul.cpuinfo.features.settings.TvSettingsScreen
 import com.kgurgul.cpuinfo.features.temperature.TvTemperatureScreen
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.applications
 import com.kgurgul.cpuinfo.shared.hardware
+import com.kgurgul.cpuinfo.shared.ic_android
 import com.kgurgul.cpuinfo.shared.ic_cpu
 import com.kgurgul.cpuinfo.shared.ic_settings
 import com.kgurgul.cpuinfo.shared.ic_temperature
@@ -179,15 +181,15 @@ data class TvHostNavigationItem(
                         route = HostScreen.Information.route,
                     ),
                 )
-                /*                if (isApplicationsVisible) {
-                                    add(
-                                        HostNavigationItem(
-                                            label = Res.string.applications,
-                                            icon = Res.drawable.ic_android,
-                                            route = HostScreen.Applications.route,
-                                        ),
-                                    )
-                                }*/
+                if (isApplicationsVisible) {
+                    add(
+                        HostNavigationItem(
+                            label = Res.string.applications,
+                            icon = Res.drawable.ic_android,
+                            route = HostScreen.Applications.route,
+                        ),
+                    )
+                }
                 add(
                     HostNavigationItem(
                         label = Res.string.temp,

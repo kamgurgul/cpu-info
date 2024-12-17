@@ -21,6 +21,7 @@
     <string name="no">Ne</string>
     <string name="ok">OK</string>
     <string name="cancel">Zrušit</string>
+    <string name="refresh">Obnovit</string>
 
     <string name="cpu">CPU</string>
     <string name="gpu">GPU</string>

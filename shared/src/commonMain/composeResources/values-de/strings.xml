@@ -21,6 +21,7 @@
     <string name="no">Nein</string>
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
+    <string name="refresh">Aktualisieren</string>
 
     <string name="cpu">CPU</string>
     <string name="gpu">GPU</string>

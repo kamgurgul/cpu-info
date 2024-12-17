@@ -1,7 +1,7 @@
 package com.kgurgul.cpuinfo.features.applications
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,10 +19,8 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -34,10 +31,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -46,30 +41,24 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Button
 import androidx.tv.material3.Icon
-import androidx.tv.material3.IconButton
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.applications
 import com.kgurgul.cpuinfo.shared.apps_show_system_apps
 import com.kgurgul.cpuinfo.shared.apps_sort_order
-import com.kgurgul.cpuinfo.shared.ic_cpp_logo
-import com.kgurgul.cpuinfo.shared.ic_settings
-import com.kgurgul.cpuinfo.shared.ic_thrash
+import com.kgurgul.cpuinfo.shared.ic_apk_document_filled
+import com.kgurgul.cpuinfo.shared.ic_apk_document_outlined
 import com.kgurgul.cpuinfo.shared.native_libs
 import com.kgurgul.cpuinfo.shared.ok
-import com.kgurgul.cpuinfo.shared.settings
+import com.kgurgul.cpuinfo.shared.refresh
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
-import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
-import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
+import com.kgurgul.cpuinfo.ui.components.tv.TvIconButton
 import com.kgurgul.cpuinfo.ui.components.tv.TvListItem
-import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
-import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
@@ -133,6 +122,7 @@ fun TvApplicationsScreen(
         topBar = {
             TopBar(
                 withSystemApps = uiState.withSystemApps,
+                onRefreshApplications = onRefreshApplications,
                 onSystemAppsSwitched = onSystemAppsSwitched,
                 isSortAscending = uiState.isSortAscending,
                 onSortOrderChange = onSortOrderChange,
@@ -170,64 +160,59 @@ fun TvApplicationsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun TopBar(
     withSystemApps: Boolean,
+    onRefreshApplications: () -> Unit,
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
     isSortAscending: Boolean,
     onSortOrderChange: (ascending: Boolean) -> Unit,
 ) {
-    var showMenu by remember { mutableStateOf(false) }
-    PrimaryTopAppBar(
-        title = stringResource(Res.string.applications),
-        actions = {
-            IconButton(onClick = { showMenu = !showMenu }) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = null,
-                )
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(spacingMedium, Alignment.End),
+        modifier = Modifier
+            .fillMaxWidth()
+            .focusRestorer()
+            .padding(spacingMedium),
+    ) {
+        TvIconButton(
+            onClick = onRefreshApplications
+        ) {
+            Icon(
+                imageVector = Icons.Default.Refresh,
+                contentDescription = stringResource(Res.string.refresh),
+            )
+        }
+        TvIconButton(
+            onClick = { onSortOrderChange(!isSortAscending) }
+        ) {
+            val icon = if (isSortAscending) {
+                Icons.Default.KeyboardArrowDown
+            } else {
+                Icons.Default.KeyboardArrowUp
             }
-            DropdownMenu(
-                expanded = showMenu,
-                onDismissRequest = { showMenu = false },
-            ) {
-                DropdownMenuItem(
-                    text = {
-                        CpuSwitchBox(
-                            text = stringResource(Res.string.apps_show_system_apps),
-                            isChecked = withSystemApps,
-                            onCheckedChange = { onSystemAppsSwitched(!withSystemApps) },
-                        )
-                    },
-                    onClick = { onSystemAppsSwitched(!withSystemApps) },
-                )
-                DropdownMenuItem(
-                    text = {
-                        Text(
-                            text = stringResource(Res.string.apps_sort_order),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                    },
-                    onClick = { onSortOrderChange(!isSortAscending) },
-                    trailingIcon = {
-                        val icon = if (isSortAscending) {
-                            Icons.Default.KeyboardArrowDown
-                        } else {
-                            Icons.Default.KeyboardArrowUp
-                        }
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = null,
-                        )
-                    },
-                )
-            }
-        },
-    )
+            Icon(
+                imageVector = icon,
+                contentDescription = stringResource(Res.string.apps_sort_order),
+            )
+        }
+        val systemAppIcon = if (withSystemApps) {
+            Res.drawable.ic_apk_document_filled
+        } else {
+            Res.drawable.ic_apk_document_outlined
+        }
+        TvIconButton(
+            onClick = { onSystemAppsSwitched(!withSystemApps) }
+        ) {
+            Icon(
+                painter = painterResource(systemAppIcon),
+                contentDescription = stringResource(Res.string.apps_show_system_apps),
+            )
+        }
+    }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun ApplicationsList(
     appList: ImmutableList<ExtendedApplicationData>,
@@ -238,24 +223,24 @@ private fun ApplicationsList(
 ) {
     LazyColumn(
         modifier = Modifier
-            .focusRestorer()
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(spacingMedium),
     ) {
         items(
             items = appList,
             key = { item -> item.packageName },
         ) { item ->
-            TvListItem {
-                Row(
-                    modifier = Modifier.animateItem()
-                ) {
+            TvListItem(
+                onClick = { onAppClicked(item.packageName) },
+                modifier = Modifier.animateItem()
+            ) {
+                Row {
                     ApplicationItem(
                         appData = item,
-                        onAppClicked = onAppClicked,
                         onNativeLibsClicked = onNativeLibsClicked,
                         modifier = Modifier.weight(1f),
                     )
-                    IconButton(
+                    /*IconButton(
                         modifier = Modifier.requiredSize(rowActionIconSize),
                         onClick = { onAppSettingsClicked(item.packageName) },
                     ) {
@@ -274,7 +259,7 @@ private fun ApplicationsList(
                             tint = MaterialTheme.colorScheme.onBackground,
                             contentDescription = null,
                         )
-                    }
+                    }*/
                 }
             }
         }
@@ -284,17 +269,12 @@ private fun ApplicationsList(
 @Composable
 private fun ApplicationItem(
     appData: ExtendedApplicationData,
-    onAppClicked: (packageName: String) -> Unit,
     onNativeLibsClicked: (libs: List<String>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .background(color = MaterialTheme.colorScheme.background)
-            .clickable(onClick = { onAppClicked(appData.packageName) })
-            .padding(spacingSmall)
-            .then(modifier),
+        modifier = modifier,
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalPlatformContext.current)
@@ -304,6 +284,7 @@ private fun ApplicationItem(
             contentDescription = appData.name,
             modifier = Modifier.size(50.dp),
         )
+        Spacer(modifier = Modifier.size(spacingMedium))
         SelectionContainer {
             Column(
                 modifier = Modifier.padding(horizontal = spacingXSmall),
@@ -320,7 +301,7 @@ private fun ApplicationItem(
                 )
             }
         }
-        if (appData.hasNativeLibs) {
+        /*if (appData.hasNativeLibs) {
             Spacer(modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.size(spacingXSmall))
             IconButton(
@@ -334,7 +315,7 @@ private fun ApplicationItem(
                     modifier = Modifier.padding(spacingSmall),
                 )
             }
-        }
+        }*/
     }
 }
 

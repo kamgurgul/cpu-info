@@ -7,9 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusRestorer
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.getKey
 import com.kgurgul.cpuinfo.domain.model.getName
@@ -29,7 +27,6 @@ fun TvScreenInfoScreen(
     )
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TvScreenInfoScreen(
     uiState: ScreenInfoViewModel.UiState,
@@ -38,8 +35,7 @@ fun TvScreenInfoScreen(
         contentPadding = PaddingValues(spacingSmall),
         verticalArrangement = Arrangement.spacedBy(spacingSmall),
         modifier = Modifier
-            .fillMaxSize()
-            .focusRestorer(),
+            .fillMaxSize(),
     ) {
         items(
             uiState.items,

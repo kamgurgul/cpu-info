@@ -13,9 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusRestorer
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.ui.components.tv.TvListItem
@@ -33,7 +31,6 @@ fun TvSensorsInfoScreen(
     )
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TvSensorsInfoScreen(
     uiState: SensorsInfoViewModel.UiState,
@@ -42,8 +39,7 @@ fun TvSensorsInfoScreen(
         contentPadding = PaddingValues(spacingSmall),
         verticalArrangement = Arrangement.spacedBy(spacingSmall),
         modifier = Modifier
-            .fillMaxSize()
-            .focusRestorer(),
+            .fillMaxSize(),
     ) {
         items(
             uiState.sensors,

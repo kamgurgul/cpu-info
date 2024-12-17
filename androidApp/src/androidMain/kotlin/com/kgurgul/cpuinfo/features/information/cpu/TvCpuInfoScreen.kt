@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.platform.testTag
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.CpuData
@@ -41,14 +39,12 @@ fun TvCpuInfoScreen(viewModel: CpuInfoViewModel = koinViewModel()) {
     )
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TvCpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
     LazyColumn(
         contentPadding = PaddingValues(spacingSmall),
         modifier = Modifier
             .fillMaxSize()
-            .focusRestorer()
             .testTag(TvCpuInfoScreenTestTags.LAZY_COLUMN),
     ) {
         uiState.cpuData?.let { cpuData ->

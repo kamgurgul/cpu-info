@@ -21,6 +21,7 @@
     <string name="no">Nie</string>
     <string name="ok">OK</string>
     <string name="cancel">Anuluj</string>
+    <string name="refresh">Odśwież</string>
 
     <!--Tabs-->
     <string name="cpu">CPU</string>
