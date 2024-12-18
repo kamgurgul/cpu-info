@@ -202,7 +202,7 @@ private fun TemperatureUnitDialog(
                 TvButton(
                     onClick = onDismissRequest,
                 ) {
-                    Text(text = stringResource(Res.string.cancel))
+                    androidx.tv.material3.Text(text = stringResource(Res.string.cancel))
                 }
             },
         )
@@ -263,7 +263,7 @@ private fun ThemeDialog(
                 TvButton(
                     onClick = onDismissRequest,
                 ) {
-                    Text(text = stringResource(Res.string.cancel))
+                    androidx.tv.material3.Text(text = stringResource(Res.string.cancel))
                 }
             },
         )

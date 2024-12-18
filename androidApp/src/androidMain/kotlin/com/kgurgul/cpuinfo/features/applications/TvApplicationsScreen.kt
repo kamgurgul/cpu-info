@@ -350,7 +350,7 @@ private fun OptionsDialog(
                 TvButton(
                     onClick = onDismissRequest,
                 ) {
-                    Text(text = stringResource(Res.string.ok))
+                    androidx.tv.material3.Text(text = stringResource(Res.string.ok))
                 }
             },
         )
