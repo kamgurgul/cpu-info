@@ -65,6 +65,9 @@
     <string name="native_libs" translatable="false">Native libs</string>
     <string name="apps_show_system_apps">Show system apps</string>
     <string name="apps_sort_order">Sort order</string>
+    <string name="apps_open">Open</string>
+    <string name="apps_settings">Settings</string>
+    <string name="apps_uninstall">Uninstall</string>
 
     <!--GPU-->
     <string name="vulkan_version">Vulkan Version</string>

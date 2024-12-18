@@ -1,8 +1,8 @@
 package com.kgurgul.cpuinfo.features.applications
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -17,10 +17,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -31,15 +33,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.material3.Button
 import androidx.tv.material3.Icon
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
@@ -47,18 +50,24 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.apps_open
+import com.kgurgul.cpuinfo.shared.apps_settings
 import com.kgurgul.cpuinfo.shared.apps_show_system_apps
 import com.kgurgul.cpuinfo.shared.apps_sort_order
+import com.kgurgul.cpuinfo.shared.apps_uninstall
 import com.kgurgul.cpuinfo.shared.ic_apk_document_filled
 import com.kgurgul.cpuinfo.shared.ic_apk_document_outlined
-import com.kgurgul.cpuinfo.shared.native_libs
 import com.kgurgul.cpuinfo.shared.ok
 import com.kgurgul.cpuinfo.shared.refresh
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
+import com.kgurgul.cpuinfo.ui.components.tv.TvAlertDialog
+import com.kgurgul.cpuinfo.ui.components.tv.TvButton
 import com.kgurgul.cpuinfo.ui.components.tv.TvIconButton
 import com.kgurgul.cpuinfo.ui.components.tv.TvListItem
+import com.kgurgul.cpuinfo.ui.components.tv.TvWideButton
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
+import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
@@ -79,11 +88,8 @@ fun TvApplicationsScreen(
         onAppClicked = viewModel::onApplicationClicked,
         onRefreshApplications = viewModel::onRefreshApplications,
         onSnackbarDismissed = viewModel::onSnackbarDismissed,
-        onNativeLibsDialogDismissed = viewModel::onNativeLibsDialogDismissed,
-        onNativeLibNameClicked = viewModel::onNativeLibsNameClicked,
         onAppUninstallClicked = viewModel::onAppUninstallClicked,
         onAppSettingsClicked = viewModel::onAppSettingsClicked,
-        onNativeLibsClicked = viewModel::onNativeLibsClicked,
         onSystemAppsSwitched = viewModel::onSystemAppsSwitched,
         onSortOrderChange = viewModel::onSortOrderChange,
     )
@@ -96,11 +102,8 @@ fun TvApplicationsScreen(
     onAppClicked: (packageName: String) -> Unit,
     onRefreshApplications: () -> Unit,
     onSnackbarDismissed: () -> Unit,
-    onNativeLibsDialogDismissed: () -> Unit,
-    onNativeLibNameClicked: (nativeLibraryName: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
-    onNativeLibsClicked: (libs: List<String>) -> Unit,
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
     onSortOrderChange: (ascending: Boolean) -> Unit,
 ) {
@@ -118,6 +121,7 @@ fun TvApplicationsScreen(
             }
         }
     }
+    var optionsDialogId by remember { mutableStateOf("") }
     Scaffold(
         topBar = {
             TopBar(
@@ -145,17 +149,16 @@ fun TvApplicationsScreen(
         ) {
             ApplicationsList(
                 appList = uiState.applications,
-                onAppClicked = onAppClicked,
-                onAppUninstallClicked = onAppUninstallClicked,
-                onAppSettingsClicked = onAppSettingsClicked,
-                onNativeLibsClicked = onNativeLibsClicked,
+                onAppClicked = { optionsDialogId = it },
             )
         }
-        NativeLibsDialog(
-            isVisible = uiState.isDialogVisible,
-            nativeLibs = uiState.nativeLibs,
-            onDismissRequest = onNativeLibsDialogDismissed,
-            onNativeLibNameClicked = onNativeLibNameClicked,
+        OptionsDialog(
+            isVisible = optionsDialogId.isNotEmpty(),
+            onDismissRequest = { optionsDialogId = "" },
+            appId = optionsDialogId,
+            onOpenAppClicked = onAppClicked,
+            onSettingsClicked = onAppSettingsClicked,
+            onUninstallAppClicked = onAppUninstallClicked,
         )
     }
 }
@@ -217,9 +220,6 @@ private fun TopBar(
 private fun ApplicationsList(
     appList: ImmutableList<ExtendedApplicationData>,
     onAppClicked: (packageName: String) -> Unit,
-    onAppUninstallClicked: (id: String) -> Unit,
-    onAppSettingsClicked: (id: String) -> Unit,
-    onNativeLibsClicked: (libs: List<String>) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -237,29 +237,8 @@ private fun ApplicationsList(
                 Row {
                     ApplicationItem(
                         appData = item,
-                        onNativeLibsClicked = onNativeLibsClicked,
                         modifier = Modifier.weight(1f),
                     )
-                    /*IconButton(
-                        modifier = Modifier.requiredSize(rowActionIconSize),
-                        onClick = { onAppSettingsClicked(item.packageName) },
-                    ) {
-                        Icon(
-                            painter = painterResource(Res.drawable.ic_settings),
-                            tint = MaterialTheme.colorScheme.onBackground,
-                            contentDescription = stringResource(Res.string.settings),
-                        )
-                    }
-                    IconButton(
-                        modifier = Modifier.requiredSize(rowActionIconSize),
-                        onClick = { onAppUninstallClicked(item.packageName) },
-                    ) {
-                        Icon(
-                            painter = painterResource(Res.drawable.ic_thrash),
-                            tint = MaterialTheme.colorScheme.onBackground,
-                            contentDescription = null,
-                        )
-                    }*/
                 }
             }
         }
@@ -269,7 +248,6 @@ private fun ApplicationsList(
 @Composable
 private fun ApplicationItem(
     appData: ExtendedApplicationData,
-    onNativeLibsClicked: (libs: List<String>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -301,53 +279,75 @@ private fun ApplicationItem(
                 )
             }
         }
-        /*if (appData.hasNativeLibs) {
-            Spacer(modifier = Modifier.weight(1f))
-            Spacer(modifier = Modifier.size(spacingXSmall))
-            IconButton(
-                onClick = { onNativeLibsClicked(appData.nativeLibs) },
-                modifier = Modifier.requiredSize(rowActionIconSize),
-            ) {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_cpp_logo),
-                    contentDescription = stringResource(Res.string.native_libs),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(spacingSmall),
-                )
-            }
-        }*/
     }
 }
 
 @Composable
-private fun NativeLibsDialog(
+private fun OptionsDialog(
     isVisible: Boolean,
-    nativeLibs: ImmutableList<String>,
     onDismissRequest: () -> Unit,
-    onNativeLibNameClicked: (nativeLibraryName: String) -> Unit,
+    appId: String,
+    onOpenAppClicked: (id: String) -> Unit,
+    onSettingsClicked: (id: String) -> Unit,
+    onUninstallAppClicked: (id: String) -> Unit,
 ) {
     if (isVisible) {
-        AlertDialog(
+        TvAlertDialog(
             onDismissRequest = onDismissRequest,
-            title = {
-                Text(text = stringResource(Res.string.native_libs))
-            },
             text = {
-                LazyColumn {
-                    items(nativeLibs) { item ->
-                        Text(
-                            text = item,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { onNativeLibNameClicked(item) }
-                                .padding(vertical = spacingMedium),
+                LazyColumn(
+                    contentPadding = PaddingValues(horizontal = spacingSmall),
+                    verticalArrangement = Arrangement.spacedBy(spacingSmall),
+                ) {
+                    item(key = "__open") {
+                        TvWideButton(
+                            onClick = {
+                                onDismissRequest()
+                                onOpenAppClicked(appId)
+                            },
+                            title = { Text(text = stringResource(Res.string.apps_open)) },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Default.PlayArrow,
+                                    contentDescription = null,
+                                )
+                            },
+                        )
+                    }
+                    item(key = "__settings") {
+                        TvWideButton(
+                            onClick = {
+                                onDismissRequest()
+                                onSettingsClicked(appId)
+                            },
+                            title = { Text(text = stringResource(Res.string.apps_settings)) },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Default.Settings,
+                                    contentDescription = null,
+                                )
+                            },
+                        )
+                    }
+                    item(key = "__uninstall") {
+                        TvWideButton(
+                            onClick = {
+                                onDismissRequest()
+                                onUninstallAppClicked(appId)
+                            },
+                            title = { Text(text = stringResource(Res.string.apps_uninstall)) },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = null,
+                                )
+                            },
                         )
                     }
                 }
             },
             confirmButton = {
-                Button(
+                TvButton(
                     onClick = onDismissRequest,
                 ) {
                     Text(text = stringResource(Res.string.ok))

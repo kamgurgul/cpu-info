@@ -44,6 +44,9 @@
     <string name="native_libs">Nativní knihovny</string>
     <string name="apps_show_system_apps">Zobrazit systémové aplikace</string>
     <string name="apps_sort_order">Řazení</string>
+    <string name="apps_open">Otevřít</string>
+    <string name="apps_settings">Nastavení</string>
+    <string name="apps_uninstall">Odinstalovat</string>
 
     <string name="vulkan_version">Vulkan verze</string>
     <string name="metal_version">Metal verze</string>

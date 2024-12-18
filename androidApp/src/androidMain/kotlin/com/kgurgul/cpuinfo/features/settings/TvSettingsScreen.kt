@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -23,7 +22,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.cancel
@@ -31,6 +29,7 @@ import com.kgurgul.cpuinfo.shared.general
 import com.kgurgul.cpuinfo.shared.pref_theme
 import com.kgurgul.cpuinfo.shared.pref_theme_choose
 import com.kgurgul.cpuinfo.shared.temperature_unit
+import com.kgurgul.cpuinfo.ui.components.tv.TvAlertDialog
 import com.kgurgul.cpuinfo.ui.components.tv.TvButton
 import com.kgurgul.cpuinfo.ui.components.tv.TvListItem
 import com.kgurgul.cpuinfo.ui.theme.spacingLarge
@@ -158,13 +157,11 @@ private fun TemperatureUnitDialog(
     onOptionClicked: (Int) -> Unit,
 ) {
     if (isDialogVisible) {
-        AlertDialog(
+        TvAlertDialog(
             onDismissRequest = onDismissRequest,
             title = {
                 Text(text = stringResource(Res.string.temperature_unit))
             },
-            tonalElevation = 0.dp,
-            containerColor = MaterialTheme.colorScheme.surface,
             text = {
                 val scrollState = rememberScrollState()
                 Column(
@@ -221,13 +218,11 @@ private fun ThemeDialog(
     onOptionClicked: (String) -> Unit,
 ) {
     if (isDialogVisible) {
-        AlertDialog(
+        TvAlertDialog(
             onDismissRequest = onDismissRequest,
             title = {
                 Text(text = stringResource(Res.string.pref_theme_choose))
             },
-            tonalElevation = 0.dp,
-            containerColor = MaterialTheme.colorScheme.surface,
             text = {
                 val scrollState = rememberScrollState()
                 Column(

@@ -44,6 +44,9 @@
     <string name="native_libs">Native Bibliotheken</string>
     <string name="apps_show_system_apps">System-Apps anzeigen</string>
     <string name="apps_sort_order">Sortierreihenfolge</string>
+    <string name="apps_open">Öffnen</string>
+    <string name="apps_settings">Einstellungen</string>
+    <string name="apps_uninstall">Deinstallieren</string>
 
     <string name="vulkan_version">Vulkan-Version</string>
     <string name="metal_version">Metal-Version</string>
