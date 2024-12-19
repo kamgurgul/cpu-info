@@ -38,9 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Icon
@@ -163,7 +161,6 @@ fun TvApplicationsScreen(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun TopBar(
     withSystemApps: Boolean,
@@ -176,7 +173,6 @@ private fun TopBar(
         horizontalArrangement = Arrangement.spacedBy(spacingMedium, Alignment.End),
         modifier = Modifier
             .fillMaxWidth()
-            .focusRestorer()
             .padding(spacingMedium),
     ) {
         TvIconButton(

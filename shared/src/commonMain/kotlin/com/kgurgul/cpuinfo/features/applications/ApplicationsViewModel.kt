@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.features.applications
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
@@ -19,8 +20,7 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -34,37 +34,32 @@ class ApplicationsViewModel(
 ) : ViewModel() {
 
     private val localDataFlow = MutableStateFlow(LocalUiState())
-    private val remoteDataFlow = userPreferencesRepository.userPreferencesFlow
-        .flatMapLatest { userPreferences ->
-            applicationsDataObservable.observe(
+    private val cachedApplications = mutableListOf<ExtendedApplicationData>()
+    private val userPreferencesFlow = userPreferencesRepository.userPreferencesFlow
+        .onEach { userPreferences ->
+            applicationsDataObservable.invoke(
                 ApplicationsDataObservable.Params(
                     withSystemApps = userPreferences.withSystemApps,
                     sortOrderFromBoolean(userPreferences.isApplicationsSortingAscending),
-                )
-            ).map { applicationsResult ->
-                RemoteUiState(
-                    isLoading = applicationsResult is Result.Loading,
-                    withSystemApps = userPreferences.withSystemApps,
-                    isSortAscending = userPreferences.isApplicationsSortingAscending,
-                    applications = if (applicationsResult is Result.Success) {
-                        applicationsResult.data.toImmutableList()
-                    } else {
-                        persistentListOf()
-                    },
-                )
-            }
+                ),
+            )
         }
     val uiStateFlow = combine(
         localDataFlow,
-        remoteDataFlow,
-    ) { localData, remoteData ->
+        userPreferencesFlow,
+        applicationsDataObservable.observe(),
+    ) { localData, userPreferences, applicationsResult ->
+        if (applicationsResult is Result.Success) {
+            cachedApplications.clear()
+            cachedApplications.addAll(applicationsResult.data)
+        }
         UiState(
-            isLoading = remoteData.isLoading,
-            withSystemApps = remoteData.withSystemApps,
-            isSortAscending = remoteData.isSortAscending,
+            isLoading = applicationsResult is Result.Loading,
+            withSystemApps = userPreferences.withSystemApps,
+            isSortAscending = userPreferences.isApplicationsSortingAscending,
             isDialogVisible = localData.isDialogVisible,
             nativeLibs = localData.nativeLibs,
-            applications = remoteData.applications,
+            applications = cachedApplications.toImmutableList(),
             snackbarMessage = localData.snackbarMessage,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
@@ -159,6 +154,7 @@ class ApplicationsViewModel(
         val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
     )
 
+    @Stable
     data class UiState(
         val isLoading: Boolean = false,
         val withSystemApps: Boolean = false,
