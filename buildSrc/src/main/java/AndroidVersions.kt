@@ -5,7 +5,7 @@ object AndroidVersions {
     const val COMPILE_SDK = 35
 
     private const val VERSION_MAJOR = 6
-    private const val VERSION_MINOR = 1
+    private const val VERSION_MINOR = 2
     private const val VERSION_PATCH = 0
 
     const val VERSION_CODE = VERSION_MAJOR * 10000 + VERSION_MINOR * 100 + VERSION_PATCH
