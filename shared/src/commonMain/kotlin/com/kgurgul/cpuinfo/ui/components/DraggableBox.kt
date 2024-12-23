@@ -110,7 +110,7 @@ private fun calculateElevation(
     actionRowOffset: Float,
     maxElevation: Dp = 8.dp
 ): Dp {
-    return if (offset.absoluteValue == 0f) {
+    return if (offset.isNaN() || actionRowOffset.isNaN() || offset.absoluteValue == 0f) {
         0.dp
     } else {
         (offset.absoluteValue * 100f / actionRowOffset.absoluteValue) / 100f * maxElevation
