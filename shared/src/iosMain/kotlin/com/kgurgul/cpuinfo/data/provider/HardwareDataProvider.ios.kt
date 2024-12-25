@@ -89,7 +89,7 @@ actual class HardwareDataProvider actual constructor() {
         }
     }
 
-    private suspend fun getBatteryState(): StringResource {
+    private fun getBatteryState(): StringResource {
         val batteryState = UIDevice.currentDevice.batteryState
         return when (batteryState) {
             UIDeviceBatteryState.UIDeviceBatteryStateUnplugged ->

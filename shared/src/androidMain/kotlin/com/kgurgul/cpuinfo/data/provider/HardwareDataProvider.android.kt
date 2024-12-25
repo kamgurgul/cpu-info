@@ -372,7 +372,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
     /**
      * Get available data connected with sound card like ALSA version etc.
      */
-    private suspend fun getSoundCardInfo(): List<ItemValue> {
+    private fun getSoundCardInfo(): List<ItemValue> {
         val functionsList = mutableListOf<ItemValue>()
 
         val soundCardNumber = getSoundCardNumber()
