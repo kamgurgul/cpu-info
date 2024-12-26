@@ -50,6 +50,7 @@ height="80">](https://apps.microsoft.com/detail/9phxq0f4knbl)
 # TODO
 
 * Shared UI tests
+* Add Wear OS support
 * Upload to brew cask
 * Add about section
 
