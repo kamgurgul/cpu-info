@@ -50,7 +50,7 @@ height="80">](https://apps.microsoft.com/detail/9phxq0f4knbl)
 # TODO
 
 * Shared UI tests
-* Add Wear OS support
+* Add Wear OS support - share as much as possible with Apple Watch
 * Upload to brew cask
 * Add about section
 
