@@ -49,7 +49,7 @@
         </activity>
 
         <activity
-            android:name="com.kgurgul.cpuinfo.TvActivity"
+            android:name="com.kgurgul.cpuinfo.tv.TvActivity"
             android:exported="true"
             android:theme="@style/Theme.Launcher"
             android:windowSoftInputMode="adjustResize">
