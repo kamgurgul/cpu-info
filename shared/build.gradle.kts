@@ -193,8 +193,6 @@ composeCompiler {
 android {
     compileSdk = AndroidVersions.COMPILE_SDK
     namespace = "com.kgurgul.cpuinfo.shared"
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
 
     defaultConfig {
         minSdk = AndroidVersions.MIN_SDK
