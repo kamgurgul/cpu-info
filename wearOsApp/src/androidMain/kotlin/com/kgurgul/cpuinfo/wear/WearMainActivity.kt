@@ -46,7 +46,7 @@ import com.google.android.horologist.compose.material.ListHeaderDefaults.firstIt
 import com.google.android.horologist.compose.material.ResponsiveListHeader
 import com.kgurgul.cpuinfo.wear.theme.WearAppTheme
 
-class MainActivity : ComponentActivity() {
+class WearMainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

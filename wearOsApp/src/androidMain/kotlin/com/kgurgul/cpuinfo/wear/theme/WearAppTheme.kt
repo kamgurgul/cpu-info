@@ -10,8 +10,6 @@ fun WearAppTheme(
     MaterialTheme(
         colors = wearColorPalette,
         typography = Typography,
-        // For shapes, we generally recommend using the default Material Wear shapes which are
-        // optimized for round and non-round devices.
         content = content
     )
 }
