@@ -2,13 +2,9 @@
 
 package com.kgurgul.cpuinfo.wear.features
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.runtime.Composable
@@ -16,12 +12,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.wear.compose.foundation.rememberActiveFocusRequester
-import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults.behavior
-import androidx.wear.compose.foundation.rotary.rotaryScrollable
+import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TitleCard
@@ -41,20 +35,26 @@ import com.google.android.horologist.compose.material.Button
 import com.google.android.horologist.compose.material.Chip
 import com.google.android.horologist.compose.material.ListHeaderDefaults.firstItemPadding
 import com.google.android.horologist.compose.material.ResponsiveListHeader
-import com.kgurgul.cpuinfo.wear.R
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.ic_cpu
+import com.kgurgul.cpuinfo.shared.information
+import com.kgurgul.cpuinfo.shared.menu
 import com.kgurgul.cpuinfo.wear.theme.WearAppTheme
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WearHostScreen() {
     val navController = rememberSwipeDismissableNavController()
-
     WearAppTheme {
         AppScaffold {
-            SwipeDismissableNavHost(navController = navController, startDestination = "menu") {
-                composable("menu") {
-                    GreetingScreen(
-                        "Android",
-                        onShowList = { navController.navigate("list") }
+            SwipeDismissableNavHost(
+                navController = navController,
+                startDestination = WearHostScreen.Menu.route,
+            ) {
+                composable(WearHostScreen.Menu.route) {
+                    MenuScreen(
+                        onInformationClicked = { navController.navigate("list") }
                     )
                 }
                 composable("list") {
@@ -66,33 +66,51 @@ fun WearHostScreen() {
 }
 
 @Composable
-fun GreetingScreen(greetingName: String, onShowList: () -> Unit) {
+fun MenuScreen(
+    onInformationClicked: () -> Unit,
+) {
     val scrollState = rememberScrollState()
-
-    /* If you have enough items in your list, use [ScalingLazyColumn] which is an optimized
-     * version of LazyColumn for wear devices with some added features. For more information,
-     * see d.android.com/wear/compose.
-     */
-    ScreenScaffold(scrollState = scrollState) {
-        val padding = ScalingLazyColumnDefaults.padding(
+    val columnState = rememberResponsiveColumnState(
+        contentPadding = ScalingLazyColumnDefaults.padding(
             first = ItemType.Text,
-            last = ItemType.Chip
-        )()
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .rotaryScrollable(
-                    behavior(scrollableState = scrollState),
-                    focusRequester = rememberActiveFocusRequester()
-                )
-                .padding(padding),
-            verticalArrangement = Arrangement.Center
+            last = ItemType.Chip,
+        )
+    )
+    ScreenScaffold(
+        scrollState = scrollState
+    ) {
+        ScalingLazyColumn(
+            columnState = columnState,
         ) {
-            Greeting(greetingName = greetingName)
-            Chip(label = "Show List", onClick = onShowList)
+            item {
+                ResponsiveListHeader(contentPadding = firstItemPadding()) {
+                    Text(
+                        text = stringResource(Res.string.menu),
+                        color = MaterialTheme.colors.onBackground,
+                    )
+                }
+            }
+            item {
+                Chip(
+                    label = stringResource(Res.string.information),
+                    icon = {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_cpu),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(ChipDefaults.IconSize)
+                                .wrapContentSize(align = Alignment.Center),
+                        )
+                    },
+                    onClick = onInformationClicked,
+                )
+            }
         }
     }
+}
+
+sealed class WearHostScreen(val route: String) {
+    data object Menu : WearHostScreen("menu")
 }
 
 @Composable
@@ -148,18 +166,6 @@ fun ListScreen() {
         onCancel = {},
         onOk = {}
     )
-}
-
-@Composable
-fun Greeting(greetingName: String) {
-    ResponsiveListHeader(contentPadding = firstItemPadding()) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colors.primary,
-            text = stringResource(R.string.app_name, greetingName)
-        )
-    }
 }
 
 @Composable

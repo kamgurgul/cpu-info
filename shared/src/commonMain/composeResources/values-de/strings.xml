@@ -30,6 +30,7 @@
     <string name="screen">Bildschirm</string>
     <string name="hardware">Hardware</string>
     <string name="sensors">Sensoren</string>
+    <string name="information">Informationen</string>
 
     <string name="processes">Prozesse</string>
     <string name="applications">Anwendungen</string>

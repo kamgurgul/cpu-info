@@ -31,6 +31,7 @@
     <string name="screen">Ekran</string>
     <string name="hardware">Sprzęt</string>
     <string name="sensors">Sensory</string>
+    <string name="information">Informacje</string>
 
     <string name="processes">Procesy</string>
     <string name="applications">Aplikacje</string>

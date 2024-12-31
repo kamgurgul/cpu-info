@@ -30,6 +30,7 @@
     <string name="screen">Obrazovka</string>
     <string name="hardware">Hardware</string>
     <string name="sensors">Senzory</string>
+    <string name="information">Informace</string>
 
     <string name="processes">Procesy</string>
     <string name="applications">Aplikace</string>
