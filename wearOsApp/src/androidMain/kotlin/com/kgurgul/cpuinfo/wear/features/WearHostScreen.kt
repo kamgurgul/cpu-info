@@ -36,9 +36,15 @@ import com.google.android.horologist.compose.material.Chip
 import com.google.android.horologist.compose.material.ListHeaderDefaults.firstItemPadding
 import com.google.android.horologist.compose.material.ResponsiveListHeader
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.applications
+import com.kgurgul.cpuinfo.shared.ic_android
 import com.kgurgul.cpuinfo.shared.ic_cpu
+import com.kgurgul.cpuinfo.shared.ic_settings
+import com.kgurgul.cpuinfo.shared.ic_temperature
 import com.kgurgul.cpuinfo.shared.information
 import com.kgurgul.cpuinfo.shared.menu
+import com.kgurgul.cpuinfo.shared.settings
+import com.kgurgul.cpuinfo.shared.temp
 import com.kgurgul.cpuinfo.wear.theme.WearAppTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -103,6 +109,51 @@ fun MenuScreen(
                         )
                     },
                     onClick = onInformationClicked,
+                )
+            }
+            item {
+                Chip(
+                    label = stringResource(Res.string.applications),
+                    icon = {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_android),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(ChipDefaults.IconSize)
+                                .wrapContentSize(align = Alignment.Center),
+                        )
+                    },
+                    onClick = {},
+                )
+            }
+            item {
+                Chip(
+                    label = stringResource(Res.string.temp),
+                    icon = {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_temperature),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(ChipDefaults.IconSize)
+                                .wrapContentSize(align = Alignment.Center),
+                        )
+                    },
+                    onClick = {},
+                )
+            }
+            item {
+                Chip(
+                    label = stringResource(Res.string.settings),
+                    icon = {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_settings),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(ChipDefaults.IconSize)
+                                .wrapContentSize(align = Alignment.Center),
+                        )
+                    },
+                    onClick = {},
                 )
             }
         }
