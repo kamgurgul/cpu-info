@@ -64,11 +64,29 @@ fun WearHostScreen(
                         uiState = uiState,
                         onInformationClicked = {
                             navController.navigate(WearHostScreen.Information.route)
-                        }
+                        },
+                        onApplicationsClicked = {
+                            navController.navigate(WearHostScreen.Applications.route)
+                        },
+                        onTemperatureClicked = {
+                            navController.navigate(WearHostScreen.Temperature.route)
+                        },
+                        onSettingsClicked = {
+                            navController.navigate(WearHostScreen.Settings.route)
+                        },
                     )
                 }
                 composable(WearHostScreen.Information.route) {
                     WearInfoContainerScreen()
+                }
+                composable(WearHostScreen.Applications.route) {
+
+                }
+                composable(WearHostScreen.Temperature.route) {
+
+                }
+                composable(WearHostScreen.Settings.route) {
+
                 }
             }
         }
@@ -79,6 +97,9 @@ fun WearHostScreen(
 fun MenuScreen(
     uiState: HostViewModel.UiState,
     onInformationClicked: () -> Unit,
+    onApplicationsClicked: () -> Unit,
+    onTemperatureClicked: () -> Unit,
+    onSettingsClicked: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     val columnState = rememberResponsiveColumnState(
@@ -129,7 +150,7 @@ fun MenuScreen(
                                     .wrapContentSize(align = Alignment.Center),
                             )
                         },
-                        onClick = {},
+                        onClick = onApplicationsClicked,
                     )
                 }
             }
@@ -145,7 +166,7 @@ fun MenuScreen(
                                 .wrapContentSize(align = Alignment.Center),
                         )
                     },
-                    onClick = {},
+                    onClick = onTemperatureClicked,
                 )
             }
             item {
@@ -160,7 +181,7 @@ fun MenuScreen(
                                 .wrapContentSize(align = Alignment.Center),
                         )
                     },
-                    onClick = {},
+                    onClick = onSettingsClicked,
                 )
             }
         }
@@ -170,4 +191,7 @@ fun MenuScreen(
 sealed class WearHostScreen(val route: String) {
     data object Menu : WearHostScreen("menu")
     data object Information : WearHostScreen("information")
+    data object Applications : WearHostScreen("applications")
+    data object Temperature : WearHostScreen("temperature")
+    data object Settings : WearHostScreen("settings")
 }
