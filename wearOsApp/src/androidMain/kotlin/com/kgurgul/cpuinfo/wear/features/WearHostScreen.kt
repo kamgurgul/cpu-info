@@ -2,6 +2,7 @@
 
 package com.kgurgul.cpuinfo.wear.features
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
@@ -51,7 +52,9 @@ fun WearHostScreen(
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     val navController = rememberSwipeDismissableNavController()
     WearAppTheme {
-        AppScaffold {
+        AppScaffold(
+            modifier = Modifier.background(MaterialTheme.colors.background),
+        ) {
             SwipeDismissableNavHost(
                 navController = navController,
                 startDestination = WearHostScreen.Menu.route,
