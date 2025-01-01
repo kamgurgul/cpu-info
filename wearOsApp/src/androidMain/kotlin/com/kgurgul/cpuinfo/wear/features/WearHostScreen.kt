@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
@@ -25,6 +27,7 @@ import com.google.android.horologist.compose.layout.rememberResponsiveColumnStat
 import com.google.android.horologist.compose.material.Chip
 import com.google.android.horologist.compose.material.ListHeaderDefaults.firstItemPadding
 import com.google.android.horologist.compose.material.ResponsiveListHeader
+import com.kgurgul.cpuinfo.features.HostViewModel
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.applications
 import com.kgurgul.cpuinfo.shared.ic_android
@@ -39,9 +42,13 @@ import com.kgurgul.cpuinfo.wear.features.information.WearInfoContainerScreen
 import com.kgurgul.cpuinfo.wear.theme.WearAppTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun WearHostScreen() {
+fun WearHostScreen(
+    viewModel: HostViewModel = koinViewModel(),
+) {
+    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     val navController = rememberSwipeDismissableNavController()
     WearAppTheme {
         AppScaffold {
@@ -51,6 +58,7 @@ fun WearHostScreen() {
             ) {
                 composable(WearHostScreen.Menu.route) {
                     MenuScreen(
+                        uiState = uiState,
                         onInformationClicked = {
                             navController.navigate(WearHostScreen.Information.route)
                         }
@@ -66,6 +74,7 @@ fun WearHostScreen() {
 
 @Composable
 fun MenuScreen(
+    uiState: HostViewModel.UiState,
     onInformationClicked: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -104,20 +113,22 @@ fun MenuScreen(
                     onClick = onInformationClicked,
                 )
             }
-            item {
-                Chip(
-                    label = stringResource(Res.string.applications),
-                    icon = {
-                        Icon(
-                            painter = painterResource(Res.drawable.ic_android),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(ChipDefaults.IconSize)
-                                .wrapContentSize(align = Alignment.Center),
-                        )
-                    },
-                    onClick = {},
-                )
+            if (uiState.isApplicationSectionVisible) {
+                item {
+                    Chip(
+                        label = stringResource(Res.string.applications),
+                        icon = {
+                            Icon(
+                                painter = painterResource(Res.drawable.ic_android),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(ChipDefaults.IconSize)
+                                    .wrapContentSize(align = Alignment.Center),
+                            )
+                        },
+                        onClick = {},
+                    )
+                }
             }
             item {
                 Chip(

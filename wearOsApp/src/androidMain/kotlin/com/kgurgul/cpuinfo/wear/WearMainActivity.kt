@@ -36,7 +36,9 @@ class WearMainActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition { uiState.isLoading }
 
         setContent {
-            WearHostScreen()
+            WearHostScreen(
+                viewModel = viewModel,
+            )
         }
     }
 }
