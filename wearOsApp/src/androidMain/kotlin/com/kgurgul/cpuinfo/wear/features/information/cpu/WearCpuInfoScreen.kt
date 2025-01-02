@@ -51,7 +51,7 @@ fun WearCpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
         contentPadding = ScalingLazyColumnDefaults.padding(
             first = ScalingLazyColumnDefaults.ItemType.Text,
             last = ScalingLazyColumnDefaults.ItemType.Chip,
-        )
+        ),
     )
     ScreenScaffold(scrollState = columnState) {
         ScalingLazyColumn(

@@ -5,7 +5,6 @@ package com.kgurgul.cpuinfo.wear.features
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -101,15 +100,14 @@ fun MenuScreen(
     onTemperatureClicked: () -> Unit,
     onSettingsClicked: () -> Unit,
 ) {
-    val scrollState = rememberScrollState()
     val columnState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
             first = ItemType.Text,
             last = ItemType.Chip,
-        )
+        ),
     )
     ScreenScaffold(
-        scrollState = scrollState
+        scrollState = columnState,
     ) {
         ScalingLazyColumn(
             columnState = columnState,
