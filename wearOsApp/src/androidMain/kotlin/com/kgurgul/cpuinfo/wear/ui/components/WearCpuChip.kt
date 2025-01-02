@@ -38,6 +38,8 @@ fun WearCpuChip(
     secondaryLabel: String? = null,
     colors: ChipColors = ChipDefaults.primaryChipColors(),
     border: ChipBorder = ChipDefaults.chipBorder(),
+    labelMaxLines: Int = 3,
+    secondaryLabelMaxLines: Int = 3,
 ) {
     Chip(
         modifier = Modifier
@@ -49,7 +51,7 @@ fun WearCpuChip(
         label = {
             Text(
                 text = label,
-                maxLines = 3,
+                maxLines = labelMaxLines,
                 overflow = TextOverflow.Ellipsis
             )
         },
@@ -57,7 +59,7 @@ fun WearCpuChip(
             {
                 Text(
                     text = secondaryLabel,
-                    maxLines = 3,
+                    maxLines = secondaryLabelMaxLines,
                     overflow = TextOverflow.Ellipsis
                 )
             }
