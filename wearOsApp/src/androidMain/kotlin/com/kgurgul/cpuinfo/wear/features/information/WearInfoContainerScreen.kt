@@ -12,7 +12,6 @@ import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.SCREEN_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.SENSORS_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.STORAGE_POS
-import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoScreen
 import com.kgurgul.cpuinfo.features.information.gpu.GpuInfoScreen
 import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoScreen
 import com.kgurgul.cpuinfo.features.information.os.OsInfoScreen
@@ -20,6 +19,7 @@ import com.kgurgul.cpuinfo.features.information.ram.RamInfoScreen
 import com.kgurgul.cpuinfo.features.information.screen.ScreenInfoScreen
 import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
 import com.kgurgul.cpuinfo.features.information.storage.StorageInfoScreen
+import com.kgurgul.cpuinfo.wear.features.information.cpu.WearCpuInfoScreen
 
 
 @Composable
@@ -29,7 +29,7 @@ fun WearInfoContainerScreen() {
         state = pagerState,
     ) {
         when (it) {
-            CPU_POS -> CpuInfoScreen()
+            CPU_POS -> WearCpuInfoScreen()
             GPU_POS -> GpuInfoScreen()
             RAM_POS -> RamInfoScreen()
             STORAGE_POS -> StorageInfoScreen()
