@@ -16,10 +16,10 @@ import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoScreen
 import com.kgurgul.cpuinfo.features.information.os.OsInfoScreen
 import com.kgurgul.cpuinfo.features.information.screen.ScreenInfoScreen
 import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
-import com.kgurgul.cpuinfo.features.information.storage.StorageInfoScreen
 import com.kgurgul.cpuinfo.wear.features.information.cpu.WearCpuInfoScreen
 import com.kgurgul.cpuinfo.wear.features.information.gpu.WearGpuInfoScreen
 import com.kgurgul.cpuinfo.wear.features.information.ram.WearRamInfoScreen
+import com.kgurgul.cpuinfo.wear.features.information.storage.WearStorageInfoScreen
 
 
 @Composable
@@ -32,7 +32,7 @@ fun WearInfoContainerScreen() {
             CPU_POS -> WearCpuInfoScreen()
             GPU_POS -> WearGpuInfoScreen()
             RAM_POS -> WearRamInfoScreen()
-            STORAGE_POS -> StorageInfoScreen()
+            STORAGE_POS -> WearStorageInfoScreen()
             SCREEN_POS -> ScreenInfoScreen()
             ANDROID_POS -> OsInfoScreen()
             HARDWARE_POS -> HardwareInfoScreen()

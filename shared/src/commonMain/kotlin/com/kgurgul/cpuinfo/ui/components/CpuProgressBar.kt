@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -41,16 +42,18 @@ fun CpuProgressBar(
     modifier: Modifier = Modifier,
     minMaxValues: Pair<String, String>? = null,
     prefixImageRes: DrawableResource? = null,
-    contentColor: Color = MaterialTheme.colorScheme.onBackground,
+    textColor: Color = MaterialTheme.colorScheme.onBackground,
+    progressColor: Color = MaterialTheme.colorScheme.tertiary,
     progressHeight: Dp = 16.dp,
+    titleTextStyle: TextStyle = MaterialTheme.typography.titleSmall,
 ) {
     Column(
         modifier = modifier,
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.titleSmall,
-            color = contentColor,
+            style = titleTextStyle,
+            color = textColor,
         )
         Spacer(modifier = Modifier.requiredSize(spacingSmall))
         Box(
@@ -92,7 +95,7 @@ fun CpuProgressBar(
                 }
                 LinearProgressIndicator(
                     progress = { progressAnimation },
-                    color = MaterialTheme.colorScheme.tertiary,
+                    color = progressColor,
                     trackColor = Color.Unspecified,
                     strokeCap = strokeCap,
                     drawStopIndicator = {},
@@ -114,12 +117,12 @@ fun CpuProgressBar(
                 Text(
                     text = it.first,
                     style = MaterialTheme.typography.bodySmall,
-                    color = contentColor,
+                    color = textColor,
                 )
                 Text(
                     text = it.second,
                     style = MaterialTheme.typography.bodySmall,
-                    color = contentColor,
+                    color = textColor,
                 )
             }
         }

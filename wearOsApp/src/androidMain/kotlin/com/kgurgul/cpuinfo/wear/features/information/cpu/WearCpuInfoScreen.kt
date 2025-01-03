@@ -178,7 +178,8 @@ private fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
             label = currentFreq,
             progress = progress,
             minMaxValues = minFreq to maxFreq,
-            contentColor = MaterialTheme.colors.onBackground,
+            textColor = MaterialTheme.colors.onBackground,
+            progressColor = MaterialTheme.colors.secondaryVariant,
         )
     }
 }
