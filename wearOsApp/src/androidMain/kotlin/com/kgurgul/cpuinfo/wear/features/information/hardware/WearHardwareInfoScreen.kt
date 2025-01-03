@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalHorologistApi::class)
 
-package com.kgurgul.cpuinfo.wear.features.information.os
+package com.kgurgul.cpuinfo.wear.features.information.hardware
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,26 +19,30 @@ import com.google.android.horologist.compose.material.ResponsiveListHeader
 import com.kgurgul.cpuinfo.domain.model.getKey
 import com.kgurgul.cpuinfo.domain.model.getName
 import com.kgurgul.cpuinfo.domain.model.getValue
-import com.kgurgul.cpuinfo.features.information.os.OsInfoViewModel
+import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoViewModel
+import com.kgurgul.cpuinfo.features.information.hardware.registerPowerPlugListener
 import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.tab_os
+import com.kgurgul.cpuinfo.shared.hardware
 import com.kgurgul.cpuinfo.wear.ui.components.WearCpuChip
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun WearOsInfoScreen(
-    viewModel: OsInfoViewModel = koinViewModel(),
+fun WearHardwareInfoScreen(
+    viewModel: HardwareInfoViewModel = koinViewModel(),
 ) {
+    registerPowerPlugListener(
+        onRefresh = viewModel::refreshHardwareInfo,
+    )
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    WearOsInfoScreen(
+    WearHardwareInfoScreen(
         uiState = uiState,
     )
 }
 
 @Composable
-fun WearOsInfoScreen(
-    uiState: OsInfoViewModel.UiState,
+fun WearHardwareInfoScreen(
+    uiState: HardwareInfoViewModel.UiState,
 ) {
     val columnState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
@@ -53,13 +57,13 @@ fun WearOsInfoScreen(
             item {
                 ResponsiveListHeader(contentPadding = firstItemPadding()) {
                     Text(
-                        text = stringResource(Res.string.tab_os),
+                        text = stringResource(Res.string.hardware),
                         color = MaterialTheme.colors.onBackground,
                     )
                 }
             }
             items(
-                uiState.items,
+                uiState.hardwareItems,
                 key = { itemValue -> itemValue.getKey() },
             ) { itemValue ->
                 if (itemValue.getValue().isEmpty()) {
