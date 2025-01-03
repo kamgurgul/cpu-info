@@ -55,7 +55,7 @@ fun WearCpuChip(
                 overflow = TextOverflow.Ellipsis
             )
         },
-        secondaryLabel = if (secondaryLabel != null) {
+        secondaryLabel = if (!secondaryLabel.isNullOrEmpty()) {
             {
                 Text(
                     text = secondaryLabel,
