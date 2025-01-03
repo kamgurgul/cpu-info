@@ -12,13 +12,13 @@ import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.SCREEN_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.SENSORS_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.STORAGE_POS
-import com.kgurgul.cpuinfo.features.information.sensors.SensorsInfoScreen
 import com.kgurgul.cpuinfo.wear.features.information.cpu.WearCpuInfoScreen
 import com.kgurgul.cpuinfo.wear.features.information.gpu.WearGpuInfoScreen
 import com.kgurgul.cpuinfo.wear.features.information.hardware.WearHardwareInfoScreen
 import com.kgurgul.cpuinfo.wear.features.information.os.WearOsInfoScreen
 import com.kgurgul.cpuinfo.wear.features.information.ram.WearRamInfoScreen
 import com.kgurgul.cpuinfo.wear.features.information.screen.WearScreenInfoScreen
+import com.kgurgul.cpuinfo.wear.features.information.sensors.WearSensorsInfoScreen
 import com.kgurgul.cpuinfo.wear.features.information.storage.WearStorageInfoScreen
 
 
@@ -36,7 +36,7 @@ fun WearInfoContainerScreen() {
             SCREEN_POS -> WearScreenInfoScreen()
             ANDROID_POS -> WearOsInfoScreen()
             HARDWARE_POS -> WearHardwareInfoScreen()
-            SENSORS_POS -> SensorsInfoScreen()
+            SENSORS_POS -> WearSensorsInfoScreen()
             else -> throw IllegalArgumentException("Unknown position")
         }
     }
