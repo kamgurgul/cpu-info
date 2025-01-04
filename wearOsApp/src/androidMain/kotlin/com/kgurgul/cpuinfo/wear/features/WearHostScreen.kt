@@ -38,6 +38,7 @@ import com.kgurgul.cpuinfo.shared.information
 import com.kgurgul.cpuinfo.shared.menu
 import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.temp
+import com.kgurgul.cpuinfo.wear.features.applications.WearApplicationsScreen
 import com.kgurgul.cpuinfo.wear.features.information.WearInfoContainerScreen
 import com.kgurgul.cpuinfo.wear.theme.WearAppTheme
 import org.jetbrains.compose.resources.painterResource
@@ -79,7 +80,7 @@ fun WearHostScreen(
                     WearInfoContainerScreen()
                 }
                 composable(WearHostScreen.Applications.route) {
-
+                    WearApplicationsScreen()
                 }
                 composable(WearHostScreen.Temperature.route) {
 

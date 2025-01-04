@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.wear.ui.components
 
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -36,6 +37,7 @@ fun WearCpuChip(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     secondaryLabel: String? = null,
+    icon: (@Composable BoxScope.() -> Unit)? = null,
     colors: ChipColors = ChipDefaults.primaryChipColors(),
     border: ChipBorder = ChipDefaults.chipBorder(),
     labelMaxLines: Int = 3,
@@ -64,5 +66,6 @@ fun WearCpuChip(
                 )
             }
         } else null,
+        icon = icon,
     )
 }
