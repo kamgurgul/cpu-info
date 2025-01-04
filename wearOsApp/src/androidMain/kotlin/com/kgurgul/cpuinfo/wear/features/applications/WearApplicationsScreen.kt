@@ -15,6 +15,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.wear.compose.foundation.BasicSwipeToDismissBox
+import androidx.wear.compose.foundation.edgeSwipeToDismiss
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.rememberRevealState
 import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
@@ -111,12 +113,17 @@ fun WearApplicationsScreen(
                     key = { item -> item.packageName },
                 ) { item ->
                     val revealState = rememberRevealState()
-                    SwipeToRevealChip(
-                        revealState = revealState,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                        //    .edgeSwipeToDismiss(swipeToDismissBoxState)
-                        /*.semantics {
+                    BasicSwipeToDismissBox(
+                        state = swipeToDismissBoxState,
+                        userSwipeEnabled = false,
+                        contentKey = item.packageName,
+                    ) {
+                        SwipeToRevealChip(
+                            revealState = revealState,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .edgeSwipeToDismiss(swipeToDismissBoxState)
+                            /*.semantics {
                             customActions = listOf(
                                     CustomAccessibilityAction("Delete") {
                                         *//* Add the primary action click handler here *//*
@@ -128,51 +135,52 @@ fun WearApplicationsScreen(
                                         }
                                     )
                             }*/,
-                        primaryAction = {
-                            SwipeToRevealPrimaryAction(
-                                revealState = revealState,
-                                icon = {
-                                    Icon(
-                                        imageVector = SwipeToRevealDefaults.Delete,
-                                        contentDescription = stringResource(
-                                            Res.string.apps_uninstall
+                            primaryAction = {
+                                SwipeToRevealPrimaryAction(
+                                    revealState = revealState,
+                                    icon = {
+                                        Icon(
+                                            imageVector = SwipeToRevealDefaults.Delete,
+                                            contentDescription = stringResource(
+                                                Res.string.apps_uninstall
+                                            )
                                         )
+                                    },
+                                    label = { Text(stringResource(Res.string.apps_uninstall)) },
+                                    onClick = { onAppUninstallClicked(item.packageName) },
+                                )
+                            },
+                            secondaryAction = {
+                                SwipeToRevealSecondaryAction(
+                                    revealState = revealState,
+                                    onClick = { onAppSettingsClicked(item.packageName) }
+                                ) {
+                                    Icon(
+                                        SwipeToRevealDefaults.MoreOptions,
+                                        stringResource(Res.string.settings)
                                     )
-                                },
-                                label = { Text(stringResource(Res.string.apps_uninstall)) },
-                                onClick = { onAppUninstallClicked(item.packageName) },
+                                }
+                            },
+                            onFullSwipe = { onAppUninstallClicked(item.packageName) }
+                        ) {
+                            WearCpuChip(
+                                modifier = Modifier.fillMaxWidth(),
+                                label = item.name,
+                                secondaryLabel = item.packageName,
+                                icon = {
+                                    AsyncImage(
+                                        model = ImageRequest.Builder(LocalPlatformContext.current)
+                                            .data(item.appIconUri)
+                                            .crossfade(true)
+                                            .build(),
+                                        contentDescription = item.name,
+                                        modifier = Modifier
+                                            .size(ChipDefaults.IconSize)
+                                            .wrapContentSize(align = Alignment.Center)
+                                    )
+                                }
                             )
-                        },
-                        secondaryAction = {
-                            SwipeToRevealSecondaryAction(
-                                revealState = revealState,
-                                onClick = { onAppSettingsClicked(item.packageName) }
-                            ) {
-                                Icon(
-                                    SwipeToRevealDefaults.MoreOptions,
-                                    stringResource(Res.string.settings)
-                                )
-                            }
-                        },
-                        onFullSwipe = { onAppUninstallClicked(item.packageName) }
-                    ) {
-                        WearCpuChip(
-                            modifier = Modifier.fillMaxWidth(),
-                            label = item.name,
-                            secondaryLabel = item.packageName,
-                            icon = {
-                                AsyncImage(
-                                    model = ImageRequest.Builder(LocalPlatformContext.current)
-                                        .data(item.appIconUri)
-                                        .crossfade(true)
-                                        .build(),
-                                    contentDescription = item.name,
-                                    modifier = Modifier
-                                        .size(ChipDefaults.IconSize)
-                                        .wrapContentSize(align = Alignment.Center)
-                                )
-                            }
-                        )
+                        }
                     }
 
                     /* val isRevealed by remember {
