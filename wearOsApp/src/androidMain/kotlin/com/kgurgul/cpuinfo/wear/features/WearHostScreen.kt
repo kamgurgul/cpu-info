@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
@@ -17,6 +18,7 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import androidx.wear.compose.navigation.rememberSwipeDismissableNavHostState
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.AppScaffold
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
@@ -51,6 +53,10 @@ fun WearHostScreen(
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     val navController = rememberSwipeDismissableNavController()
+    val swipeToDismissBoxState = rememberSwipeToDismissBoxState()
+    val swipeDismissableNavHostState = rememberSwipeDismissableNavHostState(
+        swipeToDismissBoxState = swipeToDismissBoxState,
+    )
     WearAppTheme {
         AppScaffold(
             modifier = Modifier.background(MaterialTheme.colors.background),
@@ -58,6 +64,7 @@ fun WearHostScreen(
             SwipeDismissableNavHost(
                 navController = navController,
                 startDestination = WearHostScreen.Menu.route,
+                state = swipeDismissableNavHostState,
             ) {
                 composable(WearHostScreen.Menu.route) {
                     MenuScreen(
@@ -80,7 +87,9 @@ fun WearHostScreen(
                     WearInfoContainerScreen()
                 }
                 composable(WearHostScreen.Applications.route) {
-                    WearApplicationsScreen()
+                    WearApplicationsScreen(
+                        swipeToDismissBoxState = swipeToDismissBoxState,
+                    )
                 }
                 composable(WearHostScreen.Temperature.route) {
 

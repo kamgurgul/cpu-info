@@ -17,8 +17,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.semantics
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.RevealValue
+import androidx.wear.compose.foundation.SwipeToDismissBoxState
+import androidx.wear.compose.foundation.edgeSwipeToDismiss
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.rememberRevealState
 import androidx.wear.compose.material.ChipDefaults
@@ -55,6 +60,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun WearApplicationsScreen(
+    swipeToDismissBoxState: SwipeToDismissBoxState,
     viewModel: ApplicationsViewModel = koinViewModel(),
 ) {
     registerUninstallListener(
@@ -63,6 +69,7 @@ fun WearApplicationsScreen(
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     WearApplicationsScreen(
         uiState = uiState,
+        swipeToDismissBoxState = swipeToDismissBoxState,
         onAppClicked = viewModel::onApplicationClicked,
         onRefreshApplications = viewModel::onRefreshApplications,
         onSnackbarDismissed = viewModel::onSnackbarDismissed,
@@ -76,6 +83,7 @@ fun WearApplicationsScreen(
 @Composable
 fun WearApplicationsScreen(
     uiState: ApplicationsViewModel.UiState,
+    swipeToDismissBoxState: SwipeToDismissBoxState,
     onAppClicked: (packageName: String) -> Unit,
     onRefreshApplications: () -> Unit,
     onSnackbarDismissed: () -> Unit,
@@ -115,35 +123,35 @@ fun WearApplicationsScreen(
                 ) { item ->
                     val revealState = rememberRevealState()
                     val coroutineScope = rememberCoroutineScope()
+                    val uninstallText = stringResource(Res.string.apps_uninstall)
+                    val settingsText = stringResource(Res.string.settings)
                     SwipeToRevealChip(
                         revealState = revealState,
                         modifier = Modifier
                             .fillMaxWidth()
-                        //      .edgeSwipeToDismiss(swipeToDismissBoxState)
-                        /*.semantics {
-                        customActions = listOf(
-                                CustomAccessibilityAction("Delete") {
-                                    *//* Add the primary action click handler here *//*
-                                            true
-                                        },
-                                        CustomAccessibilityAction("More Options") {
-                                            *//* Add the secondary click handler here *//*
-                                            true
-                                        }
-                                    )
-                            }*/,
+                            .edgeSwipeToDismiss(swipeToDismissBoxState)
+                            .semantics {
+                                customActions = listOf(
+                                    CustomAccessibilityAction(uninstallText) {
+                                        onAppUninstallClicked(item.packageName)
+                                        true
+                                    },
+                                    CustomAccessibilityAction(settingsText) {
+                                        onAppSettingsClicked(item.packageName)
+                                        true
+                                    }
+                                )
+                            },
                         primaryAction = {
                             SwipeToRevealPrimaryAction(
                                 revealState = revealState,
                                 icon = {
                                     Icon(
                                         imageVector = SwipeToRevealDefaults.Delete,
-                                        contentDescription = stringResource(
-                                            Res.string.apps_uninstall
-                                        )
+                                        contentDescription = uninstallText,
                                     )
                                 },
-                                label = { Text(stringResource(Res.string.apps_uninstall)) },
+                                label = { Text(uninstallText) },
                                 onClick = { onAppUninstallClicked(item.packageName) },
                             )
                         },
@@ -154,7 +162,7 @@ fun WearApplicationsScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Outlined.Settings,
-                                    contentDescription = stringResource(Res.string.settings)
+                                    contentDescription = settingsText,
                                 )
                             }
                         },
