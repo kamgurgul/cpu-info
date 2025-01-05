@@ -188,60 +188,10 @@ fun WearApplicationsScreen(
                                         .size(ChipDefaults.IconSize)
                                         .wrapContentSize(align = Alignment.Center)
                                 )
-                            }
+                            },
+                            onClick = { onAppClicked(item.packageName) },
                         )
                     }
-
-                    /* val isRevealed by remember {
-                         derivedStateOf { revealedCardId == item.packageName }
-                     }
-                     DraggableBox(
-                         isRevealed = isRevealed,
-                         onExpand = { revealedCardId = item.packageName },
-                         onCollapse = {
-                             if (revealedCardId == item.packageName) {
-                                 revealedCardId = null
-                             }
-                         },
-                         actionRowOffset = with(density) { rowActionIconSize.toPx() * 2 },
-                         actionRow = {
-                             Row {
-                                 IconButton(
-                                     modifier = Modifier.requiredSize(rowActionIconSize),
-                                     onClick = { onAppSettingsClicked(item.packageName) },
-                                 ) {
-                                     Icon(
-                                         painter = painterResource(Res.drawable.ic_settings),
-                                         tint = MaterialTheme.colorScheme.onBackground,
-                                         contentDescription =,
-                                     )
-                                 }
-                                 IconButton(
-                                     modifier = Modifier.requiredSize(rowActionIconSize),
-                                     onClick = { onAppUninstallClicked(item.packageName) },
-                                 ) {
-                                     Icon(
-                                         painter = painterResource(Res.drawable.ic_thrash),
-                                         tint = MaterialTheme.colorScheme.onBackground,
-                                         contentDescription = null,
-                                     )
-                                 }
-                             }
-                         },
-                         content = {
-                             ApplicationItem(
-                                 appData = item,
-                                 onAppClicked = onAppClicked,
-                                 onNativeLibsClicked = onNativeLibsClicked,
-                             )
-                         },
-                         modifier = Modifier.animateItem(),
-                     )
-                     if (index < appList.lastIndex) {
-                         CpuDivider(
-                             modifier = Modifier.padding(horizontal = spacingSmall),
-                         )
-                     }*/
                 }
             }
         }
