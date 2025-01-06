@@ -100,7 +100,6 @@ fun WearTemperatureScreen(
                         icon = {
                             Icon(
                                 painter = painterResource(item.icon),
-                                //  tint = MaterialTheme.colorScheme.onBackground,
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(ChipDefaults.IconSize)
