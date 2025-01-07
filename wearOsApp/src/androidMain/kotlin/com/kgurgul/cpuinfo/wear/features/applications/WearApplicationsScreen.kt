@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -189,63 +189,13 @@ fun WearApplicationsScreen(
         if (uiState.isLoading) {
             WearCpuProgressIndicator()
         }
-        /*uiState.snackbarMessage?.let {
+        uiState.snackbarMessage?.let {
             AppOpeningConfirmation(
                 message = stringResource(it),
                 onTimeout = onSnackbarDismissed,
             )
-        }*/
-    }
-
-
-    /*val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
-
-    val snackbarMessageString = uiState.snackbarMessage?.let { stringResource(it) }
-    LaunchedEffect(snackbarMessageString) {
-        scope.launch {
-            if (snackbarMessageString != null) {
-                val result = snackbarHostState.showSnackbar(snackbarMessageString)
-                if (result == SnackbarResult.Dismissed) {
-                    onSnackbarDismissed()
-                }
-            }
         }
     }
-
-    Scaffold(
-        topBar = {
-            TopBar(
-                withSystemApps = uiState.withSystemApps,
-                onSystemAppsSwitched = onSystemAppsSwitched,
-                isSortAscending = uiState.isSortAscending,
-                onSortOrderChange = onSortOrderChange,
-            )
-        },
-        contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
-        snackbarHost = {
-            SnackbarHost(snackbarHostState) { data ->
-                CpuSnackbar(data)
-            }
-        },
-    ) { innerPaddingModifier ->
-        CpuPullToRefreshBox(
-            isRefreshing = uiState.isLoading,
-            enabled = false,
-            onRefresh = { onRefreshApplications() },
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPaddingModifier),
-        ) {
-            ApplicationsList(
-                appList = uiState.applications,
-                onAppClicked = onAppClicked,
-                onAppUninstallClicked = onAppUninstallClicked,
-                onAppSettingsClicked = onAppSettingsClicked,
-                onNativeLibsClicked = onNativeLibsClicked,
-            )
-        }
-    }*/
 }
 
 @Composable
@@ -257,11 +207,12 @@ fun AppOpeningConfirmation(
         onTimeout = onTimeout,
         icon = {
             Icon(
-                imageVector = Icons.Filled.Check,
+                imageVector = Icons.Filled.Close,
                 contentDescription = null,
                 modifier = Modifier.size(48.dp),
             )
         },
+        durationMillis = 2000L,
     ) {
         Text(
             text = message,
