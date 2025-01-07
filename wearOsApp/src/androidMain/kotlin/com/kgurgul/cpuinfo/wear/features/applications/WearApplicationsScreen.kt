@@ -1,17 +1,13 @@
-@file:OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalHorologistApi::class,
-    ExperimentalWearMaterialApi::class
-)
+@file:OptIn(ExperimentalHorologistApi::class, ExperimentalWearMaterialApi::class)
 
 package com.kgurgul.cpuinfo.wear.features.applications
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -20,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.RevealValue
 import androidx.wear.compose.foundation.SwipeToDismissBoxState
@@ -44,6 +42,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import com.google.android.horologist.compose.material.Confirmation
 import com.google.android.horologist.compose.material.ListHeaderDefaults.firstItemPadding
 import com.google.android.horologist.compose.material.ResponsiveListHeader
 import com.kgurgul.cpuinfo.features.applications.ApplicationsViewModel
@@ -52,8 +51,8 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.applications
 import com.kgurgul.cpuinfo.shared.apps_uninstall
 import com.kgurgul.cpuinfo.shared.settings
-import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.wear.ui.components.WearCpuChip
+import com.kgurgul.cpuinfo.wear.ui.components.WearCpuProgressIndicator
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -99,102 +98,103 @@ fun WearApplicationsScreen(
         ),
     )
     ScreenScaffold(scrollState = columnState) {
-        CpuPullToRefreshBox(
-            isRefreshing = uiState.isLoading,
-            enabled = false,
-            onRefresh = { onRefreshApplications() },
-            modifier = Modifier
-                .fillMaxSize(),
+        ScalingLazyColumn(
+            columnState = columnState
         ) {
-            ScalingLazyColumn(
-                columnState = columnState
-            ) {
-                item {
-                    ResponsiveListHeader(contentPadding = firstItemPadding()) {
-                        Text(
-                            text = stringResource(Res.string.applications),
-                            color = MaterialTheme.colors.onBackground,
-                        )
-                    }
+            item {
+                ResponsiveListHeader(contentPadding = firstItemPadding()) {
+                    Text(
+                        text = stringResource(Res.string.applications),
+                        color = MaterialTheme.colors.onBackground,
+                    )
                 }
-                items(
-                    items = uiState.applications,
-                    key = { item -> item.packageName },
-                ) { item ->
-                    val revealState = rememberRevealState()
-                    val coroutineScope = rememberCoroutineScope()
-                    val uninstallText = stringResource(Res.string.apps_uninstall)
-                    val settingsText = stringResource(Res.string.settings)
-                    SwipeToRevealChip(
-                        revealState = revealState,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .edgeSwipeToDismiss(swipeToDismissBoxState)
-                            .semantics {
-                                customActions = listOf(
-                                    CustomAccessibilityAction(uninstallText) {
-                                        onAppUninstallClicked(item.packageName)
-                                        true
-                                    },
-                                    CustomAccessibilityAction(settingsText) {
-                                        onAppSettingsClicked(item.packageName)
-                                        true
-                                    }
-                                )
-                            },
-                        primaryAction = {
-                            SwipeToRevealPrimaryAction(
-                                revealState = revealState,
-                                icon = {
-                                    Icon(
-                                        imageVector = SwipeToRevealDefaults.Delete,
-                                        contentDescription = uninstallText,
-                                    )
+            }
+            items(
+                items = uiState.applications,
+                key = { item -> item.packageName },
+            ) { item ->
+                val revealState = rememberRevealState()
+                val coroutineScope = rememberCoroutineScope()
+                val uninstallText = stringResource(Res.string.apps_uninstall)
+                val settingsText = stringResource(Res.string.settings)
+                SwipeToRevealChip(
+                    revealState = revealState,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .edgeSwipeToDismiss(swipeToDismissBoxState)
+                        .semantics {
+                            customActions = listOf(
+                                CustomAccessibilityAction(uninstallText) {
+                                    onAppUninstallClicked(item.packageName)
+                                    true
                                 },
-                                label = { Text(uninstallText) },
-                                onClick = { onAppUninstallClicked(item.packageName) },
+                                CustomAccessibilityAction(settingsText) {
+                                    onAppSettingsClicked(item.packageName)
+                                    true
+                                }
                             )
                         },
-                        secondaryAction = {
-                            SwipeToRevealSecondaryAction(
-                                revealState = revealState,
-                                onClick = { onAppSettingsClicked(item.packageName) }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Settings,
-                                    contentDescription = settingsText,
-                                )
-                            }
-                        },
-                        onFullSwipe = {
-                            onAppUninstallClicked(item.packageName)
-                            coroutineScope.launch {
-                                revealState.animateTo(RevealValue.Covered)
-                            }
-                        }
-                    ) {
-                        WearCpuChip(
-                            modifier = Modifier.fillMaxWidth(),
-                            label = item.name,
-                            secondaryLabel = item.packageName,
+                    primaryAction = {
+                        SwipeToRevealPrimaryAction(
+                            revealState = revealState,
                             icon = {
-                                AsyncImage(
-                                    model = ImageRequest.Builder(LocalPlatformContext.current)
-                                        .data(item.appIconUri)
-                                        .crossfade(true)
-                                        .build(),
-                                    contentDescription = item.name,
-                                    modifier = Modifier
-                                        .size(ChipDefaults.IconSize)
-                                        .wrapContentSize(align = Alignment.Center)
+                                Icon(
+                                    imageVector = SwipeToRevealDefaults.Delete,
+                                    contentDescription = uninstallText,
                                 )
                             },
-                            onClick = { onAppClicked(item.packageName) },
+                            label = { Text(uninstallText) },
+                            onClick = { onAppUninstallClicked(item.packageName) },
                         )
+                    },
+                    secondaryAction = {
+                        SwipeToRevealSecondaryAction(
+                            revealState = revealState,
+                            onClick = { onAppSettingsClicked(item.packageName) }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Settings,
+                                contentDescription = settingsText,
+                            )
+                        }
+                    },
+                    onFullSwipe = {
+                        onAppUninstallClicked(item.packageName)
+                        coroutineScope.launch {
+                            revealState.animateTo(RevealValue.Covered)
+                        }
                     }
+                ) {
+                    WearCpuChip(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = item.name,
+                        secondaryLabel = item.packageName,
+                        icon = {
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalPlatformContext.current)
+                                    .data(item.appIconUri)
+                                    .crossfade(true)
+                                    .build(),
+                                contentDescription = item.name,
+                                modifier = Modifier
+                                    .size(ChipDefaults.IconSize)
+                                    .wrapContentSize(align = Alignment.Center)
+                            )
+                        },
+                        onClick = { onAppClicked(item.packageName) },
+                    )
                 }
             }
         }
+        if (uiState.isLoading) {
+            WearCpuProgressIndicator()
+        }
+        /*uiState.snackbarMessage?.let {
+            AppOpeningConfirmation(
+                message = stringResource(it),
+                onTimeout = onSnackbarDismissed,
+            )
+        }*/
     }
 
 
@@ -246,6 +246,28 @@ fun WearApplicationsScreen(
             )
         }
     }*/
+}
+
+@Composable
+fun AppOpeningConfirmation(
+    message: String,
+    onTimeout: () -> Unit,
+) {
+    Confirmation(
+        onTimeout = onTimeout,
+        icon = {
+            Icon(
+                imageVector = Icons.Filled.Check,
+                contentDescription = null,
+                modifier = Modifier.size(48.dp),
+            )
+        },
+    ) {
+        Text(
+            text = message,
+            textAlign = TextAlign.Center
+        )
+    }
 }
 
 /*@Composable
