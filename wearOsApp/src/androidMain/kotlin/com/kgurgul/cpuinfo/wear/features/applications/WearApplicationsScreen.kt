@@ -3,10 +3,12 @@
 package com.kgurgul.cpuinfo.wear.features.applications
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,6 +44,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import com.google.android.horologist.compose.material.Button
 import com.google.android.horologist.compose.material.Confirmation
 import com.google.android.horologist.compose.material.ListHeaderDefaults.firstItemPadding
 import com.google.android.horologist.compose.material.ResponsiveListHeader
@@ -50,6 +53,7 @@ import com.kgurgul.cpuinfo.features.applications.registerUninstallListener
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.applications
 import com.kgurgul.cpuinfo.shared.apps_uninstall
+import com.kgurgul.cpuinfo.shared.refresh
 import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.wear.ui.components.WearCpuChip
 import com.kgurgul.cpuinfo.wear.ui.components.WearCpuProgressIndicator
@@ -91,17 +95,38 @@ fun WearApplicationsScreen(
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
     onSortOrderChange: (ascending: Boolean) -> Unit,
 ) {
+    ApplicationsList(
+        uiState = uiState,
+        swipeToDismissBoxState = swipeToDismissBoxState,
+        onAppClicked = onAppClicked,
+        onRefreshApplications = onRefreshApplications,
+        onSnackbarDismissed = onSnackbarDismissed,
+        onAppUninstallClicked = onAppUninstallClicked,
+        onAppSettingsClicked = onAppSettingsClicked,
+    )
+}
+
+@Composable
+private fun ApplicationsList(
+    uiState: ApplicationsViewModel.UiState,
+    swipeToDismissBoxState: SwipeToDismissBoxState,
+    onAppClicked: (packageName: String) -> Unit,
+    onRefreshApplications: () -> Unit,
+    onSnackbarDismissed: () -> Unit,
+    onAppUninstallClicked: (id: String) -> Unit,
+    onAppSettingsClicked: (id: String) -> Unit,
+) {
     val columnState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
             first = ScalingLazyColumnDefaults.ItemType.Text,
-            last = ScalingLazyColumnDefaults.ItemType.Chip,
+            last = ScalingLazyColumnDefaults.ItemType.SingleButton,
         ),
     )
     ScreenScaffold(scrollState = columnState) {
         ScalingLazyColumn(
             columnState = columnState
         ) {
-            item {
+            item(key = "__header") {
                 ResponsiveListHeader(contentPadding = firstItemPadding()) {
                     Text(
                         text = stringResource(Res.string.applications),
@@ -185,6 +210,16 @@ fun WearApplicationsScreen(
                     )
                 }
             }
+            if (!uiState.isLoading) {
+                item(key = "__refresh") {
+                    Button(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = stringResource(Res.string.refresh),
+                        onClick = onRefreshApplications,
+                        modifier = Modifier.padding(top = 12.dp),
+                    )
+                }
+            }
         }
         if (uiState.isLoading) {
             WearCpuProgressIndicator()
@@ -199,7 +234,7 @@ fun WearApplicationsScreen(
 }
 
 @Composable
-fun AppOpeningConfirmation(
+private fun AppOpeningConfirmation(
     message: String,
     onTimeout: () -> Unit,
 ) {
@@ -275,144 +310,4 @@ private fun TopBar(
             }
         },
     )
-}*/
-
-/*@Composable
-private fun ApplicationsList(
-    appList: ImmutableList<ExtendedApplicationData>,
-    onAppClicked: (packageName: String) -> Unit,
-    onAppUninstallClicked: (id: String) -> Unit,
-    onAppSettingsClicked: (id: String) -> Unit,
-    onNativeLibsClicked: (libs: List<String>) -> Unit,
-) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        val listState = rememberLazyListState()
-        var revealedCardId: String? by rememberSaveable { mutableStateOf(null) }
-        val density = LocalDensity.current
-        LazyColumn(
-            state = listState,
-            modifier = Modifier
-                .fillMaxSize(),
-        ) {
-            itemsIndexed(
-                items = appList,
-                key = { _, item -> item.packageName },
-            ) { index, item ->
-                val isRevealed by remember {
-                    derivedStateOf { revealedCardId == item.packageName }
-                }
-                DraggableBox(
-                    isRevealed = isRevealed,
-                    onExpand = { revealedCardId = item.packageName },
-                    onCollapse = {
-                        if (revealedCardId == item.packageName) {
-                            revealedCardId = null
-                        }
-                    },
-                    actionRowOffset = with(density) { rowActionIconSize.toPx() * 2 },
-                    actionRow = {
-                        Row {
-                            IconButton(
-                                modifier = Modifier.requiredSize(rowActionIconSize),
-                                onClick = { onAppSettingsClicked(item.packageName) },
-                            ) {
-                                Icon(
-                                    painter = painterResource(Res.drawable.ic_settings),
-                                    tint = MaterialTheme.colorScheme.onBackground,
-                                    contentDescription = stringResource(Res.string.settings),
-                                )
-                            }
-                            IconButton(
-                                modifier = Modifier.requiredSize(rowActionIconSize),
-                                onClick = { onAppUninstallClicked(item.packageName) },
-                            ) {
-                                Icon(
-                                    painter = painterResource(Res.drawable.ic_thrash),
-                                    tint = MaterialTheme.colorScheme.onBackground,
-                                    contentDescription = null,
-                                )
-                            }
-                        }
-                    },
-                    content = {
-                        ApplicationItem(
-                            appData = item,
-                            onAppClicked = onAppClicked,
-                            onNativeLibsClicked = onNativeLibsClicked,
-                        )
-                    },
-                    modifier = Modifier.animateItem(),
-                )
-                if (index < appList.lastIndex) {
-                    CpuDivider(
-                        modifier = Modifier.padding(horizontal = spacingSmall),
-                    )
-                }
-            }
-        }
-        VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
-            scrollState = listState,
-        )
-    }
-}
-
-@Composable
-private fun ApplicationItem(
-    appData: ExtendedApplicationData,
-    onAppClicked: (packageName: String) -> Unit,
-    onNativeLibsClicked: (libs: List<String>) -> Unit,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.background)
-            .clickable(onClick = { onAppClicked(appData.packageName) })
-            .padding(spacingSmall),
-    ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalPlatformContext.current)
-                .data(appData.appIconUri)
-                .crossfade(true)
-                .build(),
-            contentDescription = appData.name,
-            modifier = Modifier.size(50.dp),
-        )
-        SelectionContainer {
-            Column(
-                modifier = Modifier.padding(horizontal = spacingXSmall),
-            ) {
-                Text(
-                    text = appData.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Text(
-                    text = appData.packageName,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-            }
-        }
-        if (appData.hasNativeLibs) {
-            Spacer(modifier = Modifier.weight(1f))
-            Spacer(modifier = Modifier.size(spacingXSmall))
-            IconButton(
-                onClick = { onNativeLibsClicked(appData.nativeLibs) },
-                modifier = Modifier.requiredSize(rowActionIconSize),
-            ) {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_cpp_logo),
-                    contentDescription = stringResource(Res.string.native_libs),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(spacingSmall),
-                )
-            }
-        }
-    }
 }*/
