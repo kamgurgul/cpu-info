@@ -2,14 +2,30 @@
 
 package com.kgurgul.cpuinfo.wear.features.settings
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.Picker
+import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.rememberPickerState
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
-import com.google.android.horologist.compose.layout.ScreenScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import com.google.android.horologist.compose.material.Button
 import com.kgurgul.cpuinfo.features.settings.SettingsViewModel
+import com.kgurgul.cpuinfo.features.settings.getTemperatureUnit
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.ok
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -32,160 +48,36 @@ fun WearTemperatureUnitPickerScreen(
     uiState: SettingsViewModel.UiState,
     onTemperatureUnitSelected: (Int) -> Unit,
 ) {
-    val columnState = rememberResponsiveColumnState(
-        contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Text,
-            last = ScalingLazyColumnDefaults.ItemType.SingleButton,
-        ),
+    val state = rememberPickerState(
+        initialNumberOfOptions = uiState.temperatureDialogOptions.size,
+        repeatItems = false,
     )
-    ScreenScaffold(scrollState = columnState) {
-
-    }
-
-    /*Scaffold(
-        topBar = {
-            PrimaryTopAppBar(
-                title = stringResource(Res.string.settings),
-            )
-        },
-        contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
-    ) { paddingValues ->
-        var isTemperatureDialogVisible by remember { mutableStateOf(false) }
-        SettingsList(
-            uiState = uiState,
-            modifier = Modifier.padding(paddingValues),
-            onTemperatureItemClicked = { isTemperatureDialogVisible = true },
-        )
-        TemperatureUnitDialog(
-            isDialogVisible = isTemperatureDialogVisible,
-            onDismissRequest = { isTemperatureDialogVisible = false },
-            currentSelection = uiState.temperatureUnit,
-            options = uiState.temperatureDialogOptions,
-            onOptionClicked = onTemperatureOptionClicked,
-        )
-    }*/
-}
-
-/*@Composable
-private fun SettingsList(
-    uiState: SettingsViewModel.UiState,
-    onTemperatureItemClicked: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        val listState = rememberLazyListState()
-        LazyColumn(
-            contentPadding = PaddingValues(spacingMedium),
-            state = listState,
-            modifier = modifier,
-        ) {
-            item(key = "__generalHeader") {
-                Text(
-                    text = stringResource(Res.string.general),
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.tertiary,
-                )
-                Spacer(modifier = Modifier.requiredSize(spacingMedium))
-            }
-            item(key = "__temperatureItem") {
-                SettingsItem(
-                    title = stringResource(Res.string.temperature_unit),
-                    subtitle = getTemperatureUnit(option = uiState.temperatureUnit),
-                    onClick = onTemperatureItemClicked,
-                )
-            }
-        }
-        VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
-            scrollState = listState,
-        )
-    }
-}
-
-@Composable
-private fun SettingsItem(
-    title: String,
-    subtitle: String,
-    onClick: () -> Unit,
-) {
+    //val contentDescription by remember { derivedStateOf { getTemperatureUnit(state.selectedOption) } }
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(vertical = spacingMedium)
-            .padding(start = spacingLarge),
+            .fillMaxSize()
+            .padding(
+                top = 24.dp,
+                bottom = 8.dp,
+            ),
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-        )
-        Text(
-            text = subtitle,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        Picker(
+            state = state,
+            contentDescription = null,
+            modifier = Modifier
+                .size(100.dp, 100.dp),
+        ) {
+            Text(
+                text = getTemperatureUnit(uiState.temperatureDialogOptions[it]),
+                style = MaterialTheme.typography.display2,
+            )
+        }
+        Button(
+            imageVector = Icons.Default.Check,
+            contentDescription = stringResource(Res.string.ok),
+            onClick = { onTemperatureUnitSelected(state.selectedOption) },
         )
     }
 }
-
-@Composable
-private fun TemperatureUnitDialog(
-    isDialogVisible: Boolean,
-    onDismissRequest: () -> Unit,
-    currentSelection: Int,
-    options: ImmutableList<Int>,
-    onOptionClicked: (Int) -> Unit,
-) {
-    if (isDialogVisible) {
-        AlertDialog(
-            onDismissRequest = onDismissRequest,
-            title = {
-                Text(text = stringResource(Res.string.temperature_unit))
-            },
-            text = {
-                val scrollState = rememberScrollState()
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(spacingSmall),
-                    modifier = Modifier.verticalScroll(scrollState),
-                ) {
-                    for (option in options) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(spacingMedium),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onOptionClicked(option)
-                                    onDismissRequest()
-                                }
-                                .padding(vertical = spacingSmall),
-                        ) {
-                            RadioButton(
-                                selected = option == currentSelection,
-                                onClick = null,
-                                colors = RadioButtonDefaults.colors(
-                                    selectedColor = MaterialTheme.colorScheme.tertiary,
-                                ),
-                            )
-                            Text(
-                                text = getTemperatureUnit(option = option),
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onBackground,
-                            )
-                        }
-                    }
-                }
-            },
-            confirmButton = {
-                Button(
-                    onClick = onDismissRequest,
-                ) {
-                    Text(text = stringResource(Res.string.cancel))
-                }
-            },
-        )
-    }
-}*/

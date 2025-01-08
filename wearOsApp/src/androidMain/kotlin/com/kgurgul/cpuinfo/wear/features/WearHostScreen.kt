@@ -41,6 +41,7 @@ import com.kgurgul.cpuinfo.shared.information
 import com.kgurgul.cpuinfo.shared.menu
 import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.temp
+import com.kgurgul.cpuinfo.utils.sharedViewModel
 import com.kgurgul.cpuinfo.wear.features.applications.WearApplicationsScreen
 import com.kgurgul.cpuinfo.wear.features.information.WearInfoContainerScreen
 import com.kgurgul.cpuinfo.wear.features.settings.WearSettingsScreen
@@ -104,6 +105,7 @@ fun WearHostScreen(
                 ) {
                     composable(WearHostScreen.Settings.List.route) {
                         WearSettingsScreen(
+                            viewModel = it.sharedViewModel(navController),
                             onTemperatureUnitClicked = {
                                 navController.navigate(
                                     WearHostScreen.Settings.TemperatureUnitPicker.route
@@ -113,6 +115,7 @@ fun WearHostScreen(
                     }
                     composable(WearHostScreen.Settings.TemperatureUnitPicker.route) {
                         WearTemperatureUnitPickerScreen(
+                            viewModel = it.sharedViewModel(navController),
                             onTemperatureUnitSelected = {
                                 navController.popBackStack()
                             },
