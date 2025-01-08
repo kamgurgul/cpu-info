@@ -20,7 +20,7 @@ android {
     compileSdk = AndroidVersions.COMPILE_SDK
 
     defaultConfig {
-        applicationId = "com.kgurgul.cpuinfo.wear"
+        applicationId = "com.kgurgul.cpuinfo"
 
         minSdk = 26
         targetSdk = AndroidVersions.TARGET_SDK
