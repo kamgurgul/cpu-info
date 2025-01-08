@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.navigation
 import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Icon
@@ -43,6 +44,7 @@ import com.kgurgul.cpuinfo.shared.temp
 import com.kgurgul.cpuinfo.wear.features.applications.WearApplicationsScreen
 import com.kgurgul.cpuinfo.wear.features.information.WearInfoContainerScreen
 import com.kgurgul.cpuinfo.wear.features.settings.WearSettingsScreen
+import com.kgurgul.cpuinfo.wear.features.settings.WearTemperatureUnitPickerScreen
 import com.kgurgul.cpuinfo.wear.features.temperature.WearTemperatureScreen
 import com.kgurgul.cpuinfo.wear.theme.WearAppTheme
 import org.jetbrains.compose.resources.painterResource
@@ -96,9 +98,28 @@ fun WearHostScreen(
                 composable(WearHostScreen.Temperature.route) {
                     WearTemperatureScreen()
                 }
-                composable(WearHostScreen.Settings.route) {
-                    WearSettingsScreen()
+                navigation(
+                    startDestination = WearHostScreen.Settings.List.route,
+                    route = WearHostScreen.Settings.route,
+                ) {
+                    composable(WearHostScreen.Settings.List.route) {
+                        WearSettingsScreen(
+                            onTemperatureUnitClicked = {
+                                navController.navigate(
+                                    WearHostScreen.Settings.TemperatureUnitPicker.route
+                                )
+                            },
+                        )
+                    }
+                    composable(WearHostScreen.Settings.TemperatureUnitPicker.route) {
+                        WearTemperatureUnitPickerScreen(
+                            onTemperatureUnitSelected = {
+                                navController.popBackStack()
+                            },
+                        )
+                    }
                 }
+
             }
         }
     }
@@ -203,5 +224,8 @@ sealed class WearHostScreen(val route: String) {
     data object Information : WearHostScreen("information")
     data object Applications : WearHostScreen("applications")
     data object Temperature : WearHostScreen("temperature")
-    data object Settings : WearHostScreen("settings")
+    data object Settings : WearHostScreen("settings") {
+        data object List : WearHostScreen("settings_list")
+        data object TemperatureUnitPicker : WearHostScreen("temperature_unit_picker")
+    }
 }
