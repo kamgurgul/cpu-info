@@ -31,9 +31,9 @@ height="80">](https://apps.microsoft.com/detail/9phxq0f4knbl)
 
 # Supported platforms 
 
-| Android | Android TV | iOS | Desktop |                                                                                   Wasm                                                                                   |
-|:-------:|:----------:|:---:|:-------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|    ✅    |     ✅      |  ✅  |    ✅    | ✅<br/>[In preview](https://kgurgul.com/assets/cpuinfo/)<br/>Known issues: [1](https://youtrack.jetbrains.com/issue/CMP-6900/NavigationRail-items-not-visible-on-WASM-JS) |
+| Android | Android TV | Wear OS | iOS | Desktop |                                                                                   Wasm                                                                                   |
+|:-------:|:----------:|---------|:---:|:-------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|    ✅    |     ✅      | ✅       |  ✅  |    ✅    | ✅<br/>[In preview](https://kgurgul.com/assets/cpuinfo/)<br/>Known issues: [1](https://youtrack.jetbrains.com/issue/CMP-6900/NavigationRail-items-not-visible-on-WASM-JS) |
 
 # Tech stack
 
@@ -50,7 +50,6 @@ height="80">](https://apps.microsoft.com/detail/9phxq0f4knbl)
 # TODO
 
 * Shared UI tests
-* Add Wear OS support - share as much as possible with Apple Watch
 * Upload to brew cask
 * Add about section
 
