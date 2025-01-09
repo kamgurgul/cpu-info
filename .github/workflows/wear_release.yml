@@ -1,4 +1,4 @@
-name: Android release
+name: Wear OS release
 on:
     workflow_dispatch:
         inputs:
