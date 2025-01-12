@@ -52,6 +52,7 @@ height="80">](https://apps.microsoft.com/detail/9phxq0f4knbl)
 * Shared UI tests
 * Upload to brew cask
 * Add about section
+* Upload Wear OS app to Play Store when SDK 35 will be supported
 
 # License
 
