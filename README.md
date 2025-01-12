@@ -44,7 +44,7 @@ height="80">](https://apps.microsoft.com/detail/9phxq0f4knbl)
 * [Koin](https://github.com/InsertKoinIO/koin)
 * [Coil](https://github.com/coil-kt/coil)
 * [DataStore](https://developer.android.com/kotlin/multiplatform/datastore)
-* External C libraries - [pytorch/cpuinfo](https://github.com/pytorch/cpuinfo)
+* [pytorch/cpuinfo](https://github.com/pytorch/cpuinfo)
 * [OSHI](https://github.com/oshi/oshi)
 
 # TODO
