@@ -16,7 +16,7 @@
 
 <resources>
 
-    <string name="action_not_supported">Action not available</string>
+    <string name="app_name" translatable="false">CPU Info</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -27,6 +27,7 @@
     <string name="vram" translatable="false">VRAM</string>
     <string name="edid" translatable="false">EDID</string>
     <string name="menu" translatable="false">Menu</string>
+    <string name="action_not_supported">Action not available</string>
 
     <!--Tabs-->
     <string name="cpu">CPU</string>
