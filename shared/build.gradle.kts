@@ -1,6 +1,7 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -15,7 +16,10 @@ plugins {
 version = "1.0"
 
 kotlin {
-    androidTarget()
+    androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
+    }
 
     val iosTargets = listOf(iosX64(), iosArm64())
     iosTargets.forEach { iosTarget ->
@@ -176,7 +180,10 @@ kotlin {
 }
 
 dependencies {
+    androidTestImplementation(libs.compose.ui.test)
+
     debugImplementation(compose.uiTooling)
+    debugImplementation(libs.compose.ui.testManifest)
 }
 
 compose.resources {
@@ -204,6 +211,7 @@ android {
                 )
             }
         }
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     ndkVersion = AndroidVersions.NDK_VERSION
     externalNativeBuild {
