@@ -135,6 +135,7 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.androidx.datastore.preferences)
+                implementation(libs.appdirs)
                 implementation(libs.kotlinx.coroutines.swing)
                 implementation(libs.oshi)
             }

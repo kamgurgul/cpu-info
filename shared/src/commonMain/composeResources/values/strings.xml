@@ -16,7 +16,7 @@
 
 <resources>
 
-    <string name="app_name" translatable="false">CPU Info</string>
+    <string name="app_name" translatable="false">CPU-Info</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
