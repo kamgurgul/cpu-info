@@ -233,6 +233,9 @@ android {
         unitTests {
             isReturnDefaultValues = true
             isIncludeAndroidResources = true
+            all {
+                it.exclude("**/screen/**")
+            }
         }
     }
 }

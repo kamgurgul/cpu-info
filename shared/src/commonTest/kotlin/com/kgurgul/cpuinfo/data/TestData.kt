@@ -76,7 +76,7 @@ object TestData {
 
     val cpuData = CpuData(
         processorName = "CPU_NAME",
-        abi = "ABI",
+        abi = "x64",
         coreNumber = 1,
         hasArmNeon = true,
         frequencies = emptyList(),

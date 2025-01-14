@@ -3,7 +3,7 @@ package com.kgurgul.cpuinfo.data.provider
 class FakeCpuDataProvider : ICpuDataProvider {
 
     override fun getAbi(): String {
-        return "ABI"
+        return "x64"
     }
 
     override fun getNumberOfCores(): Int {
