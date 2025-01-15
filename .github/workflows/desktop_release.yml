@@ -65,6 +65,27 @@ jobs:
           name: CPU-Info-linux-x64-${{ github.event.inputs.version }}-release.jar
           path: desktopApp/build/compose/jars/*.jar
 
+  build_mac_uber_jar:
+      needs: code_quality
+      runs-on: macos-latest
+      steps:
+          -   uses: actions/checkout@v4
+          -   name: Set up JDK 17
+              uses: actions/setup-java@v4
+              with:
+                  java-version: '17'
+                  distribution: 'corretto'
+                  cache: gradle
+          -   name: Setup Gradle
+              uses: gradle/actions/setup-gradle@v4
+          -   name: Build Uber JAR
+              run: ./gradlew :desktopApp:packageReleaseUberJarForCurrentOS
+          -   name: Upload Uber JAR
+              uses: actions/upload-artifact@v4
+              with:
+                  name: CPU-Info-macos-arm64-${{ github.event.inputs.version }}-release.jar
+                  path: desktopApp/build/compose/jars/*.jar
+
   build_mac_dmg:
     needs: code_quality
     runs-on: macos-latest
@@ -124,7 +145,7 @@ jobs:
           path: ${{ env.RELEASE_PATH }}
 
   tag_and_create_release:
-    needs: [ build_msi, build_linux_x64_uber_jar, build_mac_dmg ]
+      needs: [ build_msi, build_linux_x64_uber_jar, build_mac_dmg, build_mac_uber_jar ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -140,6 +161,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: CPU-Info-${{ github.event.inputs.version }}.dmg
+      -   name: Download Mac OS Uber JAR
+          uses: actions/download-artifact@v4
+          with:
+              name: CPU-Info-macos-arm64-${{ github.event.inputs.version }}-release.jar
       - name: Tag Release
         run: |
           git config --local user.email "action@github.com"
