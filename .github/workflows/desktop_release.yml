@@ -203,7 +203,7 @@ jobs:
           path: ${{ env.RELEASE_PATH }}
 
   tag_and_create_release:
-    needs: [ build_msi, build_linux_x64_uber_jar, build_mac_dmg, build_mac_uber_jar ]
+    needs: [ build_msi, build_linux_x64_uber_jar, build_mac_arm64_dmg, build_mac_x64_dmg, build_mac_uber_jar ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
