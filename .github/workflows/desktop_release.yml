@@ -215,10 +215,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: CPU-Info-linux-x64-${{ github.event.inputs.version }}-release.jar
-      - name: Download DMG
+      - name: Download Mac x64 DMG
         uses: actions/download-artifact@v4
         with:
-          name: CPU-Info-${{ github.event.inputs.version }}.dmg
+          name: CPU-Info-x64-${{ github.event.inputs.version }}.dmg
+      - name: Download Mac arm64 DMG
+        uses: actions/download-artifact@v4
+        with:
+          name: CPU-Info-arm64-${{ github.event.inputs.version }}.dmg
       - name: Download Mac OS Uber JAR
         uses: actions/download-artifact@v4
         with:
