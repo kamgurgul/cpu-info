@@ -22,8 +22,12 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Pkg, TargetFormat.Msi, TargetFormat.Deb)
+
             packageName = "CPU-Info"
-            packageVersion = "1.4.2"
+            packageVersion = "1.4.3"
+
+            modules("jdk.unsupported")
+            modules("jdk.unsupported.desktop")
 
             val iconsRoot = project.file("desktop-icons")
             macOS {
