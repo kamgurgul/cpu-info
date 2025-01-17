@@ -1,0 +1,1424 @@
+{
+    "dependencies": [
+        {
+            "moduleName": "androidx.activity:activity",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/activity#1.10.0",
+            "moduleVersion": "1.10.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.activity:activity",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/activity#1.9.3",
+            "moduleVersion": "1.9.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.activity:activity-compose",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/activity#1.10.0",
+            "moduleVersion": "1.10.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.activity:activity-compose",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/activity#1.9.3",
+            "moduleVersion": "1.9.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.activity:activity-ktx",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/activity#1.10.0",
+            "moduleVersion": "1.10.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.activity:activity-ktx",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/activity#1.9.3",
+            "moduleVersion": "1.9.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.annotation:annotation",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/annotation#1.9.1",
+            "moduleVersion": "1.9.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.annotation:annotation-experimental",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/annotation#1.4.1",
+            "moduleVersion": "1.4.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.annotation:annotation-jvm",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/annotation#1.9.1",
+            "moduleVersion": "1.9.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.appcompat:appcompat",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/appcompat#1.7.0",
+            "moduleVersion": "1.7.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.appcompat:appcompat-resources",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/appcompat#1.7.0",
+            "moduleVersion": "1.7.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.arch.core:core-common",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/arch-core#2.2.0",
+            "moduleVersion": "2.2.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.arch.core:core-runtime",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/arch-core#2.2.0",
+            "moduleVersion": "2.2.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.autofill:autofill",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.collection:collection",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/collection#1.4.4",
+            "moduleVersion": "1.4.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.collection:collection-jvm",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/collection#1.4.4",
+            "moduleVersion": "1.4.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.collection:collection-ktx",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/collection#1.4.4",
+            "moduleVersion": "1.4.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.animation:animation",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.animation:animation-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.animation:animation-core",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.animation:animation-core-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.foundation:foundation",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.foundation:foundation-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.foundation:foundation-layout",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.foundation:foundation-layout-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.material3.adaptive:adaptive",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-material3-adaptive#1.0.0",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.material3.adaptive:adaptive-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-material3-adaptive#1.0.0",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.material3:material3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-material3#1.3.1",
+            "moduleVersion": "1.3.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.material3:material3-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-material3#1.3.1",
+            "moduleVersion": "1.3.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.material:material-icons-core",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.material:material-icons-core-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.material:material-ripple",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.material:material-ripple-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.runtime:runtime",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.runtime:runtime-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.runtime:runtime-saveable",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.runtime:runtime-saveable-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-geometry",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-geometry-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-graphics",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-graphics-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-text",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-text-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-tooling-preview",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-tooling-preview-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-unit",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-unit-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-util",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.compose.ui:ui-util-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+            "moduleVersion": "1.7.6",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.concurrent:concurrent-futures",
+            "moduleUrl": "https://developer.android.com/topic/libraries/architecture/index.html",
+            "moduleVersion": "1.1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.core:core",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/core#1.13.1",
+            "moduleVersion": "1.13.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.core:core-ktx",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/core#1.13.1",
+            "moduleVersion": "1.13.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.core:core-splashscreen",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/core#1.0.1",
+            "moduleVersion": "1.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.cursoradapter:cursoradapter",
+            "moduleUrl": "http://developer.android.com/tools/extras/support-library.html",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.customview:customview",
+            "moduleUrl": "http://developer.android.com/tools/extras/support-library.html",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.customview:customview-poolingcontainer",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/customview#1.0.0",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.datastore:datastore",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+            "moduleVersion": "1.1.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.datastore:datastore-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+            "moduleVersion": "1.1.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.datastore:datastore-core",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+            "moduleVersion": "1.1.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.datastore:datastore-core-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+            "moduleVersion": "1.1.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.datastore:datastore-core-okio",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+            "moduleVersion": "1.1.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.datastore:datastore-core-okio-jvm",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+            "moduleVersion": "1.1.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.datastore:datastore-preferences",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+            "moduleVersion": "1.1.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.datastore:datastore-preferences-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+            "moduleVersion": "1.1.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.datastore:datastore-preferences-core",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+            "moduleVersion": "1.1.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.datastore:datastore-preferences-core-jvm",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+            "moduleVersion": "1.1.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.datastore:datastore-preferences-external-protobuf",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+            "moduleVersion": "1.1.2",
+            "moduleLicense": "The 3-Clause BSD License",
+            "moduleLicenseUrl": "https://opensource.org/licenses/BSD-3-Clause"
+        },
+        {
+            "moduleName": "androidx.datastore:datastore-preferences-proto",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+            "moduleVersion": "1.1.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.drawerlayout:drawerlayout",
+            "moduleUrl": "http://developer.android.com/tools/extras/support-library.html",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.emoji2:emoji2",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/emoji2#1.3.0",
+            "moduleVersion": "1.3.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.emoji2:emoji2-views-helper",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/emoji2#1.3.0",
+            "moduleVersion": "1.3.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.exifinterface:exifinterface",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/exifinterface#1.3.7",
+            "moduleVersion": "1.3.7",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.fragment:fragment",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/fragment#1.8.5",
+            "moduleVersion": "1.8.5",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.fragment:fragment-ktx",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/fragment#1.8.5",
+            "moduleVersion": "1.8.5",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.graphics:graphics-path",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/graphics#1.0.1",
+            "moduleVersion": "1.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.interpolator:interpolator",
+            "moduleUrl": "http://developer.android.com/tools/extras/support-library.html",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-common",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-common-java8",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-common-jvm",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-livedata",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-livedata-core",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-livedata-core-ktx",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-process",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-runtime",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-runtime-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-runtime-compose",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-runtime-compose-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-runtime-ktx",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-runtime-ktx-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-viewmodel",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-viewmodel-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-viewmodel-compose",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-viewmodel-compose-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-viewmodel-ktx",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.lifecycle:lifecycle-viewmodel-savedstate",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.9.0-alpha03",
+            "moduleVersion": "2.9.0-alpha03",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.loader:loader",
+            "moduleUrl": "http://developer.android.com/tools/extras/support-library.html",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.navigation:navigation-common",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.0",
+            "moduleVersion": "2.8.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.navigation:navigation-common-ktx",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.0",
+            "moduleVersion": "2.8.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.navigation:navigation-compose",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.0",
+            "moduleVersion": "2.8.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.navigation:navigation-runtime",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.0",
+            "moduleVersion": "2.8.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.navigation:navigation-runtime-ktx",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.0",
+            "moduleVersion": "2.8.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.profileinstaller:profileinstaller",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/profileinstaller#1.4.1",
+            "moduleVersion": "1.4.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.resourceinspection:resourceinspection-annotation",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/resourceinspection#1.0.1",
+            "moduleVersion": "1.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.savedstate:savedstate",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/savedstate#1.2.1",
+            "moduleVersion": "1.2.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.savedstate:savedstate-ktx",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/savedstate#1.2.1",
+            "moduleVersion": "1.2.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.startup:startup-runtime",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/startup#1.1.1",
+            "moduleVersion": "1.1.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.tracing:tracing",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/tracing#1.0.0",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.tv:tv-material",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/tv#1.0.0",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.vectordrawable:vectordrawable",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx",
+            "moduleVersion": "1.1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.vectordrawable:vectordrawable-animated",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx",
+            "moduleVersion": "1.1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.versionedparcelable:versionedparcelable",
+            "moduleUrl": "http://developer.android.com/tools/extras/support-library.html",
+            "moduleVersion": "1.1.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.viewpager:viewpager",
+            "moduleUrl": "http://developer.android.com/tools/extras/support-library.html",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.window.extensions.core:core",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/window-extensions-core#1.0.0",
+            "moduleVersion": "1.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.window:window",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/window#1.3.0",
+            "moduleVersion": "1.3.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.window:window-core",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/window#1.3.0",
+            "moduleVersion": "1.3.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "androidx.window:window-core-android",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/window#1.3.0",
+            "moduleVersion": "1.3.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "co.touchlab:kermit",
+            "moduleUrl": "https://github.com/touchlab/Kermit",
+            "moduleVersion": "2.0.5",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "co.touchlab:kermit-android",
+            "moduleUrl": "https://github.com/touchlab/Kermit",
+            "moduleVersion": "2.0.5",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "co.touchlab:kermit-core",
+            "moduleUrl": "https://github.com/touchlab/Kermit",
+            "moduleVersion": "2.0.5",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "co.touchlab:kermit-core-android",
+            "moduleUrl": "https://github.com/touchlab/Kermit",
+            "moduleVersion": "2.0.5",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "co.touchlab:stately-concurrency",
+            "moduleUrl": "https://github.com/touchlab/Stately",
+            "moduleVersion": "2.1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "co.touchlab:stately-concurrency-jvm",
+            "moduleUrl": "https://github.com/touchlab/Stately",
+            "moduleVersion": "2.1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "co.touchlab:stately-concurrent-collections",
+            "moduleUrl": "https://github.com/touchlab/Stately",
+            "moduleVersion": "2.1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "co.touchlab:stately-concurrent-collections-jvm",
+            "moduleUrl": "https://github.com/touchlab/Stately",
+            "moduleVersion": "2.1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "co.touchlab:stately-strict",
+            "moduleUrl": "https://github.com/touchlab/Stately",
+            "moduleVersion": "2.1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "co.touchlab:stately-strict-jvm",
+            "moduleUrl": "https://github.com/touchlab/Stately",
+            "moduleVersion": "2.1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "com.getkeepsafe.relinker:relinker",
+            "moduleUrl": "https://github.com/KeepSafe/ReLinker",
+            "moduleVersion": "1.4.5",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "com.google.accompanist:accompanist-drawablepainter",
+            "moduleUrl": "https://github.com/google/accompanist/",
+            "moduleVersion": "0.36.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "com.google.guava:listenablefuture",
+            "moduleVersion": "1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "com.squareup.okio:okio",
+            "moduleUrl": "https://github.com/square/okio/",
+            "moduleVersion": "3.9.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "com.squareup.okio:okio-jvm",
+            "moduleUrl": "https://github.com/square/okio/",
+            "moduleVersion": "3.9.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.coil-kt.coil3:coil",
+            "moduleUrl": "https://github.com/coil-kt/coil",
+            "moduleVersion": "3.0.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.coil-kt.coil3:coil-android",
+            "moduleUrl": "https://github.com/coil-kt/coil",
+            "moduleVersion": "3.0.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.coil-kt.coil3:coil-compose",
+            "moduleUrl": "https://github.com/coil-kt/coil",
+            "moduleVersion": "3.0.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.coil-kt.coil3:coil-compose-android",
+            "moduleUrl": "https://github.com/coil-kt/coil",
+            "moduleVersion": "3.0.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.coil-kt.coil3:coil-compose-core",
+            "moduleUrl": "https://github.com/coil-kt/coil",
+            "moduleVersion": "3.0.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.coil-kt.coil3:coil-compose-core-android",
+            "moduleUrl": "https://github.com/coil-kt/coil",
+            "moduleVersion": "3.0.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.coil-kt.coil3:coil-core",
+            "moduleUrl": "https://github.com/coil-kt/coil",
+            "moduleVersion": "3.0.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.coil-kt.coil3:coil-core-android",
+            "moduleUrl": "https://github.com/coil-kt/coil",
+            "moduleVersion": "3.0.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.insert-koin:koin-android",
+            "moduleUrl": "https://insert-koin.io/",
+            "moduleVersion": "4.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.insert-koin:koin-compose",
+            "moduleUrl": "https://insert-koin.io/",
+            "moduleVersion": "4.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.insert-koin:koin-compose-jvm",
+            "moduleUrl": "https://insert-koin.io/",
+            "moduleVersion": "4.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.insert-koin:koin-compose-viewmodel",
+            "moduleUrl": "https://insert-koin.io/",
+            "moduleVersion": "4.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.insert-koin:koin-compose-viewmodel-jvm",
+            "moduleUrl": "https://insert-koin.io/",
+            "moduleVersion": "4.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.insert-koin:koin-core",
+            "moduleUrl": "https://insert-koin.io/",
+            "moduleVersion": "4.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.insert-koin:koin-core-jvm",
+            "moduleUrl": "https://insert-koin.io/",
+            "moduleVersion": "4.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.insert-koin:koin-core-viewmodel",
+            "moduleUrl": "https://insert-koin.io/",
+            "moduleVersion": "4.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "io.insert-koin:koin-core-viewmodel-jvm",
+            "moduleUrl": "https://insert-koin.io/",
+            "moduleVersion": "4.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.core:core-bundle",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.1.0-alpha01",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.core:core-bundle-android",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.1.0-alpha01",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.core:core-uri",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.0.0-alpha01",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.core:core-uri-android",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.0.0-alpha01",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.lifecycle:lifecycle-common",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "2.9.0-alpha01",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.lifecycle:lifecycle-runtime",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "2.9.0-alpha01",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "2.8.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "2.9.0-alpha01",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "2.8.4",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-savedstate",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "2.9.0-alpha01",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.navigation:navigation-common",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "2.8.0-alpha11",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.navigation:navigation-compose",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "2.8.0-alpha11",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.navigation:navigation-runtime",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "2.8.0-alpha11",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.savedstate:savedstate",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.2.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.androidx.window:window-core",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.3.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.animation:animation",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.animation:animation-core",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.annotation-internal:annotation",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.collection-internal:collection",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.components:components-resources",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.components:components-resources-android",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.components:components-ui-tooling-preview",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.components:components-ui-tooling-preview-android",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.foundation:foundation",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.foundation:foundation-layout",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.material3.adaptive:adaptive",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.0.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.material3:material3",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.material:material-icons-core",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.material:material-ripple",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.runtime:runtime",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.runtime:runtime-saveable",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.ui:ui",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.ui:ui-geometry",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.ui:ui-graphics",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.ui:ui-text",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.ui:ui-tooling-preview",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.ui:ui-unit",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.compose.ui:ui-util",
+            "moduleUrl": "https://github.com/JetBrains/compose-jb",
+            "moduleVersion": "1.7.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlin:kotlin-android-extensions-runtime",
+            "moduleUrl": "https://kotlinlang.org/",
+            "moduleVersion": "2.1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlin:kotlin-parcelize-runtime",
+            "moduleUrl": "https://kotlinlang.org/",
+            "moduleVersion": "2.1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlin:kotlin-stdlib",
+            "moduleUrl": "https://kotlinlang.org/",
+            "moduleVersion": "2.1.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlinx:atomicfu",
+            "moduleUrl": "https://github.com/Kotlin/kotlinx.atomicfu",
+            "moduleVersion": "0.23.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlinx:atomicfu-jvm",
+            "moduleUrl": "https://github.com/Kotlin/kotlinx.atomicfu",
+            "moduleVersion": "0.23.2",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlinx:kotlinx-collections-immutable",
+            "moduleUrl": "https://github.com/Kotlin/kotlinx.collections.immutable",
+            "moduleVersion": "0.3.8",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm",
+            "moduleUrl": "https://github.com/Kotlin/kotlinx.collections.immutable",
+            "moduleVersion": "0.3.8",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlinx:kotlinx-coroutines-android",
+            "moduleUrl": "https://github.com/Kotlin/kotlinx.coroutines",
+            "moduleVersion": "1.10.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlinx:kotlinx-coroutines-bom",
+            "moduleUrl": "https://github.com/Kotlin/kotlinx.coroutines",
+            "moduleVersion": "1.10.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlinx:kotlinx-coroutines-core",
+            "moduleUrl": "https://github.com/Kotlin/kotlinx.coroutines",
+            "moduleVersion": "1.10.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm",
+            "moduleUrl": "https://github.com/Kotlin/kotlinx.coroutines",
+            "moduleVersion": "1.10.1",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-bom",
+            "moduleUrl": "https://github.com/Kotlin/kotlinx.serialization",
+            "moduleVersion": "1.6.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-core",
+            "moduleUrl": "https://github.com/Kotlin/kotlinx.serialization",
+            "moduleVersion": "1.6.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm",
+            "moduleUrl": "https://github.com/Kotlin/kotlinx.serialization",
+            "moduleVersion": "1.6.3",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        {
+            "moduleName": "org.jetbrains:annotations",
+            "moduleUrl": "https://github.com/JetBrains/java-annotations",
+            "moduleVersion": "23.0.0",
+            "moduleLicense": "Apache License, Version 2.0",
+            "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    ]
+}
