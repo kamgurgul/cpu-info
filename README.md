@@ -28,6 +28,9 @@ height="80">](https://flathub.org/apps/com.kgurgul.cpuinfo)
 [<img src="info/ms_badge.png"
 alt="Get it from Microsoft"
 height="80">](https://apps.microsoft.com/detail/9phxq0f4knbl)
+[<img src="info/get-it-on-homebrew.png"
+alt="Get it from Homebrew"
+height="80">](https://formulae.brew.sh/cask/cpu-info)
 
 # Supported platforms 
 
