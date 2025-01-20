@@ -7,6 +7,7 @@ androidxDatastorePreferences = "1.1.2"
 androidxEspresso = "3.6.1"
 androidxLifecycle = "2.8.4"
 androidxNavigation = "2.8.0-alpha11"
+androidxNavigationAndroid = "2.8.5"
 androidxOrchestrator = "1.5.1"
 androidxTestCore = "1.6.1"
 androidxTestExt = "1.2.1"
@@ -45,6 +46,7 @@ androidx-datastore-preferences = { group = "androidx.datastore", name = "datasto
 androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidxNavigation" }
+androidx-navigation-compose-android = { module = "androidx.navigation:navigation-compose", version.ref = "androidxNavigationAndroid" }
 androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
 androidx-test-core = { group = "androidx.test", name = "core-ktx", version.ref = "androidxTestCore" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }

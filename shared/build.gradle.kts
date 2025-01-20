@@ -119,6 +119,7 @@ kotlin {
             dependencies {
                 implementation(compose.preview)
                 implementation(libs.androidx.datastore.preferences)
+                implementation(libs.androidx.navigation.compose.android)
                 api(libs.androidx.tv)
                 implementation(libs.koin.android)
                 implementation(libs.relinker)
