@@ -2,10 +2,10 @@ package com.kgurgul.cpuinfo
 
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.DisposableEffect
@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HostActivity : AppCompatActivity() {
+class HostActivity : ComponentActivity() {
 
     private val viewModel: HostViewModel by viewModel()
 
