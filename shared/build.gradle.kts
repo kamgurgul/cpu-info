@@ -118,10 +118,12 @@ kotlin {
         androidMain {
             dependencies {
                 implementation(compose.preview)
+                api(libs.androidx.activity.compose)
                 implementation(libs.androidx.datastore.preferences)
                 implementation(libs.androidx.navigation.compose.android)
+                api(libs.androidx.core.splashscreen)
                 api(libs.androidx.tv)
-                implementation(libs.koin.android)
+                api(libs.koin.android)
                 implementation(libs.relinker)
             }
         }

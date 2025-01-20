@@ -89,13 +89,9 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.wear.foundation)
     implementation(libs.androidx.wear.material)
     implementation(libs.androidx.wear.navigation)
     implementation(libs.horologist.compose.layout)
     implementation(libs.horologist.compose.material)
-
-    implementation(libs.koin.android)
 }
