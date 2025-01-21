@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 
 class LicensesViewModel : ViewModel() {
 
+
+
     data class UiState(
         val isLoading: Boolean = false,
     )

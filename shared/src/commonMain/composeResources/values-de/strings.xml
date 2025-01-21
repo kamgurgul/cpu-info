@@ -181,4 +181,10 @@
     <string name="sensors_magnetic_field">Magnetfeld</string>
     <string name="sensors_attitude">Ausrichtung</string>
 
+    <!-- Licenses -->
+    <string name="licenses">Lizenzen</string>
+    <string name="licenses_module_name">Modulname:</string>
+    <string name="licenses_module_version">Modulversion:</string>
+    <string name="licenses_module_license">Lizenz:</string>
+
 </resources>

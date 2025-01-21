@@ -181,5 +181,11 @@
     <string name="sensors_magnetic_field">Magnetické pole</string>
     <string name="sensors_attitude">Orientace</string>
 
+    <!-- Licenses -->
+    <string name="licenses">Licence</string>
+    <string name="licenses_module_name">Název modulu:</string>
+    <string name="licenses_module_version">Verze modulu:</string>
+    <string name="licenses_module_license">Licence:</string>
+
 </resources>
 
