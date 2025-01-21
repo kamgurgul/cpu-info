@@ -13,6 +13,7 @@ import com.kgurgul.cpuinfo.domain.observable.SensorsDataObservable
 import com.kgurgul.cpuinfo.domain.observable.StorageDataObservable
 import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable
 import com.kgurgul.cpuinfo.domain.result.GetHardwareDataInteractor
+import com.kgurgul.cpuinfo.domain.result.GetLicensesInteractor
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
 import com.kgurgul.cpuinfo.domain.result.GetScreenDataInteractor
 import org.koin.core.module.dsl.factoryOf
@@ -34,4 +35,5 @@ val domainModule = module {
     factoryOf(::GetOsDataInteractor)
     factoryOf(::GetPackageNameInteractor)
     factoryOf(::GetScreenDataInteractor)
+    factoryOf(::GetLicensesInteractor)
 }
