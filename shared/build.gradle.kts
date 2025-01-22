@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kover)
+    alias(libs.plugins.serialization)
     id("kotlin-parcelize")
 }
 
@@ -106,6 +107,7 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.coroutines.core)
                 api(libs.kotlinx.immutable)
+                implementation(libs.kotlinx.serialization)
             }
         }
 

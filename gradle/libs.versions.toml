@@ -29,6 +29,7 @@ kotlin = "2.1.0"
 kotlinxBrowser = "0.3"
 kotlinxCoroutines = "1.10.1"
 kotlinxImmutable = "0.3.8"
+kotlinxSerialization = "1.8.0"
 kover = "0.9.1"
 ksp = "2.1.0-1.0.29"
 oshi = "6.6.5"
@@ -76,6 +77,7 @@ kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 oshi = { group = "com.github.oshi", name = "oshi-core", version.ref = "oshi" }
 relinker = { group = "com.getkeepsafe.relinker", name = "relinker", version.ref = "relinker" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
@@ -91,3 +93,4 @@ dependencyUpdate = { id = "com.github.ben-manes.versions", version.ref = "depend
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
