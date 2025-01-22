@@ -13,6 +13,7 @@ import com.kgurgul.cpuinfo.data.provider.IApplicationsDataProvider
 import com.kgurgul.cpuinfo.data.provider.ICpuDataNativeProvider
 import com.kgurgul.cpuinfo.data.provider.ICpuDataProvider
 import com.kgurgul.cpuinfo.data.provider.IGpuDataProvider
+import com.kgurgul.cpuinfo.data.provider.ILicensesProvider
 import com.kgurgul.cpuinfo.data.provider.IOsDataProvider
 import com.kgurgul.cpuinfo.data.provider.IPackageNameProvider
 import com.kgurgul.cpuinfo.data.provider.IProcessesProvider
@@ -20,6 +21,7 @@ import com.kgurgul.cpuinfo.data.provider.IRamDataProvider
 import com.kgurgul.cpuinfo.data.provider.IScreenDataProvider
 import com.kgurgul.cpuinfo.data.provider.IStorageDataProvider
 import com.kgurgul.cpuinfo.data.provider.ITemperatureProvider
+import com.kgurgul.cpuinfo.data.provider.LicensesProvider
 import com.kgurgul.cpuinfo.data.provider.OsDataProvider
 import com.kgurgul.cpuinfo.data.provider.PackageNameProvider
 import com.kgurgul.cpuinfo.data.provider.ProcessesProvider
@@ -45,6 +47,7 @@ val dataModule = module {
     factoryOf(::SensorsInfoProvider)
     factoryOf(::StorageDataProvider) bind IStorageDataProvider::class
     factoryOf(::TemperatureProvider) bind ITemperatureProvider::class
+    factoryOf(::LicensesProvider) bind ILicensesProvider::class
 
     singleOf(::ApplicationsDataProvider) bind IApplicationsDataProvider::class
     singleOf(::CpuDataNativeProvider) bind ICpuDataNativeProvider::class
