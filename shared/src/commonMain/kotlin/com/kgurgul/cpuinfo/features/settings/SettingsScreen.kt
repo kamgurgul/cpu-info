@@ -43,12 +43,14 @@ import com.kgurgul.cpuinfo.shared.celsius
 import com.kgurgul.cpuinfo.shared.fahrenheit
 import com.kgurgul.cpuinfo.shared.general
 import com.kgurgul.cpuinfo.shared.kelvin
+import com.kgurgul.cpuinfo.shared.licenses
 import com.kgurgul.cpuinfo.shared.pref_theme
 import com.kgurgul.cpuinfo.shared.pref_theme_choose
 import com.kgurgul.cpuinfo.shared.pref_theme_dark
 import com.kgurgul.cpuinfo.shared.pref_theme_default
 import com.kgurgul.cpuinfo.shared.pref_theme_light
 import com.kgurgul.cpuinfo.shared.settings
+import com.kgurgul.cpuinfo.shared.settings_others
 import com.kgurgul.cpuinfo.shared.temperature_unit
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
@@ -61,6 +63,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SettingsScreen(
+    onLicensesClicked: () -> Unit,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
@@ -68,6 +71,7 @@ fun SettingsScreen(
         uiState = uiState,
         onTemperatureOptionClicked = viewModel::setTemperatureUnit,
         onThemeOptionClicked = viewModel::setTheme,
+        onLicensesClicked = onLicensesClicked,
     )
 }
 
@@ -76,6 +80,7 @@ fun SettingsScreen(
     uiState: SettingsViewModel.UiState,
     onTemperatureOptionClicked: (Int) -> Unit,
     onThemeOptionClicked: (String) -> Unit,
+    onLicensesClicked: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -92,6 +97,7 @@ fun SettingsScreen(
             modifier = Modifier.padding(paddingValues),
             onThemeItemClicked = { isThemeDialogVisible = true },
             onTemperatureItemClicked = { isTemperatureDialogVisible = true },
+            onLicensesClicked = onLicensesClicked,
         )
         TemperatureUnitDialog(
             isDialogVisible = isTemperatureDialogVisible,
@@ -115,6 +121,7 @@ private fun SettingsList(
     uiState: SettingsViewModel.UiState,
     onThemeItemClicked: () -> Unit,
     onTemperatureItemClicked: () -> Unit,
+    onLicensesClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -148,6 +155,21 @@ private fun SettingsList(
                     onClick = onTemperatureItemClicked,
                 )
             }
+            item(key = "__otherHeader") {
+                Spacer(modifier = Modifier.requiredSize(spacingMedium))
+                Text(
+                    text = stringResource(Res.string.settings_others),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.tertiary,
+                )
+                Spacer(modifier = Modifier.requiredSize(spacingMedium))
+            }
+            item(key = "__licensesItem") {
+                SettingsItem(
+                    title = stringResource(Res.string.licenses),
+                    onClick = onLicensesClicked,
+                )
+            }
         }
         VerticalScrollbar(
             modifier = Modifier
@@ -161,8 +183,8 @@ private fun SettingsList(
 @Composable
 private fun SettingsItem(
     title: String,
-    subtitle: String,
     onClick: () -> Unit,
+    subtitle: String? = null,
 ) {
     Column(
         modifier = Modifier
@@ -176,11 +198,13 @@ private fun SettingsItem(
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
         )
-        Text(
-            text = subtitle,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        subtitle?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
     }
 }
 

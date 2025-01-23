@@ -181,6 +181,9 @@
     <string name="sensors_magnetic_field">Magnetfeld</string>
     <string name="sensors_attitude">Ausrichtung</string>
 
+    <!-- Settings -->
+    <string name="settings_others">Andere</string>
+
     <!-- Licenses -->
     <string name="licenses">Lizenzen</string>
     <string name="licenses_module_name">Modulname:</string>

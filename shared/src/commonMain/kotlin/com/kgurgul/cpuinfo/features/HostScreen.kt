@@ -14,11 +14,13 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.kgurgul.cpuinfo.features.applications.ApplicationsScreen
 import com.kgurgul.cpuinfo.features.information.InfoContainerScreen
 import com.kgurgul.cpuinfo.features.processes.ProcessesScreen
 import com.kgurgul.cpuinfo.features.settings.SettingsScreen
+import com.kgurgul.cpuinfo.features.settings.licenses.LicensesScreen
 import com.kgurgul.cpuinfo.features.temperature.TemperatureScreen
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.applications
@@ -99,42 +101,46 @@ fun HostScreen(
         NavHost(
             navController = navController,
             startDestination = HostScreen.Information.route,
+            enterTransition = { fadeIn() },
+            exitTransition = { fadeOut() },
+            popEnterTransition = { fadeIn() },
+            popExitTransition = { fadeOut() },
         ) {
             composable(
                 route = HostScreen.Information.route,
-                enterTransition = { fadeIn() },
-                exitTransition = { fadeOut() },
-                popEnterTransition = { fadeIn() },
-                popExitTransition = { fadeOut() },
             ) { InfoContainerScreen() }
             composable(
                 route = HostScreen.Applications.route,
-                enterTransition = { fadeIn() },
-                exitTransition = { fadeOut() },
-                popEnterTransition = { fadeIn() },
-                popExitTransition = { fadeOut() },
             ) { ApplicationsScreen() }
             composable(
                 route = HostScreen.Processes.route,
-                enterTransition = { fadeIn() },
-                exitTransition = { fadeOut() },
-                popEnterTransition = { fadeIn() },
-                popExitTransition = { fadeOut() },
             ) { ProcessesScreen() }
             composable(
                 route = HostScreen.Temperatures.route,
-                enterTransition = { fadeIn() },
-                exitTransition = { fadeOut() },
-                popEnterTransition = { fadeIn() },
-                popExitTransition = { fadeOut() },
             ) { TemperatureScreen() }
-            composable(
+            navigation(
+                startDestination = HostScreen.Settings.List.route,
                 route = HostScreen.Settings.route,
-                enterTransition = { fadeIn() },
-                exitTransition = { fadeOut() },
-                popEnterTransition = { fadeIn() },
-                popExitTransition = { fadeOut() },
-            ) { SettingsScreen() }
+            ) {
+                composable(
+                    route = HostScreen.Settings.List.route,
+                ) {
+                    SettingsScreen(
+                        onLicensesClicked = {
+                            navController.navigate(HostScreen.Settings.Licenses.route)
+                        }
+                    )
+                }
+                composable(
+                    route = HostScreen.Settings.Licenses.route,
+                ) {
+                    LicensesScreen(
+                        onNavigateBackClicked = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+            }
         }
     }
 }
@@ -144,7 +150,10 @@ sealed class HostScreen(val route: String) {
     data object Applications : HostScreen("applications_route")
     data object Processes : HostScreen("processes_route")
     data object Temperatures : HostScreen("temperatures_route")
-    data object Settings : HostScreen("settings_route")
+    data object Settings : HostScreen("settings_route") {
+        data object List : HostScreen("settings_list")
+        data object Licenses : HostScreen("settings_licenses")
+    }
 }
 
 data class HostNavigationItem(

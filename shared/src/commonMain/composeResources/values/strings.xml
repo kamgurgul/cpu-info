@@ -236,6 +236,9 @@
     <string name="sensors_magnetic_field">Magnetic field</string>
     <string name="sensors_attitude">Attitude</string>
 
+    <!-- Settings -->
+    <string name="settings_others">Others</string>
+
     <!-- Licenses -->
     <string name="licenses">Licenses</string>
     <string name="licenses_module_name">Module name:</string>

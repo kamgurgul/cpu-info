@@ -10,7 +10,7 @@ data class DependencyLicenses(
 @Serializable
 data class LicenseData(
     val moduleName: String,
-    val moduleUrl: String,
+    val moduleUrl: String?,
     val moduleVersion: String,
     val moduleLicense: String,
     val moduleLicenseUrl: String,

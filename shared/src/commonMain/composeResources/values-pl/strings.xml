@@ -191,6 +191,9 @@
     <string name="sensors_magnetic_field">Pole magnetyczne</string>
     <string name="sensors_attitude">Postawa</string>
 
+    <!-- Settings -->
+    <string name="settings_others">Inne</string>
+
     <!-- Licenses -->
     <string name="licenses">Licencje</string>
     <string name="licenses_module_name">Nazwa modułu:</string>

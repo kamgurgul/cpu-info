@@ -14,6 +14,7 @@ val utilsModule = module {
             allowSpecialFloatingPointValues = true
             allowStructuredMapKeys = true
             ignoreUnknownKeys = true
+            explicitNulls = false
         }
     }
 }
