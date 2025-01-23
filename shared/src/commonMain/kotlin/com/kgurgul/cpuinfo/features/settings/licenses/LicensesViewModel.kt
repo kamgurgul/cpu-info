@@ -15,7 +15,7 @@ class LicensesViewModel(
     getLicensesInteractor: GetLicensesInteractor,
 ) : ViewModel() {
 
-    val uiState = flow {
+    val uiStateFlow = flow {
         emit(UiState(isLoading = true))
         getLicensesInteractor(Unit)
             .onSuccess {
@@ -25,6 +25,10 @@ class LicensesViewModel(
                 emit(UiState(isLoading = false, isError = true))
             }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+
+    fun onLicenseUrlClicked(url: String) {
+
+    }
 
     data class UiState(
         val isLoading: Boolean = false,
