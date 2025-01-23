@@ -14,6 +14,7 @@ fun SettingsScreenPreview() {
             uiState = SettingsViewModel.UiState(),
             onTemperatureOptionClicked = {},
             onThemeOptionClicked = {},
+            onLicensesClicked = {},
         )
     }
 }
