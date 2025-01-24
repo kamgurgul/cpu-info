@@ -20,7 +20,7 @@ import kotlinx.coroutines.test.runTest
 
 class TemperatureDataObservableTest {
 
-    val coroutineTestRule = CoroutineTestSuit()
+    private val coroutineTestRule = CoroutineTestSuit()
 
     private val fakeTemperatureProvider = FakeTemperatureProvider(
         sensorsFlow = emptyFlow(),

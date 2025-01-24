@@ -3,9 +3,19 @@ package com.kgurgul.cpuinfo.data.provider
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.local.model.LicenseData
 
-class FakeLicensesProvider : ILicensesProvider {
+class FakeLicensesProvider(
+    var throwError: Boolean = false,
+) : ILicensesProvider {
 
     override suspend fun getAll(): List<LicenseData> {
-        return TestData.licenses
+        return if (throwError) {
+            throw Exception()
+        } else {
+            TestData.licenseData
+        }
+    }
+
+    fun reset() {
+        throwError = false
     }
 }

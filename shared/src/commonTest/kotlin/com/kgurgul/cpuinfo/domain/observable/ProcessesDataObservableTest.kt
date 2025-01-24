@@ -13,7 +13,7 @@ import kotlinx.coroutines.test.runTest
 
 class ProcessesDataObservableTest {
 
-    val coroutineTestRule = CoroutineTestSuit()
+    private val coroutineTestRule = CoroutineTestSuit()
 
     private val fakeProcessesProvider = FakeProcessesProvider()
 

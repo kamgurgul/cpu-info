@@ -6,6 +6,7 @@ import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.ItemValue
+import com.kgurgul.cpuinfo.domain.model.License
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.domain.model.RamData
 import com.kgurgul.cpuinfo.domain.model.StorageItem
@@ -119,7 +120,7 @@ object TestData {
         ItemValue.Text("test", "test"),
     )
 
-    val licenses = listOf(
+    val licenseData = listOf(
         LicenseData(
             moduleName = "moduleA",
             moduleUrl = "https://test.test",
@@ -133,6 +134,21 @@ object TestData {
             moduleVersion = "2.0",
             moduleLicense = "MIT",
             moduleLicenseUrl = "https://test2.test",
+        ),
+    )
+
+    val licenses = listOf(
+        License(
+            moduleName = "moduleA",
+            moduleVersion = "1.0",
+            license = "Apache 2.0",
+            licenseUrl = "https://www.apache.org/licenses/LICENSE-2.0",
+        ),
+        License(
+            moduleName = "moduleB",
+            moduleVersion = "2.0",
+            license = "MIT",
+            licenseUrl = "https://test2.test",
         ),
     )
 }
