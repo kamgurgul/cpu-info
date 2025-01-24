@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.data
 
+import com.kgurgul.cpuinfo.data.local.model.LicenseData
 import com.kgurgul.cpuinfo.data.local.model.UserPreferences
 import com.kgurgul.cpuinfo.domain.model.CpuData
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
@@ -116,5 +117,22 @@ object TestData {
     val itemValueRowData = persistentListOf(
         ItemValue.Text("test", ""),
         ItemValue.Text("test", "test"),
+    )
+
+    val licenses = listOf(
+        LicenseData(
+            moduleName = "moduleA",
+            moduleUrl = "https://test.test",
+            moduleVersion = "1.0",
+            moduleLicense = "Apache 2.0",
+            moduleLicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0",
+        ),
+        LicenseData(
+            moduleName = "moduleB",
+            moduleUrl = null,
+            moduleVersion = "2.0",
+            moduleLicense = "MIT",
+            moduleLicenseUrl = "https://test2.test",
+        ),
     )
 }
