@@ -26,10 +26,6 @@ class LicensesViewModel(
             }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
-    fun onLicenseUrlClicked(url: String) {
-
-    }
-
     data class UiState(
         val isLoading: Boolean = false,
         val isError: Boolean = false,

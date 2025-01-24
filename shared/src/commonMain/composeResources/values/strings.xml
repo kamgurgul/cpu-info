@@ -244,5 +244,6 @@
     <string name="licenses_module_name">Module name:</string>
     <string name="licenses_module_version">Module version:</string>
     <string name="licenses_module_license">License:</string>
+    <string name="licenses_webpage">Webpage</string>
 
 </resources>

@@ -19,6 +19,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -28,20 +30,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.License
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.back
+import com.kgurgul.cpuinfo.shared.ic_open_in_browser
 import com.kgurgul.cpuinfo.shared.licenses
 import com.kgurgul.cpuinfo.shared.licenses_module_license
 import com.kgurgul.cpuinfo.shared.licenses_module_name
 import com.kgurgul.cpuinfo.shared.licenses_module_version
+import com.kgurgul.cpuinfo.shared.licenses_webpage
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -51,10 +57,11 @@ fun LicensesScreen(
     viewModel: LicensesViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+    val uriHandler = LocalUriHandler.current
     LicensesScreen(
         uiState = uiState,
         onNavigateBackClicked = onNavigateBackClicked,
-        onLicenseUrlClicked = viewModel::onLicenseUrlClicked,
+        onLicenseUrlClicked = { uriHandler.openUri(uri = it) },
     )
 }
 
@@ -108,7 +115,6 @@ fun LicensesScreen(
                             onLicenseUrlClicked = onLicenseUrlClicked,
                         )
                         if (index != uiState.licenses.lastIndex) {
-                            Spacer(modifier = Modifier.size(spacingMedium))
                             CpuDivider(
                                 modifier = Modifier.padding(top = spacingSmall),
                             )
@@ -179,6 +185,20 @@ private fun LicenseItem(
                 text = license.license,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground,
+            )
+        }
+        Button(
+            onClick = { onLicenseUrlClicked(license.licenseUrl) },
+        ) {
+            Icon(
+                painter = painterResource(Res.drawable.ic_open_in_browser),
+                contentDescription = stringResource(Res.string.licenses_webpage),
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text(
+                text = stringResource(Res.string.licenses_webpage),
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
     }

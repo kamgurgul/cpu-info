@@ -199,5 +199,6 @@
     <string name="licenses_module_name">Nazwa modułu:</string>
     <string name="licenses_module_version">Wersja modułu:</string>
     <string name="licenses_module_license">Licencja:</string>
+    <string name="licenses_webpage">Strona internetowa</string>
 
 </resources>

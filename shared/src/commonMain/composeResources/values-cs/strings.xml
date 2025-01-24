@@ -189,6 +189,7 @@
     <string name="licenses_module_name">Název modulu:</string>
     <string name="licenses_module_version">Verze modulu:</string>
     <string name="licenses_module_license">Licence:</string>
+    <string name="licenses_webpage">Webová stránka</string>
 
 </resources>
 
