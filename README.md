@@ -52,7 +52,6 @@ height="80">](https://formulae.brew.sh/cask/cpu-info)
 
 # TODO
 
-* Add about section
 * Upload Wear OS app to Play Store when SDK 35 will be supported
 
 # License
