@@ -67,7 +67,7 @@ fun RamInfoScreen(
                         title = stringResource(Res.string.available_memory),
                         value = "${Utils.convertBytesToMega(ramData.available)} " +
                             "(${ramData.availablePercentage}%)",
-                        isLastItem = false,
+                        isLastItem = ramData.threshold == -1L && ramData.additionalData.isEmpty(),
                     )
                 }
                 if (ramData.threshold != -1L) {
