@@ -18,6 +18,7 @@ fun RamInfoScreenPreview() {
                     available = 50,
                     availablePercentage = 50,
                     threshold = 50,
+                    additionalData = emptyList(),
                 ),
             ),
         )

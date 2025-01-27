@@ -1,6 +1,7 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import android.app.ActivityManager
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -24,5 +25,9 @@ actual class RamDataProvider actual constructor() : IRamDataProvider, KoinCompon
         val memoryInfo = ActivityManager.MemoryInfo()
         activityManager.getMemoryInfo(memoryInfo)
         return memoryInfo.threshold
+    }
+
+    actual override fun getAdditionalData(): List<ItemValue> {
+        return emptyList()
     }
 }

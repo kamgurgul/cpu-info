@@ -57,9 +57,12 @@
     <string name="renderer">Renderer</string>
     <string name="extensions">Rozšíření</string>
 
+    <!-- RAM -->
     <string name="total_memory">Celková paměť</string>
     <string name="available_memory">Dostupná paměť</string>
     <string name="threshold">Práh</string>
+    <string name="ram_physical_memory">Fyzická paměť</string>
+    <string name="ram_physical_memory_info">Kapacita: %1$s\nRychlost: %2$d\nVýrobce: %3$s\nTyp paměti: %4$s\nČíslo dílu: %5$s\nSériové číslo: %6$s</string>
 
     <string name="internal">Interní</string>
     <string name="external">Externí</string>

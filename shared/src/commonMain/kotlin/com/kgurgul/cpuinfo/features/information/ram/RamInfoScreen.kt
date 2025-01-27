@@ -14,6 +14,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kgurgul.cpuinfo.domain.model.getKey
+import com.kgurgul.cpuinfo.domain.model.getName
+import com.kgurgul.cpuinfo.domain.model.getValue
+import com.kgurgul.cpuinfo.features.information.base.InformationRow
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.available_memory
 import com.kgurgul.cpuinfo.shared.threshold
@@ -52,27 +56,35 @@ fun RamInfoScreen(
         ) {
             uiState.ramData?.let { ramData ->
                 item(key = "__total") {
-                    ItemValueRow(
+                    InformationRow(
                         title = stringResource(Res.string.total_memory),
                         value = Utils.convertBytesToMega(ramData.total),
+                        isLastItem = false,
                     )
-                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                    CpuDivider()
                 }
                 item(key = "__available") {
-                    ItemValueRow(
+                    InformationRow(
                         title = stringResource(Res.string.available_memory),
                         value = "${Utils.convertBytesToMega(ramData.available)} " +
                             "(${ramData.availablePercentage}%)",
+                        isLastItem = false,
                     )
-                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                    CpuDivider()
                 }
                 if (ramData.threshold != -1L) {
                     item(key = "__threshold") {
-                        ItemValueRow(
+                        InformationRow(
                             title = stringResource(Res.string.threshold),
                             value = Utils.convertBytesToMega(ramData.threshold),
+                            isLastItem = ramData.additionalData.isEmpty(),
+                        )
+                    }
+                }
+                ramData.additionalData.forEachIndexed { index, item ->
+                    item {
+                        InformationRow(
+                            title = item.getName(),
+                            value = item.getValue(),
+                            isLastItem = index == ramData.additionalData.lastIndex,
                         )
                     }
                 }

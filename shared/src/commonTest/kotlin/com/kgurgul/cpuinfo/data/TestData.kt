@@ -94,6 +94,7 @@ object TestData {
         available = 512L,
         availablePercentage = 50,
         threshold = 256L,
+        additionalData = emptyList(),
     )
 
     val gpuData = persistentListOf(

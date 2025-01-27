@@ -29,6 +29,7 @@ class RamDataObservable(
                     available = available,
                     availablePercentage = availablePercentage,
                     threshold = threshold,
+                    additionalData = ramDataProvider.getAdditionalData(),
                 ),
             )
             delay(REFRESH_DELAY)

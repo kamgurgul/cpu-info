@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import platform.Foundation.NSProcessInfo
@@ -18,5 +19,9 @@ actual class RamDataProvider actual constructor() : IRamDataProvider, KoinCompon
 
     actual override fun getThreshold(): Long {
         return -1L
+    }
+
+    actual override fun getAdditionalData(): List<ItemValue> {
+        return emptyList()
     }
 }

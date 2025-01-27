@@ -85,6 +85,8 @@
     <string name="total_memory">Total memory</string>
     <string name="available_memory">Available memory</string>
     <string name="threshold">Threshold</string>
+    <string name="ram_physical_memory">Physical memory</string>
+    <string name="ram_physical_memory_info">Capacity: %1$s\nClock speed: %2$d\nManufacturer: %3$s\nMemory type: %4$s\nPart number: %5$s\nSerial number: %6$s</string>
 
     <!--Storage-->
     <string name="internal">Internal</string>

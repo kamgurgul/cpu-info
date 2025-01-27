@@ -64,6 +64,8 @@
     <string name="total_memory">Całkowita pamięć</string>
     <string name="available_memory">Dostępna pamięć</string>
     <string name="threshold">Próg</string>
+    <string name="ram_physical_memory">Pamięć fizyczna</string>
+    <string name="ram_physical_memory_info">Pojemność: %1$s\nPrędkość zegara: %2$d\nProducent: %3$s\nTyp pamięci: %4$s\nNumer części: %5$s\nNumer seryjny: %6$s</string>
 
     <!--Storage-->
     <string name="internal">Wewnętrzna</string>

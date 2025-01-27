@@ -3,6 +3,7 @@ package com.kgurgul.cpuinfo.domain.model
 import androidx.compose.runtime.Composable
 import com.kgurgul.cpuinfo.domain.model.ItemValue.FormattedNameResource
 import com.kgurgul.cpuinfo.domain.model.ItemValue.FormattedNameValueResource
+import com.kgurgul.cpuinfo.domain.model.ItemValue.FormattedValueResource
 import com.kgurgul.cpuinfo.domain.model.ItemValue.NameResource
 import com.kgurgul.cpuinfo.domain.model.ItemValue.NameValueResource
 import com.kgurgul.cpuinfo.domain.model.ItemValue.Text
@@ -26,6 +27,12 @@ sealed interface ItemValue {
         val value: String,
     ) : ItemValue
 
+    data class FormattedValueResource(
+        val name: String,
+        val valueFormat: StringResource,
+        val args: List<Any>,
+    ) : ItemValue
+
     data class FormattedNameValueResource(
         val nameFormat: StringResource,
         val args: List<Any>,
@@ -40,6 +47,7 @@ fun ItemValue.getKey(): String {
         is ValueResource -> name
         is NameValueResource -> name.toString()
         is FormattedNameResource -> nameFormat.toString()
+        is FormattedValueResource -> name
         is FormattedNameValueResource -> nameFormat.toString()
     }
 }
@@ -52,6 +60,7 @@ fun ItemValue.getName(): String {
         is ValueResource -> name
         is NameValueResource -> stringResource(name)
         is FormattedNameResource -> stringResource(nameFormat, *resolveArgs(args))
+        is FormattedValueResource -> name
         is FormattedNameValueResource -> stringResource(nameFormat, *resolveArgs(args))
     }
 }
@@ -64,6 +73,7 @@ fun ItemValue.getValue(): String {
         is ValueResource -> stringResource(value)
         is NameValueResource -> stringResource(value)
         is FormattedNameResource -> value
+        is FormattedValueResource -> stringResource(valueFormat, *resolveArgs(args))
         is FormattedNameValueResource -> stringResource(value)
     }
 }

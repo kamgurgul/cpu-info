@@ -57,9 +57,12 @@
     <string name="renderer">Renderer</string>
     <string name="extensions">Erweiterungen</string>
 
+    <!-- RAM -->
     <string name="total_memory">Gesamtspeicher</string>
     <string name="available_memory">Verfügbarer Speicher</string>
     <string name="threshold">Schwellenwert</string>
+    <string name="ram_physical_memory">Fyzická paměť</string>
+    <string name="ram_physical_memory_info">Kapazität: %1$s\nTaktfrequenz: %2$d\nHersteller: %3$s\nSpeichertyp: %4$s\nTeilenummer: %5$s\nSeriennummer: %6$s</string>
 
     <string name="internal">Intern</string>
     <string name="external">Extern</string>
