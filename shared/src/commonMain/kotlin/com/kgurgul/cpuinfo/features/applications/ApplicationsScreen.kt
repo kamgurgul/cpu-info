@@ -336,24 +336,27 @@ private fun ApplicationItem(
             contentDescription = appData.name,
             modifier = Modifier.size(50.dp),
         )
-        SelectionContainer {
-            Column(
-                modifier = Modifier.padding(horizontal = spacingXSmall),
-            ) {
-                Text(
-                    text = appData.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Text(
-                    text = appData.packageName,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
+        Box(
+            modifier = Modifier.weight(1f)
+        ) {
+            SelectionContainer {
+                Column(
+                    modifier = Modifier.padding(horizontal = spacingXSmall),
+                ) {
+                    Text(
+                        text = appData.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                    Text(
+                        text = appData.packageName,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
             }
         }
         if (appData.hasNativeLibs) {
-            Spacer(modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.size(spacingXSmall))
             IconButton(
                 onClick = { onNativeLibsClicked(appData.nativeLibs) },
