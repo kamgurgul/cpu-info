@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -35,8 +36,8 @@ import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.temp
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffold
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffoldDefault
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.StringResource
+import com.kgurgul.cpuinfo.utils.navigation.TopLevelRoute
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -61,33 +62,32 @@ fun HostScreen(
     val itemDefaultColors = CpuNavigationSuiteScaffoldDefault.itemDefaultColors()
     CpuNavigationSuiteScaffold(
         navigationSuiteItems = {
-            HostNavigationItem.bottomNavigationItems(
+            buildTopLevelRoutes(
                 isProcessesVisible = uiState.isProcessSectionVisible,
                 isApplicationsVisible = uiState.isApplicationSectionVisible,
-            ).forEach { item ->
+            ).forEach { topLevelRoute ->
                 item(
                     icon = {
                         Icon(
-                            painter = painterResource(item.icon),
-                            contentDescription = stringResource(item.label),
+                            painter = painterResource(topLevelRoute.icon),
+                            contentDescription = stringResource(topLevelRoute.name),
                         )
                     },
                     label = {
                         Text(
-                            text = stringResource(item.label),
+                            text = stringResource(topLevelRoute.name),
                             style = MaterialTheme.typography.labelSmall,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
                     },
-                    selected = currentDestination?.hierarchy
-                        ?.any { it.route == item.route } == true,
+                    selected = currentDestination?.hierarchy?.any {
+                        it.hasRoute(topLevelRoute.route::class)
+                    } == true,
                     onClick = {
-                        navController.navigate(item.route) {
-                            navController.graph.findStartDestination().route?.let {
-                                popUpTo(it) {
-                                    saveState = true
-                                }
+                        navController.navigate(topLevelRoute.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
                             }
                             launchSingleTop = true
                             restoreState = true
@@ -100,40 +100,35 @@ fun HostScreen(
     ) {
         NavHost(
             navController = navController,
-            startDestination = HostScreen.Information.route,
+            startDestination = HostScreen.Information,
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() },
             popEnterTransition = { fadeIn() },
             popExitTransition = { fadeOut() },
         ) {
-            composable(
-                route = HostScreen.Information.route,
-            ) { InfoContainerScreen() }
-            composable(
-                route = HostScreen.Applications.route,
-            ) { ApplicationsScreen() }
-            composable(
-                route = HostScreen.Processes.route,
-            ) { ProcessesScreen() }
-            composable(
-                route = HostScreen.Temperatures.route,
-            ) { TemperatureScreen() }
-            navigation(
-                startDestination = HostScreen.Settings.List.route,
-                route = HostScreen.Settings.route,
+            composable<HostScreen.Information> {
+                InfoContainerScreen()
+            }
+            composable<HostScreen.Applications> {
+                ApplicationsScreen()
+            }
+            composable<HostScreen.Processes> {
+                ProcessesScreen()
+            }
+            composable<HostScreen.Temperatures> {
+                TemperatureScreen()
+            }
+            navigation<HostScreen.Settings>(
+                startDestination = HostScreen.Settings.List,
             ) {
-                composable(
-                    route = HostScreen.Settings.List.route,
-                ) {
+                composable<HostScreen.Settings.List> {
                     SettingsScreen(
                         onLicensesClicked = {
-                            navController.navigate(HostScreen.Settings.Licenses.route)
+                            navController.navigate(HostScreen.Settings.Licenses)
                         }
                     )
                 }
-                composable(
-                    route = HostScreen.Settings.Licenses.route,
-                ) {
+                composable<HostScreen.Settings.Licenses> {
                     LicensesScreen(
                         onNavigateBackClicked = {
                             navController.popBackStack()
@@ -145,69 +140,71 @@ fun HostScreen(
     }
 }
 
-sealed class HostScreen(val route: String) {
-    data object Information : HostScreen("information_route")
-    data object Applications : HostScreen("applications_route")
-    data object Processes : HostScreen("processes_route")
-    data object Temperatures : HostScreen("temperatures_route")
-    data object Settings : HostScreen("settings_route") {
-        data object List : HostScreen("settings_list")
-        data object Licenses : HostScreen("settings_licenses")
+@Serializable
+sealed interface HostScreen {
+    @Serializable
+    data object Information : HostScreen
+
+    @Serializable
+    data object Applications : HostScreen
+
+    @Serializable
+    data object Processes : HostScreen
+
+    @Serializable
+    data object Temperatures : HostScreen
+
+    @Serializable
+    data object Settings : HostScreen {
+        @Serializable
+        data object List : HostScreen
+
+        @Serializable
+        data object Licenses : HostScreen
     }
 }
 
-data class HostNavigationItem(
-    val label: StringResource,
-    val icon: DrawableResource,
-    val route: String,
-) {
-
-    companion object {
-        fun bottomNavigationItems(
-            isProcessesVisible: Boolean,
-            isApplicationsVisible: Boolean,
-        ): List<HostNavigationItem> {
-            return buildList {
-                add(
-                    HostNavigationItem(
-                        label = Res.string.hardware,
-                        icon = Res.drawable.ic_cpu,
-                        route = HostScreen.Information.route,
-                    ),
-                )
-                if (isApplicationsVisible) {
-                    add(
-                        HostNavigationItem(
-                            label = Res.string.applications,
-                            icon = Res.drawable.ic_android,
-                            route = HostScreen.Applications.route,
-                        ),
-                    )
-                }
-                if (isProcessesVisible) {
-                    add(
-                        HostNavigationItem(
-                            label = Res.string.processes,
-                            icon = Res.drawable.ic_process,
-                            route = HostScreen.Processes.route,
-                        ),
-                    )
-                }
-                add(
-                    HostNavigationItem(
-                        label = Res.string.temp,
-                        icon = Res.drawable.ic_temperature,
-                        route = HostScreen.Temperatures.route,
-                    ),
-                )
-                add(
-                    HostNavigationItem(
-                        label = Res.string.settings,
-                        icon = Res.drawable.ic_settings,
-                        route = HostScreen.Settings.route,
-                    ),
-                )
-            }
-        }
+private fun buildTopLevelRoutes(
+    isProcessesVisible: Boolean,
+    isApplicationsVisible: Boolean,
+) = buildList {
+    add(
+        TopLevelRoute(
+            name = Res.string.hardware,
+            route = HostScreen.Information,
+            icon = Res.drawable.ic_cpu,
+        ),
+    )
+    if (isApplicationsVisible) {
+        add(
+            TopLevelRoute(
+                name = Res.string.applications,
+                route = HostScreen.Applications,
+                icon = Res.drawable.ic_android,
+            ),
+        )
     }
+    if (isProcessesVisible) {
+        add(
+            TopLevelRoute(
+                name = Res.string.processes,
+                route = HostScreen.Processes,
+                icon = Res.drawable.ic_process,
+            ),
+        )
+    }
+    add(
+        TopLevelRoute(
+            name = Res.string.temp,
+            route = HostScreen.Temperatures,
+            icon = Res.drawable.ic_temperature,
+        ),
+    )
+    add(
+        TopLevelRoute(
+            name = Res.string.settings,
+            route = HostScreen.Settings,
+            icon = Res.drawable.ic_settings,
+        ),
+    )
 }

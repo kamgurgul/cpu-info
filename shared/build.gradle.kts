@@ -107,7 +107,7 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.coroutines.core)
                 api(libs.kotlinx.immutable)
-                implementation(libs.kotlinx.serialization)
+                api(libs.kotlinx.serialization)
             }
         }
 

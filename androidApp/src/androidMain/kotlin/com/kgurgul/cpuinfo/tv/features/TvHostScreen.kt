@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -25,7 +26,6 @@ import androidx.tv.material3.Icon
 import androidx.tv.material3.NavigationDrawer
 import androidx.tv.material3.NavigationDrawerItem
 import androidx.tv.material3.NavigationDrawerItemDefaults
-import com.kgurgul.cpuinfo.features.HostNavigationItem
 import com.kgurgul.cpuinfo.features.HostScreen
 import com.kgurgul.cpuinfo.features.HostViewModel
 import com.kgurgul.cpuinfo.shared.Res
@@ -43,8 +43,8 @@ import com.kgurgul.cpuinfo.tv.features.settings.TvSettingsScreen
 import com.kgurgul.cpuinfo.tv.features.temperature.TvTemperatureScreen
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.StringResource
+import com.kgurgul.cpuinfo.utils.navigation.TopLevelRoute
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -79,18 +79,17 @@ fun TvHostScreen(
                 verticalArrangement = Arrangement
                     .spacedBy(spacingSmall, Alignment.CenterVertically),
             ) {
-                TvHostNavigationItem.bottomNavigationItems(
+                buildTopLevelRoutes(
                     isApplicationsVisible = uiState.isApplicationSectionVisible,
-                ).forEach { item ->
+                ).forEach { topLevelRoute ->
                     NavigationDrawerItem(
-                        selected = currentDestination?.hierarchy
-                            ?.any { it.route == item.route } == true,
+                        selected = currentDestination?.hierarchy?.any {
+                            it.hasRoute(topLevelRoute.route::class)
+                        } == true,
                         onClick = {
-                            navController.navigate(item.route) {
-                                navController.graph.findStartDestination().route?.let {
-                                    popUpTo(it) {
-                                        saveState = true
-                                    }
+                            navController.navigate(topLevelRoute.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
                                 }
                                 launchSingleTop = true
                                 restoreState = true
@@ -98,8 +97,8 @@ fun TvHostScreen(
                         },
                         leadingContent = {
                             Icon(
-                                painter = painterResource(item.icon),
-                                contentDescription = stringResource(item.label),
+                                painter = painterResource(topLevelRoute.icon),
+                                contentDescription = stringResource(topLevelRoute.name),
                             )
                         },
                         colors = NavigationDrawerItemDefaults.colors(
@@ -115,7 +114,7 @@ fun TvHostScreen(
                         ),
                     ) {
                         Text(
-                            text = stringResource(item.label),
+                            text = stringResource(topLevelRoute.name),
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                     }
@@ -125,77 +124,74 @@ fun TvHostScreen(
     ) {
         NavHost(
             navController = navController,
-            startDestination = TvHostScreen.Information.route,
+            startDestination = TvHostScreen.Information,
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() },
             popEnterTransition = { fadeIn() },
             popExitTransition = { fadeOut() },
         ) {
-            composable(
-                route = TvHostScreen.Information.route,
-            ) { TvInfoContainerScreen() }
-            composable(
-                route = TvHostScreen.Applications.route,
-            ) { TvApplicationsScreen() }
-            composable(
-                route = TvHostScreen.Temperatures.route,
-            ) { TvTemperatureScreen() }
-            composable(
-                route = TvHostScreen.Settings.route,
-            ) { TvSettingsScreen() }
-        }
-    }
-}
-
-sealed class TvHostScreen(val route: String) {
-    data object Information : TvHostScreen("information_route")
-    data object Applications : TvHostScreen("applications_route")
-    data object Temperatures : TvHostScreen("temperatures_route")
-    data object Settings : TvHostScreen("settings_route")
-}
-
-data class TvHostNavigationItem(
-    val label: StringResource,
-    val icon: DrawableResource,
-    val route: String,
-) {
-
-    companion object {
-        fun bottomNavigationItems(
-            isApplicationsVisible: Boolean,
-        ): List<HostNavigationItem> {
-            return buildList {
-                add(
-                    HostNavigationItem(
-                        label = Res.string.hardware,
-                        icon = Res.drawable.ic_cpu,
-                        route = HostScreen.Information.route,
-                    ),
-                )
-                if (isApplicationsVisible) {
-                    add(
-                        HostNavigationItem(
-                            label = Res.string.applications,
-                            icon = Res.drawable.ic_android,
-                            route = HostScreen.Applications.route,
-                        ),
-                    )
-                }
-                add(
-                    HostNavigationItem(
-                        label = Res.string.temp,
-                        icon = Res.drawable.ic_temperature,
-                        route = HostScreen.Temperatures.route,
-                    ),
-                )
-                add(
-                    HostNavigationItem(
-                        label = Res.string.settings,
-                        icon = Res.drawable.ic_settings,
-                        route = HostScreen.Settings.route,
-                    ),
-                )
+            composable<TvHostScreen.Information> {
+                TvInfoContainerScreen()
+            }
+            composable<TvHostScreen.Applications> {
+                TvApplicationsScreen()
+            }
+            composable<TvHostScreen.Temperatures> {
+                TvTemperatureScreen()
+            }
+            composable<TvHostScreen.Settings> {
+                TvSettingsScreen()
             }
         }
     }
+}
+
+@Serializable
+sealed interface TvHostScreen {
+    @Serializable
+    data object Information : TvHostScreen
+
+    @Serializable
+    data object Applications : TvHostScreen
+
+    @Serializable
+    data object Temperatures : TvHostScreen
+
+    @Serializable
+    data object Settings : TvHostScreen
+}
+
+private fun buildTopLevelRoutes(
+    isApplicationsVisible: Boolean,
+) = buildList {
+    add(
+        TopLevelRoute(
+            name = Res.string.hardware,
+            route = HostScreen.Information,
+            icon = Res.drawable.ic_cpu,
+        ),
+    )
+    if (isApplicationsVisible) {
+        add(
+            TopLevelRoute(
+                name = Res.string.applications,
+                route = HostScreen.Applications,
+                icon = Res.drawable.ic_android,
+            ),
+        )
+    }
+    add(
+        TopLevelRoute(
+            name = Res.string.temp,
+            route = HostScreen.Temperatures,
+            icon = Res.drawable.ic_temperature,
+        ),
+    )
+    add(
+        TopLevelRoute(
+            name = Res.string.settings,
+            route = HostScreen.Settings,
+            icon = Res.drawable.ic_settings,
+        ),
+    )
 }
