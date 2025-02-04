@@ -126,34 +126,22 @@ fun TvHostScreen(
         NavHost(
             navController = navController,
             startDestination = TvHostScreen.Information.route,
+            enterTransition = { fadeIn() },
+            exitTransition = { fadeOut() },
+            popEnterTransition = { fadeIn() },
+            popExitTransition = { fadeOut() },
         ) {
             composable(
                 route = TvHostScreen.Information.route,
-                enterTransition = { fadeIn() },
-                exitTransition = { fadeOut() },
-                popEnterTransition = { fadeIn() },
-                popExitTransition = { fadeOut() },
             ) { TvInfoContainerScreen() }
             composable(
                 route = TvHostScreen.Applications.route,
-                enterTransition = { fadeIn() },
-                exitTransition = { fadeOut() },
-                popEnterTransition = { fadeIn() },
-                popExitTransition = { fadeOut() },
             ) { TvApplicationsScreen() }
             composable(
                 route = TvHostScreen.Temperatures.route,
-                enterTransition = { fadeIn() },
-                exitTransition = { fadeOut() },
-                popEnterTransition = { fadeIn() },
-                popExitTransition = { fadeOut() },
             ) { TvTemperatureScreen() }
             composable(
                 route = TvHostScreen.Settings.route,
-                enterTransition = { fadeIn() },
-                exitTransition = { fadeOut() },
-                popEnterTransition = { fadeIn() },
-                popExitTransition = { fadeOut() },
             ) { TvSettingsScreen() }
         }
     }
