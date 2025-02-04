@@ -11,6 +11,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,9 +27,8 @@ class CpuTileService :
     private val cpuDataProvider: CpuDataProvider by inject()
     private val dispatchersProvider: IDispatchersProvider by inject()
 
-    private val job = SupervisorJob()
     override val coroutineContext: CoroutineContext
-        get() = job + dispatchersProvider.main
+        get() = SupervisorJob() + dispatchersProvider.main
 
     private var refreshingJob: Job? = null
 
@@ -58,7 +58,7 @@ class CpuTileService :
         refreshingJob?.cancel()
         refreshingJob = launch {
             while (true) {
-                val load = withContext(dispatchersProvider.io) { averageCPUFreq() }
+                val load = getAverageCPUFreq()
                 qsTile.label = "Avg ${load}MHz"
                 qsTile.icon = getLoadIcon(load)
                 qsTile.updateTile()
@@ -73,7 +73,7 @@ class CpuTileService :
     }
 
     override fun onDestroy() {
-        job.cancel()
+        coroutineContext.cancel()
         super.onDestroy()
     }
 
@@ -82,19 +82,23 @@ class CpuTileService :
         val freqThirds = freqDiff / 3
         val loadEnum = when {
             avgLoad >= minMaxAvg.second - freqThirds -> CPULoad.High
-            minMaxAvg.second - freqThirds > avgLoad && avgLoad >= minMaxAvg.first + freqThirds -> CPULoad.Medium
+            minMaxAvg.second - freqThirds > avgLoad
+                && avgLoad >= minMaxAvg.first + freqThirds -> CPULoad.Medium
+
             else -> CPULoad.Low
         }
         return icons.getOrDefault(loadEnum, defaultIcon)
     }
 
-    private fun averageCPUFreq(): Long {
-        val cpuCount = cpuDataProvider.getNumberOfCores()
-        var sumFreq = 0L
-        for (i in 0 until cpuCount) {
-            sumFreq += cpuDataProvider.getCurrentFreq(i)
+    private suspend fun getAverageCPUFreq(): Long {
+        return withContext(dispatchersProvider.io) {
+            val cpuCount = cpuDataProvider.getNumberOfCores()
+            var sumFreq = 0L
+            for (i in 0 until cpuCount) {
+                sumFreq += cpuDataProvider.getCurrentFreq(i)
+            }
+            sumFreq / cpuCount
         }
-        return (sumFreq / cpuCount)
     }
 
     enum class CPULoad {
