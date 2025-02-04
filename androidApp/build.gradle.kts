@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.serialization)
     id("kotlin-parcelize")
 }
 
