@@ -32,6 +32,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import androidx.tv.material3.Tab
 import androidx.tv.material3.TabRow
 import androidx.tv.material3.TabRowDefaults
@@ -56,7 +59,24 @@ import com.kgurgul.cpuinfo.tv.features.information.sensors.TvSensorsInfoScreen
 import com.kgurgul.cpuinfo.tv.features.information.storage.TvStorageInfoScreen
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
+import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable
+data object TvInformationRoute
+
+fun NavGraphBuilder.tvInformationScreen() {
+    composable<TvInformationRoute>(
+        deepLinks = listOf(
+            navDeepLink<TvInformationRoute>(
+                basePath = NavigationConst.BASE_URL + NavigationConst.INFORMATION
+            )
+        )
+    ) {
+        TvInfoContainerScreen()
+    }
+}
 
 @Composable
 fun TvInfoContainerScreen(

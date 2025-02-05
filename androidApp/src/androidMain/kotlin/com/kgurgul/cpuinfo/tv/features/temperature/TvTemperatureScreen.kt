@@ -31,6 +31,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
@@ -40,11 +43,28 @@ import com.kgurgul.cpuinfo.shared.no_temp_data
 import com.kgurgul.cpuinfo.tv.ui.components.TvListItem
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable
+data object TvTemperaturesRoute
+
+fun NavGraphBuilder.tvTemperaturesScreen() {
+    composable<TvTemperaturesRoute>(
+        deepLinks = listOf(
+            navDeepLink<TvTemperaturesRoute>(
+                basePath = NavigationConst.BASE_URL + NavigationConst.TEMPERATURES
+            )
+        )
+    ) {
+        TvTemperatureScreen()
+    }
+}
 
 @Composable
 fun TvTemperatureScreen(

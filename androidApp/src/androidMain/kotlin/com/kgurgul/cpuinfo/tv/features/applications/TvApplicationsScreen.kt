@@ -41,6 +41,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import androidx.tv.material3.Icon
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
@@ -69,11 +72,28 @@ import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
+import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable
+data object TvApplicationsRoute
+
+fun NavGraphBuilder.tvApplicationsScreen() {
+    composable<TvApplicationsRoute>(
+        deepLinks = listOf(
+            navDeepLink<TvApplicationsRoute>(
+                basePath = NavigationConst.BASE_URL + NavigationConst.APPLICATIONS
+            )
+        )
+    ) {
+        TvApplicationsScreen()
+    }
+}
 
 @Composable
 fun TvApplicationsScreen(

@@ -35,6 +35,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.apps_sort_order
@@ -46,9 +49,26 @@ import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.Utils
+import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable
+data object ProcessesRoute
+
+fun NavGraphBuilder.processesScreen() {
+    composable<ProcessesRoute>(
+        deepLinks = listOf(
+            navDeepLink<ProcessesRoute>(
+                basePath = NavigationConst.BASE_URL + NavigationConst.PROCESSES
+            )
+        )
+    ) {
+        ProcessesScreen()
+    }
+}
 
 @Composable
 fun ProcessesScreen(

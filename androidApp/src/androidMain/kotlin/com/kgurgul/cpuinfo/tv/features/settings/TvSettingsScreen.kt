@@ -23,6 +23,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import com.kgurgul.cpuinfo.features.settings.SettingsViewModel
 import com.kgurgul.cpuinfo.features.settings.getTemperatureUnit
 import com.kgurgul.cpuinfo.features.settings.getThemeName
@@ -38,9 +41,26 @@ import com.kgurgul.cpuinfo.tv.ui.components.TvListItem
 import com.kgurgul.cpuinfo.ui.theme.spacingLarge
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable
+data object TvSettingsRoute
+
+fun NavGraphBuilder.tvSettingsScreen() {
+    composable<TvSettingsRoute>(
+        deepLinks = listOf(
+            navDeepLink<TvSettingsRoute>(
+                basePath = NavigationConst.BASE_URL + NavigationConst.SETTINGS
+            )
+        )
+    ) {
+        TvSettingsScreen()
+    }
+}
 
 @Composable
 fun TvSettingsScreen(

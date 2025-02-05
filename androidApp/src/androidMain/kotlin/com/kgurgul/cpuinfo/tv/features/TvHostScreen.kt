@@ -19,14 +19,12 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.tv.material3.Icon
 import androidx.tv.material3.NavigationDrawer
 import androidx.tv.material3.NavigationDrawerItem
 import androidx.tv.material3.NavigationDrawerItemDefaults
-import com.kgurgul.cpuinfo.features.HostScreen
 import com.kgurgul.cpuinfo.features.HostViewModel
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.applications
@@ -37,14 +35,17 @@ import com.kgurgul.cpuinfo.shared.ic_settings
 import com.kgurgul.cpuinfo.shared.ic_temperature
 import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.temp
-import com.kgurgul.cpuinfo.tv.features.applications.TvApplicationsScreen
-import com.kgurgul.cpuinfo.tv.features.information.TvInfoContainerScreen
-import com.kgurgul.cpuinfo.tv.features.settings.TvSettingsScreen
-import com.kgurgul.cpuinfo.tv.features.temperature.TvTemperatureScreen
+import com.kgurgul.cpuinfo.tv.features.applications.TvApplicationsRoute
+import com.kgurgul.cpuinfo.tv.features.applications.tvApplicationsScreen
+import com.kgurgul.cpuinfo.tv.features.information.TvInformationRoute
+import com.kgurgul.cpuinfo.tv.features.information.tvInformationScreen
+import com.kgurgul.cpuinfo.tv.features.settings.TvSettingsRoute
+import com.kgurgul.cpuinfo.tv.features.settings.tvSettingsScreen
+import com.kgurgul.cpuinfo.tv.features.temperature.TvTemperaturesRoute
+import com.kgurgul.cpuinfo.tv.features.temperature.tvTemperaturesScreen
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.navigation.TopLevelRoute
-import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -124,41 +125,18 @@ fun TvHostScreen(
     ) {
         NavHost(
             navController = navController,
-            startDestination = TvHostScreen.Information,
+            startDestination = TvInformationRoute,
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() },
             popEnterTransition = { fadeIn() },
             popExitTransition = { fadeOut() },
         ) {
-            composable<TvHostScreen.Information> {
-                TvInfoContainerScreen()
-            }
-            composable<TvHostScreen.Applications> {
-                TvApplicationsScreen()
-            }
-            composable<TvHostScreen.Temperatures> {
-                TvTemperatureScreen()
-            }
-            composable<TvHostScreen.Settings> {
-                TvSettingsScreen()
-            }
+            tvInformationScreen()
+            tvApplicationsScreen()
+            tvTemperaturesScreen()
+            tvSettingsScreen()
         }
     }
-}
-
-@Serializable
-sealed interface TvHostScreen {
-    @Serializable
-    data object Information : TvHostScreen
-
-    @Serializable
-    data object Applications : TvHostScreen
-
-    @Serializable
-    data object Temperatures : TvHostScreen
-
-    @Serializable
-    data object Settings : TvHostScreen
 }
 
 private fun buildTopLevelRoutes(
@@ -167,7 +145,7 @@ private fun buildTopLevelRoutes(
     add(
         TopLevelRoute(
             name = Res.string.hardware,
-            route = HostScreen.Information,
+            route = TvInformationRoute,
             icon = Res.drawable.ic_cpu,
         ),
     )
@@ -175,7 +153,7 @@ private fun buildTopLevelRoutes(
         add(
             TopLevelRoute(
                 name = Res.string.applications,
-                route = HostScreen.Applications,
+                route = TvApplicationsRoute,
                 icon = Res.drawable.ic_android,
             ),
         )
@@ -183,14 +161,14 @@ private fun buildTopLevelRoutes(
     add(
         TopLevelRoute(
             name = Res.string.temp,
-            route = HostScreen.Temperatures,
+            route = TvTemperaturesRoute,
             icon = Res.drawable.ic_temperature,
         ),
     )
     add(
         TopLevelRoute(
             name = Res.string.settings,
-            route = HostScreen.Settings,
+            route = TvSettingsRoute,
             icon = Res.drawable.ic_settings,
         ),
     )

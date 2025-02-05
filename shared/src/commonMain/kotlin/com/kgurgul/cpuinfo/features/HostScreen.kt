@@ -13,17 +13,18 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navDeepLink
-import com.kgurgul.cpuinfo.features.applications.ApplicationsScreen
-import com.kgurgul.cpuinfo.features.information.InfoContainerScreen
-import com.kgurgul.cpuinfo.features.processes.ProcessesScreen
-import com.kgurgul.cpuinfo.features.settings.SettingsScreen
-import com.kgurgul.cpuinfo.features.settings.licenses.LicensesScreen
-import com.kgurgul.cpuinfo.features.temperature.TemperatureScreen
+import com.kgurgul.cpuinfo.features.applications.ApplicationsRoute
+import com.kgurgul.cpuinfo.features.applications.applicationsScreen
+import com.kgurgul.cpuinfo.features.information.InformationRoute
+import com.kgurgul.cpuinfo.features.information.informationScreen
+import com.kgurgul.cpuinfo.features.processes.ProcessesRoute
+import com.kgurgul.cpuinfo.features.processes.processesScreen
+import com.kgurgul.cpuinfo.features.settings.SettingsRoute
+import com.kgurgul.cpuinfo.features.settings.settingsScreen
+import com.kgurgul.cpuinfo.features.temperature.TemperaturesRoute
+import com.kgurgul.cpuinfo.features.temperature.temperaturesScreen
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.applications
 import com.kgurgul.cpuinfo.shared.hardware
@@ -37,9 +38,7 @@ import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.temp
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffold
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffoldDefault
-import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import com.kgurgul.cpuinfo.utils.navigation.TopLevelRoute
-import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -102,96 +101,25 @@ fun HostScreen(
     ) {
         NavHost(
             navController = navController,
-            startDestination = HostScreen.Information,
+            startDestination = InformationRoute,
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() },
             popEnterTransition = { fadeIn() },
             popExitTransition = { fadeOut() },
         ) {
-            composable<HostScreen.Information>(
-                deepLinks = listOf(
-                    navDeepLink<HostScreen.Applications>(
-                        basePath = NavigationConst.BASE_URL + NavigationConst.INFORMATION
-                    )
-                )
-            ) {
-                InfoContainerScreen()
-            }
-            composable<HostScreen.Applications>(
-                deepLinks = listOf(
-                    navDeepLink<HostScreen.Applications>(
-                        basePath = NavigationConst.BASE_URL + NavigationConst.APPLICATIONS
-                    )
-                )
-            ) {
-                ApplicationsScreen()
-            }
-            composable<HostScreen.Processes>(
-                deepLinks = listOf(
-                    navDeepLink<HostScreen.Processes>(
-                        basePath = NavigationConst.BASE_URL + NavigationConst.PROCESSES
-                    )
-                )
-            ) {
-                ProcessesScreen()
-            }
-            composable<HostScreen.Temperatures>(
-                deepLinks = listOf(
-                    navDeepLink<HostScreen.Temperatures>(
-                        basePath = NavigationConst.BASE_URL + NavigationConst.TEMPERATURES
-                    )
-                )
-            ) {
-                TemperatureScreen()
-            }
-            navigation<HostScreen.Settings>(
-                startDestination = HostScreen.Settings.List,
-                deepLinks = listOf(
-                    navDeepLink<HostScreen.Applications>(
-                        basePath = NavigationConst.BASE_URL + NavigationConst.SETTINGS
-                    )
-                )
-            ) {
-                composable<HostScreen.Settings.List> {
-                    SettingsScreen(
-                        onLicensesClicked = {
-                            navController.navigate(HostScreen.Settings.Licenses)
-                        }
-                    )
-                }
-                composable<HostScreen.Settings.Licenses> {
-                    LicensesScreen(
-                        onNavigateBackClicked = {
-                            navController.popBackStack()
-                        }
-                    )
-                }
-            }
+            informationScreen()
+            applicationsScreen()
+            processesScreen()
+            temperaturesScreen()
+            settingsScreen(
+                onLicensesClicked = {
+                    navController.navigate(SettingsRoute.Licenses)
+                },
+                onNavigateBackClicked = {
+                    navController.popBackStack()
+                },
+            )
         }
-    }
-}
-
-@Serializable
-sealed interface HostScreen {
-    @Serializable
-    data object Information : HostScreen
-
-    @Serializable
-    data object Applications : HostScreen
-
-    @Serializable
-    data object Processes : HostScreen
-
-    @Serializable
-    data object Temperatures : HostScreen
-
-    @Serializable
-    data object Settings : HostScreen {
-        @Serializable
-        data object List : HostScreen
-
-        @Serializable
-        data object Licenses : HostScreen
     }
 }
 
@@ -202,7 +130,7 @@ private fun buildTopLevelRoutes(
     add(
         TopLevelRoute(
             name = Res.string.hardware,
-            route = HostScreen.Information,
+            route = InformationRoute,
             icon = Res.drawable.ic_cpu,
         ),
     )
@@ -210,7 +138,7 @@ private fun buildTopLevelRoutes(
         add(
             TopLevelRoute(
                 name = Res.string.applications,
-                route = HostScreen.Applications,
+                route = ApplicationsRoute,
                 icon = Res.drawable.ic_android,
             ),
         )
@@ -219,7 +147,7 @@ private fun buildTopLevelRoutes(
         add(
             TopLevelRoute(
                 name = Res.string.processes,
-                route = HostScreen.Processes,
+                route = ProcessesRoute,
                 icon = Res.drawable.ic_process,
             ),
         )
@@ -227,14 +155,14 @@ private fun buildTopLevelRoutes(
     add(
         TopLevelRoute(
             name = Res.string.temp,
-            route = HostScreen.Temperatures,
+            route = TemperaturesRoute,
             icon = Res.drawable.ic_temperature,
         ),
     )
     add(
         TopLevelRoute(
             name = Res.string.settings,
-            route = HostScreen.Settings,
+            route = SettingsRoute,
             icon = Res.drawable.ic_settings,
         ),
     )

@@ -51,6 +51,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
@@ -77,11 +80,28 @@ import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
+import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable
+data object ApplicationsRoute
+
+fun NavGraphBuilder.applicationsScreen() {
+    composable<ApplicationsRoute>(
+        deepLinks = listOf(
+            navDeepLink<ApplicationsRoute>(
+                basePath = NavigationConst.BASE_URL + NavigationConst.APPLICATIONS
+            )
+        )
+    ) {
+        ApplicationsScreen()
+    }
+}
 
 @Composable
 fun ApplicationsScreen(

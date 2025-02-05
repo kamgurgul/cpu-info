@@ -35,7 +35,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import androidx.navigation.navDeepLink
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
+import com.kgurgul.cpuinfo.features.settings.licenses.LicensesScreen
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.cancel
@@ -57,9 +62,46 @@ import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingLarge
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable
+data object SettingsRoute {
+
+    @Serializable
+    data object List
+
+    @Serializable
+    data object Licenses
+}
+
+fun NavGraphBuilder.settingsScreen(
+    onLicensesClicked: () -> Unit,
+    onNavigateBackClicked: () -> Unit,
+) {
+    navigation<SettingsRoute>(
+        startDestination = SettingsRoute.List,
+        deepLinks = listOf(
+            navDeepLink<SettingsRoute>(
+                basePath = NavigationConst.BASE_URL + NavigationConst.SETTINGS
+            )
+        )
+    ) {
+        composable<SettingsRoute.List> {
+            SettingsScreen(
+                onLicensesClicked = onLicensesClicked,
+            )
+        }
+        composable<SettingsRoute.Licenses> {
+            LicensesScreen(
+                onNavigateBackClicked = onNavigateBackClicked,
+            )
+        }
+    }
+}
 
 @Composable
 fun SettingsScreen(
