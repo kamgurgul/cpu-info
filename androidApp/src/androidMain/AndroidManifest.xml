@@ -54,7 +54,7 @@
 
                 <data android:scheme="https" />
                 <data android:host="kgurgul.com" />
-                <data android:path="/assets/cpuinfo" />
+                <data android:pathPattern="/assets/cpuinfo.*" />
             </intent-filter>
 
         </activity>

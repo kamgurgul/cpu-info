@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import com.kgurgul.cpuinfo.features.applications.ApplicationsScreen
 import com.kgurgul.cpuinfo.features.information.InfoContainerScreen
 import com.kgurgul.cpuinfo.features.processes.ProcessesScreen
@@ -36,6 +37,7 @@ import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.temp
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffold
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffoldDefault
+import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import com.kgurgul.cpuinfo.utils.navigation.TopLevelRoute
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
@@ -106,20 +108,49 @@ fun HostScreen(
             popEnterTransition = { fadeIn() },
             popExitTransition = { fadeOut() },
         ) {
-            composable<HostScreen.Information> {
+            composable<HostScreen.Information>(
+                deepLinks = listOf(
+                    navDeepLink<HostScreen.Applications>(
+                        basePath = NavigationConst.BASE_URL + NavigationConst.INFORMATION
+                    )
+                )
+            ) {
                 InfoContainerScreen()
             }
-            composable<HostScreen.Applications> {
+            composable<HostScreen.Applications>(
+                deepLinks = listOf(
+                    navDeepLink<HostScreen.Applications>(
+                        basePath = NavigationConst.BASE_URL + NavigationConst.APPLICATIONS
+                    )
+                )
+            ) {
                 ApplicationsScreen()
             }
-            composable<HostScreen.Processes> {
+            composable<HostScreen.Processes>(
+                deepLinks = listOf(
+                    navDeepLink<HostScreen.Processes>(
+                        basePath = NavigationConst.BASE_URL + NavigationConst.PROCESSES
+                    )
+                )
+            ) {
                 ProcessesScreen()
             }
-            composable<HostScreen.Temperatures> {
+            composable<HostScreen.Temperatures>(
+                deepLinks = listOf(
+                    navDeepLink<HostScreen.Temperatures>(
+                        basePath = NavigationConst.BASE_URL + NavigationConst.TEMPERATURES
+                    )
+                )
+            ) {
                 TemperatureScreen()
             }
             navigation<HostScreen.Settings>(
                 startDestination = HostScreen.Settings.List,
+                deepLinks = listOf(
+                    navDeepLink<HostScreen.Applications>(
+                        basePath = NavigationConst.BASE_URL + NavigationConst.SETTINGS
+                    )
+                )
             ) {
                 composable<HostScreen.Settings.List> {
                     SettingsScreen(
