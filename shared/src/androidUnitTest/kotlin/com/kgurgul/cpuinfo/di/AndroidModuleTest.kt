@@ -6,6 +6,7 @@ import android.content.res.AssetManager
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.util.DisplayMetrics
+import com.kgurgul.cpuinfo.utils.AndroidShortcutManager
 import kotlin.test.Test
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.module
@@ -31,6 +32,7 @@ class AndroidModuleTest {
                     AssetManager::class, DisplayMetrics::class, Configuration::class
                 ),
                 definition<ContentResolver>(Context::class),
+                definition<AndroidShortcutManager>(Context::class)
             )
         )
     }
