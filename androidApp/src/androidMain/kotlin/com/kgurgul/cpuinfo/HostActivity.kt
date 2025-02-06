@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -26,14 +27,17 @@ import com.kgurgul.cpuinfo.ui.theme.DarkColors
 import com.kgurgul.cpuinfo.ui.theme.LightColors
 import com.kgurgul.cpuinfo.ui.theme.darkPrimary
 import com.kgurgul.cpuinfo.ui.theme.lightPrimary
+import com.kgurgul.cpuinfo.utils.AndroidShortcutManager
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HostActivity : ComponentActivity() {
 
     private val viewModel: HostViewModel by viewModel()
+    private val androidShortcutManager: AndroidShortcutManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -81,6 +85,9 @@ class HostActivity : ComponentActivity() {
 
                 darkTheme -> DarkColors
                 else -> LightColors
+            }
+            LaunchedEffect(uiState.isApplicationSectionVisible) {
+                androidShortcutManager.createShortcuts(uiState.isApplicationSectionVisible)
             }
             CpuInfoTheme(
                 useDarkTheme = darkTheme,

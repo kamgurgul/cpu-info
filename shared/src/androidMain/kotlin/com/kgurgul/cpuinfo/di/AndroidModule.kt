@@ -14,6 +14,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.kgurgul.cpuinfo.appinitializers.NativeToolsInitializer
+import com.kgurgul.cpuinfo.utils.AndroidShortcutManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -43,4 +44,5 @@ val androidModule = module {
         )
     }
     singleOf(::NativeToolsInitializer)
+    singleOf(::AndroidShortcutManager)
 }

@@ -2,6 +2,7 @@
 androidGradlePlugin = "8.8.0"
 androidxActivity = "1.10.0"
 androidxArchCoreTesting = "2.2.0"
+androidxCore = "1.15.0"
 androidxCoreSpalshscreen = "1.0.1"
 androidxDatastorePreferences = "1.1.2"
 androidxEspresso = "3.6.1"
@@ -42,6 +43,7 @@ uiautomator = "2.3.0"
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidxArchCoreTesting" }
 androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSpalshscreen" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastorePreferences" }
 androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
