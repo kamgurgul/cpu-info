@@ -195,6 +195,7 @@
 
     <!-- Settings -->
     <string name="settings_others">Inne</string>
+    <string name="settings_about">O aplikacji</string>
 
     <!-- Licenses -->
     <string name="licenses">Licencje</string>

@@ -240,6 +240,7 @@
 
     <!-- Settings -->
     <string name="settings_others">Others</string>
+    <string name="settings_about">About</string>
 
     <!-- Licenses -->
     <string name="licenses">Licenses</string>

@@ -186,6 +186,7 @@
 
     <!-- Settings -->
     <string name="settings_others">Ostatní</string>
+    <string name="settings_about">O aplikaci</string>
 
     <!-- Licenses -->
     <string name="licenses">Licence</string>

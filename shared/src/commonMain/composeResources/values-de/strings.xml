@@ -186,6 +186,7 @@
 
     <!-- Settings -->
     <string name="settings_others">Andere</string>
+    <string name="settings_about">Über</string>
 
     <!-- Licenses -->
     <string name="licenses">Lizenzen</string>

@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -55,6 +56,7 @@ import com.kgurgul.cpuinfo.shared.pref_theme_dark
 import com.kgurgul.cpuinfo.shared.pref_theme_default
 import com.kgurgul.cpuinfo.shared.pref_theme_light
 import com.kgurgul.cpuinfo.shared.settings
+import com.kgurgul.cpuinfo.shared.settings_about
 import com.kgurgul.cpuinfo.shared.settings_others
 import com.kgurgul.cpuinfo.shared.temperature_unit
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
@@ -109,11 +111,13 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+    val uriHandler = LocalUriHandler.current
     SettingsScreen(
         uiState = uiState,
         onTemperatureOptionClicked = viewModel::setTemperatureUnit,
         onThemeOptionClicked = viewModel::setTheme,
         onLicensesClicked = onLicensesClicked,
+        onAboutClicked = { uriHandler.openUri(NavigationConst.APP_WEBPAGE) },
     )
 }
 
@@ -123,6 +127,7 @@ fun SettingsScreen(
     onTemperatureOptionClicked: (Int) -> Unit,
     onThemeOptionClicked: (String) -> Unit,
     onLicensesClicked: () -> Unit,
+    onAboutClicked: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -140,6 +145,7 @@ fun SettingsScreen(
             onThemeItemClicked = { isThemeDialogVisible = true },
             onTemperatureItemClicked = { isTemperatureDialogVisible = true },
             onLicensesClicked = onLicensesClicked,
+            onAboutClicked = onAboutClicked,
         )
         TemperatureUnitDialog(
             isDialogVisible = isTemperatureDialogVisible,
@@ -164,6 +170,7 @@ private fun SettingsList(
     onThemeItemClicked: () -> Unit,
     onTemperatureItemClicked: () -> Unit,
     onLicensesClicked: () -> Unit,
+    onAboutClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -210,6 +217,12 @@ private fun SettingsList(
                 SettingsItem(
                     title = stringResource(Res.string.licenses),
                     onClick = onLicensesClicked,
+                )
+            }
+            item(key = "__aboutItem") {
+                SettingsItem(
+                    title = stringResource(Res.string.settings_about),
+                    onClick = onAboutClicked,
                 )
             }
         }
