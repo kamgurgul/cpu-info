@@ -15,6 +15,7 @@ fun SettingsScreenPreview() {
             onTemperatureOptionClicked = {},
             onThemeOptionClicked = {},
             onLicensesClicked = {},
+            onAboutClicked = {},
         )
     }
 }
