@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.features.applications
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.data.local.FakeUserPreferencesRepository
@@ -42,6 +43,7 @@ class ApplicationsViewModelTest {
         preferencesFlow = fakeUserPreferencesFlow
     )
     private val fakeExternalAppAction = FakeExternalAppAction()
+    private val savedStateHandle = SavedStateHandle()
 
     private lateinit var viewModel: ApplicationsViewModel
 
@@ -51,6 +53,7 @@ class ApplicationsViewModelTest {
         fakeUserPreferencesRepository.reset()
         fakeExternalAppAction.reset()
         viewModel = ApplicationsViewModel(
+            savedStateHandle = savedStateHandle,
             applicationsDataObservable = applicationsDataObservable,
             getPackageNameInteractor = getPackageNameInteractor,
             userPreferencesRepository = fakeUserPreferencesRepository,

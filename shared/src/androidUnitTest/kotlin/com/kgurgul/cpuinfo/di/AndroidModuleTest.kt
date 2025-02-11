@@ -6,6 +6,8 @@ import android.content.res.AssetManager
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.util.DisplayMetrics
+import androidx.lifecycle.SavedStateHandle
+import com.kgurgul.cpuinfo.features.applications.ApplicationsViewModel
 import com.kgurgul.cpuinfo.utils.AndroidShortcutManager
 import kotlin.test.Test
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -32,7 +34,8 @@ class AndroidModuleTest {
                     AssetManager::class, DisplayMetrics::class, Configuration::class
                 ),
                 definition<ContentResolver>(Context::class),
-                definition<AndroidShortcutManager>(Context::class)
+                definition<AndroidShortcutManager>(Context::class),
+                definition<ApplicationsViewModel>(SavedStateHandle::class),
             )
         )
     }
