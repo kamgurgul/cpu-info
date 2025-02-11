@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -42,7 +43,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -93,6 +93,7 @@ import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
+import com.kgurgul.cpuinfo.ui.components.CpuTextField
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
@@ -131,6 +132,7 @@ fun ApplicationsScreen(
         onRefresh = viewModel::onRefreshApplications,
     )
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+    val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     ApplicationsScreen(
         uiState = uiState,
         onAppClicked = viewModel::onApplicationClicked,
@@ -143,6 +145,8 @@ fun ApplicationsScreen(
         onNativeLibsClicked = viewModel::onNativeLibsClicked,
         onSystemAppsSwitched = viewModel::onSystemAppsSwitched,
         onSortOrderChange = viewModel::onSortOrderChange,
+        searchQuery = searchQuery,
+        onSearchQueryChanged = viewModel::onSearchQueryChanged,
     )
 }
 
@@ -159,6 +163,8 @@ fun ApplicationsScreen(
     onNativeLibsClicked: (libs: List<String>) -> Unit,
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
     onSortOrderChange: (ascending: Boolean) -> Unit,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -181,6 +187,8 @@ fun ApplicationsScreen(
                 onSystemAppsSwitched = onSystemAppsSwitched,
                 isSortAscending = uiState.isSortAscending,
                 onSortOrderChange = onSortOrderChange,
+                searchQuery = searchQuery,
+                onSearchQueryChanged = onSearchQueryChanged,
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
@@ -220,17 +228,18 @@ private fun TopBar(
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
     isSortAscending: Boolean,
     onSortOrderChange: (ascending: Boolean) -> Unit,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
 ) {
     var showMenu by remember { mutableStateOf(false) }
-    //  var showSearch by rememberSaveable { mutableStateOf(false) }
+    var showSearch by rememberSaveable { mutableStateOf(false) }
     PrimaryTopAppBar(
         title = stringResource(Res.string.applications),
         actions = {
             /*AnimatedVisibility(visible = showSearch) {
                 SearchTextField(
-                    searchQuery = "",
-                    onSearchQueryChanged = {},
-                    onSearchTriggered = {},
+                    searchQuery = searchQuery,
+                    onSearchQueryChanged = onSearchQueryChanged,
                     onSearchClosed = { showSearch = false },
                 )
             }
@@ -291,7 +300,6 @@ private fun TopBar(
 private fun SearchTextField(
     searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
-    onSearchTriggered: (String) -> Unit,
     onSearchClosed: () -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -299,10 +307,9 @@ private fun SearchTextField(
 
     val onSearchExplicitlyTriggered = {
         keyboardController?.hide()
-        onSearchTriggered(searchQuery)
     }
 
-    TextField(
+    CpuTextField(
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
@@ -342,6 +349,7 @@ private fun SearchTextField(
         },
         modifier = Modifier
             .fillMaxWidth()
+            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
             .padding(spacingSmall)
             .focusRequester(focusRequester)
             .onKeyEvent {
@@ -555,7 +563,7 @@ private fun NativeLibsDialog(
 }
 
 object ApplicationsScreenTestData {
-    val SEARCH_TEST_TAG = "searchTextField"
+    const val SEARCH_TEST_TAG = "searchTextField"
 }
 
 @Composable

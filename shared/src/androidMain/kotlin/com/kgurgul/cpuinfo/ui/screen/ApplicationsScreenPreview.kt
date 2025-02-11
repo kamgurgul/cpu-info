@@ -26,6 +26,8 @@ private fun ApplicationsScreenPreview() {
             onNativeLibsClicked = {},
             onSystemAppsSwitched = {},
             onSortOrderChange = {},
+            searchQuery = "",
+            onSearchQueryChanged = {},
         )
     }
 }

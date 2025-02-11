@@ -1,6 +1,7 @@
 package com.kgurgul.cpuinfo.features.applications
 
 import androidx.compose.runtime.Stable
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
@@ -27,6 +28,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 
 class ApplicationsViewModel(
+    private val savedStateHandle: SavedStateHandle,
     private val applicationsDataObservable: ApplicationsDataObservable,
     private val getPackageNameInteractor: GetPackageNameInteractor,
     private val userPreferencesRepository: IUserPreferencesRepository,
@@ -63,6 +65,8 @@ class ApplicationsViewModel(
             snackbarMessage = localData.snackbarMessage,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+
+    val searchQuery = savedStateHandle.getStateFlow(key = SEARCH_QUERY_KEY, initialValue = "")
 
     fun onRefreshApplications() {
         val currentUiState = uiStateFlow.value
@@ -141,17 +145,14 @@ class ApplicationsViewModel(
         }
     }
 
+    fun onSearchQueryChanged(query: String) {
+        savedStateHandle[SEARCH_QUERY_KEY] = query
+    }
+
     data class LocalUiState(
         val isDialogVisible: Boolean = false,
         val nativeLibs: ImmutableList<String> = persistentListOf(),
         val snackbarMessage: StringResource? = null,
-    )
-
-    data class RemoteUiState(
-        val isLoading: Boolean = false,
-        val withSystemApps: Boolean = false,
-        val isSortAscending: Boolean = true,
-        val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
     )
 
     @Stable
@@ -165,3 +166,5 @@ class ApplicationsViewModel(
         val snackbarMessage: StringResource? = null,
     )
 }
+
+private const val SEARCH_QUERY_KEY = "searchQuery"
