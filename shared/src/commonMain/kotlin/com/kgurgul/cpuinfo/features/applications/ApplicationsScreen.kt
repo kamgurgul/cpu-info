@@ -20,11 +20,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
@@ -37,6 +42,8 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -48,7 +55,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
@@ -66,8 +82,12 @@ import com.kgurgul.cpuinfo.shared.apps_sort_order
 import com.kgurgul.cpuinfo.shared.ic_cpp_logo
 import com.kgurgul.cpuinfo.shared.ic_settings
 import com.kgurgul.cpuinfo.shared.ic_thrash
+import com.kgurgul.cpuinfo.shared.menu
 import com.kgurgul.cpuinfo.shared.native_libs
 import com.kgurgul.cpuinfo.shared.ok
+import com.kgurgul.cpuinfo.shared.search
+import com.kgurgul.cpuinfo.shared.search_clear
+import com.kgurgul.cpuinfo.shared.search_close
 import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
@@ -202,13 +222,30 @@ private fun TopBar(
     onSortOrderChange: (ascending: Boolean) -> Unit,
 ) {
     var showMenu by remember { mutableStateOf(false) }
+    //  var showSearch by rememberSaveable { mutableStateOf(false) }
     PrimaryTopAppBar(
         title = stringResource(Res.string.applications),
         actions = {
+            /*AnimatedVisibility(visible = showSearch) {
+                SearchTextField(
+                    searchQuery = "",
+                    onSearchQueryChanged = {},
+                    onSearchTriggered = {},
+                    onSearchClosed = { showSearch = false },
+                )
+            }
+            AnimatedVisibility(visible = !showSearch) {
+                IconButton(onClick = { showSearch = true }) {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = null,
+                    )
+                }
+            }*/
             IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
-                    contentDescription = null,
+                    contentDescription = stringResource(Res.string.menu),
                 )
             }
             DropdownMenu(
@@ -248,6 +285,92 @@ private fun TopBar(
             }
         },
     )
+}
+
+@Composable
+private fun SearchTextField(
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
+    onSearchTriggered: (String) -> Unit,
+    onSearchClosed: () -> Unit,
+) {
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    val onSearchExplicitlyTriggered = {
+        keyboardController?.hide()
+        onSearchTriggered(searchQuery)
+    }
+
+    TextField(
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            cursorColor = MaterialTheme.colorScheme.onSurface,
+        ),
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = stringResource(Res.string.search),
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        },
+        trailingIcon = {
+            IconButton(
+                onClick = {
+                    if (searchQuery.isNotEmpty()) {
+                        onSearchQueryChanged("")
+                    } else {
+                        onSearchClosed()
+                    }
+                },
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = if (searchQuery.isNotEmpty()) {
+                        stringResource(Res.string.search_clear)
+                    } else {
+                        stringResource(Res.string.search_close)
+                    },
+                    tint = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+        },
+        onValueChange = {
+            if ("\n" !in it) onSearchQueryChanged(it)
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(spacingSmall)
+            .focusRequester(focusRequester)
+            .onKeyEvent {
+                if (it.key == Key.Enter) {
+                    if (searchQuery.isBlank()) return@onKeyEvent false
+                    onSearchExplicitlyTriggered()
+                    true
+                } else {
+                    false
+                }
+            }
+            .testTag(ApplicationsScreenTestData.SEARCH_TEST_TAG),
+        shape = RoundedCornerShape(32.dp),
+        value = searchQuery,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Search,
+        ),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                if (searchQuery.isBlank()) return@KeyboardActions
+                onSearchExplicitlyTriggered()
+            },
+        ),
+        maxLines = 1,
+        singleLine = true,
+    )
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 }
 
 @Composable
@@ -429,6 +552,10 @@ private fun NativeLibsDialog(
             },
         )
     }
+}
+
+object ApplicationsScreenTestData {
+    val SEARCH_TEST_TAG = "searchTextField"
 }
 
 @Composable

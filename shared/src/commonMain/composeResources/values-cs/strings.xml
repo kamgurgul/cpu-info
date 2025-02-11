@@ -195,5 +195,10 @@
     <string name="licenses_module_license">Licence:</string>
     <string name="licenses_webpage">Webová stránka</string>
 
+    <!-- Search -->
+    <string name="search">Hledat</string>
+    <string name="search_clear">Vymazat</string>
+    <string name="search_close">Zavřít</string>
+
 </resources>
 

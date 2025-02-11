@@ -204,4 +204,9 @@
     <string name="licenses_module_license">Licencja:</string>
     <string name="licenses_webpage">Strona internetowa</string>
 
+    <!-- Search -->
+    <string name="search">Szukaj</string>
+    <string name="search_clear">Wyczyść</string>
+    <string name="search_close">Zamknij</string>
+
 </resources>

@@ -249,4 +249,9 @@
     <string name="licenses_module_license">License:</string>
     <string name="licenses_webpage">Webpage</string>
 
+    <!-- Search -->
+    <string name="search">Search</string>
+    <string name="search_clear">Clear</string>
+    <string name="search_close">Close</string>
+
 </resources>
