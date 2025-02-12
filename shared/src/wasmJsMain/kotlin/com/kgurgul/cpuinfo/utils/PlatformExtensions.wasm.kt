@@ -7,6 +7,10 @@ actual fun smartCompare(a: String, b: String): Int {
     return collator.compare(a.lowercase(), b.lowercase())
 }
 
+actual fun String.normalize(): String {
+    return jsNormalize(this.toJsString()).toString()
+}
+
 fun JsArray<out JsString>.toList(): List<String> {
     val list = mutableListOf<String>()
     for (i in 0 until this.length) {
@@ -30,3 +34,5 @@ external fun getTotalStorage(): Promise<JsBigInt>
 external fun getUsedStorage(): Promise<JsBigInt>
 
 external fun isPdfViewerEnabled(): Boolean
+
+external fun jsNormalize(value: JsString): JsString

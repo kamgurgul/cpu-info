@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.features.applications
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -236,7 +237,7 @@ private fun TopBar(
     PrimaryTopAppBar(
         title = stringResource(Res.string.applications),
         actions = {
-            /*AnimatedVisibility(visible = showSearch) {
+            AnimatedVisibility(visible = showSearch) {
                 SearchTextField(
                     searchQuery = searchQuery,
                     onSearchQueryChanged = onSearchQueryChanged,
@@ -250,7 +251,7 @@ private fun TopBar(
                         contentDescription = null,
                     )
                 }
-            }*/
+            }
             IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,

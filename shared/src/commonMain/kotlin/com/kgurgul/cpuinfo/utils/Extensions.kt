@@ -56,3 +56,8 @@ fun Double.round4(): Double = try {
 }
 
 expect fun smartCompare(a: String, b: String): Int
+
+expect fun String.normalize(): String
+
+fun String.removeNonSpacingMarks() = normalize()
+    .replace("\\p{Mn}+".toRegex(), "")

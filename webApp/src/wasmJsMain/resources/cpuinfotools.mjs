@@ -39,3 +39,7 @@ function isPdfViewerEnabled() {
         return false;
     }
 }
+
+function jsNormalize(value) {
+    return value.normalize("NFD")
+}

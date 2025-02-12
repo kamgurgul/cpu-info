@@ -1,6 +1,7 @@
 package com.kgurgul.cpuinfo.utils
 
 import java.text.Collator
+import java.text.Normalizer
 import okio.Path.Companion.toPath
 
 actual fun smartCompare(a: String, b: String): Int {
@@ -8,6 +9,10 @@ actual fun smartCompare(a: String, b: String): Int {
         strength = Collator.SECONDARY
     }
     return collator.compare(a.lowercase(), b.lowercase())
+}
+
+actual fun String.normalize(): String {
+    return Normalizer.normalize(this, Normalizer.Form.NFD)
 }
 
 fun getAppConfigPath(appName: String): String {

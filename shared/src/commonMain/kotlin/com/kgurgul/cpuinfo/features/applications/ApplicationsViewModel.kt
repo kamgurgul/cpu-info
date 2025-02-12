@@ -9,6 +9,7 @@ import com.kgurgul.cpuinfo.domain.action.IExternalAppAction
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.sortOrderFromBoolean
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
+import com.kgurgul.cpuinfo.domain.result.FilterApplicationsInteractor
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.app_open
@@ -18,9 +19,12 @@ import com.kgurgul.cpuinfo.utils.wrappers.Result
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -33,6 +37,7 @@ class ApplicationsViewModel(
     private val getPackageNameInteractor: GetPackageNameInteractor,
     private val userPreferencesRepository: IUserPreferencesRepository,
     private val externalAppAction: IExternalAppAction,
+    private val filterApplicationsInteractor: FilterApplicationsInteractor,
 ) : ViewModel() {
 
     private val localDataFlow = MutableStateFlow(LocalUiState())
@@ -46,14 +51,29 @@ class ApplicationsViewModel(
                 ),
             )
         }
+    val searchQuery = savedStateHandle.getStateFlow(key = SEARCH_QUERY_KEY, initialValue = "")
+    private val debouncedSearchQueryFlow = searchQuery.mapLatest { query ->
+        if (query.isNotEmpty()) {
+            delay(SEARCH_DEBOUNCE_MS)
+        }
+        query
+    }
     val uiStateFlow = combine(
         localDataFlow,
         userPreferencesFlow,
         applicationsDataObservable.observe(),
-    ) { localData, userPreferences, applicationsResult ->
+        debouncedSearchQueryFlow,
+    ) { localData, userPreferences, applicationsResult, serchQuery ->
         if (applicationsResult is Result.Success) {
             cachedApplications.clear()
             cachedApplications.addAll(applicationsResult.data)
+        }
+        val filteredApplications = if (serchQuery.isEmpty()) {
+            cachedApplications
+        } else {
+            filterApplicationsInteractor.invoke(
+                FilterApplicationsInteractor.Params(cachedApplications, serchQuery)
+            )
         }
         UiState(
             isLoading = applicationsResult is Result.Loading,
@@ -61,12 +81,10 @@ class ApplicationsViewModel(
             isSortAscending = userPreferences.isApplicationsSortingAscending,
             isDialogVisible = localData.isDialogVisible,
             nativeLibs = localData.nativeLibs,
-            applications = cachedApplications.toImmutableList(),
+            applications = filteredApplications.toImmutableList(),
             snackbarMessage = localData.snackbarMessage,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
-
-    val searchQuery = savedStateHandle.getStateFlow(key = SEARCH_QUERY_KEY, initialValue = "")
 
     fun onRefreshApplications() {
         val currentUiState = uiStateFlow.value
@@ -168,3 +186,4 @@ class ApplicationsViewModel(
 }
 
 private const val SEARCH_QUERY_KEY = "searchQuery"
+private const val SEARCH_DEBOUNCE_MS = 300L

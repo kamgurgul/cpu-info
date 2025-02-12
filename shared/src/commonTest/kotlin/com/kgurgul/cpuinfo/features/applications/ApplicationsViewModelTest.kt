@@ -8,6 +8,7 @@ import com.kgurgul.cpuinfo.data.provider.FakeApplicationsDataProvider
 import com.kgurgul.cpuinfo.data.provider.FakePackageNameProvider
 import com.kgurgul.cpuinfo.domain.action.FakeExternalAppAction
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
+import com.kgurgul.cpuinfo.domain.result.FilterApplicationsInteractor
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.app_open
@@ -44,6 +45,9 @@ class ApplicationsViewModelTest {
     )
     private val fakeExternalAppAction = FakeExternalAppAction()
     private val savedStateHandle = SavedStateHandle()
+    private val filterApplicationsInteractor = FilterApplicationsInteractor(
+        dispatchersProvider = coroutineTestRule.testDispatcherProvider
+    )
 
     private lateinit var viewModel: ApplicationsViewModel
 
@@ -58,6 +62,7 @@ class ApplicationsViewModelTest {
             getPackageNameInteractor = getPackageNameInteractor,
             userPreferencesRepository = fakeUserPreferencesRepository,
             externalAppAction = fakeExternalAppAction,
+            filterApplicationsInteractor = filterApplicationsInteractor,
         )
     }
 
