@@ -35,7 +35,7 @@ private fun ApplicationsScreenPreview() {
 private val previewAppData1 = ExtendedApplicationData(
     name = "Cpu Info",
     packageName = "com.kgurgul.cpuinfo",
-    sourceDir = "/testDir",
+    versionName = "1.0.0",
     nativeLibs = emptyList(),
     hasNativeLibs = false,
     appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4",
@@ -44,7 +44,7 @@ private val previewAppData1 = ExtendedApplicationData(
 private val previewAppData2 = ExtendedApplicationData(
     name = "Cpu Info1 Cpu Info1 Cpu Info1 Cpu Info1",
     packageName = "com.kgurgul.cpuinfo1com.kgurgul.cpuinfo1com.kgurgul.cpuinfo1",
-    sourceDir = "/testDir",
+    versionName = "1.0.0",
     nativeLibs = emptyList(),
     hasNativeLibs = true,
     appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4",

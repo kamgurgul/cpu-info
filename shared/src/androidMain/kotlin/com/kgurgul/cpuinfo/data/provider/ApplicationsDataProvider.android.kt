@@ -19,25 +19,23 @@ actual class ApplicationsDataProvider actual constructor() :
     actual override fun getInstalledApplications(
         withSystemApps: Boolean,
     ): List<ExtendedApplicationData> {
-        val applications = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            packageManager.getInstalledApplications(
-                PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong()),
-            )
-        } else {
-            packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
-        }
+        val packages = packageManager.getInstalledPackages(0)
         return if (withSystemApps) {
-            applications
+            packages
         } else {
-            applications.filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }
+            packages.filter {
+                val applicationInfo = it.applicationInfo
+                applicationInfo != null
+                    && (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0
+            }
         }.map {
             ExtendedApplicationData(
-                it.loadLabel(packageManager).toString(),
-                it.packageName,
-                it.sourceDir,
-                getNativeLibs(it.nativeLibraryDir),
-                it.hasNativeLibs(),
-                getAppIconUri(it.packageName),
+                name = it.applicationInfo?.loadLabel(packageManager)?.toString() ?: "",
+                packageName = it.packageName,
+                versionName = it.versionName ?: "",
+                nativeLibs = getNativeLibs(it.applicationInfo?.nativeLibraryDir),
+                hasNativeLibs = it.applicationInfo?.hasNativeLibs() ?: false,
+                appIconUri = getAppIconUri(it.packageName),
             )
         }
     }

@@ -23,7 +23,7 @@ import com.kgurgul.cpuinfo.utils.smartCompare
 data class ExtendedApplicationData(
     val name: String,
     val packageName: String,
-    val sourceDir: String,
+    val versionName: String,
     val nativeLibs: List<String>,
     val hasNativeLibs: Boolean,
     val appIconUri: String,

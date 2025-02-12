@@ -32,7 +32,7 @@ object TestData {
         ExtendedApplicationData(
             name = "App1",
             packageName = "com.app1",
-            sourceDir = "/data/app1",
+            versionName = "1.0.0",
             nativeLibs = listOf("/data/app1/lib"),
             hasNativeLibs = true,
             appIconUri = "uri",
@@ -40,7 +40,7 @@ object TestData {
         ExtendedApplicationData(
             name = "App2",
             packageName = "com.app2",
-            sourceDir = "/data/app2",
+            versionName = "1.0.0",
             nativeLibs = listOf("/data/app2/lib"),
             hasNativeLibs = false,
             appIconUri = "uri",
@@ -48,7 +48,7 @@ object TestData {
         ExtendedApplicationData(
             name = "App3",
             packageName = "com.app3",
-            sourceDir = "/data/app3",
+            versionName = "1.0.0",
             nativeLibs = listOf("/data/app3/lib"),
             hasNativeLibs = true,
             appIconUri = "uri",
