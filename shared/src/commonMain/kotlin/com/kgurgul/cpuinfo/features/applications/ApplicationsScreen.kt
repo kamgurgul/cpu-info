@@ -505,6 +505,11 @@ private fun ApplicationItem(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
+                    Text(
+                        text = appData.versionName,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
                 }
             }
         }

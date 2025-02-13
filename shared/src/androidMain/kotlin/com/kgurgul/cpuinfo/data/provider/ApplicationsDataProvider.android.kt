@@ -32,7 +32,7 @@ actual class ApplicationsDataProvider actual constructor() :
             ExtendedApplicationData(
                 name = it.applicationInfo?.loadLabel(packageManager)?.toString() ?: "",
                 packageName = it.packageName,
-                versionName = it.versionName ?: "",
+                versionName = it.versionName ?: "N/A",
                 nativeLibs = getNativeLibs(it.applicationInfo?.nativeLibraryDir),
                 hasNativeLibs = it.applicationInfo?.hasNativeLibs() ?: false,
                 appIconUri = getAppIconUri(it.packageName),
