@@ -52,7 +52,6 @@ import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
-import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import com.kgurgul.cpuinfo.utils.safeOpenUri
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
@@ -123,7 +122,7 @@ fun LicensesScreen(
                         LicenseItem(
                             license = item,
                             onLicenseUrlClicked = {
-                                uriHandler.safeOpenUri(NavigationConst.APP_WEBPAGE)
+                                uriHandler.safeOpenUri(it)
                                     .onFailure {
                                         scope.launch {
                                             snackbarHostState.showSnackbar(
