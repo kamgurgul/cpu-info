@@ -16,6 +16,7 @@
 
 package com.kgurgul.cpuinfo.utils
 
+import androidx.compose.ui.platform.UriHandler
 import kotlin.math.round
 import kotlin.math.roundToLong
 
@@ -61,3 +62,7 @@ expect fun String.normalize(): String
 
 fun String.removeNonSpacingMarks() = normalize()
     .replace("\\p{Mn}+".toRegex(), "")
+
+fun UriHandler.safeOpenUri(uri: String): Result<Unit> {
+    return runCatching { openUri(uri) }
+}

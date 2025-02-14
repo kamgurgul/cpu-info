@@ -26,11 +26,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +47,7 @@ import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.features.settings.licenses.LicensesScreen
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.action_not_supported
 import com.kgurgul.cpuinfo.shared.cancel
 import com.kgurgul.cpuinfo.shared.celsius
 import com.kgurgul.cpuinfo.shared.fahrenheit
@@ -65,8 +69,11 @@ import com.kgurgul.cpuinfo.ui.theme.spacingLarge
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
+import com.kgurgul.cpuinfo.utils.safeOpenUri
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -111,13 +118,11 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    val uriHandler = LocalUriHandler.current
     SettingsScreen(
         uiState = uiState,
         onTemperatureOptionClicked = viewModel::setTemperatureUnit,
         onThemeOptionClicked = viewModel::setTheme,
         onLicensesClicked = onLicensesClicked,
-        onAboutClicked = { uriHandler.openUri(NavigationConst.APP_WEBPAGE) },
     )
 }
 
@@ -127,14 +132,17 @@ fun SettingsScreen(
     onTemperatureOptionClicked: (Int) -> Unit,
     onThemeOptionClicked: (String) -> Unit,
     onLicensesClicked: () -> Unit,
-    onAboutClicked: () -> Unit,
 ) {
+    val uriHandler = LocalUriHandler.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             PrimaryTopAppBar(
                 title = stringResource(Res.string.settings),
             )
         },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
     ) { paddingValues ->
         var isTemperatureDialogVisible by remember { mutableStateOf(false) }
@@ -145,7 +153,16 @@ fun SettingsScreen(
             onThemeItemClicked = { isThemeDialogVisible = true },
             onTemperatureItemClicked = { isTemperatureDialogVisible = true },
             onLicensesClicked = onLicensesClicked,
-            onAboutClicked = onAboutClicked,
+            onAboutClicked = {
+                uriHandler.safeOpenUri(NavigationConst.APP_WEBPAGE)
+                    .onFailure {
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = getString(Res.string.action_not_supported),
+                            )
+                        }
+                    }
+            },
         )
         TemperatureUnitDialog(
             isDialogVisible = isTemperatureDialogVisible,

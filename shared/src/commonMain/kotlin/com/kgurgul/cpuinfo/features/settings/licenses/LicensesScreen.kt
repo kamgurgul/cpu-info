@@ -25,15 +25,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.License
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.action_not_supported
 import com.kgurgul.cpuinfo.shared.back
 import com.kgurgul.cpuinfo.shared.ic_open_in_browser
 import com.kgurgul.cpuinfo.shared.licenses
@@ -47,6 +52,10 @@ import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
+import com.kgurgul.cpuinfo.utils.safeOpenUri
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -57,11 +66,9 @@ fun LicensesScreen(
     viewModel: LicensesViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    val uriHandler = LocalUriHandler.current
     LicensesScreen(
         uiState = uiState,
         onNavigateBackClicked = onNavigateBackClicked,
-        onLicenseUrlClicked = { uriHandler.openUri(uri = it) },
     )
 }
 
@@ -69,8 +76,10 @@ fun LicensesScreen(
 fun LicensesScreen(
     uiState: LicensesViewModel.UiState,
     onNavigateBackClicked: () -> Unit,
-    onLicenseUrlClicked: (String) -> Unit,
 ) {
+    val uriHandler = LocalUriHandler.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             PrimaryTopAppBar(
@@ -87,6 +96,7 @@ fun LicensesScreen(
                 },
             )
         },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
     ) { paddingValues ->
         CpuPullToRefreshBox(
@@ -112,7 +122,16 @@ fun LicensesScreen(
                     ) { index, item ->
                         LicenseItem(
                             license = item,
-                            onLicenseUrlClicked = onLicenseUrlClicked,
+                            onLicenseUrlClicked = {
+                                uriHandler.safeOpenUri(NavigationConst.APP_WEBPAGE)
+                                    .onFailure {
+                                        scope.launch {
+                                            snackbarHostState.showSnackbar(
+                                                message = getString(Res.string.action_not_supported),
+                                            )
+                                        }
+                                    }
+                            },
                         )
                         if (index != uiState.licenses.lastIndex) {
                             CpuDivider(
