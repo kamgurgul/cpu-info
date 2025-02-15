@@ -248,7 +248,7 @@ private fun TopBar(
                 IconButton(onClick = { showSearch = true }) {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = null,
+                        contentDescription = stringResource(Res.string.search),
                     )
                 }
             }
