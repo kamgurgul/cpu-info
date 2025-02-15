@@ -1,5 +1,7 @@
 package com.kgurgul.cpuinfo.tv.features.applications
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,32 +15,50 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
@@ -50,6 +70,7 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import com.kgurgul.cpuinfo.features.applications.ApplicationsScreenTestData
 import com.kgurgul.cpuinfo.features.applications.ApplicationsViewModel
 import com.kgurgul.cpuinfo.features.applications.registerUninstallListener
 import com.kgurgul.cpuinfo.shared.Res
@@ -62,6 +83,9 @@ import com.kgurgul.cpuinfo.shared.ic_apk_document_filled
 import com.kgurgul.cpuinfo.shared.ic_apk_document_outlined
 import com.kgurgul.cpuinfo.shared.ok
 import com.kgurgul.cpuinfo.shared.refresh
+import com.kgurgul.cpuinfo.shared.search
+import com.kgurgul.cpuinfo.shared.search_clear
+import com.kgurgul.cpuinfo.shared.search_close
 import com.kgurgul.cpuinfo.tv.ui.components.TvAlertDialog
 import com.kgurgul.cpuinfo.tv.ui.components.TvButton
 import com.kgurgul.cpuinfo.tv.ui.components.TvIconButton
@@ -69,6 +93,7 @@ import com.kgurgul.cpuinfo.tv.ui.components.TvListItem
 import com.kgurgul.cpuinfo.tv.ui.components.TvWideButton
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
+import com.kgurgul.cpuinfo.ui.components.CpuTextField
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
@@ -103,6 +128,7 @@ fun TvApplicationsScreen(
         onRefresh = viewModel::onRefreshApplications,
     )
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+    val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     TvApplicationsScreen(
         uiState = uiState,
         onAppClicked = viewModel::onApplicationClicked,
@@ -112,6 +138,8 @@ fun TvApplicationsScreen(
         onAppSettingsClicked = viewModel::onAppSettingsClicked,
         onSystemAppsSwitched = viewModel::onSystemAppsSwitched,
         onSortOrderChange = viewModel::onSortOrderChange,
+        searchQuery = searchQuery,
+        onSearchQueryChanged = viewModel::onSearchQueryChanged,
     )
 }
 
@@ -126,6 +154,8 @@ fun TvApplicationsScreen(
     onAppSettingsClicked: (id: String) -> Unit,
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
     onSortOrderChange: (ascending: Boolean) -> Unit,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -150,6 +180,8 @@ fun TvApplicationsScreen(
                 onSystemAppsSwitched = onSystemAppsSwitched,
                 isSortAscending = uiState.isSortAscending,
                 onSortOrderChange = onSortOrderChange,
+                searchQuery = searchQuery,
+                onSearchQueryChanged = onSearchQueryChanged,
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
@@ -190,13 +222,38 @@ private fun TopBar(
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
     isSortAscending: Boolean,
     onSortOrderChange: (ascending: Boolean) -> Unit,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
 ) {
+    var showSearch by rememberSaveable { mutableStateOf(false) }
+    BackHandler(
+        enabled = showSearch,
+    ) {
+        showSearch = false
+    }
     Row(
         horizontalArrangement = Arrangement.spacedBy(spacingMedium, Alignment.End),
         modifier = Modifier
             .fillMaxWidth()
             .padding(spacingMedium),
     ) {
+        AnimatedVisibility(visible = showSearch) {
+            SearchTextField(
+                searchQuery = searchQuery,
+                onSearchQueryChanged = onSearchQueryChanged,
+                onSearchClosed = { showSearch = false },
+            )
+        }
+        AnimatedVisibility(visible = !showSearch) {
+            TvIconButton(
+                onClick = { showSearch = true }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = stringResource(Res.string.search),
+                )
+            }
+        }
         TvIconButton(
             onClick = onRefreshApplications
         ) {
@@ -372,5 +429,91 @@ private fun OptionsDialog(
                 }
             },
         )
+    }
+}
+
+@Composable
+private fun SearchTextField(
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
+    onSearchClosed: () -> Unit,
+) {
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    val onSearchExplicitlyTriggered = {
+        keyboardController?.hide()
+        onSearchClosed()
+    }
+
+    CpuTextField(
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            cursorColor = MaterialTheme.colorScheme.onSurface,
+        ),
+        leadingIcon = {
+            androidx.compose.material3.Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = stringResource(Res.string.search),
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        },
+        trailingIcon = {
+            IconButton(
+                onClick = {
+                    if (searchQuery.isNotEmpty()) {
+                        onSearchQueryChanged("")
+                    } else {
+                        onSearchClosed()
+                    }
+                },
+            ) {
+                androidx.compose.material3.Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = if (searchQuery.isNotEmpty()) {
+                        stringResource(Res.string.search_clear)
+                    } else {
+                        stringResource(Res.string.search_close)
+                    },
+                    tint = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+        },
+        onValueChange = {
+            if ("\n" !in it) onSearchQueryChanged(it)
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
+            .padding(spacingSmall)
+            .focusRequester(focusRequester)
+            .onKeyEvent {
+                if (it.key == Key.Enter) {
+                    if (searchQuery.isBlank()) return@onKeyEvent false
+                    onSearchExplicitlyTriggered()
+                    true
+                } else {
+                    false
+                }
+            }
+            .testTag(ApplicationsScreenTestData.SEARCH_TEST_TAG),
+        shape = RoundedCornerShape(32.dp),
+        value = searchQuery,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Search,
+        ),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                if (searchQuery.isBlank()) return@KeyboardActions
+                onSearchExplicitlyTriggered()
+            },
+        ),
+        maxLines = 1,
+        singleLine = true,
+    )
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
     }
 }
