@@ -23,7 +23,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -32,7 +31,6 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -84,8 +82,6 @@ import com.kgurgul.cpuinfo.shared.ic_apk_document_outlined
 import com.kgurgul.cpuinfo.shared.ok
 import com.kgurgul.cpuinfo.shared.refresh
 import com.kgurgul.cpuinfo.shared.search
-import com.kgurgul.cpuinfo.shared.search_clear
-import com.kgurgul.cpuinfo.shared.search_close
 import com.kgurgul.cpuinfo.tv.ui.components.TvAlertDialog
 import com.kgurgul.cpuinfo.tv.ui.components.TvButton
 import com.kgurgul.cpuinfo.tv.ui.components.TvIconButton
@@ -254,39 +250,45 @@ private fun TopBar(
                 )
             }
         }
-        TvIconButton(
-            onClick = onRefreshApplications
-        ) {
-            Icon(
-                imageVector = Icons.Default.Refresh,
-                contentDescription = stringResource(Res.string.refresh),
-            )
-        }
-        TvIconButton(
-            onClick = { onSortOrderChange(!isSortAscending) }
-        ) {
-            val icon = if (isSortAscending) {
-                Icons.Default.KeyboardArrowDown
-            } else {
-                Icons.Default.KeyboardArrowUp
+        AnimatedVisibility(visible = !showSearch) {
+            TvIconButton(
+                onClick = onRefreshApplications
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Refresh,
+                    contentDescription = stringResource(Res.string.refresh),
+                )
             }
-            Icon(
-                imageVector = icon,
-                contentDescription = stringResource(Res.string.apps_sort_order),
-            )
         }
-        val systemAppIcon = if (withSystemApps) {
-            Res.drawable.ic_apk_document_filled
-        } else {
-            Res.drawable.ic_apk_document_outlined
+        AnimatedVisibility(visible = !showSearch) {
+            TvIconButton(
+                onClick = { onSortOrderChange(!isSortAscending) }
+            ) {
+                val icon = if (isSortAscending) {
+                    Icons.Default.KeyboardArrowDown
+                } else {
+                    Icons.Default.KeyboardArrowUp
+                }
+                Icon(
+                    imageVector = icon,
+                    contentDescription = stringResource(Res.string.apps_sort_order),
+                )
+            }
         }
-        TvIconButton(
-            onClick = { onSystemAppsSwitched(!withSystemApps) }
-        ) {
-            Icon(
-                painter = painterResource(systemAppIcon),
-                contentDescription = stringResource(Res.string.apps_show_system_apps),
-            )
+        AnimatedVisibility(visible = !showSearch) {
+            val systemAppIcon = if (withSystemApps) {
+                Res.drawable.ic_apk_document_filled
+            } else {
+                Res.drawable.ic_apk_document_outlined
+            }
+            TvIconButton(
+                onClick = { onSystemAppsSwitched(!withSystemApps) }
+            ) {
+                Icon(
+                    painter = painterResource(systemAppIcon),
+                    contentDescription = stringResource(Res.string.apps_show_system_apps),
+                )
+            }
         }
     }
 }
@@ -454,32 +456,11 @@ private fun SearchTextField(
             cursorColor = MaterialTheme.colorScheme.onSurface,
         ),
         leadingIcon = {
-            androidx.compose.material3.Icon(
+            Icon(
                 imageVector = Icons.Default.Search,
                 contentDescription = stringResource(Res.string.search),
                 tint = MaterialTheme.colorScheme.onSurface
             )
-        },
-        trailingIcon = {
-            IconButton(
-                onClick = {
-                    if (searchQuery.isNotEmpty()) {
-                        onSearchQueryChanged("")
-                    } else {
-                        onSearchClosed()
-                    }
-                },
-            ) {
-                androidx.compose.material3.Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = if (searchQuery.isNotEmpty()) {
-                        stringResource(Res.string.search_clear)
-                    } else {
-                        stringResource(Res.string.search_close)
-                    },
-                    tint = MaterialTheme.colorScheme.onSurface,
-                )
-            }
         },
         onValueChange = {
             if ("\n" !in it) onSearchQueryChanged(it)
