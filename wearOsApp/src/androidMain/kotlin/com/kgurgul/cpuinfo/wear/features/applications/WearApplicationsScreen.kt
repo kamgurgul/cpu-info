@@ -182,10 +182,16 @@ fun WearApplicationsScreen(
                         }
                     }
                 ) {
+                    val secondaryLabel = buildString {
+                        append(item.packageName)
+                        append("\n")
+                        append(item.versionName)
+                    }
                     WearCpuChip(
                         modifier = Modifier.fillMaxWidth(),
                         label = item.name,
-                        secondaryLabel = item.packageName,
+                        secondaryLabel = secondaryLabel,
+                        secondaryLabelMaxLines = 4,
                         icon = {
                             AsyncImage(
                                 model = ImageRequest.Builder(LocalPlatformContext.current)
