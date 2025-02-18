@@ -1,10 +1,10 @@
 ![Build and test](https://github.com/kamgurgul/cpu-info/actions/workflows/shared_test.yml/badge.svg)
 
-<img src="info/icon_glow.png" width="100" height="100" />
+<img src="info/icon_glow.png" width="100" height="100" alt="CPU Info Icon" />
 
 # CPU Info
 
-CPU Info provides information about device hardware and software. 
+CPU Info provides comprehensive information about your device's hardware and software.
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
 alt="Get it on F-Droid"
@@ -32,13 +32,13 @@ height="80">](https://apps.microsoft.com/detail/9phxq0f4knbl)
 alt="Get it from Homebrew"
 height="80">](https://formulae.brew.sh/cask/cpu-info)
 
-# Supported platforms 
+## Supported platforms
 
 | Android | Android TV | Wear OS | iOS | Desktop |                                                                                   Wasm                                                                                   |
 |:-------:|:----------:|:-------:|:---:|:-------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 |    ✅    |     ✅      |    ✅    |  ✅  |    ✅    | ✅<br/>[In preview](https://kgurgul.com/assets/cpuinfo/)<br/>Known issues: [1](https://youtrack.jetbrains.com/issue/CMP-6900/NavigationRail-items-not-visible-on-WASM-JS) |
 
-# Tech stack
+## Tech stack
 
 * [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html)
 * [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
@@ -50,11 +50,11 @@ height="80">](https://formulae.brew.sh/cask/cpu-info)
 * [pytorch/cpuinfo](https://github.com/pytorch/cpuinfo)
 * [OSHI](https://github.com/oshi/oshi)
 
-# TODO
+## TODO
 
 * Upload Wear OS app to Play Store when SDK 35 will be supported
 
-# License
+## License
 
     Copyright 2017 KG Soft
 
