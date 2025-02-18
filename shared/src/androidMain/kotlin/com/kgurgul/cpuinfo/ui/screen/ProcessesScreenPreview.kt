@@ -13,6 +13,8 @@ fun ProcessesScreenPreview() {
         ProcessesScreen(
             uiState = ProcessesViewModel.UiState(),
             onSortOrderChange = {},
+            searchQuery = "",
+            onSearchQueryChanged = {},
         )
     }
 }

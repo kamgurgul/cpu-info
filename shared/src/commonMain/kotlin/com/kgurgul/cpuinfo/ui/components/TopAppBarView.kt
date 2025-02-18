@@ -22,7 +22,16 @@ fun SurfaceTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
     CpuTopAppBar(
-        title = title,
+        title = if (title != null) {
+            {
+                Text(
+                    text = title,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            }
+        } else null,
         navigationIcon = navigationIcon,
         actions = actions,
         colors = TopAppBarDefaults.topAppBarColors(
@@ -39,6 +48,15 @@ fun SurfaceTopAppBar(
 }
 
 @Composable
+private fun defaultTopAppColors() = TopAppBarDefaults.topAppBarColors(
+    containerColor = MaterialTheme.colorScheme.primary,
+    scrolledContainerColor = MaterialTheme.colorScheme.primary,
+    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+    actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+)
+
+@Composable
 fun PrimaryTopAppBar(
     modifier: Modifier = Modifier,
     title: String? = null,
@@ -48,16 +66,39 @@ fun PrimaryTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
     CpuTopAppBar(
+        title = if (title != null) {
+            {
+                Text(
+                    text = title,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            }
+        } else null,
+        navigationIcon = navigationIcon,
+        actions = actions,
+        colors = defaultTopAppColors(),
+        windowInsets = windowInsets,
+        scrollBehavior = scrollBehavior,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun PrimaryTopAppBar(
+    modifier: Modifier = Modifier,
+    title: (@Composable () -> Unit)? = null,
+    navigationIcon: @Composable (() -> Unit)? = null,
+    actions: @Composable RowScope.() -> Unit = {},
+    windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+) {
+    CpuTopAppBar(
         title = title,
         navigationIcon = navigationIcon,
         actions = actions,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            scrolledContainerColor = MaterialTheme.colorScheme.primary,
-            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary,
-            actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
-        ),
+        colors = defaultTopAppColors(),
         windowInsets = windowInsets,
         scrollBehavior = scrollBehavior,
         modifier = modifier,
@@ -68,23 +109,14 @@ fun PrimaryTopAppBar(
 private fun CpuTopAppBar(
     colors: TopAppBarColors,
     modifier: Modifier = Modifier,
-    title: String? = null,
+    title: (@Composable () -> Unit)? = null,
     navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
     TopAppBar(
-        title = {
-            title?.let {
-                Text(
-                    text = it,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-        },
+        title = { title?.invoke() },
         navigationIcon = { navigationIcon?.invoke() },
         actions = actions,
         colors = colors,

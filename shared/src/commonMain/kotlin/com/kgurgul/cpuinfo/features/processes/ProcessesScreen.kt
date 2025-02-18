@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.features.processes
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -20,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -31,9 +34,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -42,8 +47,10 @@ import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.apps_sort_order
 import com.kgurgul.cpuinfo.shared.processes
+import com.kgurgul.cpuinfo.shared.search
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
+import com.kgurgul.cpuinfo.ui.components.CpuSearchTextField
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -75,9 +82,12 @@ fun ProcessesScreen(
     viewModel: ProcessesViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+    val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     ProcessesScreen(
         uiState = uiState,
         onSortOrderChange = viewModel::onSortOrderChange,
+        searchQuery = searchQuery,
+        onSearchQueryChanged = viewModel::onSearchQueryChanged,
     )
 }
 
@@ -85,12 +95,16 @@ fun ProcessesScreen(
 fun ProcessesScreen(
     uiState: ProcessesViewModel.UiState,
     onSortOrderChange: (ascending: Boolean) -> Unit,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
             ProcessesTopBar(
                 isSortAscending = uiState.isSortAscending,
                 onSortOrderChange = onSortOrderChange,
+                searchQuery = searchQuery,
+                onSearchQueryChanged = onSearchQueryChanged,
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
@@ -114,10 +128,49 @@ fun ProcessesScreen(
 private fun ProcessesTopBar(
     isSortAscending: Boolean,
     onSortOrderChange: (ascending: Boolean) -> Unit,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
 ) {
     var showMenu by remember { mutableStateOf(false) }
+    var showSearch by rememberSaveable { mutableStateOf(false) }
     PrimaryTopAppBar(
-        title = stringResource(Res.string.processes),
+        title = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                AnimatedVisibility(visible = !showSearch) {
+                    Text(
+                        text = stringResource(Res.string.processes),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                }
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    AnimatedVisibility(visible = showSearch) {
+                        CpuSearchTextField(
+                            searchQuery = searchQuery,
+                            onSearchQueryChanged = onSearchQueryChanged,
+                            onSearchClosed = { showSearch = false },
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                    AnimatedVisibility(visible = !showSearch) {
+                        IconButton(onClick = { showSearch = true }) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = stringResource(Res.string.search),
+                            )
+                        }
+                    }
+                }
+            }
+        },
         actions = {
             IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(

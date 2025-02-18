@@ -21,8 +21,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ProcessesViewModel(
-    savedStateHandle: SavedStateHandle,
     processesDataObservable: ProcessesDataObservable,
+    private val savedStateHandle: SavedStateHandle,
     private val userPreferencesRepository: IUserPreferencesRepository,
     private val filterProcessesInteractor: FilterProcessesInteractor,
 ) : ViewModel() {
@@ -70,6 +70,10 @@ class ProcessesViewModel(
         viewModelScope.launch {
             userPreferencesRepository.setProcessesSortingOrder(isAscending)
         }
+    }
+
+    fun onSearchQueryChanged(query: String) {
+        savedStateHandle[SEARCH_QUERY_KEY] = query
     }
 
     data class UiState(
