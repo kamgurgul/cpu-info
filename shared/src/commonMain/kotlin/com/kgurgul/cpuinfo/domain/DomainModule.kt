@@ -13,6 +13,7 @@ import com.kgurgul.cpuinfo.domain.observable.SensorsDataObservable
 import com.kgurgul.cpuinfo.domain.observable.StorageDataObservable
 import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable
 import com.kgurgul.cpuinfo.domain.result.FilterApplicationsInteractor
+import com.kgurgul.cpuinfo.domain.result.FilterProcessesInteractor
 import com.kgurgul.cpuinfo.domain.result.GetHardwareDataInteractor
 import com.kgurgul.cpuinfo.domain.result.GetLicensesInteractor
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
@@ -38,4 +39,5 @@ val domainModule = module {
     factoryOf(::GetScreenDataInteractor)
     factoryOf(::GetLicensesInteractor)
     factoryOf(::FilterApplicationsInteractor)
+    factoryOf(::FilterProcessesInteractor)
 }
