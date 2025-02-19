@@ -42,6 +42,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.navDeepLink
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.shared.Res
@@ -63,17 +64,24 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object ProcessesRoute
+data object ProcessesBaseRoute {
+
+    @Serializable
+    data object ProcessesRoute
+}
 
 fun NavGraphBuilder.processesScreen() {
-    composable<ProcessesRoute>(
+    navigation<ProcessesBaseRoute>(
+        startDestination = ProcessesBaseRoute.ProcessesRoute,
         deepLinks = listOf(
-            navDeepLink<ProcessesRoute>(
+            navDeepLink<ProcessesBaseRoute>(
                 basePath = NavigationConst.BASE_URL + NavigationConst.PROCESSES
             )
-        )
+        ),
     ) {
-        ProcessesScreen()
+        composable<ProcessesBaseRoute.ProcessesRoute> {
+            ProcessesScreen()
+        }
     }
 }
 

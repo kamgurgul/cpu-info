@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.navDeepLink
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.domain.model.asString
@@ -54,17 +55,24 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object TemperaturesRoute
+data object TemperaturesBaseRoute {
+
+    @Serializable
+    data object TemperaturesRoute
+}
 
 fun NavGraphBuilder.temperaturesScreen() {
-    composable<TemperaturesRoute>(
+    navigation<TemperaturesBaseRoute>(
+        startDestination = TemperaturesBaseRoute.TemperaturesRoute,
         deepLinks = listOf(
-            navDeepLink<TemperaturesRoute>(
+            navDeepLink<TemperaturesBaseRoute>(
                 basePath = NavigationConst.BASE_URL + NavigationConst.TEMPERATURES
             )
-        )
+        ),
     ) {
-        TemperatureScreen()
+        composable<TemperaturesBaseRoute.TemperaturesRoute> {
+            TemperatureScreen()
+        }
     }
 }
 

@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.navDeepLink
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
@@ -96,17 +97,24 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object ApplicationsRoute
+data object ApplicationsBaseRoute {
+
+    @Serializable
+    data object ApplicationsRoute
+}
 
 fun NavGraphBuilder.applicationsScreen() {
-    composable<ApplicationsRoute>(
+    navigation<ApplicationsBaseRoute>(
+        startDestination = ApplicationsBaseRoute.ApplicationsRoute,
         deepLinks = listOf(
-            navDeepLink<ApplicationsRoute>(
+            navDeepLink<ApplicationsBaseRoute>(
                 basePath = NavigationConst.BASE_URL + NavigationConst.APPLICATIONS
             )
         )
     ) {
-        ApplicationsScreen()
+        composable<ApplicationsBaseRoute.ApplicationsRoute> {
+            ApplicationsScreen()
+        }
     }
 }
 

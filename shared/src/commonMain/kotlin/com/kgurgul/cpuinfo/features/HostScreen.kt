@@ -15,15 +15,15 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.kgurgul.cpuinfo.features.applications.ApplicationsRoute
+import com.kgurgul.cpuinfo.features.applications.ApplicationsBaseRoute
 import com.kgurgul.cpuinfo.features.applications.applicationsScreen
-import com.kgurgul.cpuinfo.features.information.InformationRoute
+import com.kgurgul.cpuinfo.features.information.InformationBaseRoute
 import com.kgurgul.cpuinfo.features.information.informationScreen
-import com.kgurgul.cpuinfo.features.processes.ProcessesRoute
+import com.kgurgul.cpuinfo.features.processes.ProcessesBaseRoute
 import com.kgurgul.cpuinfo.features.processes.processesScreen
 import com.kgurgul.cpuinfo.features.settings.SettingsRoute
 import com.kgurgul.cpuinfo.features.settings.settingsScreen
-import com.kgurgul.cpuinfo.features.temperature.TemperaturesRoute
+import com.kgurgul.cpuinfo.features.temperature.TemperaturesBaseRoute
 import com.kgurgul.cpuinfo.features.temperature.temperaturesScreen
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.applications
@@ -101,7 +101,7 @@ fun HostScreen(
     ) {
         NavHost(
             navController = navController,
-            startDestination = InformationRoute,
+            startDestination = InformationBaseRoute,
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() },
             popEnterTransition = { fadeIn() },
@@ -130,7 +130,7 @@ private fun buildTopLevelRoutes(
     add(
         TopLevelRoute(
             name = Res.string.hardware,
-            route = InformationRoute,
+            route = InformationBaseRoute,
             icon = Res.drawable.ic_cpu,
         ),
     )
@@ -138,7 +138,7 @@ private fun buildTopLevelRoutes(
         add(
             TopLevelRoute(
                 name = Res.string.applications,
-                route = ApplicationsRoute,
+                route = ApplicationsBaseRoute,
                 icon = Res.drawable.ic_android,
             ),
         )
@@ -147,7 +147,7 @@ private fun buildTopLevelRoutes(
         add(
             TopLevelRoute(
                 name = Res.string.processes,
-                route = ProcessesRoute,
+                route = ProcessesBaseRoute,
                 icon = Res.drawable.ic_process,
             ),
         )
@@ -155,7 +155,7 @@ private fun buildTopLevelRoutes(
     add(
         TopLevelRoute(
             name = Res.string.temp,
-            route = TemperaturesRoute,
+            route = TemperaturesBaseRoute,
             icon = Res.drawable.ic_temperature,
         ),
     )

@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.navDeepLink
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.ANDROID_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.CPU_POS
@@ -79,17 +80,24 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object InformationRoute
+data object InformationBaseRoute {
+
+    @Serializable
+    data object InformationRoute
+}
 
 fun NavGraphBuilder.informationScreen() {
-    composable<InformationRoute>(
+    navigation<InformationBaseRoute>(
+        startDestination = InformationBaseRoute.InformationRoute,
         deepLinks = listOf(
-            navDeepLink<InformationRoute>(
+            navDeepLink<InformationBaseRoute>(
                 basePath = NavigationConst.BASE_URL + NavigationConst.INFORMATION
             )
         )
     ) {
-        InfoContainerScreen()
+        composable<InformationBaseRoute.InformationRoute> {
+            InfoContainerScreen()
+        }
     }
 }
 
