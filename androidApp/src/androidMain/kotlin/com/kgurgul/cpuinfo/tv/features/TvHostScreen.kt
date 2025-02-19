@@ -35,13 +35,13 @@ import com.kgurgul.cpuinfo.shared.ic_settings
 import com.kgurgul.cpuinfo.shared.ic_temperature
 import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.temp
-import com.kgurgul.cpuinfo.tv.features.applications.TvApplicationsRoute
+import com.kgurgul.cpuinfo.tv.features.applications.TvApplicationsBaseRoute
 import com.kgurgul.cpuinfo.tv.features.applications.tvApplicationsScreen
-import com.kgurgul.cpuinfo.tv.features.information.TvInformationRoute
+import com.kgurgul.cpuinfo.tv.features.information.TvInformationBaseRoute
 import com.kgurgul.cpuinfo.tv.features.information.tvInformationScreen
-import com.kgurgul.cpuinfo.tv.features.settings.TvSettingsRoute
+import com.kgurgul.cpuinfo.tv.features.settings.TvSettingsBaseRoute
 import com.kgurgul.cpuinfo.tv.features.settings.tvSettingsScreen
-import com.kgurgul.cpuinfo.tv.features.temperature.TvTemperaturesRoute
+import com.kgurgul.cpuinfo.tv.features.temperature.TvTemperaturesBaseRoute
 import com.kgurgul.cpuinfo.tv.features.temperature.tvTemperaturesScreen
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -125,7 +125,7 @@ fun TvHostScreen(
     ) {
         NavHost(
             navController = navController,
-            startDestination = TvInformationRoute,
+            startDestination = TvInformationBaseRoute,
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() },
             popEnterTransition = { fadeIn() },
@@ -145,7 +145,7 @@ private fun buildTopLevelRoutes(
     add(
         TopLevelRoute(
             name = Res.string.hardware,
-            route = TvInformationRoute,
+            route = TvInformationBaseRoute,
             icon = Res.drawable.ic_cpu,
         ),
     )
@@ -153,7 +153,7 @@ private fun buildTopLevelRoutes(
         add(
             TopLevelRoute(
                 name = Res.string.applications,
-                route = TvApplicationsRoute,
+                route = TvApplicationsBaseRoute,
                 icon = Res.drawable.ic_android,
             ),
         )
@@ -161,14 +161,14 @@ private fun buildTopLevelRoutes(
     add(
         TopLevelRoute(
             name = Res.string.temp,
-            route = TvTemperaturesRoute,
+            route = TvTemperaturesBaseRoute,
             icon = Res.drawable.ic_temperature,
         ),
     )
     add(
         TopLevelRoute(
             name = Res.string.settings,
-            route = TvSettingsRoute,
+            route = TvSettingsBaseRoute,
             icon = Res.drawable.ic_settings,
         ),
     )

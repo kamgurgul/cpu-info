@@ -34,6 +34,7 @@ import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.navDeepLink
 import androidx.tv.material3.Tab
 import androidx.tv.material3.TabRow
@@ -64,17 +65,24 @@ import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object TvInformationRoute
+data object TvInformationBaseRoute {
+
+    @Serializable
+    object TvInformationRoute
+}
 
 fun NavGraphBuilder.tvInformationScreen() {
-    composable<TvInformationRoute>(
+    navigation<TvInformationBaseRoute>(
+        startDestination = TvInformationBaseRoute.TvInformationRoute,
         deepLinks = listOf(
-            navDeepLink<TvInformationRoute>(
+            navDeepLink<TvInformationBaseRoute>(
                 basePath = NavigationConst.BASE_URL + NavigationConst.INFORMATION
             )
-        )
+        ),
     ) {
-        TvInfoContainerScreen()
+        composable<TvInformationBaseRoute.TvInformationRoute> {
+            TvInfoContainerScreen()
+        }
     }
 }
 

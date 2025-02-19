@@ -61,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.navDeepLink
 import androidx.tv.material3.Icon
 import coil3.compose.AsyncImage
@@ -102,17 +103,24 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object TvApplicationsRoute
+data object TvApplicationsBaseRoute {
+
+    @Serializable
+    data object TvApplicationsRoute
+}
 
 fun NavGraphBuilder.tvApplicationsScreen() {
-    composable<TvApplicationsRoute>(
+    navigation<TvApplicationsBaseRoute>(
+        startDestination = TvApplicationsBaseRoute.TvApplicationsRoute,
         deepLinks = listOf(
-            navDeepLink<TvApplicationsRoute>(
+            navDeepLink<TvApplicationsBaseRoute>(
                 basePath = NavigationConst.BASE_URL + NavigationConst.APPLICATIONS
             )
-        )
+        ),
     ) {
-        TvApplicationsScreen()
+        composable<TvApplicationsBaseRoute.TvApplicationsRoute> {
+            TvApplicationsScreen()
+        }
     }
 }
 

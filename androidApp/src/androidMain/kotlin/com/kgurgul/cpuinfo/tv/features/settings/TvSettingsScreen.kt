@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.navDeepLink
 import com.kgurgul.cpuinfo.features.settings.SettingsViewModel
 import com.kgurgul.cpuinfo.features.settings.getTemperatureUnit
@@ -48,17 +49,24 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object TvSettingsRoute
+data object TvSettingsBaseRoute {
+
+    @Serializable
+    data object TvSettingsRoute
+}
 
 fun NavGraphBuilder.tvSettingsScreen() {
-    composable<TvSettingsRoute>(
+    navigation<TvSettingsBaseRoute>(
+        startDestination = TvSettingsBaseRoute.TvSettingsRoute,
         deepLinks = listOf(
-            navDeepLink<TvSettingsRoute>(
+            navDeepLink<TvSettingsBaseRoute>(
                 basePath = NavigationConst.BASE_URL + NavigationConst.SETTINGS
             )
-        )
+        ),
     ) {
-        TvSettingsScreen()
+        composable<TvSettingsBaseRoute.TvSettingsRoute> {
+            TvSettingsScreen()
+        }
     }
 }
 
