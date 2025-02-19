@@ -228,14 +228,15 @@ private fun ProcessList(
                 processes,
                 key = { _, process -> process.name + process.pid + process.ppid },
             ) { index, process ->
-                ProcessItem(
-                    item = process,
-                    modifier = Modifier.animateItem(),
-                )
-                if (index < processes.lastIndex) {
-                    CpuDivider(
-                        modifier = Modifier.padding(vertical = spacingSmall),
+                Column(modifier = Modifier.animateItem()) {
+                    ProcessItem(
+                        item = process,
                     )
+                    if (index < processes.lastIndex) {
+                        CpuDivider(
+                            modifier = Modifier.padding(vertical = spacingSmall),
+                        )
+                    }
                 }
             }
         }
@@ -249,7 +250,7 @@ private fun ProcessList(
 }
 
 @Composable
-private fun ProcessItem(item: ProcessItem, modifier: Modifier) {
+private fun ProcessItem(item: ProcessItem, modifier: Modifier = Modifier) {
     SelectionContainer {
         Column(
             verticalArrangement = Arrangement.spacedBy(spacingXSmall),
