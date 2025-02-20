@@ -104,7 +104,16 @@ fun NavGraphBuilder.settingsScreen(
                 onLicensesClicked = onLicensesClicked,
             )
         }
-        composable<SettingsRoute.Licenses> {
+        composable<SettingsRoute.Licenses>(
+            deepLinks = listOf(
+                navDeepLink<SettingsRoute>(
+                    basePath = NavigationConst.BASE_URL
+                        + NavigationConst.SETTINGS
+                        + "/"
+                        + NavigationConst.LICENSES
+                )
+            )
+        ) {
             LicensesScreen(
                 onNavigateBackClicked = onNavigateBackClicked,
             )

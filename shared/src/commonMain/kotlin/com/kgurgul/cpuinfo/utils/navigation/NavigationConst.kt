@@ -10,4 +10,5 @@ object NavigationConst {
     const val PROCESSES = "processes"
     const val TEMPERATURES = "temperatures"
     const val SETTINGS = "settings"
+    const val LICENSES = "licenses"
 }
