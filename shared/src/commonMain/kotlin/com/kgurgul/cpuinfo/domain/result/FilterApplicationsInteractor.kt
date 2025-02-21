@@ -21,6 +21,7 @@ class FilterApplicationsInteractor(
         return params.applications.filter {
             it.name.lowercase().removeNonSpacingMarks().contains(normalizedQuery)
                 || it.packageName.lowercase().removeNonSpacingMarks().contains(normalizedQuery)
+                || it.versionName.lowercase().removeNonSpacingMarks().contains(normalizedQuery)
         }
     }
 
