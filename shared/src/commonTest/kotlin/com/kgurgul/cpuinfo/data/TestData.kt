@@ -74,6 +74,15 @@ object TestData {
             rss = "rss",
             vsize = "vsize",
         ),
+        ProcessItem(
+            name = "nazwa",
+            pid = "pid1",
+            ppid = "ppid1",
+            niceness = "niceness1",
+            user = "user1",
+            rss = "rss1",
+            vsize = "vsize1",
+        ),
     )
 
     val cpuData = CpuData(

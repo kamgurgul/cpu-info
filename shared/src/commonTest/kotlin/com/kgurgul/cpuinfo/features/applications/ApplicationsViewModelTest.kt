@@ -20,6 +20,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -308,6 +309,29 @@ class ApplicationsViewModelTest {
             expectedUiStates.forEach { expectedUiState ->
                 assertEquals(expectedUiState, awaitItem())
             }
+        }
+    }
+
+    @Test
+    fun onSearchQueryChanged() = runTest {
+        fakeApplicationsDataProvider.installedApplications = TestData.extendedApplicationsData
+        val expectedUiStates = listOf(
+            ApplicationsViewModel.UiState(
+                withSystemApps = testUserPreferences.withSystemApps,
+                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                applications = TestData.extendedApplicationsData.toImmutableList(),
+            ),
+            ApplicationsViewModel.UiState(
+                withSystemApps = testUserPreferences.withSystemApps,
+                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                applications = persistentListOf(TestData.extendedApplicationsData[2]),
+            ),
+        )
+
+        viewModel.uiStateFlow.test {
+            assertEquals(expectedUiStates[0], awaitItem())
+            viewModel.onSearchQueryChanged("app3")
+            assertEquals(expectedUiStates[1], awaitItem())
         }
     }
 }

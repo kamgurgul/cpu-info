@@ -12,6 +12,7 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -65,6 +66,26 @@ class ProcessesViewModelTest {
 
         viewModel.uiStateFlow.test {
             assertEquals(expectedUiState, awaitItem())
+        }
+    }
+
+    @Test
+    fun onSearchQueryChanged() = runTest {
+        val expectedUiStates = listOf(
+            ProcessesViewModel.UiState(
+                isLoading = false,
+                processes = processes.toImmutableList(),
+            ),
+            ProcessesViewModel.UiState(
+                isLoading = false,
+                processes = persistentListOf(processes[1]),
+            )
+        )
+
+        viewModel.uiStateFlow.test {
+            assertEquals(expectedUiStates[0], awaitItem())
+            viewModel.onSearchQueryChanged("nazwa")
+            assertEquals(expectedUiStates[1], awaitItem())
         }
     }
 }
