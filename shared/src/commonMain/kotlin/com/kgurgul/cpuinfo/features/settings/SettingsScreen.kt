@@ -200,13 +200,12 @@ private fun SettingsList(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
     ) {
         val listState = rememberLazyListState()
         LazyColumn(
             contentPadding = PaddingValues(spacingMedium),
             state = listState,
-            modifier = modifier,
         ) {
             item(key = "__generalHeader") {
                 Text(
