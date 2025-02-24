@@ -149,6 +149,8 @@ kotlin {
         val wasmJsMain by getting {
             dependencies {
                 implementation(libs.kotlinx.browser)
+                implementation(npm("cross-spawn", "7.0.5"))
+                implementation(npm("path-to-regexp", "0.1.12"))
             }
         }
 
