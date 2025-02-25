@@ -9,3 +9,21 @@
 -keepclassmembers class * extends androidx.datastore.preferences.protobuf.GeneratedMessageLite {
     <fields>;
 }
+-dontwarn androidx.datastore.preferences.**
+
+# Compose
+-optimizations !class/enum/unboxing
+-keep,includecode,allowobfuscation,allowshrinking class androidx.compose.runtime.SnapshotStateKt** { *; }
+-dontwarn androidx.compose.runtime.**
+
+# Serialization
+-keep @kotlinx.serialization.Serializable class * { *; }
+
+# JNA
+-keep class com.sun.jna.** { *; }
+
+# OSHI
+-keep class oshi.** { *; }
+
+# Okio
+-keep class okio.** { *; }
