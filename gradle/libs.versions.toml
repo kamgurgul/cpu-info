@@ -1,6 +1,6 @@
 [versions]
 androidGradlePlugin = "8.8.1"
-androidxActivity = "1.10.0"
+androidxActivity = "1.10.1"
 androidxArchCoreTesting = "2.2.0"
 androidxCore = "1.15.0"
 androidxCoreSpalshscreen = "1.0.1"
