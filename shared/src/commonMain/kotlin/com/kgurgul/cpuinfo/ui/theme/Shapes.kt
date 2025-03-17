@@ -11,3 +11,5 @@ val spacingXXLarge = 48.dp
 val spacingXXXLarge = 64.dp
 
 val rowActionIconSize = 56.dp
+
+val iconDefaultSize = 24.dp

@@ -22,6 +22,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -52,6 +53,7 @@ import com.kgurgul.cpuinfo.shared.cancel
 import com.kgurgul.cpuinfo.shared.celsius
 import com.kgurgul.cpuinfo.shared.fahrenheit
 import com.kgurgul.cpuinfo.shared.general
+import com.kgurgul.cpuinfo.shared.ic_open_in_browser
 import com.kgurgul.cpuinfo.shared.kelvin
 import com.kgurgul.cpuinfo.shared.licenses
 import com.kgurgul.cpuinfo.shared.pref_theme
@@ -65,6 +67,7 @@ import com.kgurgul.cpuinfo.shared.settings_others
 import com.kgurgul.cpuinfo.shared.temperature_unit
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
+import com.kgurgul.cpuinfo.ui.theme.iconDefaultSize
 import com.kgurgul.cpuinfo.ui.theme.spacingLarge
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -73,7 +76,9 @@ import com.kgurgul.cpuinfo.utils.safeOpenUri
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -248,6 +253,7 @@ private fun SettingsList(
                 SettingsItem(
                     title = stringResource(Res.string.settings_about),
                     onClick = onAboutClicked,
+                    icon = Res.drawable.ic_open_in_browser,
                 )
             }
         }
@@ -265,24 +271,37 @@ private fun SettingsItem(
     title: String,
     onClick: () -> Unit,
     subtitle: String? = null,
+    icon: DrawableResource? = null,
 ) {
-    Column(
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(spacingSmall),
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
             .padding(vertical = spacingMedium)
             .padding(start = spacingLarge),
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-        )
-        subtitle?.let {
+        Column {
             Text(
-                text = it,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+            subtitle?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+        if (icon != null) {
+            Icon(
+                painter = painterResource(icon),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.requiredSize(iconDefaultSize),
             )
         }
     }
