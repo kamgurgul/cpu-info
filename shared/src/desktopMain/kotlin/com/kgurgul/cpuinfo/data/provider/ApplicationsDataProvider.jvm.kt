@@ -30,4 +30,8 @@ actual class ApplicationsDataProvider actual constructor() :
     }
 
     actual override fun areApplicationsSupported() = true
+
+    actual override fun hasSystemAppsFiltering() = false
+
+    actual override fun hasAppManagementSupported() = false
 }

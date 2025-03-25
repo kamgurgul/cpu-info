@@ -7,4 +7,8 @@ interface IApplicationsDataProvider {
     fun getInstalledApplications(withSystemApps: Boolean): List<ExtendedApplicationData>
 
     fun areApplicationsSupported(): Boolean
+
+    fun hasSystemAppsFiltering(): Boolean
+
+    fun hasAppManagementSupported(): Boolean
 }

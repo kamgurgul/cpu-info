@@ -183,6 +183,7 @@ fun ApplicationsScreen(
                 onSortOrderChange = onSortOrderChange,
                 searchQuery = searchQuery,
                 onSearchQueryChanged = onSearchQueryChanged,
+                hasSystemAppsFiltering = uiState.hasSystemAppsFiltering,
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
@@ -201,6 +202,7 @@ fun ApplicationsScreen(
         ) {
             ApplicationsList(
                 appList = uiState.applications,
+                hasAppManagement = uiState.hasAppManagement,
                 onAppClicked = onAppClicked,
                 onAppUninstallClicked = onAppUninstallClicked,
                 onAppSettingsClicked = onAppSettingsClicked,
@@ -224,6 +226,7 @@ private fun TopBar(
     onSortOrderChange: (ascending: Boolean) -> Unit,
     searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
+    hasSystemAppsFiltering: Boolean,
 ) {
     var showMenu by remember { mutableStateOf(false) }
     var showSearch by rememberSaveable { mutableStateOf(false) }
@@ -278,16 +281,18 @@ private fun TopBar(
                 expanded = showMenu,
                 onDismissRequest = { showMenu = false },
             ) {
-                DropdownMenuItem(
-                    text = {
-                        CpuSwitchBox(
-                            text = stringResource(Res.string.apps_show_system_apps),
-                            isChecked = withSystemApps,
-                            onCheckedChange = { onSystemAppsSwitched(!withSystemApps) },
-                        )
-                    },
-                    onClick = { onSystemAppsSwitched(!withSystemApps) },
-                )
+                if (hasSystemAppsFiltering) {
+                    DropdownMenuItem(
+                        text = {
+                            CpuSwitchBox(
+                                text = stringResource(Res.string.apps_show_system_apps),
+                                isChecked = withSystemApps,
+                                onCheckedChange = { onSystemAppsSwitched(!withSystemApps) },
+                            )
+                        },
+                        onClick = { onSystemAppsSwitched(!withSystemApps) },
+                    )
+                }
                 DropdownMenuItem(
                     text = {
                         Text(
@@ -316,6 +321,7 @@ private fun TopBar(
 @Composable
 private fun ApplicationsList(
     appList: ImmutableList<ExtendedApplicationData>,
+    hasAppManagement: Boolean,
     onAppClicked: (packageName: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
@@ -379,6 +385,7 @@ private fun ApplicationsList(
                             onNativeLibsClicked = onNativeLibsClicked,
                         )
                     },
+                    enabled = hasAppManagement,
                     modifier = Modifier.animateItem(),
                 )
                 if (index < appList.lastIndex) {

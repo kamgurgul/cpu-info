@@ -42,6 +42,10 @@ actual class ApplicationsDataProvider actual constructor() :
 
     actual override fun areApplicationsSupported() = true
 
+    actual override fun hasSystemAppsFiltering() = true
+
+    actual override fun hasAppManagementSupported() = true
+
     private fun ApplicationInfo.hasNativeLibs(): Boolean {
         return if (nativeLibraryDir != null) {
             val fileDir = File(nativeLibraryDir)

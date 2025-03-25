@@ -5,6 +5,8 @@ import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 class FakeApplicationsDataProvider(
     var applicationsSupported: Boolean = false,
     var installedApplications: List<ExtendedApplicationData> = emptyList(),
+    var hasSystemAppsFiltering: Boolean = false,
+    var hasAppManagementSupported: Boolean = false,
 ) : IApplicationsDataProvider {
 
     override fun getInstalledApplications(withSystemApps: Boolean): List<ExtendedApplicationData> {
@@ -13,5 +15,13 @@ class FakeApplicationsDataProvider(
 
     override fun areApplicationsSupported(): Boolean {
         return applicationsSupported
+    }
+
+    override fun hasSystemAppsFiltering(): Boolean {
+        return hasSystemAppsFiltering
+    }
+
+    override fun hasAppManagementSupported(): Boolean {
+        return hasAppManagementSupported
     }
 }

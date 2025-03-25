@@ -11,4 +11,8 @@ actual class ApplicationsDataProvider actual constructor() : IApplicationsDataPr
     }
 
     actual override fun areApplicationsSupported() = false
+
+    actual override fun hasSystemAppsFiltering() = false
+
+    actual override fun hasAppManagementSupported() = false
 }

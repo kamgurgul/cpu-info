@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
+import com.kgurgul.cpuinfo.data.provider.IApplicationsDataProvider
 import com.kgurgul.cpuinfo.domain.action.IExternalAppAction
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import com.kgurgul.cpuinfo.domain.model.sortOrderFromBoolean
@@ -38,6 +39,7 @@ class ApplicationsViewModel(
     private val userPreferencesRepository: IUserPreferencesRepository,
     private val externalAppAction: IExternalAppAction,
     private val filterApplicationsInteractor: FilterApplicationsInteractor,
+    private val applicationsDataProvider: IApplicationsDataProvider,
 ) : ViewModel() {
 
     private val localDataFlow = MutableStateFlow(LocalUiState())
@@ -83,6 +85,8 @@ class ApplicationsViewModel(
             nativeLibs = localData.nativeLibs,
             applications = filteredApplications.toImmutableList(),
             snackbarMessage = localData.snackbarMessage,
+            hasSystemAppsFiltering = applicationsDataProvider.hasSystemAppsFiltering(),
+            hasAppManagement = applicationsDataProvider.hasAppManagementSupported(),
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
@@ -182,6 +186,8 @@ class ApplicationsViewModel(
         val nativeLibs: ImmutableList<String> = persistentListOf(),
         val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
         val snackbarMessage: StringResource? = null,
+        val hasSystemAppsFiltering: Boolean = false,
+        val hasAppManagement: Boolean = false,
     )
 }
 

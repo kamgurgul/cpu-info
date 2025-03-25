@@ -64,6 +64,7 @@ class ApplicationsViewModelTest {
             userPreferencesRepository = fakeUserPreferencesRepository,
             externalAppAction = fakeExternalAppAction,
             filterApplicationsInteractor = filterApplicationsInteractor,
+            applicationsDataProvider = fakeApplicationsDataProvider,
         )
     }
 

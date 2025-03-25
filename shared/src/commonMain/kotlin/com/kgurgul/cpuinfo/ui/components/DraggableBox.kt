@@ -42,6 +42,7 @@ fun DraggableBox(
     actionRow: @Composable () -> Unit,
     content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     val density = LocalDensity.current
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
@@ -93,6 +94,7 @@ fun DraggableBox(
                     state = state,
                     orientation = Orientation.Horizontal,
                     overscrollEffect = overscrollEffect,
+                    enabled = enabled,
                 )
                 .overscroll(overscrollEffect)
                 .shadow(
