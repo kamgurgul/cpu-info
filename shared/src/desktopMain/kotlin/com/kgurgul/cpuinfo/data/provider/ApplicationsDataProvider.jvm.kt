@@ -12,7 +12,9 @@ actual class ApplicationsDataProvider actual constructor() :
 
     private val systemInfo: SystemInfo by inject()
 
-    actual override fun getInstalledApplications(withSystemApps: Boolean): List<ExtendedApplicationData> {
+    actual override fun getInstalledApplications(
+        withSystemApps: Boolean
+    ): List<ExtendedApplicationData> {
         return systemInfo.operatingSystem.installedApplications
             .distinctBy { it.name }
             .map {
@@ -27,5 +29,5 @@ actual class ApplicationsDataProvider actual constructor() :
             }
     }
 
-    actual override fun areApplicationsSupported() = false
+    actual override fun areApplicationsSupported() = true
 }
