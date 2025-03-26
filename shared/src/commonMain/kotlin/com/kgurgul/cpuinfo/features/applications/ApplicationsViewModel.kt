@@ -87,6 +87,7 @@ class ApplicationsViewModel(
             snackbarMessage = localData.snackbarMessage,
             hasSystemAppsFiltering = applicationsDataProvider.hasSystemAppsFiltering(),
             hasAppManagement = applicationsDataProvider.hasAppManagementSupported(),
+            hasManualRefresh = applicationsDataProvider.hasManualRefresh(),
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
@@ -188,6 +189,7 @@ class ApplicationsViewModel(
         val snackbarMessage: StringResource? = null,
         val hasSystemAppsFiltering: Boolean = false,
         val hasAppManagement: Boolean = false,
+        val hasManualRefresh: Boolean = false,
     )
 }
 

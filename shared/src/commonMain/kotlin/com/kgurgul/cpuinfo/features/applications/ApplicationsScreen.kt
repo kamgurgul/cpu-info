@@ -27,6 +27,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -74,6 +75,7 @@ import com.kgurgul.cpuinfo.shared.ic_thrash
 import com.kgurgul.cpuinfo.shared.menu
 import com.kgurgul.cpuinfo.shared.native_libs
 import com.kgurgul.cpuinfo.shared.ok
+import com.kgurgul.cpuinfo.shared.refresh
 import com.kgurgul.cpuinfo.shared.search
 import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
@@ -184,6 +186,8 @@ fun ApplicationsScreen(
                 searchQuery = searchQuery,
                 onSearchQueryChanged = onSearchQueryChanged,
                 hasSystemAppsFiltering = uiState.hasSystemAppsFiltering,
+                hasManualRefresh = uiState.hasManualRefresh,
+                onRefresh = onRefreshApplications,
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
@@ -195,7 +199,8 @@ fun ApplicationsScreen(
     ) { innerPaddingModifier ->
         CpuPullToRefreshBox(
             isRefreshing = uiState.isLoading,
-            onRefresh = { onRefreshApplications() },
+            onRefresh = onRefreshApplications,
+            enabled = !uiState.hasManualRefresh,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPaddingModifier),
@@ -227,6 +232,8 @@ private fun TopBar(
     searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
     hasSystemAppsFiltering: Boolean,
+    hasManualRefresh: Boolean,
+    onRefresh: () -> Unit,
 ) {
     var showMenu by remember { mutableStateOf(false) }
     var showSearch by rememberSaveable { mutableStateOf(false) }
@@ -256,6 +263,16 @@ private fun TopBar(
                             onSearchClosed = { showSearch = false },
                             modifier = Modifier.weight(1f),
                         )
+                    }
+                    if (hasManualRefresh) {
+                        AnimatedVisibility(visible = !showSearch) {
+                            IconButton(onClick = onRefresh) {
+                                Icon(
+                                    imageVector = Icons.Default.Refresh,
+                                    contentDescription = stringResource(Res.string.refresh),
+                                )
+                            }
+                        }
                     }
                     AnimatedVisibility(visible = !showSearch) {
                         IconButton(onClick = { showSearch = true }) {

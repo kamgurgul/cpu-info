@@ -11,4 +11,6 @@ interface IApplicationsDataProvider {
     fun hasSystemAppsFiltering(): Boolean
 
     fun hasAppManagementSupported(): Boolean
+
+    fun hasManualRefresh(): Boolean
 }

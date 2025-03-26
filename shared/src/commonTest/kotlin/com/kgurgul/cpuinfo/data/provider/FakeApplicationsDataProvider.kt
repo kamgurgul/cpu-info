@@ -7,6 +7,7 @@ class FakeApplicationsDataProvider(
     var installedApplications: List<ExtendedApplicationData> = emptyList(),
     var hasSystemAppsFiltering: Boolean = false,
     var hasAppManagementSupported: Boolean = false,
+    var hasManualRefresh: Boolean = false,
 ) : IApplicationsDataProvider {
 
     override fun getInstalledApplications(withSystemApps: Boolean): List<ExtendedApplicationData> {
@@ -23,5 +24,9 @@ class FakeApplicationsDataProvider(
 
     override fun hasAppManagementSupported(): Boolean {
         return hasAppManagementSupported
+    }
+
+    override fun hasManualRefresh(): Boolean {
+        return hasManualRefresh
     }
 }

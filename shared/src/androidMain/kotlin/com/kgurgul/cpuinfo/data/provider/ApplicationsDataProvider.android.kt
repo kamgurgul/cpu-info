@@ -46,6 +46,8 @@ actual class ApplicationsDataProvider actual constructor() :
 
     actual override fun hasAppManagementSupported() = true
 
+    actual override fun hasManualRefresh() = false
+
     private fun ApplicationInfo.hasNativeLibs(): Boolean {
         return if (nativeLibraryDir != null) {
             val fileDir = File(nativeLibraryDir)
