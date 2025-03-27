@@ -118,7 +118,7 @@ jobs:
             PRODUCT_BUNDLE_IDENTIFIER="${{ secrets.IOS_BUNDLE_ID }}"
 
           echo "ipa_path=${RUNNER_TEMP}/Build/Archives/cpuinfo.xcarchive/CPU Info.ipa" >> $GITHUB_ENV
-      - uses: Apple-Actions/upload-testflight-build@v1
+      - uses: Apple-Actions/upload-testflight-build@v2
         with:
           app-path: ${{ env.ipa_path }}
           issuer-id: ${{ secrets.IOS_APPSTORE_ISSUER_ID }}
