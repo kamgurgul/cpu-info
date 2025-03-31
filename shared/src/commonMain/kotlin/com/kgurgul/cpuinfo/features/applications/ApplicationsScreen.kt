@@ -264,16 +264,6 @@ private fun TopBar(
                             modifier = Modifier.weight(1f),
                         )
                     }
-                    if (hasManualRefresh) {
-                        AnimatedVisibility(visible = !showSearch) {
-                            IconButton(onClick = onRefresh) {
-                                Icon(
-                                    imageVector = Icons.Default.Refresh,
-                                    contentDescription = stringResource(Res.string.refresh),
-                                )
-                            }
-                        }
-                    }
                     AnimatedVisibility(visible = !showSearch) {
                         IconButton(onClick = { showSearch = true }) {
                             Icon(
@@ -286,6 +276,16 @@ private fun TopBar(
             }
         },
         actions = {
+            if (hasManualRefresh) {
+                IconButton(
+                    onClick = onRefresh
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = stringResource(Res.string.refresh),
+                    )
+                }
+            }
             IconButton(
                 onClick = { showMenu = !showMenu },
             ) {
