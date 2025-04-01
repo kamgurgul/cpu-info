@@ -65,16 +65,16 @@ class ApplicationsViewModel(
         userPreferencesFlow,
         applicationsDataObservable.observe(),
         debouncedSearchQueryFlow,
-    ) { localData, userPreferences, applicationsResult, serchQuery ->
+    ) { localData, userPreferences, applicationsResult, searchQuery ->
         if (applicationsResult is Result.Success) {
             cachedApplications.clear()
             cachedApplications.addAll(applicationsResult.data)
         }
-        val filteredApplications = if (serchQuery.isEmpty()) {
+        val filteredApplications = if (searchQuery.isEmpty()) {
             cachedApplications
         } else {
             filterApplicationsInteractor.invoke(
-                FilterApplicationsInteractor.Params(cachedApplications, serchQuery)
+                FilterApplicationsInteractor.Params(cachedApplications, searchQuery)
             )
         }
         UiState(
