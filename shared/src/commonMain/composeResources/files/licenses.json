@@ -394,85 +394,85 @@
         },
         {
             "moduleName": "androidx.datastore:datastore",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.3",
-            "moduleVersion": "1.1.3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.4",
+            "moduleVersion": "1.1.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.datastore:datastore-android",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.3",
-            "moduleVersion": "1.1.3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.4",
+            "moduleVersion": "1.1.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.datastore:datastore-core",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.3",
-            "moduleVersion": "1.1.3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.4",
+            "moduleVersion": "1.1.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.datastore:datastore-core-android",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.3",
-            "moduleVersion": "1.1.3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.4",
+            "moduleVersion": "1.1.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.datastore:datastore-core-okio",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.3",
-            "moduleVersion": "1.1.3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.4",
+            "moduleVersion": "1.1.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.datastore:datastore-core-okio-jvm",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.3",
-            "moduleVersion": "1.1.3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.4",
+            "moduleVersion": "1.1.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.datastore:datastore-preferences",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.3",
-            "moduleVersion": "1.1.3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.4",
+            "moduleVersion": "1.1.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.datastore:datastore-preferences-android",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.3",
-            "moduleVersion": "1.1.3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.4",
+            "moduleVersion": "1.1.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.datastore:datastore-preferences-core",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.3",
-            "moduleVersion": "1.1.3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.4",
+            "moduleVersion": "1.1.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.datastore:datastore-preferences-core-jvm",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.3",
-            "moduleVersion": "1.1.3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.4",
+            "moduleVersion": "1.1.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.datastore:datastore-preferences-external-protobuf",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.3",
-            "moduleVersion": "1.1.3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.4",
+            "moduleVersion": "1.1.4",
             "moduleLicense": "The 3-Clause BSD License",
             "moduleLicenseUrl": "https://opensource.org/licenses/BSD-3-Clause"
         },
         {
             "moduleName": "androidx.datastore:datastore-preferences-proto",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.3",
-            "moduleVersion": "1.1.3",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.4",
+            "moduleVersion": "1.1.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
@@ -674,36 +674,36 @@
         },
         {
             "moduleName": "androidx.navigation:navigation-common",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.8",
-            "moduleVersion": "2.8.8",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.9",
+            "moduleVersion": "2.8.9",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.navigation:navigation-common-ktx",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.8",
-            "moduleVersion": "2.8.8",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.9",
+            "moduleVersion": "2.8.9",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.navigation:navigation-compose",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.8",
-            "moduleVersion": "2.8.8",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.9",
+            "moduleVersion": "2.8.9",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.navigation:navigation-runtime",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.8",
-            "moduleVersion": "2.8.8",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.9",
+            "moduleVersion": "2.8.9",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "androidx.navigation:navigation-runtime-ktx",
-            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.8",
-            "moduleVersion": "2.8.8",
+            "moduleUrl": "https://developer.android.com/jetpack/androidx/releases/navigation#2.8.9",
+            "moduleVersion": "2.8.9",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
@@ -975,63 +975,63 @@
         {
             "moduleName": "io.insert-koin:koin-android",
             "moduleUrl": "https://insert-koin.io/",
-            "moduleVersion": "4.0.2",
+            "moduleVersion": "4.0.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "io.insert-koin:koin-compose",
             "moduleUrl": "https://insert-koin.io/",
-            "moduleVersion": "4.0.2",
+            "moduleVersion": "4.0.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "io.insert-koin:koin-compose-jvm",
             "moduleUrl": "https://insert-koin.io/",
-            "moduleVersion": "4.0.2",
+            "moduleVersion": "4.0.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "io.insert-koin:koin-compose-viewmodel",
             "moduleUrl": "https://insert-koin.io/",
-            "moduleVersion": "4.0.2",
+            "moduleVersion": "4.0.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "io.insert-koin:koin-compose-viewmodel-jvm",
             "moduleUrl": "https://insert-koin.io/",
-            "moduleVersion": "4.0.2",
+            "moduleVersion": "4.0.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "io.insert-koin:koin-core",
             "moduleUrl": "https://insert-koin.io/",
-            "moduleVersion": "4.0.2",
+            "moduleVersion": "4.0.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "io.insert-koin:koin-core-jvm",
             "moduleUrl": "https://insert-koin.io/",
-            "moduleVersion": "4.0.2",
+            "moduleVersion": "4.0.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "io.insert-koin:koin-core-viewmodel",
             "moduleUrl": "https://insert-koin.io/",
-            "moduleVersion": "4.0.2",
+            "moduleVersion": "4.0.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "io.insert-koin:koin-core-viewmodel-jvm",
             "moduleUrl": "https://insert-koin.io/",
-            "moduleVersion": "4.0.2",
+            "moduleVersion": "4.0.4",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
@@ -1304,21 +1304,21 @@
         {
             "moduleName": "org.jetbrains.kotlin:kotlin-android-extensions-runtime",
             "moduleUrl": "https://kotlinlang.org/",
-            "moduleVersion": "2.1.10",
+            "moduleVersion": "2.1.20",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "org.jetbrains.kotlin:kotlin-parcelize-runtime",
             "moduleUrl": "https://kotlinlang.org/",
-            "moduleVersion": "2.1.10",
+            "moduleVersion": "2.1.20",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "org.jetbrains.kotlin:kotlin-stdlib",
             "moduleUrl": "https://kotlinlang.org/",
-            "moduleVersion": "2.1.10",
+            "moduleVersion": "2.1.20",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
@@ -1381,35 +1381,35 @@
         {
             "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-bom",
             "moduleUrl": "https://github.com/Kotlin/kotlinx.serialization",
-            "moduleVersion": "1.8.0",
+            "moduleVersion": "1.8.1",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-core",
             "moduleUrl": "https://github.com/Kotlin/kotlinx.serialization",
-            "moduleVersion": "1.8.0",
+            "moduleVersion": "1.8.1",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm",
             "moduleUrl": "https://github.com/Kotlin/kotlinx.serialization",
-            "moduleVersion": "1.8.0",
+            "moduleVersion": "1.8.1",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-json",
             "moduleUrl": "https://github.com/Kotlin/kotlinx.serialization",
-            "moduleVersion": "1.8.0",
+            "moduleVersion": "1.8.1",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
         {
             "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm",
             "moduleUrl": "https://github.com/Kotlin/kotlinx.serialization",
-            "moduleVersion": "1.8.0",
+            "moduleVersion": "1.8.1",
             "moduleLicense": "Apache License, Version 2.0",
             "moduleLicenseUrl": "https://www.apache.org/licenses/LICENSE-2.0"
         },
