@@ -1,8 +1,14 @@
+import com.github.jk1.license.filter.DependencyFilter
+import com.github.jk1.license.filter.LicenseBundleNormalizer
+import com.github.jk1.license.render.JsonReportRenderer
+import com.github.jk1.license.render.ReportRenderer
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.application)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.licenses)
     alias(libs.plugins.serialization)
     id("kotlin-parcelize")
 }
@@ -98,6 +104,11 @@ baselineProfile {
 composeCompiler {
     reportsDestination = layout.buildDirectory.dir("compose_compiler")
     metricsDestination = layout.buildDirectory.dir("compose_compiler")
+}
+
+licenseReport {
+    renderers = arrayOf<ReportRenderer>(JsonReportRenderer("licenses.json"))
+    filters = arrayOf<DependencyFilter>(LicenseBundleNormalizer())
 }
 
 dependencies {

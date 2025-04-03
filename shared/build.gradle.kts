@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kover)
+    alias(libs.plugins.licenses)
     alias(libs.plugins.serialization)
     id("kotlin-parcelize")
 }

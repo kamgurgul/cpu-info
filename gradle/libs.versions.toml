@@ -33,6 +33,7 @@ kotlinxImmutable = "0.3.8"
 kotlinxSerialization = "1.8.1"
 kover = "0.9.1"
 ksp = "2.1.20-1.0.32"
+licenses = "2.9"
 oshi = "6.8.0"
 profileinstaller = "1.4.1"
 relinker = "1.4.5"
@@ -95,4 +96,5 @@ dependencyUpdate = { id = "com.github.ben-manes.versions", version.ref = "depend
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+licenses = { id = "com.github.jk1.dependency-license-report", version.ref = "licenses" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
