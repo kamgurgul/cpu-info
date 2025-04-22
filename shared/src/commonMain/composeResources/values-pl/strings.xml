@@ -97,6 +97,7 @@
     <string name="screen_available_height">Dostępna wysokość ekranu</string>
     <string name="screen_color_depth">Głębia kolorów</string>
     <string name="screen_pixel_depth">Głębia pikseli</string>
+    <string name="screen_density_dpi">Gęstość DPI</string>
 
     <!--OS-->
     <string name="codename">Nazwa kodowa</string>

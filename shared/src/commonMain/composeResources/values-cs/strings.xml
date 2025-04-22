@@ -93,6 +93,7 @@
     <string name="screen_available_height">Dostupná výška obrazovky</string>
     <string name="screen_color_depth">Barevná hloubka</string>
     <string name="screen_pixel_depth">Hloubka pixelů</string>
+    <string name="screen_density_dpi">Hustota DPI</string>
 
     <string name="codename">Kódové označení</string>
     <string name="brand">Značka</string>

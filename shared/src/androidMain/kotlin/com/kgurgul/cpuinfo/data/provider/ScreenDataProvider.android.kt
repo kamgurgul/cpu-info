@@ -17,6 +17,7 @@ import com.kgurgul.cpuinfo.shared.large
 import com.kgurgul.cpuinfo.shared.normal
 import com.kgurgul.cpuinfo.shared.refresh_rate
 import com.kgurgul.cpuinfo.shared.screen_class
+import com.kgurgul.cpuinfo.shared.screen_density_dpi
 import com.kgurgul.cpuinfo.shared.small
 import com.kgurgul.cpuinfo.shared.unknown
 import com.kgurgul.cpuinfo.shared.width
@@ -34,7 +35,7 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
     actual override suspend fun getData(): List<ItemValue> {
         return buildList {
             add(getScreenClass())
-            add(getDensityClass())
+            addAll(getDensityItems())
             addAll(getInfoFromDisplayMetrics())
         }
     }
@@ -57,7 +58,7 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
         return ItemValue.NameValueResource(Res.string.screen_class, screenClass)
     }
 
-    private fun getDensityClass(): ItemValue {
+    private fun getDensityItems(): List<ItemValue> {
         val densityDpi = resources.displayMetrics.densityDpi
         val densityClass: String
         when (densityDpi) {
@@ -91,7 +92,10 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
                 densityClass = ""
             }
         }
-        return ItemValue.NameResource(Res.string.density_class, densityClass)
+        return listOf(
+            ItemValue.NameResource(Res.string.density_class, densityClass),
+            ItemValue.NameResource(Res.string.screen_density_dpi, "$densityDpi dpi"),
+        )
     }
 
     @Suppress("DEPRECATION")
@@ -104,28 +108,28 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
             functionsList.add(
                 ItemValue.NameResource(
                     Res.string.width,
-                    "${metrics.widthPixels}px",
+                    "${metrics.widthPixels} px",
                 ),
             )
             functionsList.add(
                 ItemValue.NameResource(
                     Res.string.height,
-                    "${metrics.heightPixels}px",
+                    "${metrics.heightPixels} px",
                 ),
             )
 
             val density = metrics.density
             val dpHeight = metrics.heightPixels / density
             val dpWidth = metrics.widthPixels / density
-            functionsList.add(ItemValue.NameResource(Res.string.dp_width, "${dpWidth.toInt()}dp"))
+            functionsList.add(ItemValue.NameResource(Res.string.dp_width, "${dpWidth.toInt()} dp"))
             functionsList.add(
                 ItemValue.NameResource(
                     Res.string.dp_height,
-                    "${dpHeight.toInt()}dp",
+                    "${dpHeight.toInt()} dp",
                 ),
             )
             functionsList.add(ItemValue.NameResource(Res.string.density, "$density"))
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             // Do nothing
         }
 
@@ -133,13 +137,13 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
         functionsList.add(
             ItemValue.NameResource(
                 Res.string.absolute_width,
-                "${metrics.widthPixels}px",
+                "${metrics.widthPixels} px",
             ),
         )
         functionsList.add(
             ItemValue.NameResource(
                 Res.string.absolute_height,
-                "${metrics.heightPixels}px",
+                "${metrics.heightPixels} px",
             ),
         )
 
@@ -147,7 +151,7 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
         functionsList.add(
             ItemValue.NameResource(
                 Res.string.refresh_rate,
-                "${refreshRate.round2()}",
+                "${refreshRate.round2()} Hz",
             ),
         )
 

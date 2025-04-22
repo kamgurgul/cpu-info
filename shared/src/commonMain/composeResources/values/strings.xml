@@ -120,6 +120,7 @@
     <string name="screen_available_height">Screen available height</string>
     <string name="screen_color_depth">Color depth</string>
     <string name="screen_pixel_depth">Pixel depth</string>
+    <string name="screen_density_dpi">Density DPI</string>
 
     <!--OS-->
     <string name="codename">Codename</string>

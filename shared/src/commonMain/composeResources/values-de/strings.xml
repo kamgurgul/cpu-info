@@ -93,6 +93,7 @@
     <string name="screen_available_height">Verfügbare Bildschirmhöhe</string>
     <string name="screen_color_depth">Farbtiefe</string>
     <string name="screen_pixel_depth">Pixeltiefe</string>
+    <string name="screen_density_dpi">Dichte (DPI)</string>
 
     <string name="codename">Codename</string>
     <string name="brand">Marke</string>
