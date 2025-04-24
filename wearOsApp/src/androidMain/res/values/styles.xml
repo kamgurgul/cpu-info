@@ -20,8 +20,8 @@
 
     <style name="Theme.Launcher" parent="Theme.SplashScreen">
         <item name="postSplashScreenTheme">@style/AppThemeBase</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
-        <item name="windowSplashScreenBackground">#FF1C1C1C</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/wear_brand_icon</item>
+        <item name="windowSplashScreenBackground">#FF000000</item>
     </style>
 
 </resources>
