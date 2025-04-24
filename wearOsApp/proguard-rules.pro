@@ -5,6 +5,3 @@
     public *** i(...);
     public *** e(...);
 }
-
-# Keep model classes
--keep class com.kgurgul.cpuinfo.data.local.model.** { *; }
