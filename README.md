@@ -50,10 +50,6 @@ height="80">](https://formulae.brew.sh/cask/cpu-info)
 * [pytorch/cpuinfo](https://github.com/pytorch/cpuinfo)
 * [OSHI](https://github.com/oshi/oshi)
 
-## TODO
-
-* Upload Wear OS app to Play Store when SDK 35 will be supported
-
 ## License
 
     Copyright 2017 KG Soft
