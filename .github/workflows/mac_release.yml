@@ -74,7 +74,7 @@ jobs:
       - name: Create PKG
         run: ./gradlew packageReleasePkg -PmacOsAppStoreRelease=true
 
-      -   uses: Apple-Actions/upload-testflight-build@v3
+      - uses: Apple-Actions/upload-testflight-build@v3
         with:
           app-type: 'osx'
           app-path: desktopApp/build/compose/binaries/main-release/pkg/CPU-Info-${{ github.event.inputs.version }}.pkg
