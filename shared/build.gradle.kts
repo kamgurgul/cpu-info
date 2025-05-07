@@ -95,6 +95,7 @@ kotlin {
                 api(compose.components.resources)
                 implementation(compose.components.uiToolingPreview)
                 api(compose.foundation)
+                implementation(compose.materialIconsExtended)
                 api(compose.material3)
                 implementation(compose.runtime)
                 implementation(compose.ui)
