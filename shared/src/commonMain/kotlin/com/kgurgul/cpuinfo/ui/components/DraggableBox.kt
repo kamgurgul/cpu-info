@@ -1,17 +1,16 @@
 package com.kgurgul.cpuinfo.ui.components
 
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.foundation.gestures.AnchoredDraggableDefaults
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.overscroll
+import androidx.compose.foundation.rememberOverscrollEffect
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,7 +20,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -29,9 +27,6 @@ import androidx.compose.ui.unit.times
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import kotlinx.coroutines.flow.collectLatest
-
-private const val VELOCITY_THRESHOLD = 125
-private const val SNAP_ANIMATION_MS = 150
 
 @Composable
 fun DraggableBox(
@@ -44,15 +39,9 @@ fun DraggableBox(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
-    val density = LocalDensity.current
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val state = remember {
         AnchoredDraggableState(
             initialValue = if (isRevealed) DraggableState.Revealed else DraggableState.Collapsed,
-            positionalThreshold = { velocity: Float -> velocity * 0.5f },
-            velocityThreshold = { with(density) { VELOCITY_THRESHOLD.dp.toPx() } },
-            snapAnimationSpec = tween(durationMillis = SNAP_ANIMATION_MS),
-            decayAnimationSpec = decayAnimationSpec,
         )
     }
     val anchors = DraggableAnchors {
@@ -68,7 +57,7 @@ fun DraggableBox(
             state.animateTo(target)
         }
     }
-    val overscrollEffect = ScrollableDefaults.overscrollEffect()
+    val overscrollEffect = rememberOverscrollEffect()
     LaunchedEffect(state) {
         snapshotFlow { state.settledValue }
             .collectLatest {
@@ -95,6 +84,7 @@ fun DraggableBox(
                     orientation = Orientation.Horizontal,
                     overscrollEffect = overscrollEffect,
                     enabled = enabled,
+                    flingBehavior = AnchoredDraggableDefaults.flingBehavior(state)
                 )
                 .overscroll(overscrollEffect)
                 .shadow(
