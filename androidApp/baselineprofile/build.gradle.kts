@@ -22,7 +22,7 @@ android {
 
     targetProjectPath = ":androidApp"
 
-    testOptions.managedDevices.devices {
+    testOptions.managedDevices.allDevices {
         create<com.android.build.api.dsl.ManagedVirtualDevice>("pixel6Api33") {
             device = "Pixel 6"
             apiLevel = 33

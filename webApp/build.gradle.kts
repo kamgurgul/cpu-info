@@ -10,7 +10,7 @@ plugins {
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "cpuinfoApp"
+        outputModuleName = "cpuinfoApp"
         browser {
             commonWebpackConfig {
                 outputFileName = "cpuinfoApp.js"

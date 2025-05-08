@@ -12,6 +12,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -46,18 +47,20 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun HostScreen(
     viewModel: HostViewModel = koinViewModel(),
+    navController: NavHostController = rememberNavController(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     HostScreen(
         uiState = uiState,
+        navController = navController,
     )
 }
 
 @Composable
 fun HostScreen(
     uiState: HostViewModel.UiState,
+    navController: NavHostController = rememberNavController(),
 ) {
-    val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val itemDefaultColors = CpuNavigationSuiteScaffoldDefault.itemDefaultColors()

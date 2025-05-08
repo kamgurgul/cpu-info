@@ -75,6 +75,7 @@ import com.kgurgul.cpuinfo.ui.components.HorizontalScrollbar
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.coroutines.launch
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -82,6 +83,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object InformationBaseRoute {
 
+    @SerialName(NavigationConst.INFORMATION)
     @Serializable
     data object InformationRoute
 }

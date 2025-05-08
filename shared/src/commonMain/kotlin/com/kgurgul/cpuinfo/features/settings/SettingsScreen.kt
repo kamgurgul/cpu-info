@@ -75,6 +75,7 @@ import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import com.kgurgul.cpuinfo.utils.safeOpenUri
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.getString
@@ -85,9 +86,11 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object SettingsRoute {
 
+    @SerialName(NavigationConst.SETTINGS)
     @Serializable
     data object List
 
+    @SerialName(NavigationConst.SETTINGS + "_" + NavigationConst.LICENSES)
     @Serializable
     data object Licenses
 }

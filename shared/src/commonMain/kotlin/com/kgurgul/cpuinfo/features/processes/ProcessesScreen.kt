@@ -59,6 +59,7 @@ import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -66,6 +67,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object ProcessesBaseRoute {
 
+    @SerialName(NavigationConst.PROCESSES)
     @Serializable
     data object ProcessesRoute
 }

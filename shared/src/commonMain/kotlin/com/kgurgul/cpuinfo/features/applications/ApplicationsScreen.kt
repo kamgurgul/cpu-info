@@ -93,6 +93,7 @@ import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -101,6 +102,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object ApplicationsBaseRoute {
 
+    @SerialName(NavigationConst.APPLICATIONS)
     @Serializable
     data object ApplicationsRoute
 }

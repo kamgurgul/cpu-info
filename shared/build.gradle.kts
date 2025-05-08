@@ -189,13 +189,6 @@ kotlin {
     }
 }
 
-dependencies {
-    androidTestImplementation(libs.compose.ui.test)
-
-    debugImplementation(compose.uiTooling)
-    debugImplementation(libs.compose.ui.testManifest)
-}
-
 compose.resources {
     publicResClass = true
     packageOfResClass = "com.kgurgul.cpuinfo.shared"
