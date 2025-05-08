@@ -125,7 +125,6 @@ kotlin {
                 api(libs.androidx.activity.compose)
                 implementation(libs.androidx.core)
                 implementation(libs.androidx.datastore.preferences)
-                implementation(libs.androidx.navigation.compose.android)
                 api(libs.androidx.core.splashscreen)
                 api(libs.androidx.tv)
                 api(libs.koin.android)

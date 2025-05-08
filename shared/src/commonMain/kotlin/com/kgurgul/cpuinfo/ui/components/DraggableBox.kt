@@ -1,5 +1,6 @@
 package com.kgurgul.cpuinfo.ui.components
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.AnchoredDraggableDefaults
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
@@ -27,6 +28,8 @@ import androidx.compose.ui.unit.times
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import kotlinx.coroutines.flow.collectLatest
+
+private const val SNAP_ANIMATION_MS = 150
 
 @Composable
 fun DraggableBox(
@@ -84,7 +87,11 @@ fun DraggableBox(
                     orientation = Orientation.Horizontal,
                     overscrollEffect = overscrollEffect,
                     enabled = enabled,
-                    flingBehavior = AnchoredDraggableDefaults.flingBehavior(state)
+                    flingBehavior = AnchoredDraggableDefaults.flingBehavior(
+                        state = state,
+                        positionalThreshold = { velocity: Float -> velocity * 0.5f },
+                        animationSpec = tween(durationMillis = SNAP_ANIMATION_MS),
+                    )
                 )
                 .overscroll(overscrollEffect)
                 .shadow(
