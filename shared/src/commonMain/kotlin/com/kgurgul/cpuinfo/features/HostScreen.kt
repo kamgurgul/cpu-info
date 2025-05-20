@@ -39,9 +39,11 @@ import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.temp
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffold
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffoldDefault
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.utils.navigation.TopLevelRoute
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -170,3 +172,14 @@ private fun buildTopLevelRoutes(
         ),
     )
 }
+
+@Preview
+@Composable
+fun HostScreenPreview() {
+    CpuInfoTheme {
+        HostScreen(
+            uiState = HostViewModel.UiState(),
+        )
+    }
+}
+

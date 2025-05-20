@@ -54,6 +54,7 @@ import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.CpuSearchTextField
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.Utils
@@ -62,6 +63,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
@@ -306,6 +308,19 @@ private fun DoubleTextRow(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.weight(1f),
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ProcessesScreenPreview() {
+    CpuInfoTheme {
+        ProcessesScreen(
+            uiState = ProcessesViewModel.UiState(),
+            onSortOrderChange = {},
+            searchQuery = "",
+            onSearchQueryChanged = {},
         )
     }
 }

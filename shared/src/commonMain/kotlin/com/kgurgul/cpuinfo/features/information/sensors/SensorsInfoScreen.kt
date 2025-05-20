@@ -20,11 +20,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kgurgul.cpuinfo.domain.model.SensorData
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
+import kotlinx.collections.immutable.persistentListOf
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -96,6 +101,29 @@ private fun SensorItem(
     if (!isLastItem) {
         CpuDivider(
             modifier = Modifier.padding(top = spacingSmall),
+        )
+    }
+}
+
+@Preview
+@Composable
+fun SensorsInfoScreenPreview() {
+    CpuInfoTheme {
+        SensorsInfoScreen(
+            uiState = SensorsInfoViewModel.UiState(
+                persistentListOf(
+                    SensorData(
+                        id = "test",
+                        name = TextResource.Text("test"),
+                        value = "",
+                    ),
+                    SensorData(
+                        id = "test",
+                        name = TextResource.Text("test"),
+                        value = "test",
+                    ),
+                ),
+            ),
         )
     }
 }

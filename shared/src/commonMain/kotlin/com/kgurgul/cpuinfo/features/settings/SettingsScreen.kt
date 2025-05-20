@@ -67,6 +67,7 @@ import com.kgurgul.cpuinfo.shared.settings_others
 import com.kgurgul.cpuinfo.shared.temperature_unit
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.iconDefaultSize
 import com.kgurgul.cpuinfo.ui.theme.spacingLarge
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
@@ -81,6 +82,7 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
@@ -443,5 +445,18 @@ fun getTemperatureUnit(option: Int): String {
         TemperatureFormatter.FAHRENHEIT -> stringResource(Res.string.fahrenheit)
         TemperatureFormatter.KELVIN -> stringResource(Res.string.kelvin)
         else -> throw IllegalArgumentException("Unknown temperature unit")
+    }
+}
+
+@Preview
+@Composable
+fun SettingsScreenPreview() {
+    CpuInfoTheme {
+        SettingsScreen(
+            uiState = SettingsViewModel.UiState(),
+            onTemperatureOptionClicked = {},
+            onThemeOptionClicked = {},
+            onLicensesClicked = {},
+        )
     }
 }

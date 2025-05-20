@@ -30,10 +30,12 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CpuProgressBar(
@@ -126,5 +128,18 @@ fun CpuProgressBar(
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun CpuProgressBarPreview() {
+    CpuInfoTheme {
+        CpuProgressBar(
+            label = "Label",
+            progress = 0.1f,
+            minMaxValues = "Min" to "Max",
+            prefixImageRes = null,
+        )
     }
 }
