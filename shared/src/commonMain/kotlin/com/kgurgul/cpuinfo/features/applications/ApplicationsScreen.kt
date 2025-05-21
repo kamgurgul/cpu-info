@@ -86,17 +86,20 @@ import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
@@ -531,3 +534,45 @@ object ApplicationsScreenTestData {
 
 @Composable
 expect fun registerUninstallListener(onRefresh: () -> Unit)
+
+@Preview
+@Composable
+private fun ApplicationsScreenPreview() {
+    CpuInfoTheme {
+        ApplicationsScreen(
+            uiState = ApplicationsViewModel.UiState(
+                applications = persistentListOf(previewAppData1, previewAppData2),
+            ),
+            onAppClicked = {},
+            onRefreshApplications = {},
+            onSnackbarDismissed = {},
+            onNativeLibsDialogDismissed = {},
+            onNativeLibNameClicked = {},
+            onAppSettingsClicked = {},
+            onAppUninstallClicked = {},
+            onNativeLibsClicked = {},
+            onSystemAppsSwitched = {},
+            onSortOrderChange = {},
+            searchQuery = "",
+            onSearchQueryChanged = {},
+        )
+    }
+}
+
+private val previewAppData1 = ExtendedApplicationData(
+    name = "Cpu Info",
+    packageName = "com.kgurgul.cpuinfo",
+    versionName = "1.0.0",
+    nativeLibs = emptyList(),
+    hasNativeLibs = false,
+    appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4",
+)
+
+private val previewAppData2 = ExtendedApplicationData(
+    name = "Cpu Info1 Cpu Info1 Cpu Info1 Cpu Info1",
+    packageName = "com.kgurgul.cpuinfo1com.kgurgul.cpuinfo1com.kgurgul.cpuinfo1",
+    versionName = "1.0.0",
+    nativeLibs = emptyList(),
+    hasNativeLibs = true,
+    appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4",
+)

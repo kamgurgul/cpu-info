@@ -37,22 +37,29 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navDeepLink
+import com.kgurgul.cpuinfo.data.local.FakeUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.ic_battery
+import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.shared.no_temp_data
 import com.kgurgul.cpuinfo.shared.temperature
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
@@ -210,6 +217,33 @@ private fun EmptyTemperatureList(
             text = stringResource(Res.string.no_temp_data),
             color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.bodyLarge,
+        )
+    }
+}
+
+@Preview
+@Composable
+fun TemperatureScreenPreview() {
+    CpuInfoTheme {
+        TemperatureScreen(
+            uiState = TemperatureViewModel.UiState(
+                temperatureFormatter = TemperatureFormatter(FakeUserPreferencesRepository()),
+                isLoading = false,
+                temperatureItems = persistentListOf(
+                    TemperatureItem(
+                        id = 0,
+                        icon = Res.drawable.ic_cpu_temp,
+                        name = TextResource.Text("CPU"),
+                        temperature = 30f,
+                    ),
+                    TemperatureItem(
+                        id = 1,
+                        icon = Res.drawable.ic_battery,
+                        name = TextResource.Text("Battery"),
+                        temperature = 30f,
+                    ),
+                ),
+            ),
         )
     }
 }

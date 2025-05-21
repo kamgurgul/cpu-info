@@ -122,6 +122,7 @@ kotlin {
         androidMain {
             dependencies {
                 implementation(compose.preview)
+                implementation(compose.uiTooling)
                 api(libs.androidx.activity.compose)
                 implementation(libs.androidx.core)
                 implementation(libs.androidx.datastore.preferences)

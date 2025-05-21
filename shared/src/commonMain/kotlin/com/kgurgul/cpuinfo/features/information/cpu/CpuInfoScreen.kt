@@ -35,8 +35,10 @@ import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.components.ItemValueRow
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -207,4 +209,33 @@ fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
 object CpuInfoScreenTestTags {
     const val LAZY_COLUMN = "cpu_info_lazy_column"
     const val SOCKET_NAME = "cpu_info_socket_name"
+}
+
+@Preview
+@Composable
+fun CpuInfoScreenPreview() {
+    CpuInfoTheme {
+        CpuInfoScreen(
+            uiState = CpuInfoViewModel.UiState(
+                cpuData = CpuData(
+                    processorName = "processorName",
+                    abi = "abi",
+                    coreNumber = 1,
+                    hasArmNeon = true,
+                    frequencies = listOf(
+                        CpuData.Frequency(
+                            min = 1,
+                            max = 2,
+                            current = 3,
+                        ),
+                    ),
+                    l1dCaches = "l1dCaches",
+                    l1iCaches = "l1iCaches",
+                    l2Caches = "l2Caches",
+                    l3Caches = "l3Caches",
+                    l4Caches = "l4Caches",
+                ),
+            ),
+        )
+    }
 }

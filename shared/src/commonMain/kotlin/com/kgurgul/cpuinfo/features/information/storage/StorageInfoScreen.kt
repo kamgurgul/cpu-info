@@ -14,12 +14,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kgurgul.cpuinfo.domain.model.StorageItem
+import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.domain.model.asString
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.Utils
 import kotlin.math.roundToInt
+import kotlinx.collections.immutable.persistentListOf
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -87,3 +94,23 @@ fun StorageInfoScreen(
 
 @Composable
 expect fun registerStorageMountingListener(onRefresh: () -> Unit)
+
+@Preview
+@Composable
+fun StorageInfoScreenPreview() {
+    CpuInfoTheme {
+        StorageInfoScreen(
+            uiState = StorageInfoViewModel.UiState(
+                storageItems = persistentListOf(
+                    StorageItem(
+                        id = "0",
+                        label = TextResource.Text("Internal"),
+                        iconDrawable = Res.drawable.baseline_folder_special_24,
+                        storageTotal = 100,
+                        storageUsed = 50,
+                    ),
+                ),
+            ),
+        )
+    }
+}
