@@ -48,6 +48,7 @@ import com.kgurgul.cpuinfo.shared.licenses_module_version
 import com.kgurgul.cpuinfo.shared.licenses_webpage
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
+import com.kgurgul.cpuinfo.ui.components.FilledButton
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
@@ -205,19 +206,11 @@ private fun LicenseItem(
                 color = MaterialTheme.colorScheme.onBackground,
             )
         }
-        Button(
+        FilledButton(
+            text = stringResource(Res.string.licenses_webpage),
             onClick = { onLicenseUrlClicked(license.licenseUrl) },
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_open_in_browser),
-                contentDescription = stringResource(Res.string.licenses_webpage),
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text(
-                text = stringResource(Res.string.licenses_webpage),
-                style = MaterialTheme.typography.bodyMedium,
-            )
-        }
+            iconResource = Res.drawable.ic_open_in_browser,
+            iconContentDescription = stringResource(Res.string.licenses_webpage)
+        )
     }
 }

@@ -2,6 +2,7 @@ package com.kgurgul.cpuinfo.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.PullToRefreshState
 import androidx.compose.material3.pulltorefresh.pullToRefresh
@@ -9,6 +10,8 @@ import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CpuPullToRefreshBox(
@@ -38,5 +41,26 @@ fun CpuPullToRefreshBox(
     ) {
         content()
         indicator()
+    }
+}
+
+@Preview
+@Composable
+fun CpuPullToRefreshBoxPreview() {
+    Column {
+        CpuInfoTheme {
+            CpuPullToRefreshBox(
+                isRefreshing = true,
+                onRefresh = {},
+            ) {}
+        }
+        CpuInfoTheme(
+            useDarkTheme = true
+        ) {
+            CpuPullToRefreshBox(
+                isRefreshing = true,
+                onRefresh = {},
+            ) {}
+        }
     }
 }
