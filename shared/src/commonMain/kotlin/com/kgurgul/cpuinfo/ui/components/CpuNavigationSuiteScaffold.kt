@@ -33,7 +33,7 @@ object CpuNavigationSuiteScaffoldDefault {
     @Composable
     fun itemDefaultColors() = NavigationSuiteItemColors(
         navigationBarItemColors = NavigationBarItemColors(
-            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
             selectedTextColor = MaterialTheme.colorScheme.onPrimary,
             selectedIndicatorColor = MaterialTheme.colorScheme.secondary,
             unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -42,7 +42,7 @@ object CpuNavigationSuiteScaffoldDefault {
             disabledTextColor = MaterialTheme.colorScheme.onPrimary,
         ),
         navigationRailItemColors = NavigationRailItemColors(
-            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
             selectedTextColor = MaterialTheme.colorScheme.onPrimary,
             selectedIndicatorColor = MaterialTheme.colorScheme.secondary,
             unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
