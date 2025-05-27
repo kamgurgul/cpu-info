@@ -25,16 +25,15 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.wear.compose.foundation.RevealValue
 import androidx.wear.compose.foundation.SwipeToDismissBoxState
 import androidx.wear.compose.foundation.edgeSwipeToDismiss
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.foundation.rememberRevealState
 import androidx.wear.compose.material.ButtonDefaults
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.RevealValue
 import androidx.wear.compose.material.SwipeToRevealChip
 import androidx.wear.compose.material.SwipeToRevealDefaults
 import androidx.wear.compose.material.SwipeToRevealPrimaryAction
@@ -42,6 +41,7 @@ import androidx.wear.compose.material.SwipeToRevealSecondaryAction
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.ToggleButton
 import androidx.wear.compose.material.ToggleButtonDefaults
+import androidx.wear.compose.material.rememberRevealState
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
