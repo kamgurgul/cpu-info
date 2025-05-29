@@ -14,7 +14,7 @@ androidxTestExt = "1.2.1"
 androidxTestRules = "1.6.1"
 androidxTestRunner = "1.6.2"
 androidxTv = "1.0.0"
-androidxWear = "1.4.1"
+androidxWear = "1.5.0-beta02"
 baselineprofile = "1.3.4"
 benchmarkMacroJunit4 = "1.3.4"
 coil = "3.2.0"
@@ -60,7 +60,7 @@ androidx-test-runner = { group = "androidx.test", name = "runner", version.ref =
 androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 androidx-tv = { module = "androidx.tv:tv-material", version.ref = "androidxTv" }
 androidx-wear-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "androidxWear" }
-androidx-wear-material = { module = "androidx.wear.compose:compose-material", version.ref = "androidxWear" }
+androidx-wear-material = { module = "androidx.wear.compose:compose-material3", version.ref = "androidxWear" }
 androidx-wear-navigation = { module = "androidx.wear.compose:compose-navigation", version.ref = "androidxWear" }
 coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 compose-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "composeAdaptive" }
