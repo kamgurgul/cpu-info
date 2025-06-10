@@ -64,7 +64,7 @@ compose.desktop {
         }
 
         buildTypes.release.proguard {
-            isEnabled = false
+            isEnabled = true
             version = "7.4.2"
             configurationFiles.from("rules.pro")
         }
