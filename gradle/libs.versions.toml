@@ -36,7 +36,7 @@ licenses = "2.9"
 oshi = "6.8.2"
 profileinstaller = "1.4.1"
 relinker = "1.4.5"
-turbine = "1.2.0"
+turbine = "1.2.1"
 uiautomator = "2.3.0"
 
 [libraries]
