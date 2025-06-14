@@ -1,16 +1,20 @@
 package com.kgurgul.cpuinfo
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -61,7 +65,22 @@ class HostActivity : ComponentActivity() {
                 )
                 onDispose {}
             }
+            val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
             val colors = when {
+                dynamicColor && darkTheme -> {
+                    val dynamicDarkColors = dynamicDarkColorScheme(LocalContext.current)
+                    DarkColors.copy(
+                        surfaceContainerHighest = dynamicDarkColors.surfaceContainerHighest,
+                    )
+                }
+
+                dynamicColor && !darkTheme -> {
+                    val dynamicLightColors = dynamicLightColorScheme(LocalContext.current)
+                    LightColors.copy(
+                        surfaceContainerHighest = dynamicLightColors.surfaceContainerHighest,
+                    )
+                }
+
                 darkTheme -> DarkColors
                 else -> LightColors
             }
