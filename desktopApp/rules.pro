@@ -16,9 +16,6 @@
 -keep,includecode,allowobfuscation,allowshrinking class androidx.compose.runtime.SnapshotStateKt** { *; }
 -dontwarn androidx.compose.runtime.**
 
-# Serialization
--keep @kotlinx.serialization.Serializable class * { *; }
-
 # JNA
 -keep class com.sun.jna.** { *; }
 
