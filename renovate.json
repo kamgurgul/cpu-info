@@ -5,12 +5,11 @@
   ],
   "packageRules": [
     {
-      "groupName": "Kotlin, KSP and Compose",
+        "groupName": "Kotlin and KSP",
       "groupSlug": "kotlin",
       "matchPackageNames": [
         "com.google.devtools.ksp",
-        "org.jetbrains.kotlin",
-        "org.jetbrains.compose"
+          "org.jetbrains.kotlin"
       ]
     },
     {
