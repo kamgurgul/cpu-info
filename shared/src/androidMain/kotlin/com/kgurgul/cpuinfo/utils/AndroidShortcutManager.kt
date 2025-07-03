@@ -2,10 +2,10 @@ package com.kgurgul.cpuinfo.utils
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.net.Uri
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
+import androidx.core.net.toUri
 import com.kgurgul.cpuinfo.data.provider.IPackageNameProvider
 import com.kgurgul.cpuinfo.shared.R
 import com.kgurgul.cpuinfo.shared.Res
@@ -36,7 +36,7 @@ class AndroidShortcutManager(
                                 packageManager.getLaunchIntentForPackage(
                                     packageNameProvider.getPackageName()
                                 )!!.setData(
-                                    Uri.parse(NavigationConst.BASE_URL + NavigationConst.APPLICATIONS)
+                                    (NavigationConst.BASE_URL + NavigationConst.APPLICATIONS).toUri()
                                 )
                             )
                             .build()
@@ -54,7 +54,7 @@ class AndroidShortcutManager(
                             packageManager.getLaunchIntentForPackage(
                                 packageNameProvider.getPackageName()
                             )!!.setData(
-                                Uri.parse(NavigationConst.BASE_URL + NavigationConst.TEMPERATURES)
+                                (NavigationConst.BASE_URL + NavigationConst.TEMPERATURES).toUri()
                             )
                         )
                         .build()
