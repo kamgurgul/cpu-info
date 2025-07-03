@@ -353,6 +353,8 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_palm_cove = 0x0010020B,
     /** Intel Sunny Cove microarchitecture (10 nm, Ice Lake). */
     cpuinfo_uarch_sunny_cove = 0x0010020C,
+    /** Intel Willow Cove microarchitecture (10 nm, Tiger Lake). */
+    cpuinfo_uarch_willow_cove = 0x0010020D,
 
     /** Pentium 4 with Willamette, Northwood, or Foster cores. */
     cpuinfo_uarch_willamette = 0x00100300,
@@ -371,6 +373,10 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_goldmont = 0x00100404,
     /** Intel Goldmont Plus microarchitecture (Gemini Lake). */
     cpuinfo_uarch_goldmont_plus = 0x00100405,
+    /** Intel Gracemont microarchitecture (Twin Lake). */
+    cpuinfo_uarch_gracemont = 0x00100406,
+    /** Intel Crestmont microarchitecture (Sierra Forest). */
+    cpuinfo_uarch_crestmont = 0x00100407,
 
     /** Intel Knights Ferry HPC boards. */
     cpuinfo_uarch_knights_ferry = 0x00100500,
@@ -382,6 +388,8 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_knights_hill = 0x00100503,
     /** Intel Knights Mill Xeon Phi. */
     cpuinfo_uarch_knights_mill = 0x00100504,
+    /** Intel Darkmont microarchitecture (e-core used in Clearwater Forest). */
+    cpuinfo_uarch_darkmont = 0x00100505,
 
     /** Intel/Marvell XScale series. */
     cpuinfo_uarch_xscale = 0x00100600,
@@ -419,6 +427,8 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_zen3 = 0x0020010B,
     /** AMD Zen 4 microarchitecture. */
     cpuinfo_uarch_zen4 = 0x0020010C,
+    /** AMD Zen 5 microarchitecture. */
+    cpuinfo_uarch_zen5 = 0x0020010D,
 
     /** NSC Geode and AMD Geode GX and LX. */
     cpuinfo_uarch_geode = 0x00200200,
@@ -496,13 +506,19 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_cortex_x2 = 0x00300502,
     /** ARM Cortex-X3. */
     cpuinfo_uarch_cortex_x3 = 0x00300503,
+    /** ARM Cortex-X4. */
+    cpuinfo_uarch_cortex_x4 = 0x00300504,
 
     /** ARM Cortex-A510. */
     cpuinfo_uarch_cortex_a510 = 0x00300551,
+    /** ARM Cortex-A520. */
+    cpuinfo_uarch_cortex_a520 = 0x00300552,
     /** ARM Cortex-A710. */
     cpuinfo_uarch_cortex_a710 = 0x00300571,
     /** ARM Cortex-A715. */
     cpuinfo_uarch_cortex_a715 = 0x00300572,
+    /** ARM Cortex-A720. */
+    cpuinfo_uarch_cortex_a720 = 0x00300573,
 
     /** Qualcomm Scorpion. */
     cpuinfo_uarch_scorpion = 0x00400100,
@@ -514,6 +530,8 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_falkor = 0x00400103,
     /** Qualcomm Saphira. */
     cpuinfo_uarch_saphira = 0x00400104,
+    /** Qualcomm Oryon. */
+    cpuinfo_uarch_oryon = 0x00400105,
 
     /** Nvidia Denver. */
     cpuinfo_uarch_denver = 0x00500100,
@@ -571,6 +589,22 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_avalanche = 0x0070010D,
     /** Apple A15 / M2 processor (little cores). */
     cpuinfo_uarch_blizzard = 0x0070010E,
+    /** Apple A16 processor (big cores). */
+    cpuinfo_uarch_everest = 0x00700200,
+    /** Apple A16 processor (little cores). */
+    cpuinfo_uarch_sawtooth = 0x00700201,
+    /** Apple A17 processor (big cores). */
+    cpuinfo_uarch_coll_everest = 0x00700202,
+    /** Apple A17 processor (little cores). */
+    cpuinfo_uarch_coll_sawtooth = 0x00700203,
+    /** Apple A18 processor (big cores). */
+    cpuinfo_uarch_tupai_everest = 0x00700204,
+    /** Apple A18 processor (little cores). */
+    cpuinfo_uarch_tupai_sawtooth = 0x00700205,
+    /** Apple A18 pro processor (big cores). */
+    cpuinfo_uarch_tahiti_everest = 0x00700206,
+    /** Apple A18 pro processor (little cores). */
+    cpuinfo_uarch_tahiti_sawtooth = 0x00700207,
 
     /** Cavium ThunderX. */
     cpuinfo_uarch_thunderx = 0x00800100,
@@ -599,46 +633,46 @@ struct cpuinfo_processor {
     /** SMT (hyperthread) ID within a core */
     uint32_t smt_id;
     /** Core containing this logical processor */
-    const struct cpuinfo_core *core;
+    const struct cpuinfo_core* core;
     /** Cluster of cores containing this logical processor */
-    const struct cpuinfo_cluster *cluster;
+    const struct cpuinfo_cluster* cluster;
     /** Physical package containing this logical processor */
-    const struct cpuinfo_package *package;
+    const struct cpuinfo_package* package;
 #if defined(__linux__)
     /**
-     * Linux-specific ID for the logical processor:
-     * - Linux kernel exposes information about this logical processor in
-     * /sys/devices/system/cpu/cpu<linux_id>/
-     * - Bit <linux_id> in the cpu_set_t identifies this logical processor
-     */
-    int linux_id;
+	 * Linux-specific ID for the logical processor:
+	 * - Linux kernel exposes information about this logical processor in
+	 * /sys/devices/system/cpu/cpu<linux_id>/
+	 * - Bit <linux_id> in the cpu_set_t identifies this logical processor
+	 */
+	int linux_id;
 #endif
 #if defined(_WIN32) || defined(__CYGWIN__)
     /** Windows-specific ID for the group containing the logical processor.
-     */
-    uint16_t windows_group_id;
-    /**
-     * Windows-specific ID of the logical processor within its group:
-     * - Bit <windows_processor_id> in the KAFFINITY mask identifies this
-     * logical processor within its group.
-     */
-    uint16_t windows_processor_id;
+	 */
+	uint16_t windows_group_id;
+	/**
+	 * Windows-specific ID of the logical processor within its group:
+	 * - Bit <windows_processor_id> in the KAFFINITY mask identifies this
+	 * logical processor within its group.
+	 */
+	uint16_t windows_processor_id;
 #endif
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
     /** APIC ID (unique x86-specific ID of the logical processor) */
-    uint32_t apic_id;
+	uint32_t apic_id;
 #endif
     struct {
         /** Level 1 instruction cache */
-        const struct cpuinfo_cache *l1i;
+        const struct cpuinfo_cache* l1i;
         /** Level 1 data cache */
-        const struct cpuinfo_cache *l1d;
+        const struct cpuinfo_cache* l1d;
         /** Level 2 unified or data cache */
-        const struct cpuinfo_cache *l2;
+        const struct cpuinfo_cache* l2;
         /** Level 3 unified or data cache */
-        const struct cpuinfo_cache *l3;
+        const struct cpuinfo_cache* l3;
         /** Level 4 unified or data cache */
-        const struct cpuinfo_cache *l4;
+        const struct cpuinfo_cache* l4;
     } cache;
 };
 
@@ -650,19 +684,19 @@ struct cpuinfo_core {
     /** Core ID within a package */
     uint32_t core_id;
     /** Cluster containing this core */
-    const struct cpuinfo_cluster *cluster;
+    const struct cpuinfo_cluster* cluster;
     /** Physical package containing this core. */
-    const struct cpuinfo_package *package;
+    const struct cpuinfo_package* package;
     /** Vendor of the CPU microarchitecture for this core */
     enum cpuinfo_vendor vendor;
     /** CPU microarchitecture for this core */
     enum cpuinfo_uarch uarch;
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
     /** Value of CPUID leaf 1 EAX register for this core */
-    uint32_t cpuid;
+	uint32_t cpuid;
 #elif CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
     /** Value of Main ID Register (MIDR) for this core */
-    uint32_t midr;
+	uint32_t midr;
 #endif
     /** Clock rate (non-Turbo) of the core, in Hz */
     uint64_t frequency;
@@ -680,17 +714,17 @@ struct cpuinfo_cluster {
     /** Cluster ID within a package */
     uint32_t cluster_id;
     /** Physical package containing the cluster */
-    const struct cpuinfo_package *package;
+    const struct cpuinfo_package* package;
     /** CPU microarchitecture vendor of the cores in the cluster */
     enum cpuinfo_vendor vendor;
     /** CPU microarchitecture of the cores in the cluster */
     enum cpuinfo_uarch uarch;
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
     /** Value of CPUID leaf 1 EAX register of the cores in the cluster */
-    uint32_t cpuid;
+	uint32_t cpuid;
 #elif CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
     /** Value of Main ID Register (MIDR) of the cores in the cluster */
-    uint32_t midr;
+	uint32_t midr;
 #endif
     /** Clock rate (non-Turbo) of the cores in the cluster, in Hz */
     uint64_t frequency;
@@ -720,10 +754,10 @@ struct cpuinfo_uarch_info {
     enum cpuinfo_uarch uarch;
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
     /** Value of CPUID leaf 1 EAX register for the microarchitecture */
-    uint32_t cpuid;
+	uint32_t cpuid;
 #elif CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
     /** Value of Main ID Register (MIDR) for the microarchitecture */
-    uint32_t midr;
+	uint32_t midr;
 #endif
     /** Number of logical processors with the microarchitecture */
     uint32_t processor_count;
@@ -744,116 +778,118 @@ void CPUINFO_ABI cpuinfo_deinitialize(void);
  * instead. */
 struct cpuinfo_x86_isa {
 #if CPUINFO_ARCH_X86
-    bool rdtsc;
+	bool rdtsc;
 #endif
-    bool rdtscp;
-    bool rdpid;
-    bool sysenter;
+	bool rdtscp;
+	bool rdpid;
+	bool sysenter;
 #if CPUINFO_ARCH_X86
-    bool syscall;
+	bool syscall;
 #endif
-    bool msr;
-    bool clzero;
-    bool clflush;
-    bool clflushopt;
-    bool mwait;
-    bool mwaitx;
+	bool msr;
+	bool clzero;
+	bool clflush;
+	bool clflushopt;
+	bool mwait;
+	bool mwaitx;
 #if CPUINFO_ARCH_X86
-    bool emmx;
+	bool emmx;
 #endif
-    bool fxsave;
-    bool xsave;
+	bool fxsave;
+	bool xsave;
 #if CPUINFO_ARCH_X86
-    bool fpu;
-    bool mmx;
-    bool mmx_plus;
+	bool fpu;
+	bool mmx;
+	bool mmx_plus;
 #endif
-    bool three_d_now;
-    bool three_d_now_plus;
+	bool three_d_now;
+	bool three_d_now_plus;
 #if CPUINFO_ARCH_X86
-    bool three_d_now_geode;
+	bool three_d_now_geode;
 #endif
-    bool prefetch;
-    bool prefetchw;
-    bool prefetchwt1;
+	bool prefetch;
+	bool prefetchw;
+	bool prefetchwt1;
 #if CPUINFO_ARCH_X86
-    bool daz;
-    bool sse;
-    bool sse2;
+	bool daz;
+	bool sse;
+	bool sse2;
 #endif
-    bool sse3;
-    bool ssse3;
-    bool sse4_1;
-    bool sse4_2;
-    bool sse4a;
-    bool misaligned_sse;
-    bool avx;
-    bool avxvnni;
-    bool fma3;
-    bool fma4;
-    bool xop;
-    bool f16c;
-    bool avx2;
-    bool avx512f;
-    bool avx512pf;
-    bool avx512er;
-    bool avx512cd;
-    bool avx512dq;
-    bool avx512bw;
-    bool avx512vl;
-    bool avx512ifma;
-    bool avx512vbmi;
-    bool avx512vbmi2;
-    bool avx512bitalg;
-    bool avx512vpopcntdq;
-    bool avx512vnni;
-    bool avx512bf16;
-    bool avx512fp16;
-    bool avx512vp2intersect;
-    bool avx512_4vnniw;
-    bool avx512_4fmaps;
-    bool amx_bf16;
-    bool amx_tile;
-    bool amx_int8;
-    bool amx_fp16;
-    bool avx_vnni_int8;
-    bool avx_vnni_int16;
-    bool avx_ne_convert;
-    bool hle;
-    bool rtm;
-    bool xtest;
-    bool mpx;
+	bool sse3;
+	bool ssse3;
+	bool sse4_1;
+	bool sse4_2;
+	bool sse4a;
+	bool misaligned_sse;
+	bool avx;
+	bool avxvnni;
+	bool fma3;
+	bool fma4;
+	bool xop;
+	bool f16c;
+	bool avx2;
+	bool avx512f;
+	bool avx512pf;
+	bool avx512er;
+	bool avx512cd;
+	bool avx512dq;
+	bool avx512bw;
+	bool avx512vl;
+	bool avx512ifma;
+	bool avx512vbmi;
+	bool avx512vbmi2;
+	bool avx512bitalg;
+	bool avx512vpopcntdq;
+	bool avx512vnni;
+	bool avx512bf16;
+	bool avx512fp16;
+	bool avx512vp2intersect;
+	bool avx512_4vnniw;
+	bool avx512_4fmaps;
+	bool avx10_1;
+	bool avx10_2;
+	bool amx_bf16;
+	bool amx_tile;
+	bool amx_int8;
+	bool amx_fp16;
+	bool avx_vnni_int8;
+	bool avx_vnni_int16;
+	bool avx_ne_convert;
+	bool hle;
+	bool rtm;
+	bool xtest;
+	bool mpx;
 #if CPUINFO_ARCH_X86
-    bool cmov;
-    bool cmpxchg8b;
+	bool cmov;
+	bool cmpxchg8b;
 #endif
-    bool cmpxchg16b;
-    bool clwb;
-    bool movbe;
+	bool cmpxchg16b;
+	bool clwb;
+	bool movbe;
 #if CPUINFO_ARCH_X86_64
-    bool lahf_sahf;
+	bool lahf_sahf;
 #endif
-    bool fs_gs_base;
-    bool lzcnt;
-    bool popcnt;
-    bool tbm;
-    bool bmi;
-    bool bmi2;
-    bool adx;
-    bool aes;
-    bool vaes;
-    bool pclmulqdq;
-    bool vpclmulqdq;
-    bool gfni;
-    bool rdrand;
-    bool rdseed;
-    bool sha;
-    bool rng;
-    bool ace;
-    bool ace2;
-    bool phe;
-    bool pmm;
-    bool lwp;
+	bool fs_gs_base;
+	bool lzcnt;
+	bool popcnt;
+	bool tbm;
+	bool bmi;
+	bool bmi2;
+	bool adx;
+	bool aes;
+	bool vaes;
+	bool pclmulqdq;
+	bool vpclmulqdq;
+	bool gfni;
+	bool rdrand;
+	bool rdseed;
+	bool sha;
+	bool rng;
+	bool ace;
+	bool ace2;
+	bool phe;
+	bool pmm;
+	bool lwp;
 };
 
 extern struct cpuinfo_x86_isa cpuinfo_isa;
@@ -863,10 +899,10 @@ static inline bool cpuinfo_has_x86_rdtsc(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-#if defined(__ANDROID__)
-    return true;
+    #if defined(__ANDROID__)
+	return true;
 #else
-    return cpuinfo_isa.rdtsc;
+	return cpuinfo_isa.rdtsc;
 #endif
 #else
     return false;
@@ -933,10 +969,10 @@ static inline bool cpuinfo_has_x86_fpu(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-#if defined(__ANDROID__)
-    return true;
+    #if defined(__ANDROID__)
+	return true;
 #else
-    return cpuinfo_isa.fpu;
+	return cpuinfo_isa.fpu;
 #endif
 #else
     return false;
@@ -947,10 +983,10 @@ static inline bool cpuinfo_has_x86_mmx(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-#if defined(__ANDROID__)
-    return true;
+    #if defined(__ANDROID__)
+	return true;
 #else
-    return cpuinfo_isa.mmx;
+	return cpuinfo_isa.mmx;
 #endif
 #else
     return false;
@@ -961,10 +997,10 @@ static inline bool cpuinfo_has_x86_mmx_plus(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-#if defined(__ANDROID__)
-    return true;
+    #if defined(__ANDROID__)
+	return true;
 #else
-    return cpuinfo_isa.mmx_plus;
+	return cpuinfo_isa.mmx_plus;
 #endif
 #else
     return false;
@@ -991,10 +1027,10 @@ static inline bool cpuinfo_has_x86_3dnow_geode(void) {
 #if CPUINFO_ARCH_X86_64
     return false;
 #elif CPUINFO_ARCH_X86
-#if defined(__ANDROID__)
-    return false;
+    #if defined(__ANDROID__)
+	return false;
 #else
-    return cpuinfo_isa.three_d_now_geode;
+	return cpuinfo_isa.three_d_now_geode;
 #endif
 #else
     return false;
@@ -1029,10 +1065,10 @@ static inline bool cpuinfo_has_x86_daz(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-#if defined(__ANDROID__)
-    return true;
+    #if defined(__ANDROID__)
+	return true;
 #else
-    return cpuinfo_isa.daz;
+	return cpuinfo_isa.daz;
 #endif
 #else
     return false;
@@ -1043,10 +1079,10 @@ static inline bool cpuinfo_has_x86_sse(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-#if defined(__ANDROID__)
-    return true;
+    #if defined(__ANDROID__)
+	return true;
 #else
-    return cpuinfo_isa.sse;
+	return cpuinfo_isa.sse;
 #endif
 #else
     return false;
@@ -1057,10 +1093,10 @@ static inline bool cpuinfo_has_x86_sse2(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-#if defined(__ANDROID__)
-    return true;
+    #if defined(__ANDROID__)
+	return true;
 #else
-    return cpuinfo_isa.sse2;
+	return cpuinfo_isa.sse2;
 #endif
 #else
     return false;
@@ -1069,10 +1105,10 @@ static inline bool cpuinfo_has_x86_sse2(void) {
 
 static inline bool cpuinfo_has_x86_sse3(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-#if defined(__ANDROID__)
-    return true;
+    #if defined(__ANDROID__)
+	return true;
 #else
-    return cpuinfo_isa.sse3;
+	return cpuinfo_isa.sse3;
 #endif
 #else
     return false;
@@ -1081,10 +1117,10 @@ static inline bool cpuinfo_has_x86_sse3(void) {
 
 static inline bool cpuinfo_has_x86_ssse3(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-#if defined(__ANDROID__)
-    return true;
+    #if defined(__ANDROID__)
+	return true;
 #else
-    return cpuinfo_isa.ssse3;
+	return cpuinfo_isa.ssse3;
 #endif
 #else
     return false;
@@ -1093,10 +1129,10 @@ static inline bool cpuinfo_has_x86_ssse3(void) {
 
 static inline bool cpuinfo_has_x86_sse4_1(void) {
 #if CPUINFO_ARCH_X86_64
-#if defined(__ANDROID__)
-    return true;
+    #if defined(__ANDROID__)
+	return true;
 #else
-    return cpuinfo_isa.sse4_1;
+	return cpuinfo_isa.sse4_1;
 #endif
 #elif CPUINFO_ARCH_X86
     return cpuinfo_isa.sse4_1;
@@ -1107,10 +1143,10 @@ static inline bool cpuinfo_has_x86_sse4_1(void) {
 
 static inline bool cpuinfo_has_x86_sse4_2(void) {
 #if CPUINFO_ARCH_X86_64
-#if defined(__ANDROID__)
-    return true;
+    #if defined(__ANDROID__)
+	return true;
 #else
-    return cpuinfo_isa.sse4_2;
+	return cpuinfo_isa.sse4_2;
 #endif
 #elif CPUINFO_ARCH_X86
     return cpuinfo_isa.sse4_2;
@@ -1427,6 +1463,22 @@ static inline bool cpuinfo_has_x86_avx_ne_convert(void) {
 #endif
 }
 
+static inline bool cpuinfo_has_x86_avx10_1(void) {
+#if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
+    return cpuinfo_isa.avx10_1;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_x86_avx10_2(void) {
+#if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
+    return cpuinfo_isa.avx10_2;
+#else
+    return false;
+#endif
+}
+
 static inline bool cpuinfo_has_x86_hle(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
     return cpuinfo_isa.hle;
@@ -1523,10 +1575,10 @@ static inline bool cpuinfo_has_x86_lzcnt(void) {
 
 static inline bool cpuinfo_has_x86_popcnt(void) {
 #if CPUINFO_ARCH_X86_64
-#if defined(__ANDROID__)
-    return true;
+    #if defined(__ANDROID__)
+	return true;
 #else
-    return cpuinfo_isa.popcnt;
+	return cpuinfo_isa.popcnt;
 #endif
 #elif CPUINFO_ARCH_X86
     return cpuinfo_isa.popcnt;
@@ -1636,47 +1688,56 @@ static inline bool cpuinfo_has_x86_sha(void) {
  * instead. */
 struct cpuinfo_arm_isa {
 #if CPUINFO_ARCH_ARM
-    bool thumb;
-    bool thumb2;
-    bool thumbee;
-    bool jazelle;
-    bool armv5e;
-    bool armv6;
-    bool armv6k;
-    bool armv7;
-    bool armv7mp;
-    bool armv8;
-    bool idiv;
+	bool thumb;
+	bool thumb2;
+	bool thumbee;
+	bool jazelle;
+	bool armv5e;
+	bool armv6;
+	bool armv6k;
+	bool armv7;
+	bool armv7mp;
+	bool armv8;
+	bool idiv;
 
-    bool vfpv2;
-    bool vfpv3;
-    bool d32;
-    bool fp16;
-    bool fma;
+	bool vfpv2;
+	bool vfpv3;
+	bool d32;
+	bool fp16;
+	bool fma;
 
-    bool wmmx;
-    bool wmmx2;
-    bool neon;
+	bool wmmx;
+	bool wmmx2;
+	bool neon;
 #endif
 #if CPUINFO_ARCH_ARM64
-    bool atomics;
-    bool bf16;
-    bool sve;
-    bool sve2;
-    bool i8mm;
+	bool atomics;
+	bool bf16;
+	bool sve;
+	bool sve2;
+	bool i8mm;
+	bool sme;
+	bool sme2;
+	bool sme2p1;
+	bool sme_i16i32;
+	bool sme_bi32i32;
+	bool sme_b16b16;
+	bool sme_f16f16;
+	uint32_t svelen;
+	uint32_t smelen;
 #endif
-    bool rdm;
-    bool fp16arith;
-    bool dot;
-    bool jscvt;
-    bool fcma;
-    bool fhm;
+	bool rdm;
+	bool fp16arith;
+	bool dot;
+	bool jscvt;
+	bool fcma;
+	bool fhm;
 
-    bool aes;
-    bool sha1;
-    bool sha2;
-    bool pmull;
-    bool crc32;
+	bool aes;
+	bool sha1;
+	bool sha2;
+	bool pmull;
+	bool crc32;
 };
 
 extern struct cpuinfo_arm_isa cpuinfo_isa;
@@ -2036,32 +2097,106 @@ static inline bool cpuinfo_has_arm_sve2(void) {
 #endif
 }
 
+// Function to get the max SVE vector length on ARM CPU's which support SVE.
+static inline uint32_t cpuinfo_get_max_arm_sve_length(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.svelen * 8; // bytes * 8 = bit length(vector length)
+#else
+    return 0;
+#endif
+}
+
+// Function to get the max SME vector length on ARM CPU's which support SME.
+static inline uint32_t cpuinfo_get_max_arm_sme_length(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.smelen * 8; // bytes * 8 = bit length(vector length)
+#else
+    return 0;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sme(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.sme;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sme2(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.sme2;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sme2p1(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.sme2p1;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sme_i16i32(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.sme_i16i32;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sme_bi32i32(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.sme_bi32i32;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sme_b16b16(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.sme_b16b16;
+#else
+    return false;
+#endif
+}
+
+static inline bool cpuinfo_has_arm_sme_f16f16(void) {
+#if CPUINFO_ARCH_ARM64
+    return cpuinfo_isa.sme_f16f16;
+#else
+    return false;
+#endif
+}
+
 #if CPUINFO_ARCH_RISCV32 || CPUINFO_ARCH_RISCV64
 /* This structure is not a part of stable API. Use cpuinfo_has_riscv_* functions
  * instead. */
 struct cpuinfo_riscv_isa {
-    /**
-     * Keep fields in line with the canonical order as defined by
-     * Section 27.11 Subset Naming Convention.
-     */
-    /* RV32I/64I/128I Base ISA. */
-    bool i;
+	/**
+	 * Keep fields in line with the canonical order as defined by
+	 * Section 27.11 Subset Naming Convention.
+	 */
+	/* RV32I/64I/128I Base ISA. */
+	bool i;
 #if CPUINFO_ARCH_RISCV32
-    /* RV32E Base ISA. */
-    bool e;
+	/* RV32E Base ISA. */
+	bool e;
 #endif
-    /* Integer Multiply/Divide Extension. */
-    bool m;
-    /* Atomic Extension. */
-    bool a;
-    /* Single-Precision Floating-Point Extension. */
-    bool f;
-    /* Double-Precision Floating-Point Extension. */
-    bool d;
-    /* Compressed Extension. */
-    bool c;
-    /* Vector Extension. */
-    bool v;
+	/* Integer Multiply/Divide Extension. */
+	bool m;
+	/* Atomic Extension. */
+	bool a;
+	/* Single-Precision Floating-Point Extension. */
+	bool f;
+	/* Double-Precision Floating-Point Extension. */
+	bool d;
+	/* Compressed Extension. */
+	bool c;
+	/* Vector Extension. */
+	bool v;
 };
 
 extern struct cpuinfo_riscv_isa cpuinfo_isa;
@@ -2117,9 +2252,8 @@ static inline bool cpuinfo_has_riscv_d(void) {
 
 static inline bool cpuinfo_has_riscv_g(void) {
     // The 'G' extension is simply shorthand for 'IMAFD'.
-    return cpuinfo_has_riscv_i() && cpuinfo_has_riscv_m() && cpuinfo_has_riscv_a() &&
-           cpuinfo_has_riscv_f() &&
-           cpuinfo_has_riscv_d();
+    return cpuinfo_has_riscv_i() && cpuinfo_has_riscv_m() && cpuinfo_has_riscv_a() && cpuinfo_has_riscv_f() &&
+            cpuinfo_has_riscv_d();
 }
 
 static inline bool cpuinfo_has_riscv_c(void) {
@@ -2138,27 +2272,27 @@ static inline bool cpuinfo_has_riscv_v(void) {
 #endif
 }
 
-const struct cpuinfo_processor *CPUINFO_ABI cpuinfo_get_processors(void);
-const struct cpuinfo_core *CPUINFO_ABI cpuinfo_get_cores(void);
-const struct cpuinfo_cluster *CPUINFO_ABI cpuinfo_get_clusters(void);
-const struct cpuinfo_package *CPUINFO_ABI cpuinfo_get_packages(void);
-const struct cpuinfo_uarch_info *CPUINFO_ABI cpuinfo_get_uarchs(void);
-const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1i_caches(void);
-const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1d_caches(void);
-const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l2_caches(void);
-const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l3_caches(void);
-const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l4_caches(void);
+const struct cpuinfo_processor* CPUINFO_ABI cpuinfo_get_processors(void);
+const struct cpuinfo_core* CPUINFO_ABI cpuinfo_get_cores(void);
+const struct cpuinfo_cluster* CPUINFO_ABI cpuinfo_get_clusters(void);
+const struct cpuinfo_package* CPUINFO_ABI cpuinfo_get_packages(void);
+const struct cpuinfo_uarch_info* CPUINFO_ABI cpuinfo_get_uarchs(void);
+const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l1i_caches(void);
+const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l1d_caches(void);
+const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l2_caches(void);
+const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l3_caches(void);
+const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l4_caches(void);
 
-const struct cpuinfo_processor *CPUINFO_ABI cpuinfo_get_processor(uint32_t index);
-const struct cpuinfo_core *CPUINFO_ABI cpuinfo_get_core(uint32_t index);
-const struct cpuinfo_cluster *CPUINFO_ABI cpuinfo_get_cluster(uint32_t index);
-const struct cpuinfo_package *CPUINFO_ABI cpuinfo_get_package(uint32_t index);
-const struct cpuinfo_uarch_info *CPUINFO_ABI cpuinfo_get_uarch(uint32_t index);
-const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1i_cache(uint32_t index);
-const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l1d_cache(uint32_t index);
-const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l2_cache(uint32_t index);
-const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l3_cache(uint32_t index);
-const struct cpuinfo_cache *CPUINFO_ABI cpuinfo_get_l4_cache(uint32_t index);
+const struct cpuinfo_processor* CPUINFO_ABI cpuinfo_get_processor(uint32_t index);
+const struct cpuinfo_core* CPUINFO_ABI cpuinfo_get_core(uint32_t index);
+const struct cpuinfo_cluster* CPUINFO_ABI cpuinfo_get_cluster(uint32_t index);
+const struct cpuinfo_package* CPUINFO_ABI cpuinfo_get_package(uint32_t index);
+const struct cpuinfo_uarch_info* CPUINFO_ABI cpuinfo_get_uarch(uint32_t index);
+const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l1i_cache(uint32_t index);
+const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l1d_cache(uint32_t index);
+const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l2_cache(uint32_t index);
+const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l3_cache(uint32_t index);
+const struct cpuinfo_cache* CPUINFO_ABI cpuinfo_get_l4_cache(uint32_t index);
 
 uint32_t CPUINFO_ABI cpuinfo_get_processors_count(void);
 uint32_t CPUINFO_ABI cpuinfo_get_cores_count(void);
@@ -2183,7 +2317,7 @@ uint32_t CPUINFO_ABI cpuinfo_get_max_cache_size(void);
  * for any time. Callers should treat the result as only a hint, and be prepared
  * to handle NULL return value.
  */
-const struct cpuinfo_processor *CPUINFO_ABI cpuinfo_get_current_processor(void);
+const struct cpuinfo_processor* CPUINFO_ABI cpuinfo_get_current_processor(void);
 
 /**
  * Identify the core that executes the current thread.
@@ -2192,7 +2326,7 @@ const struct cpuinfo_processor *CPUINFO_ABI cpuinfo_get_current_processor(void);
  * time. Callers should treat the result as only a hint, and be prepared to
  * handle NULL return value.
  */
-const struct cpuinfo_core *CPUINFO_ABI cpuinfo_get_current_core(void);
+const struct cpuinfo_core* CPUINFO_ABI cpuinfo_get_current_core(void);
 
 /**
  * Identify the microarchitecture index of the core that executes the current
