@@ -87,6 +87,7 @@ kotlin {
                 optIn("androidx.compose.foundation.ExperimentalFoundationApi")
                 optIn("kotlinx.cinterop.ExperimentalForeignApi")
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+                optIn("kotlin.js.ExperimentalWasmJsInterop")
             }
         }
 
