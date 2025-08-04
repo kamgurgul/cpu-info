@@ -12,7 +12,7 @@ fun TvListItem(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     colors: ListItemColors = ListItemDefaults.colors(
-        focusedContainerColor = MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.3f),
+        focusedContainerColor = MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.4f),
     ),
     headlineContent: @Composable () -> Unit,
 ) {
