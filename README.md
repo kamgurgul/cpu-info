@@ -34,9 +34,9 @@ height="80">](https://formulae.brew.sh/cask/cpu-info)
 
 ## Supported platforms
 
-| Android | Android TV | Wear OS | iOS | Desktop |                                                                                   Wasm                                                                                   |
-|:-------:|:----------:|:-------:|:---:|:-------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|    ✅    |     ✅      |    ✅    |  ✅  |    ✅    | ✅<br/>[In preview](https://kgurgul.com/assets/cpuinfo/)<br/>Known issues: [1](https://youtrack.jetbrains.com/issue/CMP-6900/NavigationRail-items-not-visible-on-WASM-JS) |
+| Android | Android TV | Wear OS | iOS | Desktop |                          Wasm                           |
+|:-------:|:----------:|:-------:|:---:|:-------:|:-------------------------------------------------------:|
+|    ✅    |     ✅      |    ✅    |  ✅  |    ✅    | ✅<br/>[In preview](https://kgurgul.com/assets/cpuinfo/) |
 
 ## Tech stack
 
