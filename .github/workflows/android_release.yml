@@ -127,12 +127,12 @@ jobs:
           git push origin android-${{ github.event.inputs.version }}
 
       - name: Download APK
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: app-release.apk
 
       - name: Download APK mapping
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: mapping-apk
           path: mapping-apk
@@ -142,12 +142,12 @@ jobs:
           zip -r mapping-apk.zip mapping-apk/
 
       - name: Download AAB
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: app-release.aab
 
       - name: Download AAB mapping
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: mapping-aab
           path: mapping-aab
