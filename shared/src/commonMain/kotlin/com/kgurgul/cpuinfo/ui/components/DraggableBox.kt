@@ -82,6 +82,10 @@ fun DraggableBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .offset { IntOffset(x = state.requireOffset().roundToInt(), y = 0) }
+                .shadow(
+                    elevation = calculateElevation(state.offset, actionRowOffset),
+                    spotColor = MaterialTheme.colorScheme.onBackground,
+                )
                 .anchoredDraggable(
                     state = state,
                     orientation = Orientation.Horizontal,
@@ -93,11 +97,7 @@ fun DraggableBox(
                         animationSpec = tween(durationMillis = SNAP_ANIMATION_MS),
                     )
                 )
-                .overscroll(overscrollEffect)
-                .shadow(
-                    elevation = calculateElevation(state.offset, actionRowOffset),
-                    spotColor = MaterialTheme.colorScheme.onBackground,
-                ),
+                .overscroll(overscrollEffect),
         ) {
             content()
         }
