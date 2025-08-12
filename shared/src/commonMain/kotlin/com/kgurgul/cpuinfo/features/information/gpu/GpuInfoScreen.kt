@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.ItemValue
-import com.kgurgul.cpuinfo.domain.model.getKey
 import com.kgurgul.cpuinfo.domain.model.getName
 import com.kgurgul.cpuinfo.domain.model.getValue
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
@@ -59,7 +58,6 @@ fun GpuInfoScreen(
         ) {
             itemsIndexed(
                 uiState.gpuData,
-                key = { _, itemValue -> itemValue.getKey() },
             ) { index, itemValue ->
                 InformationRow(
                     title = itemValue.getName(),
