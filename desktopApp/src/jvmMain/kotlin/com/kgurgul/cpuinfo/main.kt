@@ -15,7 +15,7 @@ fun main() {
     if (System.getProperty("os.name").equals("Linux", ignoreCase = true)) {
         try {
             DirectContext.makeGL().flush().close()
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
             System.setProperty("skiko.renderApi", "SOFTWARE")
         }
     }
