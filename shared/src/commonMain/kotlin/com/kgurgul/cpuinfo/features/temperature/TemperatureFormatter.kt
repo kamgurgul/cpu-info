@@ -37,7 +37,7 @@ class TemperatureFormatter(
         } else {
             return if (tempUnit == KELVIN) {
                 val kelvin = temp + 273.15
-                "${kelvin.round2()}\u00B0K"
+                "${kelvin.round2()} K"
             } else {
                 val tempFormatted = "${temp.toInt()}\u00B0C"
                 tempFormatted

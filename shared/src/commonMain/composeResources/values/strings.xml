@@ -221,7 +221,7 @@
     <string name="no_temp_data">Sorry I can't find temperature sensors :-(</string>
     <string name="celsius" translatable="false">&#176;C</string>
     <string name="fahrenheit" translatable="false">&#176;F</string>
-    <string name="kelvin" translatable="false">&#176;K</string>
+    <string name="kelvin" translatable="false">K</string>
     <string name="temp_thermal_state">Thermal state: %1$s</string>
     <string name="temp_thermal_state_nominal">Nominal</string>
     <string name="temp_thermal_state_fair">Fair</string>
