@@ -1,7 +1,6 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
-import kotlin.getValue
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
@@ -21,7 +20,7 @@ actual class ApplicationsDataProvider actual constructor() :
                 ExtendedApplicationData(
                     name = it.name,
                     packageName = it.name,
-                    versionName = it.version,
+                    versionName = it.version ?: "",
                     nativeLibs = emptyList(),
                     hasNativeLibs = false,
                     appIconUri = "",
