@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.4.1)
+project(CPU-Info)
 
 # configure import libs
 set(distribution_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external)
