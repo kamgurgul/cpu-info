@@ -209,10 +209,7 @@ android {
         minSdk = AndroidVersions.MIN_SDK
         externalNativeBuild {
             cmake {
-                arguments += listOf(
-                    "-DANDROID_STL=c++_static",
-                    "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON",
-                )
+                arguments += listOf("-DANDROID_STL=c++_static")
             }
         }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
