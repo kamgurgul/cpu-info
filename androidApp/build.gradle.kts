@@ -78,6 +78,12 @@ android {
         buildConfig = true
     }
 
+    packaging {
+        jniLibs {
+            useLegacyPackaging = false
+        }
+    }
+
     testOptions {
         unitTests {
             isReturnDefaultValues = true
