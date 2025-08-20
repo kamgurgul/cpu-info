@@ -373,10 +373,14 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_goldmont = 0x00100404,
     /** Intel Goldmont Plus microarchitecture (Gemini Lake). */
     cpuinfo_uarch_goldmont_plus = 0x00100405,
-    /** Intel Gracemont microarchitecture (Twin Lake). */
-    cpuinfo_uarch_gracemont = 0x00100406,
+    /** Intel Airmont microarchitecture (10 nm out-of-order Atom). */
+    cpuinfo_uarch_tremont = 0x00100406,
+    /** Intel Gracemont microarchitecture (AlderLake N). */
+    cpuinfo_uarch_gracemont = 0x00100407,
     /** Intel Crestmont microarchitecture (Sierra Forest). */
-    cpuinfo_uarch_crestmont = 0x00100407,
+    cpuinfo_uarch_crestmont = 0x00100408,
+    /** Intel Darkmont microarchitecture (e-core used in Clearwater Forest). */
+    cpuinfo_uarch_darkmont = 0x00100409,
 
     /** Intel Knights Ferry HPC boards. */
     cpuinfo_uarch_knights_ferry = 0x00100500,
@@ -388,8 +392,6 @@ enum cpuinfo_uarch {
     cpuinfo_uarch_knights_hill = 0x00100503,
     /** Intel Knights Mill Xeon Phi. */
     cpuinfo_uarch_knights_mill = 0x00100504,
-    /** Intel Darkmont microarchitecture (e-core used in Clearwater Forest). */
-    cpuinfo_uarch_darkmont = 0x00100505,
 
     /** Intel/Marvell XScale series. */
     cpuinfo_uarch_xscale = 0x00100600,
@@ -640,12 +642,12 @@ struct cpuinfo_processor {
     const struct cpuinfo_package* package;
 #if defined(__linux__)
     /**
-	 * Linux-specific ID for the logical processor:
-	 * - Linux kernel exposes information about this logical processor in
-	 * /sys/devices/system/cpu/cpu<linux_id>/
-	 * - Bit <linux_id> in the cpu_set_t identifies this logical processor
-	 */
-	int linux_id;
+     * Linux-specific ID for the logical processor:
+     * - Linux kernel exposes information about this logical processor in
+     * /sys/devices/system/cpu/cpu<linux_id>/
+     * - Bit <linux_id> in the cpu_set_t identifies this logical processor
+     */
+    int linux_id;
 #endif
 #if defined(_WIN32) || defined(__CYGWIN__)
     /** Windows-specific ID for the group containing the logical processor.
@@ -660,7 +662,7 @@ struct cpuinfo_processor {
 #endif
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
     /** APIC ID (unique x86-specific ID of the logical processor) */
-	uint32_t apic_id;
+    uint32_t apic_id;
 #endif
     struct {
         /** Level 1 instruction cache */
@@ -693,7 +695,7 @@ struct cpuinfo_core {
     enum cpuinfo_uarch uarch;
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
     /** Value of CPUID leaf 1 EAX register for this core */
-	uint32_t cpuid;
+    uint32_t cpuid;
 #elif CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
     /** Value of Main ID Register (MIDR) for this core */
 	uint32_t midr;
@@ -721,7 +723,7 @@ struct cpuinfo_cluster {
     enum cpuinfo_uarch uarch;
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
     /** Value of CPUID leaf 1 EAX register of the cores in the cluster */
-	uint32_t cpuid;
+    uint32_t cpuid;
 #elif CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
     /** Value of Main ID Register (MIDR) of the cores in the cluster */
 	uint32_t midr;
@@ -754,7 +756,7 @@ struct cpuinfo_uarch_info {
     enum cpuinfo_uarch uarch;
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
     /** Value of CPUID leaf 1 EAX register for the microarchitecture */
-	uint32_t cpuid;
+    uint32_t cpuid;
 #elif CPUINFO_ARCH_ARM || CPUINFO_ARCH_ARM64
     /** Value of Main ID Register (MIDR) for the microarchitecture */
 	uint32_t midr;
@@ -778,118 +780,118 @@ void CPUINFO_ABI cpuinfo_deinitialize(void);
  * instead. */
 struct cpuinfo_x86_isa {
 #if CPUINFO_ARCH_X86
-	bool rdtsc;
+    bool rdtsc;
 #endif
-	bool rdtscp;
-	bool rdpid;
-	bool sysenter;
+    bool rdtscp;
+    bool rdpid;
+    bool sysenter;
 #if CPUINFO_ARCH_X86
-	bool syscall;
+    bool syscall;
 #endif
-	bool msr;
-	bool clzero;
-	bool clflush;
-	bool clflushopt;
-	bool mwait;
-	bool mwaitx;
+    bool msr;
+    bool clzero;
+    bool clflush;
+    bool clflushopt;
+    bool mwait;
+    bool mwaitx;
 #if CPUINFO_ARCH_X86
-	bool emmx;
+    bool emmx;
 #endif
-	bool fxsave;
-	bool xsave;
+    bool fxsave;
+    bool xsave;
 #if CPUINFO_ARCH_X86
-	bool fpu;
-	bool mmx;
-	bool mmx_plus;
+    bool fpu;
+    bool mmx;
+    bool mmx_plus;
 #endif
-	bool three_d_now;
-	bool three_d_now_plus;
+    bool three_d_now;
+    bool three_d_now_plus;
 #if CPUINFO_ARCH_X86
-	bool three_d_now_geode;
+    bool three_d_now_geode;
 #endif
-	bool prefetch;
-	bool prefetchw;
-	bool prefetchwt1;
+    bool prefetch;
+    bool prefetchw;
+    bool prefetchwt1;
 #if CPUINFO_ARCH_X86
-	bool daz;
-	bool sse;
-	bool sse2;
+    bool daz;
+    bool sse;
+    bool sse2;
 #endif
-	bool sse3;
-	bool ssse3;
-	bool sse4_1;
-	bool sse4_2;
-	bool sse4a;
-	bool misaligned_sse;
-	bool avx;
-	bool avxvnni;
-	bool fma3;
-	bool fma4;
-	bool xop;
-	bool f16c;
-	bool avx2;
-	bool avx512f;
-	bool avx512pf;
-	bool avx512er;
-	bool avx512cd;
-	bool avx512dq;
-	bool avx512bw;
-	bool avx512vl;
-	bool avx512ifma;
-	bool avx512vbmi;
-	bool avx512vbmi2;
-	bool avx512bitalg;
-	bool avx512vpopcntdq;
-	bool avx512vnni;
-	bool avx512bf16;
-	bool avx512fp16;
-	bool avx512vp2intersect;
-	bool avx512_4vnniw;
-	bool avx512_4fmaps;
-	bool avx10_1;
-	bool avx10_2;
-	bool amx_bf16;
-	bool amx_tile;
-	bool amx_int8;
-	bool amx_fp16;
-	bool avx_vnni_int8;
-	bool avx_vnni_int16;
-	bool avx_ne_convert;
-	bool hle;
-	bool rtm;
-	bool xtest;
-	bool mpx;
+    bool sse3;
+    bool ssse3;
+    bool sse4_1;
+    bool sse4_2;
+    bool sse4a;
+    bool misaligned_sse;
+    bool avx;
+    bool avxvnni;
+    bool fma3;
+    bool fma4;
+    bool xop;
+    bool f16c;
+    bool avx2;
+    bool avx512f;
+    bool avx512pf;
+    bool avx512er;
+    bool avx512cd;
+    bool avx512dq;
+    bool avx512bw;
+    bool avx512vl;
+    bool avx512ifma;
+    bool avx512vbmi;
+    bool avx512vbmi2;
+    bool avx512bitalg;
+    bool avx512vpopcntdq;
+    bool avx512vnni;
+    bool avx512bf16;
+    bool avx512fp16;
+    bool avx512vp2intersect;
+    bool avx512_4vnniw;
+    bool avx512_4fmaps;
+    bool avx10_1;
+    bool avx10_2;
+    bool amx_bf16;
+    bool amx_tile;
+    bool amx_int8;
+    bool amx_fp16;
+    bool avx_vnni_int8;
+    bool avx_vnni_int16;
+    bool avx_ne_convert;
+    bool hle;
+    bool rtm;
+    bool xtest;
+    bool mpx;
 #if CPUINFO_ARCH_X86
-	bool cmov;
-	bool cmpxchg8b;
+    bool cmov;
+    bool cmpxchg8b;
 #endif
-	bool cmpxchg16b;
-	bool clwb;
-	bool movbe;
+    bool cmpxchg16b;
+    bool clwb;
+    bool movbe;
 #if CPUINFO_ARCH_X86_64
-	bool lahf_sahf;
+    bool lahf_sahf;
 #endif
-	bool fs_gs_base;
-	bool lzcnt;
-	bool popcnt;
-	bool tbm;
-	bool bmi;
-	bool bmi2;
-	bool adx;
-	bool aes;
-	bool vaes;
-	bool pclmulqdq;
-	bool vpclmulqdq;
-	bool gfni;
-	bool rdrand;
-	bool rdseed;
-	bool sha;
-	bool rng;
-	bool ace;
-	bool ace2;
-	bool phe;
-	bool pmm;
-	bool lwp;
+    bool fs_gs_base;
+    bool lzcnt;
+    bool popcnt;
+    bool tbm;
+    bool bmi;
+    bool bmi2;
+    bool adx;
+    bool aes;
+    bool vaes;
+    bool pclmulqdq;
+    bool vpclmulqdq;
+    bool gfni;
+    bool rdrand;
+    bool rdseed;
+    bool sha;
+    bool rng;
+    bool ace;
+    bool ace2;
+    bool phe;
+    bool pmm;
+    bool lwp;
 };
 
 extern struct cpuinfo_x86_isa cpuinfo_isa;
@@ -899,10 +901,10 @@ static inline bool cpuinfo_has_x86_rdtsc(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-    #if defined(__ANDROID__)
-	return true;
+#if defined(__ANDROID__)
+    return true;
 #else
-	return cpuinfo_isa.rdtsc;
+    return cpuinfo_isa.rdtsc;
 #endif
 #else
     return false;
@@ -969,10 +971,10 @@ static inline bool cpuinfo_has_x86_fpu(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-    #if defined(__ANDROID__)
-	return true;
+#if defined(__ANDROID__)
+    return true;
 #else
-	return cpuinfo_isa.fpu;
+    return cpuinfo_isa.fpu;
 #endif
 #else
     return false;
@@ -983,10 +985,10 @@ static inline bool cpuinfo_has_x86_mmx(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-    #if defined(__ANDROID__)
-	return true;
+#if defined(__ANDROID__)
+    return true;
 #else
-	return cpuinfo_isa.mmx;
+    return cpuinfo_isa.mmx;
 #endif
 #else
     return false;
@@ -997,10 +999,10 @@ static inline bool cpuinfo_has_x86_mmx_plus(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-    #if defined(__ANDROID__)
-	return true;
+#if defined(__ANDROID__)
+    return true;
 #else
-	return cpuinfo_isa.mmx_plus;
+    return cpuinfo_isa.mmx_plus;
 #endif
 #else
     return false;
@@ -1027,10 +1029,10 @@ static inline bool cpuinfo_has_x86_3dnow_geode(void) {
 #if CPUINFO_ARCH_X86_64
     return false;
 #elif CPUINFO_ARCH_X86
-    #if defined(__ANDROID__)
-	return false;
+#if defined(__ANDROID__)
+    return false;
 #else
-	return cpuinfo_isa.three_d_now_geode;
+    return cpuinfo_isa.three_d_now_geode;
 #endif
 #else
     return false;
@@ -1065,10 +1067,10 @@ static inline bool cpuinfo_has_x86_daz(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-    #if defined(__ANDROID__)
-	return true;
+#if defined(__ANDROID__)
+    return true;
 #else
-	return cpuinfo_isa.daz;
+    return cpuinfo_isa.daz;
 #endif
 #else
     return false;
@@ -1079,10 +1081,10 @@ static inline bool cpuinfo_has_x86_sse(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-    #if defined(__ANDROID__)
-	return true;
+#if defined(__ANDROID__)
+    return true;
 #else
-	return cpuinfo_isa.sse;
+    return cpuinfo_isa.sse;
 #endif
 #else
     return false;
@@ -1093,10 +1095,10 @@ static inline bool cpuinfo_has_x86_sse2(void) {
 #if CPUINFO_ARCH_X86_64
     return true;
 #elif CPUINFO_ARCH_X86
-    #if defined(__ANDROID__)
-	return true;
+#if defined(__ANDROID__)
+    return true;
 #else
-	return cpuinfo_isa.sse2;
+    return cpuinfo_isa.sse2;
 #endif
 #else
     return false;
@@ -1105,10 +1107,10 @@ static inline bool cpuinfo_has_x86_sse2(void) {
 
 static inline bool cpuinfo_has_x86_sse3(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-    #if defined(__ANDROID__)
-	return true;
+#if defined(__ANDROID__)
+    return true;
 #else
-	return cpuinfo_isa.sse3;
+    return cpuinfo_isa.sse3;
 #endif
 #else
     return false;
@@ -1117,10 +1119,10 @@ static inline bool cpuinfo_has_x86_sse3(void) {
 
 static inline bool cpuinfo_has_x86_ssse3(void) {
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
-    #if defined(__ANDROID__)
-	return true;
+#if defined(__ANDROID__)
+    return true;
 #else
-	return cpuinfo_isa.ssse3;
+    return cpuinfo_isa.ssse3;
 #endif
 #else
     return false;
@@ -1561,7 +1563,7 @@ static inline bool cpuinfo_has_x86_lahf_sahf(void) {
 #elif CPUINFO_ARCH_X86_64
     return cpuinfo_isa.lahf_sahf;
 #else
-    return false;
+	return false;
 #endif
 }
 
