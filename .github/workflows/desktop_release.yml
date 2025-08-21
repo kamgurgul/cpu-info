@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'corretto'
@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'corretto'
@@ -50,7 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'corretto'
@@ -71,7 +71,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'corretto'
@@ -93,7 +93,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: set up JDK 18
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: 18
@@ -151,7 +151,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: set up JDK 18
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: 18
