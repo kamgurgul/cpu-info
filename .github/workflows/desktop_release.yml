@@ -146,7 +146,7 @@ jobs:
 
   build_mac_x64_dmg:
     needs: code_quality
-    runs-on: macos-13
+    runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v5
 
