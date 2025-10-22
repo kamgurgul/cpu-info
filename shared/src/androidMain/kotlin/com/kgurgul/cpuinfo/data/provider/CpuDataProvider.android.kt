@@ -10,7 +10,11 @@ actual class CpuDataProvider actual constructor() : ICpuDataProvider {
         return Build.SUPPORTED_ABIS[0]
     }
 
-    actual override fun getNumberOfCores(): Int {
+    actual override fun getNumberOfLogicalCores(): Int {
+        return Runtime.getRuntime().availableProcessors()
+    }
+
+    actual override fun getNumberOfPhysicalCores(): Int {
         return Runtime.getRuntime().availableProcessors()
     }
 
@@ -21,7 +25,7 @@ actual class CpuDataProvider actual constructor() : ICpuDataProvider {
     actual override fun getCurrentFreq(coreNumber: Int): Long {
         val currentFreqPath = "${CPU_INFO_DIR}cpu$coreNumber/cpufreq/scaling_cur_freq"
         return try {
-            RandomAccessFile(currentFreqPath, "r").use { it.readLine().toLong() / 1000 }
+            RandomAccessFile(currentFreqPath, "r").use { it.readLine().toLong() * 1000 }
         } catch (e: Exception) {
             CpuLogger.e { "getCurrentFreq() - cannot read file" }
             -1
@@ -36,8 +40,8 @@ actual class CpuDataProvider actual constructor() : ICpuDataProvider {
         val minPath = "${CPU_INFO_DIR}cpu$coreNumber/cpufreq/cpuinfo_min_freq"
         val maxPath = "${CPU_INFO_DIR}cpu$coreNumber/cpufreq/cpuinfo_max_freq"
         return try {
-            val minMhz = RandomAccessFile(minPath, "r").use { it.readLine().toLong() / 1000 }
-            val maxMhz = RandomAccessFile(maxPath, "r").use { it.readLine().toLong() / 1000 }
+            val minMhz = RandomAccessFile(minPath, "r").use { it.readLine().toLong() * 1000 }
+            val maxMhz = RandomAccessFile(maxPath, "r").use { it.readLine().toLong() * 1000 }
             Pair(minMhz, maxMhz)
         } catch (e: Exception) {
             CpuLogger.e { "getMinMaxFreq() - cannot read file" }

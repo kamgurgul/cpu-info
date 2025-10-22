@@ -1,7 +1,6 @@
 package com.kgurgul.cpuinfo.features.information.cpu
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -20,7 +19,6 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.cpu_abi
 import com.kgurgul.cpuinfo.shared.cpu_cores
 import com.kgurgul.cpuinfo.shared.cpu_current_frequency
-import com.kgurgul.cpuinfo.shared.cpu_frequency
 import com.kgurgul.cpuinfo.shared.cpu_frequency_stopped
 import com.kgurgul.cpuinfo.shared.cpu_has_neon
 import com.kgurgul.cpuinfo.shared.cpu_l1d
@@ -33,10 +31,12 @@ import com.kgurgul.cpuinfo.shared.no
 import com.kgurgul.cpuinfo.shared.yes
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
+import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.ItemValueRow
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import com.kgurgul.cpuinfo.utils.formatHz
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -51,7 +51,10 @@ fun CpuInfoScreen(viewModel: CpuInfoViewModel = koinViewModel()) {
 
 @Composable
 fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
-    Box(
+    CpuPullToRefreshBox(
+        isRefreshing = uiState.isInitializing,
+        onRefresh = {},
+        enabled = false,
         modifier = Modifier.fillMaxSize(),
     ) {
         val listState = rememberLazyListState()
@@ -179,18 +182,18 @@ fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
         stringResource(
             Res.string.cpu_current_frequency,
             index,
-            frequency.current.toString(),
+            formatHz(frequency.current),
         )
     } else {
         stringResource(Res.string.cpu_frequency_stopped, index)
     }
     val minFreq = if (frequency.min != -1L) {
-        stringResource(Res.string.cpu_frequency, "0")
+        formatHz(0)
     } else {
         ""
     }
     val maxFreq = if (frequency.max != -1L) {
-        stringResource(Res.string.cpu_frequency, frequency.max.toString())
+        formatHz(frequency.max)
     } else {
         ""
     }

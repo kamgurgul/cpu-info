@@ -6,7 +6,11 @@ class FakeCpuDataProvider : ICpuDataProvider {
         return "x64"
     }
 
-    override fun getNumberOfCores(): Int {
+    override fun getNumberOfLogicalCores(): Int {
+        return 1
+    }
+
+    override fun getNumberOfPhysicalCores(): Int {
         return 1
     }
 

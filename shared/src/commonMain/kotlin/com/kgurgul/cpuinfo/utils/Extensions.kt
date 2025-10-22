@@ -66,3 +66,14 @@ fun String.removeNonSpacingMarks() = normalize()
 fun UriHandler.safeOpenUri(uri: String): Result<Unit> {
     return runCatching { openUri(uri) }
 }
+
+fun formatHz(valueHz: Long): String {
+    if (valueHz < 0) return "-"
+    val v = valueHz.toDouble()
+    return when {
+        v >= 1_000_000_000 -> "${(v / 1_000_000_000).round2()} GHz"
+        v >= 1_000_000 -> "${(v / 1_000_000).round2()} MHz"
+        v >= 1_000 -> "${(v / 1_000).round2()} kHz"
+        else -> "$valueHz Hz"
+    }
+}

@@ -14,7 +14,11 @@ actual class CpuDataProvider actual constructor() : ICpuDataProvider, KoinCompon
         return cpuArchitecture.name
     }
 
-    actual override fun getNumberOfCores(): Int {
+    actual override fun getNumberOfLogicalCores(): Int {
+        return cpuDataNativeProvider.getNumberOfCores()
+    }
+
+    actual override fun getNumberOfPhysicalCores(): Int {
         return cpuDataNativeProvider.getNumberOfCores()
     }
 

@@ -48,8 +48,7 @@
     <string name="running_gc">Running Garbage Collector</string>
 
     <!-- CPU -->
-    <string name="cpu_current_frequency" translatable="false">Core %1$d: %2$sMHz</string>
-    <string name="cpu_frequency" translatable="false">%1$sMhz</string>
+    <string name="cpu_current_frequency" translatable="false">Core %1$d: %2$s</string>
     <string name="cpu_frequency_stopped" translatable="false">Core %1$d: Stopped</string>
     <string name="cpu_soc_name" translatable="false">SoC name</string>
     <string name="cpu_cores" translatable="false">Cores</string>

@@ -43,6 +43,7 @@ class CpuInfoViewModelTest {
     @Test
     fun initialUiState() = runTest {
         val expectedUiState = CpuInfoViewModel.UiState(
+            isInitializing = false,
             cpuData = cpuData,
         )
 

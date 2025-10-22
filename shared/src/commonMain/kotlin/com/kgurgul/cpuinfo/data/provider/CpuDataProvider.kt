@@ -4,7 +4,9 @@ expect class CpuDataProvider() : ICpuDataProvider {
 
     override fun getAbi(): String
 
-    override fun getNumberOfCores(): Int
+    override fun getNumberOfLogicalCores(): Int
+
+    override fun getNumberOfPhysicalCores(): Int
 
     override fun getCurrentFreq(coreNumber: Int): Long
 

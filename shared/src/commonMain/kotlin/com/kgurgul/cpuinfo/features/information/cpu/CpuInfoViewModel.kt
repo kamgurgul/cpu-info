@@ -32,10 +32,16 @@ class CpuInfoViewModel(
 
     val uiStateFlow = cpuDataObservable.observe()
         .distinctUntilChanged()
-        .map { UiState(it) }
+        .map {
+            UiState(
+                isInitializing = false,
+                cpuData = it,
+            )
+        }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     data class UiState(
+        val isInitializing: Boolean = true,
         val cpuData: CpuData? = null,
     )
 }

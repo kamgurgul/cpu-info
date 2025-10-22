@@ -33,7 +33,7 @@ class CpuTileService :
     private var refreshingJob: Job? = null
 
     private val minMaxAvg: Pair<Long, Long> by lazy {
-        val cpuCount = cpuDataProvider.getNumberOfCores()
+        val cpuCount = cpuDataProvider.getNumberOfLogicalCores()
         val minFreq = mutableListOf<Long>()
         val maxFreq = mutableListOf<Long>()
         for (i in 0 until cpuCount) {
@@ -92,7 +92,7 @@ class CpuTileService :
 
     private suspend fun getAverageCPUFreq(): Long {
         return withContext(dispatchersProvider.io) {
-            val cpuCount = cpuDataProvider.getNumberOfCores()
+            val cpuCount = cpuDataProvider.getNumberOfLogicalCores()
             var sumFreq = 0L
             for (i in 0 until cpuCount) {
                 sumFreq += cpuDataProvider.getCurrentFreq(i)

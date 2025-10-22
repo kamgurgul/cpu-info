@@ -21,7 +21,8 @@ class CpuDataObservable(
         while (true) {
             val processorName = cpuDataNativeProvider.getCpuName()
             val abi = cpuDataProvider.getAbi()
-            val coreNumber = cpuDataProvider.getNumberOfCores()
+            val logicalCoresCount = cpuDataProvider.getNumberOfLogicalCores()
+            val physicalCoresCount = cpuDataProvider.getNumberOfPhysicalCores()
             val hasArmNeon = cpuDataNativeProvider.hasArmNeon()
             val frequencies = mutableListOf<CpuData.Frequency>()
             val l1dCaches = cpuDataNativeProvider.getL1dCaches()
@@ -39,7 +40,7 @@ class CpuDataObservable(
             val l4Caches = cpuDataNativeProvider.getL4Caches()
                 ?.joinToString(separator = "\n") { Utils.humanReadableByteCount(it.toLong()) }
                 ?: ""
-            for (i in 0 until coreNumber) {
+            for (i in 0 until logicalCoresCount) {
                 val (min, max) = cpuDataProvider.getMinMaxFreq(i)
                 val current = cpuDataProvider.getCurrentFreq(i)
                 if (min != -1L && max != -1L) {
@@ -48,8 +49,16 @@ class CpuDataObservable(
             }
             emit(
                 CpuData(
-                    processorName, abi, coreNumber, hasArmNeon, frequencies,
-                    l1dCaches, l1iCaches, l2Caches, l3Caches, l4Caches,
+                    processorName = processorName,
+                    abi = abi,
+                    coreNumber = physicalCoresCount,
+                    hasArmNeon = hasArmNeon,
+                    frequencies = frequencies,
+                    l1dCaches = l1dCaches,
+                    l1iCaches = l1iCaches,
+                    l2Caches = l2Caches,
+                    l3Caches = l3Caches,
+                    l4Caches = l4Caches,
                 ),
             )
             delay(REFRESH_DELAY)

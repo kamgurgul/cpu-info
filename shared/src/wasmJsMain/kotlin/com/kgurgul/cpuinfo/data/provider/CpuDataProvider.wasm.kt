@@ -8,7 +8,11 @@ actual class CpuDataProvider actual constructor() : ICpuDataProvider {
         return "WASM"
     }
 
-    actual override fun getNumberOfCores(): Int {
+    actual override fun getNumberOfLogicalCores(): Int {
+        return window.navigator.hardwareConcurrency.toInt()
+    }
+
+    actual override fun getNumberOfPhysicalCores(): Int {
         return window.navigator.hardwareConcurrency.toInt()
     }
 
