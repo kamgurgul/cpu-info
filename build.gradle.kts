@@ -29,6 +29,9 @@ subprojects {
  * current version.
  */
 tasks.withType<DependencyUpdatesTask> {
+    doFirst {
+        gradle.startParameter.isParallelProjectExecutionEnabled = false
+    }
     rejectVersionIf {
         val current = DependencyUpdates.versionToRelease(currentVersion)
         // If we're using a SNAPSHOT, ignore since we must be doing so for a reason.
