@@ -39,7 +39,7 @@ jobs:
         run: |
           ./gradlew :desktopApp:packageReleaseMsi
       - name: Upload MSI
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: CPU.Info-${{ github.event.inputs.version }}.msi
           path: desktopApp/build/compose/binaries/main-release/msi/*.msi
@@ -60,7 +60,7 @@ jobs:
       - name: Build Uber JAR
         run: ./gradlew :desktopApp:packageReleaseUberJarForCurrentOS
       - name: Upload Uber JAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: CPU-Info-linux-x64-${{ github.event.inputs.version }}-release.jar
           path: desktopApp/build/compose/jars/*.jar
@@ -81,7 +81,7 @@ jobs:
       - name: Build Uber JAR
         run: ./gradlew :desktopApp:packageReleaseUberJarForCurrentOS
       - name: Upload Uber JAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: CPU-Info-macos-arm64-${{ github.event.inputs.version }}-release.jar
           path: desktopApp/build/compose/jars/*.jar
@@ -139,7 +139,7 @@ jobs:
           RELEASE_PATH: ${{ env.RELEASE_PATH }}
 
       - name: Upload DMG
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ env.RELEASE_NAME }}
           path: ${{ env.RELEASE_PATH }}
@@ -197,7 +197,7 @@ jobs:
           RELEASE_PATH: ${{ env.RELEASE_PATH }}
 
       - name: Upload DMG
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ env.RELEASE_NAME }}
           path: ${{ env.RELEASE_PATH }}
@@ -208,27 +208,27 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Download MSI
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: CPU.Info-${{ github.event.inputs.version }}.msi
       - name: Download Linux x64 Uber JAR
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: CPU-Info-linux-x64-${{ github.event.inputs.version }}-release.jar
       - name: Download Mac x64 DMG
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: CPU-Info-x64-${{ github.event.inputs.version }}.dmg
       - name: Rename Mac x64 DMG file
         run: mv CPU-Info-${{ github.event.inputs.version }}.dmg CPU-Info-macos-x64-${{ github.event.inputs.version }}.dmg
       - name: Download Mac arm64 DMG
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: CPU-Info-arm64-${{ github.event.inputs.version }}.dmg
       - name: Rename Mac arm64 DMG file
         run: mv CPU-Info-${{ github.event.inputs.version }}.dmg CPU-Info-macos-arm64-${{ github.event.inputs.version }}.dmg
       - name: Download Mac OS Uber JAR
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: CPU-Info-macos-arm64-${{ github.event.inputs.version }}-release.jar
       - name: Tag Release
