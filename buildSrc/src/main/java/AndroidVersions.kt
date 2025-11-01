@@ -1,6 +1,6 @@
 object AndroidVersions {
 
-    const val MIN_SDK = 21
+    const val MIN_SDK = 23
     const val WEAR_MIN_SDK = 26
     const val TARGET_SDK = 36
     const val COMPILE_SDK = 36
