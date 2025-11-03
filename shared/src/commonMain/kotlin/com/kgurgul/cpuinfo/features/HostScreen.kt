@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.style.TextOverflow
@@ -65,14 +66,14 @@ fun HostScreen(
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    val itemDefaultColors = CpuNavigationSuiteScaffoldDefault.itemDefaultColors()
+    val itemColors = CpuNavigationSuiteScaffoldDefault.itemColors()
     CpuNavigationSuiteScaffold(
-        navigationSuiteItems = {
+        navigationItems = {
             buildTopLevelRoutes(
                 isProcessesVisible = uiState.isProcessSectionVisible,
                 isApplicationsVisible = uiState.isApplicationSectionVisible,
             ).forEach { topLevelRoute ->
-                item(
+                NavigationSuiteItem(
                     icon = {
                         Icon(
                             painter = painterResource(topLevelRoute.icon),
@@ -99,7 +100,7 @@ fun HostScreen(
                             restoreState = true
                         }
                     },
-                    colors = itemDefaultColors,
+                    colors = itemColors,
                 )
             }
         },

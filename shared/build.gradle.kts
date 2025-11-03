@@ -98,6 +98,7 @@ kotlin {
                 api(compose.foundation)
                 implementation(compose.materialIconsExtended)
                 api(compose.material3)
+                implementation(compose.material3AdaptiveNavigationSuite)
                 implementation(compose.runtime)
                 implementation(compose.ui)
                 implementation(libs.androidx.lifecycle.viewmodel.compose)
