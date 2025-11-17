@@ -67,7 +67,7 @@ jobs:
 
   build_mac_uber_jar:
     needs: code_quality
-    runs-on: macos-latest
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v5
       - name: Set up JDK 17
@@ -88,7 +88,7 @@ jobs:
 
   build_mac_arm64_dmg:
     needs: code_quality
-    runs-on: macos-latest
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v5
 
