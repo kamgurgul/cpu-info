@@ -6,7 +6,7 @@ on:
       - master
 jobs:
   unit_tests:
-      runs-on: macos-26
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v5
       - name: set up JDK 17
