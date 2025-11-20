@@ -67,18 +67,6 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                 .testTag(CpuInfoScreenTestTags.LAZY_COLUMN),
         ) {
             uiState.cpuData?.let { cpuData ->
-                cpuData.frequencies.forEachIndexed { i, frequency ->
-                    item(key = "__frequency_$i") {
-                        FrequencyItem(
-                            index = i,
-                            frequency = frequency,
-                        )
-                        if (i == cpuData.frequencies.lastIndex) {
-                            Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                            CpuDivider()
-                        }
-                    }
-                }
                 item(key = "__soc_name") {
                     ItemValueRow(
                         title = stringResource(Res.string.cpu_soc_name),
@@ -162,6 +150,18 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                         ItemValueRow(
                             title = stringResource(Res.string.cpu_l4),
                             value = cpuData.l4Caches,
+                        )
+                    }
+                }
+                cpuData.frequencies.forEachIndexed { i, frequency ->
+                    item(key = "__frequency_$i") {
+                        if (i == 0) {
+                            CpuDivider()
+                            Spacer(modifier = Modifier.requiredSize(spacingSmall))
+                        }
+                        FrequencyItem(
+                            index = i,
+                            frequency = frequency,
                         )
                     }
                 }
