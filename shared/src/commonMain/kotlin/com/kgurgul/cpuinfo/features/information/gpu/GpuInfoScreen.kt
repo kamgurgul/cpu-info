@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.information.gpu
 
 import androidx.compose.foundation.layout.Arrangement
@@ -25,30 +40,22 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun GpuInfoScreen(
-    viewModel: GpuInfoViewModel = koinViewModel(),
-) {
+fun GpuInfoScreen(viewModel: GpuInfoViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
 
     Box {
         InternalGLSurfaceView(
             onGlInfoReceived = { vendor, renderer, extensions ->
                 viewModel.onGlInfoReceived(vendor, renderer, extensions)
-            },
+            }
         )
-        GpuInfoScreen(
-            uiState = uiState,
-        )
+        GpuInfoScreen(uiState = uiState)
     }
 }
 
 @Composable
-fun GpuInfoScreen(
-    uiState: GpuInfoViewModel.UiState,
-) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+fun GpuInfoScreen(uiState: GpuInfoViewModel.UiState) {
+    Box(modifier = Modifier.fillMaxSize()) {
         val listState = rememberLazyListState()
         LazyColumn(
             contentPadding = PaddingValues(spacingSmall),
@@ -56,9 +63,7 @@ fun GpuInfoScreen(
             state = listState,
             modifier = Modifier.fillMaxSize(),
         ) {
-            itemsIndexed(
-                uiState.gpuData,
-            ) { index, itemValue ->
+            itemsIndexed(uiState.gpuData) { index, itemValue ->
                 InformationRow(
                     title = itemValue.getName(),
                     value = itemValue.getValue(),
@@ -67,32 +72,31 @@ fun GpuInfoScreen(
             }
         }
         VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
             scrollState = listState,
         )
     }
 }
 
-@Composable
-expect fun InternalGLSurfaceView(onGlInfoReceived: (String, String, String) -> Unit)
+@Composable expect fun InternalGLSurfaceView(onGlInfoReceived: (String, String, String) -> Unit)
 
 @Preview
 @Composable
 fun GpuInfoScreenPreview() {
     CpuInfoTheme {
         GpuInfoScreen(
-            uiState = GpuInfoViewModel.UiState(
-                gpuData = persistentListOf(
-                    ItemValue.Text("vulkanVersion", "vulkanVersion"),
-                    ItemValue.Text("glesVersion", "glEsVersion"),
-                    ItemValue.Text("metalVersion", "metalVersion"),
-                    ItemValue.Text("glVendor", "glVendor"),
-                    ItemValue.Text("glRenderer", "glRenderer"),
-                    ItemValue.Text("glExtensions", "glExtensions"),
-                ),
-            ),
+            uiState =
+                GpuInfoViewModel.UiState(
+                    gpuData =
+                        persistentListOf(
+                            ItemValue.Text("vulkanVersion", "vulkanVersion"),
+                            ItemValue.Text("glesVersion", "glEsVersion"),
+                            ItemValue.Text("metalVersion", "metalVersion"),
+                            ItemValue.Text("glVendor", "glVendor"),
+                            ItemValue.Text("glRenderer", "glRenderer"),
+                            ItemValue.Text("glExtensions", "glExtensions"),
+                        )
+                )
         )
     }
 }

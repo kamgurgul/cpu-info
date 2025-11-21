@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.tv.features.temperature
 
 import androidx.compose.foundation.layout.Arrangement
@@ -55,47 +70,36 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object TvTemperaturesBaseRoute {
 
-    @Serializable
-    data object TvTemperaturesRoute
+    @Serializable data object TvTemperaturesRoute
 }
 
 fun NavGraphBuilder.tvTemperaturesScreen() {
     navigation<TvTemperaturesBaseRoute>(
         startDestination = TvTemperaturesBaseRoute.TvTemperaturesRoute,
-        deepLinks = listOf(
-            navDeepLink<TvTemperaturesBaseRoute>(
-                basePath = NavigationConst.BASE_URL + NavigationConst.TEMPERATURES
-            )
-        ),
+        deepLinks =
+            listOf(
+                navDeepLink<TvTemperaturesBaseRoute>(
+                    basePath = NavigationConst.BASE_URL + NavigationConst.TEMPERATURES
+                )
+            ),
     ) {
-        composable<TvTemperaturesBaseRoute.TvTemperaturesRoute> {
-            TvTemperatureScreen()
-        }
+        composable<TvTemperaturesBaseRoute.TvTemperaturesRoute> { TvTemperatureScreen() }
     }
 }
 
 @Composable
-fun TvTemperatureScreen(
-    viewModel: TemperatureViewModel = koinViewModel(),
-) {
+fun TvTemperatureScreen(viewModel: TemperatureViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    TvTemperatureScreen(
-        uiState = uiState,
-    )
+    TvTemperatureScreen(uiState = uiState)
 }
 
 @Composable
-fun TvTemperatureScreen(
-    uiState: TemperatureViewModel.UiState,
-) {
-    Scaffold(
-        contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
-    ) { paddingValues ->
+fun TvTemperatureScreen(uiState: TemperatureViewModel.UiState) {
+    Scaffold(contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)) {
+        paddingValues ->
         val paddingModifier = Modifier.padding(paddingValues)
         if (uiState.temperatureItems.isEmpty()) {
-            TvEmptyTemperatureList(
-                modifier = paddingModifier,
-            )
+            TvEmptyTemperatureList(modifier = paddingModifier)
         } else {
             TvTemperatureList(
                 temperatureItems = uiState.temperatureItems,
@@ -112,35 +116,18 @@ private fun TvTemperatureList(
     temperatureFormatter: TemperatureFormatter,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(spacingMedium)
-            .then(modifier),
-    ) {
-        items(
-            items = temperatureItems,
-            key = { item -> item.id },
-        ) { item ->
-            TvTemperatureItem(
-                item = item,
-                temperatureFormatter = temperatureFormatter,
-            )
+    LazyColumn(modifier = Modifier.fillMaxSize().padding(spacingMedium).then(modifier)) {
+        items(items = temperatureItems, key = { item -> item.id }) { item ->
+            TvTemperatureItem(item = item, temperatureFormatter = temperatureFormatter)
         }
     }
 }
 
 @Composable
-private fun TvTemperatureItem(
-    item: TemperatureItem,
-    temperatureFormatter: TemperatureFormatter,
-) {
+private fun TvTemperatureItem(item: TemperatureItem, temperatureFormatter: TemperatureFormatter) {
     val coroutineScope = rememberCoroutineScope()
     TvListItem {
-        Row(
-            modifier = Modifier
-                .height(IntrinsicSize.Min),
-        ) {
+        Row(modifier = Modifier.height(IntrinsicSize.Min)) {
             Icon(
                 painter = painterResource(item.icon),
                 tint = MaterialTheme.colorScheme.onBackground,
@@ -148,10 +135,7 @@ private fun TvTemperatureItem(
                 modifier = Modifier.requiredSize(60.dp),
             )
             Spacer(modifier = Modifier.requiredSize(spacingSmall))
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-            ) {
+            Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
                 Text(
                     text = item.name.asString(),
                     style = MaterialTheme.typography.bodyLarge,
@@ -177,15 +161,10 @@ private fun TvTemperatureItem(
 }
 
 @Composable
-private fun TvEmptyTemperatureList(
-    modifier: Modifier = Modifier,
-) {
+private fun TvEmptyTemperatureList(modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(spacingMedium)
-            .then(modifier),
+        modifier = Modifier.fillMaxSize().padding(spacingMedium).then(modifier),
     ) {
         Text(
             text = stringResource(Res.string.no_temp_data),

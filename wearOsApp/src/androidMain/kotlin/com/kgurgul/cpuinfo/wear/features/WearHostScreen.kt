@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 @file:OptIn(ExperimentalHorologistApi::class)
 
 package com.kgurgul.cpuinfo.wear.features
@@ -53,19 +68,14 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun WearHostScreen(
-    viewModel: HostViewModel = koinViewModel(),
-) {
+fun WearHostScreen(viewModel: HostViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     val navController = rememberSwipeDismissableNavController()
     val swipeToDismissBoxState = rememberSwipeToDismissBoxState()
-    val swipeDismissableNavHostState = rememberSwipeDismissableNavHostState(
-        swipeToDismissBoxState = swipeToDismissBoxState,
-    )
+    val swipeDismissableNavHostState =
+        rememberSwipeDismissableNavHostState(swipeToDismissBoxState = swipeToDismissBoxState)
     WearAppTheme {
-        AppScaffold(
-            modifier = Modifier.background(MaterialTheme.colors.background),
-        ) {
+        AppScaffold(modifier = Modifier.background(MaterialTheme.colors.background)) {
             SwipeDismissableNavHost(
                 navController = navController,
                 startDestination = WearHostScreen.Menu.route,
@@ -88,17 +98,11 @@ fun WearHostScreen(
                         },
                     )
                 }
-                composable(WearHostScreen.Information.route) {
-                    WearInfoContainerScreen()
-                }
+                composable(WearHostScreen.Information.route) { WearInfoContainerScreen() }
                 composable(WearHostScreen.Applications.route) {
-                    WearApplicationsScreen(
-                        swipeToDismissBoxState = swipeToDismissBoxState,
-                    )
+                    WearApplicationsScreen(swipeToDismissBoxState = swipeToDismissBoxState)
                 }
-                composable(WearHostScreen.Temperature.route) {
-                    WearTemperatureScreen()
-                }
+                composable(WearHostScreen.Temperature.route) { WearTemperatureScreen() }
                 navigation(
                     startDestination = WearHostScreen.Settings.List.route,
                     route = WearHostScreen.Settings.route,
@@ -116,13 +120,10 @@ fun WearHostScreen(
                     composable(WearHostScreen.Settings.TemperatureUnitPicker.route) {
                         WearTemperatureUnitPickerScreen(
                             viewModel = it.sharedViewModel(navController),
-                            onTemperatureUnitSelected = {
-                                navController.popBackStack()
-                            },
+                            onTemperatureUnitSelected = { navController.popBackStack() },
                         )
                     }
                 }
-
             }
         }
     }
@@ -136,18 +137,13 @@ fun MenuScreen(
     onTemperatureClicked: () -> Unit,
     onSettingsClicked: () -> Unit,
 ) {
-    val columnState = rememberResponsiveColumnState(
-        contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ItemType.Text,
-            last = ItemType.Chip,
-        ),
-    )
-    ScreenScaffold(
-        scrollState = columnState,
-    ) {
-        ScalingLazyColumn(
-            columnState = columnState,
-        ) {
+    val columnState =
+        rememberResponsiveColumnState(
+            contentPadding =
+                ScalingLazyColumnDefaults.padding(first = ItemType.Text, last = ItemType.Chip)
+        )
+    ScreenScaffold(scrollState = columnState) {
+        ScalingLazyColumn(columnState = columnState) {
             item {
                 ResponsiveListHeader(contentPadding = firstItemPadding()) {
                     Text(
@@ -163,9 +159,9 @@ fun MenuScreen(
                         Icon(
                             painter = painterResource(Res.drawable.ic_cpu),
                             contentDescription = null,
-                            modifier = Modifier
-                                .size(ChipDefaults.IconSize)
-                                .wrapContentSize(align = Alignment.Center),
+                            modifier =
+                                Modifier.size(ChipDefaults.IconSize)
+                                    .wrapContentSize(align = Alignment.Center),
                         )
                     },
                     onClick = onInformationClicked,
@@ -179,9 +175,9 @@ fun MenuScreen(
                             Icon(
                                 painter = painterResource(Res.drawable.ic_android),
                                 contentDescription = null,
-                                modifier = Modifier
-                                    .size(ChipDefaults.IconSize)
-                                    .wrapContentSize(align = Alignment.Center),
+                                modifier =
+                                    Modifier.size(ChipDefaults.IconSize)
+                                        .wrapContentSize(align = Alignment.Center),
                             )
                         },
                         onClick = onApplicationsClicked,
@@ -195,9 +191,9 @@ fun MenuScreen(
                         Icon(
                             painter = painterResource(Res.drawable.ic_temperature),
                             contentDescription = null,
-                            modifier = Modifier
-                                .size(ChipDefaults.IconSize)
-                                .wrapContentSize(align = Alignment.Center),
+                            modifier =
+                                Modifier.size(ChipDefaults.IconSize)
+                                    .wrapContentSize(align = Alignment.Center),
                         )
                     },
                     onClick = onTemperatureClicked,
@@ -210,9 +206,9 @@ fun MenuScreen(
                         Icon(
                             painter = painterResource(Res.drawable.ic_settings),
                             contentDescription = null,
-                            modifier = Modifier
-                                .size(ChipDefaults.IconSize)
-                                .wrapContentSize(align = Alignment.Center),
+                            modifier =
+                                Modifier.size(ChipDefaults.IconSize)
+                                    .wrapContentSize(align = Alignment.Center),
                         )
                     },
                     onClick = onSettingsClicked,
@@ -224,11 +220,16 @@ fun MenuScreen(
 
 sealed class WearHostScreen(val route: String) {
     data object Menu : WearHostScreen("menu")
+
     data object Information : WearHostScreen("information")
+
     data object Applications : WearHostScreen("applications")
+
     data object Temperature : WearHostScreen("temperature")
+
     data object Settings : WearHostScreen("settings") {
         data object List : WearHostScreen("settings_list")
+
         data object TemperatureUnitPicker : WearHostScreen("temperature_unit_picker")
     }
 }

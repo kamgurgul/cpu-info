@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.ItemValue
@@ -47,7 +46,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             add(
                 ItemValue.NameResource(
                     Res.string.manufacturer,
-                    hardware.computerSystem.manufacturer
+                    hardware.computerSystem.manufacturer,
                 )
             )
             add(ItemValue.NameResource(Res.string.model, hardware.computerSystem.model))
@@ -55,47 +54,51 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             add(
                 ItemValue.NameResource(
                     Res.string.hardware_uuid,
-                    hardware.computerSystem.hardwareUUID
+                    hardware.computerSystem.hardwareUUID,
                 )
             )
-            val firmware = buildString {
-                if (hardware.computerSystem.firmware.manufacturer != UNKNOWN) {
-                    append(hardware.computerSystem.firmware.manufacturer)
-                    append(" ")
-                }
-                if (hardware.computerSystem.firmware.name != UNKNOWN) {
-                    append(hardware.computerSystem.firmware.name)
-                    append(" ")
-                }
-                if (hardware.computerSystem.firmware.version != UNKNOWN) {
-                    append(hardware.computerSystem.firmware.version)
-                    append(" ")
-                }
-                if (hardware.computerSystem.firmware.description != UNKNOWN) {
-                    append(hardware.computerSystem.firmware.description)
-                    append(" ")
-                }
-                if (hardware.computerSystem.firmware.releaseDate != UNKNOWN) {
-                    append(hardware.computerSystem.firmware.releaseDate)
-                }
-            }.trim()
-            val motherboard = buildString {
-                if (hardware.computerSystem.baseboard.manufacturer != UNKNOWN) {
-                    append(hardware.computerSystem.baseboard.manufacturer)
-                    append(" ")
-                }
-                if (hardware.computerSystem.baseboard.model != UNKNOWN) {
-                    append(hardware.computerSystem.baseboard.model)
-                    append(" ")
-                }
-                if (hardware.computerSystem.baseboard.version != UNKNOWN) {
-                    append(hardware.computerSystem.baseboard.version)
-                    append(" ")
-                }
-                if (hardware.computerSystem.baseboard.serialNumber != UNKNOWN) {
-                    append(hardware.computerSystem.baseboard.serialNumber)
-                }
-            }.trim()
+            val firmware =
+                buildString {
+                        if (hardware.computerSystem.firmware.manufacturer != UNKNOWN) {
+                            append(hardware.computerSystem.firmware.manufacturer)
+                            append(" ")
+                        }
+                        if (hardware.computerSystem.firmware.name != UNKNOWN) {
+                            append(hardware.computerSystem.firmware.name)
+                            append(" ")
+                        }
+                        if (hardware.computerSystem.firmware.version != UNKNOWN) {
+                            append(hardware.computerSystem.firmware.version)
+                            append(" ")
+                        }
+                        if (hardware.computerSystem.firmware.description != UNKNOWN) {
+                            append(hardware.computerSystem.firmware.description)
+                            append(" ")
+                        }
+                        if (hardware.computerSystem.firmware.releaseDate != UNKNOWN) {
+                            append(hardware.computerSystem.firmware.releaseDate)
+                        }
+                    }
+                    .trim()
+            val motherboard =
+                buildString {
+                        if (hardware.computerSystem.baseboard.manufacturer != UNKNOWN) {
+                            append(hardware.computerSystem.baseboard.manufacturer)
+                            append(" ")
+                        }
+                        if (hardware.computerSystem.baseboard.model != UNKNOWN) {
+                            append(hardware.computerSystem.baseboard.model)
+                            append(" ")
+                        }
+                        if (hardware.computerSystem.baseboard.version != UNKNOWN) {
+                            append(hardware.computerSystem.baseboard.version)
+                            append(" ")
+                        }
+                        if (hardware.computerSystem.baseboard.serialNumber != UNKNOWN) {
+                            append(hardware.computerSystem.baseboard.serialNumber)
+                        }
+                    }
+                    .trim()
             add(ItemValue.NameResource(Res.string.hardware_firmware, firmware))
             add(ItemValue.NameResource(Res.string.hardware_motherboard, motherboard))
 
@@ -109,15 +112,17 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             if (hardware.networkIFs.isNotEmpty()) {
                 add(ItemValue.NameResource(Res.string.hardware_network_interfaces, ""))
                 hardware.networkIFs.forEach { networkIF ->
-                    val value = buildString {
-                        appendLine(networkIF.macaddr)
-                        if (networkIF.iPv4addr.isNotEmpty()) {
-                            appendLine(networkIF.iPv4addr.joinToString { "\n" })
-                        }
-                        if (networkIF.iPv6addr.isNotEmpty()) {
-                            appendLine(networkIF.iPv6addr.joinToString { "\n" })
-                        }
-                    }.trim()
+                    val value =
+                        buildString {
+                                appendLine(networkIF.macaddr)
+                                if (networkIF.iPv4addr.isNotEmpty()) {
+                                    appendLine(networkIF.iPv4addr.joinToString { "\n" })
+                                }
+                                if (networkIF.iPv6addr.isNotEmpty()) {
+                                    appendLine(networkIF.iPv6addr.joinToString { "\n" })
+                                }
+                            }
+                            .trim()
                     add(ItemValue.Text(networkIF.name, value))
                 }
             }

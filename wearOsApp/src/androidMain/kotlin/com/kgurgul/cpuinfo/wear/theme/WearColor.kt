@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.wear.theme
 
 import androidx.wear.compose.material.Colors
@@ -15,18 +30,19 @@ import com.kgurgul.cpuinfo.ui.theme.md_theme_dark_secondary
 import com.kgurgul.cpuinfo.ui.theme.md_theme_dark_surface
 import com.kgurgul.cpuinfo.ui.theme.md_theme_dark_tertiary
 
-internal val wearColorPalette: Colors = Colors(
-    primary = md_theme_dark_primary,
-    primaryVariant = md_theme_dark_inversePrimary,
-    secondary = md_theme_dark_secondary,
-    secondaryVariant = md_theme_dark_tertiary,
-    background = md_theme_dark_background,
-    surface = md_theme_dark_surface,
-    error = md_theme_dark_error,
-    onPrimary = md_theme_dark_onPrimary,
-    onSecondary = md_theme_dark_onSecondary,
-    onBackground = md_theme_dark_onBackground,
-    onSurface = md_theme_dark_onSurface,
-    onSurfaceVariant = md_theme_dark_onTertiary,
-    onError = md_theme_dark_onError,
-)
+internal val wearColorPalette: Colors =
+    Colors(
+        primary = md_theme_dark_primary,
+        primaryVariant = md_theme_dark_inversePrimary,
+        secondary = md_theme_dark_secondary,
+        secondaryVariant = md_theme_dark_tertiary,
+        background = md_theme_dark_background,
+        surface = md_theme_dark_surface,
+        error = md_theme_dark_error,
+        onPrimary = md_theme_dark_onPrimary,
+        onSecondary = md_theme_dark_onSecondary,
+        onBackground = md_theme_dark_onBackground,
+        onSurface = md_theme_dark_onSurface,
+        onSurfaceVariant = md_theme_dark_onTertiary,
+        onError = md_theme_dark_onError,
+    )

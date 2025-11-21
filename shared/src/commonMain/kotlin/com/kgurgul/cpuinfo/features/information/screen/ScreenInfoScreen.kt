@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.information.screen
 
 import androidx.compose.foundation.layout.Arrangement
@@ -26,22 +41,14 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun ScreenInfoScreen(
-    viewModel: ScreenInfoViewModel = koinViewModel(),
-) {
+fun ScreenInfoScreen(viewModel: ScreenInfoViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    ScreenInfoScreen(
-        uiState = uiState,
-    )
+    ScreenInfoScreen(uiState = uiState)
 }
 
 @Composable
-fun ScreenInfoScreen(
-    uiState: ScreenInfoViewModel.UiState,
-) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+fun ScreenInfoScreen(uiState: ScreenInfoViewModel.UiState) {
+    Box(modifier = Modifier.fillMaxSize()) {
         val listState = rememberLazyListState()
         LazyColumn(
             contentPadding = PaddingValues(spacingSmall),
@@ -49,10 +56,9 @@ fun ScreenInfoScreen(
             state = listState,
             modifier = Modifier.fillMaxSize(),
         ) {
-            itemsIndexed(
-                uiState.items,
-                key = { _, itemValue -> itemValue.getKey() },
-            ) { index, itemValue ->
+            itemsIndexed(uiState.items, key = { _, itemValue -> itemValue.getKey() }) {
+                index,
+                itemValue ->
                 InformationRow(
                     title = itemValue.getName(),
                     value = itemValue.getValue(),
@@ -61,9 +67,7 @@ fun ScreenInfoScreen(
             }
         }
         VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
             scrollState = listState,
         )
     }
@@ -74,12 +78,10 @@ fun ScreenInfoScreen(
 fun ScreenInfoScreenPreview() {
     CpuInfoTheme {
         ScreenInfoScreen(
-            uiState = ScreenInfoViewModel.UiState(
-                persistentListOf(
-                    ItemValue.Text("test", ""),
-                    ItemValue.Text("test", "test"),
-                ),
-            ),
+            uiState =
+                ScreenInfoViewModel.UiState(
+                    persistentListOf(ItemValue.Text("test", ""), ItemValue.Text("test", "test"))
+                )
         )
     }
 }

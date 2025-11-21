@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.ui.components
 
 import androidx.compose.animation.core.tween
@@ -44,16 +59,14 @@ fun DraggableBox(
 ) {
     val state = remember {
         AnchoredDraggableState(
-            initialValue = if (isRevealed) DraggableState.Revealed else DraggableState.Collapsed,
+            initialValue = if (isRevealed) DraggableState.Revealed else DraggableState.Collapsed
         )
     }
     val anchors = DraggableAnchors {
         DraggableState.Collapsed at 0f
         DraggableState.Revealed at -actionRowOffset
     }
-    SideEffect {
-        state.updateAnchors(anchors)
-    }
+    SideEffect { state.updateAnchors(anchors) }
     LaunchedEffect(isRevealed) {
         val target = if (isRevealed) DraggableState.Revealed else DraggableState.Collapsed
         if (target != state.settledValue) {
@@ -71,44 +84,36 @@ fun DraggableBox(
                 }
             }
     }
-    Box(
-        contentAlignment = Alignment.CenterEnd,
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(modifier),
-    ) {
+    Box(contentAlignment = Alignment.CenterEnd, modifier = Modifier.fillMaxWidth().then(modifier)) {
         actionRow()
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .offset { IntOffset(x = state.requireOffset().roundToInt(), y = 0) }
-                .shadow(
-                    elevation = calculateElevation(state.offset, actionRowOffset),
-                    spotColor = MaterialTheme.colorScheme.onBackground,
-                )
-                .anchoredDraggable(
-                    state = state,
-                    orientation = Orientation.Horizontal,
-                    overscrollEffect = overscrollEffect,
-                    enabled = enabled,
-                    flingBehavior = AnchoredDraggableDefaults.flingBehavior(
-                        state = state,
-                        positionalThreshold = { velocity: Float -> velocity * 0.5f },
-                        animationSpec = tween(durationMillis = SNAP_ANIMATION_MS),
+            modifier =
+                Modifier.fillMaxWidth()
+                    .offset { IntOffset(x = state.requireOffset().roundToInt(), y = 0) }
+                    .shadow(
+                        elevation = calculateElevation(state.offset, actionRowOffset),
+                        spotColor = MaterialTheme.colorScheme.onBackground,
                     )
-                )
-                .overscroll(overscrollEffect),
+                    .anchoredDraggable(
+                        state = state,
+                        orientation = Orientation.Horizontal,
+                        overscrollEffect = overscrollEffect,
+                        enabled = enabled,
+                        flingBehavior =
+                            AnchoredDraggableDefaults.flingBehavior(
+                                state = state,
+                                positionalThreshold = { velocity: Float -> velocity * 0.5f },
+                                animationSpec = tween(durationMillis = SNAP_ANIMATION_MS),
+                            ),
+                    )
+                    .overscroll(overscrollEffect)
         ) {
             content()
         }
     }
 }
 
-private fun calculateElevation(
-    offset: Float,
-    actionRowOffset: Float,
-    maxElevation: Dp = 8.dp
-): Dp {
+private fun calculateElevation(offset: Float, actionRowOffset: Float, maxElevation: Dp = 8.dp): Dp {
     return if (offset.isNaN() || actionRowOffset.isNaN() || offset.absoluteValue == 0f) {
         0.dp
     } else {
@@ -118,5 +123,5 @@ private fun calculateElevation(
 
 enum class DraggableState {
     Collapsed,
-    Revealed
+    Revealed,
 }

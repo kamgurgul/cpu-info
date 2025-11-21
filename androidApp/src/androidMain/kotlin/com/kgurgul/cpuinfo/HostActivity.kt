@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo
 
 import android.os.Build
@@ -46,9 +61,7 @@ class HostActivity : ComponentActivity() {
         var uiState: HostViewModel.UiState by mutableStateOf(HostViewModel.UiState())
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiStateFlow
-                    .onEach { uiState = it }
-                    .collect()
+                viewModel.uiStateFlow.onEach { uiState = it }.collect()
             }
         }
         splashScreen.setKeepOnScreenCondition { uiState.isLoading }
@@ -66,36 +79,32 @@ class HostActivity : ComponentActivity() {
                 onDispose {}
             }
             val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-            val colors = when {
-                dynamicColor && darkTheme -> {
-                    val dynamicDarkColors = dynamicDarkColorScheme(LocalContext.current)
-                    DarkColors.copy(
-                        secondary = dynamicDarkColors.surfaceContainerHighest,
-                        onSecondary = dynamicDarkColors.onSurface,
-                    )
-                }
+            val colors =
+                when {
+                    dynamicColor && darkTheme -> {
+                        val dynamicDarkColors = dynamicDarkColorScheme(LocalContext.current)
+                        DarkColors.copy(
+                            secondary = dynamicDarkColors.surfaceContainerHighest,
+                            onSecondary = dynamicDarkColors.onSurface,
+                        )
+                    }
 
-                dynamicColor && !darkTheme -> {
-                    val dynamicLightColors = dynamicLightColorScheme(LocalContext.current)
-                    LightColors.copy(
-                        secondary = dynamicLightColors.surfaceContainerHighest,
-                        onSecondary = dynamicLightColors.onSurface,
-                    )
-                }
+                    dynamicColor && !darkTheme -> {
+                        val dynamicLightColors = dynamicLightColorScheme(LocalContext.current)
+                        LightColors.copy(
+                            secondary = dynamicLightColors.surfaceContainerHighest,
+                            onSecondary = dynamicLightColors.onSurface,
+                        )
+                    }
 
-                darkTheme -> DarkColors
-                else -> LightColors
-            }
+                    darkTheme -> DarkColors
+                    else -> LightColors
+                }
             LaunchedEffect(uiState.isApplicationSectionVisible) {
                 androidShortcutManager.createShortcuts(uiState.isApplicationSectionVisible)
             }
-            CpuInfoTheme(
-                useDarkTheme = darkTheme,
-                colors = colors,
-            ) {
-                HostScreen(
-                    viewModel = viewModel,
-                )
+            CpuInfoTheme(useDarkTheme = darkTheme, colors = colors) {
+                HostScreen(viewModel = viewModel)
             }
         }
     }

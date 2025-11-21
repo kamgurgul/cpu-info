@@ -1,3 +1,6 @@
+import com.kgurgul.AndroidSigningConfig
+import com.kgurgul.AndroidVersions
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.application)

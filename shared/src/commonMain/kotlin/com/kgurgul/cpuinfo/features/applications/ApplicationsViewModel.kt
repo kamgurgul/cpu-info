@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.applications
 
 import androidx.compose.runtime.Stable
@@ -43,52 +58,56 @@ class ApplicationsViewModel(
 
     private val localDataFlow = MutableStateFlow(LocalUiState())
     private val cachedApplications = mutableListOf<ExtendedApplicationData>()
-    private val userPreferencesFlow = userPreferencesRepository.userPreferencesFlow
-        .onEach { userPreferences ->
+    private val userPreferencesFlow =
+        userPreferencesRepository.userPreferencesFlow.onEach { userPreferences ->
             applicationsDataObservable.invoke(
                 ApplicationsDataObservable.Params(
                     withSystemApps = userPreferences.withSystemApps,
                     sortOrderFromBoolean(userPreferences.isApplicationsSortingAscending),
-                ),
+                )
             )
         }
     val searchQuery = savedStateHandle.getStateFlow(key = SEARCH_QUERY_KEY, initialValue = "")
-    private val debouncedSearchQueryFlow = searchQuery.mapLatest { query ->
-        if (query.isNotEmpty()) {
-            delay(SEARCH_DEBOUNCE_MS)
+    private val debouncedSearchQueryFlow =
+        searchQuery.mapLatest { query ->
+            if (query.isNotEmpty()) {
+                delay(SEARCH_DEBOUNCE_MS)
+            }
+            query
         }
-        query
-    }
-    val uiStateFlow = combine(
-        localDataFlow,
-        userPreferencesFlow,
-        applicationsDataObservable.observe(),
-        debouncedSearchQueryFlow,
-    ) { localData, userPreferences, applicationsResult, searchQuery ->
-        if (applicationsResult is Result.Success) {
-            cachedApplications.clear()
-            cachedApplications.addAll(applicationsResult.data)
-        }
-        val filteredApplications = if (searchQuery.isEmpty()) {
-            cachedApplications
-        } else {
-            filterApplicationsInteractor.invoke(
-                FilterApplicationsInteractor.Params(cachedApplications, searchQuery)
-            )
-        }
-        UiState(
-            isLoading = applicationsResult is Result.Loading,
-            withSystemApps = userPreferences.withSystemApps,
-            isSortAscending = userPreferences.isApplicationsSortingAscending,
-            isDialogVisible = localData.isDialogVisible,
-            nativeLibs = localData.nativeLibs,
-            applications = filteredApplications.toImmutableList(),
-            snackbarMessage = localData.snackbarMessage,
-            hasSystemAppsFiltering = applicationsDataProvider.hasSystemAppsFiltering(),
-            hasAppManagement = applicationsDataProvider.hasAppManagementSupported(),
-            hasManualRefresh = applicationsDataProvider.hasManualRefresh(),
-        )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+    val uiStateFlow =
+        combine(
+                localDataFlow,
+                userPreferencesFlow,
+                applicationsDataObservable.observe(),
+                debouncedSearchQueryFlow,
+            ) { localData, userPreferences, applicationsResult, searchQuery ->
+                if (applicationsResult is Result.Success) {
+                    cachedApplications.clear()
+                    cachedApplications.addAll(applicationsResult.data)
+                }
+                val filteredApplications =
+                    if (searchQuery.isEmpty()) {
+                        cachedApplications
+                    } else {
+                        filterApplicationsInteractor.invoke(
+                            FilterApplicationsInteractor.Params(cachedApplications, searchQuery)
+                        )
+                    }
+                UiState(
+                    isLoading = applicationsResult is Result.Loading,
+                    withSystemApps = userPreferences.withSystemApps,
+                    isSortAscending = userPreferences.isApplicationsSortingAscending,
+                    isDialogVisible = localData.isDialogVisible,
+                    nativeLibs = localData.nativeLibs,
+                    applications = filteredApplications.toImmutableList(),
+                    snackbarMessage = localData.snackbarMessage,
+                    hasSystemAppsFiltering = applicationsDataProvider.hasSystemAppsFiltering(),
+                    hasAppManagement = applicationsDataProvider.hasAppManagementSupported(),
+                    hasManualRefresh = applicationsDataProvider.hasManualRefresh(),
+                )
+            }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     fun onRefreshApplications() {
         val currentUiState = uiStateFlow.value
@@ -96,7 +115,7 @@ class ApplicationsViewModel(
             ApplicationsDataObservable.Params(
                 withSystemApps = currentUiState.withSystemApps,
                 sortOrderFromBoolean(currentUiState.isSortAscending),
-            ),
+            )
         )
     }
 
@@ -105,10 +124,9 @@ class ApplicationsViewModel(
             if (getPackageNameInteractor.invoke(Unit) == packageName) {
                 localDataFlow.update { it.copy(snackbarMessage = Res.string.cpu_open) }
             } else {
-                externalAppAction.launch(packageName)
-                    .onFailure {
-                        localDataFlow.update { it.copy(snackbarMessage = Res.string.app_open) }
-                    }
+                externalAppAction.launch(packageName).onFailure {
+                    localDataFlow.update { it.copy(snackbarMessage = Res.string.app_open) }
+                }
             }
         }
     }
@@ -134,21 +152,13 @@ class ApplicationsViewModel(
     fun onNativeLibsClicked(libs: List<String>) {
         if (libs.isNotEmpty()) {
             localDataFlow.update {
-                it.copy(
-                    isDialogVisible = true,
-                    nativeLibs = libs.toImmutableList(),
-                )
+                it.copy(isDialogVisible = true, nativeLibs = libs.toImmutableList())
             }
         }
     }
 
     fun onNativeLibsDialogDismissed() {
-        localDataFlow.update {
-            it.copy(
-                isDialogVisible = false,
-                nativeLibs = persistentListOf(),
-            )
-        }
+        localDataFlow.update { it.copy(isDialogVisible = false, nativeLibs = persistentListOf()) }
     }
 
     fun onNativeLibsNameClicked(name: String) {
@@ -156,15 +166,11 @@ class ApplicationsViewModel(
     }
 
     fun onSystemAppsSwitched(checked: Boolean) {
-        viewModelScope.launch {
-            userPreferencesRepository.setApplicationsWithSystemApps(checked)
-        }
+        viewModelScope.launch { userPreferencesRepository.setApplicationsWithSystemApps(checked) }
     }
 
     fun onSortOrderChange(isAscending: Boolean) {
-        viewModelScope.launch {
-            userPreferencesRepository.setApplicationsSortingOrder(isAscending)
-        }
+        viewModelScope.launch { userPreferencesRepository.setApplicationsSortingOrder(isAscending) }
     }
 
     fun onSearchQueryChanged(query: String) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.features.information.os
 
 import androidx.lifecycle.ViewModel
@@ -28,15 +27,13 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class OsInfoViewModel(
-    getOsDataInteractor: GetOsDataInteractor,
-) : ViewModel() {
+class OsInfoViewModel(getOsDataInteractor: GetOsDataInteractor) : ViewModel() {
 
-    val uiStateFlow = getOsDataInteractor.observe()
-        .map { UiState(it.toImmutableList()) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+    val uiStateFlow =
+        getOsDataInteractor
+            .observe()
+            .map { UiState(it.toImmutableList()) }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
-    data class UiState(
-        val items: ImmutableList<ItemValue> = persistentListOf(),
-    )
+    data class UiState(val items: ImmutableList<ItemValue> = persistentListOf())
 }

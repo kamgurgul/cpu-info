@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.domain.observable
 
 import com.kgurgul.cpuinfo.data.provider.ITemperatureProvider
@@ -34,32 +49,36 @@ class TemperatureDataObservable(
                         icon = Res.drawable.ic_battery,
                         name = TextResource.Resource(Res.string.battery),
                         temperature = it,
-                    ),
+                    )
                 )
             }
-            cpuTempPath?.let { temperatureProvider.getCpuTemperature(it) }?.let {
-                emit(
-                    TemperatureItem(
-                        id = ID_CPU,
-                        icon = Res.drawable.ic_cpu_temp,
-                        name = TextResource.Resource(Res.string.cpu),
-                        temperature = it,
-                    ),
-                )
-            }
+            cpuTempPath
+                ?.let { temperatureProvider.getCpuTemperature(it) }
+                ?.let {
+                    emit(
+                        TemperatureItem(
+                            id = ID_CPU,
+                            icon = Res.drawable.ic_cpu_temp,
+                            name = TextResource.Resource(Res.string.cpu),
+                            temperature = it,
+                        )
+                    )
+                }
             delay(REFRESH_DELAY)
         }
     }
 
     private val cachedTemperatures = mutableListOf<TemperatureItem>()
 
-    override fun createObservable(params: Unit) = merge(mainFlow, temperatureProvider.sensorsFlow)
-        .map { temperatureItem ->
-            cachedTemperatures.apply {
-                removeAll { it.id == temperatureItem.id }
-                add(temperatureItem)
-                sortBy { it.id }
-            }.toList()
+    override fun createObservable(params: Unit) =
+        merge(mainFlow, temperatureProvider.sensorsFlow).map { temperatureItem ->
+            cachedTemperatures
+                .apply {
+                    removeAll { it.id == temperatureItem.id }
+                    add(temperatureItem)
+                    sortBy { it.id }
+                }
+                .toList()
         }
 
     companion object {

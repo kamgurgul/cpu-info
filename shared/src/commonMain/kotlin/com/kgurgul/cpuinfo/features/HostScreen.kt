@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features
 
 import androidx.compose.animation.fadeIn
@@ -53,10 +68,7 @@ fun HostScreen(
     navController: NavHostController = rememberNavController(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    HostScreen(
-        uiState = uiState,
-        navController = navController,
-    )
+    HostScreen(uiState = uiState, navController = navController)
 }
 
 @Composable
@@ -70,40 +82,42 @@ fun HostScreen(
     CpuNavigationSuiteScaffold(
         navigationItems = {
             buildTopLevelRoutes(
-                isProcessesVisible = uiState.isProcessSectionVisible,
-                isApplicationsVisible = uiState.isApplicationSectionVisible,
-            ).forEach { topLevelRoute ->
-                NavigationSuiteItem(
-                    icon = {
-                        Icon(
-                            painter = painterResource(topLevelRoute.icon),
-                            contentDescription = stringResource(topLevelRoute.name),
-                        )
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(topLevelRoute.name),
-                            style = MaterialTheme.typography.labelSmall,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    },
-                    selected = currentDestination?.hierarchy?.any {
-                        it.hasRoute(topLevelRoute.route::class)
-                    } == true,
-                    onClick = {
-                        navController.navigate(topLevelRoute.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    colors = itemColors,
+                    isProcessesVisible = uiState.isProcessSectionVisible,
+                    isApplicationsVisible = uiState.isApplicationSectionVisible,
                 )
-            }
-        },
+                .forEach { topLevelRoute ->
+                    NavigationSuiteItem(
+                        icon = {
+                            Icon(
+                                painter = painterResource(topLevelRoute.icon),
+                                contentDescription = stringResource(topLevelRoute.name),
+                            )
+                        },
+                        label = {
+                            Text(
+                                text = stringResource(topLevelRoute.name),
+                                style = MaterialTheme.typography.labelSmall,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        },
+                        selected =
+                            currentDestination?.hierarchy?.any {
+                                it.hasRoute(topLevelRoute.route::class)
+                            } == true,
+                        onClick = {
+                            navController.navigate(topLevelRoute.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        colors = itemColors,
+                    )
+                }
+        }
     ) {
         NavHost(
             navController = navController,
@@ -118,69 +132,58 @@ fun HostScreen(
             processesScreen()
             temperaturesScreen()
             settingsScreen(
-                onLicensesClicked = {
-                    navController.navigate(SettingsRoute.Licenses)
-                },
-                onNavigateBackClicked = {
-                    navController.popBackStack()
-                },
+                onLicensesClicked = { navController.navigate(SettingsRoute.Licenses) },
+                onNavigateBackClicked = { navController.popBackStack() },
             )
         }
     }
 }
 
-private fun buildTopLevelRoutes(
-    isProcessesVisible: Boolean,
-    isApplicationsVisible: Boolean,
-) = buildList {
-    add(
-        TopLevelRoute(
-            name = Res.string.hardware,
-            route = InformationBaseRoute,
-            icon = Res.drawable.ic_cpu,
-        ),
-    )
-    if (isApplicationsVisible) {
+private fun buildTopLevelRoutes(isProcessesVisible: Boolean, isApplicationsVisible: Boolean) =
+    buildList {
         add(
             TopLevelRoute(
-                name = Res.string.applications,
-                route = ApplicationsBaseRoute,
-                icon = Res.drawable.ic_android,
-            ),
+                name = Res.string.hardware,
+                route = InformationBaseRoute,
+                icon = Res.drawable.ic_cpu,
+            )
         )
-    }
-    if (isProcessesVisible) {
+        if (isApplicationsVisible) {
+            add(
+                TopLevelRoute(
+                    name = Res.string.applications,
+                    route = ApplicationsBaseRoute,
+                    icon = Res.drawable.ic_android,
+                )
+            )
+        }
+        if (isProcessesVisible) {
+            add(
+                TopLevelRoute(
+                    name = Res.string.processes,
+                    route = ProcessesBaseRoute,
+                    icon = Res.drawable.ic_process,
+                )
+            )
+        }
         add(
             TopLevelRoute(
-                name = Res.string.processes,
-                route = ProcessesBaseRoute,
-                icon = Res.drawable.ic_process,
-            ),
+                name = Res.string.temp,
+                route = TemperaturesBaseRoute,
+                icon = Res.drawable.ic_temperature,
+            )
+        )
+        add(
+            TopLevelRoute(
+                name = Res.string.settings,
+                route = SettingsRoute,
+                icon = Res.drawable.ic_settings,
+            )
         )
     }
-    add(
-        TopLevelRoute(
-            name = Res.string.temp,
-            route = TemperaturesBaseRoute,
-            icon = Res.drawable.ic_temperature,
-        ),
-    )
-    add(
-        TopLevelRoute(
-            name = Res.string.settings,
-            route = SettingsRoute,
-            icon = Res.drawable.ic_settings,
-        ),
-    )
-}
 
 @Preview
 @Composable
 fun HostScreenPreview() {
-    CpuInfoTheme {
-        HostScreen(
-            uiState = HostViewModel.UiState(),
-        )
-    }
+    CpuInfoTheme { HostScreen(uiState = HostViewModel.UiState()) }
 }
-

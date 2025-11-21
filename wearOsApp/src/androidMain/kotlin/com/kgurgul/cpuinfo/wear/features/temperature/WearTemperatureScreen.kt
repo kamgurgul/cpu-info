@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 @file:OptIn(ExperimentalHorologistApi::class)
 
 package com.kgurgul.cpuinfo.wear.features.temperature
@@ -39,30 +54,24 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun WearTemperatureScreen(
-    viewModel: TemperatureViewModel = koinViewModel(),
-) {
+fun WearTemperatureScreen(viewModel: TemperatureViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    WearTemperatureScreen(
-        uiState = uiState,
-    )
+    WearTemperatureScreen(uiState = uiState)
 }
 
 @Composable
-fun WearTemperatureScreen(
-    uiState: TemperatureViewModel.UiState,
-) {
-    val columnState = rememberResponsiveColumnState(
-        contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Text,
-            last = ScalingLazyColumnDefaults.ItemType.Chip,
-        ),
-    )
+fun WearTemperatureScreen(uiState: TemperatureViewModel.UiState) {
+    val columnState =
+        rememberResponsiveColumnState(
+            contentPadding =
+                ScalingLazyColumnDefaults.padding(
+                    first = ScalingLazyColumnDefaults.ItemType.Text,
+                    last = ScalingLazyColumnDefaults.ItemType.Chip,
+                )
+        )
     val coroutineScope = rememberCoroutineScope()
     ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(
-            columnState = columnState
-        ) {
+        ScalingLazyColumn(columnState = columnState) {
             item {
                 ResponsiveListHeader(contentPadding = firstItemPadding()) {
                     Text(
@@ -81,16 +90,13 @@ fun WearTemperatureScreen(
                     }
                 }
             } else {
-                items(
-                    items = uiState.temperatureItems,
-                    key = { item -> item.id },
-                ) { item ->
+                items(items = uiState.temperatureItems, key = { item -> item.id }) { item ->
                     var formattedTemp by remember { mutableStateOf("") }
                     if (!item.temperature.isNaN()) {
                         LaunchedEffect(item.temperature) {
                             coroutineScope.launch {
-                                formattedTemp = uiState.temperatureFormatter
-                                    .format(item.temperature)
+                                formattedTemp =
+                                    uiState.temperatureFormatter.format(item.temperature)
                             }
                         }
                     }
@@ -101,11 +107,11 @@ fun WearTemperatureScreen(
                             Icon(
                                 painter = painterResource(item.icon),
                                 contentDescription = null,
-                                modifier = Modifier
-                                    .size(ChipDefaults.IconSize)
-                                    .wrapContentSize(align = Alignment.Center),
+                                modifier =
+                                    Modifier.size(ChipDefaults.IconSize)
+                                        .wrapContentSize(align = Alignment.Center),
                             )
-                        }
+                        },
                     )
                 }
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.features.information.cpu
 
 import androidx.lifecycle.ViewModel
@@ -26,22 +25,14 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class CpuInfoViewModel(
-    cpuDataObservable: CpuDataObservable,
-) : ViewModel() {
+class CpuInfoViewModel(cpuDataObservable: CpuDataObservable) : ViewModel() {
 
-    val uiStateFlow = cpuDataObservable.observe()
-        .distinctUntilChanged()
-        .map {
-            UiState(
-                isInitializing = false,
-                cpuData = it,
-            )
-        }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+    val uiStateFlow =
+        cpuDataObservable
+            .observe()
+            .distinctUntilChanged()
+            .map { UiState(isInitializing = false, cpuData = it) }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
-    data class UiState(
-        val isInitializing: Boolean = true,
-        val cpuData: CpuData? = null,
-    )
+    data class UiState(val isInitializing: Boolean = true, val cpuData: CpuData? = null)
 }

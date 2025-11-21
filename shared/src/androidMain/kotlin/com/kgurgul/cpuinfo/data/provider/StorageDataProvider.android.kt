@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.data.provider
 
 import android.os.Environment
@@ -65,11 +80,12 @@ actual class StorageDataProvider actual constructor() : IStorageDataProvider {
     private fun getSdCardStorage(): StorageItem? {
         getExternalSDMounts().firstOrNull()?.let { sdCardPath ->
             if (sdCardPath.isNotEmpty()) {
-                val truncatedPath = if (sdCardPath.contains(":")) {
-                    sdCardPath.substring(0, sdCardPath.indexOf(":"))
-                } else {
-                    sdCardPath
-                }
+                val truncatedPath =
+                    if (sdCardPath.contains(":")) {
+                        sdCardPath.substring(0, sdCardPath.indexOf(":"))
+                    } else {
+                        sdCardPath
+                    }
                 val externalFilePath = File(truncatedPath)
                 if (externalFilePath.exists()) {
                     val storageTotal = externalFilePath.totalSpace
@@ -106,37 +122,39 @@ actual class StorageDataProvider actual constructor() : IStorageDataProvider {
                 val strLine = br.readLine()
                 if (strLine == null) {
                     break
-                } else if (!(
-                        strLine.contains("asec") ||
-                            strLine.contains("legacy") ||
-                            strLine.contains("Android/obb")
-                        )
+                } else if (
+                    !(strLine.contains("asec") ||
+                        strLine.contains("legacy") ||
+                        strLine.contains("Android/obb"))
                 ) {
-                    if (strLine.startsWith("/dev/block/vold/") ||
-                        strLine.startsWith("/dev/block/sd") ||
-                        strLine.startsWith("/dev/fuse") ||
-                        strLine.startsWith("/mnt/media_rw")
+                    if (
+                        strLine.startsWith("/dev/block/vold/") ||
+                            strLine.startsWith("/dev/block/sd") ||
+                            strLine.startsWith("/dev/fuse") ||
+                            strLine.startsWith("/mnt/media_rw")
                     ) {
-                        val lineElements = strLine
-                            .split(" ".toRegex()).dropLastWhile { it.isEmpty() }
-                            .toTypedArray()
+                        val lineElements =
+                            strLine
+                                .split(" ".toRegex())
+                                .dropLastWhile { it.isEmpty() }
+                                .toTypedArray()
                         val path = File(lineElements[1])
-                        if ((path.exists() || path.isDirectory || path.canWrite()) &&
-                            path.exists() &&
-                            // && path.canRead()
-                            !path.path.contains("/system") &&
-                            !sdDirList.contains(lineElements[1]) &&
-                            lineElements[1] != externalDir &&
-                            lineElements[1] != "/storage/emulated" &&
-                            !sdDirList.any {
-                                it.endsWith(
-                                    lineElements[1]
-                                        .substring(
+                        if (
+                            (path.exists() || path.isDirectory || path.canWrite()) &&
+                                path.exists() &&
+                                // && path.canRead()
+                                !path.path.contains("/system") &&
+                                !sdDirList.contains(lineElements[1]) &&
+                                lineElements[1] != externalDir &&
+                                lineElements[1] != "/storage/emulated" &&
+                                !sdDirList.any {
+                                    it.endsWith(
+                                        lineElements[1].substring(
                                             lineElements[1].lastIndexOf("/"),
                                             lineElements[1].length,
-                                        ),
-                                )
-                            }
+                                        )
+                                    )
+                                }
                         ) {
                             sdDirList.add(lineElements[1])
                         }

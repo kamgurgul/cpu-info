@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features
 
 import app.cash.turbine.test
@@ -21,35 +36,34 @@ class HostViewModelTest {
 
     private val coroutineTestRule = CoroutineTestSuit()
 
-    private val fakeProcessesProvider = FakeProcessesProvider(
-        processesSupported = true,
-    )
-    private val processesDataObservable = ProcessesDataObservable(
-        dispatchersProvider = coroutineTestRule.testDispatcherProvider,
-        processesProvider = fakeProcessesProvider,
-    )
-    private val fakeApplicationsProvider = FakeApplicationsDataProvider(
-        applicationsSupported = true,
-    )
-    private val applicationsDataObservable = ApplicationsDataObservable(
-        dispatchersProvider = coroutineTestRule.testDispatcherProvider,
-        applicationsDataProvider = fakeApplicationsProvider,
-    )
+    private val fakeProcessesProvider = FakeProcessesProvider(processesSupported = true)
+    private val processesDataObservable =
+        ProcessesDataObservable(
+            dispatchersProvider = coroutineTestRule.testDispatcherProvider,
+            processesProvider = fakeProcessesProvider,
+        )
+    private val fakeApplicationsProvider =
+        FakeApplicationsDataProvider(applicationsSupported = true)
+    private val applicationsDataObservable =
+        ApplicationsDataObservable(
+            dispatchersProvider = coroutineTestRule.testDispatcherProvider,
+            applicationsDataProvider = fakeApplicationsProvider,
+        )
     private val userPreferenceSharedFlow = MutableSharedFlow<UserPreferences>(replay = 1)
-    private val userPreferencesRepository = FakeUserPreferencesRepository(
-        preferencesFlow = userPreferenceSharedFlow,
-    )
+    private val userPreferencesRepository =
+        FakeUserPreferencesRepository(preferencesFlow = userPreferenceSharedFlow)
 
     private lateinit var viewModel: HostViewModel
 
     @BeforeTest
     fun setup() {
         coroutineTestRule.onStart()
-        viewModel = HostViewModel(
-            processesDataObservable = processesDataObservable,
-            applicationsDataObservable = applicationsDataObservable,
-            userPreferencesRepository = userPreferencesRepository,
-        )
+        viewModel =
+            HostViewModel(
+                processesDataObservable = processesDataObservable,
+                applicationsDataObservable = applicationsDataObservable,
+                userPreferencesRepository = userPreferencesRepository,
+            )
     }
 
     @AfterTest
@@ -60,15 +74,14 @@ class HostViewModelTest {
     @Test
     fun initialUiState() = runTest {
         userPreferenceSharedFlow.emit(TestData.userPreferences)
-        val expectedUiState = HostViewModel.UiState(
-            isLoading = false,
-            isProcessSectionVisible = true,
-            isApplicationSectionVisible = true,
-            darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-        )
+        val expectedUiState =
+            HostViewModel.UiState(
+                isLoading = false,
+                isProcessSectionVisible = true,
+                isApplicationSectionVisible = true,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+            )
 
-        viewModel.uiStateFlow.test {
-            assertEquals(expectedUiState, awaitItem())
-        }
+        viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }
     }
 }

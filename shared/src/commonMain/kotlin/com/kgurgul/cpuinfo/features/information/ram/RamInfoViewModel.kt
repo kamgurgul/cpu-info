@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.features.information.ram
 
 import androidx.lifecycle.ViewModel
@@ -26,16 +25,14 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class RamInfoViewModel(
-    ramDataObservable: RamDataObservable,
-) : ViewModel() {
+class RamInfoViewModel(ramDataObservable: RamDataObservable) : ViewModel() {
 
-    val uiStateFlow = ramDataObservable.observe()
-        .distinctUntilChanged()
-        .map { UiState(it) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+    val uiStateFlow =
+        ramDataObservable
+            .observe()
+            .distinctUntilChanged()
+            .map { UiState(it) }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
-    data class UiState(
-        val ramData: RamData? = null,
-    )
+    data class UiState(val ramData: RamData? = null)
 }

@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.SensorData
@@ -28,7 +43,7 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                         id = CPU_TEMP_ID,
                         name = TextResource.Resource(Res.string.sensors_cpu_temperature),
                         value = temperatureFormatter.format(sensors.cpuTemperature.toFloat()),
-                    ),
+                    )
                 )
             }
             if (sensors.cpuTemperature != 0.0) {
@@ -37,21 +52,18 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                         id = CPU_VOLTAGE_ID,
                         name = TextResource.Resource(Res.string.sensors_cpu_voltage),
                         value = "${sensors.cpuVoltage}V",
-                    ),
+                    )
                 )
             }
             if (sensors.fanSpeeds.isNotEmpty()) {
-                val fanSpeeds = buildString {
-                    sensors.fanSpeeds.forEach {
-                        appendLine("${it}RPM")
-                    }
-                }.trim()
+                val fanSpeeds =
+                    buildString { sensors.fanSpeeds.forEach { appendLine("${it}RPM") } }.trim()
                 add(
                     SensorData(
                         id = FAN_SPEED_ID,
                         name = TextResource.Resource(Res.string.sensors_fan_speeds),
                         value = fanSpeeds,
-                    ),
+                    )
                 )
             }
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.ItemValue
@@ -92,14 +91,11 @@ actual class HardwareDataProvider actual constructor() {
     private fun getBatteryState(): StringResource {
         val batteryState = UIDevice.currentDevice.batteryState
         return when (batteryState) {
-            UIDeviceBatteryState.UIDeviceBatteryStateUnplugged ->
-                Res.string.battery_unplugged
+            UIDeviceBatteryState.UIDeviceBatteryStateUnplugged -> Res.string.battery_unplugged
 
-            UIDeviceBatteryState.UIDeviceBatteryStateCharging ->
-                Res.string.battery_charging
+            UIDeviceBatteryState.UIDeviceBatteryStateCharging -> Res.string.battery_charging
 
-            UIDeviceBatteryState.UIDeviceBatteryStateFull ->
-                Res.string.battery_full
+            UIDeviceBatteryState.UIDeviceBatteryStateFull -> Res.string.battery_full
 
             else -> Res.string.unknown
         }
@@ -107,24 +103,27 @@ actual class HardwareDataProvider actual constructor() {
 
     private fun getCameraDevices(): List<AVCaptureDevice> {
         return AVCaptureDeviceDiscoverySession.discoverySessionWithDeviceTypes(
-            deviceTypes = listOf(
-                AVCaptureDeviceTypeBuiltInWideAngleCamera,
-                AVCaptureDeviceTypeBuiltInUltraWideCamera,
-                AVCaptureDeviceTypeBuiltInTelephotoCamera,
-            ),
-            mediaType = AVMediaTypeVideo,
-            position = AVCaptureDevicePositionUnspecified,
-        ).devices.filterIsInstance<AVCaptureDevice>()
+                deviceTypes =
+                    listOf(
+                        AVCaptureDeviceTypeBuiltInWideAngleCamera,
+                        AVCaptureDeviceTypeBuiltInUltraWideCamera,
+                        AVCaptureDeviceTypeBuiltInTelephotoCamera,
+                    ),
+                mediaType = AVMediaTypeVideo,
+                position = AVCaptureDevicePositionUnspecified,
+            )
+            .devices
+            .filterIsInstance<AVCaptureDevice>()
     }
 
     private fun getMicrophoneDevices(): List<AVCaptureDevice> {
         return AVCaptureDeviceDiscoverySession.discoverySessionWithDeviceTypes(
-            deviceTypes = listOf(
-                AVCaptureDeviceTypeBuiltInMicrophone,
-            ),
-            mediaType = AVMediaTypeAudio,
-            position = AVCaptureDevicePositionUnspecified,
-        ).devices.filterIsInstance<AVCaptureDevice>()
+                deviceTypes = listOf(AVCaptureDeviceTypeBuiltInMicrophone),
+                mediaType = AVMediaTypeAudio,
+                position = AVCaptureDevicePositionUnspecified,
+            )
+            .devices
+            .filterIsInstance<AVCaptureDevice>()
     }
 
     private fun getFormatedName(name: String?): String {

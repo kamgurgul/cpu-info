@@ -21,6 +21,8 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
+      - name: Static checks
+        run: ./gradlew spotlessCheck
   build_and_release:
     needs: code_quality
     runs-on: macos-26

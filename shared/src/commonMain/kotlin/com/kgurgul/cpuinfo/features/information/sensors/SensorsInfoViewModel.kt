@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.features.information.sensors
 
 import androidx.lifecycle.ViewModel
@@ -29,35 +28,33 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.stateIn
 
-class SensorsInfoViewModel(
-    sensorsDataObservable: SensorsDataObservable,
-) : ViewModel() {
+class SensorsInfoViewModel(sensorsDataObservable: SensorsDataObservable) : ViewModel() {
 
-    val uiStateFlow = sensorsDataObservable.observe()
-        .scan(emptyList<SensorData>()) { previous, new ->
-            buildList {
-                addAll(previous)
-                new.forEach { newSensorData ->
-                    val updatedRowId = indexOfFirst { it.id == newSensorData.id }
-                    if (updatedRowId != -1) {
-                        set(
-                            updatedRowId,
-                            SensorData(
-                                id = newSensorData.id,
-                                name = newSensorData.name,
-                                value = newSensorData.value,
-                            ),
-                        )
-                    } else {
-                        add(newSensorData)
+    val uiStateFlow =
+        sensorsDataObservable
+            .observe()
+            .scan(emptyList<SensorData>()) { previous, new ->
+                buildList {
+                    addAll(previous)
+                    new.forEach { newSensorData ->
+                        val updatedRowId = indexOfFirst { it.id == newSensorData.id }
+                        if (updatedRowId != -1) {
+                            set(
+                                updatedRowId,
+                                SensorData(
+                                    id = newSensorData.id,
+                                    name = newSensorData.name,
+                                    value = newSensorData.value,
+                                ),
+                            )
+                        } else {
+                            add(newSensorData)
+                        }
                     }
                 }
             }
-        }
-        .map { UiState(it.toImmutableList()) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+            .map { UiState(it.toImmutableList()) }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
-    data class UiState(
-        val sensors: ImmutableList<SensorData> = persistentListOf(),
-    )
+    data class UiState(val sensors: ImmutableList<SensorData> = persistentListOf())
 }

@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.wear.ui.components
 
 import androidx.compose.foundation.layout.BoxScope
@@ -21,9 +36,7 @@ fun WearCpuChip(
     content: @Composable RowScope.() -> Unit,
 ) {
     Chip(
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(modifier),
+        modifier = Modifier.fillMaxWidth().then(modifier),
         onClick = onClick,
         colors = colors,
         border = border,
@@ -44,28 +57,21 @@ fun WearCpuChip(
     secondaryLabelMaxLines: Int = 3,
 ) {
     Chip(
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(modifier),
+        modifier = Modifier.fillMaxWidth().then(modifier),
         onClick = onClick,
         colors = colors,
         border = border,
-        label = {
-            Text(
-                text = label,
-                maxLines = labelMaxLines,
-                overflow = TextOverflow.Ellipsis
-            )
-        },
-        secondaryLabel = if (!secondaryLabel.isNullOrEmpty()) {
-            {
-                Text(
-                    text = secondaryLabel,
-                    maxLines = secondaryLabelMaxLines,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-        } else null,
+        label = { Text(text = label, maxLines = labelMaxLines, overflow = TextOverflow.Ellipsis) },
+        secondaryLabel =
+            if (!secondaryLabel.isNullOrEmpty()) {
+                {
+                    Text(
+                        text = secondaryLabel,
+                        maxLines = secondaryLabelMaxLines,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            } else null,
         icon = icon,
     )
 }

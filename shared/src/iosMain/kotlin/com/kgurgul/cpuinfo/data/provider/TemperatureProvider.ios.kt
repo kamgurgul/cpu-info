@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
@@ -36,28 +35,29 @@ import platform.Foundation.thermalState
 actual class TemperatureProvider actual constructor() : ITemperatureProvider {
 
     actual override val sensorsFlow: Flow<TemperatureItem> = flow {
-        val thermalState = when (NSProcessInfo.processInfo.thermalState) {
-            NSProcessInfoThermalState.NSProcessInfoThermalStateNominal ->
-                Res.string.temp_thermal_state_nominal
+        val thermalState =
+            when (NSProcessInfo.processInfo.thermalState) {
+                NSProcessInfoThermalState.NSProcessInfoThermalStateNominal ->
+                    Res.string.temp_thermal_state_nominal
 
-            NSProcessInfoThermalState.NSProcessInfoThermalStateFair ->
-                Res.string.temp_thermal_state_fair
+                NSProcessInfoThermalState.NSProcessInfoThermalStateFair ->
+                    Res.string.temp_thermal_state_fair
 
-            NSProcessInfoThermalState.NSProcessInfoThermalStateSerious ->
-                Res.string.temp_thermal_state_serious
+                NSProcessInfoThermalState.NSProcessInfoThermalStateSerious ->
+                    Res.string.temp_thermal_state_serious
 
-            NSProcessInfoThermalState.NSProcessInfoThermalStateCritical ->
-                Res.string.temp_thermal_state_critical
+                NSProcessInfoThermalState.NSProcessInfoThermalStateCritical ->
+                    Res.string.temp_thermal_state_critical
 
-            else -> Res.string.unknown
-        }
+                else -> Res.string.unknown
+            }
         emit(
             TemperatureItem(
                 id = ID_THERMAL_STATE,
                 icon = Res.drawable.ic_temperature,
                 name = TextResource.Formatted(Res.string.temp_thermal_state, listOf(thermalState)),
                 temperature = Float.NaN,
-            ),
+            )
         )
         delay(REFRESH_DELAY)
     }

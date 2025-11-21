@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.features.temperature
 
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.utils.round2
 import kotlinx.coroutines.flow.first
 
-class TemperatureFormatter(
-    private val userPreferencesRepository: IUserPreferencesRepository,
-) {
+class TemperatureFormatter(private val userPreferencesRepository: IUserPreferencesRepository) {
 
     /**
      * Format temperature for current settings

@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.tv.features.applications
 
 import androidx.activity.compose.BackHandler
@@ -105,32 +120,26 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object TvApplicationsBaseRoute {
 
-    @Serializable
-    data object TvApplicationsRoute
+    @Serializable data object TvApplicationsRoute
 }
 
 fun NavGraphBuilder.tvApplicationsScreen() {
     navigation<TvApplicationsBaseRoute>(
         startDestination = TvApplicationsBaseRoute.TvApplicationsRoute,
-        deepLinks = listOf(
-            navDeepLink<TvApplicationsBaseRoute>(
-                basePath = NavigationConst.BASE_URL + NavigationConst.APPLICATIONS
-            )
-        ),
+        deepLinks =
+            listOf(
+                navDeepLink<TvApplicationsBaseRoute>(
+                    basePath = NavigationConst.BASE_URL + NavigationConst.APPLICATIONS
+                )
+            ),
     ) {
-        composable<TvApplicationsBaseRoute.TvApplicationsRoute> {
-            TvApplicationsScreen()
-        }
+        composable<TvApplicationsBaseRoute.TvApplicationsRoute> { TvApplicationsScreen() }
     }
 }
 
 @Composable
-fun TvApplicationsScreen(
-    viewModel: ApplicationsViewModel = koinViewModel(),
-) {
-    registerUninstallListener(
-        onRefresh = viewModel::onRefreshApplications,
-    )
+fun TvApplicationsScreen(viewModel: ApplicationsViewModel = koinViewModel()) {
+    registerUninstallListener(onRefresh = viewModel::onRefreshApplications)
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     TvApplicationsScreen(
@@ -189,19 +198,13 @@ fun TvApplicationsScreen(
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
-        snackbarHost = {
-            SnackbarHost(snackbarHostState) { data ->
-                CpuSnackbar(data)
-            }
-        },
+        snackbarHost = { SnackbarHost(snackbarHostState) { data -> CpuSnackbar(data) } },
     ) { innerPaddingModifier ->
         CpuPullToRefreshBox(
             isRefreshing = uiState.isLoading,
             enabled = false,
             onRefresh = { onRefreshApplications() },
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPaddingModifier),
+            modifier = Modifier.fillMaxSize().padding(innerPaddingModifier),
         ) {
             ApplicationsList(
                 appList = uiState.applications,
@@ -230,16 +233,10 @@ private fun TopBar(
     onSearchQueryChanged: (String) -> Unit,
 ) {
     var showSearch by rememberSaveable { mutableStateOf(false) }
-    BackHandler(
-        enabled = showSearch,
-    ) {
-        showSearch = false
-    }
+    BackHandler(enabled = showSearch) { showSearch = false }
     Row(
         horizontalArrangement = Arrangement.spacedBy(spacingMedium, Alignment.End),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(spacingMedium),
+        modifier = Modifier.fillMaxWidth().padding(spacingMedium),
     ) {
         AnimatedVisibility(visible = showSearch) {
             SearchTextField(
@@ -249,9 +246,7 @@ private fun TopBar(
             )
         }
         AnimatedVisibility(visible = !showSearch) {
-            TvIconButton(
-                onClick = { showSearch = true }
-            ) {
+            TvIconButton(onClick = { showSearch = true }) {
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = stringResource(Res.string.search),
@@ -259,9 +254,7 @@ private fun TopBar(
             }
         }
         AnimatedVisibility(visible = !showSearch) {
-            TvIconButton(
-                onClick = onRefreshApplications
-            ) {
+            TvIconButton(onClick = onRefreshApplications) {
                 Icon(
                     imageVector = Icons.Default.Refresh,
                     contentDescription = stringResource(Res.string.refresh),
@@ -269,14 +262,13 @@ private fun TopBar(
             }
         }
         AnimatedVisibility(visible = !showSearch) {
-            TvIconButton(
-                onClick = { onSortOrderChange(!isSortAscending) }
-            ) {
-                val icon = if (isSortAscending) {
-                    Icons.Default.KeyboardArrowDown
-                } else {
-                    Icons.Default.KeyboardArrowUp
-                }
+            TvIconButton(onClick = { onSortOrderChange(!isSortAscending) }) {
+                val icon =
+                    if (isSortAscending) {
+                        Icons.Default.KeyboardArrowDown
+                    } else {
+                        Icons.Default.KeyboardArrowUp
+                    }
                 Icon(
                     imageVector = icon,
                     contentDescription = stringResource(Res.string.apps_sort_order),
@@ -284,14 +276,13 @@ private fun TopBar(
             }
         }
         AnimatedVisibility(visible = !showSearch) {
-            val systemAppIcon = if (withSystemApps) {
-                Res.drawable.ic_apk_document_filled
-            } else {
-                Res.drawable.ic_apk_document_outlined
-            }
-            TvIconButton(
-                onClick = { onSystemAppsSwitched(!withSystemApps) }
-            ) {
+            val systemAppIcon =
+                if (withSystemApps) {
+                    Res.drawable.ic_apk_document_filled
+                } else {
+                    Res.drawable.ic_apk_document_outlined
+                }
+            TvIconButton(onClick = { onSystemAppsSwitched(!withSystemApps) }) {
                 Icon(
                     painter = painterResource(systemAppIcon),
                     contentDescription = stringResource(Res.string.apps_show_system_apps),
@@ -306,52 +297,33 @@ private fun ApplicationsList(
     appList: ImmutableList<ExtendedApplicationData>,
     onAppClicked: (packageName: String) -> Unit,
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(spacingMedium),
-    ) {
-        items(
-            items = appList,
-            key = { item -> item.packageName },
-        ) { item ->
+    LazyColumn(modifier = Modifier.fillMaxSize().padding(spacingMedium)) {
+        items(items = appList, key = { item -> item.packageName }) { item ->
             TvListItem(
                 onClick = { onAppClicked(item.packageName) },
-                modifier = Modifier.animateItem()
+                modifier = Modifier.animateItem(),
             ) {
-                Row {
-                    ApplicationItem(
-                        appData = item,
-                        modifier = Modifier.weight(1f),
-                    )
-                }
+                Row { ApplicationItem(appData = item, modifier = Modifier.weight(1f)) }
             }
         }
     }
 }
 
 @Composable
-private fun ApplicationItem(
-    appData: ExtendedApplicationData,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier,
-    ) {
+private fun ApplicationItem(appData: ExtendedApplicationData, modifier: Modifier = Modifier) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalPlatformContext.current)
-                .data(appData.appIconUri)
-                .crossfade(true)
-                .build(),
+            model =
+                ImageRequest.Builder(LocalPlatformContext.current)
+                    .data(appData.appIconUri)
+                    .crossfade(true)
+                    .build(),
             contentDescription = appData.name,
             modifier = Modifier.size(50.dp),
         )
         Spacer(modifier = Modifier.size(spacingMedium))
         SelectionContainer {
-            Column(
-                modifier = Modifier.padding(horizontal = spacingXSmall),
-            ) {
+            Column(modifier = Modifier.padding(horizontal = spacingXSmall)) {
                 Text(
                     text = appData.name,
                     style = MaterialTheme.typography.titleMedium,
@@ -427,19 +399,14 @@ private fun OptionsDialog(
                             },
                             title = { Text(text = stringResource(Res.string.apps_uninstall)) },
                             icon = {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = null,
-                                )
+                                Icon(imageVector = Icons.Default.Delete, contentDescription = null)
                             },
                         )
                     }
                 }
             },
             confirmButton = {
-                TvButton(
-                    onClick = onDismissRequest,
-                ) {
+                TvButton(onClick = onDismissRequest) {
                     androidx.tv.material3.Text(text = stringResource(Res.string.ok))
                 }
             },
@@ -462,52 +429,48 @@ private fun SearchTextField(
     }
 
     CpuTextField(
-        colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            cursorColor = MaterialTheme.colorScheme.onSurface,
-        ),
+        colors =
+            TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                cursorColor = MaterialTheme.colorScheme.onSurface,
+            ),
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
                 contentDescription = stringResource(Res.string.search),
-                tint = MaterialTheme.colorScheme.onSurface
+                tint = MaterialTheme.colorScheme.onSurface,
             )
         },
-        onValueChange = {
-            if ("\n" !in it) onSearchQueryChanged(it)
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
-            .padding(spacingSmall)
-            .focusRequester(focusRequester)
-            .onKeyEvent {
-                if (it.key == Key.Enter) {
-                    if (searchQuery.isBlank()) return@onKeyEvent false
-                    onSearchExplicitlyTriggered()
-                    true
-                } else {
-                    false
+        onValueChange = { if ("\n" !in it) onSearchQueryChanged(it) },
+        modifier =
+            Modifier.fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
+                .padding(spacingSmall)
+                .focusRequester(focusRequester)
+                .onKeyEvent {
+                    if (it.key == Key.Enter) {
+                        if (searchQuery.isBlank()) return@onKeyEvent false
+                        onSearchExplicitlyTriggered()
+                        true
+                    } else {
+                        false
+                    }
                 }
-            }
-            .testTag(ApplicationsScreenTestData.SEARCH_TEST_TAG),
+                .testTag(ApplicationsScreenTestData.SEARCH_TEST_TAG),
         shape = RoundedCornerShape(32.dp),
         value = searchQuery,
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Search,
-        ),
-        keyboardActions = KeyboardActions(
-            onSearch = {
-                if (searchQuery.isBlank()) return@KeyboardActions
-                onSearchExplicitlyTriggered()
-            },
-        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions =
+            KeyboardActions(
+                onSearch = {
+                    if (searchQuery.isBlank()) return@KeyboardActions
+                    onSearchExplicitlyTriggered()
+                }
+            ),
         maxLines = 1,
         singleLine = true,
     )
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
 }

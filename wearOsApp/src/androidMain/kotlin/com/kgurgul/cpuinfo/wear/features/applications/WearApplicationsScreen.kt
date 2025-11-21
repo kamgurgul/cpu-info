@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 @file:OptIn(ExperimentalHorologistApi::class, ExperimentalWearMaterialApi::class)
 
 package com.kgurgul.cpuinfo.wear.features.applications
@@ -79,9 +94,7 @@ fun WearApplicationsScreen(
     swipeToDismissBoxState: SwipeToDismissBoxState,
     viewModel: ApplicationsViewModel = koinViewModel(),
 ) {
-    registerUninstallListener(
-        onRefresh = viewModel::onRefreshApplications,
-    )
+    registerUninstallListener(onRefresh = viewModel::onRefreshApplications)
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     WearApplicationsScreen(
         uiState = uiState,
@@ -108,16 +121,16 @@ fun WearApplicationsScreen(
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
     onSortOrderChange: (ascending: Boolean) -> Unit,
 ) {
-    val columnState = rememberResponsiveColumnState(
-        contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Text,
-            last = ScalingLazyColumnDefaults.ItemType.SingleButton,
-        ),
-    )
+    val columnState =
+        rememberResponsiveColumnState(
+            contentPadding =
+                ScalingLazyColumnDefaults.padding(
+                    first = ScalingLazyColumnDefaults.ItemType.Text,
+                    last = ScalingLazyColumnDefaults.ItemType.SingleButton,
+                )
+        )
     ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(
-            columnState = columnState,
-        ) {
+        ScalingLazyColumn(columnState = columnState) {
             item(key = "__header") {
                 ResponsiveListHeader(contentPadding = firstItemPadding()) {
                     Text(
@@ -126,31 +139,29 @@ fun WearApplicationsScreen(
                     )
                 }
             }
-            items(
-                items = uiState.applications,
-                key = { item -> item.packageName },
-            ) { item ->
+            items(items = uiState.applications, key = { item -> item.packageName }) { item ->
                 val revealState = rememberRevealState()
                 val coroutineScope = rememberCoroutineScope()
                 val uninstallText = stringResource(Res.string.apps_uninstall)
                 val settingsText = stringResource(Res.string.settings)
                 SwipeToRevealChip(
                     revealState = revealState,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .edgeSwipeToDismiss(swipeToDismissBoxState)
-                        .semantics {
-                            customActions = listOf(
-                                CustomAccessibilityAction(uninstallText) {
-                                    onAppUninstallClicked(item.packageName)
-                                    true
-                                },
-                                CustomAccessibilityAction(settingsText) {
-                                    onAppSettingsClicked(item.packageName)
-                                    true
-                                }
-                            )
-                        },
+                    modifier =
+                        Modifier.fillMaxWidth()
+                            .edgeSwipeToDismiss(swipeToDismissBoxState)
+                            .semantics {
+                                customActions =
+                                    listOf(
+                                        CustomAccessibilityAction(uninstallText) {
+                                            onAppUninstallClicked(item.packageName)
+                                            true
+                                        },
+                                        CustomAccessibilityAction(settingsText) {
+                                            onAppSettingsClicked(item.packageName)
+                                            true
+                                        },
+                                    )
+                            },
                     primaryAction = {
                         SwipeToRevealPrimaryAction(
                             revealState = revealState,
@@ -167,7 +178,7 @@ fun WearApplicationsScreen(
                     secondaryAction = {
                         SwipeToRevealSecondaryAction(
                             revealState = revealState,
-                            onClick = { onAppSettingsClicked(item.packageName) }
+                            onClick = { onAppSettingsClicked(item.packageName) },
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Settings,
@@ -177,10 +188,8 @@ fun WearApplicationsScreen(
                     },
                     onFullSwipe = {
                         onAppUninstallClicked(item.packageName)
-                        coroutineScope.launch {
-                            revealState.animateTo(RevealValue.Covered)
-                        }
-                    }
+                        coroutineScope.launch { revealState.animateTo(RevealValue.Covered) }
+                    },
                 ) {
                     val secondaryLabel = buildString {
                         append(item.packageName)
@@ -194,14 +203,15 @@ fun WearApplicationsScreen(
                         secondaryLabelMaxLines = 4,
                         icon = {
                             AsyncImage(
-                                model = ImageRequest.Builder(LocalPlatformContext.current)
-                                    .data(item.appIconUri)
-                                    .crossfade(true)
-                                    .build(),
+                                model =
+                                    ImageRequest.Builder(LocalPlatformContext.current)
+                                        .data(item.appIconUri)
+                                        .crossfade(true)
+                                        .build(),
                                 contentDescription = item.name,
-                                modifier = Modifier
-                                    .size(ChipDefaults.IconSize)
-                                    .wrapContentSize(align = Alignment.Center)
+                                modifier =
+                                    Modifier.size(ChipDefaults.IconSize)
+                                        .wrapContentSize(align = Alignment.Center),
                             )
                         },
                         onClick = { onAppClicked(item.packageName) },
@@ -211,8 +221,8 @@ fun WearApplicationsScreen(
             if (!uiState.isLoading) {
                 item(key = "__buttons") {
                     Row(
-                        horizontalArrangement = Arrangement
-                            .spacedBy(12.dp, Alignment.CenterHorizontally),
+                        horizontalArrangement =
+                            Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
                         modifier = Modifier.padding(top = 12.dp),
                     ) {
                         Button(
@@ -226,19 +236,19 @@ fun WearApplicationsScreen(
                             onCheckedChange = { onSystemAppsSwitched(!uiState.withSystemApps) },
                             modifier = Modifier.size(ButtonDefaults.SmallButtonSize),
                         ) {
-                            val systemAppIcon = if (uiState.withSystemApps) {
-                                Res.drawable.ic_apk_document_filled
-                            } else {
-                                Res.drawable.ic_apk_document_outlined
-                            }
+                            val systemAppIcon =
+                                if (uiState.withSystemApps) {
+                                    Res.drawable.ic_apk_document_filled
+                                } else {
+                                    Res.drawable.ic_apk_document_outlined
+                                }
                             Icon(
                                 painter = painterResource(systemAppIcon),
-                                contentDescription = stringResource(
-                                    Res.string.apps_show_system_apps
-                                ),
-                                modifier = Modifier
-                                    .size(ToggleButtonDefaults.SmallIconSize)
-                                    .wrapContentSize(align = Alignment.Center),
+                                contentDescription =
+                                    stringResource(Res.string.apps_show_system_apps),
+                                modifier =
+                                    Modifier.size(ToggleButtonDefaults.SmallIconSize)
+                                        .wrapContentSize(align = Alignment.Center),
                             )
                         }
                         ToggleButton(
@@ -246,17 +256,18 @@ fun WearApplicationsScreen(
                             onCheckedChange = { onSortOrderChange(!uiState.isSortAscending) },
                             modifier = Modifier.size(ButtonDefaults.SmallButtonSize),
                         ) {
-                            val sortingIcon = if (uiState.isSortAscending) {
-                                Icons.Default.KeyboardArrowDown
-                            } else {
-                                Icons.Default.KeyboardArrowUp
-                            }
+                            val sortingIcon =
+                                if (uiState.isSortAscending) {
+                                    Icons.Default.KeyboardArrowDown
+                                } else {
+                                    Icons.Default.KeyboardArrowUp
+                                }
                             Icon(
                                 imageVector = sortingIcon,
                                 contentDescription = stringResource(Res.string.apps_sort_order),
-                                modifier = Modifier
-                                    .size(ToggleButtonDefaults.SmallIconSize)
-                                    .wrapContentSize(align = Alignment.Center),
+                                modifier =
+                                    Modifier.size(ToggleButtonDefaults.SmallIconSize)
+                                        .wrapContentSize(align = Alignment.Center),
                             )
                         }
                     }
@@ -267,19 +278,13 @@ fun WearApplicationsScreen(
             WearCpuProgressIndicator()
         }
         uiState.snackbarMessage?.let {
-            AppOpeningConfirmation(
-                message = stringResource(it),
-                onTimeout = onSnackbarDismissed,
-            )
+            AppOpeningConfirmation(message = stringResource(it), onTimeout = onSnackbarDismissed)
         }
     }
 }
 
 @Composable
-private fun AppOpeningConfirmation(
-    message: String,
-    onTimeout: () -> Unit,
-) {
+private fun AppOpeningConfirmation(message: String, onTimeout: () -> Unit) {
     Confirmation(
         onTimeout = onTimeout,
         icon = {
@@ -291,9 +296,6 @@ private fun AppOpeningConfirmation(
         },
         durationMillis = 2000L,
     ) {
-        Text(
-            text = message,
-            textAlign = TextAlign.Center
-        )
+        Text(text = message, textAlign = TextAlign.Center)
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.features.information.gpu
 
 import androidx.lifecycle.ViewModel
@@ -28,20 +27,18 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class GpuInfoViewModel(
-    private val gpuDataObservable: GpuDataObservable,
-) : ViewModel() {
+class GpuInfoViewModel(private val gpuDataObservable: GpuDataObservable) : ViewModel() {
 
-    val uiStateFlow = gpuDataObservable.observe(GpuDataObservable.Params())
-        .distinctUntilChanged()
-        .map { UiState(it.toImmutableList()) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+    val uiStateFlow =
+        gpuDataObservable
+            .observe(GpuDataObservable.Params())
+            .distinctUntilChanged()
+            .map { UiState(it.toImmutableList()) }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     fun onGlInfoReceived(glVendor: String?, glRenderer: String?, glExtensions: String?) {
         gpuDataObservable(GpuDataObservable.Params(glVendor, glRenderer, glExtensions))
     }
 
-    data class UiState(
-        val gpuData: ImmutableList<ItemValue> = persistentListOf(),
-    )
+    data class UiState(val gpuData: ImmutableList<ItemValue> = persistentListOf())
 }

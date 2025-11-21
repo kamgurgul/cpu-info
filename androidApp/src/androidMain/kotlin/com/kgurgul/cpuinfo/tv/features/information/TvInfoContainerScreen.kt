@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 @file:OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 
 package com.kgurgul.cpuinfo.tv.features.information
@@ -67,46 +82,36 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object TvInformationBaseRoute {
 
-    @Serializable
-    object TvInformationRoute
+    @Serializable object TvInformationRoute
 }
 
 fun NavGraphBuilder.tvInformationScreen() {
     navigation<TvInformationBaseRoute>(
         startDestination = TvInformationBaseRoute.TvInformationRoute,
-        deepLinks = listOf(
-            navDeepLink<TvInformationBaseRoute>(
-                basePath = NavigationConst.BASE_URL + NavigationConst.INFORMATION
-            )
-        ),
+        deepLinks =
+            listOf(
+                navDeepLink<TvInformationBaseRoute>(
+                    basePath = NavigationConst.BASE_URL + NavigationConst.INFORMATION
+                )
+            ),
     ) {
-        composable<TvInformationBaseRoute.TvInformationRoute> {
-            TvInfoContainerScreen()
-        }
+        composable<TvInformationBaseRoute.TvInformationRoute> { TvInfoContainerScreen() }
     }
 }
 
 @Composable
-fun TvInfoContainerScreen(
-    viewModel: InfoContainerViewModel = koinViewModel(),
-) {
-    TvInfoContainerScreen(
-        onPageChanged = viewModel::onPageChanged,
-    )
+fun TvInfoContainerScreen(viewModel: InfoContainerViewModel = koinViewModel()) {
+    TvInfoContainerScreen(onPageChanged = viewModel::onPageChanged)
 }
 
 @Composable
-fun TvInfoContainerScreen(
-    onPageChanged: (Int) -> Unit,
-) {
-    Scaffold(
-        contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
-    ) { paddingValues ->
+fun TvInfoContainerScreen(onPageChanged: (Int) -> Unit) {
+    Scaffold(contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)) {
+        paddingValues ->
         InfoContainer(
             paddingValues = paddingValues,
             onPageChanged = onPageChanged,
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }
@@ -119,11 +124,7 @@ private fun InfoContainer(
 ) {
     val tabTitles = (0 until INFO_PAGE_AMOUNT).map { getTabTitle(position = it) }
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
-    Column(
-        modifier = Modifier
-            .padding(top = paddingValues.calculateTopPadding())
-            .then(modifier),
-    ) {
+    Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()).then(modifier)) {
         TabRow(
             selectedTabIndex = selectedTabIndex,
             indicator = { tabPositions, doesTabRowHaveFocus ->
@@ -134,10 +135,8 @@ private fun InfoContainer(
                     inactiveColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.4f),
                 )
             },
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .focusRestorer()
-                .padding(spacingMedium)
+            modifier =
+                Modifier.align(Alignment.CenterHorizontally).focusRestorer().padding(spacingMedium),
         ) {
             tabTitles.forEachIndexed { index, tab ->
                 key(index) {
@@ -148,10 +147,11 @@ private fun InfoContainer(
                         Text(
                             text = tab,
                             style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(
-                                horizontal = spacingMedium,
-                                vertical = spacingSmall,
-                            )
+                            modifier =
+                                Modifier.padding(
+                                    horizontal = spacingMedium,
+                                    vertical = spacingSmall,
+                                ),
                         )
                     }
                 }
@@ -164,10 +164,11 @@ private fun InfoContainer(
                 fadeIn(animationSpec = tween(220, delayMillis = 90))
                     .togetherWith(fadeOut(animationSpec = tween(90)))
             },
-            modifier = Modifier.padding(
-                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-            ),
+            modifier =
+                Modifier.padding(
+                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                    end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                ),
         ) { targetPos ->
             when (targetPos) {
                 CPU_POS -> TvCpuInfoScreen()

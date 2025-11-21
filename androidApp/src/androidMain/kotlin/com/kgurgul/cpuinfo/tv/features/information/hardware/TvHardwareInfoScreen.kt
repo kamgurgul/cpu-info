@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.tv.features.information.hardware
 
 import androidx.compose.foundation.layout.Arrangement
@@ -19,27 +34,18 @@ import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun TvHardwareInfoScreen(
-    viewModel: HardwareInfoViewModel = koinViewModel(),
-) {
-    registerPowerPlugListener(
-        onRefresh = viewModel::refreshHardwareInfo,
-    )
+fun TvHardwareInfoScreen(viewModel: HardwareInfoViewModel = koinViewModel()) {
+    registerPowerPlugListener(onRefresh = viewModel::refreshHardwareInfo)
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    TvHardwareInfoScreen(
-        uiState = uiState,
-    )
+    TvHardwareInfoScreen(uiState = uiState)
 }
 
 @Composable
-fun TvHardwareInfoScreen(
-    uiState: HardwareInfoViewModel.UiState,
-) {
+fun TvHardwareInfoScreen(uiState: HardwareInfoViewModel.UiState) {
     LazyColumn(
         contentPadding = PaddingValues(spacingSmall),
         verticalArrangement = Arrangement.spacedBy(spacingSmall),
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
     ) {
         items(uiState.hardwareItems) { itemValue ->
             TvListItem {

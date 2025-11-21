@@ -1,3 +1,5 @@
+import com.kgurgul.AndroidVersions
+import com.kgurgul.KoverConfig
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl

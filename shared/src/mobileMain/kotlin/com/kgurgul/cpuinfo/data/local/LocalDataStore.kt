@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.data.local
 
 import androidx.datastore.core.DataStore
@@ -25,52 +40,40 @@ actual class LocalDataStore actual constructor() : IDataStore, KoinComponent {
     private val dataStore: DataStore<Preferences> by inject()
 
     override val preferenceFlow: Flow<UserPreferences>
-        get() = dataStore.data
-            .catch { exception ->
-                if (exception is IOException) {
-                    CpuLogger.e(exception) { "Error reading preferences" }
-                    emit(emptyPreferences())
-                } else {
-                    throw exception
+        get() =
+            dataStore.data
+                .catch { exception ->
+                    if (exception is IOException) {
+                        CpuLogger.e(exception) { "Error reading preferences" }
+                        emit(emptyPreferences())
+                    } else {
+                        throw exception
+                    }
                 }
-            }.map { preferences ->
-                mapUserPreferences(preferences)
-            }
+                .map { preferences -> mapUserPreferences(preferences) }
 
     override suspend fun setValue(key: String, value: String) {
-        dataStore.edit { preferences ->
-            preferences[stringPreferencesKey(key)] = value
-        }
+        dataStore.edit { preferences -> preferences[stringPreferencesKey(key)] = value }
     }
 
     override suspend fun setValue(key: String, value: Int) {
-        dataStore.edit { preferences ->
-            preferences[intPreferencesKey(key)] = value
-        }
+        dataStore.edit { preferences -> preferences[intPreferencesKey(key)] = value }
     }
 
     override suspend fun setValue(key: String, value: Boolean) {
-        dataStore.edit { preferences ->
-            preferences[booleanPreferencesKey(key)] = value
-        }
+        dataStore.edit { preferences -> preferences[booleanPreferencesKey(key)] = value }
     }
 
     override suspend fun setValue(key: String, value: Float) {
-        dataStore.edit { preferences ->
-            preferences[floatPreferencesKey(key)] = value
-        }
+        dataStore.edit { preferences -> preferences[floatPreferencesKey(key)] = value }
     }
 
     override suspend fun setValue(key: String, value: Double) {
-        dataStore.edit { preferences ->
-            preferences[doublePreferencesKey(key)] = value
-        }
+        dataStore.edit { preferences -> preferences[doublePreferencesKey(key)] = value }
     }
 
     override suspend fun setValue(key: String, value: Long) {
-        dataStore.edit { preferences ->
-            preferences[longPreferencesKey(key)] = value
-        }
+        dataStore.edit { preferences -> preferences[longPreferencesKey(key)] = value }
     }
 
     private fun mapUserPreferences(preferences: Preferences): UserPreferences {

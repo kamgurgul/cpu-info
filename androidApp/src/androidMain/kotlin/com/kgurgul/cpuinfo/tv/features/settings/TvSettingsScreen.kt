@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.tv.features.settings
 
 import androidx.compose.foundation.layout.Arrangement
@@ -51,29 +66,25 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object TvSettingsBaseRoute {
 
-    @Serializable
-    data object TvSettingsRoute
+    @Serializable data object TvSettingsRoute
 }
 
 fun NavGraphBuilder.tvSettingsScreen() {
     navigation<TvSettingsBaseRoute>(
         startDestination = TvSettingsBaseRoute.TvSettingsRoute,
-        deepLinks = listOf(
-            navDeepLink<TvSettingsBaseRoute>(
-                basePath = NavigationConst.BASE_URL + NavigationConst.SETTINGS
-            )
-        ),
+        deepLinks =
+            listOf(
+                navDeepLink<TvSettingsBaseRoute>(
+                    basePath = NavigationConst.BASE_URL + NavigationConst.SETTINGS
+                )
+            ),
     ) {
-        composable<TvSettingsBaseRoute.TvSettingsRoute> {
-            TvSettingsScreen()
-        }
+        composable<TvSettingsBaseRoute.TvSettingsRoute> { TvSettingsScreen() }
     }
 }
 
 @Composable
-fun TvSettingsScreen(
-    viewModel: SettingsViewModel = koinViewModel(),
-) {
+fun TvSettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     TvSettingsScreen(
         uiState = uiState,
@@ -121,10 +132,7 @@ private fun SettingsList(
     onTemperatureItemClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        contentPadding = PaddingValues(spacingMedium),
-        modifier = modifier,
-    ) {
+    LazyColumn(contentPadding = PaddingValues(spacingMedium), modifier = modifier) {
         item(key = "__generalHeader") {
             Text(
                 text = stringResource(Res.string.general),
@@ -151,19 +159,13 @@ private fun SettingsList(
 }
 
 @Composable
-private fun SettingsItem(
-    title: String,
-    subtitle: String,
-    onClick: () -> Unit,
-) {
-    TvListItem(
-        onClick = onClick,
-    ) {
+private fun SettingsItem(title: String, subtitle: String, onClick: () -> Unit) {
+    TvListItem(onClick = onClick) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = spacingMedium)
-                .padding(start = spacingLarge),
+            modifier =
+                Modifier.fillMaxWidth()
+                    .padding(vertical = spacingMedium)
+                    .padding(start = spacingLarge)
         ) {
             Text(
                 text = title,
@@ -190,9 +192,7 @@ private fun TemperatureUnitDialog(
     if (isDialogVisible) {
         TvAlertDialog(
             onDismissRequest = onDismissRequest,
-            title = {
-                Text(text = stringResource(Res.string.temperature_unit))
-            },
+            title = { Text(text = stringResource(Res.string.temperature_unit)) },
             text = {
                 val scrollState = rememberScrollState()
                 Column(
@@ -204,20 +204,19 @@ private fun TemperatureUnitDialog(
                             onClick = {
                                 onOptionClicked(option)
                                 onDismissRequest()
-                            },
+                            }
                         ) {
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(spacingMedium),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = spacingSmall),
+                                modifier = Modifier.fillMaxWidth().padding(vertical = spacingSmall),
                             ) {
                                 RadioButton(
                                     selected = option == currentSelection,
                                     onClick = null,
-                                    colors = RadioButtonDefaults.colors(
-                                        selectedColor = MaterialTheme.colorScheme.tertiary,
-                                    ),
+                                    colors =
+                                        RadioButtonDefaults.colors(
+                                            selectedColor = MaterialTheme.colorScheme.tertiary
+                                        ),
                                 )
                                 Text(
                                     text = getTemperatureUnit(option = option),
@@ -230,9 +229,7 @@ private fun TemperatureUnitDialog(
                 }
             },
             confirmButton = {
-                TvButton(
-                    onClick = onDismissRequest,
-                ) {
+                TvButton(onClick = onDismissRequest) {
                     androidx.tv.material3.Text(text = stringResource(Res.string.cancel))
                 }
             },
@@ -251,9 +248,7 @@ private fun ThemeDialog(
     if (isDialogVisible) {
         TvAlertDialog(
             onDismissRequest = onDismissRequest,
-            title = {
-                Text(text = stringResource(Res.string.pref_theme_choose))
-            },
+            title = { Text(text = stringResource(Res.string.pref_theme_choose)) },
             text = {
                 val scrollState = rememberScrollState()
                 Column(
@@ -265,20 +260,19 @@ private fun ThemeDialog(
                             onClick = {
                                 onOptionClicked(option)
                                 onDismissRequest()
-                            },
+                            }
                         ) {
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(spacingMedium),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = spacingSmall),
+                                modifier = Modifier.fillMaxWidth().padding(vertical = spacingSmall),
                             ) {
                                 RadioButton(
                                     selected = option == currentSelection,
                                     onClick = null,
-                                    colors = RadioButtonDefaults.colors(
-                                        selectedColor = MaterialTheme.colorScheme.tertiary,
-                                    ),
+                                    colors =
+                                        RadioButtonDefaults.colors(
+                                            selectedColor = MaterialTheme.colorScheme.tertiary
+                                        ),
                                 )
                                 Text(
                                     text = getThemeName(option = option),
@@ -291,9 +285,7 @@ private fun ThemeDialog(
                 }
             },
             confirmButton = {
-                TvButton(
-                    onClick = onDismissRequest,
-                ) {
+                TvButton(onClick = onDismissRequest) {
                     androidx.tv.material3.Text(text = stringResource(Res.string.cancel))
                 }
             },

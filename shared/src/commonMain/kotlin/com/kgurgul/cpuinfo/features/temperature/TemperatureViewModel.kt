@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.features.temperature
 
 import androidx.lifecycle.ViewModel
@@ -33,20 +32,21 @@ class TemperatureViewModel(
     temperatureDataObservable: TemperatureDataObservable,
 ) : ViewModel() {
 
-    val uiStateFlow = temperatureDataObservable.observe()
-        .map {
-            UiState(
-                temperatureFormatter = temperatureFormatter,
-                isLoading = false,
-                temperatureItems = it.toImmutableList(),
+    val uiStateFlow =
+        temperatureDataObservable
+            .observe()
+            .map {
+                UiState(
+                    temperatureFormatter = temperatureFormatter,
+                    isLoading = false,
+                    temperatureItems = it.toImmutableList(),
+                )
+            }
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5_000),
+                UiState(temperatureFormatter = temperatureFormatter),
             )
-        }.stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5_000),
-            UiState(
-                temperatureFormatter = temperatureFormatter,
-            )
-        )
 
     data class UiState(
         val temperatureFormatter: TemperatureFormatter,

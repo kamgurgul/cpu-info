@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.information.hardware
 
 import androidx.compose.foundation.layout.Arrangement
@@ -25,25 +40,15 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun HardwareInfoScreen(
-    viewModel: HardwareInfoViewModel = koinViewModel(),
-) {
-    registerPowerPlugListener(
-        onRefresh = viewModel::refreshHardwareInfo,
-    )
+fun HardwareInfoScreen(viewModel: HardwareInfoViewModel = koinViewModel()) {
+    registerPowerPlugListener(onRefresh = viewModel::refreshHardwareInfo)
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    HardwareInfoScreen(
-        uiState = uiState,
-    )
+    HardwareInfoScreen(uiState = uiState)
 }
 
 @Composable
-fun HardwareInfoScreen(
-    uiState: HardwareInfoViewModel.UiState,
-) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+fun HardwareInfoScreen(uiState: HardwareInfoViewModel.UiState) {
+    Box(modifier = Modifier.fillMaxSize()) {
         val listState = rememberLazyListState()
         LazyColumn(
             contentPadding = PaddingValues(spacingSmall),
@@ -51,9 +56,7 @@ fun HardwareInfoScreen(
             state = listState,
             modifier = Modifier.fillMaxSize(),
         ) {
-            itemsIndexed(
-                uiState.hardwareItems,
-            ) { index, itemValue ->
+            itemsIndexed(uiState.hardwareItems) { index, itemValue ->
                 InformationRow(
                     title = itemValue.getName(),
                     value = itemValue.getValue(),
@@ -62,28 +65,23 @@ fun HardwareInfoScreen(
             }
         }
         VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
             scrollState = listState,
         )
     }
 }
 
-@Composable
-expect fun registerPowerPlugListener(onRefresh: () -> Unit)
+@Composable expect fun registerPowerPlugListener(onRefresh: () -> Unit)
 
 @Preview
 @Composable
 fun HardwareInfoScreenPreview() {
     CpuInfoTheme {
         HardwareInfoScreen(
-            uiState = HardwareInfoViewModel.UiState(
-                persistentListOf(
-                    ItemValue.Text("test", ""),
-                    ItemValue.Text("test", "test"),
-                ),
-            ),
+            uiState =
+                HardwareInfoViewModel.UiState(
+                    persistentListOf(ItemValue.Text("test", ""), ItemValue.Text("test", "test"))
+                )
         )
     }
 }

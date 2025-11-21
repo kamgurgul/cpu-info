@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.ui.components
 
 import androidx.compose.foundation.layout.Column
@@ -30,25 +45,27 @@ fun SurfaceTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
     CpuTopAppBar(
-        title = if (title != null) {
-            {
-                Text(
-                    text = title,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-        } else null,
+        title =
+            if (title != null) {
+                {
+                    Text(
+                        text = title,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                }
+            } else null,
         navigationIcon = navigationIcon,
         actions = actions,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            scrolledContainerColor = MaterialTheme.colorScheme.surface,
-            navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
-            titleContentColor = MaterialTheme.colorScheme.onSurface,
-            actionIconContentColor = MaterialTheme.colorScheme.onSurface,
-        ),
+        colors =
+            TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                scrolledContainerColor = MaterialTheme.colorScheme.surface,
+                navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+                titleContentColor = MaterialTheme.colorScheme.onSurface,
+                actionIconContentColor = MaterialTheme.colorScheme.onSurface,
+            ),
         windowInsets = windowInsets,
         scrollBehavior = scrollBehavior,
         modifier = modifier,
@@ -56,13 +73,14 @@ fun SurfaceTopAppBar(
 }
 
 @Composable
-private fun defaultTopAppColors() = TopAppBarDefaults.topAppBarColors(
-    containerColor = MaterialTheme.colorScheme.primary,
-    scrolledContainerColor = MaterialTheme.colorScheme.primary,
-    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-    titleContentColor = MaterialTheme.colorScheme.onPrimary,
-    actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
-)
+private fun defaultTopAppColors() =
+    TopAppBarDefaults.topAppBarColors(
+        containerColor = MaterialTheme.colorScheme.primary,
+        scrolledContainerColor = MaterialTheme.colorScheme.primary,
+        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+        titleContentColor = MaterialTheme.colorScheme.onPrimary,
+        actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+    )
 
 @Composable
 fun PrimaryTopAppBar(
@@ -74,16 +92,17 @@ fun PrimaryTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
     CpuTopAppBar(
-        title = if (title != null) {
-            {
-                Text(
-                    text = title,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-        } else null,
+        title =
+            if (title != null) {
+                {
+                    Text(
+                        text = title,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                }
+            } else null,
         navigationIcon = navigationIcon,
         actions = actions,
         colors = defaultTopAppColors(),
@@ -142,7 +161,7 @@ fun TopAppBarPreview() {
             SurfaceTopAppBar(
                 title = "Title",
                 navigationIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = {}) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = null,
@@ -150,18 +169,15 @@ fun TopAppBarPreview() {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = Icons.Default.MoreVert,
-                            contentDescription = null,
-                        )
+                    IconButton(onClick = {}) {
+                        Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
                     }
                 },
             )
             PrimaryTopAppBar(
                 title = "Title",
                 navigationIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = {}) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = null,
@@ -169,11 +185,8 @@ fun TopAppBarPreview() {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = Icons.Default.MoreVert,
-                            contentDescription = null,
-                        )
+                    IconButton(onClick = {}) {
+                        Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
                     }
                 },
             )

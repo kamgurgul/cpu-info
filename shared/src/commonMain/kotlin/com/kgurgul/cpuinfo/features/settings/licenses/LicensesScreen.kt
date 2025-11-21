@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.settings.licenses
 
 import androidx.compose.foundation.layout.Arrangement
@@ -5,7 +20,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,14 +27,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -56,7 +67,6 @@ import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.safeOpenUri
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -66,17 +76,11 @@ fun LicensesScreen(
     viewModel: LicensesViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    LicensesScreen(
-        uiState = uiState,
-        onNavigateBackClicked = onNavigateBackClicked,
-    )
+    LicensesScreen(uiState = uiState, onNavigateBackClicked = onNavigateBackClicked)
 }
 
 @Composable
-fun LicensesScreen(
-    uiState: LicensesViewModel.UiState,
-    onNavigateBackClicked: () -> Unit,
-) {
+fun LicensesScreen(uiState: LicensesViewModel.UiState, onNavigateBackClicked: () -> Unit) {
     val uriHandler = LocalUriHandler.current
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -85,9 +89,7 @@ fun LicensesScreen(
             PrimaryTopAppBar(
                 title = stringResource(Res.string.licenses),
                 navigationIcon = {
-                    IconButton(
-                        onClick = onNavigateBackClicked
-                    ) {
+                    IconButton(onClick = onNavigateBackClicked) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = stringResource(Res.string.back),
@@ -101,49 +103,39 @@ fun LicensesScreen(
     ) { paddingValues ->
         CpuPullToRefreshBox(
             isRefreshing = uiState.isLoading,
-            onRefresh = { },
+            onRefresh = {},
             enabled = false,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
+            modifier = Modifier.fillMaxSize().padding(paddingValues),
         ) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-            ) {
+            Box(modifier = Modifier.fillMaxSize()) {
                 val listState = rememberLazyListState()
                 LazyColumn(
                     state = listState,
                     contentPadding = PaddingValues(spacingMedium),
                     verticalArrangement = Arrangement.spacedBy(spacingMedium),
                 ) {
-                    itemsIndexed(
-                        uiState.licenses,
-                        key = { _, item -> item.moduleName }
-                    ) { index, item ->
+                    itemsIndexed(uiState.licenses, key = { _, item -> item.moduleName }) {
+                        index,
+                        item ->
                         LicenseItem(
                             license = item,
                             onLicenseUrlClicked = {
-                                uriHandler.safeOpenUri(it)
-                                    .onFailure {
-                                        scope.launch {
-                                            snackbarHostState.showSnackbar(
-                                                message = getString(Res.string.action_not_supported),
-                                            )
-                                        }
+                                uriHandler.safeOpenUri(it).onFailure {
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar(
+                                            message = getString(Res.string.action_not_supported)
+                                        )
                                     }
+                                }
                             },
                         )
                         if (index != uiState.licenses.lastIndex) {
-                            CpuDivider(
-                                modifier = Modifier.padding(top = spacingSmall),
-                            )
+                            CpuDivider(modifier = Modifier.padding(top = spacingSmall))
                         }
                     }
                 }
                 VerticalScrollbar(
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .fillMaxHeight(),
+                    modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
                     scrollState = listState,
                 )
             }
@@ -157,10 +149,7 @@ private fun LicenseItem(
     onLicenseUrlClicked: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(spacingSmall),
-        modifier = modifier,
-    ) {
+    Column(verticalArrangement = Arrangement.spacedBy(spacingSmall), modifier = modifier) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(spacingSmall),
             verticalAlignment = Alignment.CenterVertically,
@@ -210,7 +199,7 @@ private fun LicenseItem(
             text = stringResource(Res.string.licenses_webpage),
             onClick = { onLicenseUrlClicked(license.licenseUrl) },
             iconResource = Res.drawable.ic_open_in_browser,
-            iconContentDescription = stringResource(Res.string.licenses_webpage)
+            iconContentDescription = stringResource(Res.string.licenses_webpage),
         )
     }
 }

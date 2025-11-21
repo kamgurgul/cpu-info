@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.utils
 
 import kotlin.math.abs
@@ -42,9 +41,10 @@ object Utils {
                 with((absNumber * roundingFactor).roundToLong().toString()) {
                     val splitIndex = length - decimalPlaces - 1
                     val wholeString = substring(0..splitIndex)
-                    val fractionString = with(substring(splitIndex + 1)) {
-                        if (zeroPadFraction) this else dropLastWhile { digit -> digit == '0' }
-                    }
+                    val fractionString =
+                        with(substring(splitIndex + 1)) {
+                            if (zeroPadFraction) this else dropLastWhile { digit -> digit == '0' }
+                        }
                     if (fractionString.isEmpty()) wholeString else "$wholeString.$fractionString"
                 }
             val roundedNumberString =
@@ -57,13 +57,12 @@ object Utils {
         val megaBytes = bytes.toDouble() / (1024.0 * 1024.0)
         val roundedMegaBytes = round(megaBytes * 100) / 100
         val roundedMegaBytesString = roundedMegaBytes.toString()
-        val formatted = if (roundedMegaBytesString.contains(".")) {
-            roundedMegaBytesString
-                .dropLastWhile { it == '0' }
-                .dropLastWhile { it == '.' }
-        } else {
-            roundedMegaBytesString
-        }
+        val formatted =
+            if (roundedMegaBytesString.contains(".")) {
+                roundedMegaBytesString.dropLastWhile { it == '0' }.dropLastWhile { it == '.' }
+            } else {
+                roundedMegaBytesString
+            }
 
         return "${formatted}MB"
     }

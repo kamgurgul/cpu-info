@@ -31,11 +31,13 @@ kotlinxCoroutines = "1.10.2"
 kotlinxImmutable = "0.4.0"
 kotlinxSerialization = "1.9.0"
 kover = "0.9.3"
+ktfmt = "0.59"
 ksp = "2.3.3"
 licenses = "3.0.1"
 oshi = "6.9.1"
 profileinstaller = "1.4.1"
 relinker = "1.4.5"
+spotless = "8.1.0"
 turbine = "1.2.1"
 uiautomator = "2.3.0"
 
@@ -79,6 +81,7 @@ kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-co
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+ktfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
 oshi = { group = "com.github.oshi", name = "oshi-core", version.ref = "oshi" }
 relinker = { group = "com.getkeepsafe.relinker", name = "relinker", version.ref = "relinker" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
@@ -96,3 +99,4 @@ kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 licenses = { id = "com.github.jk1.dependency-license-report", version.ref = "licenses" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.features.temperature
 
 import com.kgurgul.cpuinfo.data.TestData
@@ -27,15 +26,14 @@ import kotlinx.coroutines.test.runTest
 class TemperatureFormatterTest {
 
     private val userPreferenceSharedFlow = MutableSharedFlow<UserPreferences>(replay = 1)
-    private val fakeUserPreferencesRepository = FakeUserPreferencesRepository(
-        preferencesFlow = userPreferenceSharedFlow,
-    )
+    private val fakeUserPreferencesRepository =
+        FakeUserPreferencesRepository(preferencesFlow = userPreferenceSharedFlow)
     private val formatter = TemperatureFormatter(fakeUserPreferencesRepository)
 
     @Test
     fun formatCelsius() = runTest {
         userPreferenceSharedFlow.emit(
-            TestData.userPreferences.copy(temperatureUnit = TemperatureFormatter.CELSIUS),
+            TestData.userPreferences.copy(temperatureUnit = TemperatureFormatter.CELSIUS)
         )
 
         val temp = formatter.format(9f)
@@ -46,7 +44,7 @@ class TemperatureFormatterTest {
     @Test
     fun formatFahrenheit() = runTest {
         userPreferenceSharedFlow.emit(
-            TestData.userPreferences.copy(temperatureUnit = TemperatureFormatter.FAHRENHEIT),
+            TestData.userPreferences.copy(temperatureUnit = TemperatureFormatter.FAHRENHEIT)
         )
 
         val temp = formatter.format(9f)

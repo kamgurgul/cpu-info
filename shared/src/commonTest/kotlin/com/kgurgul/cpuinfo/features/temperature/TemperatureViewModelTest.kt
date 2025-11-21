@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.features.temperature
 
 import app.cash.turbine.test
@@ -36,26 +35,29 @@ class TemperatureViewModelTest {
 
     private val temperatureData = TestData.temperatureData
     private val fakeUserPreferencesRepository = FakeUserPreferencesRepository()
-    private val fakeTemperatureProvider = FakeTemperatureProvider(
-        sensorsFlow = emptyFlow(),
-        cpuTempLocation = "/sys/class/thermal/thermal_zone0/temp",
-        cpuTemp = 10f,
-    )
+    private val fakeTemperatureProvider =
+        FakeTemperatureProvider(
+            sensorsFlow = emptyFlow(),
+            cpuTempLocation = "/sys/class/thermal/thermal_zone0/temp",
+            cpuTemp = 10f,
+        )
     private val temperatureFormatter = TemperatureFormatter(fakeUserPreferencesRepository)
-    private val temperatureDataObservable = TemperatureDataObservable(
-        dispatchersProvider = coroutineTestRule.testDispatcherProvider,
-        temperatureProvider = fakeTemperatureProvider,
-    )
+    private val temperatureDataObservable =
+        TemperatureDataObservable(
+            dispatchersProvider = coroutineTestRule.testDispatcherProvider,
+            temperatureProvider = fakeTemperatureProvider,
+        )
 
     private lateinit var viewModel: TemperatureViewModel
 
     @BeforeTest
     fun setup() {
         coroutineTestRule.onStart()
-        viewModel = TemperatureViewModel(
-            temperatureFormatter = temperatureFormatter,
-            temperatureDataObservable = temperatureDataObservable,
-        )
+        viewModel =
+            TemperatureViewModel(
+                temperatureFormatter = temperatureFormatter,
+                temperatureDataObservable = temperatureDataObservable,
+            )
     }
 
     @AfterTest
@@ -65,14 +67,13 @@ class TemperatureViewModelTest {
 
     @Test
     fun initialUiState() = runTest {
-        val expectedUiState = TemperatureViewModel.UiState(
-            temperatureFormatter = temperatureFormatter,
-            isLoading = false,
-            temperatureItems = temperatureData.toImmutableList(),
-        )
+        val expectedUiState =
+            TemperatureViewModel.UiState(
+                temperatureFormatter = temperatureFormatter,
+                isLoading = false,
+                temperatureItems = temperatureData.toImmutableList(),
+            )
 
-        viewModel.uiStateFlow.test {
-            assertEquals(expectedUiState, awaitItem())
-        }
+        viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }
     }
 }

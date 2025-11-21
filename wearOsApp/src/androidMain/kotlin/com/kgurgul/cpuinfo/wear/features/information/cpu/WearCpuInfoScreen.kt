@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 @file:OptIn(ExperimentalHorologistApi::class)
 
 package com.kgurgul.cpuinfo.wear.features.information.cpu
@@ -40,23 +55,21 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun WearCpuInfoScreen(viewModel: CpuInfoViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    WearCpuInfoScreen(
-        uiState = uiState,
-    )
+    WearCpuInfoScreen(uiState = uiState)
 }
 
 @Composable
 fun WearCpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
-    val columnState = rememberResponsiveColumnState(
-        contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Text,
-            last = ScalingLazyColumnDefaults.ItemType.Chip,
-        ),
-    )
+    val columnState =
+        rememberResponsiveColumnState(
+            contentPadding =
+                ScalingLazyColumnDefaults.padding(
+                    first = ScalingLazyColumnDefaults.ItemType.Text,
+                    last = ScalingLazyColumnDefaults.ItemType.Chip,
+                )
+        )
     ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(
-            columnState = columnState
-        ) {
+        ScalingLazyColumn(columnState = columnState) {
             item {
                 ResponsiveListHeader(contentPadding = firstItemPadding()) {
                     Text(
@@ -67,12 +80,7 @@ fun WearCpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
             }
             uiState.cpuData?.let { cpuData ->
                 cpuData.frequencies.forEachIndexed { i, frequency ->
-                    item(key = "__frequency_$i") {
-                        FrequencyItem(
-                            index = i,
-                            frequency = frequency,
-                        )
-                    }
+                    item(key = "__frequency_$i") { FrequencyItem(index = i, frequency = frequency) }
                 }
                 item(key = "__soc_name") {
                     WearCpuChip(
@@ -95,11 +103,12 @@ fun WearCpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                 item(key = "__has_neon") {
                     WearCpuChip(
                         label = stringResource(Res.string.cpu_has_neon),
-                        secondaryLabel = if (cpuData.hasArmNeon) {
-                            stringResource(Res.string.yes)
-                        } else {
-                            stringResource(Res.string.no)
-                        },
+                        secondaryLabel =
+                            if (cpuData.hasArmNeon) {
+                                stringResource(Res.string.yes)
+                            } else {
+                                stringResource(Res.string.no)
+                            },
                     )
                 }
                 if (cpuData.l1dCaches.isNotEmpty()) {
@@ -149,30 +158,30 @@ fun WearCpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
 
 @Composable
 private fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
-    val currentFreq = if (frequency.current != -1L) {
-        stringResource(
-            Res.string.cpu_current_frequency,
-            index,
-            formatHz(frequency.current),
-        )
-    } else {
-        stringResource(Res.string.cpu_frequency_stopped, index)
-    }
-    val minFreq = if (frequency.min != -1L) {
-        formatHz(0)
-    } else {
-        ""
-    }
-    val maxFreq = if (frequency.max != -1L) {
-        formatHz(frequency.max)
-    } else {
-        ""
-    }
-    val progress = if (frequency.current != -1L && frequency.max != 0L) {
-        frequency.current.toFloat() / frequency.max.toFloat()
-    } else {
-        0f
-    }
+    val currentFreq =
+        if (frequency.current != -1L) {
+            stringResource(Res.string.cpu_current_frequency, index, formatHz(frequency.current))
+        } else {
+            stringResource(Res.string.cpu_frequency_stopped, index)
+        }
+    val minFreq =
+        if (frequency.min != -1L) {
+            formatHz(0)
+        } else {
+            ""
+        }
+    val maxFreq =
+        if (frequency.max != -1L) {
+            formatHz(frequency.max)
+        } else {
+            ""
+        }
+    val progress =
+        if (frequency.current != -1L && frequency.max != 0L) {
+            frequency.current.toFloat() / frequency.max.toFloat()
+        } else {
+            0f
+        }
     WearCpuChip {
         CpuProgressBar(
             label = currentFreq,

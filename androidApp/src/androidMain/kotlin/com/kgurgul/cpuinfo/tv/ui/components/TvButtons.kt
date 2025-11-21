@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.tv.ui.components
 
 import androidx.compose.foundation.background
@@ -25,17 +40,18 @@ import androidx.tv.material3.WideButtonDefaults
 fun TvIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit,
 ) {
     IconButton(
         onClick = onClick,
         modifier = modifier,
-        colors = IconButtonDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.2f),
-            contentColor = MaterialTheme.colorScheme.onSurface,
-            focusedContainerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
-            focusedContentColor = MaterialTheme.colorScheme.onSurface,
-        ),
+        colors =
+            IconButtonDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.2f),
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                focusedContainerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
+                focusedContentColor = MaterialTheme.colorScheme.onSurface,
+            ),
         content = content,
     )
 }
@@ -44,16 +60,17 @@ fun TvIconButton(
 fun TvOutlinedIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit,
 ) {
     OutlinedIconButton(
         onClick = onClick,
         modifier = modifier,
-        colors = OutlinedIconButtonDefaults.colors(
-            contentColor = MaterialTheme.colorScheme.onSurface,
-            focusedContainerColor = MaterialTheme.colorScheme.onSurface,
-            focusedContentColor = MaterialTheme.colorScheme.surface,
-        ),
+        colors =
+            OutlinedIconButtonDefaults.colors(
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                focusedContainerColor = MaterialTheme.colorScheme.onSurface,
+                focusedContentColor = MaterialTheme.colorScheme.surface,
+            ),
         content = content,
     )
 }
@@ -62,17 +79,18 @@ fun TvOutlinedIconButton(
 fun TvButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.() -> Unit,
 ) {
     Button(
         onClick = onClick,
         modifier = modifier,
-        colors = ButtonDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.7f),
-            contentColor = MaterialTheme.colorScheme.onSurface,
-            focusedContainerColor = MaterialTheme.colorScheme.surfaceTint,
-            focusedContentColor = MaterialTheme.colorScheme.onSurface,
-        ),
+        colors =
+            ButtonDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.7f),
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                focusedContainerColor = MaterialTheme.colorScheme.surfaceTint,
+                focusedContentColor = MaterialTheme.colorScheme.onSurface,
+            ),
         content = content,
     )
 }
@@ -92,13 +110,12 @@ fun TvWideButton(
         title = title,
         subtitle = subtitle,
         icon = icon,
-        contentColor = WideButtonDefaults.contentColor(
-            color = MaterialTheme.colorScheme.onSurface,
-            focusedColor = MaterialTheme.colorScheme.onSurface,
-        ),
-        scale = WideButtonDefaults.scale(
-            focusedScale = 1.05f,
-        ),
+        contentColor =
+            WideButtonDefaults.contentColor(
+                color = MaterialTheme.colorScheme.onSurface,
+                focusedColor = MaterialTheme.colorScheme.onSurface,
+            ),
+        scale = WideButtonDefaults.scale(focusedScale = 1.05f),
         enabled = enabled,
         interactionSource = interactionSource,
         background = { TvWideButtonBackground(enabled, interactionSource) },
@@ -107,10 +124,7 @@ fun TvWideButton(
 }
 
 @Composable
-private fun TvWideButtonBackground(
-    enabled: Boolean,
-    interactionSource: MutableInteractionSource,
-) {
+private fun TvWideButtonBackground(enabled: Boolean, interactionSource: MutableInteractionSource) {
     val isFocused = interactionSource.collectIsFocusedAsState().value
     val isPressed = interactionSource.collectIsPressedAsState().value
 
@@ -122,7 +136,5 @@ private fun TvWideButtonBackground(
             else -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
         }
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(backgroundColor))
+    Box(modifier = Modifier.fillMaxSize().background(backgroundColor))
 }

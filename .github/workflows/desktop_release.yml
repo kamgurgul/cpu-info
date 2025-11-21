@@ -21,7 +21,8 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
       - name: Unit tests
         run: ./gradlew test
-
+      - name: Static checks
+        run: ./gradlew spotlessCheck
   build_msi:
     needs: code_quality
     runs-on: windows-latest

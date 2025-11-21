@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.tv.features
 
 import androidx.compose.animation.fadeIn
@@ -51,77 +66,67 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun TvHostScreen(
-    viewModel: HostViewModel = koinViewModel(),
-) {
+fun TvHostScreen(viewModel: HostViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    TvHostScreen(
-        uiState = uiState,
-    )
+    TvHostScreen(uiState = uiState)
 }
 
 @Composable
-fun TvHostScreen(
-    uiState: HostViewModel.UiState,
-) {
+fun TvHostScreen(uiState: HostViewModel.UiState) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     NavigationDrawer(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.background),
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         drawerContent = {
             Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(spacingMedium)
-                    .selectableGroup(),
+                modifier = Modifier.fillMaxHeight().padding(spacingMedium).selectableGroup(),
                 horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement
-                    .spacedBy(spacingSmall, Alignment.CenterVertically),
+                verticalArrangement = Arrangement.spacedBy(spacingSmall, Alignment.CenterVertically),
             ) {
-                buildTopLevelRoutes(
-                    isApplicationsVisible = uiState.isApplicationSectionVisible,
-                ).forEach { topLevelRoute ->
-                    NavigationDrawerItem(
-                        selected = currentDestination?.hierarchy?.any {
-                            it.hasRoute(topLevelRoute.route::class)
-                        } == true,
-                        onClick = {
-                            navController.navigate(topLevelRoute.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+                buildTopLevelRoutes(isApplicationsVisible = uiState.isApplicationSectionVisible)
+                    .forEach { topLevelRoute ->
+                        NavigationDrawerItem(
+                            selected =
+                                currentDestination?.hierarchy?.any {
+                                    it.hasRoute(topLevelRoute.route::class)
+                                } == true,
+                            onClick = {
+                                navController.navigate(topLevelRoute.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        leadingContent = {
-                            Icon(
-                                painter = painterResource(topLevelRoute.icon),
-                                contentDescription = stringResource(topLevelRoute.name),
+                            },
+                            leadingContent = {
+                                Icon(
+                                    painter = painterResource(topLevelRoute.icon),
+                                    contentDescription = stringResource(topLevelRoute.name),
+                                )
+                            },
+                            colors =
+                                NavigationDrawerItemDefaults.colors(
+                                    contentColor = MaterialTheme.colorScheme.onBackground,
+                                    focusedContainerColor = MaterialTheme.colorScheme.surfaceTint,
+                                    focusedContentColor = MaterialTheme.colorScheme.onBackground,
+                                    selectedContentColor = MaterialTheme.colorScheme.onBackground,
+                                    selectedContainerColor =
+                                        MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.4f),
+                                    pressedContentColor = MaterialTheme.colorScheme.onBackground,
+                                    pressedContainerColor =
+                                        MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.4f),
+                                ),
+                        ) {
+                            Text(
+                                text = stringResource(topLevelRoute.name),
+                                color = MaterialTheme.colorScheme.onBackground,
                             )
-                        },
-                        colors = NavigationDrawerItemDefaults.colors(
-                            contentColor = MaterialTheme.colorScheme.onBackground,
-                            focusedContainerColor = MaterialTheme.colorScheme.surfaceTint,
-                            focusedContentColor = MaterialTheme.colorScheme.onBackground,
-                            selectedContentColor = MaterialTheme.colorScheme.onBackground,
-                            selectedContainerColor = MaterialTheme.colorScheme.surfaceTint
-                                .copy(alpha = 0.4f),
-                            pressedContentColor = MaterialTheme.colorScheme.onBackground,
-                            pressedContainerColor = MaterialTheme.colorScheme.surfaceTint
-                                .copy(alpha = 0.4f),
-                        ),
-                    ) {
-                        Text(
-                            text = stringResource(topLevelRoute.name),
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
+                        }
                     }
-                }
             }
-        }
+        },
     ) {
         NavHost(
             navController = navController,
@@ -139,15 +144,13 @@ fun TvHostScreen(
     }
 }
 
-private fun buildTopLevelRoutes(
-    isApplicationsVisible: Boolean,
-) = buildList {
+private fun buildTopLevelRoutes(isApplicationsVisible: Boolean) = buildList {
     add(
         TopLevelRoute(
             name = Res.string.hardware,
             route = TvInformationBaseRoute,
             icon = Res.drawable.ic_cpu,
-        ),
+        )
     )
     if (isApplicationsVisible) {
         add(
@@ -155,7 +158,7 @@ private fun buildTopLevelRoutes(
                 name = Res.string.applications,
                 route = TvApplicationsBaseRoute,
                 icon = Res.drawable.ic_android,
-            ),
+            )
         )
     }
     add(
@@ -163,13 +166,13 @@ private fun buildTopLevelRoutes(
             name = Res.string.temp,
             route = TvTemperaturesBaseRoute,
             icon = Res.drawable.ic_temperature,
-        ),
+        )
     )
     add(
         TopLevelRoute(
             name = Res.string.settings,
             route = TvSettingsBaseRoute,
             icon = Res.drawable.ic_settings,
-        ),
+        )
     )
 }

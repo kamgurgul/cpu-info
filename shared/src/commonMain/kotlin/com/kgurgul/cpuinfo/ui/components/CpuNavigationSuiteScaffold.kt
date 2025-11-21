@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
@@ -15,18 +30,20 @@ fun CpuNavigationSuiteScaffold(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit = {},
 ) {
-    val navigationSuitColors = NavigationSuiteDefaults.colors(
-        shortNavigationBarContainerColor = MaterialTheme.colorScheme.primary,
-        shortNavigationBarContentColor = MaterialTheme.colorScheme.onPrimary,
-        wideNavigationRailColors = WideNavigationRailDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-        ),
-        navigationBarContainerColor = MaterialTheme.colorScheme.primary,
-        navigationBarContentColor = MaterialTheme.colorScheme.onPrimary,
-        navigationRailContainerColor = MaterialTheme.colorScheme.primary,
-        navigationRailContentColor = MaterialTheme.colorScheme.onPrimary,
-    )
+    val navigationSuitColors =
+        NavigationSuiteDefaults.colors(
+            shortNavigationBarContainerColor = MaterialTheme.colorScheme.primary,
+            shortNavigationBarContentColor = MaterialTheme.colorScheme.onPrimary,
+            wideNavigationRailColors =
+                WideNavigationRailDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
+            navigationBarContainerColor = MaterialTheme.colorScheme.primary,
+            navigationBarContentColor = MaterialTheme.colorScheme.onPrimary,
+            navigationRailContainerColor = MaterialTheme.colorScheme.primary,
+            navigationRailContentColor = MaterialTheme.colorScheme.onPrimary,
+        )
     NavigationSuiteScaffold(
         navigationItems = navigationItems,
         containerColor = MaterialTheme.colorScheme.primary,
@@ -41,13 +58,14 @@ fun CpuNavigationSuiteScaffold(
 object CpuNavigationSuiteScaffoldDefault {
 
     @Composable
-    fun itemColors() = NavigationItemColors(
-        selectedIconColor = MaterialTheme.colorScheme.onSecondary,
-        selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-        selectedIndicatorColor = MaterialTheme.colorScheme.secondary,
-        unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
-        unselectedTextColor = MaterialTheme.colorScheme.surfaceVariant,
-        disabledIconColor = MaterialTheme.colorScheme.onPrimary,
-        disabledTextColor = MaterialTheme.colorScheme.onPrimary,
-    )
+    fun itemColors() =
+        NavigationItemColors(
+            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+            selectedTextColor = MaterialTheme.colorScheme.onPrimary,
+            selectedIndicatorColor = MaterialTheme.colorScheme.secondary,
+            unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
+            unselectedTextColor = MaterialTheme.colorScheme.surfaceVariant,
+            disabledIconColor = MaterialTheme.colorScheme.onPrimary,
+            disabledTextColor = MaterialTheme.colorScheme.onPrimary,
+        )
 }

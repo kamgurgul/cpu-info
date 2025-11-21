@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.data.provider
 
 import android.content.res.Configuration
@@ -47,14 +62,13 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
     }
 
     private fun getScreenClass(): ItemValue {
-        val screenClass = when (
-            resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
-        ) {
-            Configuration.SCREENLAYOUT_SIZE_LARGE -> Res.string.large
-            Configuration.SCREENLAYOUT_SIZE_NORMAL -> Res.string.normal
-            Configuration.SCREENLAYOUT_SIZE_SMALL -> Res.string.small
-            else -> Res.string.unknown
-        }
+        val screenClass =
+            when (resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK) {
+                Configuration.SCREENLAYOUT_SIZE_LARGE -> Res.string.large
+                Configuration.SCREENLAYOUT_SIZE_NORMAL -> Res.string.normal
+                Configuration.SCREENLAYOUT_SIZE_SMALL -> Res.string.small
+                else -> Res.string.unknown
+            }
         return ItemValue.NameValueResource(Res.string.screen_class, screenClass)
     }
 
@@ -70,21 +84,25 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
                 densityClass = "mdpi"
             }
 
-            DisplayMetrics.DENSITY_TV, DisplayMetrics.DENSITY_HIGH -> {
+            DisplayMetrics.DENSITY_TV,
+            DisplayMetrics.DENSITY_HIGH -> {
                 densityClass = "hdpi"
             }
 
-            DisplayMetrics.DENSITY_XHIGH, DisplayMetrics.DENSITY_280 -> {
+            DisplayMetrics.DENSITY_XHIGH,
+            DisplayMetrics.DENSITY_280 -> {
                 densityClass = "xhdpi"
             }
 
-            DisplayMetrics.DENSITY_XXHIGH, DisplayMetrics.DENSITY_360, DisplayMetrics.DENSITY_400,
-            DisplayMetrics.DENSITY_420,
-            -> {
+            DisplayMetrics.DENSITY_XXHIGH,
+            DisplayMetrics.DENSITY_360,
+            DisplayMetrics.DENSITY_400,
+            DisplayMetrics.DENSITY_420 -> {
                 densityClass = "xxhdpi"
             }
 
-            DisplayMetrics.DENSITY_XXXHIGH, DisplayMetrics.DENSITY_560 -> {
+            DisplayMetrics.DENSITY_XXXHIGH,
+            DisplayMetrics.DENSITY_560 -> {
                 densityClass = "xxxhdpi"
             }
 
@@ -105,17 +123,9 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
         val metrics = DisplayMetrics()
         try {
             display.getRealMetrics(metrics)
+            functionsList.add(ItemValue.NameResource(Res.string.width, "${metrics.widthPixels} px"))
             functionsList.add(
-                ItemValue.NameResource(
-                    Res.string.width,
-                    "${metrics.widthPixels} px",
-                ),
-            )
-            functionsList.add(
-                ItemValue.NameResource(
-                    Res.string.height,
-                    "${metrics.heightPixels} px",
-                ),
+                ItemValue.NameResource(Res.string.height, "${metrics.heightPixels} px")
             )
 
             val density = metrics.density
@@ -123,10 +133,7 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
             val dpWidth = metrics.widthPixels / density
             functionsList.add(ItemValue.NameResource(Res.string.dp_width, "${dpWidth.toInt()} dp"))
             functionsList.add(
-                ItemValue.NameResource(
-                    Res.string.dp_height,
-                    "${dpHeight.toInt()} dp",
-                ),
+                ItemValue.NameResource(Res.string.dp_height, "${dpHeight.toInt()} dp")
             )
             functionsList.add(ItemValue.NameResource(Res.string.density, "$density"))
         } catch (_: Exception) {
@@ -135,24 +142,15 @@ actual class ScreenDataProvider actual constructor() : IScreenDataProvider, Koin
 
         display.getMetrics(metrics)
         functionsList.add(
-            ItemValue.NameResource(
-                Res.string.absolute_width,
-                "${metrics.widthPixels} px",
-            ),
+            ItemValue.NameResource(Res.string.absolute_width, "${metrics.widthPixels} px")
         )
         functionsList.add(
-            ItemValue.NameResource(
-                Res.string.absolute_height,
-                "${metrics.heightPixels} px",
-            ),
+            ItemValue.NameResource(Res.string.absolute_height, "${metrics.heightPixels} px")
         )
 
         val refreshRate = display.refreshRate
         functionsList.add(
-            ItemValue.NameResource(
-                Res.string.refresh_rate,
-                "${refreshRate.round2()} Hz",
-            ),
+            ItemValue.NameResource(Res.string.refresh_rate, "${refreshRate.round2()} Hz")
         )
 
         return functionsList

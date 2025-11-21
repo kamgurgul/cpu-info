@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.ui.components
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -62,10 +77,10 @@ fun CpuTextField(
     CompositionLocalProvider(LocalTextSelectionColors provides colors.textSelectionColors) {
         BasicTextField(
             value = value,
-            modifier = modifier
-                .defaultMinSize(
+            modifier =
+                modifier.defaultMinSize(
                     minWidth = TextFieldDefaults.MinWidth,
-                    minHeight = TextFieldDefaults.MinHeight
+                    minHeight = TextFieldDefaults.MinHeight,
                 ),
             onValueChange = onValueChange,
             enabled = enabled,
@@ -80,35 +95,36 @@ fun CpuTextField(
             maxLines = maxLines,
             minLines = minLines,
             decorationBox =
-            @Composable { innerTextField ->
-                // places leading icon, text field with label and placeholder, trailing icon
-                TextFieldDefaults.DecorationBox(
-                    value = value,
-                    visualTransformation = visualTransformation,
-                    innerTextField = innerTextField,
-                    placeholder = placeholder,
-                    label = label,
-                    leadingIcon = leadingIcon,
-                    trailingIcon = trailingIcon,
-                    prefix = prefix,
-                    suffix = suffix,
-                    supportingText = supportingText,
-                    shape = shape,
-                    singleLine = singleLine,
-                    enabled = enabled,
-                    isError = isError,
-                    interactionSource = interactionSource,
-                    colors = colors,
-                    contentPadding = if (label == null) {
-                        TextFieldDefaults.contentPaddingWithoutLabel(
-                            top = 0.dp,
-                            bottom = 0.dp,
-                        )
-                    } else {
-                        TextFieldDefaults.contentPaddingWithLabel()
-                    }
-                )
-            }
+                @Composable { innerTextField ->
+                    // places leading icon, text field with label and placeholder, trailing icon
+                    TextFieldDefaults.DecorationBox(
+                        value = value,
+                        visualTransformation = visualTransformation,
+                        innerTextField = innerTextField,
+                        placeholder = placeholder,
+                        label = label,
+                        leadingIcon = leadingIcon,
+                        trailingIcon = trailingIcon,
+                        prefix = prefix,
+                        suffix = suffix,
+                        supportingText = supportingText,
+                        shape = shape,
+                        singleLine = singleLine,
+                        enabled = enabled,
+                        isError = isError,
+                        interactionSource = interactionSource,
+                        colors = colors,
+                        contentPadding =
+                            if (label == null) {
+                                TextFieldDefaults.contentPaddingWithoutLabel(
+                                    top = 0.dp,
+                                    bottom = 0.dp,
+                                )
+                            } else {
+                                TextFieldDefaults.contentPaddingWithLabel()
+                            },
+                    )
+                },
         )
     }
 }
@@ -118,13 +134,10 @@ private fun TextFieldColors.cursorColor(isError: Boolean): Color =
     if (isError) errorCursorColor else cursorColor
 
 @Stable
-private fun TextFieldColors.textColor(
-    enabled: Boolean,
-    isError: Boolean,
-    focused: Boolean,
-): Color = when {
-    !enabled -> disabledTextColor
-    isError -> errorTextColor
-    focused -> focusedTextColor
-    else -> unfocusedTextColor
-}
+private fun TextFieldColors.textColor(enabled: Boolean, isError: Boolean, focused: Boolean): Color =
+    when {
+        !enabled -> disabledTextColor
+        isError -> errorTextColor
+        focused -> focusedTextColor
+        else -> unfocusedTextColor
+    }

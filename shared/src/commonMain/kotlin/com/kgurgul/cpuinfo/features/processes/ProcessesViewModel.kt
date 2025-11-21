@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.processes
 
 import androidx.lifecycle.SavedStateHandle
@@ -28,48 +43,51 @@ class ProcessesViewModel(
 ) : ViewModel() {
 
     val searchQuery = savedStateHandle.getStateFlow(key = SEARCH_QUERY_KEY, initialValue = "")
-    private val debouncedSearchQueryFlow = searchQuery.mapLatest { query ->
-        if (query.isNotEmpty()) {
-            delay(SEARCH_DEBOUNCE_MS)
-        }
-        query
-    }
-    val uiStateFlow = userPreferencesRepository.userPreferencesFlow
-        .flatMapLatest { userPreferences ->
-            val isSortAscending = userPreferences.isProcessesSortingAscending
-            combine(
-                processesDataObservable.observe(
-                    ProcessesDataObservable.Params(
-                        sortOrder = sortOrderFromBoolean(isSortAscending),
-                    ),
-                ),
-                debouncedSearchQueryFlow,
-            ) { processes, searchQuery ->
-                val filteredProcesses = if (searchQuery.isEmpty()) {
-                    processes
-                } else {
-                    filterProcessesInteractor(
-                        FilterProcessesInteractor.Params(
-                            processes = processes,
-                            searchQuery = searchQuery,
-                        ),
-                    )
-                }
-                isSortAscending to filteredProcesses
+    private val debouncedSearchQueryFlow =
+        searchQuery.mapLatest { query ->
+            if (query.isNotEmpty()) {
+                delay(SEARCH_DEBOUNCE_MS)
             }
-        }.map {
-            val (isSortAscending, processes) = it
-            UiState(
-                isLoading = false,
-                processes = processes.toImmutableList(),
-                isSortAscending = isSortAscending,
-            )
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+            query
+        }
+    val uiStateFlow =
+        userPreferencesRepository.userPreferencesFlow
+            .flatMapLatest { userPreferences ->
+                val isSortAscending = userPreferences.isProcessesSortingAscending
+                combine(
+                    processesDataObservable.observe(
+                        ProcessesDataObservable.Params(
+                            sortOrder = sortOrderFromBoolean(isSortAscending)
+                        )
+                    ),
+                    debouncedSearchQueryFlow,
+                ) { processes, searchQuery ->
+                    val filteredProcesses =
+                        if (searchQuery.isEmpty()) {
+                            processes
+                        } else {
+                            filterProcessesInteractor(
+                                FilterProcessesInteractor.Params(
+                                    processes = processes,
+                                    searchQuery = searchQuery,
+                                )
+                            )
+                        }
+                    isSortAscending to filteredProcesses
+                }
+            }
+            .map {
+                val (isSortAscending, processes) = it
+                UiState(
+                    isLoading = false,
+                    processes = processes.toImmutableList(),
+                    isSortAscending = isSortAscending,
+                )
+            }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     fun onSortOrderChange(isAscending: Boolean) {
-        viewModelScope.launch {
-            userPreferencesRepository.setProcessesSortingOrder(isAscending)
-        }
+        viewModelScope.launch { userPreferencesRepository.setProcessesSortingOrder(isAscending) }
     }
 
     fun onSearchQueryChanged(query: String) {

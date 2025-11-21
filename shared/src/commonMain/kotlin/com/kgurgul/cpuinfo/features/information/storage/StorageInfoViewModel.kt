@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.features.information.storage
 
 import androidx.lifecycle.ViewModel
@@ -29,20 +28,18 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class StorageInfoViewModel(
-    private val storageDataObservable: StorageDataObservable,
-) : ViewModel() {
+class StorageInfoViewModel(private val storageDataObservable: StorageDataObservable) : ViewModel() {
 
-    val uiStateFlow = storageDataObservable.observe(Unit)
-        .distinctUntilChanged()
-        .map { UiState(it.toImmutableList()) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+    val uiStateFlow =
+        storageDataObservable
+            .observe(Unit)
+            .distinctUntilChanged()
+            .map { UiState(it.toImmutableList()) }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     fun onRefreshStorage() {
         storageDataObservable.invoke()
     }
 
-    data class UiState(
-        val storageItems: ImmutableList<StorageItem> = persistentListOf(),
-    )
+    data class UiState(val storageItems: ImmutableList<StorageItem> = persistentListOf())
 }

@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.applications
 
 import androidx.compose.animation.AnimatedVisibility
@@ -105,33 +120,26 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object ApplicationsBaseRoute {
 
-    @SerialName(NavigationConst.APPLICATIONS)
-    @Serializable
-    data object ApplicationsRoute
+    @SerialName(NavigationConst.APPLICATIONS) @Serializable data object ApplicationsRoute
 }
 
 fun NavGraphBuilder.applicationsScreen() {
     navigation<ApplicationsBaseRoute>(
         startDestination = ApplicationsBaseRoute.ApplicationsRoute,
-        deepLinks = listOf(
-            navDeepLink<ApplicationsBaseRoute>(
-                basePath = NavigationConst.BASE_URL + NavigationConst.APPLICATIONS
-            )
-        )
+        deepLinks =
+            listOf(
+                navDeepLink<ApplicationsBaseRoute>(
+                    basePath = NavigationConst.BASE_URL + NavigationConst.APPLICATIONS
+                )
+            ),
     ) {
-        composable<ApplicationsBaseRoute.ApplicationsRoute> {
-            ApplicationsScreen()
-        }
+        composable<ApplicationsBaseRoute.ApplicationsRoute> { ApplicationsScreen() }
     }
 }
 
 @Composable
-fun ApplicationsScreen(
-    viewModel: ApplicationsViewModel = koinViewModel(),
-) {
-    registerUninstallListener(
-        onRefresh = viewModel::onRefreshApplications,
-    )
+fun ApplicationsScreen(viewModel: ApplicationsViewModel = koinViewModel()) {
+    registerUninstallListener(onRefresh = viewModel::onRefreshApplications)
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     ApplicationsScreen(
@@ -196,19 +204,13 @@ fun ApplicationsScreen(
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
-        snackbarHost = {
-            SnackbarHost(snackbarHostState) { data ->
-                CpuSnackbar(data)
-            }
-        },
+        snackbarHost = { SnackbarHost(snackbarHostState) { data -> CpuSnackbar(data) } },
     ) { innerPaddingModifier ->
         CpuPullToRefreshBox(
             isRefreshing = uiState.isLoading,
             onRefresh = onRefreshApplications,
             enabled = !uiState.hasManualRefresh,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPaddingModifier),
+            modifier = Modifier.fillMaxSize().padding(innerPaddingModifier),
         ) {
             ApplicationsList(
                 appList = uiState.applications,
@@ -246,7 +248,7 @@ private fun TopBar(
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 AnimatedVisibility(visible = !showSearch) {
                     Text(
@@ -259,7 +261,7 @@ private fun TopBar(
                 Row(
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 ) {
                     AnimatedVisibility(visible = showSearch) {
                         CpuSearchTextField(
@@ -282,27 +284,20 @@ private fun TopBar(
         },
         actions = {
             if (hasManualRefresh) {
-                IconButton(
-                    onClick = onRefresh
-                ) {
+                IconButton(onClick = onRefresh) {
                     Icon(
                         imageVector = Icons.Default.Refresh,
                         contentDescription = stringResource(Res.string.refresh),
                     )
                 }
             }
-            IconButton(
-                onClick = { showMenu = !showMenu },
-            ) {
+            IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = stringResource(Res.string.menu),
                 )
             }
-            DropdownMenu(
-                expanded = showMenu,
-                onDismissRequest = { showMenu = false },
-            ) {
+            DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
                 if (hasSystemAppsFiltering) {
                     DropdownMenuItem(
                         text = {
@@ -324,19 +319,17 @@ private fun TopBar(
                     },
                     onClick = { onSortOrderChange(!isSortAscending) },
                     trailingIcon = {
-                        val icon = if (isSortAscending) {
-                            Icons.Default.KeyboardArrowDown
-                        } else {
-                            Icons.Default.KeyboardArrowUp
-                        }
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = null,
-                        )
+                        val icon =
+                            if (isSortAscending) {
+                                Icons.Default.KeyboardArrowDown
+                            } else {
+                                Icons.Default.KeyboardArrowUp
+                            }
+                        Icon(imageVector = icon, contentDescription = null)
                     },
                 )
             }
-        }
+        },
     )
 }
 
@@ -349,24 +342,13 @@ private fun ApplicationsList(
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (libs: List<String>) -> Unit,
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         val listState = rememberLazyListState()
         var revealedCardId: String? by rememberSaveable { mutableStateOf(null) }
         val density = LocalDensity.current
-        LazyColumn(
-            state = listState,
-            modifier = Modifier
-                .fillMaxSize(),
-        ) {
-            itemsIndexed(
-                items = appList,
-                key = { _, item -> item.packageName },
-            ) { index, item ->
-                val isRevealed by remember {
-                    derivedStateOf { revealedCardId == item.packageName }
-                }
+        LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+            itemsIndexed(items = appList, key = { _, item -> item.packageName }) { index, item ->
+                val isRevealed by remember { derivedStateOf { revealedCardId == item.packageName } }
                 DraggableBox(
                     isRevealed = isRevealed,
                     onExpand = { revealedCardId = item.packageName },
@@ -408,20 +390,15 @@ private fun ApplicationsList(
                         )
                     },
                     enabled = hasAppManagement,
-                    modifier = Modifier
-                        .animateItem(),
+                    modifier = Modifier.animateItem(),
                 )
                 if (index < appList.lastIndex) {
-                    CpuDivider(
-                        modifier = Modifier.padding(horizontal = spacingSmall),
-                    )
+                    CpuDivider(modifier = Modifier.padding(horizontal = spacingSmall))
                 }
             }
         }
         VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
             scrollState = listState,
         )
     }
@@ -435,27 +412,24 @@ private fun ApplicationItem(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.background)
-            .clickable(onClick = { onAppClicked(appData.packageName) })
-            .padding(spacingSmall),
+        modifier =
+            Modifier.fillMaxWidth()
+                .background(color = MaterialTheme.colorScheme.background)
+                .clickable(onClick = { onAppClicked(appData.packageName) })
+                .padding(spacingSmall),
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalPlatformContext.current)
-                .data(appData.appIconUri)
-                .crossfade(true)
-                .build(),
+            model =
+                ImageRequest.Builder(LocalPlatformContext.current)
+                    .data(appData.appIconUri)
+                    .crossfade(true)
+                    .build(),
             contentDescription = appData.name,
             modifier = Modifier.size(50.dp),
         )
-        Box(
-            modifier = Modifier.weight(1f)
-        ) {
+        Box(modifier = Modifier.weight(1f)) {
             SelectionContainer {
-                Column(
-                    modifier = Modifier.padding(horizontal = spacingXSmall),
-                ) {
+                Column(modifier = Modifier.padding(horizontal = spacingXSmall)) {
                     Text(
                         text = appData.name,
                         style = MaterialTheme.typography.titleMedium,
@@ -501,29 +475,23 @@ private fun NativeLibsDialog(
     if (isVisible) {
         AlertDialog(
             onDismissRequest = onDismissRequest,
-            title = {
-                Text(text = stringResource(Res.string.native_libs))
-            },
+            title = { Text(text = stringResource(Res.string.native_libs)) },
             text = {
                 LazyColumn {
                     items(nativeLibs) { item ->
                         Text(
                             text = item,
                             style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { onNativeLibNameClicked(item) }
-                                .padding(vertical = spacingMedium),
+                            modifier =
+                                Modifier.fillMaxWidth()
+                                    .clickable { onNativeLibNameClicked(item) }
+                                    .padding(vertical = spacingMedium),
                         )
                     }
                 }
             },
             confirmButton = {
-                Button(
-                    onClick = onDismissRequest,
-                ) {
-                    Text(text = stringResource(Res.string.ok))
-                }
+                Button(onClick = onDismissRequest) { Text(text = stringResource(Res.string.ok)) }
             },
         )
     }
@@ -533,17 +501,17 @@ object ApplicationsScreenTestData {
     const val SEARCH_TEST_TAG = "searchTextField"
 }
 
-@Composable
-expect fun registerUninstallListener(onRefresh: () -> Unit)
+@Composable expect fun registerUninstallListener(onRefresh: () -> Unit)
 
 @Preview
 @Composable
 private fun ApplicationsScreenPreview() {
     CpuInfoTheme {
         ApplicationsScreen(
-            uiState = ApplicationsViewModel.UiState(
-                applications = persistentListOf(previewAppData1, previewAppData2),
-            ),
+            uiState =
+                ApplicationsViewModel.UiState(
+                    applications = persistentListOf(previewAppData1, previewAppData2)
+                ),
             onAppClicked = {},
             onRefreshApplications = {},
             onSnackbarDismissed = {},
@@ -560,20 +528,22 @@ private fun ApplicationsScreenPreview() {
     }
 }
 
-private val previewAppData1 = ExtendedApplicationData(
-    name = "Cpu Info",
-    packageName = "com.kgurgul.cpuinfo",
-    versionName = "1.0.0",
-    nativeLibs = emptyList(),
-    hasNativeLibs = false,
-    appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4",
-)
+private val previewAppData1 =
+    ExtendedApplicationData(
+        name = "Cpu Info",
+        packageName = "com.kgurgul.cpuinfo",
+        versionName = "1.0.0",
+        nativeLibs = emptyList(),
+        hasNativeLibs = false,
+        appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4",
+    )
 
-private val previewAppData2 = ExtendedApplicationData(
-    name = "Cpu Info1 Cpu Info1 Cpu Info1 Cpu Info1",
-    packageName = "com.kgurgul.cpuinfo1com.kgurgul.cpuinfo1com.kgurgul.cpuinfo1",
-    versionName = "1.0.0",
-    nativeLibs = emptyList(),
-    hasNativeLibs = true,
-    appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4",
-)
+private val previewAppData2 =
+    ExtendedApplicationData(
+        name = "Cpu Info1 Cpu Info1 Cpu Info1 Cpu Info1",
+        packageName = "com.kgurgul.cpuinfo1com.kgurgul.cpuinfo1com.kgurgul.cpuinfo1",
+        versionName = "1.0.0",
+        nativeLibs = emptyList(),
+        hasNativeLibs = true,
+        appIconUri = "https://avatars.githubusercontent.com/u/6407041?s=32&v=4",
+    )

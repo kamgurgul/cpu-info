@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 KG Soft
+ * Copyright KG Soft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
@@ -23,9 +22,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
 
-actual class TemperatureProvider actual constructor() :
-    KoinComponent,
-    ITemperatureProvider {
+actual class TemperatureProvider actual constructor() : KoinComponent, ITemperatureProvider {
 
     private val systemInfo: SystemInfo by inject()
 

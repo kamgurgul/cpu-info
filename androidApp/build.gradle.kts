@@ -2,6 +2,8 @@ import com.github.jk1.license.filter.DependencyFilter
 import com.github.jk1.license.filter.LicenseBundleNormalizer
 import com.github.jk1.license.render.JsonReportRenderer
 import com.github.jk1.license.render.ReportRenderer
+import com.kgurgul.AndroidSigningConfig
+import com.kgurgul.AndroidVersions
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)

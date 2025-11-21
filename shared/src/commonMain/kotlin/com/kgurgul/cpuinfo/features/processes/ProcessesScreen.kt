@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.processes
 
 import androidx.compose.animation.AnimatedVisibility
@@ -69,30 +84,25 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object ProcessesBaseRoute {
 
-    @SerialName(NavigationConst.PROCESSES)
-    @Serializable
-    data object ProcessesRoute
+    @SerialName(NavigationConst.PROCESSES) @Serializable data object ProcessesRoute
 }
 
 fun NavGraphBuilder.processesScreen() {
     navigation<ProcessesBaseRoute>(
         startDestination = ProcessesBaseRoute.ProcessesRoute,
-        deepLinks = listOf(
-            navDeepLink<ProcessesBaseRoute>(
-                basePath = NavigationConst.BASE_URL + NavigationConst.PROCESSES
-            )
-        ),
+        deepLinks =
+            listOf(
+                navDeepLink<ProcessesBaseRoute>(
+                    basePath = NavigationConst.BASE_URL + NavigationConst.PROCESSES
+                )
+            ),
     ) {
-        composable<ProcessesBaseRoute.ProcessesRoute> {
-            ProcessesScreen()
-        }
+        composable<ProcessesBaseRoute.ProcessesRoute> { ProcessesScreen() }
     }
 }
 
 @Composable
-fun ProcessesScreen(
-    viewModel: ProcessesViewModel = koinViewModel(),
-) {
+fun ProcessesScreen(viewModel: ProcessesViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     ProcessesScreen(
@@ -123,15 +133,11 @@ fun ProcessesScreen(
     ) { paddingValues ->
         CpuPullToRefreshBox(
             isRefreshing = uiState.isLoading,
-            onRefresh = { },
+            onRefresh = {},
             enabled = false,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
+            modifier = Modifier.fillMaxSize().padding(paddingValues),
         ) {
-            ProcessList(
-                processes = uiState.processes,
-            )
+            ProcessList(processes = uiState.processes)
         }
     }
 }
@@ -149,7 +155,7 @@ private fun ProcessesTopBar(
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 AnimatedVisibility(visible = !showSearch) {
                     Text(
@@ -162,7 +168,7 @@ private fun ProcessesTopBar(
                 Row(
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 ) {
                     AnimatedVisibility(visible = showSearch) {
                         CpuSearchTextField(
@@ -185,15 +191,9 @@ private fun ProcessesTopBar(
         },
         actions = {
             IconButton(onClick = { showMenu = !showMenu }) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = null,
-                )
+                Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
             }
-            DropdownMenu(
-                expanded = showMenu,
-                onDismissRequest = { showMenu = false },
-            ) {
+            DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
                 DropdownMenuItem(
                     text = {
                         Text(
@@ -206,15 +206,13 @@ private fun ProcessesTopBar(
                         showMenu = false
                     },
                     trailingIcon = {
-                        val icon = if (isSortAscending) {
-                            Icons.Default.KeyboardArrowDown
-                        } else {
-                            Icons.Default.KeyboardArrowUp
-                        }
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = null,
-                        )
+                        val icon =
+                            if (isSortAscending) {
+                                Icons.Default.KeyboardArrowDown
+                            } else {
+                                Icons.Default.KeyboardArrowUp
+                            }
+                        Icon(imageVector = icon, contentDescription = null)
                     },
                 )
             }
@@ -223,13 +221,8 @@ private fun ProcessesTopBar(
 }
 
 @Composable
-private fun ProcessList(
-    processes: ImmutableList<ProcessItem>,
-    modifier: Modifier = Modifier,
-) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+private fun ProcessList(processes: ImmutableList<ProcessItem>, modifier: Modifier = Modifier) {
+    Box(modifier = Modifier.fillMaxSize()) {
         val listState = rememberLazyListState()
         LazyColumn(
             contentPadding = PaddingValues(spacingSmall),
@@ -241,21 +234,15 @@ private fun ProcessList(
                 key = { _, process -> process.name + process.pid + process.ppid },
             ) { index, process ->
                 Column(modifier = Modifier.animateItem()) {
-                    ProcessItem(
-                        item = process,
-                    )
+                    ProcessItem(item = process)
                     if (index < processes.lastIndex) {
-                        CpuDivider(
-                            modifier = Modifier.padding(vertical = spacingSmall),
-                        )
+                        CpuDivider(modifier = Modifier.padding(vertical = spacingSmall))
                     }
                 }
             }
         }
         VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
             scrollState = listState,
         )
     }
@@ -264,23 +251,14 @@ private fun ProcessList(
 @Composable
 private fun ProcessItem(item: ProcessItem, modifier: Modifier = Modifier) {
     SelectionContainer {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(spacingXSmall),
-            modifier = modifier,
-        ) {
+        Column(verticalArrangement = Arrangement.spacedBy(spacingXSmall), modifier = modifier) {
             Text(
                 text = item.name,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
-            DoubleTextRow(
-                text1 = "PID: ${item.pid}",
-                text2 = "PPID: ${item.ppid}",
-            )
-            DoubleTextRow(
-                text1 = "NICENESS: ${item.niceness}",
-                text2 = "USER: ${item.user}",
-            )
+            DoubleTextRow(text1 = "PID: ${item.pid}", text2 = "PPID: ${item.ppid}")
+            DoubleTextRow(text1 = "NICENESS: ${item.niceness}", text2 = "USER: ${item.user}")
             DoubleTextRow(
                 text1 = "RSS: ${Utils.humanReadableByteCount(item.rss.toLong())}",
                 text2 = "VSZ: ${Utils.humanReadableByteCount(item.vsize.toLong())}",
@@ -290,13 +268,8 @@ private fun ProcessItem(item: ProcessItem, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun DoubleTextRow(
-    text1: String,
-    text2: String,
-) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(spacingSmall),
-    ) {
+private fun DoubleTextRow(text1: String, text2: String) {
+    Row(horizontalArrangement = Arrangement.spacedBy(spacingSmall)) {
         Text(
             text = text1,
             style = MaterialTheme.typography.bodyMedium,

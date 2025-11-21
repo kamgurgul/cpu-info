@@ -1,0 +1,65 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.kgurgul
+
+import java.io.File
+import java.io.FileInputStream
+import java.util.Properties
+
+object AndroidSigningConfig {
+
+    const val KEY_PATH = "KEYSTORE_PATH"
+    const val KEY_PASS = "KEYSTORE_PASS"
+    const val KEY_ALIAS = "KEYSTORE_ALIAS"
+
+    fun getDebugProperties(rootDir: File) =
+        Properties().apply {
+            setProperty(KEY_PATH, "${rootDir.path}/androidApp/debug.keystore")
+            setProperty(KEY_PASS, "android")
+            setProperty(KEY_ALIAS, "androiddebugkey")
+            setProperty(KEY_PASS, "android")
+        }
+
+    fun getReleaseProperties(rootDir: File): Properties {
+        val releaseProperties = Properties()
+        try {
+            releaseProperties.load(FileInputStream(File(rootDir, "local.properties")))
+        } catch (e: Exception) {
+            println("Cannot load local.properties")
+        }
+        return if (
+            releaseProperties.getProperty(KEY_PATH, "").isNotEmpty() &&
+                releaseProperties.getProperty(KEY_PASS, "").isNotEmpty() &&
+                releaseProperties.getProperty(KEY_ALIAS, "").isNotEmpty()
+        ) {
+            println("Using local.properties for signing")
+            releaseProperties
+        } else if (
+            !System.getenv(KEY_PATH).isNullOrEmpty() &&
+                !System.getenv(KEY_PASS).isNullOrEmpty() &&
+                !System.getenv(KEY_ALIAS).isNullOrEmpty()
+        ) {
+            println("Using system env variables for signing")
+            releaseProperties[KEY_PATH] = System.getenv(KEY_PATH)
+            releaseProperties[KEY_PASS] = System.getenv(KEY_PASS)
+            releaseProperties[KEY_ALIAS] = System.getenv(KEY_ALIAS)
+            releaseProperties
+        } else {
+            println("!!!Warning: release keystore not found -> using debug!!!")
+            getDebugProperties(rootDir)
+        }
+    }
+}

@@ -1,3 +1,5 @@
+import com.kgurgul.AndroidVersions
+
 plugins {
     kotlin("android")
     alias(libs.plugins.androidTest)

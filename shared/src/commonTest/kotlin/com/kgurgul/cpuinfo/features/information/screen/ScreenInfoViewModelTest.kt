@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.information.screen
 
 import app.cash.turbine.test
@@ -20,22 +35,19 @@ class ScreenInfoViewModelTest {
     private val coroutineTestRule = CoroutineTestSuit()
 
     private val items = TestData.itemValueRowData
-    private val fakeScreenDataProvider = FakeScreenDataProvider(
-        data = items,
-    )
-    private val getScreenDataInteractor = GetScreenDataInteractor(
-        dispatchersProvider = coroutineTestRule.testDispatcherProvider,
-        screenDataProvider = fakeScreenDataProvider,
-    )
+    private val fakeScreenDataProvider = FakeScreenDataProvider(data = items)
+    private val getScreenDataInteractor =
+        GetScreenDataInteractor(
+            dispatchersProvider = coroutineTestRule.testDispatcherProvider,
+            screenDataProvider = fakeScreenDataProvider,
+        )
 
     private lateinit var viewModel: ScreenInfoViewModel
 
     @BeforeTest
     fun setup() {
         coroutineTestRule.onStart()
-        viewModel = ScreenInfoViewModel(
-            getScreenDataInteractor = getScreenDataInteractor,
-        )
+        viewModel = ScreenInfoViewModel(getScreenDataInteractor = getScreenDataInteractor)
     }
 
     @AfterTest
@@ -45,16 +57,16 @@ class ScreenInfoViewModelTest {
 
     @Test
     fun initialUiState() = runTest {
-        val expectedUiState = ScreenInfoViewModel.UiState(
-            items = persistentListOf(
-                ItemValue.Text("test", ""),
-                ItemValue.Text("test", "test"),
-                ItemValue.NameResource(Res.string.orientation, "Unknown"),
-            ),
-        )
+        val expectedUiState =
+            ScreenInfoViewModel.UiState(
+                items =
+                    persistentListOf(
+                        ItemValue.Text("test", ""),
+                        ItemValue.Text("test", "test"),
+                        ItemValue.NameResource(Res.string.orientation, "Unknown"),
+                    )
+            )
 
-        viewModel.uiStateFlow.test {
-            assertEquals(expectedUiState, awaitItem())
-        }
+        viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }
     }
 }

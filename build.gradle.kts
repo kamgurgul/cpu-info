@@ -1,4 +1,7 @@
+import com.diffplug.gradle.spotless.SpotlessExtension
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import com.kgurgul.DependencyUpdates
+import com.kgurgul.ReleaseType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -14,6 +17,16 @@ plugins {
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.compose.multiplatform) apply false
     alias(libs.plugins.serialization) apply false
+    alias(libs.plugins.spotless)
+}
+
+configure<SpotlessExtension> {
+    kotlin {
+        target("**/*.kt")
+        targetExclude("**/build/**/*.kt", "spotless/**/*.kt")
+        ktfmt(libs.ktfmt.get().version).kotlinlangStyle()
+        licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
+    }
 }
 
 subprojects {

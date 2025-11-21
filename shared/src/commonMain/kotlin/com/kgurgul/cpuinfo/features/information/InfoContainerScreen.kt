@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.information
 
 import androidx.compose.animation.AnimatedVisibility
@@ -83,30 +98,25 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object InformationBaseRoute {
 
-    @SerialName(NavigationConst.INFORMATION)
-    @Serializable
-    data object InformationRoute
+    @SerialName(NavigationConst.INFORMATION) @Serializable data object InformationRoute
 }
 
 fun NavGraphBuilder.informationScreen() {
     navigation<InformationBaseRoute>(
         startDestination = InformationBaseRoute.InformationRoute,
-        deepLinks = listOf(
-            navDeepLink<InformationBaseRoute>(
-                basePath = NavigationConst.BASE_URL + NavigationConst.INFORMATION
-            )
-        )
+        deepLinks =
+            listOf(
+                navDeepLink<InformationBaseRoute>(
+                    basePath = NavigationConst.BASE_URL + NavigationConst.INFORMATION
+                )
+            ),
     ) {
-        composable<InformationBaseRoute.InformationRoute> {
-            InfoContainerScreen()
-        }
+        composable<InformationBaseRoute.InformationRoute> { InfoContainerScreen() }
     }
 }
 
 @Composable
-fun InfoContainerScreen(
-    viewModel: InfoContainerViewModel = koinViewModel(),
-) {
+fun InfoContainerScreen(viewModel: InfoContainerViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     InfoContainerScreen(
         uiState = uiState,
@@ -146,8 +156,7 @@ fun InfoContainerScreen(
         InfoContainer(
             paddingValues = paddingValues,
             onPageChanged = onPageChanged,
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }
@@ -164,44 +173,33 @@ private fun InfoContainer(
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page -> onPageChanged(page) }
     }
-    Column(
-        modifier = Modifier
-            .padding(top = paddingValues.calculateTopPadding())
-            .then(modifier),
-    ) {
+    Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()).then(modifier)) {
         val scrollState = rememberScrollState()
-        Box(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primary)
-                .fillMaxWidth(),
-        ) {
+        Box(modifier = Modifier.background(MaterialTheme.colorScheme.primary).fillMaxWidth()) {
             SecondaryScrollableTabRow(
                 selectedTabIndex = pagerState.currentPage,
-                edgePadding = maxOf(
-                    paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                    paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-                ),
+                edgePadding =
+                    maxOf(
+                        paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                        paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                    ),
                 divider = {},
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 indicator = {
                     SecondaryIndicator(
                         color = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier
-                            .tabIndicatorOffset(pagerState.currentPage),
+                        modifier = Modifier.tabIndicatorOffset(pagerState.currentPage),
                     )
                 },
                 scrollState = scrollState,
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 tabTitles.forEachIndexed { index, title ->
                     Tab(
                         selected = pagerState.currentPage == index,
                         onClick = {
-                            scrollCoroutineScope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
+                            scrollCoroutineScope.launch { pagerState.animateScrollToPage(index) }
                         },
                         text = { Text(text = title) },
                     )
@@ -209,10 +207,7 @@ private fun InfoContainer(
             }
 
             HorizontalScrollbar(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .height(3.dp),
+                modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().height(3.dp),
                 scrollState = scrollState,
             )
         }
@@ -232,25 +227,27 @@ private fun InfoContainer(
                     else -> throw IllegalArgumentException("Unknown position")
                 }
             },
-            modifier = Modifier.padding(
-                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-            ),
+            modifier =
+                Modifier.padding(
+                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                    end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                ),
         )
     }
 }
 
 @Composable
-fun getTabTitle(position: Int) = stringResource(
-    when (position) {
-        CPU_POS -> Res.string.cpu
-        GPU_POS -> Res.string.gpu
-        RAM_POS -> Res.string.ram
-        STORAGE_POS -> Res.string.storage
-        SCREEN_POS -> Res.string.screen
-        ANDROID_POS -> Res.string.tab_os
-        HARDWARE_POS -> Res.string.hardware
-        SENSORS_POS -> Res.string.sensors
-        else -> throw IllegalArgumentException("Unknown position")
-    },
-)
+fun getTabTitle(position: Int) =
+    stringResource(
+        when (position) {
+            CPU_POS -> Res.string.cpu
+            GPU_POS -> Res.string.gpu
+            RAM_POS -> Res.string.ram
+            STORAGE_POS -> Res.string.storage
+            SCREEN_POS -> Res.string.screen
+            ANDROID_POS -> Res.string.tab_os
+            HARDWARE_POS -> Res.string.hardware
+            SENSORS_POS -> Res.string.sensors
+            else -> throw IllegalArgumentException("Unknown position")
+        }
+    )

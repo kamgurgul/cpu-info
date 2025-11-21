@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.data.provider
 
 import android.hardware.Sensor
@@ -23,42 +38,42 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
 
     actual fun getSensorData(): Flow<List<SensorData>> = callbackFlow {
         val sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL)
-        val initialData = sensorList.map {
-            SensorData(
-                id = it.getUniqueId(),
-                name = TextResource.Text(it.name),
-                value = " ",
-            )
-        }
+        val initialData =
+            sensorList.map {
+                SensorData(id = it.getUniqueId(), name = TextResource.Text(it.name), value = " ")
+            }
         trySend(initialData)
-        val sensorListener = object : SensorEventListener {
-            override fun onSensorChanged(event: SensorEvent) {
-                val updatedSensor = listOf(
-                    SensorData(
-                        id = event.sensor.getUniqueId(),
-                        name = TextResource.Text(event.sensor.name),
-                        value = getSensorData(event.sensor.type, event.values),
-                    ),
-                )
-                trySend(updatedSensor)
-            }
+        val sensorListener =
+            object : SensorEventListener {
+                override fun onSensorChanged(event: SensorEvent) {
+                    val updatedSensor =
+                        listOf(
+                            SensorData(
+                                id = event.sensor.getUniqueId(),
+                                name = TextResource.Text(event.sensor.name),
+                                value = getSensorData(event.sensor.type, event.values),
+                            )
+                        )
+                    trySend(updatedSensor)
+                }
 
-            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-                // Not used
+                override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+                    // Not used
+                }
             }
-        }
         for (sensor in sensorList) {
             if (sensor.reportingMode == Sensor.REPORTING_MODE_ONE_SHOT) {
                 sensorManager.requestTriggerSensor(
                     object : TriggerEventListener() {
                         override fun onTrigger(event: TriggerEvent) {
-                            val updatedSensor = listOf(
-                                SensorData(
-                                    id = event.sensor.getUniqueId(),
-                                    name = TextResource.Text(event.sensor.name),
-                                    value = getSensorData(event.sensor.type, event.values),
-                                ),
-                            )
+                            val updatedSensor =
+                                listOf(
+                                    SensorData(
+                                        id = event.sensor.getUniqueId(),
+                                        name = TextResource.Text(event.sensor.name),
+                                        value = getSensorData(event.sensor.type, event.values),
+                                    )
+                                )
                             trySend(updatedSensor)
                         }
                     },
@@ -79,62 +94,61 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
         return "${this.type}-${this.name}-${this.version}-${this.version}"
     }
 
-    /**
-     * Detect sensor type for passed [SensorEvent] and format it to the correct unit
-     */
+    /** Detect sensor type for passed [SensorEvent] and format it to the correct unit */
     @Suppress("DEPRECATION")
     private fun getSensorData(sensorType: Int, values: FloatArray): String {
         var data = " "
 
         when (sensorType) {
-            Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GRAVITY, Sensor.TYPE_LINEAR_ACCELERATION ->
-                data = "X=${values[0].round1()}m/s²  Y=${
+            Sensor.TYPE_ACCELEROMETER,
+            Sensor.TYPE_GRAVITY,
+            Sensor.TYPE_LINEAR_ACCELERATION ->
+                data =
+                    "X=${values[0].round1()}m/s²  Y=${
                     values[1].round1()
                 }m/s²  Z=${values[2].round1()}m/s²"
 
             Sensor.TYPE_GYROSCOPE ->
-                data = "X=${values[0].round1()}rad/s  Y=${
+                data =
+                    "X=${values[0].round1()}rad/s  Y=${
                     values[1].round1()
                 }rad/s  Z=${values[2].round1()}rad/s"
 
             Sensor.TYPE_ROTATION_VECTOR ->
-                data = "X=${values[0].round1()}  Y=${
+                data =
+                    "X=${values[0].round1()}  Y=${
                     values[1].round1()
                 }  Z=${values[2].round1()}"
 
             Sensor.TYPE_MAGNETIC_FIELD ->
-                data = "X=${values[0].round1()}μT  Y=${
+                data =
+                    "X=${values[0].round1()}μT  Y=${
                     values[1].round1()
                 }μT  Z=${values[2].round1()}μT"
 
             Sensor.TYPE_ORIENTATION ->
-                data = "Azimuth=${values[0].round1()}°  Pitch=${
+                data =
+                    "Azimuth=${values[0].round1()}°  Pitch=${
                     values[1].round1()
                 }°  Roll=${values[2].round1()}°"
 
-            Sensor.TYPE_PROXIMITY ->
-                data = "Distance=${values[0].round1()}cm"
+            Sensor.TYPE_PROXIMITY -> data = "Distance=${values[0].round1()}cm"
 
             Sensor.TYPE_AMBIENT_TEMPERATURE,
             GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE,
-            GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE,
-            ->
-                data = "Temperature=${values[0].round1()}°C"
+            GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE -> data = "Temperature=${values[0].round1()}°C"
 
-            Sensor.TYPE_LIGHT ->
-                data = "Illuminance=${values[0].round1()}lx"
+            Sensor.TYPE_LIGHT -> data = "Illuminance=${values[0].round1()}lx"
 
-            Sensor.TYPE_PRESSURE ->
-                data = "Air pressure=${values[0].round1()}hPa"
+            Sensor.TYPE_PRESSURE -> data = "Air pressure=${values[0].round1()}hPa"
 
-            Sensor.TYPE_RELATIVE_HUMIDITY ->
-                data = "Relative humidity=${values[0].round1()}%"
+            Sensor.TYPE_RELATIVE_HUMIDITY -> data = "Relative humidity=${values[0].round1()}%"
 
-            Sensor.TYPE_TEMPERATURE ->
-                data = "Device temperature=${values[0].round1()}°C"
+            Sensor.TYPE_TEMPERATURE -> data = "Device temperature=${values[0].round1()}°C"
 
             Sensor.TYPE_GYROSCOPE_UNCALIBRATED ->
-                data = "X=${values[0].round1()}rad/s  Y=${
+                data =
+                    "X=${values[0].round1()}rad/s  Y=${
                     values[1].round1()
                 }rad/s  Z=${
                     values[2].round1()
@@ -147,12 +161,14 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                 }rad/s"
 
             Sensor.TYPE_GAME_ROTATION_VECTOR ->
-                data = "X=${values[0].round1()}  Y=${
+                data =
+                    "X=${values[0].round1()}  Y=${
                     values[1].round1()
                 }  Z=${values[2].round1()}"
 
             Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED ->
-                data = "X=${values[0].round1()}μT  Y=${
+                data =
+                    "X=${values[0].round1()}μT  Y=${
                     values[1].round1()
                 }μT  Z=${
                     values[2].round1()
@@ -165,7 +181,8 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                 }μT"
 
             Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR ->
-                data = "X=${values[0].round1()}  Y=${
+                data =
+                    "X=${values[0].round1()}  Y=${
                     values[1].round1()
                 }  Z=${values[2].round1()}"
         }

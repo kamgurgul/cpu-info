@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.ui.components
 
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -49,61 +64,56 @@ fun CpuProgressBar(
     progressHeight: Dp = 16.dp,
     titleTextStyle: TextStyle = MaterialTheme.typography.titleSmall,
 ) {
-    Column(
-        modifier = modifier,
-    ) {
-        Text(
-            text = label,
-            style = titleTextStyle,
-            color = textColor,
-        )
+    Column(modifier = modifier) {
+        Text(text = label, style = titleTextStyle, color = textColor)
         Spacer(modifier = Modifier.requiredSize(spacingSmall))
         Box(
-            modifier = Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.surfaceVariant,
-                    shape = MaterialTheme.shapes.small,
-                )
-                .padding(spacingXSmall),
+            modifier =
+                Modifier.background(
+                        color = MaterialTheme.colorScheme.surfaceVariant,
+                        shape = MaterialTheme.shapes.small,
+                    )
+                    .padding(spacingXSmall)
         ) {
             var currentProgress by rememberSaveable { mutableFloatStateOf(0f) }
-            val progressAnimation by animateFloatAsState(
-                targetValue = currentProgress,
-                animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
-                label = "__progressAnimation",
-            )
+            val progressAnimation by
+                animateFloatAsState(
+                    targetValue = currentProgress,
+                    animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
+                    label = "__progressAnimation",
+                )
             Row {
                 prefixImageRes?.let {
                     Icon(
                         painter = painterResource(it),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.inverseOnSurface,
-                        modifier = Modifier
-                            .requiredSize(progressHeight)
-                            .background(
-                                color = MaterialTheme.colorScheme.inverseSurface,
-                                shape = MaterialTheme.shapes.small.copy(
-                                    topEnd = ZeroCornerSize,
-                                    bottomEnd = ZeroCornerSize,
-                                ),
-                            )
-                            .padding(spacingSmall),
+                        modifier =
+                            Modifier.requiredSize(progressHeight)
+                                .background(
+                                    color = MaterialTheme.colorScheme.inverseSurface,
+                                    shape =
+                                        MaterialTheme.shapes.small.copy(
+                                            topEnd = ZeroCornerSize,
+                                            bottomEnd = ZeroCornerSize,
+                                        ),
+                                )
+                                .padding(spacingSmall),
                     )
                 }
-                val strokeCap = if (prefixImageRes != null) {
-                    StrokeCap.Butt
-                } else {
-                    StrokeCap.Round
-                }
+                val strokeCap =
+                    if (prefixImageRes != null) {
+                        StrokeCap.Butt
+                    } else {
+                        StrokeCap.Round
+                    }
                 LinearProgressIndicator(
                     progress = { progressAnimation },
                     color = progressColor,
                     trackColor = Color.Unspecified,
                     strokeCap = strokeCap,
                     drawStopIndicator = {},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .requiredHeight(progressHeight),
+                    modifier = Modifier.fillMaxWidth().requiredHeight(progressHeight),
                 )
                 LaunchedEffect(progress) {
                     currentProgress = if (progress.isNaN()) 0.0f else progress
@@ -116,11 +126,7 @@ fun CpuProgressBar(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text(
-                    text = it.first,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = textColor,
-                )
+                Text(text = it.first, style = MaterialTheme.typography.bodySmall, color = textColor)
                 Text(
                     text = it.second,
                     style = MaterialTheme.typography.bodySmall,

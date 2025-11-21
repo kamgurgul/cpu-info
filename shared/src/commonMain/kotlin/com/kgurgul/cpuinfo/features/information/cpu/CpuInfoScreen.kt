@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.information.cpu
 
 import androidx.compose.foundation.layout.Arrangement
@@ -44,9 +59,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun CpuInfoScreen(viewModel: CpuInfoViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    CpuInfoScreen(
-        uiState = uiState,
-    )
+    CpuInfoScreen(uiState = uiState)
 }
 
 @Composable
@@ -62,26 +75,20 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
             contentPadding = PaddingValues(spacingSmall),
             verticalArrangement = Arrangement.spacedBy(spacingSmall),
             state = listState,
-            modifier = Modifier
-                .fillMaxSize()
-                .testTag(CpuInfoScreenTestTags.LAZY_COLUMN),
+            modifier = Modifier.fillMaxSize().testTag(CpuInfoScreenTestTags.LAZY_COLUMN),
         ) {
             uiState.cpuData?.let { cpuData ->
                 item(key = "__soc_name") {
                     ItemValueRow(
                         title = stringResource(Res.string.cpu_soc_name),
                         value = cpuData.processorName,
-                        modifier = Modifier
-                            .testTag(CpuInfoScreenTestTags.SOCKET_NAME),
+                        modifier = Modifier.testTag(CpuInfoScreenTestTags.SOCKET_NAME),
                     )
                     Spacer(modifier = Modifier.requiredSize(spacingSmall))
                     CpuDivider()
                 }
                 item(key = "__abi") {
-                    ItemValueRow(
-                        title = stringResource(Res.string.cpu_abi),
-                        value = cpuData.abi,
-                    )
+                    ItemValueRow(title = stringResource(Res.string.cpu_abi), value = cpuData.abi)
                     Spacer(modifier = Modifier.requiredSize(spacingSmall))
                     CpuDivider()
                 }
@@ -96,11 +103,12 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                 item(key = "__has_neon") {
                     ItemValueRow(
                         title = stringResource(Res.string.cpu_has_neon),
-                        value = if (cpuData.hasArmNeon) {
-                            stringResource(Res.string.yes)
-                        } else {
-                            stringResource(Res.string.no)
-                        },
+                        value =
+                            if (cpuData.hasArmNeon) {
+                                stringResource(Res.string.yes)
+                            } else {
+                                stringResource(Res.string.no)
+                            },
                     )
                 }
                 if (cpuData.l1dCaches.isNotEmpty()) {
@@ -159,18 +167,13 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                             CpuDivider()
                             Spacer(modifier = Modifier.requiredSize(spacingSmall))
                         }
-                        FrequencyItem(
-                            index = i,
-                            frequency = frequency,
-                        )
+                        FrequencyItem(index = i, frequency = frequency)
                     }
                 }
             }
         }
         VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
             scrollState = listState,
         )
     }
@@ -178,35 +181,31 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
 
 @Composable
 fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
-    val currentFreq = if (frequency.current != -1L) {
-        stringResource(
-            Res.string.cpu_current_frequency,
-            index,
-            formatHz(frequency.current),
-        )
-    } else {
-        stringResource(Res.string.cpu_frequency_stopped, index)
-    }
-    val minFreq = if (frequency.min != -1L) {
-        formatHz(0)
-    } else {
-        ""
-    }
-    val maxFreq = if (frequency.max != -1L) {
-        formatHz(frequency.max)
-    } else {
-        ""
-    }
-    val progress = if (frequency.current != -1L && frequency.max != 0L) {
-        frequency.current.toFloat() / frequency.max.toFloat()
-    } else {
-        0f
-    }
-    CpuProgressBar(
-        label = currentFreq,
-        progress = progress,
-        minMaxValues = minFreq to maxFreq,
-    )
+    val currentFreq =
+        if (frequency.current != -1L) {
+            stringResource(Res.string.cpu_current_frequency, index, formatHz(frequency.current))
+        } else {
+            stringResource(Res.string.cpu_frequency_stopped, index)
+        }
+    val minFreq =
+        if (frequency.min != -1L) {
+            formatHz(0)
+        } else {
+            ""
+        }
+    val maxFreq =
+        if (frequency.max != -1L) {
+            formatHz(frequency.max)
+        } else {
+            ""
+        }
+    val progress =
+        if (frequency.current != -1L && frequency.max != 0L) {
+            frequency.current.toFloat() / frequency.max.toFloat()
+        } else {
+            0f
+        }
+    CpuProgressBar(label = currentFreq, progress = progress, minMaxValues = minFreq to maxFreq)
 }
 
 object CpuInfoScreenTestTags {
@@ -219,26 +218,22 @@ object CpuInfoScreenTestTags {
 fun CpuInfoScreenPreview() {
     CpuInfoTheme {
         CpuInfoScreen(
-            uiState = CpuInfoViewModel.UiState(
-                cpuData = CpuData(
-                    processorName = "processorName",
-                    abi = "abi",
-                    coreNumber = 1,
-                    hasArmNeon = true,
-                    frequencies = listOf(
-                        CpuData.Frequency(
-                            min = 1,
-                            max = 2,
-                            current = 3,
-                        ),
-                    ),
-                    l1dCaches = "l1dCaches",
-                    l1iCaches = "l1iCaches",
-                    l2Caches = "l2Caches",
-                    l3Caches = "l3Caches",
-                    l4Caches = "l4Caches",
-                ),
-            ),
+            uiState =
+                CpuInfoViewModel.UiState(
+                    cpuData =
+                        CpuData(
+                            processorName = "processorName",
+                            abi = "abi",
+                            coreNumber = 1,
+                            hasArmNeon = true,
+                            frequencies = listOf(CpuData.Frequency(min = 1, max = 2, current = 3)),
+                            l1dCaches = "l1dCaches",
+                            l1iCaches = "l1iCaches",
+                            l2Caches = "l2Caches",
+                            l3Caches = "l3Caches",
+                            l4Caches = "l4Caches",
+                        )
+                )
         )
     }
 }

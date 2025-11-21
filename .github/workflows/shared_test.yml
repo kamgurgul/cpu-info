@@ -26,3 +26,5 @@ jobs:
         with:
           name: code-coverage.xml
           path: shared/build/coverage-report/result.xml
+      - name: Static checks
+        run: ./gradlew spotlessCheck

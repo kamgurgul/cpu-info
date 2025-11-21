@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.information.storage
 
 import androidx.compose.foundation.layout.Arrangement
@@ -30,23 +45,15 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun StorageInfoScreen(
-    viewModel: StorageInfoViewModel = koinViewModel(),
-) {
+fun StorageInfoScreen(viewModel: StorageInfoViewModel = koinViewModel()) {
     registerStorageMountingListener(viewModel::onRefreshStorage)
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    StorageInfoScreen(
-        uiState = uiState,
-    )
+    StorageInfoScreen(uiState = uiState)
 }
 
 @Composable
-fun StorageInfoScreen(
-    uiState: StorageInfoViewModel.UiState,
-) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+fun StorageInfoScreen(uiState: StorageInfoViewModel.UiState) {
+    Box(modifier = Modifier.fillMaxSize()) {
         val listState = rememberLazyListState()
         LazyColumn(
             contentPadding = PaddingValues(spacingSmall),
@@ -54,10 +61,7 @@ fun StorageInfoScreen(
             state = listState,
             modifier = Modifier.fillMaxSize(),
         ) {
-            items(
-                uiState.storageItems,
-                key = { it.id },
-            ) { storageItem ->
+            items(uiState.storageItems, key = { it.id }) { storageItem ->
                 val label = buildString {
                     val notFormattedLabel = storageItem.label.asString().trim()
                     if (notFormattedLabel.isNotEmpty()) {
@@ -67,13 +71,15 @@ fun StorageInfoScreen(
                 }
                 val totalReadable = Utils.humanReadableByteCount(storageItem.storageTotal)
                 val usedReadable = Utils.humanReadableByteCount(storageItem.storageUsed)
-                val progress = if (storageItem.storageTotal != 0L)
-                    storageItem.storageUsed.toFloat() / storageItem.storageTotal.toFloat()
-                else 0f
+                val progress =
+                    if (storageItem.storageTotal != 0L)
+                        storageItem.storageUsed.toFloat() / storageItem.storageTotal.toFloat()
+                    else 0f
                 val usedPercent = (progress * 100.0).roundToInt()
                 val storageDesc = "$label$usedReadable / $totalReadable ($usedPercent%)"
-                val minMaxValues = Utils.humanReadableByteCount(0) to
-                    Utils.humanReadableByteCount(storageItem.storageTotal)
+                val minMaxValues =
+                    Utils.humanReadableByteCount(0) to
+                        Utils.humanReadableByteCount(storageItem.storageTotal)
                 CpuProgressBar(
                     label = storageDesc,
                     progress = progress,
@@ -84,33 +90,32 @@ fun StorageInfoScreen(
             }
         }
         VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
             scrollState = listState,
         )
     }
 }
 
-@Composable
-expect fun registerStorageMountingListener(onRefresh: () -> Unit)
+@Composable expect fun registerStorageMountingListener(onRefresh: () -> Unit)
 
 @Preview
 @Composable
 fun StorageInfoScreenPreview() {
     CpuInfoTheme {
         StorageInfoScreen(
-            uiState = StorageInfoViewModel.UiState(
-                storageItems = persistentListOf(
-                    StorageItem(
-                        id = "0",
-                        label = TextResource.Text("Internal"),
-                        iconDrawable = Res.drawable.baseline_folder_special_24,
-                        storageTotal = 100,
-                        storageUsed = 50,
-                    ),
-                ),
-            ),
+            uiState =
+                StorageInfoViewModel.UiState(
+                    storageItems =
+                        persistentListOf(
+                            StorageItem(
+                                id = "0",
+                                label = TextResource.Text("Internal"),
+                                iconDrawable = Res.drawable.baseline_folder_special_24,
+                                storageTotal = 100,
+                                storageUsed = 50,
+                            )
+                        )
+                )
         )
     }
 }

@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.data.provider
 
 import android.annotation.SuppressLint
@@ -37,9 +52,7 @@ import java.util.Locale
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-actual class OsDataProvider actual constructor() :
-    IOsDataProvider,
-    KoinComponent {
+actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponent {
 
     private val contentResolver: ContentResolver by inject()
     private val packageManager: PackageManager by inject()
@@ -55,7 +68,7 @@ actual class OsDataProvider actual constructor() :
             add(
                 ItemValue.NameValueResource(
                     Res.string.rooted,
-                    ResourceUtils.getYesNoStringResource(isDeviceRooted())
+                    ResourceUtils.getYesNoStringResource(isDeviceRooted()),
                 )
             )
             getDeviceEncryptionStatus()?.let { add(it) }
@@ -64,9 +77,7 @@ actual class OsDataProvider actual constructor() :
         }
     }
 
-    /**
-     * Retrieve data from static Build class and system property "java.vm.version"
-     */
+    /** Retrieve data from static Build class and system property "java.vm.version" */
     @SuppressLint("HardwareIds")
     private fun getBuildData(): List<ItemValue> {
         return buildList {
@@ -80,14 +91,11 @@ actual class OsDataProvider actual constructor() :
             add(ItemValue.NameResource(Res.string.board, Build.BOARD))
             add(ItemValue.NameResource(Res.string.vm, getVmVersion()))
             add(ItemValue.NameResource(Res.string.kernel, (System.getProperty("os.version") ?: "")))
-            @Suppress("DEPRECATION")
-            add(ItemValue.NameResource(Res.string.serial, Build.SERIAL))
+            @Suppress("DEPRECATION") add(ItemValue.NameResource(Res.string.serial, Build.SERIAL))
         }
     }
 
-    /**
-     * Get AndroidID. Keep in mind that from Android O it is unique per app.
-     */
+    /** Get AndroidID. Keep in mind that from Android O it is unique per app. */
     @SuppressLint("HardwareIds")
     private fun getAndroidIdData(): ItemValue? {
         val androidId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
@@ -98,22 +106,22 @@ actual class OsDataProvider actual constructor() :
         }
     }
 
-    /**
-     * Add information about device encrypted storage status
-     */
+    /** Add information about device encrypted storage status */
     @Suppress("DEPRECATION")
     private fun getDeviceEncryptionStatus(): ItemValue? {
         return try {
-            val statusText = when (devicePolicyManager.storageEncryptionStatus) {
-                DevicePolicyManager.ENCRYPTION_STATUS_UNSUPPORTED -> ENCRYPTION_STATUS_UNSUPPORTED
-                DevicePolicyManager.ENCRYPTION_STATUS_INACTIVE -> ENCRYPTION_STATUS_INACTIVE
-                DevicePolicyManager.ENCRYPTION_STATUS_ACTIVATING -> ENCRYPTION_STATUS_ACTIVATING
-                DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE -> ENCRYPTION_STATUS_ACTIVE
-                DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE_PER_USER ->
-                    ENCRYPTION_STATUS_ACTIVE_PER_USER
+            val statusText =
+                when (devicePolicyManager.storageEncryptionStatus) {
+                    DevicePolicyManager.ENCRYPTION_STATUS_UNSUPPORTED ->
+                        ENCRYPTION_STATUS_UNSUPPORTED
+                    DevicePolicyManager.ENCRYPTION_STATUS_INACTIVE -> ENCRYPTION_STATUS_INACTIVE
+                    DevicePolicyManager.ENCRYPTION_STATUS_ACTIVATING -> ENCRYPTION_STATUS_ACTIVATING
+                    DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE -> ENCRYPTION_STATUS_ACTIVE
+                    DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE_PER_USER ->
+                        ENCRYPTION_STATUS_ACTIVE_PER_USER
 
-                else -> ENCRYPTION_STATUS_UNKNOWN
-            }
+                    else -> ENCRYPTION_STATUS_UNKNOWN
+                }
             ItemValue.NameResource(Res.string.encrypted_storage, statusText)
         } catch (ignored: Exception) {
             null
@@ -133,11 +141,18 @@ actual class OsDataProvider actual constructor() :
     }
 
     private fun checkRootMethod2(): Boolean {
-        val paths = arrayOf(
-            "/system/app/Superuser.apk", "/sbin/su", "/system/bin/su", "/system/xbin/su",
-            "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
-            "/system/bin/failsafe/su", "/data/local/su",
-        )
+        val paths =
+            arrayOf(
+                "/system/app/Superuser.apk",
+                "/sbin/su",
+                "/system/bin/su",
+                "/system/xbin/su",
+                "/data/local/xbin/su",
+                "/data/local/bin/su",
+                "/system/sd/xbin/su",
+                "/system/bin/failsafe/su",
+                "/data/local/su",
+            )
         return paths.any { File(it).exists() }
     }
 
@@ -154,9 +169,7 @@ actual class OsDataProvider actual constructor() :
         }
     }
 
-    /**
-     * Specify if device is using ART or Dalvik
-     */
+    /** Specify if device is using ART or Dalvik */
     private fun getVmVersion(): String {
         var vm = "Dalvik"
         val vmVersion = System.getProperty("java.vm.version")
@@ -166,12 +179,10 @@ actual class OsDataProvider actual constructor() :
         return vm
     }
 
-    /**
-     * Get information about security providers
-     */
+    /** Get information about security providers */
     private fun getSecurityData(): List<ItemValue> {
-        val securityProviders = Security.getProviders()
-            .map { ItemValue.Text(it.name, it.version.toString()) }
+        val securityProviders =
+            Security.getProviders().map { ItemValue.Text(it.name, it.version.toString()) }
         return buildList {
             if (securityProviders.isNotEmpty()) {
                 add(ItemValue.NameResource(Res.string.security_providers, ""))
@@ -196,13 +207,15 @@ actual class OsDataProvider actual constructor() :
     }
 
     private fun getStrongBoxData(): ItemValue {
-        val hasStrongBox = if (Build.VERSION.SDK_INT >= 28) {
-            packageManager.hasSystemFeature(PackageManager.FEATURE_STRONGBOX_KEYSTORE)
-        } else {
-            false
-        }
+        val hasStrongBox =
+            if (Build.VERSION.SDK_INT >= 28) {
+                packageManager.hasSystemFeature(PackageManager.FEATURE_STRONGBOX_KEYSTORE)
+            } else {
+                false
+            }
         return ItemValue.NameValueResource(
-            Res.string.strongbox, ResourceUtils.getYesNoStringResource(hasStrongBox)
+            Res.string.strongbox,
+            ResourceUtils.getYesNoStringResource(hasStrongBox),
         )
     }
 

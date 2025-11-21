@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.applications
 
 import androidx.lifecycle.SavedStateHandle
@@ -30,25 +45,25 @@ class ApplicationsViewModelTest {
     private val coroutineTestRule = CoroutineTestSuit()
 
     private val fakeApplicationsDataProvider = FakeApplicationsDataProvider()
-    private val applicationsDataObservable = ApplicationsDataObservable(
-        dispatchersProvider = coroutineTestRule.testDispatcherProvider,
-        applicationsDataProvider = fakeApplicationsDataProvider,
-    )
+    private val applicationsDataObservable =
+        ApplicationsDataObservable(
+            dispatchersProvider = coroutineTestRule.testDispatcherProvider,
+            applicationsDataProvider = fakeApplicationsDataProvider,
+        )
     private val fakePackageNameProvider = FakePackageNameProvider()
-    private val getPackageNameInteractor = GetPackageNameInteractor(
-        dispatchersProvider = coroutineTestRule.testDispatcherProvider,
-        packageNameProvider = fakePackageNameProvider,
-    )
+    private val getPackageNameInteractor =
+        GetPackageNameInteractor(
+            dispatchersProvider = coroutineTestRule.testDispatcherProvider,
+            packageNameProvider = fakePackageNameProvider,
+        )
     private val testUserPreferences = TestData.userPreferences
     private val fakeUserPreferencesFlow = flowOf(testUserPreferences)
-    private val fakeUserPreferencesRepository = FakeUserPreferencesRepository(
-        preferencesFlow = fakeUserPreferencesFlow
-    )
+    private val fakeUserPreferencesRepository =
+        FakeUserPreferencesRepository(preferencesFlow = fakeUserPreferencesFlow)
     private val fakeExternalAppAction = FakeExternalAppAction()
     private val savedStateHandle = SavedStateHandle()
-    private val filterApplicationsInteractor = FilterApplicationsInteractor(
-        dispatchersProvider = coroutineTestRule.testDispatcherProvider
-    )
+    private val filterApplicationsInteractor =
+        FilterApplicationsInteractor(dispatchersProvider = coroutineTestRule.testDispatcherProvider)
 
     private lateinit var viewModel: ApplicationsViewModel
 
@@ -57,15 +72,16 @@ class ApplicationsViewModelTest {
         coroutineTestRule.onStart()
         fakeUserPreferencesRepository.reset()
         fakeExternalAppAction.reset()
-        viewModel = ApplicationsViewModel(
-            savedStateHandle = savedStateHandle,
-            applicationsDataObservable = applicationsDataObservable,
-            getPackageNameInteractor = getPackageNameInteractor,
-            userPreferencesRepository = fakeUserPreferencesRepository,
-            externalAppAction = fakeExternalAppAction,
-            filterApplicationsInteractor = filterApplicationsInteractor,
-            applicationsDataProvider = fakeApplicationsDataProvider,
-        )
+        viewModel =
+            ApplicationsViewModel(
+                savedStateHandle = savedStateHandle,
+                applicationsDataObservable = applicationsDataObservable,
+                getPackageNameInteractor = getPackageNameInteractor,
+                userPreferencesRepository = fakeUserPreferencesRepository,
+                externalAppAction = fakeExternalAppAction,
+                filterApplicationsInteractor = filterApplicationsInteractor,
+                applicationsDataProvider = fakeApplicationsDataProvider,
+            )
     }
 
     @AfterTest
@@ -75,28 +91,26 @@ class ApplicationsViewModelTest {
 
     @Test
     fun loadInitialData() = runTest {
-        val expectedUiState = ApplicationsViewModel.UiState(
-            withSystemApps = testUserPreferences.withSystemApps,
-            isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-        )
+        val expectedUiState =
+            ApplicationsViewModel.UiState(
+                withSystemApps = testUserPreferences.withSystemApps,
+                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+            )
 
-        viewModel.uiStateFlow.test {
-            assertEquals(expectedUiState, awaitItem())
-        }
+        viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }
     }
 
     @Test
     fun handleApplicationsResult() = runTest {
         fakeApplicationsDataProvider.installedApplications = TestData.extendedApplicationsData
-        val expectedUiState = ApplicationsViewModel.UiState(
-            withSystemApps = testUserPreferences.withSystemApps,
-            isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            applications = TestData.extendedApplicationsData.toImmutableList(),
-        )
+        val expectedUiState =
+            ApplicationsViewModel.UiState(
+                withSystemApps = testUserPreferences.withSystemApps,
+                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                applications = TestData.extendedApplicationsData.toImmutableList(),
+            )
 
-        viewModel.uiStateFlow.test {
-            assertEquals(expectedUiState, awaitItem())
-        }
+        viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }
     }
 
     @Test
@@ -115,24 +129,25 @@ class ApplicationsViewModelTest {
 
     @Test
     fun onNativeLibsClicked() = runTest {
-        val expectedUiStates = listOf(
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                isDialogVisible = true,
-                nativeLibs = listOf("test").toImmutableList(),
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                isDialogVisible = true,
-                nativeLibs = listOf("src/test/resources").toImmutableList(),
-            ),
-        )
+        val expectedUiStates =
+            listOf(
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                ),
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                    isDialogVisible = true,
+                    nativeLibs = listOf("test").toImmutableList(),
+                ),
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                    isDialogVisible = true,
+                    nativeLibs = listOf("src/test/resources").toImmutableList(),
+                ),
+            )
 
         viewModel.uiStateFlow.test {
             viewModel.onNativeLibsClicked(listOf("test"))
@@ -146,22 +161,23 @@ class ApplicationsViewModelTest {
 
     @Test
     fun onNativeLibsDialogDismissed() = runTest {
-        val expectedUiStates = listOf(
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                isDialogVisible = true,
-                nativeLibs = listOf("src/test/resources").toImmutableList(),
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-        )
+        val expectedUiStates =
+            listOf(
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                ),
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                    isDialogVisible = true,
+                    nativeLibs = listOf("src/test/resources").toImmutableList(),
+                ),
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                ),
+            )
 
         viewModel.uiStateFlow.test {
             viewModel.onNativeLibsClicked(listOf("src/test/resources"))
@@ -182,17 +198,18 @@ class ApplicationsViewModelTest {
 
     @Test
     fun onAppUninstallClicked() = runTest {
-        val expectedUiStates = listOf(
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                snackbarMessage = Res.string.cpu_uninstall,
-            ),
-        )
+        val expectedUiStates =
+            listOf(
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                ),
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                    snackbarMessage = Res.string.cpu_uninstall,
+                ),
+            )
 
         viewModel.uiStateFlow.test {
             viewModel.onAppUninstallClicked("com.kgurgul.cpuinfo")
@@ -213,21 +230,22 @@ class ApplicationsViewModelTest {
 
     @Test
     fun onSnackbarDismissed() = runTest {
-        val expectedUiStates = listOf(
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                snackbarMessage = Res.string.cpu_uninstall,
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-        )
+        val expectedUiStates =
+            listOf(
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                ),
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                    snackbarMessage = Res.string.cpu_uninstall,
+                ),
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                ),
+            )
 
         viewModel.uiStateFlow.test {
             viewModel.onAppUninstallClicked("com.kgurgul.cpuinfo")
@@ -242,17 +260,18 @@ class ApplicationsViewModelTest {
     @Test
     fun onCannotOpenApp() = runTest {
         fakeExternalAppAction.isLaunchSuccess = false
-        val expectedUiStates = listOf(
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                snackbarMessage = Res.string.app_open,
-            ),
-        )
+        val expectedUiStates =
+            listOf(
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                ),
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                    snackbarMessage = Res.string.app_open,
+                ),
+            )
 
         viewModel.uiStateFlow.test {
             viewModel.onApplicationClicked("com.kgurgul.cpuinfo.debug")
@@ -265,17 +284,18 @@ class ApplicationsViewModelTest {
 
     @Test
     fun onCurrentApplicationClicked() = runTest {
-        val expectedUiStates = listOf(
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                snackbarMessage = Res.string.cpu_open,
-            ),
-        )
+        val expectedUiStates =
+            listOf(
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                ),
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                    snackbarMessage = Res.string.cpu_open,
+                ),
+            )
 
         viewModel.uiStateFlow.test {
             viewModel.onApplicationClicked("com.kgurgul.cpuinfo")
@@ -288,21 +308,22 @@ class ApplicationsViewModelTest {
 
     @Test
     fun onRefreshApplicationsClicked() = runTest {
-        val expectedUiStates = listOf(
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-            ApplicationsViewModel.UiState(
-                isLoading = true,
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-            ),
-        )
+        val expectedUiStates =
+            listOf(
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                ),
+                ApplicationsViewModel.UiState(
+                    isLoading = true,
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                ),
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                ),
+            )
 
         viewModel.uiStateFlow.test {
             viewModel.onRefreshApplications()
@@ -316,18 +337,19 @@ class ApplicationsViewModelTest {
     @Test
     fun onSearchQueryChanged() = runTest {
         fakeApplicationsDataProvider.installedApplications = TestData.extendedApplicationsData
-        val expectedUiStates = listOf(
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                applications = TestData.extendedApplicationsData.toImmutableList(),
-            ),
-            ApplicationsViewModel.UiState(
-                withSystemApps = testUserPreferences.withSystemApps,
-                isSortAscending = testUserPreferences.isApplicationsSortingAscending,
-                applications = persistentListOf(TestData.extendedApplicationsData[2]),
-            ),
-        )
+        val expectedUiStates =
+            listOf(
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                    applications = TestData.extendedApplicationsData.toImmutableList(),
+                ),
+                ApplicationsViewModel.UiState(
+                    withSystemApps = testUserPreferences.withSystemApps,
+                    isSortAscending = testUserPreferences.isApplicationsSortingAscending,
+                    applications = persistentListOf(TestData.extendedApplicationsData[2]),
+                ),
+            )
 
         viewModel.uiStateFlow.test {
             assertEquals(expectedUiStates[0], awaitItem())

@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.features.settings
 
 import androidx.compose.foundation.clickable
@@ -89,9 +104,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object SettingsRoute {
 
-    @SerialName(NavigationConst.SETTINGS)
-    @Serializable
-    data object List
+    @SerialName(NavigationConst.SETTINGS) @Serializable data object List
 
     @SerialName(NavigationConst.SETTINGS + "_" + NavigationConst.LICENSES)
     @Serializable
@@ -104,39 +117,33 @@ fun NavGraphBuilder.settingsScreen(
 ) {
     navigation<SettingsRoute>(
         startDestination = SettingsRoute.List,
-        deepLinks = listOf(
-            navDeepLink<SettingsRoute>(
-                basePath = NavigationConst.BASE_URL + NavigationConst.SETTINGS
-            )
-        )
-    ) {
-        composable<SettingsRoute.List> {
-            SettingsScreen(
-                onLicensesClicked = onLicensesClicked,
-            )
-        }
-        composable<SettingsRoute.Licenses>(
-            deepLinks = listOf(
+        deepLinks =
+            listOf(
                 navDeepLink<SettingsRoute>(
-                    basePath = NavigationConst.BASE_URL
-                        + NavigationConst.SETTINGS
-                        + "/"
-                        + NavigationConst.LICENSES
+                    basePath = NavigationConst.BASE_URL + NavigationConst.SETTINGS
                 )
-            )
+            ),
+    ) {
+        composable<SettingsRoute.List> { SettingsScreen(onLicensesClicked = onLicensesClicked) }
+        composable<SettingsRoute.Licenses>(
+            deepLinks =
+                listOf(
+                    navDeepLink<SettingsRoute>(
+                        basePath =
+                            NavigationConst.BASE_URL +
+                                NavigationConst.SETTINGS +
+                                "/" +
+                                NavigationConst.LICENSES
+                    )
+                )
         ) {
-            LicensesScreen(
-                onNavigateBackClicked = onNavigateBackClicked,
-            )
+            LicensesScreen(onNavigateBackClicked = onNavigateBackClicked)
         }
     }
 }
 
 @Composable
-fun SettingsScreen(
-    onLicensesClicked: () -> Unit,
-    viewModel: SettingsViewModel = koinViewModel(),
-) {
+fun SettingsScreen(onLicensesClicked: () -> Unit, viewModel: SettingsViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     SettingsScreen(
         uiState = uiState,
@@ -157,11 +164,7 @@ fun SettingsScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     Scaffold(
-        topBar = {
-            PrimaryTopAppBar(
-                title = stringResource(Res.string.settings),
-            )
-        },
+        topBar = { PrimaryTopAppBar(title = stringResource(Res.string.settings)) },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
     ) { paddingValues ->
@@ -174,14 +177,13 @@ fun SettingsScreen(
             onTemperatureItemClicked = { isTemperatureDialogVisible = true },
             onLicensesClicked = onLicensesClicked,
             onAboutClicked = {
-                uriHandler.safeOpenUri(NavigationConst.APP_WEBPAGE)
-                    .onFailure {
-                        scope.launch {
-                            snackbarHostState.showSnackbar(
-                                message = getString(Res.string.action_not_supported),
-                            )
-                        }
+                uriHandler.safeOpenUri(NavigationConst.APP_WEBPAGE).onFailure {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = getString(Res.string.action_not_supported)
+                        )
                     }
+                }
             },
         )
         TemperatureUnitDialog(
@@ -210,14 +212,9 @@ private fun SettingsList(
     onAboutClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-    ) {
+    Box(modifier = modifier.fillMaxSize()) {
         val listState = rememberLazyListState()
-        LazyColumn(
-            contentPadding = PaddingValues(spacingMedium),
-            state = listState,
-        ) {
+        LazyColumn(contentPadding = PaddingValues(spacingMedium), state = listState) {
             item(key = "__generalHeader") {
                 Text(
                     text = stringResource(Res.string.general),
@@ -264,9 +261,7 @@ private fun SettingsList(
             }
         }
         VerticalScrollbar(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight(),
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
             scrollState = listState,
         )
     }
@@ -282,12 +277,12 @@ private fun SettingsItem(
     Row(
         horizontalArrangement = Arrangement.spacedBy(spacingSmall),
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large)
-            .clickable(onClick = onClick)
-            .padding(vertical = spacingMedium)
-            .padding(start = spacingLarge),
+        modifier =
+            Modifier.fillMaxWidth()
+                .clip(MaterialTheme.shapes.large)
+                .clickable(onClick = onClick)
+                .padding(vertical = spacingMedium)
+                .padding(start = spacingLarge),
     ) {
         Column {
             Text(
@@ -325,9 +320,7 @@ private fun TemperatureUnitDialog(
     if (isDialogVisible) {
         AlertDialog(
             onDismissRequest = onDismissRequest,
-            title = {
-                Text(text = stringResource(Res.string.temperature_unit))
-            },
+            title = { Text(text = stringResource(Res.string.temperature_unit)) },
             text = {
                 val scrollState = rememberScrollState()
                 Column(
@@ -337,20 +330,21 @@ private fun TemperatureUnitDialog(
                     for (option in options) {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(spacingMedium),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onOptionClicked(option)
-                                    onDismissRequest()
-                                }
-                                .padding(vertical = spacingSmall),
+                            modifier =
+                                Modifier.fillMaxWidth()
+                                    .clickable {
+                                        onOptionClicked(option)
+                                        onDismissRequest()
+                                    }
+                                    .padding(vertical = spacingSmall),
                         ) {
                             RadioButton(
                                 selected = option == currentSelection,
                                 onClick = null,
-                                colors = RadioButtonDefaults.colors(
-                                    selectedColor = MaterialTheme.colorScheme.tertiary,
-                                ),
+                                colors =
+                                    RadioButtonDefaults.colors(
+                                        selectedColor = MaterialTheme.colorScheme.tertiary
+                                    ),
                             )
                             Text(
                                 text = getTemperatureUnit(option = option),
@@ -362,9 +356,7 @@ private fun TemperatureUnitDialog(
                 }
             },
             confirmButton = {
-                Button(
-                    onClick = onDismissRequest,
-                ) {
+                Button(onClick = onDismissRequest) {
                     Text(text = stringResource(Res.string.cancel))
                 }
             },
@@ -383,9 +375,7 @@ private fun ThemeDialog(
     if (isDialogVisible) {
         AlertDialog(
             onDismissRequest = onDismissRequest,
-            title = {
-                Text(text = stringResource(Res.string.pref_theme_choose))
-            },
+            title = { Text(text = stringResource(Res.string.pref_theme_choose)) },
             text = {
                 val scrollState = rememberScrollState()
                 Column(
@@ -395,20 +385,21 @@ private fun ThemeDialog(
                     for (option in options) {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(spacingMedium),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onOptionClicked(option)
-                                    onDismissRequest()
-                                }
-                                .padding(vertical = spacingSmall),
+                            modifier =
+                                Modifier.fillMaxWidth()
+                                    .clickable {
+                                        onOptionClicked(option)
+                                        onDismissRequest()
+                                    }
+                                    .padding(vertical = spacingSmall),
                         ) {
                             RadioButton(
                                 selected = option == currentSelection,
                                 onClick = null,
-                                colors = RadioButtonDefaults.colors(
-                                    selectedColor = MaterialTheme.colorScheme.tertiary,
-                                ),
+                                colors =
+                                    RadioButtonDefaults.colors(
+                                        selectedColor = MaterialTheme.colorScheme.tertiary
+                                    ),
                             )
                             Text(
                                 text = getThemeName(option = option),
@@ -420,9 +411,7 @@ private fun ThemeDialog(
                 }
             },
             confirmButton = {
-                Button(
-                    onClick = onDismissRequest,
-                ) {
+                Button(onClick = onDismissRequest) {
                     Text(text = stringResource(Res.string.cancel))
                 }
             },

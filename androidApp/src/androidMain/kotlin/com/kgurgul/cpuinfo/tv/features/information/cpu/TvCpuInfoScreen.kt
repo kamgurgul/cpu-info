@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.tv.features.information.cpu
 
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,28 +50,19 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun TvCpuInfoScreen(viewModel: CpuInfoViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    TvCpuInfoScreen(
-        uiState = uiState,
-    )
+    TvCpuInfoScreen(uiState = uiState)
 }
 
 @Composable
 fun TvCpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
     LazyColumn(
         contentPadding = PaddingValues(spacingSmall),
-        modifier = Modifier
-            .fillMaxSize()
-            .testTag(TvCpuInfoScreenTestTags.LAZY_COLUMN),
+        modifier = Modifier.fillMaxSize().testTag(TvCpuInfoScreenTestTags.LAZY_COLUMN),
     ) {
         uiState.cpuData?.let { cpuData ->
             cpuData.frequencies.forEachIndexed { i, frequency ->
                 item(key = "__frequency_$i") {
-                    TvListItem {
-                        FrequencyItem(
-                            index = i,
-                            frequency = frequency,
-                        )
-                    }
+                    TvListItem { FrequencyItem(index = i, frequency = frequency) }
                 }
             }
             item(key = "__soc_name") {
@@ -64,17 +70,13 @@ fun TvCpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                     ItemValueRow(
                         title = stringResource(Res.string.cpu_soc_name),
                         value = cpuData.processorName,
-                        modifier = Modifier
-                            .testTag(TvCpuInfoScreenTestTags.SOCKET_NAME),
+                        modifier = Modifier.testTag(TvCpuInfoScreenTestTags.SOCKET_NAME),
                     )
                 }
             }
             item(key = "__abi") {
                 TvListItem {
-                    ItemValueRow(
-                        title = stringResource(Res.string.cpu_abi),
-                        value = cpuData.abi,
-                    )
+                    ItemValueRow(title = stringResource(Res.string.cpu_abi), value = cpuData.abi)
                 }
             }
             item(key = "__cores") {
@@ -89,11 +91,12 @@ fun TvCpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                 TvListItem {
                     ItemValueRow(
                         title = stringResource(Res.string.cpu_has_neon),
-                        value = if (cpuData.hasArmNeon) {
-                            stringResource(Res.string.yes)
-                        } else {
-                            stringResource(Res.string.no)
-                        },
+                        value =
+                            if (cpuData.hasArmNeon) {
+                                stringResource(Res.string.yes)
+                            } else {
+                                stringResource(Res.string.no)
+                            },
                     )
                 }
             }
@@ -153,35 +156,31 @@ fun TvCpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
 
 @Composable
 fun FrequencyItem(index: Int, frequency: CpuData.Frequency) {
-    val currentFreq = if (frequency.current != -1L) {
-        stringResource(
-            Res.string.cpu_current_frequency,
-            index,
-            formatHz(frequency.current),
-        )
-    } else {
-        stringResource(Res.string.cpu_frequency_stopped, index)
-    }
-    val minFreq = if (frequency.min != -1L) {
-        formatHz(0)
-    } else {
-        ""
-    }
-    val maxFreq = if (frequency.max != -1L) {
-        formatHz(frequency.max)
-    } else {
-        ""
-    }
-    val progress = if (frequency.current != -1L && frequency.max != 0L) {
-        frequency.current.toFloat() / frequency.max.toFloat()
-    } else {
-        0f
-    }
-    CpuProgressBar(
-        label = currentFreq,
-        progress = progress,
-        minMaxValues = minFreq to maxFreq,
-    )
+    val currentFreq =
+        if (frequency.current != -1L) {
+            stringResource(Res.string.cpu_current_frequency, index, formatHz(frequency.current))
+        } else {
+            stringResource(Res.string.cpu_frequency_stopped, index)
+        }
+    val minFreq =
+        if (frequency.min != -1L) {
+            formatHz(0)
+        } else {
+            ""
+        }
+    val maxFreq =
+        if (frequency.max != -1L) {
+            formatHz(frequency.max)
+        } else {
+            ""
+        }
+    val progress =
+        if (frequency.current != -1L && frequency.max != 0L) {
+            frequency.current.toFloat() / frequency.max.toFloat()
+        } else {
+            0f
+        }
+    CpuProgressBar(label = currentFreq, progress = progress, minMaxValues = minFreq to maxFreq)
 }
 
 object TvCpuInfoScreenTestTags {

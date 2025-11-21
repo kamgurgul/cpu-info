@@ -1,3 +1,18 @@
+/*
+ * Copyright KG Soft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.kgurgul.cpuinfo.ui.components
 
 import androidx.compose.foundation.layout.Row
@@ -16,26 +31,14 @@ import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun CpuCheckbox(
-    text: String,
-    isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-) {
+fun CpuCheckbox(text: String, isChecked: Boolean, onCheckedChange: (Boolean) -> Unit) {
     Row(
-        Modifier
-            .fillMaxWidth()
-            .toggleable(
-                value = isChecked,
-                onValueChange = onCheckedChange,
-                role = Role.Checkbox,
-            )
+        Modifier.fillMaxWidth()
+            .toggleable(value = isChecked, onValueChange = onCheckedChange, role = Role.Checkbox)
             .padding(spacingMedium),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Checkbox(
-            checked = isChecked,
-            onCheckedChange = null,
-        )
+        Checkbox(checked = isChecked, onCheckedChange = null)
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
@@ -47,11 +50,5 @@ fun CpuCheckbox(
 @Preview
 @Composable
 fun CpuCheckboxPreview() {
-    CpuInfoTheme {
-        CpuCheckbox(
-            text = "Test",
-            isChecked = true,
-            onCheckedChange = {},
-        )
-    }
+    CpuInfoTheme { CpuCheckbox(text = "Test", isChecked = true, onCheckedChange = {}) }
 }
