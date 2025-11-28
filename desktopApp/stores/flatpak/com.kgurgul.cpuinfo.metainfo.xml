@@ -50,4 +50,11 @@
     <releases>
         <release date="2024-08-22" version="1.2.0" />
     </releases>
+    <keywords>
+        <keyword>cpu info</keyword>
+        <keyword>hardware info</keyword>
+        <keyword>system info</keyword>
+        <keyword>device specs</keyword>
+        <keyword>cpu details</keyword>
+    </keywords>
 </component>
