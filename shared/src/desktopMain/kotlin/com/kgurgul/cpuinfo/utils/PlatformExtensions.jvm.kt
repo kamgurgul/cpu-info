@@ -17,6 +17,7 @@ package com.kgurgul.cpuinfo.utils
 
 import java.text.Collator
 import java.text.Normalizer
+import okio.Path
 import okio.Path.Companion.toPath
 
 actual fun smartCompare(a: String, b: String): Int {
@@ -55,3 +56,13 @@ private fun getHomePath() = System.getProperty("user.home").toPath()
 private fun getXdgConfigPath() = System.getenv("XDG_CONFIG_HOME")?.toPath()
 
 private fun getLocalAppDataPath() = System.getenv("LOCALAPPDATA")?.toPath()
+
+fun getCachePath(): Path {
+    val osName = System.getProperty("os.name").lowercase()
+    return when {
+        osName.contains("mac") -> getHomePath() / "Library/Caches/CPU-Info".toPath()
+        osName.contains("windows") ->
+            (getLocalAppDataPath() ?: getHomePath()) / "CPU-Info/cache".toPath()
+        else -> getHomePath() / ".cache/CPU-Info".toPath()
+    }
+}

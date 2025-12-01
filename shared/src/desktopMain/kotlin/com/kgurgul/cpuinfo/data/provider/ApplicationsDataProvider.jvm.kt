@@ -19,6 +19,7 @@ import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
+import java.io.File
 
 actual class ApplicationsDataProvider actual constructor() :
     IApplicationsDataProvider, KoinComponent {
@@ -37,9 +38,172 @@ actual class ApplicationsDataProvider actual constructor() :
                     versionName = it.version ?: "",
                     nativeLibs = emptyList(),
                     hasNativeLibs = false,
-                    appIconUri = "",
+                    appIconUri = extractIconPath(it.name, it.additionalInfo),
                 )
             }
+    }
+
+    private fun extractIconPath(appName: String, additionalInfo: Map<String, String>): String {
+        val osName = systemInfo.operatingSystem.family.lowercase()
+
+        return when {
+            osName.contains("mac") || osName.contains("darwin") -> {
+                extractMacIconPath(appName, additionalInfo)
+            }
+
+            osName.contains("windows") -> {
+                extractWindowsIconPath(appName, additionalInfo)
+            }
+
+            osName.contains("linux") -> {
+                extractLinuxIconPath(appName, additionalInfo)
+            }
+
+            else -> ""
+        }
+    }
+
+    private fun extractMacIconPath(appName: String, additionalInfo: Map<String, String>): String {
+        val location = additionalInfo["Location"] ?: return ""
+
+        // macOS apps follow bundle structure: AppName.app/Contents/Resources/AppIcon.icns
+        // Common icon names: AppIcon.icns, app.icns, or {AppName}.icns
+        val appFile = File(location)
+        if (!appFile.exists()) return ""
+
+        val resourcesDir = File(appFile, "Contents/Resources")
+        if (!resourcesDir.exists()) return ""
+
+        val possibleIconNames = listOf(
+            "AppIcon.icns",
+            "app.icns",
+            "${appName}.icns",
+            "${appFile.nameWithoutExtension}.icns"
+        )
+
+        for (iconName in possibleIconNames) {
+            val iconFile = File(resourcesDir, iconName)
+            if (iconFile.exists()) {
+                return iconFile.absolutePath
+            }
+        }
+
+        // Fallback: find first .icns file
+        resourcesDir.listFiles { file -> file.extension == "icns" }
+            ?.firstOrNull()
+            ?.let { return it.absolutePath }
+
+        return ""
+    }
+
+    private fun extractWindowsIconPath(
+        appName: String,
+        additionalInfo: Map<String, String>
+    ): String {
+        val installLocation = additionalInfo["installLocation"] ?: return ""
+
+        val installDir = File(installLocation)
+        if (!installDir.exists()) return ""
+
+        val possibleIconNames = listOf(
+            "${appName}.ico",
+            "app.ico",
+            "icon.ico",
+            "${appName}.exe"
+        )
+
+        for (iconName in possibleIconNames) {
+            val iconFile = File(installDir, iconName)
+            if (iconFile.exists()) {
+                return iconFile.absolutePath
+            }
+        }
+
+        // Fallback: find first .ico file
+        installDir.listFiles { file -> file.extension == "ico" }
+            ?.firstOrNull()
+            ?.let { return it.absolutePath }
+
+        // Fallback: find first .exe file (can extract icon from it)
+        installDir.listFiles { file -> file.extension == "exe" }
+            ?.firstOrNull()
+            ?.let { return it.absolutePath }
+
+        return ""
+    }
+
+    private fun extractLinuxIconPath(
+        appName: String,
+        @Suppress("UNUSED_PARAMETER") additionalInfo: Map<String, String>
+    ): String {
+        // Linux doesn't provide install location in additionalInfo
+        // We need to check .desktop files in common locations
+        val desktopFileDirs = listOf(
+            File("/usr/share/applications"),
+            File("/usr/local/share/applications"),
+            File(System.getProperty("user.home"), ".local/share/applications")
+        )
+
+        for (dir in desktopFileDirs) {
+            if (!dir.exists()) continue
+
+            // Try to find .desktop file matching app name
+            val desktopFile = dir.listFiles { file ->
+                file.extension == "desktop" &&
+                    file.nameWithoutExtension.contains(appName, ignoreCase = true)
+            }?.firstOrNull()
+
+            if (desktopFile != null) {
+                // Parse .desktop file to find Icon= entry
+                try {
+                    val iconPath = desktopFile.readLines()
+                        .firstOrNull { it.startsWith("Icon=") }
+                        ?.substringAfter("Icon=")
+                        ?.trim()
+
+                    if (!iconPath.isNullOrEmpty()) {
+                        // Icon can be either absolute path or icon name
+                        return if (iconPath.startsWith("/")) {
+                            iconPath
+                        } else {
+                            // Icon name - try to find in icon themes
+                            findIconInThemes(iconPath)
+                        }
+                    }
+                } catch (_: Exception) {
+                    // Ignore and continue
+                }
+            }
+        }
+
+        return ""
+    }
+
+    private fun findIconInThemes(iconName: String): String {
+        // Common icon paths in Linux
+        val iconDirs = listOf(
+            "/usr/share/icons/hicolor/48x48/apps",
+            "/usr/share/icons/hicolor/64x64/apps",
+            "/usr/share/icons/hicolor/128x128/apps",
+            "/usr/share/icons/hicolor/scalable/apps",
+            "/usr/share/pixmaps"
+        )
+
+        val iconExtensions = listOf("png", "svg", "xpm")
+
+        for (dir in iconDirs) {
+            val iconDir = File(dir)
+            if (!iconDir.exists()) continue
+
+            for (ext in iconExtensions) {
+                val iconFile = File(iconDir, "$iconName.$ext")
+                if (iconFile.exists()) {
+                    return iconFile.absolutePath
+                }
+            }
+        }
+
+        return ""
     }
 
     actual override fun areApplicationsSupported() = true

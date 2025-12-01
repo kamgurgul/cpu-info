@@ -23,6 +23,7 @@ composeUiTest = "1.9.5"
 composeMultiplatform = "1.9.3"
 dependencyUpdate = "0.53.0"
 horologist = "0.7.15"
+imageio = "3.12.0"
 kermit = "2.0.8"
 koin = "4.1.1"
 kotlin = "2.2.21"
@@ -70,6 +71,7 @@ compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4-android", versi
 compose-ui-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "composeUiTest" }
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
 horologist-compose-material = { module = "com.google.android.horologist:horologist-compose-material", version.ref = "horologist" }
+imageio-icns = { group = "com.twelvemonkeys.imageio", name = "imageio-icns", version.ref = "imageio" }
 kermit-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose-viewodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }

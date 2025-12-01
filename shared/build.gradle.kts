@@ -147,6 +147,7 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.androidx.datastore.preferences)
+                implementation(libs.imageio.icns)
                 implementation(libs.kotlinx.coroutines.swing)
                 implementation(libs.oshi)
             }

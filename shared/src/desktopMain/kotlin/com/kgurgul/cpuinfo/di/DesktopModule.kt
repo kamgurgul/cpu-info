@@ -18,13 +18,38 @@ package com.kgurgul.cpuinfo.di
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.emptyPreferences
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
+import coil3.disk.DiskCache
+import com.kgurgul.cpuinfo.utils.MacOSIconDecoder
 import com.kgurgul.cpuinfo.utils.getAppConfigPath
+import com.kgurgul.cpuinfo.utils.getCachePath
+import kotlin.io.path.createDirectories
 import okio.Path.Companion.toPath
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import oshi.SystemInfo
 
 val desktopModule = module {
+    single(named("image_loader"), createdAtStart = true) {
+        SingletonImageLoader.setSafe { context ->
+            val cacheDirectory = (getCachePath() / "image_cache".toPath()).also { path ->
+                path.toNioPath().createDirectories()
+            }
+            ImageLoader.Builder(context)
+                .components {
+                    add(MacOSIconDecoder.Factory())
+                }
+                .diskCache {
+                    DiskCache.Builder()
+                        .directory(cacheDirectory)
+                        .maxSizeBytes(512L * 1024 * 1024)
+                        .build()
+                }
+                .build()
+        }
+    }
     single {
         PreferenceDataStoreFactory.createWithPath(
             corruptionHandler =
