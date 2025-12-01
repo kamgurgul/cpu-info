@@ -22,41 +22,39 @@ import coil3.decode.Decoder
 import coil3.decode.ImageSource
 import coil3.fetch.SourceFetchResult
 import coil3.request.Options
-import org.jetbrains.skia.Bitmap
-import org.jetbrains.skia.ColorAlphaType
-import org.jetbrains.skia.ColorType
-import org.jetbrains.skia.ImageInfo
 import java.awt.image.BufferedImage
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import javax.imageio.ImageIO
+import org.jetbrains.skia.Bitmap
+import org.jetbrains.skia.ColorAlphaType
+import org.jetbrains.skia.ColorType
+import org.jetbrains.skia.ImageInfo
 
 /**
  * Custom Coil decoder for macOS .icns icon files.
  *
- * Uses Java ImageIO with TwelveMonkeys ImageIO plugin to decode ICNS files.
- * TwelveMonkeys is automatically registered via Java's Service Provider Interface (SPI),
- * so ImageIO.read() will handle .icns files once the library is on the classpath.
+ * Uses Java ImageIO with TwelveMonkeys ImageIO plugin to decode ICNS files. TwelveMonkeys is
+ * automatically registered via Java's Service Provider Interface (SPI), so ImageIO.read() will
+ * handle .icns files once the library is on the classpath.
  *
  * The decoded BufferedImage is then converted to Skia Bitmap for display in Compose.
  */
 class MacOSIconDecoder(
     private val source: ImageSource,
-    @Suppress("unused") private val options: Options
+    @Suppress("unused") private val options: Options,
 ) : Decoder {
 
     override suspend fun decode(): DecodeResult {
         val file = source.file().toFile()
-        val bufferedImage = ImageIO.read(file)
-            ?: throw IllegalStateException(
-                "Failed to decode ICNS file: ${file.absolutePath}. " +
-                    "Ensure TwelveMonkeys imageio-icns is on the classpath."
-            )
+        val bufferedImage =
+            ImageIO.read(file)
+                ?: throw IllegalStateException(
+                    "Failed to decode ICNS file: ${file.absolutePath}. " +
+                        "Ensure TwelveMonkeys imageio-icns is on the classpath."
+                )
         val skiaBitmap = bufferedImageToSkiaBitmap(bufferedImage)
-        return DecodeResult(
-            image = skiaBitmap.asImage(),
-            isSampled = false
-        )
+        return DecodeResult(image = skiaBitmap.asImage(), isSampled = false)
     }
 
     private fun bufferedImageToSkiaBitmap(bufferedImage: BufferedImage): Bitmap {
@@ -90,7 +88,7 @@ class MacOSIconDecoder(
                     width = width,
                     height = height,
                     colorType = ColorType.RGBA_8888,
-                    alphaType = ColorAlphaType.UNPREMUL
+                    alphaType = ColorAlphaType.UNPREMUL,
                 )
             )
             installPixels(bytes)
@@ -101,12 +99,13 @@ class MacOSIconDecoder(
         override fun create(
             result: SourceFetchResult,
             options: Options,
-            imageLoader: ImageLoader
+            imageLoader: ImageLoader,
         ): Decoder? {
             val file = result.source.file().toFile()
 
-            val isMacOS = System.getProperty("os.name").contains("mac", ignoreCase = true) ||
-                System.getProperty("os.name").contains("darwin", ignoreCase = true)
+            val isMacOS =
+                System.getProperty("os.name").contains("mac", ignoreCase = true) ||
+                    System.getProperty("os.name").contains("darwin", ignoreCase = true)
 
             return if (isMacOS && file.extension == "icns") {
                 MacOSIconDecoder(result.source, options)

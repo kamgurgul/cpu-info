@@ -16,10 +16,10 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import java.io.File
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
-import java.io.File
 
 actual class ApplicationsDataProvider actual constructor() :
     IApplicationsDataProvider, KoinComponent {
@@ -74,12 +74,13 @@ actual class ApplicationsDataProvider actual constructor() :
         val resourcesDir = File(appFile, "Contents/Resources")
         if (!resourcesDir.exists()) return ""
 
-        val possibleIconNames = listOf(
-            "AppIcon.icns",
-            "app.icns",
-            "${appName}.icns",
-            "${appFile.nameWithoutExtension}.icns"
-        )
+        val possibleIconNames =
+            listOf(
+                "AppIcon.icns",
+                "app.icns",
+                "${appName}.icns",
+                "${appFile.nameWithoutExtension}.icns",
+            )
 
         for (iconName in possibleIconNames) {
             val iconFile = File(resourcesDir, iconName)
@@ -89,28 +90,26 @@ actual class ApplicationsDataProvider actual constructor() :
         }
 
         // Fallback: find first .icns file
-        resourcesDir.listFiles { file -> file.extension == "icns" }
+        resourcesDir
+            .listFiles { file -> file.extension == "icns" }
             ?.firstOrNull()
-            ?.let { return it.absolutePath }
+            ?.let {
+                return it.absolutePath
+            }
 
         return ""
     }
 
     private fun extractWindowsIconPath(
         appName: String,
-        additionalInfo: Map<String, String>
+        additionalInfo: Map<String, String>,
     ): String {
         val installLocation = additionalInfo["installLocation"] ?: return ""
 
         val installDir = File(installLocation)
         if (!installDir.exists()) return ""
 
-        val possibleIconNames = listOf(
-            "${appName}.ico",
-            "app.ico",
-            "icon.ico",
-            "${appName}.exe"
-        )
+        val possibleIconNames = listOf("${appName}.ico", "app.ico", "icon.ico", "${appName}.exe")
 
         for (iconName in possibleIconNames) {
             val iconFile = File(installDir, iconName)
@@ -120,46 +119,57 @@ actual class ApplicationsDataProvider actual constructor() :
         }
 
         // Fallback: find first .ico file
-        installDir.listFiles { file -> file.extension == "ico" }
+        installDir
+            .listFiles { file -> file.extension == "ico" }
             ?.firstOrNull()
-            ?.let { return it.absolutePath }
+            ?.let {
+                return it.absolutePath
+            }
 
         // Fallback: find first .exe file (can extract icon from it)
-        installDir.listFiles { file -> file.extension == "exe" }
+        installDir
+            .listFiles { file -> file.extension == "exe" }
             ?.firstOrNull()
-            ?.let { return it.absolutePath }
+            ?.let {
+                return it.absolutePath
+            }
 
         return ""
     }
 
     private fun extractLinuxIconPath(
         appName: String,
-        @Suppress("UNUSED_PARAMETER") additionalInfo: Map<String, String>
+        @Suppress("UNUSED_PARAMETER") additionalInfo: Map<String, String>,
     ): String {
         // Linux doesn't provide install location in additionalInfo
         // We need to check .desktop files in common locations
-        val desktopFileDirs = listOf(
-            File("/usr/share/applications"),
-            File("/usr/local/share/applications"),
-            File(System.getProperty("user.home"), ".local/share/applications")
-        )
+        val desktopFileDirs =
+            listOf(
+                File("/usr/share/applications"),
+                File("/usr/local/share/applications"),
+                File(System.getProperty("user.home"), ".local/share/applications"),
+            )
 
         for (dir in desktopFileDirs) {
             if (!dir.exists()) continue
 
             // Try to find .desktop file matching app name
-            val desktopFile = dir.listFiles { file ->
-                file.extension == "desktop" &&
-                    file.nameWithoutExtension.contains(appName, ignoreCase = true)
-            }?.firstOrNull()
+            val desktopFile =
+                dir.listFiles { file ->
+                        file.extension == "desktop" &&
+                            file.nameWithoutExtension.contains(appName, ignoreCase = true)
+                    }
+                    ?.firstOrNull()
 
             if (desktopFile != null) {
                 // Parse .desktop file to find Icon= entry
                 try {
-                    val iconPath = desktopFile.readLines()
-                        .firstOrNull { it.startsWith("Icon=") }
-                        ?.substringAfter("Icon=")
-                        ?.trim()
+                    val iconPath =
+                        desktopFile
+                            .readLines()
+                            .firstOrNull { it.startsWith("Icon=") }
+                            ?.substringAfter("Icon=")
+                            ?.trim()
 
                     if (!iconPath.isNullOrEmpty()) {
                         // Icon can be either absolute path or icon name
@@ -181,13 +191,14 @@ actual class ApplicationsDataProvider actual constructor() :
 
     private fun findIconInThemes(iconName: String): String {
         // Common icon paths in Linux
-        val iconDirs = listOf(
-            "/usr/share/icons/hicolor/48x48/apps",
-            "/usr/share/icons/hicolor/64x64/apps",
-            "/usr/share/icons/hicolor/128x128/apps",
-            "/usr/share/icons/hicolor/scalable/apps",
-            "/usr/share/pixmaps"
-        )
+        val iconDirs =
+            listOf(
+                "/usr/share/icons/hicolor/48x48/apps",
+                "/usr/share/icons/hicolor/64x64/apps",
+                "/usr/share/icons/hicolor/128x128/apps",
+                "/usr/share/icons/hicolor/scalable/apps",
+                "/usr/share/pixmaps",
+            )
 
         val iconExtensions = listOf("png", "svg", "xpm")
 

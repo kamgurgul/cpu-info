@@ -34,13 +34,12 @@ import oshi.SystemInfo
 val desktopModule = module {
     single(named("image_loader"), createdAtStart = true) {
         SingletonImageLoader.setSafe { context ->
-            val cacheDirectory = (getCachePath() / "image_cache".toPath()).also { path ->
-                path.toNioPath().createDirectories()
-            }
-            ImageLoader.Builder(context)
-                .components {
-                    add(MacOSIconDecoder.Factory())
+            val cacheDirectory =
+                (getCachePath() / "image_cache".toPath()).also { path ->
+                    path.toNioPath().createDirectories()
                 }
+            ImageLoader.Builder(context)
+                .components { add(MacOSIconDecoder.Factory()) }
                 .diskCache {
                     DiskCache.Builder()
                         .directory(cacheDirectory)
