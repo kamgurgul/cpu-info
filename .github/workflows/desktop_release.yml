@@ -114,7 +114,7 @@ jobs:
           key: ${{ runner.os }}-v1-${{ hashFiles('*.versions.toml') }}
 
       - name: Import certs
-        uses: apple-actions/import-codesign-certs@v5
+        uses: apple-actions/import-codesign-certs@v6
         with:
           p12-file-base64: ${{ secrets.MAC_NOTARIZATION_CERT }}
           p12-password: ${{ secrets.MAC_NOTARIZATION_CERT_PASS }}
@@ -172,7 +172,7 @@ jobs:
           key: ${{ runner.os }}-v1-${{ hashFiles('*.versions.toml') }}
 
       - name: Import certs
-        uses: apple-actions/import-codesign-certs@v5
+        uses: apple-actions/import-codesign-certs@v6
         with:
           p12-file-base64: ${{ secrets.MAC_NOTARIZATION_CERT }}
           p12-password: ${{ secrets.MAC_NOTARIZATION_CERT_PASS }}
