@@ -141,6 +141,10 @@
     <string name="os_multitasking_supported">Multitasking supported</string>
     <string name="os_vendor_identifier">Vendor identifier</string>
     <string name="os_jailbroken" translatable="false">Jailbroken</string>
+    <string name="os_device_name">Device name</string>
+    <string name="os_system_uptime">System uptime</string>
+    <string name="os_active_processors">Active processors</string>
+    <string name="os_total_processors">Total processors</string>
     <string name="os_platform">Platform</string>
     <string name="os_app_code_name">App code name</string>
     <string name="os_app_name">App name</string>

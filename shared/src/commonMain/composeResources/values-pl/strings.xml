@@ -111,6 +111,10 @@
     <string name="security_providers">Dostawcy zabezpieczeń</string>
     <string name="os_multitasking_supported">Obsługa wielozadaniowości</string>
     <string name="os_vendor_identifier">Identyfikator dostawcy</string>
+    <string name="os_device_name">Nazwa urządzenia</string>
+    <string name="os_system_uptime">Czas pracy systemu</string>
+    <string name="os_active_processors">Aktywne procesory</string>
+    <string name="os_total_processors">Wszystkie procesory</string>
     <string name="os_platform">Platforma</string>
     <string name="os_app_code_name">Kodowa nazwa aplikacji</string>
     <string name="os_app_name">Nazwa aplikacji</string>

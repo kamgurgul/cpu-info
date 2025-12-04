@@ -106,6 +106,10 @@
     <string name="security_providers">Sicherheitsanbieter</string>
     <string name="os_multitasking_supported">Multitasking unterstützt</string>
     <string name="os_vendor_identifier">Anbieterkennzeichnung</string>
+    <string name="os_device_name">Gerätename</string>
+    <string name="os_system_uptime">Systembetriebszeit</string>
+    <string name="os_active_processors">Aktive Prozessoren</string>
+    <string name="os_total_processors">Prozessoren gesamt</string>
     <string name="os_platform">Plattform</string>
     <string name="os_app_code_name">App-Code-Name</string>
     <string name="os_app_name">App-Name</string>

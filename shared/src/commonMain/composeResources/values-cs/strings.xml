@@ -106,6 +106,10 @@
     <string name="security_providers">Poskytovatelé zabezpečení</string>
     <string name="os_multitasking_supported">Podpora multitaskingu</string>
     <string name="os_vendor_identifier">Identifikátor dodavatele</string>
+    <string name="os_device_name">Název zařízení</string>
+    <string name="os_system_uptime">Doba provozu systému</string>
+    <string name="os_active_processors">Aktivní procesory</string>
+    <string name="os_total_processors">Celkem procesorů</string>
     <string name="os_platform">Platforma</string>
     <string name="os_app_code_name">Kódové jméno aplikace</string>
     <string name="os_app_name">Název aplikace</string>
