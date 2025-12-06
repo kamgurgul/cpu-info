@@ -53,7 +53,7 @@ class OsInfoViewModelTest {
 
     @Test
     fun initialUiState() = runTest {
-        val expectedUiState = OsInfoViewModel.UiState(items = items)
+        val expectedUiState = OsInfoViewModel.UiState(isInitializing = false, items = items)
 
         viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }
     }

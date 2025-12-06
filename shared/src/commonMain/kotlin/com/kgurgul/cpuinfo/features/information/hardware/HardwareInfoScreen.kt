@@ -16,7 +16,6 @@
 package com.kgurgul.cpuinfo.features.information.hardware
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +31,7 @@ import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.domain.model.getName
 import com.kgurgul.cpuinfo.domain.model.getValue
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
+import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -48,7 +48,12 @@ fun HardwareInfoScreen(viewModel: HardwareInfoViewModel = koinViewModel()) {
 
 @Composable
 fun HardwareInfoScreen(uiState: HardwareInfoViewModel.UiState) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    CpuPullToRefreshBox(
+        isRefreshing = uiState.isInitializing,
+        onRefresh = {},
+        enabled = false,
+        modifier = Modifier.fillMaxSize(),
+    ) {
         val listState = rememberLazyListState()
         LazyColumn(
             contentPadding = PaddingValues(spacingSmall),
@@ -80,7 +85,8 @@ fun HardwareInfoScreenPreview() {
         HardwareInfoScreen(
             uiState =
                 HardwareInfoViewModel.UiState(
-                    persistentListOf(ItemValue.Text("test", ""), ItemValue.Text("test", "test"))
+                    hardwareItems =
+                        persistentListOf(ItemValue.Text("test", ""), ItemValue.Text("test", "test"))
                 )
         )
     }

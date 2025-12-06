@@ -16,7 +16,6 @@
 package com.kgurgul.cpuinfo.features.information.sensors
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -39,6 +38,7 @@ import com.kgurgul.cpuinfo.domain.model.SensorData
 import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
+import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -55,7 +55,12 @@ fun SensorsInfoScreen(viewModel: SensorsInfoViewModel = koinViewModel()) {
 
 @Composable
 fun SensorsInfoScreen(uiState: SensorsInfoViewModel.UiState) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    CpuPullToRefreshBox(
+        isRefreshing = uiState.isInitializing,
+        onRefresh = {},
+        enabled = false,
+        modifier = Modifier.fillMaxSize(),
+    ) {
         val listState = rememberLazyListState()
         LazyColumn(
             contentPadding = PaddingValues(spacingSmall),
@@ -107,10 +112,15 @@ fun SensorsInfoScreenPreview() {
         SensorsInfoScreen(
             uiState =
                 SensorsInfoViewModel.UiState(
-                    persistentListOf(
-                        SensorData(id = "test", name = TextResource.Text("test"), value = ""),
-                        SensorData(id = "test", name = TextResource.Text("test"), value = "test"),
-                    )
+                    sensors =
+                        persistentListOf(
+                            SensorData(id = "test", name = TextResource.Text("test"), value = ""),
+                            SensorData(
+                                id = "test",
+                                name = TextResource.Text("test"),
+                                value = "test",
+                            ),
+                        )
                 )
         )
     }

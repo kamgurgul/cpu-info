@@ -16,7 +16,6 @@
 package com.kgurgul.cpuinfo.features.information.ram
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +34,7 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.available_memory
 import com.kgurgul.cpuinfo.shared.threshold
 import com.kgurgul.cpuinfo.shared.total_memory
+import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -51,7 +51,12 @@ fun RamInfoScreen(viewModel: RamInfoViewModel = koinViewModel()) {
 
 @Composable
 fun RamInfoScreen(uiState: RamInfoViewModel.UiState) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    CpuPullToRefreshBox(
+        isRefreshing = uiState.isInitializing,
+        onRefresh = {},
+        enabled = false,
+        modifier = Modifier.fillMaxSize(),
+    ) {
         val listState = rememberLazyListState()
         LazyColumn(
             contentPadding = PaddingValues(spacingSmall),

@@ -16,7 +16,6 @@
 package com.kgurgul.cpuinfo.features.information.storage
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +34,7 @@ import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
+import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -53,7 +53,12 @@ fun StorageInfoScreen(viewModel: StorageInfoViewModel = koinViewModel()) {
 
 @Composable
 fun StorageInfoScreen(uiState: StorageInfoViewModel.UiState) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    CpuPullToRefreshBox(
+        isRefreshing = uiState.isInitializing,
+        onRefresh = {},
+        enabled = false,
+        modifier = Modifier.fillMaxSize(),
+    ) {
         val listState = rememberLazyListState()
         LazyColumn(
             contentPadding = PaddingValues(spacingSmall),

@@ -37,7 +37,9 @@ class HardwareInfoViewModel(
     val uiStateFlow =
         userPreferencesRepository.userPreferencesFlow
             .flatMapLatest {
-                getHardwareDataInteractor.observe(Unit).map { UiState(it.toImmutableList()) }
+                getHardwareDataInteractor.observe(Unit).map {
+                    UiState(isInitializing = false, hardwareItems = it.toImmutableList())
+                }
             }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
@@ -45,5 +47,8 @@ class HardwareInfoViewModel(
         getHardwareDataInteractor()
     }
 
-    data class UiState(val hardwareItems: ImmutableList<ItemValue> = persistentListOf())
+    data class UiState(
+        val isInitializing: Boolean = true,
+        val hardwareItems: ImmutableList<ItemValue> = persistentListOf(),
+    )
 }

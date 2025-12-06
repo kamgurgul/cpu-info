@@ -53,7 +53,8 @@ class StorageInfoViewModelTest {
 
     @Test
     fun initialUiState() = runTest {
-        val expectedUiState = StorageInfoViewModel.UiState(storageItems = storageData)
+        val expectedUiState =
+            StorageInfoViewModel.UiState(isInitializing = false, storageItems = storageData)
 
         viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }
     }

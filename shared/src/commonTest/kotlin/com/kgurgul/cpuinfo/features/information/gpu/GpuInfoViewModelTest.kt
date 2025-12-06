@@ -52,7 +52,7 @@ class GpuInfoViewModelTest {
 
     @Test
     fun initialUiState() = runTest {
-        val expectedUiState = GpuInfoViewModel.UiState(gpuData = gpuData)
+        val expectedUiState = GpuInfoViewModel.UiState(isInitializing = false, gpuData = gpuData)
 
         viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }
     }

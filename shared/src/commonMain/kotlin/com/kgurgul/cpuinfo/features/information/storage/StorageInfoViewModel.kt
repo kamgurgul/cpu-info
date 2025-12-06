@@ -34,12 +34,15 @@ class StorageInfoViewModel(private val storageDataObservable: StorageDataObserva
         storageDataObservable
             .observe(Unit)
             .distinctUntilChanged()
-            .map { UiState(it.toImmutableList()) }
+            .map { UiState(isInitializing = false, storageItems = it.toImmutableList()) }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     fun onRefreshStorage() {
         storageDataObservable.invoke()
     }
 
-    data class UiState(val storageItems: ImmutableList<StorageItem> = persistentListOf())
+    data class UiState(
+        val isInitializing: Boolean = true,
+        val storageItems: ImmutableList<StorageItem> = persistentListOf(),
+    )
 }

@@ -53,8 +53,11 @@ class SensorsInfoViewModel(sensorsDataObservable: SensorsDataObservable) : ViewM
                     }
                 }
             }
-            .map { UiState(it.toImmutableList()) }
+            .map { UiState(isInitializing = false, sensors = it.toImmutableList()) }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
-    data class UiState(val sensors: ImmutableList<SensorData> = persistentListOf())
+    data class UiState(
+        val isInitializing: Boolean = true,
+        val sensors: ImmutableList<SensorData> = persistentListOf(),
+    )
 }

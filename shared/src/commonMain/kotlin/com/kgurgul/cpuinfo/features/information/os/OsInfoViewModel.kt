@@ -32,8 +32,11 @@ class OsInfoViewModel(getOsDataInteractor: GetOsDataInteractor) : ViewModel() {
     val uiStateFlow =
         getOsDataInteractor
             .observe()
-            .map { UiState(it.toImmutableList()) }
+            .map { UiState(isInitializing = false, items = it.toImmutableList()) }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
-    data class UiState(val items: ImmutableList<ItemValue> = persistentListOf())
+    data class UiState(
+        val isInitializing: Boolean = true,
+        val items: ImmutableList<ItemValue> = persistentListOf(),
+    )
 }

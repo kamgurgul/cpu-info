@@ -33,12 +33,15 @@ class GpuInfoViewModel(private val gpuDataObservable: GpuDataObservable) : ViewM
         gpuDataObservable
             .observe(GpuDataObservable.Params())
             .distinctUntilChanged()
-            .map { UiState(it.toImmutableList()) }
+            .map { UiState(isInitializing = false, gpuData = it.toImmutableList()) }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     fun onGlInfoReceived(glVendor: String?, glRenderer: String?, glExtensions: String?) {
         gpuDataObservable(GpuDataObservable.Params(glVendor, glRenderer, glExtensions))
     }
 
-    data class UiState(val gpuData: ImmutableList<ItemValue> = persistentListOf())
+    data class UiState(
+        val isInitializing: Boolean = true,
+        val gpuData: ImmutableList<ItemValue> = persistentListOf(),
+    )
 }

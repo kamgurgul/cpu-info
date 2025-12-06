@@ -32,6 +32,7 @@ import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.domain.model.getName
 import com.kgurgul.cpuinfo.domain.model.getValue
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
+import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -55,7 +56,12 @@ fun GpuInfoScreen(viewModel: GpuInfoViewModel = koinViewModel()) {
 
 @Composable
 fun GpuInfoScreen(uiState: GpuInfoViewModel.UiState) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    CpuPullToRefreshBox(
+        isRefreshing = uiState.isInitializing,
+        onRefresh = {},
+        enabled = false,
+        modifier = Modifier.fillMaxSize(),
+    ) {
         val listState = rememberLazyListState()
         LazyColumn(
             contentPadding = PaddingValues(spacingSmall),

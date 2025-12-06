@@ -53,7 +53,7 @@ class RamInfoViewModelTest {
 
     @Test
     fun initialUiState() = runTest {
-        val expectedUiState = RamInfoViewModel.UiState(ramData = ramData)
+        val expectedUiState = RamInfoViewModel.UiState(isInitializing = false, ramData = ramData)
 
         viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }
     }

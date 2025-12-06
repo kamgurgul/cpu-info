@@ -16,7 +16,6 @@
 package com.kgurgul.cpuinfo.features.information.os
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,6 +32,7 @@ import com.kgurgul.cpuinfo.domain.model.getKey
 import com.kgurgul.cpuinfo.domain.model.getName
 import com.kgurgul.cpuinfo.domain.model.getValue
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
+import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -48,7 +48,12 @@ fun OsInfoScreen(viewModel: OsInfoViewModel = koinViewModel()) {
 
 @Composable
 fun OsInfoScreen(uiState: OsInfoViewModel.UiState) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    CpuPullToRefreshBox(
+        isRefreshing = uiState.isInitializing,
+        onRefresh = {},
+        enabled = false,
+        modifier = Modifier.fillMaxSize(),
+    ) {
         val listState = rememberLazyListState()
         LazyColumn(
             contentPadding = PaddingValues(spacingSmall),
@@ -80,7 +85,8 @@ fun OsInfoScreenPreview() {
         OsInfoScreen(
             uiState =
                 OsInfoViewModel.UiState(
-                    persistentListOf(ItemValue.Text("test", ""), ItemValue.Text("test", "test"))
+                    items =
+                        persistentListOf(ItemValue.Text("test", ""), ItemValue.Text("test", "test"))
                 )
         )
     }

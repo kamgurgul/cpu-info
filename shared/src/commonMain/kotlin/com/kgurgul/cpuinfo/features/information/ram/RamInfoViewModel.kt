@@ -31,8 +31,8 @@ class RamInfoViewModel(ramDataObservable: RamDataObservable) : ViewModel() {
         ramDataObservable
             .observe()
             .distinctUntilChanged()
-            .map { UiState(it) }
+            .map { UiState(isInitializing = false, ramData = it) }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
-    data class UiState(val ramData: RamData? = null)
+    data class UiState(val isInitializing: Boolean = true, val ramData: RamData? = null)
 }

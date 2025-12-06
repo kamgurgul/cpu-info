@@ -59,12 +59,13 @@ class ScreenInfoViewModelTest {
     fun initialUiState() = runTest {
         val expectedUiState =
             ScreenInfoViewModel.UiState(
+                isInitializing = false,
                 items =
                     persistentListOf(
                         ItemValue.Text("test", ""),
                         ItemValue.Text("test", "test"),
                         ItemValue.NameResource(Res.string.orientation, "Unknown"),
-                    )
+                    ),
             )
 
         viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }
