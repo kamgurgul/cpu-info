@@ -22,6 +22,7 @@ import coil3.ImageLoader
 import coil3.SingletonImageLoader
 import coil3.disk.DiskCache
 import com.kgurgul.cpuinfo.utils.MacOSIconDecoder
+import com.kgurgul.cpuinfo.utils.WindowsExeIconDecoder
 import com.kgurgul.cpuinfo.utils.getAppConfigPath
 import com.kgurgul.cpuinfo.utils.getCachePath
 import kotlin.io.path.createDirectories
@@ -39,7 +40,10 @@ val desktopModule = module {
                     path.toNioPath().createDirectories()
                 }
             ImageLoader.Builder(context)
-                .components { add(MacOSIconDecoder.Factory()) }
+                .components {
+                    add(MacOSIconDecoder.Factory())
+                    add(WindowsExeIconDecoder.Factory())
+                }
                 .diskCache {
                     DiskCache.Builder()
                         .directory(cacheDirectory)

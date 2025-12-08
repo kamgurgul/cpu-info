@@ -148,6 +148,8 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.androidx.datastore.preferences)
                 implementation(libs.imageio.icns)
+                implementation(libs.jna)
+                implementation(libs.jna.platform)
                 implementation(libs.kotlinx.coroutines.swing)
                 implementation(libs.oshi)
             }

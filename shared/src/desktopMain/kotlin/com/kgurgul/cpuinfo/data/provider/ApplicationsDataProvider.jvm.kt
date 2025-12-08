@@ -113,7 +113,7 @@ actual class ApplicationsDataProvider actual constructor() :
 
         for (iconName in possibleIconNames) {
             val iconFile = File(installDir, iconName)
-            if (iconFile.exists()) {
+            if (iconFile.exists() && !isUninstallerExecutable(iconFile)) {
                 return iconFile.absolutePath
             }
         }
@@ -127,14 +127,30 @@ actual class ApplicationsDataProvider actual constructor() :
             }
 
         // Fallback: find first .exe file (can extract icon from it)
+        // Skip uninstaller executables
         installDir
-            .listFiles { file -> file.extension == "exe" }
+            .listFiles { file -> file.extension == "exe" && !isUninstallerExecutable(file) }
             ?.firstOrNull()
             ?.let {
                 return it.absolutePath
             }
 
         return ""
+    }
+
+    private fun isUninstallerExecutable(file: File): Boolean {
+        val fileName = file.nameWithoutExtension.lowercase()
+        val uninstallerKeywords =
+            listOf(
+                "uninstall",
+                "unins",
+                "uninst",
+                "remove",
+                "cleanup",
+                "unwise",
+                "setup", // Often setup.exe is used for uninstall
+            )
+        return uninstallerKeywords.any { keyword -> fileName.contains(keyword) }
     }
 
     private fun extractLinuxIconPath(
