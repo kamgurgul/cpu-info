@@ -29,7 +29,7 @@ jobs:
         run: ./gradlew shared:koverXmlReportDebug
 
       - name: Upload test coverage
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: code-coverage.xml
           path: shared/build/coverage-report/result.xml
@@ -103,13 +103,13 @@ jobs:
         run: ./gradlew ${{ matrix.format.command }}
 
       - name: Upload Build
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: app-release.${{ matrix.format.type }}
           path: androidApp/build/outputs/${{ matrix.format.output }}/release/*.${{ matrix.format.type }}
 
       - name: Upload mapping folder
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: mapping-${{ matrix.format.type }}
           path: androidApp/build/outputs/mapping/
@@ -130,12 +130,12 @@ jobs:
           git push origin android-${{ github.event.inputs.version }}
 
       - name: Download APK
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: app-release.apk
 
       - name: Download APK mapping
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: mapping-apk
           path: mapping-apk
@@ -145,12 +145,12 @@ jobs:
           zip -r mapping-apk.zip mapping-apk/
 
       - name: Download AAB
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: app-release.aab
 
       - name: Download AAB mapping
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: mapping-aab
           path: mapping-aab
