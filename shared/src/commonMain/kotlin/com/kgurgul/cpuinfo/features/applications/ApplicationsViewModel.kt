@@ -149,6 +149,10 @@ class ApplicationsViewModel(
         }
     }
 
+    fun onAppUninstallWithPathClicked(uninstallerPath: String) {
+        externalAppAction.uninstallWithPath(uninstallerPath)
+    }
+
     fun onNativeLibsClicked(libs: List<String>) {
         if (libs.isNotEmpty()) {
             localDataFlow.update {

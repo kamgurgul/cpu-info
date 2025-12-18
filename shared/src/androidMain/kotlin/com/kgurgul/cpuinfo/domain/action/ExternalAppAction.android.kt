@@ -59,6 +59,11 @@ actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinCo
         return runCatching { context.startActivity(uninstallIntent) }
     }
 
+    actual override fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
+        // Android doesn't use path-based uninstallation, use standard uninstall instead
+        return Result.success(Unit)
+    }
+
     actual override fun searchOnWeb(phrase: String): Result<Unit> {
         val uri = Uri.parse("http://www.google.com/search?q=$phrase")
         val intent =

@@ -26,7 +26,11 @@ data class ExtendedApplicationData(
     val nativeLibs: List<String>,
     val hasNativeLibs: Boolean,
     val appIconUri: String,
+    val uninstallerPath: String? = null,
 ) : Comparable<ExtendedApplicationData> {
+
+    val hasUninstaller: Boolean
+        get() = !uninstallerPath.isNullOrEmpty()
 
     override fun compareTo(other: ExtendedApplicationData): Int {
         return smartCompare(name, other.name)

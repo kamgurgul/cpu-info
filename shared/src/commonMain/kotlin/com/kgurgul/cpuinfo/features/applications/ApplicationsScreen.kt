@@ -46,8 +46,10 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -84,6 +86,10 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.applications
 import com.kgurgul.cpuinfo.shared.apps_show_system_apps
 import com.kgurgul.cpuinfo.shared.apps_sort_order
+import com.kgurgul.cpuinfo.shared.apps_uninstall
+import com.kgurgul.cpuinfo.shared.apps_uninstall_confirm_message
+import com.kgurgul.cpuinfo.shared.apps_uninstall_confirm_title
+import com.kgurgul.cpuinfo.shared.cancel
 import com.kgurgul.cpuinfo.shared.ic_cpp_logo
 import com.kgurgul.cpuinfo.shared.ic_settings
 import com.kgurgul.cpuinfo.shared.ic_thrash
@@ -99,6 +105,7 @@ import com.kgurgul.cpuinfo.ui.components.CpuSearchTextField
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
+import com.kgurgul.cpuinfo.ui.components.FilledButton
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -150,6 +157,7 @@ fun ApplicationsScreen(viewModel: ApplicationsViewModel = koinViewModel()) {
         onNativeLibsDialogDismissed = viewModel::onNativeLibsDialogDismissed,
         onNativeLibNameClicked = viewModel::onNativeLibsNameClicked,
         onAppUninstallClicked = viewModel::onAppUninstallClicked,
+        onAppUninstallWithPathClicked = viewModel::onAppUninstallWithPathClicked,
         onAppSettingsClicked = viewModel::onAppSettingsClicked,
         onNativeLibsClicked = viewModel::onNativeLibsClicked,
         onSystemAppsSwitched = viewModel::onSystemAppsSwitched,
@@ -168,6 +176,7 @@ fun ApplicationsScreen(
     onNativeLibsDialogDismissed: () -> Unit,
     onNativeLibNameClicked: (nativeLibraryName: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
+    onAppUninstallWithPathClicked: (uninstallerPath: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (libs: List<String>) -> Unit,
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
@@ -217,6 +226,7 @@ fun ApplicationsScreen(
                 hasAppManagement = uiState.hasAppManagement,
                 onAppClicked = onAppClicked,
                 onAppUninstallClicked = onAppUninstallClicked,
+                onAppUninstallWithPathClicked = onAppUninstallWithPathClicked,
                 onAppSettingsClicked = onAppSettingsClicked,
                 onNativeLibsClicked = onNativeLibsClicked,
             )
@@ -339,9 +349,11 @@ private fun ApplicationsList(
     hasAppManagement: Boolean,
     onAppClicked: (packageName: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
+    onAppUninstallWithPathClicked: (uninstallerPath: String) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (libs: List<String>) -> Unit,
 ) {
+    var appToUninstall: ExtendedApplicationData? by remember { mutableStateOf(null) }
     Box(modifier = Modifier.fillMaxSize()) {
         val listState = rememberLazyListState()
         var revealedCardId: String? by rememberSaveable { mutableStateOf(null) }
@@ -387,6 +399,7 @@ private fun ApplicationsList(
                             appData = item,
                             onAppClicked = onAppClicked,
                             onNativeLibsClicked = onNativeLibsClicked,
+                            onUninstallClicked = { appToUninstall = item },
                         )
                     },
                     enabled = hasAppManagement,
@@ -402,6 +415,14 @@ private fun ApplicationsList(
             scrollState = listState,
         )
     }
+    UninstallConfirmationDialog(
+        appToUninstall = appToUninstall,
+        onDismiss = { appToUninstall = null },
+        onConfirm = { app ->
+            app.uninstallerPath?.let { onAppUninstallWithPathClicked(it) }
+            appToUninstall = null
+        },
+    )
 }
 
 @Composable
@@ -409,6 +430,7 @@ private fun ApplicationItem(
     appData: ExtendedApplicationData,
     onAppClicked: (packageName: String) -> Unit,
     onNativeLibsClicked: (libs: List<String>) -> Unit,
+    onUninstallClicked: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -462,6 +484,20 @@ private fun ApplicationItem(
                 )
             }
         }
+        if (appData.hasUninstaller) {
+            Spacer(modifier = Modifier.size(spacingXSmall))
+            IconButton(
+                onClick = onUninstallClicked,
+                modifier = Modifier.requiredSize(rowActionIconSize),
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.ic_thrash),
+                    contentDescription = stringResource(Res.string.apps_uninstall),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(spacingSmall),
+                )
+            }
+        }
     }
 }
 
@@ -497,6 +533,46 @@ private fun NativeLibsDialog(
     }
 }
 
+@Composable
+private fun UninstallConfirmationDialog(
+    appToUninstall: ExtendedApplicationData?,
+    onDismiss: () -> Unit,
+    onConfirm: (ExtendedApplicationData) -> Unit,
+) {
+    if (appToUninstall != null) {
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text(text = stringResource(Res.string.apps_uninstall_confirm_title)) },
+            text = {
+                Text(
+                    text = stringResource(Res.string.apps_uninstall_confirm_message, appToUninstall.name),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            },
+            confirmButton = {
+                FilledButton(
+                    text = stringResource(Res.string.apps_uninstall),
+                    onClick = { onConfirm(appToUninstall) },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                        disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                        disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    ),
+                    elevation = ButtonDefaults.elevatedButtonElevation(),
+                )
+            },
+            dismissButton = {
+                FilledButton(
+                    text = stringResource(Res.string.cancel),
+                    onClick = onDismiss,
+                    elevation = ButtonDefaults.elevatedButtonElevation(),
+                )
+            },
+        )
+    }
+}
+
 object ApplicationsScreenTestData {
     const val SEARCH_TEST_TAG = "searchTextField"
 }
@@ -519,6 +595,7 @@ private fun ApplicationsScreenPreview() {
             onNativeLibNameClicked = {},
             onAppSettingsClicked = {},
             onAppUninstallClicked = {},
+            onAppUninstallWithPathClicked = {},
             onNativeLibsClicked = {},
             onSystemAppsSwitched = {},
             onSortOrderChange = {},

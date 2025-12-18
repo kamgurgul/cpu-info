@@ -48,6 +48,8 @@
     <string name="apps_open">Otevřít</string>
     <string name="apps_settings">Nastavení</string>
     <string name="apps_uninstall">Odinstalovat</string>
+    <string name="apps_uninstall_confirm_title">Odinstalovat aplikaci</string>
+    <string name="apps_uninstall_confirm_message">Opravdu chcete odinstalovat %1$s?</string>
 
     <string name="vulkan_version">Vulkan verze</string>
     <string name="metal_version">Metal verze</string>

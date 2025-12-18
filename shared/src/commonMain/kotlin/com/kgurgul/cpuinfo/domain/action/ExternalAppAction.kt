@@ -23,5 +23,7 @@ expect class ExternalAppAction() : IExternalAppAction {
 
     override fun uninstall(packageName: String): Result<Unit>
 
+    override fun uninstallWithPath(uninstallerPath: String): Result<Unit>
+
     override fun searchOnWeb(phrase: String): Result<Unit>
 }

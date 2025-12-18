@@ -70,6 +70,8 @@
     <string name="apps_open">Open</string>
     <string name="apps_settings">Settings</string>
     <string name="apps_uninstall">Uninstall</string>
+    <string name="apps_uninstall_confirm_title">Uninstall application</string>
+    <string name="apps_uninstall_confirm_message">Are you sure you want to uninstall %1$s?</string>
 
     <!--GPU-->
     <string name="vulkan_version">Vulkan Version</string>

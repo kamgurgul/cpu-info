@@ -50,6 +50,8 @@
     <string name="apps_open">Otwórz</string>
     <string name="apps_settings">Ustawienia</string>
     <string name="apps_uninstall">Odinstaluj</string>
+    <string name="apps_uninstall_confirm_title">Odinstaluj aplikację</string>
+    <string name="apps_uninstall_confirm_message">Czy na pewno chcesz odinstalować %1$s?</string>
 
     <!--GPU-->
     <string name="vulkan_version">Wersja Vulkan</string>

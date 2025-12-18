@@ -17,10 +17,13 @@ package com.kgurgul.cpuinfo.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,6 +42,13 @@ fun FilledButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    colors: ButtonColors = ButtonDefaults.buttonColors(
+        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+    ),
+    elevation: ButtonElevation? = ButtonDefaults.buttonElevation(),
     iconResource: DrawableResource? = null,
     iconContentDescription: String? = null,
 ) {
@@ -51,13 +61,8 @@ fun FilledButton(
             } else {
                 ButtonDefaults.ContentPadding
             },
-        colors =
-            ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                contentColor = MaterialTheme.colorScheme.onSurface,
-                disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            ),
+        colors = colors,
+        elevation = elevation,
         modifier = modifier,
     ) {
         if (iconResource != null) {
@@ -70,6 +75,30 @@ fun FilledButton(
         }
         Text(text)
     }
+}
+
+@Composable
+fun FilledButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    colors: ButtonColors = ButtonDefaults.buttonColors(
+        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+    ),
+    elevation: ButtonElevation? = ButtonDefaults.buttonElevation(),
+    content: @Composable RowScope.() -> Unit,
+) {
+    Button(
+        onClick = onClick,
+        enabled = enabled,
+        colors = colors,
+        elevation = elevation,
+        modifier = modifier,
+        content = content,
+    )
 }
 
 @Preview

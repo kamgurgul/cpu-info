@@ -28,6 +28,9 @@ class FakeExternalAppAction : IExternalAppAction {
     var isUninstallCalled = false
         private set
 
+    var isUninstallWithPathCalled = false
+        private set
+
     var isSearchOnWebCalled = false
         private set
 
@@ -46,6 +49,11 @@ class FakeExternalAppAction : IExternalAppAction {
         return Result.success(Unit)
     }
 
+    override fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
+        isUninstallWithPathCalled = true
+        return Result.success(Unit)
+    }
+
     override fun searchOnWeb(phrase: String): Result<Unit> {
         isSearchOnWebCalled = true
         return Result.success(Unit)
@@ -57,6 +65,7 @@ class FakeExternalAppAction : IExternalAppAction {
         isLaunchCalled = false
         isOpenSettingsCalled = false
         isUninstallCalled = false
+        isUninstallWithPathCalled = false
         isSearchOnWebCalled = false
     }
 }

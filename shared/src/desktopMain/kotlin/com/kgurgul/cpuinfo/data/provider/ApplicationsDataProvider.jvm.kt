@@ -39,8 +39,83 @@ actual class ApplicationsDataProvider actual constructor() :
                     nativeLibs = emptyList(),
                     hasNativeLibs = false,
                     appIconUri = extractIconPath(it.name, it.additionalInfo),
+                    uninstallerPath = extractUninstallerPath(it.additionalInfo),
                 )
             }
+    }
+
+    private fun extractUninstallerPath(additionalInfo: Map<String, String>): String? {
+        val osName = systemInfo.operatingSystem.family.lowercase()
+
+        return when {
+            osName.contains("windows") -> {
+                extractWindowsUninstallerPath(additionalInfo)
+            }
+
+            osName.contains("mac") || osName.contains("darwin") -> {
+                extractMacUninstallerPath(additionalInfo)
+            }
+
+            osName.contains("linux") -> {
+                extractLinuxUninstallerPath(additionalInfo)
+            }
+
+            else -> null
+        }
+    }
+
+    private fun extractWindowsUninstallerPath(additionalInfo: Map<String, String>): String? {
+        // Windows stores uninstall string in registry, OSHI provides it in additionalInfo
+        val uninstallString = additionalInfo["uninstallString"]
+        if (!uninstallString.isNullOrEmpty()) {
+            return uninstallString
+        }
+
+        // Fallback: look for uninstaller in install location
+        val installLocation = additionalInfo["installLocation"] ?: return null
+        val installDir = File(installLocation)
+        if (!installDir.exists()) return null
+
+        val uninstallerNames = listOf(
+            "uninstall.exe",
+            "unins000.exe",
+            "uninst.exe",
+            "uninstaller.exe",
+            "Uninstall.exe",
+        )
+
+        for (name in uninstallerNames) {
+            val uninstaller = File(installDir, name)
+            if (uninstaller.exists()) {
+                return uninstaller.absolutePath
+            }
+        }
+
+        // Look for any executable that looks like an uninstaller
+        installDir.listFiles { file ->
+            file.extension == "exe" && isUninstallerExecutable(file)
+        }?.firstOrNull()?.let {
+            return it.absolutePath
+        }
+
+        return null
+    }
+
+    private fun extractMacUninstallerPath(additionalInfo: Map<String, String>): String? {
+        // macOS apps are bundles - return the app location for trash-based uninstall
+        val location = additionalInfo["Location"]
+        if (!location.isNullOrEmpty() && File(location).exists()) {
+            return location
+        }
+        return null
+    }
+
+    private fun extractLinuxUninstallerPath(
+        @Suppress("UNUSED_PARAMETER") additionalInfo: Map<String, String>
+    ): String? {
+        // Linux package managers handle uninstallation differently
+        // We don't provide direct uninstaller paths for Linux
+        return null
     }
 
     private fun extractIconPath(appName: String, additionalInfo: Map<String, String>): String {
@@ -237,7 +312,7 @@ actual class ApplicationsDataProvider actual constructor() :
 
     actual override fun hasSystemAppsFiltering() = false
 
-    actual override fun hasAppManagementSupported() = false
+    actual override fun hasAppManagementSupported() = true
 
     actual override fun hasManualRefresh() = true
 }
