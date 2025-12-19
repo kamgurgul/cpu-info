@@ -15,6 +15,10 @@
  */
 package com.kgurgul.cpuinfo.domain.action
 
+import com.kgurgul.cpuinfo.features.applications.JvmUninstallNotifier
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
@@ -22,6 +26,7 @@ import oshi.SystemInfo
 actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
+    private val scope = CoroutineScope(Dispatchers.IO)
 
     actual override fun launch(packageName: String): Result<Unit> {
         return Result.success(Unit)
@@ -57,23 +62,34 @@ actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinCo
     private fun executeWindowsUninstaller(uninstallerPath: String) {
         // Handle different uninstall string formats
         // Some are direct executables, some are "MsiExec.exe /X{GUID}" format
-        val processBuilder = if (uninstallerPath.contains("MsiExec", ignoreCase = true)) {
-            ProcessBuilder("cmd", "/c", uninstallerPath)
-        } else {
-            // For direct executables, quote the path in case it contains spaces
-            ProcessBuilder("cmd", "/c", "\"$uninstallerPath\"")
+        val processBuilder =
+            if (uninstallerPath.contains("MsiExec", ignoreCase = true)) {
+                ProcessBuilder("cmd", "/c", uninstallerPath)
+            } else {
+                // For direct executables, quote the path in case it contains spaces
+                ProcessBuilder("cmd", "/c", "\"$uninstallerPath\"")
+            }
+        val process = processBuilder.start()
+        scope.launch {
+            process.waitFor()
+            JvmUninstallNotifier.notifyUninstallCompleted()
         }
-        processBuilder.start()
     }
 
     private fun executeMacUninstaller(appPath: String) {
         // Move the app to trash using AppleScript
-        val script = """
+        val script =
+            """
             tell application "Finder"
                 delete POSIX file "$appPath"
             end tell
-        """.trimIndent()
-        ProcessBuilder("osascript", "-e", script).start()
+        """
+                .trimIndent()
+        val process = ProcessBuilder("osascript", "-e", script).start()
+        scope.launch {
+            process.waitFor()
+            JvmUninstallNotifier.notifyUninstallCompleted()
+        }
     }
 
     actual override fun searchOnWeb(phrase: String): Result<Unit> {

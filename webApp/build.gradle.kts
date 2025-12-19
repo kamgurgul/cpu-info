@@ -11,17 +11,6 @@ kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         outputModuleName = "cpuinfoApp"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "cpuinfoApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        add(project.rootDir.path)
-                        add(project.projectDir.path)
-                    }
-                }
-            }
-        }
         binaries.executable()
     }
 

@@ -15,11 +15,15 @@
  */
 package com.kgurgul.cpuinfo.features.applications
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
-@Composable
-actual fun registerUninstallListener(onRefresh: () -> Unit) {
-    LaunchedEffect(Unit) { JvmUninstallNotifier.uninstallEvents.collectLatest { onRefresh() } }
+object JvmUninstallNotifier {
+    private val _uninstallEvents = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    val uninstallEvents: SharedFlow<Unit> = _uninstallEvents.asSharedFlow()
+
+    fun notifyUninstallCompleted() {
+        _uninstallEvents.tryEmit(Unit)
+    }
 }

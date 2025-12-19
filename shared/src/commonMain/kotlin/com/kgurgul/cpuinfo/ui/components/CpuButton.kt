@@ -42,12 +42,13 @@ fun FilledButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    colors: ButtonColors = ButtonDefaults.buttonColors(
-        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-        contentColor = MaterialTheme.colorScheme.onSurface,
-        disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-    ),
+    colors: ButtonColors =
+        ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        ),
     elevation: ButtonElevation? = ButtonDefaults.buttonElevation(),
     iconResource: DrawableResource? = null,
     iconContentDescription: String? = null,
@@ -82,12 +83,13 @@ fun FilledButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    colors: ButtonColors = ButtonDefaults.buttonColors(
-        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-        contentColor = MaterialTheme.colorScheme.onSurface,
-        disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-    ),
+    colors: ButtonColors =
+        ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        ),
     elevation: ButtonElevation? = ButtonDefaults.buttonElevation(),
     content: @Composable RowScope.() -> Unit,
 ) {

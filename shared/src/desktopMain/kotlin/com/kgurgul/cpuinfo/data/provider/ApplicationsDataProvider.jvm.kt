@@ -76,13 +76,14 @@ actual class ApplicationsDataProvider actual constructor() :
         val installDir = File(installLocation)
         if (!installDir.exists()) return null
 
-        val uninstallerNames = listOf(
-            "uninstall.exe",
-            "unins000.exe",
-            "uninst.exe",
-            "uninstaller.exe",
-            "Uninstall.exe",
-        )
+        val uninstallerNames =
+            listOf(
+                "uninstall.exe",
+                "unins000.exe",
+                "uninst.exe",
+                "uninstaller.exe",
+                "Uninstall.exe",
+            )
 
         for (name in uninstallerNames) {
             val uninstaller = File(installDir, name)
@@ -92,11 +93,12 @@ actual class ApplicationsDataProvider actual constructor() :
         }
 
         // Look for any executable that looks like an uninstaller
-        installDir.listFiles { file ->
-            file.extension == "exe" && isUninstallerExecutable(file)
-        }?.firstOrNull()?.let {
-            return it.absolutePath
-        }
+        installDir
+            .listFiles { file -> file.extension == "exe" && isUninstallerExecutable(file) }
+            ?.firstOrNull()
+            ?.let {
+                return it.absolutePath
+            }
 
         return null
     }

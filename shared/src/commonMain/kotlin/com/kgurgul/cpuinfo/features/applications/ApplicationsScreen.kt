@@ -49,7 +49,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -545,7 +544,11 @@ private fun UninstallConfirmationDialog(
             title = { Text(text = stringResource(Res.string.apps_uninstall_confirm_title)) },
             text = {
                 Text(
-                    text = stringResource(Res.string.apps_uninstall_confirm_message, appToUninstall.name),
+                    text =
+                        stringResource(
+                            Res.string.apps_uninstall_confirm_message,
+                            appToUninstall.name,
+                        ),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             },
@@ -553,12 +556,13 @@ private fun UninstallConfirmationDialog(
                 FilledButton(
                     text = stringResource(Res.string.apps_uninstall),
                     onClick = { onConfirm(appToUninstall) },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                        disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                        disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    ),
+                    colors =
+                        ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                            disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        ),
                     elevation = ButtonDefaults.elevatedButtonElevation(),
                 )
             },
