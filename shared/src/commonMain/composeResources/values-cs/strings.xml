@@ -42,6 +42,7 @@
     <string name="app_open">Nelze otevřít tuto aplikaci</string>
     <string name="cpu_open">Neotevírej mě dvakrát :-)</string>
     <string name="cpu_uninstall">Tohle nejde :-(</string>
+    <string name="app_uninstall_error">Nepodařilo se odinstalovat aplikaci</string>
     <string name="native_libs">Nativní knihovny</string>
     <string name="apps_show_system_apps">Zobrazit systémové aplikace</string>
     <string name="apps_sort_order">Řazení</string>

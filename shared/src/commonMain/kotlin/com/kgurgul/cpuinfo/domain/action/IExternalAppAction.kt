@@ -23,7 +23,7 @@ interface IExternalAppAction {
 
     fun uninstall(packageName: String): Result<Unit>
 
-    fun uninstallWithPath(uninstallerPath: String): Result<Unit>
+    suspend fun uninstallWithPath(uninstallerPath: String): Result<Unit>
 
     fun searchOnWeb(phrase: String): Result<Unit>
 }

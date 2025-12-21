@@ -49,7 +49,7 @@ class FakeExternalAppAction : IExternalAppAction {
         return Result.success(Unit)
     }
 
-    override fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
+    override suspend fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
         isUninstallWithPathCalled = true
         return Result.success(Unit)
     }

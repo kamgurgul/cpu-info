@@ -15,10 +15,8 @@
  */
 package com.kgurgul.cpuinfo.domain.action
 
-import com.kgurgul.cpuinfo.features.applications.JvmUninstallNotifier
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.kgurgul.cpuinfo.utils.IDispatchersProvider
+import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
@@ -26,7 +24,7 @@ import oshi.SystemInfo
 actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinComponent {
 
     private val systemInfo: SystemInfo by inject()
-    private val scope = CoroutineScope(Dispatchers.IO)
+    private val dispatchersProvider: IDispatchersProvider by inject()
 
     actual override fun launch(packageName: String): Result<Unit> {
         return Result.success(Unit)
@@ -40,20 +38,22 @@ actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinCo
         return Result.success(Unit)
     }
 
-    actual override fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
-        return runCatching {
-            val osName = systemInfo.operatingSystem.family.lowercase()
-            when {
-                osName.contains("windows") -> {
-                    executeWindowsUninstaller(uninstallerPath)
-                }
+    actual override suspend fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
+        return withContext(dispatchersProvider.io) {
+            runCatching {
+                val osName = systemInfo.operatingSystem.family.lowercase()
+                when {
+                    osName.contains("windows") -> {
+                        executeWindowsUninstaller(uninstallerPath)
+                    }
 
-                osName.contains("mac") || osName.contains("darwin") -> {
-                    executeMacUninstaller(uninstallerPath)
-                }
+                    osName.contains("mac") || osName.contains("darwin") -> {
+                        executeMacUninstaller(uninstallerPath)
+                    }
 
-                else -> {
-                    // Not supported for other platforms
+                    else -> {
+                        // Not supported for other platforms
+                    }
                 }
             }
         }
@@ -70,9 +70,9 @@ actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinCo
                 ProcessBuilder("cmd", "/c", "\"$uninstallerPath\"")
             }
         val process = processBuilder.start()
-        scope.launch {
-            process.waitFor()
-            JvmUninstallNotifier.notifyUninstallCompleted()
+        val exitCode = process.waitFor()
+        if (exitCode != 0) {
+            throw Exception("Failed to uninstall application")
         }
     }
 
@@ -86,9 +86,9 @@ actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinCo
         """
                 .trimIndent()
         val process = ProcessBuilder("osascript", "-e", script).start()
-        scope.launch {
-            process.waitFor()
-            JvmUninstallNotifier.notifyUninstallCompleted()
+        val exitCode = process.waitFor()
+        if (exitCode != 0) {
+            throw Exception("Failed to uninstall application")
         }
     }
 

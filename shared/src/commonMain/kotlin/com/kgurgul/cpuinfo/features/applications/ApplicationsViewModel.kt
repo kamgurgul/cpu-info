@@ -29,6 +29,7 @@ import com.kgurgul.cpuinfo.domain.result.FilterApplicationsInteractor
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.app_open
+import com.kgurgul.cpuinfo.shared.app_uninstall_error
 import com.kgurgul.cpuinfo.shared.cpu_open
 import com.kgurgul.cpuinfo.shared.cpu_uninstall
 import com.kgurgul.cpuinfo.utils.wrappers.Result
@@ -150,7 +151,16 @@ class ApplicationsViewModel(
     }
 
     fun onAppUninstallWithPathClicked(uninstallerPath: String) {
-        externalAppAction.uninstallWithPath(uninstallerPath)
+        viewModelScope.launch {
+            externalAppAction
+                .uninstallWithPath(uninstallerPath)
+                .onSuccess { onRefreshApplications() }
+                .onFailure {
+                    localDataFlow.update {
+                        it.copy(snackbarMessage = Res.string.app_uninstall_error)
+                    }
+                }
+        }
     }
 
     fun onNativeLibsClicked(libs: List<String>) {

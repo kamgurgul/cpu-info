@@ -59,7 +59,7 @@ actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinCo
         return runCatching { context.startActivity(uninstallIntent) }
     }
 
-    actual override fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
+    actual override suspend fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
         // Android doesn't use path-based uninstallation, use standard uninstall instead
         return Result.success(Unit)
     }

@@ -16,10 +16,5 @@
 package com.kgurgul.cpuinfo.features.applications
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import kotlinx.coroutines.flow.collectLatest
 
-@Composable
-actual fun registerUninstallListener(onRefresh: () -> Unit) {
-    LaunchedEffect(Unit) { JvmUninstallNotifier.uninstallEvents.collectLatest { onRefresh() } }
-}
+@Composable actual fun registerUninstallListener(onRefresh: () -> Unit) {}

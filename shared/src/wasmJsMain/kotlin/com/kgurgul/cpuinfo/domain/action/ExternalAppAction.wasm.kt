@@ -31,7 +31,7 @@ actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinCo
         return Result.success(Unit)
     }
 
-    actual override fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
+    actual override suspend fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
         return Result.success(Unit)
     }
 
