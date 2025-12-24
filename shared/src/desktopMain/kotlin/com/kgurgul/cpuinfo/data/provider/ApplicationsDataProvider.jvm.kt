@@ -65,13 +65,6 @@ actual class ApplicationsDataProvider actual constructor() :
     }
 
     private fun extractWindowsUninstallerPath(additionalInfo: Map<String, String>): String? {
-        // Windows stores uninstall string in registry, OSHI provides it in additionalInfo
-        val uninstallString = additionalInfo["uninstallString"]
-        if (!uninstallString.isNullOrEmpty()) {
-            return uninstallString
-        }
-
-        // Fallback: look for uninstaller in install location
         val installLocation = additionalInfo["installLocation"] ?: return null
         val installDir = File(installLocation)
         if (!installDir.exists()) return null
