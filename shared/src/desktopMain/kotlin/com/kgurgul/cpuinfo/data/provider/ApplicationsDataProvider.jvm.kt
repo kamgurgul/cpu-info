@@ -16,6 +16,8 @@
 package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import com.sun.jna.platform.win32.Advapi32Util
+import com.sun.jna.platform.win32.WinReg
 import java.io.File
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -26,9 +28,24 @@ actual class ApplicationsDataProvider actual constructor() :
 
     private val systemInfo: SystemInfo by inject()
 
+    private data class WindowsUninstallInfo(
+        val displayName: String,
+        val uninstallString: String?,
+        val quietUninstallString: String?,
+        val installLocation: String?,
+    )
+
+    // Cache for Windows registry uninstall info to avoid repeated lookups
+    private var windowsUninstallCache: Map<String, WindowsUninstallInfo>? = null
+    private var windowsUninstallCacheByLocation: Map<String, WindowsUninstallInfo>? = null
+
     actual override fun getInstalledApplications(
         withSystemApps: Boolean
     ): List<ExtendedApplicationData> {
+        // Clear cache to get fresh registry data on refresh
+        windowsUninstallCache = null
+        windowsUninstallCacheByLocation = null
+
         return systemInfo.operatingSystem.installedApplications
             .distinctBy { it.name }
             .map {
@@ -39,17 +56,20 @@ actual class ApplicationsDataProvider actual constructor() :
                     nativeLibs = emptyList(),
                     hasNativeLibs = false,
                     appIconUri = extractIconPath(it.name, it.additionalInfo),
-                    uninstallerPath = extractUninstallerPath(it.additionalInfo),
+                    uninstallerPath = extractUninstallerPath(it.name, it.additionalInfo),
                 )
             }
     }
 
-    private fun extractUninstallerPath(additionalInfo: Map<String, String>): String? {
+    private fun extractUninstallerPath(
+        appName: String,
+        additionalInfo: Map<String, String>,
+    ): String? {
         val osName = systemInfo.operatingSystem.family.lowercase()
 
         return when {
             osName.contains("windows") -> {
-                extractWindowsUninstallerPath(additionalInfo)
+                extractWindowsUninstallerPath(appName, additionalInfo)
             }
 
             osName.contains("mac") || osName.contains("darwin") -> {
@@ -64,7 +84,17 @@ actual class ApplicationsDataProvider actual constructor() :
         }
     }
 
-    private fun extractWindowsUninstallerPath(additionalInfo: Map<String, String>): String? {
+    private fun extractWindowsUninstallerPath(
+        appName: String,
+        additionalInfo: Map<String, String>,
+    ): String? {
+        // First try to get uninstaller from Windows registry (same source as Control Panel)
+        val registryUninstaller = findUninstallerInRegistry(appName, additionalInfo)
+        if (registryUninstaller != null) {
+            return registryUninstaller
+        }
+
+        // Fallback to file-based search if registry lookup fails
         val installLocation = additionalInfo["installLocation"] ?: return null
         val installDir = File(installLocation)
         if (!installDir.exists()) return null
@@ -94,6 +124,150 @@ actual class ApplicationsDataProvider actual constructor() :
             }
 
         return null
+    }
+
+    /**
+     * Reads uninstaller information directly from Windows registry.
+     * This is the same source that Control Panel's "Programs and Features" uses.
+     */
+    private fun findUninstallerInRegistry(
+        appName: String,
+        additionalInfo: Map<String, String>,
+    ): String? {
+        // Build cache if not already built
+        if (windowsUninstallCache == null) {
+            buildWindowsUninstallCache()
+        }
+
+        val cache = windowsUninstallCache ?: return null
+        val cacheByLocation = windowsUninstallCacheByLocation ?: emptyMap()
+
+        // First try exact name match (case-insensitive)
+        val normalizedAppName = appName.lowercase()
+        val byName = cache[normalizedAppName]
+        if (byName != null) {
+            val uninstallString = byName.quietUninstallString ?: byName.uninstallString
+            if (!uninstallString.isNullOrBlank()) {
+                return uninstallString
+            }
+        }
+
+        // Try matching by install location
+        val installLocation = additionalInfo["installLocation"]
+            ?.lowercase()
+            ?.trimEnd('\\', '/')
+        if (installLocation != null) {
+            val byLocation = cacheByLocation[installLocation]
+            if (byLocation != null) {
+                val uninstallString = byLocation.quietUninstallString ?: byLocation.uninstallString
+                if (!uninstallString.isNullOrBlank()) {
+                    return uninstallString
+                }
+            }
+        }
+
+        // Try partial name matching for cases where registry name differs slightly
+        for ((registryName, info) in cache) {
+            if (normalizedAppName.contains(registryName) || registryName.contains(normalizedAppName)) {
+                val uninstallString = info.quietUninstallString ?: info.uninstallString
+                if (!uninstallString.isNullOrBlank()) {
+                    return uninstallString
+                }
+            }
+        }
+
+        return null
+    }
+
+    /**
+     * Builds a cache of all uninstall info from Windows registry.
+     * This is done once and reused for all apps.
+     */
+    private fun buildWindowsUninstallCache() {
+        val byName = mutableMapOf<String, WindowsUninstallInfo>()
+        val byLocation = mutableMapOf<String, WindowsUninstallInfo>()
+
+        // Registry paths where uninstall info is stored (same as Control Panel uses)
+        val registryPaths = listOf(
+            WinReg.HKEY_LOCAL_MACHINE to "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+            WinReg.HKEY_LOCAL_MACHINE to "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+            WinReg.HKEY_CURRENT_USER to "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+        )
+
+        for ((hive, path) in registryPaths) {
+            try {
+                if (!Advapi32Util.registryKeyExists(hive, path)) continue
+
+                val subKeys = Advapi32Util.registryGetKeys(hive, path)
+                for (subKey in subKeys) {
+                    val fullPath = "$path\\$subKey"
+                    try {
+                        val info = readUninstallRegistryEntry(hive, fullPath) ?: continue
+
+                        // Index by normalized display name
+                        val normalizedName = info.displayName.lowercase()
+                        if (!byName.containsKey(normalizedName)) {
+                            byName[normalizedName] = info
+                        }
+
+                        // Index by normalized install location
+                        val location = info.installLocation
+                            ?.lowercase()
+                            ?.trimEnd('\\', '/')
+                        if (location != null && !byLocation.containsKey(location)) {
+                            byLocation[location] = info
+                        }
+                    } catch (_: Exception) {
+                        // Skip entries we can't read
+                    }
+                }
+            } catch (_: Exception) {
+                // Skip registry paths we can't access
+            }
+        }
+
+        windowsUninstallCache = byName
+        windowsUninstallCacheByLocation = byLocation
+    }
+
+    private fun readUninstallRegistryEntry(
+        hive: WinReg.HKEY,
+        path: String,
+    ): WindowsUninstallInfo? {
+        return try {
+            val displayName = try {
+                Advapi32Util.registryGetStringValue(hive, path, "DisplayName")
+            } catch (_: Exception) {
+                return null // DisplayName is required
+            }
+
+            val uninstallString = try {
+                Advapi32Util.registryGetStringValue(hive, path, "UninstallString")
+            } catch (_: Exception) {
+                null
+            }
+
+            val quietUninstallString = try {
+                Advapi32Util.registryGetStringValue(hive, path, "QuietUninstallString")
+            } catch (_: Exception) {
+                null
+            }
+
+            val installLocation = try {
+                Advapi32Util.registryGetStringValue(hive, path, "InstallLocation")
+            } catch (_: Exception) {
+                null
+            }
+
+            WindowsUninstallInfo(
+                displayName = displayName,
+                uninstallString = uninstallString,
+                quietUninstallString = quietUninstallString,
+                installLocation = installLocation,
+            )
+        } catch (_: Exception) {
+            null
+        }
     }
 
     private fun extractMacUninstallerPath(additionalInfo: Map<String, String>): String? {
