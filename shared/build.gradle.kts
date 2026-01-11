@@ -1,13 +1,11 @@
 import com.kgurgul.AndroidVersions
 import com.kgurgul.KoverConfig
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
@@ -20,9 +18,22 @@ plugins {
 version = "1.0"
 
 kotlin {
-    androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
+    jvmToolchain(17)
+
+    androidLibrary {
+        namespace = "com.kgurgul.cpuinfo.shared"
+        compileSdk = AndroidVersions.COMPILE_SDK
+        minSdk = AndroidVersions.MIN_SDK
+
+        androidResources {
+            enable = true
+        }
+
+        withHostTestBuilder {}.configure {}
+
+        withDeviceTestBuilder {
+            sourceSetTreeName = "test"
+        }
     }
 
     val iosTargets = listOf(iosX64(), iosArm64())
@@ -70,16 +81,7 @@ kotlin {
         }
     }
 
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    applyDefaultHierarchyTemplate {
-        common {
-            group("mobile") {
-                withIos()
-                withAndroidTarget()
-                withJvm()
-            }
-        }
-    }
+    applyDefaultHierarchyTemplate()
 
     sourceSets {
         all {
@@ -117,19 +119,21 @@ kotlin {
             }
         }
 
-        val mobileMain by getting {
+        val mobileMain by creating {
+            dependsOn(commonMain.get())
             dependencies {
                 implementation(libs.androidx.datastore.preferences)
             }
         }
 
         androidMain {
+            dependsOn(mobileMain)
             dependencies {
+                implementation(project(":native-android"))
                 implementation(compose.preview)
                 implementation(compose.uiTooling)
                 api(libs.androidx.activity.compose)
                 implementation(libs.androidx.core)
-                implementation(libs.androidx.datastore.preferences)
                 api(libs.androidx.core.splashscreen)
                 api(libs.androidx.tv)
                 api(libs.koin.android)
@@ -138,15 +142,13 @@ kotlin {
         }
 
         iosMain {
-            dependencies {
-                implementation(libs.androidx.datastore.preferences)
-            }
+            dependsOn(mobileMain)
         }
 
         val desktopMain by getting {
+            dependsOn(mobileMain)
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation(libs.androidx.datastore.preferences)
                 implementation(libs.imageio.icns)
                 implementation(libs.jna)
                 implementation(libs.jna.platform)
@@ -158,7 +160,7 @@ kotlin {
         val wasmJsMain by getting {
             dependencies {
                 implementation(libs.kotlinx.browser)
-                implementation(npm("cross-spawn", "7.0.5"))
+                implementation(npm("cross-spawn", "7.0.6"))
                 implementation(npm("path-to-regexp", "0.1.12"))
             }
         }
@@ -170,12 +172,16 @@ kotlin {
 
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.turbine)
-
-            @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
         }
 
-        val androidUnitTest by getting {
+        val desktopTest by getting {
+            dependencies {
+                @OptIn(ExperimentalComposeLibrary::class)
+                implementation(compose.uiTest)
+            }
+        }
+
+        getByName("androidHostTest") {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
@@ -207,54 +213,9 @@ composeCompiler {
     metricsDestination = layout.buildDirectory.dir("compose_compiler")
 }
 
-android {
-    compileSdk = AndroidVersions.COMPILE_SDK
-    namespace = "com.kgurgul.cpuinfo.shared"
-
-    defaultConfig {
-        minSdk = AndroidVersions.MIN_SDK
-        externalNativeBuild {
-            cmake {
-                arguments += listOf("-DANDROID_STL=c++_static")
-            }
-        }
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    ndkVersion = AndroidVersions.NDK_VERSION
-    externalNativeBuild {
-        cmake {
-            path("src/androidMain/cpp/CMakeLists.txt")
-        }
-    }
-    packaging {
-        jniLibs {
-            useLegacyPackaging = false
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlin {
-        jvmToolchain(17)
-    }
-    buildFeatures {
-        compose = true
-    }
-    testOptions {
-        unitTests {
-            isReturnDefaultValues = true
-            isIncludeAndroidResources = true
-            all {
-                it.exclude("**/screen/**")
-            }
-        }
-    }
-}
-
 kover {
     reports {
-        variant("debug") {
+        total {
             filters {
                 includes {
                     packages(KoverConfig.includedPackages)

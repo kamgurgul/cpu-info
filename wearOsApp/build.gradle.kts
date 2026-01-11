@@ -2,21 +2,14 @@ import com.kgurgul.AndroidSigningConfig
 import com.kgurgul.AndroidVersions
 
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     id("kotlin-parcelize")
 }
 
 kotlin {
-    androidTarget()
-    sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(project(":shared"))
-            }
-        }
-    }
+    jvmToolchain(17)
 }
 
 android {
@@ -57,7 +50,7 @@ android {
         release {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         debug {
             signingConfig = signingConfigs.getByName("debug")
@@ -98,6 +91,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":shared"))
     implementation(libs.androidx.wear.foundation)
     implementation(libs.androidx.wear.material)
     implementation(libs.androidx.wear.navigation)

@@ -11,6 +11,11 @@ kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         outputModuleName = "cpuinfoApp"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "cpuinfoApp.js"
+            }
+        }
         binaries.executable()
     }
 

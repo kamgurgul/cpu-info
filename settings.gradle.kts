@@ -19,6 +19,7 @@ dependencyResolutionManagement {
 include(":androidApp")
 include(":androidApp:baselineprofile")
 include(":desktopApp")
+include(":native-android")
 include(":shared")
 include(":wearOsApp")
 include(":webApp")

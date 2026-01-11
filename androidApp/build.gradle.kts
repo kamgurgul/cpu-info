@@ -6,8 +6,8 @@ import com.kgurgul.AndroidSigningConfig
 import com.kgurgul.AndroidVersions
 
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.licenses)
@@ -16,14 +16,7 @@ plugins {
 }
 
 kotlin {
-    androidTarget()
-    sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(project(":shared"))
-            }
-        }
-    }
+    jvmToolchain(17)
 }
 
 android {
@@ -123,6 +116,7 @@ licenseReport {
 }
 
 dependencies {
+    implementation(project(":shared"))
     implementation(libs.androidx.profileinstaller)
 
     androidTestImplementation(libs.androidx.test.runner)

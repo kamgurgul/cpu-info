@@ -5,6 +5,7 @@ local.properties
 build/
 captures/
 .cxx/
+.kotlin/
 
 .idea/
 !/.idea/codeStyles
