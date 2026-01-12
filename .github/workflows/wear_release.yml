@@ -22,7 +22,7 @@ jobs:
       - name: Unit tests
         run: ./gradlew allTests
       - name: Generate code coverage
-        run: './gradlew shared:koverXmlReportDebug'
+        run: './gradlew shared:koverXmlReport'
       - name: Upload test coverage
         uses: actions/upload-artifact@v6
         with:
