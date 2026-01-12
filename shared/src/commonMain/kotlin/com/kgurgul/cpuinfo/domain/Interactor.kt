@@ -16,13 +16,11 @@
 package com.kgurgul.cpuinfo.domain
 
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onSubscription
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 interface Interactor {
@@ -64,8 +62,3 @@ abstract class ResultInteractor<in P, R> : Interactor {
 fun <T> ImmutableInteractor<Unit, T>.observe() = observe(Unit)
 
 operator fun <T> MutableInteractor<Unit, T>.invoke() = invoke(Unit)
-
-fun <I : MutableInteractor<P, T>, P, T> CoroutineScope.launchObserve(
-    interactor: I,
-    f: suspend (Flow<T>) -> Unit,
-) = launch(interactor.dispatcher) { f(interactor.observe()) }
