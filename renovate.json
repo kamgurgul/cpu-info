@@ -2,20 +2,5 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
-  ],
-  "packageRules": [
-    {
-        "groupName": "Kotlin and KSP",
-      "groupSlug": "kotlin",
-      "matchPackageNames": [
-        "com.google.devtools.ksp",
-          "org.jetbrains.kotlin"
-      ]
-    },
-    {
-      "description": "Disable updates to SNAPSHOTS",
-      "matchDatasources": ["maven"],
-      "allowedVersions": "!/SNAPSHOT$/"
-    }
   ]
 }
