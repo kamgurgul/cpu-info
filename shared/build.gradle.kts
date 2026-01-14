@@ -1,6 +1,5 @@
 import com.kgurgul.AndroidVersions
 import com.kgurgul.KoverConfig
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
@@ -97,19 +96,19 @@ kotlin {
 
         commonMain {
             dependencies {
-                api(compose.components.resources)
-                implementation(compose.components.uiToolingPreview)
-                api(compose.foundation)
-                implementation(compose.materialIconsExtended)
-                api(compose.material3)
-                implementation(compose.material3AdaptiveNavigationSuite)
-                implementation(compose.runtime)
-                implementation(compose.ui)
-                implementation(libs.androidx.lifecycle.viewmodel.compose)
-                implementation(libs.androidx.lifecycle.runtime.compose)
-                api(libs.androidx.navigation.compose)
                 api(libs.coil)
-                implementation(libs.compose.adaptive)
+                implementation(libs.jetbrains.compose.adaptive)
+                implementation(libs.jetbrains.compose.adaptive.navigationSuit)
+                api(libs.jetbrains.compose.componentsResources)
+                api(libs.jetbrains.compose.foundation)
+                implementation(libs.jetbrains.compose.lifecycle.viewmodel)
+                implementation(libs.jetbrains.compose.lifecycle.runtime)
+                implementation(libs.jetbrains.compose.material.iconsExtended)
+                api(libs.jetbrains.compose.material3)
+                api(libs.jetbrains.compose.navigation)
+                implementation(libs.jetbrains.compose.runtime)
+                implementation(libs.jetbrains.compose.ui)
+                implementation(libs.jetbrains.compose.uiToolingPreview)
                 implementation(libs.kermit.kermit)
                 api(libs.koin.compose.viewodel)
                 implementation(libs.koin.core)
@@ -130,8 +129,6 @@ kotlin {
             dependsOn(mobileMain)
             dependencies {
                 implementation(project(":native-android"))
-                implementation(compose.preview)
-                implementation(compose.uiTooling)
                 api(libs.androidx.activity.compose)
                 implementation(libs.androidx.core)
                 api(libs.androidx.core.splashscreen)
@@ -176,8 +173,7 @@ kotlin {
 
         val desktopTest by getting {
             dependencies {
-                @OptIn(ExperimentalComposeLibrary::class)
-                implementation(compose.uiTest)
+                implementation(libs.jetbrains.compose.uiTest)
             }
         }
 
@@ -211,6 +207,10 @@ compose.resources {
 composeCompiler {
     reportsDestination = layout.buildDirectory.dir("compose_compiler")
     metricsDestination = layout.buildDirectory.dir("compose_compiler")
+}
+
+dependencies {
+    "androidRuntimeClasspath"(libs.jetbrains.compose.uiTooling)
 }
 
 kover {

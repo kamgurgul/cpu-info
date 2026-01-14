@@ -29,12 +29,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.ic_thrash
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FilledButton(
