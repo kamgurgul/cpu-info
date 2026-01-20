@@ -24,7 +24,7 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Pkg, TargetFormat.Msi, TargetFormat.Deb)
 
             packageName = "CPU-Info"
-            packageVersion = "1.8.1"
+            packageVersion = "1.9.0"
 
             modules("jdk.unsupported")
             modules("jdk.unsupported.desktop")
