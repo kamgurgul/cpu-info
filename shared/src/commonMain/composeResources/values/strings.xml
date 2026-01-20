@@ -225,6 +225,7 @@
 
     <!--Temp-->
     <string name="no_temp_data">Sorry I can't find temperature sensors :-(</string>
+    <string name="no_temp_data_admin_required">Reading temperature sensors requires administrator privileges. Please run the application as administrator to access temperature data.</string>
     <string name="celsius" translatable="false">&#176;C</string>
     <string name="fahrenheit" translatable="false">&#176;F</string>
     <string name="kelvin" translatable="false">K</string>

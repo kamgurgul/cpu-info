@@ -56,6 +56,7 @@ import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.features.temperature.TemperatureViewModel
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.no_temp_data
+import com.kgurgul.cpuinfo.shared.no_temp_data_admin_required
 import com.kgurgul.cpuinfo.tv.ui.components.TvListItem
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -99,7 +100,10 @@ fun TvTemperatureScreen(uiState: TemperatureViewModel.UiState) {
         paddingValues ->
         val paddingModifier = Modifier.padding(paddingValues)
         if (uiState.temperatureItems.isEmpty()) {
-            TvEmptyTemperatureList(modifier = paddingModifier)
+            TvEmptyTemperatureList(
+                isAdminRequired = uiState.isAdminRequired,
+                modifier = paddingModifier,
+            )
         } else {
             TvTemperatureList(
                 temperatureItems = uiState.temperatureItems,
@@ -161,13 +165,20 @@ private fun TvTemperatureItem(item: TemperatureItem, temperatureFormatter: Tempe
 }
 
 @Composable
-private fun TvEmptyTemperatureList(modifier: Modifier = Modifier) {
+private fun TvEmptyTemperatureList(isAdminRequired: Boolean, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize().padding(spacingMedium).then(modifier),
     ) {
         Text(
-            text = stringResource(Res.string.no_temp_data),
+            text =
+                stringResource(
+                    if (isAdminRequired) {
+                        Res.string.no_temp_data_admin_required
+                    } else {
+                        Res.string.no_temp_data
+                    }
+                ),
             color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.bodyLarge,
         )

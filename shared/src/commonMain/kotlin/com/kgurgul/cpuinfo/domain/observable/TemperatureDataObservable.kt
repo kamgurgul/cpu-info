@@ -27,7 +27,9 @@ import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 
@@ -38,6 +40,9 @@ class TemperatureDataObservable(
 
     override val dispatcher: CoroutineDispatcher
         get() = dispatchersProvider.io
+
+    fun isAdminRequiredFlow(): Flow<Boolean> =
+        flow { emit(temperatureProvider.isAdminRequired()) }.flowOn(dispatchersProvider.io)
 
     private val mainFlow = flow {
         val cpuTempPath = temperatureProvider.findCpuTemperatureLocation()

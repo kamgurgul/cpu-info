@@ -34,4 +34,8 @@ actual class TemperatureProvider actual constructor() : ITemperatureProvider {
     actual override fun getCpuTemperature(path: String): Float? {
         return null
     }
+
+    actual override suspend fun isAdminRequired(): Boolean {
+        return false
+    }
 }

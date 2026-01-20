@@ -27,4 +27,6 @@ interface ITemperatureProvider {
     fun findCpuTemperatureLocation(): String?
 
     fun getCpuTemperature(path: String): Float?
+
+    suspend fun isAdminRequired(): Boolean = false
 }

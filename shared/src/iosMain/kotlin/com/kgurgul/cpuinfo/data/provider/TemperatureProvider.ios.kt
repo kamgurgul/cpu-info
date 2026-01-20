@@ -74,6 +74,10 @@ actual class TemperatureProvider actual constructor() : ITemperatureProvider {
         return null
     }
 
+    actual override suspend fun isAdminRequired(): Boolean {
+        return false
+    }
+
     companion object {
         private const val REFRESH_DELAY = 5000L
         private const val ID_THERMAL_STATE = 1000

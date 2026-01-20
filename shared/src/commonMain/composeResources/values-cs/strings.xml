@@ -175,6 +175,7 @@
     <string name="pref_theme_choose">Vybrat motiv</string>
 
     <string name="no_temp_data">Je mi líto, nemohu najít žádné teplotní senzory :-(</string>
+    <string name="no_temp_data_admin_required">Čtení teplotních senzorů vyžaduje oprávnění správce. Spusťte aplikaci jako správce pro přístup k teplotním údajům.</string>
     <string name="temp_thermal_state">Tepelný stav: %1$s</string>
     <string name="temp_thermal_state_nominal">Nominální</string>
     <string name="temp_thermal_state_fair">Dobrý</string>

@@ -46,6 +46,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -61,6 +62,7 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.ic_battery
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.shared.no_temp_data
+import com.kgurgul.cpuinfo.shared.no_temp_data_admin_required
 import com.kgurgul.cpuinfo.shared.temperature
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
@@ -111,7 +113,10 @@ fun TemperatureScreen(uiState: TemperatureViewModel.UiState) {
     ) { paddingValues ->
         val paddingModifier = Modifier.padding(paddingValues)
         if (uiState.temperatureItems.isEmpty()) {
-            EmptyTemperatureList(modifier = paddingModifier)
+            EmptyTemperatureList(
+                isAdminRequired = uiState.isAdminRequired,
+                modifier = paddingModifier,
+            )
         } else {
             TemperatureList(
                 temperatureItems = uiState.temperatureItems,
@@ -178,15 +183,23 @@ private fun TemperatureItem(item: TemperatureItem, temperatureFormatter: Tempera
 }
 
 @Composable
-private fun EmptyTemperatureList(modifier: Modifier = Modifier) {
+private fun EmptyTemperatureList(isAdminRequired: Boolean, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize().padding(spacingMedium).then(modifier),
     ) {
         Text(
-            text = stringResource(Res.string.no_temp_data),
+            text =
+                stringResource(
+                    if (isAdminRequired) {
+                        Res.string.no_temp_data_admin_required
+                    } else {
+                        Res.string.no_temp_data
+                    }
+                ),
             color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center,
         )
     }
 }

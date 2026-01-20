@@ -149,4 +149,8 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
                 GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE,
             )
     }
+
+    actual override suspend fun isAdminRequired(): Boolean {
+        return false
+    }
 }

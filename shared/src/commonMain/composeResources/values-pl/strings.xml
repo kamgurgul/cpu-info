@@ -184,6 +184,7 @@
 
     <!--Temp-->
     <string name="no_temp_data">Przepraszam, nie mogłem znaleźć sensorów temperatury :-(</string>
+    <string name="no_temp_data_admin_required">Odczyt sensorów temperatury wymaga uprawnień administratora. Uruchom aplikację jako administrator, aby uzyskać dostęp do danych temperatury.</string>
     <string name="temp_thermal_state">Stan termiczny: %1$s</string>
     <string name="temp_thermal_state_nominal">Nominalny</string>
     <string name="temp_thermal_state_fair">Umiarkowany</string>

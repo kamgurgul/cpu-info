@@ -46,6 +46,7 @@ import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.features.temperature.TemperatureViewModel
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.no_temp_data
+import com.kgurgul.cpuinfo.shared.no_temp_data_admin_required
 import com.kgurgul.cpuinfo.shared.temperature
 import com.kgurgul.cpuinfo.wear.ui.components.WearCpuChip
 import kotlinx.coroutines.launch
@@ -84,7 +85,14 @@ fun WearTemperatureScreen(uiState: TemperatureViewModel.UiState) {
                 item {
                     ResponsiveListHeader(contentPadding = itemPadding()) {
                         Text(
-                            text = stringResource(Res.string.no_temp_data),
+                            text =
+                                stringResource(
+                                    if (uiState.isAdminRequired) {
+                                        Res.string.no_temp_data_admin_required
+                                    } else {
+                                        Res.string.no_temp_data
+                                    }
+                                ),
                             color = MaterialTheme.colors.onBackground,
                         )
                     }

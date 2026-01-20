@@ -23,6 +23,7 @@ class FakeTemperatureProvider(
     var batteryTemp: Float? = null,
     var cpuTempLocation: String? = null,
     var cpuTemp: Float?,
+    var adminRequired: Boolean = false,
 ) : ITemperatureProvider {
 
     override fun getBatteryTemperature(): Float? {
@@ -35,5 +36,9 @@ class FakeTemperatureProvider(
 
     override fun getCpuTemperature(path: String): Float? {
         return cpuTemp
+    }
+
+    override suspend fun isAdminRequired(): Boolean {
+        return adminRequired
     }
 }

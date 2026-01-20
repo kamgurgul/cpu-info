@@ -72,6 +72,7 @@ class TemperatureViewModelTest {
                 temperatureFormatter = temperatureFormatter,
                 isLoading = false,
                 temperatureItems = temperatureData.toImmutableList(),
+                isAdminRequired = fakeTemperatureProvider.adminRequired,
             )
 
         viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }

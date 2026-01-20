@@ -24,7 +24,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
 class TemperatureViewModel(
@@ -33,13 +33,15 @@ class TemperatureViewModel(
 ) : ViewModel() {
 
     val uiStateFlow =
-        temperatureDataObservable
-            .observe()
-            .map {
+        combine(
+                temperatureDataObservable.observe(),
+                temperatureDataObservable.isAdminRequiredFlow(),
+            ) { temperatureItems, isAdminRequired ->
                 UiState(
                     temperatureFormatter = temperatureFormatter,
                     isLoading = false,
-                    temperatureItems = it.toImmutableList(),
+                    temperatureItems = temperatureItems.toImmutableList(),
+                    isAdminRequired = isAdminRequired,
                 )
             }
             .stateIn(
@@ -52,5 +54,6 @@ class TemperatureViewModel(
         val temperatureFormatter: TemperatureFormatter,
         val isLoading: Boolean = true,
         val temperatureItems: ImmutableList<TemperatureItem> = persistentListOf(),
+        val isAdminRequired: Boolean = false,
     )
 }
