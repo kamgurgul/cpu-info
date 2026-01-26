@@ -22,7 +22,7 @@ kotlin {
     sourceSets {
         wasmJsMain {
             dependencies {
-                implementation(project(":shared"))
+                implementation(projects.shared)
             }
         }
     }

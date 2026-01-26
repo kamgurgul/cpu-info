@@ -115,7 +115,7 @@ licenseReport {
 }
 
 dependencies {
-    implementation(project(":shared"))
+    implementation(projects.shared)
     implementation(libs.androidx.profileinstaller)
 
     androidTestImplementation(libs.androidx.test.runner)
@@ -129,5 +129,5 @@ dependencies {
 
     androidTestUtil(libs.androidx.test.orchestrator)
 
-    "baselineProfile"(project(":androidApp:baselineprofile"))
+    "baselineProfile"(projects.androidApp.baselineprofile)
 }

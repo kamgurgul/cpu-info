@@ -128,7 +128,7 @@ kotlin {
         androidMain {
             dependsOn(mobileMain)
             dependencies {
-                implementation(project(":native-android"))
+                implementation(projects.nativeAndroid)
                 api(libs.androidx.activity.compose)
                 implementation(libs.androidx.core)
                 api(libs.androidx.core.splashscreen)

@@ -90,7 +90,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":shared"))
+    implementation(projects.shared)
     implementation(libs.androidx.wear.foundation)
     implementation(libs.androidx.wear.material)
     implementation(libs.androidx.wear.navigation)
