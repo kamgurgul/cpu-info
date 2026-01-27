@@ -222,7 +222,7 @@ fun ApplicationsScreen(
         ) {
             ApplicationsList(
                 appList = uiState.applications,
-                hasAppManagement = uiState.hasAppManagement,
+                hasExpandedAppManagement = uiState.hasExpandedAppManagement,
                 onAppClicked = onAppClicked,
                 onAppUninstallClicked = onAppUninstallClicked,
                 onAppUninstallWithPathClicked = onAppUninstallWithPathClicked,
@@ -345,7 +345,7 @@ private fun TopBar(
 @Composable
 private fun ApplicationsList(
     appList: ImmutableList<ExtendedApplicationData>,
-    hasAppManagement: Boolean,
+    hasExpandedAppManagement: Boolean,
     onAppClicked: (packageName: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
     onAppUninstallWithPathClicked: (uninstallerPath: String) -> Unit,
@@ -401,7 +401,7 @@ private fun ApplicationsList(
                             onUninstallClicked = { appToUninstall = item },
                         )
                     },
-                    enabled = hasAppManagement,
+                    enabled = hasExpandedAppManagement,
                     modifier = Modifier.animateItem(),
                 )
                 if (index < appList.lastIndex) {

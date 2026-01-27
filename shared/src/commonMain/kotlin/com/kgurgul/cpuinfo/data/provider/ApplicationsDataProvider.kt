@@ -25,7 +25,7 @@ expect class ApplicationsDataProvider() : IApplicationsDataProvider {
 
     override fun hasSystemAppsFiltering(): Boolean
 
-    override fun hasAppManagementSupported(): Boolean
+    override fun hasExpandedAppManagementSupported(): Boolean
 
     override fun hasManualRefresh(): Boolean
 }

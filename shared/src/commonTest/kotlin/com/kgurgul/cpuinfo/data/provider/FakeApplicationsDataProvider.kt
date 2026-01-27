@@ -37,7 +37,7 @@ class FakeApplicationsDataProvider(
         return hasSystemAppsFiltering
     }
 
-    override fun hasAppManagementSupported(): Boolean {
+    override fun hasExpandedAppManagementSupported(): Boolean {
         return hasAppManagementSupported
     }
 

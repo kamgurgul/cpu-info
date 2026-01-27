@@ -59,7 +59,7 @@ actual class ApplicationsDataProvider actual constructor() :
 
     actual override fun hasSystemAppsFiltering() = true
 
-    actual override fun hasAppManagementSupported() = true
+    actual override fun hasExpandedAppManagementSupported() = true
 
     actual override fun hasManualRefresh() = false
 

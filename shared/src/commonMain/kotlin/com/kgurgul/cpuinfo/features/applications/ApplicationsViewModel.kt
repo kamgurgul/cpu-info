@@ -104,7 +104,8 @@ class ApplicationsViewModel(
                     applications = filteredApplications.toImmutableList(),
                     snackbarMessage = localData.snackbarMessage,
                     hasSystemAppsFiltering = applicationsDataProvider.hasSystemAppsFiltering(),
-                    hasAppManagement = applicationsDataProvider.hasAppManagementSupported(),
+                    hasExpandedAppManagement =
+                        applicationsDataProvider.hasExpandedAppManagementSupported(),
                     hasManualRefresh = applicationsDataProvider.hasManualRefresh(),
                 )
             }
@@ -207,7 +208,7 @@ class ApplicationsViewModel(
         val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
         val snackbarMessage: StringResource? = null,
         val hasSystemAppsFiltering: Boolean = false,
-        val hasAppManagement: Boolean = false,
+        val hasExpandedAppManagement: Boolean = false,
         val hasManualRefresh: Boolean = false,
     )
 }
