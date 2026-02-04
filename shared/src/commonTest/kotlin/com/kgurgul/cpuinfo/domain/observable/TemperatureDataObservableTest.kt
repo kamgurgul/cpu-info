@@ -80,7 +80,7 @@ class TemperatureDataObservableTest {
             )
 
         interactor.observe().test {
-            skipItems(1)
+            skipItems(2)
             assertEquals(expectedData, awaitItem())
         }
     }

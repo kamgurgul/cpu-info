@@ -29,9 +29,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.onStart
 
 class TemperatureDataObservable(
     private val dispatchersProvider: IDispatchersProvider,
@@ -41,8 +41,7 @@ class TemperatureDataObservable(
     override val dispatcher: CoroutineDispatcher
         get() = dispatchersProvider.io
 
-    fun isAdminRequiredFlow(): Flow<Boolean> =
-        flow { emit(temperatureProvider.isAdminRequired()) }.flowOn(dispatchersProvider.io)
+    fun isAdminRequiredFlow(): Flow<Boolean> = flow { emit(temperatureProvider.isAdminRequired()) }
 
     private val mainFlow = flow {
         val cpuTempPath = temperatureProvider.findCpuTemperatureLocation()
@@ -76,15 +75,17 @@ class TemperatureDataObservable(
     private val cachedTemperatures = mutableListOf<TemperatureItem>()
 
     override fun createObservable(params: Unit) =
-        merge(mainFlow, temperatureProvider.sensorsFlow).map { temperatureItem ->
-            cachedTemperatures
-                .apply {
-                    removeAll { it.id == temperatureItem.id }
-                    add(temperatureItem)
-                    sortBy { it.id }
-                }
-                .toList()
-        }
+        merge(mainFlow, temperatureProvider.sensorsFlow)
+            .map { temperatureItem ->
+                cachedTemperatures
+                    .apply {
+                        removeAll { it.id == temperatureItem.id }
+                        add(temperatureItem)
+                        sortBy { it.id }
+                    }
+                    .toList()
+            }
+            .onStart { emit(emptyList()) }
 
     companion object {
         private const val REFRESH_DELAY = 3000L
