@@ -36,11 +36,11 @@ class TemperatureViewModel(
         combine(
                 temperatureDataObservable.observe(),
                 temperatureDataObservable.isAdminRequiredFlow(),
-            ) { temperatureItems, isAdminRequired ->
+            ) { temperatureResult, isAdminRequired ->
                 UiState(
                     temperatureFormatter = temperatureFormatter,
-                    isLoading = false,
-                    temperatureItems = temperatureItems.toImmutableList(),
+                    isLoading = temperatureResult.isLoading,
+                    temperatureItems = temperatureResult.items.toImmutableList(),
                     isAdminRequired = isAdminRequired,
                 )
             }

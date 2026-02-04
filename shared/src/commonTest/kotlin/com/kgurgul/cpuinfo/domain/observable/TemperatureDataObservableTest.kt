@@ -30,20 +30,31 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 
 class TemperatureDataObservableTest {
 
     private val coroutineTestRule = CoroutineTestSuit()
 
-    private val fakeTemperatureProvider =
-        FakeTemperatureProvider(
-            sensorsFlow = emptyFlow(),
-            batteryTemp = 30f,
-            cpuTempLocation = "/sys/class/thermal/thermal_zone0/temp",
-            cpuTemp = 40f,
+    private val batteryItem =
+        TemperatureItem(
+            id = -1,
+            icon = Res.drawable.ic_battery,
+            name = TextResource.Resource(Res.string.battery),
+            temperature = 30f,
         )
+
+    private val cpuItem =
+        TemperatureItem(
+            id = -2,
+            icon = Res.drawable.ic_cpu_temp,
+            name = TextResource.Resource(Res.string.cpu),
+            temperature = 40f,
+        )
+
+    private val fakeTemperatureProvider =
+        FakeTemperatureProvider(sensorsFlow = flowOf(batteryItem, cpuItem))
 
     private val interactor =
         TemperatureDataObservable(
@@ -63,25 +74,16 @@ class TemperatureDataObservableTest {
 
     @Test
     fun getTemperatureDataObservable() = runTest {
-        val expectedData =
-            listOf(
-                TemperatureItem(
-                    id = -2,
-                    icon = Res.drawable.ic_cpu_temp,
-                    name = TextResource.Resource(Res.string.cpu),
-                    temperature = 40f,
-                ),
-                TemperatureItem(
-                    id = -1,
-                    icon = Res.drawable.ic_battery,
-                    name = TextResource.Resource(Res.string.battery),
-                    temperature = 30f,
-                ),
-            )
+        val expectedData = listOf(cpuItem, batteryItem)
 
         interactor.observe().test {
-            skipItems(2)
-            assertEquals(expectedData, awaitItem())
+            assertEquals(TemperatureResult(isLoading = true, items = emptyList()), awaitItem())
+            assertEquals(
+                TemperatureResult(isLoading = false, items = listOf(batteryItem)),
+                awaitItem(),
+            )
+            assertEquals(TemperatureResult(isLoading = false, items = expectedData), awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
     }
 }

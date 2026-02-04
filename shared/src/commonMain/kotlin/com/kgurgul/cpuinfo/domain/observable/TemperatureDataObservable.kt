@@ -18,80 +18,53 @@ package com.kgurgul.cpuinfo.domain.observable
 import com.kgurgul.cpuinfo.data.provider.ITemperatureProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
-import com.kgurgul.cpuinfo.domain.model.TextResource
-import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.battery
-import com.kgurgul.cpuinfo.shared.cpu
-import com.kgurgul.cpuinfo.shared.ic_battery
-import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 
 class TemperatureDataObservable(
     private val dispatchersProvider: IDispatchersProvider,
     private val temperatureProvider: ITemperatureProvider,
-) : ImmutableInteractor<Unit, List<TemperatureItem>>() {
+) : ImmutableInteractor<Unit, TemperatureResult>() {
 
     override val dispatcher: CoroutineDispatcher
         get() = dispatchersProvider.io
 
     fun isAdminRequiredFlow(): Flow<Boolean> = flow { emit(temperatureProvider.isAdminRequired()) }
 
-    private val mainFlow = flow {
-        val cpuTempPath = temperatureProvider.findCpuTemperatureLocation()
-        while (true) {
-            temperatureProvider.getBatteryTemperature()?.let {
-                emit(
-                    TemperatureItem(
-                        id = ID_BATTERY,
-                        icon = Res.drawable.ic_battery,
-                        name = TextResource.Resource(Res.string.battery),
-                        temperature = it,
-                    )
-                )
+    private val cachedTemperatures = mutableListOf<TemperatureItem>()
+
+    override fun createObservable(params: Unit) = channelFlow {
+        send(TemperatureResult(isLoading = true, items = emptyList()))
+
+        var hasReceivedData = false
+
+        val timeoutJob = launch {
+            delay(LOADING_TIMEOUT)
+            if (!hasReceivedData) {
+                send(TemperatureResult(isLoading = false, items = emptyList()))
             }
-            cpuTempPath
-                ?.let { temperatureProvider.getCpuTemperature(it) }
-                ?.let {
-                    emit(
-                        TemperatureItem(
-                            id = ID_CPU,
-                            icon = Res.drawable.ic_cpu_temp,
-                            name = TextResource.Resource(Res.string.cpu),
-                            temperature = it,
-                        )
-                    )
-                }
-            delay(REFRESH_DELAY)
+        }
+
+        temperatureProvider.sensorsFlow.collect { temperatureItem ->
+            hasReceivedData = true
+            timeoutJob.cancel()
+            cachedTemperatures.apply {
+                removeAll { it.id == temperatureItem.id }
+                add(temperatureItem)
+                sortBy { it.id }
+            }
+            send(TemperatureResult(isLoading = false, items = cachedTemperatures.toList()))
         }
     }
 
-    private val cachedTemperatures = mutableListOf<TemperatureItem>()
-
-    override fun createObservable(params: Unit) =
-        merge(mainFlow, temperatureProvider.sensorsFlow)
-            .map { temperatureItem ->
-                cachedTemperatures
-                    .apply {
-                        removeAll { it.id == temperatureItem.id }
-                        add(temperatureItem)
-                        sortBy { it.id }
-                    }
-                    .toList()
-            }
-            .onStart { emit(emptyList()) }
-
     companion object {
-        private const val REFRESH_DELAY = 3000L
-        private const val ID_BATTERY = -1
-        private const val ID_CPU = -2
-        const val GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE = 65538
-        const val GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE = 65539
+        private const val LOADING_TIMEOUT = 5000L
     }
 }
+
+data class TemperatureResult(val isLoading: Boolean, val items: List<TemperatureItem>)

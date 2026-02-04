@@ -23,19 +23,11 @@ actual class TemperatureProvider actual constructor() : ITemperatureProvider {
 
     actual override val sensorsFlow: Flow<TemperatureItem> = emptyFlow()
 
-    actual override fun getBatteryTemperature(): Float? {
-        return null
-    }
+    actual override fun getBatteryTemperature(): Float? = null
 
-    actual override fun findCpuTemperatureLocation(): String? {
-        return ""
-    }
+    actual override fun findCpuTemperatureLocation(): String? = null
 
-    actual override fun getCpuTemperature(path: String): Float? {
-        return null
-    }
+    actual override fun getCpuTemperature(path: String): Float? = null
 
-    actual override suspend fun isAdminRequired(): Boolean {
-        return false
-    }
+    actual override suspend fun isAdminRequired(): Boolean = false
 }

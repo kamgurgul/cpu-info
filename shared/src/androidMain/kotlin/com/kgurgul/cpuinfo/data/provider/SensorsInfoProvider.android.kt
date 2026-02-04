@@ -23,8 +23,6 @@ import android.hardware.TriggerEvent
 import android.hardware.TriggerEventListener
 import com.kgurgul.cpuinfo.domain.model.SensorData
 import com.kgurgul.cpuinfo.domain.model.TextResource
-import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion.GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE
-import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion.GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE
 import com.kgurgul.cpuinfo.utils.round1
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -35,6 +33,11 @@ import org.koin.core.component.inject
 actual class SensorsInfoProvider actual constructor() : KoinComponent {
 
     private val sensorManager: SensorManager by inject()
+
+    companion object {
+        private const val GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE = 65538
+        private const val GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE = 65539
+    }
 
     actual fun getSensorData(): Flow<List<SensorData>> = callbackFlow {
         val sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL)

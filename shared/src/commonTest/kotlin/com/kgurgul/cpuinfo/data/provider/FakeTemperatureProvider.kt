@@ -20,25 +20,14 @@ import kotlinx.coroutines.flow.Flow
 
 class FakeTemperatureProvider(
     override val sensorsFlow: Flow<TemperatureItem>,
-    var batteryTemp: Float? = null,
-    var cpuTempLocation: String? = null,
-    var cpuTemp: Float?,
     var adminRequired: Boolean = false,
 ) : ITemperatureProvider {
 
-    override fun getBatteryTemperature(): Float? {
-        return batteryTemp
-    }
+    override fun getBatteryTemperature(): Float? = null
 
-    override fun findCpuTemperatureLocation(): String? {
-        return cpuTempLocation
-    }
+    override fun findCpuTemperatureLocation(): String? = null
 
-    override fun getCpuTemperature(path: String): Float? {
-        return cpuTemp
-    }
+    override fun getCpuTemperature(path: String): Float? = null
 
-    override suspend fun isAdminRequired(): Boolean {
-        return adminRequired
-    }
+    override suspend fun isAdminRequired(): Boolean = adminRequired
 }

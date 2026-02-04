@@ -35,48 +35,43 @@ import platform.Foundation.thermalState
 actual class TemperatureProvider actual constructor() : ITemperatureProvider {
 
     actual override val sensorsFlow: Flow<TemperatureItem> = flow {
-        val thermalState =
-            when (NSProcessInfo.processInfo.thermalState) {
-                NSProcessInfoThermalState.NSProcessInfoThermalStateNominal ->
-                    Res.string.temp_thermal_state_nominal
+        while (true) {
+            val thermalState =
+                when (NSProcessInfo.processInfo.thermalState) {
+                    NSProcessInfoThermalState.NSProcessInfoThermalStateNominal ->
+                        Res.string.temp_thermal_state_nominal
 
-                NSProcessInfoThermalState.NSProcessInfoThermalStateFair ->
-                    Res.string.temp_thermal_state_fair
+                    NSProcessInfoThermalState.NSProcessInfoThermalStateFair ->
+                        Res.string.temp_thermal_state_fair
 
-                NSProcessInfoThermalState.NSProcessInfoThermalStateSerious ->
-                    Res.string.temp_thermal_state_serious
+                    NSProcessInfoThermalState.NSProcessInfoThermalStateSerious ->
+                        Res.string.temp_thermal_state_serious
 
-                NSProcessInfoThermalState.NSProcessInfoThermalStateCritical ->
-                    Res.string.temp_thermal_state_critical
+                    NSProcessInfoThermalState.NSProcessInfoThermalStateCritical ->
+                        Res.string.temp_thermal_state_critical
 
-                else -> Res.string.unknown
-            }
-        emit(
-            TemperatureItem(
-                id = ID_THERMAL_STATE,
-                icon = Res.drawable.ic_temperature,
-                name = TextResource.Formatted(Res.string.temp_thermal_state, listOf(thermalState)),
-                temperature = Float.NaN,
+                    else -> Res.string.unknown
+                }
+            emit(
+                TemperatureItem(
+                    id = ID_THERMAL_STATE,
+                    icon = Res.drawable.ic_temperature,
+                    name =
+                        TextResource.Formatted(Res.string.temp_thermal_state, listOf(thermalState)),
+                    temperature = Float.NaN,
+                )
             )
-        )
-        delay(REFRESH_DELAY)
+            delay(REFRESH_DELAY)
+        }
     }
 
-    actual override fun getBatteryTemperature(): Float? {
-        return null
-    }
+    actual override fun getBatteryTemperature(): Float? = null
 
-    actual override fun findCpuTemperatureLocation(): String? {
-        return null
-    }
+    actual override fun findCpuTemperatureLocation(): String? = null
 
-    actual override fun getCpuTemperature(path: String): Float? {
-        return null
-    }
+    actual override fun getCpuTemperature(path: String): Float? = null
 
-    actual override suspend fun isAdminRequired(): Boolean {
-        return false
-    }
+    actual override suspend fun isAdminRequired(): Boolean = false
 
     companion object {
         private const val REFRESH_DELAY = 5000L

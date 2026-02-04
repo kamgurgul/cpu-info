@@ -19,6 +19,8 @@ import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_thermostat_24
+import com.kgurgul.cpuinfo.shared.battery
+import com.kgurgul.cpuinfo.shared.ic_battery
 import com.kgurgul.cpuinfo.utils.round1
 import java.io.BufferedReader
 import java.io.File
@@ -37,12 +39,25 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
     private val systemInfo: SystemInfo by inject()
     private val platformInfo = PlatformInfo()
 
-    private val linuxTempReader = LinuxTemperatureReader()
-    private val macOSTempReader = MacOSTemperatureReader()
+    private val linuxTempReader by lazy { LinuxTemperatureReader() }
+    private val macOSTempReader by lazy { MacOSTemperatureReader() }
     private val windowsTempReader by lazy { WindowsTemperatureReader(systemInfo) }
 
     actual override val sensorsFlow: Flow<TemperatureItem> = flow {
         while (true) {
+            // Emit battery temperature if available
+            getBatteryTemperature()?.let {
+                emit(
+                    TemperatureItem(
+                        id = ID_BATTERY,
+                        icon = Res.drawable.ic_battery,
+                        name = TextResource.Resource(Res.string.battery),
+                        temperature = it,
+                    )
+                )
+            }
+
+            // Emit platform-specific sensor temperatures
             val sensors =
                 when {
                     platformInfo.isLinux -> linuxTempReader.readTemperatures()
@@ -62,12 +77,9 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
             ?.toFloat()
     }
 
-    actual override fun findCpuTemperatureLocation(): String? = ""
+    actual override fun findCpuTemperatureLocation(): String? = null
 
-    actual override fun getCpuTemperature(path: String): Float? {
-        val cpuTemp = systemInfo.hardware.sensors.cpuTemperature
-        return if (cpuTemp.isNaN() || cpuTemp == 0.0) null else cpuTemp.toFloat()
-    }
+    actual override fun getCpuTemperature(path: String): Float? = null
 
     actual override suspend fun isAdminRequired(): Boolean {
         return platformInfo.isWindows && !checkIsRunningAsAdmin()
@@ -90,6 +102,7 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
 
     companion object {
         private const val REFRESH_DELAY = 3000L
+        private const val ID_BATTERY = -1
     }
 }
 
@@ -307,33 +320,21 @@ private class MacOSTemperatureReader : BaseTemperatureReader() {
 private class WindowsTemperatureReader(private val systemInfo: SystemInfo) :
     BaseTemperatureReader() {
 
-    private val cpuTempReader = WindowsCpuTemperatureReader()
-    private val diskTempReader = WindowsDiskTemperatureReader()
-
     fun readTemperatures(): List<TemperatureItem> {
         val sensors = mutableListOf<TemperatureItem>()
         var sensorId = SENSOR_ID_START
 
-        // 1. Try direct CPU temperature reading
-        sensorId = cpuTempReader.readCpuTemperatures(sensors, sensorId)
-
-        // 2. Try OSHI hardware sensors
+        // 1. Try OSHI hardware sensors (works with some hardware)
         sensorId = readOshiSensors(sensors, sensorId)
 
-        // 3. Try WMI thermal zones (MSAcpi_ThermalZoneTemperature)
-        sensorId = readWmiThermalZones(sensors, sensorId)
+        // 2. Try disk temperatures (most reliable on Windows)
+        sensorId = readDiskTemperatures(sensors, sensorId)
 
-        // 4. Try performance counter thermal zones
-        sensorId = readPerfCounterThermalZones(sensors, sensorId)
-
-        // 5. Try disk temperatures
-        sensorId = diskTempReader.readDiskTemperatures(sensors, sensorId)
-
-        // 6. Try LibreHardwareMonitor/OpenHardwareMonitor WMI if running
+        // 3. Try LibreHardwareMonitor/OpenHardwareMonitor WMI if running
         sensorId = readHardwareMonitorWmi(sensors, sensorId)
 
-        // 7. Try battery temperature
-        readBatteryTemperature(sensors, sensorId)
+        // 4. Try WMI thermal zones (requires admin)
+        sensorId = readWmiThermalZones(sensors, sensorId)
 
         return sensors.distinctBy { it.name }
     }
@@ -343,9 +344,47 @@ private class WindowsTemperatureReader(private val systemInfo: SystemInfo) :
         try {
             val cpuTemp = systemInfo.hardware.sensors.cpuTemperature
             if (!cpuTemp.isNaN() && cpuTemp > 0 && isTemperatureValid(cpuTemp.toFloat())) {
-                sensors.add(createTemperatureItem(sensorId++, "CPU (OSHI)", cpuTemp.toFloat()))
+                sensors.add(createTemperatureItem(sensorId++, "CPU", cpuTemp.toFloat()))
             }
         } catch (_: Exception) {}
+        return sensorId
+    }
+
+    private fun readDiskTemperatures(sensors: MutableList<TemperatureItem>, startId: Int): Int {
+        var sensorId = startId
+        val existingDiskIds = mutableSetOf<String>()
+
+        // Use a simple, reliable single-line command
+        val command =
+            listOf(
+                "powershell",
+                "-NoProfile",
+                "-Command",
+                "Get-PhysicalDisk | ForEach-Object { \$d=\$_; \$s=\$d|Get-StorageReliabilityCounter -ErrorAction SilentlyContinue; if(\$s -and \$s.Temperature -gt 0){ Write-Output (\$d.DeviceId+'|'+\$d.FriendlyName+'|'+\$d.BusType+'|'+\$s.Temperature) } }",
+            )
+
+        runCommandWithLines(command) { line ->
+            val parts = line.split("|")
+            if (parts.size >= 4) {
+                val deviceId = parts[0].trim()
+                val friendlyName = parts[1].trim()
+                val busType = parts[2].trim()
+                val temp = parts[3].trim().toFloatOrNull()
+
+                if (temp != null && isTemperatureValid(temp) && deviceId !in existingDiskIds) {
+                    existingDiskIds.add(deviceId)
+                    val prefix =
+                        when {
+                            busType.contains("NVMe", ignoreCase = true) -> "NVMe"
+                            busType.contains("SATA", ignoreCase = true) ||
+                                busType.contains("ATA", ignoreCase = true) -> "SATA"
+                            else -> "Disk"
+                        }
+                    val name = "$prefix $deviceId ($friendlyName)"
+                    sensors.add(createTemperatureItem(sensorId++, name, temp))
+                }
+            }
+        }
         return sensorId
     }
 
@@ -354,50 +393,20 @@ private class WindowsTemperatureReader(private val systemInfo: SystemInfo) :
         val command =
             listOf(
                 "powershell",
+                "-NoProfile",
                 "-Command",
-                "Get-WmiObject MSAcpi_ThermalZoneTemperature -Namespace root/wmi 2>\$null | " +
-                    "Select-Object InstanceName, CurrentTemperature | " +
-                    "ForEach-Object { Write-Output (\$_.InstanceName + '|' + \$_.CurrentTemperature) }",
-            )
-        runCommandWithLines(command) { line ->
-            val parts = line.split("|")
-            if (parts.size == 2) {
-                val name =
-                    parts[0].trim().replace("ACPI\\ThermalZone\\", "").replace("_", " ").ifEmpty {
-                        "Thermal Zone"
-                    }
-                parts[1].trim().toDoubleOrNull()?.let { rawTemp ->
-                    val tempCelsius = (rawTemp / 10.0 - 273.15).toFloat()
-                    if (isTemperatureValid(tempCelsius)) {
-                        sensors.add(createTemperatureItem(sensorId++, name, tempCelsius))
-                    }
-                }
-            }
-        }
-        return sensorId
-    }
-
-    private fun readPerfCounterThermalZones(
-        sensors: MutableList<TemperatureItem>,
-        startId: Int,
-    ): Int {
-        var sensorId = startId
-        val command =
-            listOf(
-                "powershell",
-                "-Command",
-                "Get-WmiObject Win32_PerfFormattedData_Counters_ThermalZoneInformation 2>\$null | " +
-                    "Select-Object Name, Temperature | " +
-                    "ForEach-Object { Write-Output (\$_.Name + '|' + \$_.Temperature) }",
+                "Get-CimInstance -Namespace root/wmi -ClassName MSAcpi_ThermalZoneTemperature -ErrorAction SilentlyContinue | ForEach-Object { \$n=\$_.InstanceName -replace 'ACPI\\\\ThermalZone\\\\','' -replace '_',' '; \$t=(\$_.CurrentTemperature/10)-273.15; Write-Output (\$n+'|'+[math]::Round(\$t,1)) }",
             )
         runCommandWithLines(command) { line ->
             val parts = line.split("|")
             if (parts.size == 2) {
                 val name = parts[0].trim().ifEmpty { "Thermal Zone" }
-                parts[1].trim().toDoubleOrNull()?.let { rawTemp ->
-                    val tempCelsius = (rawTemp - 273.15).toFloat()
-                    if (isTemperatureValid(tempCelsius)) {
-                        sensors.add(createTemperatureItem(sensorId++, name, tempCelsius))
+                parts[1].trim().toFloatOrNull()?.let { temp ->
+                    if (
+                        isTemperatureValid(temp) &&
+                            !sensors.any { it.name == TextResource.Text(name) }
+                    ) {
+                        sensors.add(createTemperatureItem(sensorId++, name, temp))
                     }
                 }
             }
@@ -408,294 +417,32 @@ private class WindowsTemperatureReader(private val systemInfo: SystemInfo) :
     private fun readHardwareMonitorWmi(sensors: MutableList<TemperatureItem>, startId: Int): Int {
         var sensorId = startId
 
-        // Try OpenHardwareMonitor namespace
-        val ohmCommand =
-            listOf(
-                "powershell",
-                "-Command",
-                "Get-WmiObject -Namespace root\\OpenHardwareMonitor -Class Sensor 2>\$null | " +
-                    "Where-Object { \$_.SensorType -eq 'Temperature' } | " +
-                    "Select-Object Name, Value | " +
-                    "ForEach-Object { Write-Output (\$_.Name + '|' + \$_.Value) }",
-            )
-        runCommandWithLines(ohmCommand) { line ->
-            val parts = line.split("|")
-            if (parts.size == 2) {
-                val name = parts[0].trim()
-                parts[1].trim().toFloatOrNull()?.let { temp ->
-                    if (isTemperatureValid(temp)) {
-                        sensors.add(createTemperatureItem(sensorId++, name, temp))
+        // Try both OpenHardwareMonitor and LibreHardwareMonitor namespaces
+        listOf("OpenHardwareMonitor", "LibreHardwareMonitor").forEach { namespace ->
+            val command =
+                listOf(
+                    "powershell",
+                    "-NoProfile",
+                    "-Command",
+                    "Get-CimInstance -Namespace root/$namespace -ClassName Sensor -ErrorAction SilentlyContinue | Where-Object { \$_.SensorType -eq 'Temperature' } | ForEach-Object { Write-Output (\$_.Name+'|'+\$_.Value) }",
+                )
+            runCommandWithLines(command) { line ->
+                val parts = line.split("|")
+                if (parts.size == 2) {
+                    val name = parts[0].trim()
+                    parts[1].trim().toFloatOrNull()?.let { temp ->
+                        if (isTemperatureValid(temp) && name.isNotEmpty()) {
+                            sensors.add(createTemperatureItem(sensorId++, name, temp))
+                        }
                     }
                 }
             }
         }
 
-        // Try LibreHardwareMonitor namespace
-        val lhmCommand =
-            listOf(
-                "powershell",
-                "-Command",
-                "Get-WmiObject -Namespace root\\LibreHardwareMonitor -Class Sensor 2>\$null | " +
-                    "Where-Object { \$_.SensorType -eq 'Temperature' } | " +
-                    "Select-Object Name, Value | " +
-                    "ForEach-Object { Write-Output (\$_.Name + '|' + \$_.Value) }",
-            )
-        runCommandWithLines(lhmCommand) { line ->
-            val parts = line.split("|")
-            if (parts.size == 2) {
-                val name = parts[0].trim()
-                parts[1].trim().toFloatOrNull()?.let { temp ->
-                    if (isTemperatureValid(temp)) {
-                        sensors.add(createTemperatureItem(sensorId++, name, temp))
-                    }
-                }
-            }
-        }
-
-        return sensorId
-    }
-
-    private fun readBatteryTemperature(sensors: MutableList<TemperatureItem>, startId: Int): Int {
-        var sensorId = startId
-        val command =
-            listOf(
-                "powershell",
-                "-Command",
-                "Get-WmiObject -Namespace root\\wmi -Class BatteryStatus 2>\$null | " +
-                    "Select-Object Temperature | " +
-                    "ForEach-Object { Write-Output \$_.Temperature }",
-            )
-        runCommandWithLines(command) { line ->
-            line.trim().toDoubleOrNull()?.let { rawTemp ->
-                if (rawTemp > 0) {
-                    val tempCelsius = (rawTemp / 10.0 - 273.15).toFloat()
-                    if (isTemperatureValid(tempCelsius)) {
-                        sensors.add(createTemperatureItem(sensorId++, "Battery", tempCelsius))
-                    }
-                }
-            }
-        }
         return sensorId
     }
 
     companion object {
         private const val SENSOR_ID_START = 300
-    }
-}
-
-// =============================================================================
-// Windows CPU Temperature Reader
-// =============================================================================
-
-private class WindowsCpuTemperatureReader : BaseTemperatureReader() {
-
-    fun readCpuTemperatures(sensors: MutableList<TemperatureItem>, startId: Int): Int {
-        var sensorId = startId
-
-        // Try reading via multiple WMI methods
-        sensorId = readViaPerfCounters(sensors, sensorId)
-        sensorId = readViaMsAcpiThermal(sensors, sensorId)
-
-        return sensorId
-    }
-
-    private fun readViaPerfCounters(sensors: MutableList<TemperatureItem>, startId: Int): Int {
-        var sensorId = startId
-        try {
-            val command =
-                listOf(
-                    "powershell",
-                    "-Command",
-                    """
-                    try {
-                        ${'$'}temps = Get-CimInstance -Namespace root\cimv2 -ClassName Win32_PerfFormattedData_Counters_ThermalZoneInformation -ErrorAction SilentlyContinue
-                        if (${'$'}temps) {
-                            ${'$'}temps | ForEach-Object {
-                                ${'$'}kelvin = ${'$'}_.Temperature
-                                if (${'$'}kelvin -gt 0) {
-                                    ${'$'}celsius = ${'$'}kelvin - 273.15
-                                    Write-Output ("CPU|" + [math]::Round(${'$'}celsius, 1))
-                                }
-                            }
-                        }
-                    } catch {}
-                    """
-                        .trimIndent(),
-                )
-            runCommandWithLines(command) { line ->
-                val parts = line.split("|")
-                if (parts.size == 2) {
-                    parts[1].trim().toFloatOrNull()?.let { temp ->
-                        if (isTemperatureValid(temp)) {
-                            sensors.add(createTemperatureItem(sensorId++, "CPU Core", temp))
-                        }
-                    }
-                }
-            }
-        } catch (_: Exception) {}
-        return sensorId
-    }
-
-    private fun readViaMsAcpiThermal(sensors: MutableList<TemperatureItem>, startId: Int): Int {
-        var sensorId = startId
-        try {
-            val command =
-                listOf(
-                    "powershell",
-                    "-Command",
-                    """
-                    ${'$'}thermal = Get-CimInstance -Namespace root\wmi -ClassName MSAcpi_ThermalZoneTemperature -ErrorAction SilentlyContinue
-                    if (${'$'}thermal) {
-                        ${'$'}thermal | ForEach-Object {
-                            ${'$'}name = ${'$'}_.InstanceName -replace 'ACPI\\ThermalZone\\','' -replace '_',' '
-                            ${'$'}temp = (${'$'}_.CurrentTemperature / 10) - 273.15
-                            Write-Output (${'$'}name + "|" + [math]::Round(${'$'}temp, 1))
-                        }
-                    }
-                    """
-                        .trimIndent(),
-                )
-            runCommandWithLines(command) { line ->
-                val parts = line.split("|")
-                if (parts.size == 2) {
-                    val name = parts[0].trim().ifEmpty { "Thermal Zone" }
-                    parts[1].trim().toFloatOrNull()?.let { temp ->
-                        if (
-                            isTemperatureValid(temp) &&
-                                !sensors.any { it.name == TextResource.Text(name) }
-                        ) {
-                            sensors.add(createTemperatureItem(sensorId++, name, temp))
-                        }
-                    }
-                }
-            }
-        } catch (_: Exception) {}
-        return sensorId
-    }
-}
-
-// =============================================================================
-// Windows Disk Temperature Reader
-// =============================================================================
-
-private class WindowsDiskTemperatureReader : BaseTemperatureReader() {
-
-    fun readDiskTemperatures(sensors: MutableList<TemperatureItem>, startId: Int): Int {
-        var sensorId = startId
-
-        // Read NVMe temperatures
-        sensorId = readNvmeTemperatures(sensors, sensorId)
-
-        // Read SATA temperatures
-        sensorId = readSataTemperatures(sensors, sensorId)
-
-        // Fallback: generic disk temperatures
-        sensorId = readGenericDiskTemperatures(sensors, sensorId)
-
-        return sensorId
-    }
-
-    private fun readNvmeTemperatures(sensors: MutableList<TemperatureItem>, startId: Int): Int {
-        var sensorId = startId
-        try {
-            val command =
-                listOf(
-                    "powershell",
-                    "-Command",
-                    """
-                    ${'$'}disks = Get-PhysicalDisk | Where-Object { ${'$'}_.BusType -eq 'NVMe' }
-                    foreach (${'$'}disk in ${'$'}disks) {
-                        try {
-                            ${'$'}smart = ${'$'}disk | Get-StorageReliabilityCounter -ErrorAction SilentlyContinue
-                            if (${'$'}smart -and ${'$'}smart.Temperature) {
-                                Write-Output ("NVMe " + ${'$'}disk.DeviceId + " (" + ${'$'}disk.FriendlyName.Trim() + ")|" + ${'$'}smart.Temperature)
-                            }
-                        } catch {}
-                    }
-                    """
-                        .trimIndent(),
-                )
-            runCommandWithLines(command) { line ->
-                val parts = line.split("|")
-                if (parts.size == 2) {
-                    val name = parts[0].trim()
-                    parts[1].trim().toFloatOrNull()?.let { temp ->
-                        if (isTemperatureValid(temp)) {
-                            sensors.add(createTemperatureItem(sensorId++, name, temp))
-                        }
-                    }
-                }
-            }
-        } catch (_: Exception) {}
-        return sensorId
-    }
-
-    private fun readSataTemperatures(sensors: MutableList<TemperatureItem>, startId: Int): Int {
-        var sensorId = startId
-        try {
-            val command =
-                listOf(
-                    "powershell",
-                    "-Command",
-                    """
-                    ${'$'}disks = Get-PhysicalDisk | Where-Object { ${'$'}_.BusType -eq 'SATA' -or ${'$'}_.BusType -eq 'ATA' }
-                    foreach (${'$'}disk in ${'$'}disks) {
-                        try {
-                            ${'$'}smart = ${'$'}disk | Get-StorageReliabilityCounter -ErrorAction SilentlyContinue
-                            if (${'$'}smart -and ${'$'}smart.Temperature) {
-                                Write-Output ("SATA " + ${'$'}disk.DeviceId + " (" + ${'$'}disk.FriendlyName.Trim() + ")|" + ${'$'}smart.Temperature)
-                            }
-                        } catch {}
-                    }
-                    """
-                        .trimIndent(),
-                )
-            runCommandWithLines(command) { line ->
-                val parts = line.split("|")
-                if (parts.size == 2) {
-                    val name = parts[0].trim()
-                    parts[1].trim().toFloatOrNull()?.let { temp ->
-                        if (isTemperatureValid(temp)) {
-                            sensors.add(createTemperatureItem(sensorId++, name, temp))
-                        }
-                    }
-                }
-            }
-        } catch (_: Exception) {}
-        return sensorId
-    }
-
-    private fun readGenericDiskTemperatures(
-        sensors: MutableList<TemperatureItem>,
-        startId: Int,
-    ): Int {
-        var sensorId = startId
-        val command =
-            listOf(
-                "powershell",
-                "-Command",
-                "Get-PhysicalDisk | Get-StorageReliabilityCounter 2>\$null | " +
-                    "Select-Object DeviceId, Temperature | " +
-                    "ForEach-Object { Write-Output ('Disk ' + \$_.DeviceId + '|' + \$_.Temperature) }",
-            )
-        runCommandWithLines(command) { line ->
-            val parts = line.split("|")
-            if (parts.size == 2) {
-                val name = parts[0].trim()
-                parts[1].trim().toFloatOrNull()?.let { temp ->
-                    if (
-                        isTemperatureValid(temp) &&
-                            !sensors.any {
-                                it.name.let { n ->
-                                    n is TextResource.Text && n.value.contains("Disk")
-                                }
-                            }
-                    ) {
-                        sensors.add(createTemperatureItem(sensorId++, name, temp))
-                    }
-                }
-            }
-        }
-        return sensorId
     }
 }

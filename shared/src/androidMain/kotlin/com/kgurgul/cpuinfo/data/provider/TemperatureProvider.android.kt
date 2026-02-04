@@ -25,15 +25,21 @@ import android.hardware.SensorManager
 import android.os.BatteryManager
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.domain.model.TextResource
-import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion.GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE
-import com.kgurgul.cpuinfo.domain.observable.TemperatureDataObservable.Companion.GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_thermostat_24
+import com.kgurgul.cpuinfo.shared.battery
+import com.kgurgul.cpuinfo.shared.cpu
+import com.kgurgul.cpuinfo.shared.ic_battery
+import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.utils.round1
 import java.io.File
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.merge
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -42,7 +48,36 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
     private val appContext: Context by inject()
     private val sensorManager: SensorManager by inject()
 
-    actual override val sensorsFlow = callbackFlow {
+    private val mainTemperaturesFlow: Flow<TemperatureItem> = flow {
+        val cpuTempPath = findCpuTemperatureLocation()
+        while (true) {
+            getBatteryTemperature()?.let {
+                emit(
+                    TemperatureItem(
+                        id = ID_BATTERY,
+                        icon = Res.drawable.ic_battery,
+                        name = TextResource.Resource(Res.string.battery),
+                        temperature = it,
+                    )
+                )
+            }
+            cpuTempPath?.let { path ->
+                getCpuTemperature(path)?.let {
+                    emit(
+                        TemperatureItem(
+                            id = ID_CPU,
+                            icon = Res.drawable.ic_cpu_temp,
+                            name = TextResource.Resource(Res.string.cpu),
+                            temperature = it,
+                        )
+                    )
+                }
+            }
+            delay(REFRESH_DELAY)
+        }
+    }
+
+    private val hardwareSensorsFlow: Flow<TemperatureItem> = callbackFlow {
         val sensorCallback =
             object : SensorEventListener {
                 override fun onSensorChanged(event: SensorEvent) {
@@ -72,6 +107,9 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
             }
         awaitClose { sensorManager.unregisterListener(sensorCallback) }
     }
+
+    actual override val sensorsFlow: Flow<TemperatureItem> =
+        merge(mainTemperaturesFlow, hardwareSensorsFlow)
 
     actual override fun getBatteryTemperature(): Float? {
         val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
@@ -116,6 +154,12 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
     private fun isTemperatureValid(temp: Double): Boolean = temp in -50.0..250.0
 
     companion object {
+        private const val REFRESH_DELAY = 3000L
+        private const val ID_BATTERY = -1
+        private const val ID_CPU = -2
+        private const val GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE = 65538
+        private const val GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE = 65539
+
         // Ugly but currently the easiest working solution is to search well known locations
         // If you know better solution please refactor this :)
         private val CPU_TEMP_FILE_PATHS =

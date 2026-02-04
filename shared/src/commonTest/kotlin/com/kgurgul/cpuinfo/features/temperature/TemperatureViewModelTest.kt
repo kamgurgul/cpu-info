@@ -26,7 +26,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 
 class TemperatureViewModelTest {
@@ -36,11 +36,7 @@ class TemperatureViewModelTest {
     private val temperatureData = TestData.temperatureData
     private val fakeUserPreferencesRepository = FakeUserPreferencesRepository()
     private val fakeTemperatureProvider =
-        FakeTemperatureProvider(
-            sensorsFlow = emptyFlow(),
-            cpuTempLocation = "/sys/class/thermal/thermal_zone0/temp",
-            cpuTemp = 10f,
-        )
+        FakeTemperatureProvider(sensorsFlow = flowOf(temperatureData.first()))
     private val temperatureFormatter = TemperatureFormatter(fakeUserPreferencesRepository)
     private val temperatureDataObservable =
         TemperatureDataObservable(
@@ -67,14 +63,13 @@ class TemperatureViewModelTest {
 
     @Test
     fun initialUiState() = runTest {
-        val expectedUiState =
-            TemperatureViewModel.UiState(
-                temperatureFormatter = temperatureFormatter,
-                isLoading = false,
-                temperatureItems = temperatureData.toImmutableList(),
-                isAdminRequired = fakeTemperatureProvider.adminRequired,
-            )
-
-        viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }
+        viewModel.uiStateFlow.test {
+            // Due to fast test dispatchers, we may see the final loaded state directly
+            val state = awaitItem()
+            assertEquals(false, state.isLoading)
+            assertEquals(temperatureData.toImmutableList(), state.temperatureItems)
+            assertEquals(fakeTemperatureProvider.adminRequired, state.isAdminRequired)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 }

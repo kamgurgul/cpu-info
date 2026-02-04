@@ -64,6 +64,7 @@ import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.shared.no_temp_data
 import com.kgurgul.cpuinfo.shared.no_temp_data_admin_required
 import com.kgurgul.cpuinfo.shared.temperature
+import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -111,18 +112,20 @@ fun TemperatureScreen(uiState: TemperatureViewModel.UiState) {
         topBar = { PrimaryTopAppBar(title = stringResource(Res.string.temperature)) },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
     ) { paddingValues ->
-        val paddingModifier = Modifier.padding(paddingValues)
-        if (uiState.temperatureItems.isEmpty()) {
-            EmptyTemperatureList(
-                isAdminRequired = uiState.isAdminRequired,
-                modifier = paddingModifier,
-            )
-        } else {
-            TemperatureList(
-                temperatureItems = uiState.temperatureItems,
-                temperatureFormatter = uiState.temperatureFormatter,
-                modifier = paddingModifier,
-            )
+        CpuPullToRefreshBox(
+            isRefreshing = uiState.isLoading,
+            onRefresh = {},
+            enabled = false,
+            modifier = Modifier.fillMaxSize().padding(paddingValues),
+        ) {
+            if (!uiState.isLoading && uiState.temperatureItems.isEmpty()) {
+                EmptyTemperatureList(isAdminRequired = uiState.isAdminRequired)
+            } else if (uiState.temperatureItems.isNotEmpty()) {
+                TemperatureList(
+                    temperatureItems = uiState.temperatureItems,
+                    temperatureFormatter = uiState.temperatureFormatter,
+                )
+            }
         }
     }
 }
@@ -131,11 +134,10 @@ fun TemperatureScreen(uiState: TemperatureViewModel.UiState) {
 private fun TemperatureList(
     temperatureItems: ImmutableList<TemperatureItem>,
     temperatureFormatter: TemperatureFormatter,
-    modifier: Modifier = Modifier,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         val listState = rememberLazyListState()
-        LazyColumn(state = listState, modifier = Modifier.fillMaxSize().then(modifier)) {
+        LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
             items(items = temperatureItems, key = { item -> item.id }) { item ->
                 TemperatureItem(item = item, temperatureFormatter = temperatureFormatter)
             }
@@ -183,10 +185,10 @@ private fun TemperatureItem(item: TemperatureItem, temperatureFormatter: Tempera
 }
 
 @Composable
-private fun EmptyTemperatureList(isAdminRequired: Boolean, modifier: Modifier = Modifier) {
+private fun EmptyTemperatureList(isAdminRequired: Boolean) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize().padding(spacingMedium).then(modifier),
+        modifier = Modifier.fillMaxSize().padding(spacingMedium),
     ) {
         Text(
             text =
