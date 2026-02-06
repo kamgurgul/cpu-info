@@ -360,7 +360,7 @@ private class WindowsTemperatureReader(private val systemInfo: SystemInfo) :
                 "powershell",
                 "-NoProfile",
                 "-Command",
-                "Get-PhysicalDisk | ForEach-Object { \$d=\$_; \$s=\$d|Get-StorageReliabilityCounter -ErrorAction SilentlyContinue; if(\$s -and \$s.Temperature -gt 0){ Write-Output (\$d.DeviceId+'|'+\$d.FriendlyName+'|'+\$d.BusType+'|'+\$s.Temperature) } }",
+                $$"Get-PhysicalDisk | ForEach-Object { $d=$_; $s=$d|Get-StorageReliabilityCounter -ErrorAction SilentlyContinue; if($s -and $s.Temperature -gt 0){ Write-Output ($d.DeviceId+'|'+$d.FriendlyName+'|'+$d.BusType+'|'+$s.Temperature) } }",
             )
 
         runCommandWithLines(command) { line ->
@@ -395,7 +395,7 @@ private class WindowsTemperatureReader(private val systemInfo: SystemInfo) :
                 "powershell",
                 "-NoProfile",
                 "-Command",
-                "Get-CimInstance -Namespace root/wmi -ClassName MSAcpi_ThermalZoneTemperature -ErrorAction SilentlyContinue | ForEach-Object { \$n=\$_.InstanceName -replace 'ACPI\\\\ThermalZone\\\\','' -replace '_',' '; \$t=(\$_.CurrentTemperature/10)-273.15; Write-Output (\$n+'|'+[math]::Round(\$t,1)) }",
+                $$"Get-CimInstance -Namespace root/wmi -ClassName MSAcpi_ThermalZoneTemperature -ErrorAction SilentlyContinue | ForEach-Object { $n=$_.InstanceName -replace 'ACPI\\\\ThermalZone\\\\','' -replace '_',' '; $t=($_.CurrentTemperature/10)-273.15; Write-Output ($n+'|'+[math]::Round($t,1)) }",
             )
         runCommandWithLines(command) { line ->
             val parts = line.split("|")
@@ -424,7 +424,7 @@ private class WindowsTemperatureReader(private val systemInfo: SystemInfo) :
                     "powershell",
                     "-NoProfile",
                     "-Command",
-                    "Get-CimInstance -Namespace root/$namespace -ClassName Sensor -ErrorAction SilentlyContinue | Where-Object { \$_.SensorType -eq 'Temperature' } | ForEach-Object { Write-Output (\$_.Name+'|'+\$_.Value) }",
+                    $$"Get-CimInstance -Namespace root/$$namespace -ClassName Sensor -ErrorAction SilentlyContinue | Where-Object { $_.SensorType -eq 'Temperature' } | ForEach-Object { Write-Output ($_.Name+'|'+$_.Value) }",
                 )
             runCommandWithLines(command) { line ->
                 val parts = line.split("|")
