@@ -327,14 +327,17 @@ private class WindowsTemperatureReader(private val systemInfo: SystemInfo) :
         // 1. Try OSHI hardware sensors (works with some hardware)
         sensorId = readOshiSensors(sensors, sensorId)
 
-        // 2. Try disk temperatures (most reliable on Windows)
+        // 2. Try GPU temperatures (nvidia-smi, does not require admin)
+        sensorId = readGpuTemperatures(sensors, sensorId)
+
+        // 3. Try disk temperatures (most reliable on Windows)
         sensorId = readDiskTemperatures(sensors, sensorId)
 
-        // 3. Try LibreHardwareMonitor/OpenHardwareMonitor WMI if running
+        // 4. Try LibreHardwareMonitor/OpenHardwareMonitor WMI if running
         sensorId = readHardwareMonitorWmi(sensors, sensorId)
 
-        // 4. Try WMI thermal zones (requires admin)
-        sensorId = readWmiThermalZones(sensors, sensorId)
+        // 5. Try WMI thermal zones (requires admin, not available on AMD desktops)
+        readWmiThermalZones(sensors, sensorId)
 
         return sensors.distinctBy { it.name }
     }
@@ -439,6 +442,32 @@ private class WindowsTemperatureReader(private val systemInfo: SystemInfo) :
             }
         }
 
+        return sensorId
+    }
+
+    private fun readGpuTemperatures(
+        sensors: MutableList<TemperatureItem>,
+        startId: Int,
+    ): Int {
+        var sensorId = startId
+        // NVIDIA GPU via nvidia-smi (works without admin)
+        val command = listOf(
+            "nvidia-smi",
+            "--query-gpu=index,name,temperature.gpu",
+            "--format=csv,noheader,nounits",
+        )
+        runCommandWithLines(command) { line ->
+            val parts = line.split(",").map { it.trim() }
+            if (parts.size >= 3) {
+                val index = parts[0]
+                val name = parts[1]
+                val temp = parts[2].toFloatOrNull()
+                if (temp != null && isTemperatureValid(temp)) {
+                    val label = if (name.isNotEmpty()) "GPU $index ($name)" else "GPU $index"
+                    sensors.add(createTemperatureItem(sensorId++, label, temp))
+                }
+            }
+        }
         return sensorId
     }
 
