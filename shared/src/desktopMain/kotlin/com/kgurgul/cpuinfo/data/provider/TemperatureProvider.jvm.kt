@@ -445,17 +445,15 @@ private class WindowsTemperatureReader(private val systemInfo: SystemInfo) :
         return sensorId
     }
 
-    private fun readGpuTemperatures(
-        sensors: MutableList<TemperatureItem>,
-        startId: Int,
-    ): Int {
+    private fun readGpuTemperatures(sensors: MutableList<TemperatureItem>, startId: Int): Int {
         var sensorId = startId
         // NVIDIA GPU via nvidia-smi (works without admin)
-        val command = listOf(
-            "nvidia-smi",
-            "--query-gpu=index,name,temperature.gpu",
-            "--format=csv,noheader,nounits",
-        )
+        val command =
+            listOf(
+                "nvidia-smi",
+                "--query-gpu=index,name,temperature.gpu",
+                "--format=csv,noheader,nounits",
+            )
         runCommandWithLines(command) { line ->
             val parts = line.split(",").map { it.trim() }
             if (parts.size >= 3) {
