@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -51,7 +50,6 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.search
 import com.kgurgul.cpuinfo.shared.search_clear
 import com.kgurgul.cpuinfo.shared.search_close
-import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -108,7 +106,6 @@ fun CpuSearchTextField(
             modifier
                 .fillMaxWidth()
                 .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
-                .padding(spacingSmall)
                 .focusRequester(focusRequester)
                 .onKeyEvent {
                     if (it.key == Key.Enter) {
