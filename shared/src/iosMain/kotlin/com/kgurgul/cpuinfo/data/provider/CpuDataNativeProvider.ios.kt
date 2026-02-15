@@ -31,7 +31,6 @@ import libcpuinfo.cpuinfo_get_l3_caches_count
 import libcpuinfo.cpuinfo_get_l4_caches
 import libcpuinfo.cpuinfo_get_l4_caches_count
 import libcpuinfo.cpuinfo_get_package
-import libcpuinfo.cpuinfo_has_arm_neon
 import libcpuinfo.cpuinfo_initialize
 
 actual class CpuDataNativeProvider actual constructor() : ICpuDataNativeProvider {
@@ -48,13 +47,6 @@ actual class CpuDataNativeProvider actual constructor() : ICpuDataNativeProvider
             val cpuInfoGetPackage = cpuinfo_get_package(0.toUInt())
             cpuInfoGetPackage?.pointed?.name?.toKString() ?: ""
         }
-    }
-
-    actual override fun hasArmNeon(): Boolean {
-        if (!cpuinfo_initialize()) {
-            return false
-        }
-        return cpuinfo_has_arm_neon()
     }
 
     actual override fun getL1dCaches(): IntArray? {

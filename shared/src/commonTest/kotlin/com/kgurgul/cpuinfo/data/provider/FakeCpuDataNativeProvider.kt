@@ -23,10 +23,6 @@ class FakeCpuDataNativeProvider : ICpuDataNativeProvider {
         return "CPU_NAME"
     }
 
-    override fun hasArmNeon(): Boolean {
-        return true
-    }
-
     override fun getL1dCaches(): IntArray? {
         return null
     }

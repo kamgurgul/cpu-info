@@ -30,6 +30,9 @@ import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
 import com.kgurgul.cpuinfo.shared.cpu
+import com.kgurgul.cpuinfo.shared.cpu_abi
+import com.kgurgul.cpuinfo.shared.cpu_cores
+import com.kgurgul.cpuinfo.shared.cpu_soc_name
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import kotlinx.collections.immutable.persistentListOf
 
@@ -106,16 +109,12 @@ object TestData {
 
     val cpuData =
         CpuData(
-            processorName = "CPU_NAME",
-            abi = "x64",
-            coreNumber = 1,
-            hasArmNeon = true,
+            cpuItems = listOf(
+                ItemValue.NameResource(Res.string.cpu_soc_name, "CPU_NAME"),
+                ItemValue.NameResource(Res.string.cpu_abi, "x64"),
+                ItemValue.NameResource(Res.string.cpu_cores, "1"),
+            ),
             frequencies = emptyList(),
-            l1dCaches = "",
-            l1iCaches = "",
-            l2Caches = "",
-            l3Caches = "",
-            l4Caches = "",
         )
 
     val ramData =

@@ -23,10 +23,6 @@ actual class CpuDataNativeProvider actual constructor() : ICpuDataNativeProvider
         return "Unknown"
     }
 
-    actual override fun hasArmNeon(): Boolean {
-        return false
-    }
-
     actual override fun getL1dCaches(): IntArray? {
         return null
     }

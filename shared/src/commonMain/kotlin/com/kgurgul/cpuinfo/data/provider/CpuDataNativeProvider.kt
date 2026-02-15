@@ -21,8 +21,6 @@ expect class CpuDataNativeProvider() : ICpuDataNativeProvider {
 
     override fun getCpuName(): String
 
-    override fun hasArmNeon(): Boolean
-
     override fun getL1dCaches(): IntArray?
 
     override fun getL1iCaches(): IntArray?

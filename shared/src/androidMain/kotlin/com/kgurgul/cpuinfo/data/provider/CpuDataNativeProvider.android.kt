@@ -15,13 +15,19 @@
  */
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.domain.model.ItemValue
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.cpu_has_neon
+import com.kgurgul.cpuinfo.shared.no
+import com.kgurgul.cpuinfo.shared.yes
+
 actual class CpuDataNativeProvider actual constructor() : ICpuDataNativeProvider {
 
     actual external override fun initLibrary()
 
     actual external override fun getCpuName(): String
 
-    actual external override fun hasArmNeon(): Boolean
+    private external fun hasArmNeon(): Boolean
 
     actual external override fun getL1dCaches(): IntArray?
 
@@ -34,4 +40,11 @@ actual class CpuDataNativeProvider actual constructor() : ICpuDataNativeProvider
     actual external override fun getL4Caches(): IntArray?
 
     actual external override fun getNumberOfCores(): Int
+
+    override fun getExtraItems(): List<ItemValue> = listOf(
+        ItemValue.NameValueResource(
+            name = Res.string.cpu_has_neon,
+            value = if (hasArmNeon()) Res.string.yes else Res.string.no,
+        ),
+    )
 }

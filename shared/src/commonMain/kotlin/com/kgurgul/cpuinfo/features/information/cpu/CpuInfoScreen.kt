@@ -17,11 +17,10 @@ package com.kgurgul.cpuinfo.features.information.cpu
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,24 +30,17 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.CpuData
+import com.kgurgul.cpuinfo.domain.model.ItemValue
+import com.kgurgul.cpuinfo.domain.model.getKey
+import com.kgurgul.cpuinfo.domain.model.getName
+import com.kgurgul.cpuinfo.domain.model.getValue
+import com.kgurgul.cpuinfo.features.information.base.InformationRow
 import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.cpu_abi
-import com.kgurgul.cpuinfo.shared.cpu_cores
 import com.kgurgul.cpuinfo.shared.cpu_current_frequency
 import com.kgurgul.cpuinfo.shared.cpu_frequency_stopped
-import com.kgurgul.cpuinfo.shared.cpu_has_neon
-import com.kgurgul.cpuinfo.shared.cpu_l1d
-import com.kgurgul.cpuinfo.shared.cpu_l1i
-import com.kgurgul.cpuinfo.shared.cpu_l2
-import com.kgurgul.cpuinfo.shared.cpu_l3
-import com.kgurgul.cpuinfo.shared.cpu_l4
 import com.kgurgul.cpuinfo.shared.cpu_soc_name
-import com.kgurgul.cpuinfo.shared.no
-import com.kgurgul.cpuinfo.shared.yes
-import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
-import com.kgurgul.cpuinfo.ui.components.ItemValueRow
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
@@ -78,95 +70,19 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
             modifier = Modifier.fillMaxSize().testTag(CpuInfoScreenTestTags.LAZY_COLUMN),
         ) {
             uiState.cpuData?.let { cpuData ->
-                item(key = "__soc_name") {
-                    ItemValueRow(
-                        title = stringResource(Res.string.cpu_soc_name),
-                        value = cpuData.processorName,
-                        modifier = Modifier.testTag(CpuInfoScreenTestTags.SOCKET_NAME),
+                itemsIndexed(
+                    cpuData.cpuItems,
+                    key = { _, item -> item.getKey() },
+                ) { index, itemValue ->
+                    InformationRow(
+                        title = itemValue.getName(),
+                        value = itemValue.getValue(),
+                        isLastItem = index == cpuData.cpuItems.lastIndex
+                            && cpuData.frequencies.isEmpty(),
                     )
-                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                    CpuDivider()
-                }
-                item(key = "__abi") {
-                    ItemValueRow(title = stringResource(Res.string.cpu_abi), value = cpuData.abi)
-                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                    CpuDivider()
-                }
-                item(key = "__cores") {
-                    ItemValueRow(
-                        title = stringResource(Res.string.cpu_cores),
-                        value = cpuData.coreNumber.toString(),
-                    )
-                    Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                    CpuDivider()
-                }
-                item(key = "__has_neon") {
-                    ItemValueRow(
-                        title = stringResource(Res.string.cpu_has_neon),
-                        value =
-                            if (cpuData.hasArmNeon) {
-                                stringResource(Res.string.yes)
-                            } else {
-                                stringResource(Res.string.no)
-                            },
-                    )
-                }
-                if (cpuData.l1dCaches.isNotEmpty()) {
-                    item(key = "__l1d") {
-                        CpuDivider()
-                        Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                        ItemValueRow(
-                            title = stringResource(Res.string.cpu_l1d),
-                            value = cpuData.l1dCaches,
-                        )
-                    }
-                }
-                if (cpuData.l1iCaches.isNotEmpty()) {
-                    item(key = "__l1i") {
-                        CpuDivider()
-                        Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                        ItemValueRow(
-                            title = stringResource(Res.string.cpu_l1i),
-                            value = cpuData.l1iCaches,
-                        )
-                    }
-                }
-                if (cpuData.l2Caches.isNotEmpty()) {
-                    item(key = "__l2") {
-                        CpuDivider()
-                        Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                        ItemValueRow(
-                            title = stringResource(Res.string.cpu_l2),
-                            value = cpuData.l2Caches,
-                        )
-                    }
-                }
-                if (cpuData.l3Caches.isNotEmpty()) {
-                    item(key = "__l3") {
-                        CpuDivider()
-                        Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                        ItemValueRow(
-                            title = stringResource(Res.string.cpu_l3),
-                            value = cpuData.l3Caches,
-                        )
-                    }
-                }
-                if (cpuData.l4Caches.isNotEmpty()) {
-                    item(key = "__l4") {
-                        CpuDivider()
-                        Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                        ItemValueRow(
-                            title = stringResource(Res.string.cpu_l4),
-                            value = cpuData.l4Caches,
-                        )
-                    }
                 }
                 cpuData.frequencies.forEachIndexed { i, frequency ->
                     item(key = "__frequency_$i") {
-                        if (i == 0) {
-                            CpuDivider()
-                            Spacer(modifier = Modifier.requiredSize(spacingSmall))
-                        }
                         FrequencyItem(index = i, frequency = frequency)
                     }
                 }
@@ -222,16 +138,12 @@ fun CpuInfoScreenPreview() {
                 CpuInfoViewModel.UiState(
                     cpuData =
                         CpuData(
-                            processorName = "processorName",
-                            abi = "abi",
-                            coreNumber = 1,
-                            hasArmNeon = true,
+                            cpuItems = listOf(
+                                ItemValue.NameResource(Res.string.cpu_soc_name, "processorName"),
+                                ItemValue.Text("ABI", "abi"),
+                                ItemValue.Text("Cores", "1"),
+                            ),
                             frequencies = listOf(CpuData.Frequency(min = 1, max = 2, current = 3)),
-                            l1dCaches = "l1dCaches",
-                            l1iCaches = "l1iCaches",
-                            l2Caches = "l2Caches",
-                            l3Caches = "l3Caches",
-                            l4Caches = "l4Caches",
                         )
                 )
         )

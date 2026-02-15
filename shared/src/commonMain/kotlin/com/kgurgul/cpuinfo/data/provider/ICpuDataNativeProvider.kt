@@ -15,13 +15,13 @@
  */
 package com.kgurgul.cpuinfo.data.provider
 
+import com.kgurgul.cpuinfo.domain.model.ItemValue
+
 interface ICpuDataNativeProvider {
 
     fun initLibrary()
 
     fun getCpuName(): String
-
-    fun hasArmNeon(): Boolean
 
     fun getL1dCaches(): IntArray?
 
@@ -34,4 +34,6 @@ interface ICpuDataNativeProvider {
     fun getL4Caches(): IntArray?
 
     fun getNumberOfCores(): Int
+
+    fun getExtraItems(): List<ItemValue> = emptyList()
 }

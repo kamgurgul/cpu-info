@@ -30,10 +30,6 @@ actual class CpuDataNativeProvider actual constructor() : ICpuDataNativeProvider
         return processor.processorIdentifier.name
     }
 
-    actual override fun hasArmNeon(): Boolean {
-        return processor.featureFlags.contains("neon")
-    }
-
     actual override fun getL1dCaches(): IntArray? {
         return null
     }

@@ -19,6 +19,16 @@ import com.kgurgul.cpuinfo.data.provider.ICpuDataNativeProvider
 import com.kgurgul.cpuinfo.data.provider.ICpuDataProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.CpuData
+import com.kgurgul.cpuinfo.domain.model.ItemValue
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.cpu_abi
+import com.kgurgul.cpuinfo.shared.cpu_cores
+import com.kgurgul.cpuinfo.shared.cpu_l1d
+import com.kgurgul.cpuinfo.shared.cpu_l1i
+import com.kgurgul.cpuinfo.shared.cpu_l2
+import com.kgurgul.cpuinfo.shared.cpu_l3
+import com.kgurgul.cpuinfo.shared.cpu_l4
+import com.kgurgul.cpuinfo.shared.cpu_soc_name
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.Utils
 import kotlinx.coroutines.delay
@@ -38,7 +48,6 @@ class CpuDataObservable(
             val abi = cpuDataProvider.getAbi()
             val logicalCoresCount = cpuDataProvider.getNumberOfLogicalCores()
             val physicalCoresCount = cpuDataProvider.getNumberOfPhysicalCores()
-            val hasArmNeon = cpuDataNativeProvider.hasArmNeon()
             val frequencies = mutableListOf<CpuData.Frequency>()
             val l1dCaches =
                 cpuDataNativeProvider.getL1dCaches()?.joinToString(separator = "\n") {
@@ -67,18 +76,31 @@ class CpuDataObservable(
                     frequencies.add(CpuData.Frequency(min, max, current))
                 }
             }
+            val cpuItems = buildList {
+                add(ItemValue.NameResource(Res.string.cpu_soc_name, processorName))
+                add(ItemValue.NameResource(Res.string.cpu_abi, abi))
+                add(ItemValue.NameResource(Res.string.cpu_cores, physicalCoresCount.toString()))
+                addAll(cpuDataNativeProvider.getExtraItems())
+                if (l1dCaches.isNotEmpty()) {
+                    add(ItemValue.NameResource(Res.string.cpu_l1d, l1dCaches))
+                }
+                if (l1iCaches.isNotEmpty()) {
+                    add(ItemValue.NameResource(Res.string.cpu_l1i, l1iCaches))
+                }
+                if (l2Caches.isNotEmpty()) {
+                    add(ItemValue.NameResource(Res.string.cpu_l2, l2Caches))
+                }
+                if (l3Caches.isNotEmpty()) {
+                    add(ItemValue.NameResource(Res.string.cpu_l3, l3Caches))
+                }
+                if (l4Caches.isNotEmpty()) {
+                    add(ItemValue.NameResource(Res.string.cpu_l4, l4Caches))
+                }
+            }
             emit(
                 CpuData(
-                    processorName = processorName,
-                    abi = abi,
-                    coreNumber = physicalCoresCount,
-                    hasArmNeon = hasArmNeon,
+                    cpuItems = cpuItems,
                     frequencies = frequencies,
-                    l1dCaches = l1dCaches,
-                    l1iCaches = l1iCaches,
-                    l2Caches = l2Caches,
-                    l3Caches = l3Caches,
-                    l4Caches = l4Caches,
                 )
             )
             delay(REFRESH_DELAY)
