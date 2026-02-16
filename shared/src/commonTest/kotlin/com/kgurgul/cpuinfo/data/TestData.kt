@@ -109,11 +109,12 @@ object TestData {
 
     val cpuData =
         CpuData(
-            cpuItems = listOf(
-                ItemValue.NameResource(Res.string.cpu_soc_name, "CPU_NAME"),
-                ItemValue.NameResource(Res.string.cpu_abi, "x64"),
-                ItemValue.NameResource(Res.string.cpu_cores, "1"),
-            ),
+            cpuItems =
+                listOf(
+                    ItemValue.NameResource(Res.string.cpu_soc_name, "CPU_NAME"),
+                    ItemValue.NameResource(Res.string.cpu_abi, "x64"),
+                    ItemValue.NameResource(Res.string.cpu_cores, "1"),
+                ),
             frequencies = emptyList(),
         )
 

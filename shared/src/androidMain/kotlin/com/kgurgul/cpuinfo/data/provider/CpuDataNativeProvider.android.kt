@@ -41,10 +41,11 @@ actual class CpuDataNativeProvider actual constructor() : ICpuDataNativeProvider
 
     actual external override fun getNumberOfCores(): Int
 
-    override fun getExtraItems(): List<ItemValue> = listOf(
-        ItemValue.NameValueResource(
-            name = Res.string.cpu_has_neon,
-            value = if (hasArmNeon()) Res.string.yes else Res.string.no,
-        ),
-    )
+    override fun getExtraItems(): List<ItemValue> =
+        listOf(
+            ItemValue.NameValueResource(
+                name = Res.string.cpu_has_neon,
+                value = if (hasArmNeon()) Res.string.yes else Res.string.no,
+            )
+        )
 }

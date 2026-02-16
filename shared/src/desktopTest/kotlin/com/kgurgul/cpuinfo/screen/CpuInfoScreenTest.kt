@@ -31,7 +31,8 @@ class CpuInfoScreenTest {
     @Test
     fun hasItems() = runComposeUiTest {
         setContent { CpuInfoScreen(uiState = CpuInfoViewModel.UiState(cpuData = TestData.cpuData)) }
-        listOf("CPU_NAME", "x64", "1")
-            .forEach { text -> onNodeWithText(text).performScrollTo().assertIsDisplayed() }
+        listOf("CPU_NAME", "x64", "1").forEach { text ->
+            onNodeWithText(text).performScrollTo().assertIsDisplayed()
+        }
     }
 }

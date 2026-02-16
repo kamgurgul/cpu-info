@@ -70,21 +70,18 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
             modifier = Modifier.fillMaxSize().testTag(CpuInfoScreenTestTags.LAZY_COLUMN),
         ) {
             uiState.cpuData?.let { cpuData ->
-                itemsIndexed(
-                    cpuData.cpuItems,
-                    key = { _, item -> item.getKey() },
-                ) { index, itemValue ->
+                itemsIndexed(cpuData.cpuItems, key = { _, item -> item.getKey() }) {
+                    index,
+                    itemValue ->
                     InformationRow(
                         title = itemValue.getName(),
                         value = itemValue.getValue(),
-                        isLastItem = index == cpuData.cpuItems.lastIndex
-                            && cpuData.frequencies.isEmpty(),
+                        isLastItem =
+                            index == cpuData.cpuItems.lastIndex && cpuData.frequencies.isEmpty(),
                     )
                 }
                 cpuData.frequencies.forEachIndexed { i, frequency ->
-                    item(key = "__frequency_$i") {
-                        FrequencyItem(index = i, frequency = frequency)
-                    }
+                    item(key = "__frequency_$i") { FrequencyItem(index = i, frequency = frequency) }
                 }
             }
         }
@@ -138,11 +135,15 @@ fun CpuInfoScreenPreview() {
                 CpuInfoViewModel.UiState(
                     cpuData =
                         CpuData(
-                            cpuItems = listOf(
-                                ItemValue.NameResource(Res.string.cpu_soc_name, "processorName"),
-                                ItemValue.Text("ABI", "abi"),
-                                ItemValue.Text("Cores", "1"),
-                            ),
+                            cpuItems =
+                                listOf(
+                                    ItemValue.NameResource(
+                                        Res.string.cpu_soc_name,
+                                        "processorName",
+                                    ),
+                                    ItemValue.Text("ABI", "abi"),
+                                    ItemValue.Text("Cores", "1"),
+                                ),
                             frequencies = listOf(CpuData.Frequency(min = 1, max = 2, current = 3)),
                         )
                 )

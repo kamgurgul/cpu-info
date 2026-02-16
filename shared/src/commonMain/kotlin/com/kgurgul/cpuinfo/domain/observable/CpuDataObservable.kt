@@ -97,12 +97,7 @@ class CpuDataObservable(
                     add(ItemValue.NameResource(Res.string.cpu_l4, l4Caches))
                 }
             }
-            emit(
-                CpuData(
-                    cpuItems = cpuItems,
-                    frequencies = frequencies,
-                )
-            )
+            emit(CpuData(cpuItems = cpuItems, frequencies = frequencies))
             delay(REFRESH_DELAY)
         }
     }

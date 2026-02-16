@@ -75,10 +75,7 @@ fun WearCpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
                 cpuData.frequencies.forEachIndexed { i, frequency ->
                     item(key = "__frequency_$i") { FrequencyItem(index = i, frequency = frequency) }
                 }
-                items(
-                    cpuData.cpuItems,
-                    key = { it.getKey() },
-                ) { itemValue ->
+                items(cpuData.cpuItems, key = { it.getKey() }) { itemValue ->
                     WearCpuChip(
                         label = itemValue.getName(),
                         secondaryLabel = itemValue.getValue().replace("\n", ", "),
