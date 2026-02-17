@@ -43,23 +43,22 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
 
     actual override suspend fun getData(): List<ItemValue> {
         return buildList {
-            add(ItemValue.NameResource(Res.string.tab_os, UIDevice.currentDevice.systemName))
-            add(ItemValue.NameResource(Res.string.version, UIDevice.currentDevice.systemVersion))
-            add(ItemValue.NameResource(Res.string.model, UIDevice.currentDevice.model))
-            add(ItemValue.NameResource(Res.string.os_device_name, UIDevice.currentDevice.name))
+            val device = UIDevice.currentDevice
+            add(ItemValue.NameResource(Res.string.tab_os, safeObjCString(device.systemName)))
+            add(ItemValue.NameResource(Res.string.version, safeObjCString(device.systemVersion)))
+            add(ItemValue.NameResource(Res.string.model, safeObjCString(device.model)))
+            add(ItemValue.NameResource(Res.string.os_device_name, safeObjCString(device.name)))
 
             add(
                 ItemValue.NameValueResource(
                     Res.string.os_multitasking_supported,
-                    ResourceUtils.getYesNoStringResource(
-                        UIDevice.currentDevice.multitaskingSupported
-                    ),
+                    ResourceUtils.getYesNoStringResource(device.multitaskingSupported),
                 )
             )
             add(
                 ItemValue.NameResource(
                     Res.string.os_vendor_identifier,
-                    UIDevice.currentDevice.identifierForVendor?.UUIDString ?: "",
+                    device.identifierForVendor?.UUIDString ?: "",
                 )
             )
 
@@ -96,6 +95,14 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
             )
         }
     }
+
+    /**
+     * ObjC interop can deliver null for non-nullable String properties, bypassing Kotlin's type
+     * system and causing SIGSEGV when the String is used. Cast to Any? to force a null check at the
+     * pointer level.
+     */
+    @Suppress("USELESS_CAST")
+    private fun safeObjCString(value: String): String = (value as Any?)?.toString() ?: ""
 
     private fun formatUptime(uptimeSeconds: Double): String {
         val totalSeconds = uptimeSeconds.toLong()

@@ -15,134 +15,107 @@
  */
 package com.kgurgul.cpuinfo.data.provider
 
-import kotlinx.cinterop.get
+import kotlinx.cinterop.ByteVar
+import kotlinx.cinterop.IntVar
+import kotlinx.cinterop.LongVar
+import kotlinx.cinterop.alloc
+import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.memScoped
-import kotlinx.cinterop.pointed
+import kotlinx.cinterop.ptr
+import kotlinx.cinterop.sizeOf
 import kotlinx.cinterop.toKString
-import libcpuinfo.cpuinfo_get_cores_count
-import libcpuinfo.cpuinfo_get_l1d_caches
-import libcpuinfo.cpuinfo_get_l1d_caches_count
-import libcpuinfo.cpuinfo_get_l1i_caches
-import libcpuinfo.cpuinfo_get_l1i_caches_count
-import libcpuinfo.cpuinfo_get_l2_caches
-import libcpuinfo.cpuinfo_get_l2_caches_count
-import libcpuinfo.cpuinfo_get_l3_caches
-import libcpuinfo.cpuinfo_get_l3_caches_count
-import libcpuinfo.cpuinfo_get_l4_caches
-import libcpuinfo.cpuinfo_get_l4_caches_count
-import libcpuinfo.cpuinfo_get_package
-import libcpuinfo.cpuinfo_initialize
+import kotlinx.cinterop.value
+import platform.darwin.sysctlbyname
+import platform.posix.size_tVar
+import platform.posix.uname
+import platform.posix.utsname
 
 actual class CpuDataNativeProvider actual constructor() : ICpuDataNativeProvider {
 
     actual override fun initLibrary() {
-        cpuinfo_initialize()
+        // No initialization needed for sysctl
     }
 
     actual override fun getCpuName(): String {
-        if (!cpuinfo_initialize()) {
-            return ""
-        }
-        return memScoped {
-            val cpuInfoGetPackage = cpuinfo_get_package(0.toUInt())
-            cpuInfoGetPackage?.pointed?.name?.toKString() ?: ""
-        }
+        return sysctlString("machdep.cpu.brand_string").ifEmpty { getMachineIdentifier() }
     }
 
     actual override fun getL1dCaches(): IntArray? {
-        if (!cpuinfo_initialize() || cpuinfo_get_l1d_caches_count() == 0.toUInt()) {
-            return null
-        }
-
-        return memScoped {
-            val cacheCount = cpuinfo_get_l1d_caches_count().toInt()
-            val result = IntArray(cacheCount)
-            cpuinfo_get_l1d_caches()?.let { l1dCaches ->
-                for (i in 0 until cacheCount) {
-                    val cache = l1dCaches[i]
-                    result[i] = cache.size.toInt()
-                }
-            }
-            result
-        }
+        val size = sysctlLong("hw.l1dcachesize")
+        return if (size > 0) intArrayOf(size.toInt()) else null
     }
 
     actual override fun getL1iCaches(): IntArray? {
-        if (!cpuinfo_initialize() || cpuinfo_get_l1i_caches_count() == 0.toUInt()) {
-            return null
-        }
-
-        return memScoped {
-            val cacheCount = cpuinfo_get_l1i_caches_count().toInt()
-            val result = IntArray(cacheCount)
-            cpuinfo_get_l1i_caches()?.let { l1iCaches ->
-                for (i in 0 until cacheCount) {
-                    val cache = l1iCaches[i]
-                    result[i] = cache.size.toInt()
-                }
-            }
-            result
-        }
+        val size = sysctlLong("hw.l1icachesize")
+        return if (size > 0) intArrayOf(size.toInt()) else null
     }
 
     actual override fun getL2Caches(): IntArray? {
-        if (!cpuinfo_initialize() || cpuinfo_get_l2_caches_count() == 0.toUInt()) {
-            return null
-        }
-
-        return memScoped {
-            val cacheCount = cpuinfo_get_l2_caches_count().toInt()
-            val result = IntArray(cacheCount)
-            cpuinfo_get_l2_caches()?.let { l2Caches ->
-                for (i in 0 until cacheCount) {
-                    val cache = l2Caches[i]
-                    result[i] = cache.size.toInt()
-                }
-            }
-            result
-        }
+        val size = sysctlLong("hw.l2cachesize")
+        return if (size > 0) intArrayOf(size.toInt()) else null
     }
 
     actual override fun getL3Caches(): IntArray? {
-        if (!cpuinfo_initialize() || cpuinfo_get_l3_caches_count() == 0.toUInt()) {
-            return null
-        }
-
-        return memScoped {
-            val cacheCount = cpuinfo_get_l3_caches_count().toInt()
-            val result = IntArray(cacheCount)
-            cpuinfo_get_l3_caches()?.let { l3Caches ->
-                for (i in 0 until cacheCount) {
-                    val cache = l3Caches[i]
-                    result[i] = cache.size.toInt()
-                }
-            }
-            result
-        }
+        val size = sysctlLong("hw.l3cachesize")
+        return if (size > 0) intArrayOf(size.toInt()) else null
     }
 
     actual override fun getL4Caches(): IntArray? {
-        if (!cpuinfo_initialize() || cpuinfo_get_l4_caches_count() == 0.toUInt()) {
-            return null
-        }
-
-        return memScoped {
-            val cacheCount = cpuinfo_get_l4_caches_count().toInt()
-            val result = IntArray(cacheCount)
-            cpuinfo_get_l4_caches()?.let { l2Caches ->
-                for (i in 0 until cacheCount) {
-                    val cache = l2Caches[i]
-                    result[i] = cache.size.toInt()
-                }
-            }
-            result
-        }
+        // L4 cache is not available via sysctl on iOS
+        return null
     }
 
     actual override fun getNumberOfCores(): Int {
-        if (!cpuinfo_initialize()) {
-            return 1
+        val cores = sysctlInt("hw.physicalcpu")
+        return if (cores > 0) cores else 1
+    }
+
+    private fun getMachineIdentifier(): String {
+        return memScoped {
+            val systemInfo = alloc<utsname>()
+            uname(systemInfo.ptr)
+            systemInfo.machine.toKString()
         }
-        return cpuinfo_get_cores_count().toInt()
+    }
+
+    private fun sysctlInt(name: String): Int {
+        return memScoped {
+            val size = alloc<size_tVar>()
+            size.value = sizeOf<IntVar>().toULong()
+            val value = alloc<IntVar>()
+            if (sysctlbyname(name, value.ptr, size.ptr, null, 0u) == 0) {
+                value.value
+            } else {
+                0
+            }
+        }
+    }
+
+    private fun sysctlLong(name: String): Long {
+        return memScoped {
+            val size = alloc<size_tVar>()
+            size.value = sizeOf<LongVar>().toULong()
+            val value = alloc<LongVar>()
+            if (sysctlbyname(name, value.ptr, size.ptr, null, 0u) == 0) {
+                value.value
+            } else {
+                0L
+            }
+        }
+    }
+
+    private fun sysctlString(name: String): String {
+        return memScoped {
+            val size = alloc<size_tVar>()
+            if (sysctlbyname(name, null, size.ptr, null, 0u) != 0 || size.value == 0uL) {
+                return@memScoped ""
+            }
+            val buffer = allocArray<ByteVar>(size.value.toInt())
+            if (sysctlbyname(name, buffer, size.ptr, null, 0u) == 0) {
+                buffer.toKString()
+            } else {
+                ""
+            }
+        }
     }
 }

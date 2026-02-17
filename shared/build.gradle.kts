@@ -35,37 +35,12 @@ kotlin {
         }
     }
 
-    val iosTargets = listOf(iosX64(), iosArm64())
+    val iosTargets = listOf(iosArm64(), iosSimulatorArm64())
     iosTargets.forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "shared"
             isStatic = true
             binaryOption("bundleId", "com.kgurgul.cpuinfo.shared")
-        }
-
-        val baseCinteropPath = "$projectDir/src/nativeInterop/cinterop/"
-        val libcpuinfoPath = when (iosTarget.name) {
-            "iosX64" -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-x86_64-simulator/"
-            else -> "${baseCinteropPath}libcpuinfo/libcpuinfo.xcframework/ios-arm64/"
-        }
-        iosTarget.compilations.getByName("main") {
-            val libcpuinfo by cinterops.creating {
-                definitionFile.set(
-                    project.file("src/nativeInterop/cinterop/libcpuinfo/libcpuinfo.def"),
-                )
-                compilerOpts(
-                    "-framework",
-                    "libcpuinfo",
-                    "-F$libcpuinfoPath",
-                )
-            }
-        }
-        iosTarget.binaries.all {
-            linkerOpts(
-                "-framework",
-                "libcpuinfo",
-                "-F$libcpuinfoPath",
-            )
         }
     }
 

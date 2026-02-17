@@ -129,7 +129,7 @@ actual class SensorsInfoProvider actual constructor() {
         private const val ID_ACCELERATION = "ID_ACCELERATION"
         private const val ID_GRAVITY = "ID_GRAVITY"
         private const val ID_ROTATION_RATE = "ID_ROTATION_RATE"
-        private const val ID_MAGNETIC_FIELD = "ID_ROTATION_RATE"
+        private const val ID_MAGNETIC_FIELD = "ID_MAGNETIC_FIELD"
         private const val ID_ATTITUDE = "ID_ATTITUDE"
     }
 }

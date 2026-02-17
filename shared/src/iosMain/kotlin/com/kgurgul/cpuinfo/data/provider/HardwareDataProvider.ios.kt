@@ -64,9 +64,9 @@ actual class HardwareDataProvider actual constructor() {
                             append(formattedName)
                             append("\n")
                         }
-                        append(camera.uniqueID)
+                        append(safeObjCString(camera.uniqueID))
                     }
-                    add(ItemValue.Text(camera.localizedName, description))
+                    add(ItemValue.Text(safeObjCString(camera.localizedName), description))
                 }
             }
 
@@ -80,9 +80,9 @@ actual class HardwareDataProvider actual constructor() {
                             append(formattedName)
                             append("\n")
                         }
-                        append(microphone.uniqueID)
+                        append(safeObjCString(microphone.uniqueID))
                     }
-                    add(ItemValue.Text(microphone.localizedName, description))
+                    add(ItemValue.Text(safeObjCString(microphone.localizedName), description))
                 }
             }
         }
@@ -133,4 +133,12 @@ actual class HardwareDataProvider actual constructor() {
             name
         }
     }
+
+    /**
+     * ObjC interop can deliver null for non-nullable String properties, bypassing Kotlin's type
+     * system and causing SIGSEGV when the String is used. Cast to Any? to force a null check at the
+     * pointer level.
+     */
+    @Suppress("USELESS_CAST")
+    private fun safeObjCString(value: String): String = (value as Any?)?.toString() ?: ""
 }
