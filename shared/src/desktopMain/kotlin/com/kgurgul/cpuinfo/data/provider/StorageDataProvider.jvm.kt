@@ -32,6 +32,9 @@ actual class StorageDataProvider actual constructor() : IStorageDataProvider, Ko
         return buildList {
                 fileStores.forEach { osFileStore ->
                     val label = buildString {
+                        if (!osFileStore.label.isNullOrEmpty()) {
+                            appendLine(osFileStore.label)
+                        }
                         appendLine(osFileStore.name)
                         appendLine(osFileStore.type)
                     }
