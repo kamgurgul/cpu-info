@@ -39,6 +39,6 @@ class GetHardwareDataInteractor(
     }
 
     companion object {
-        private const val REFRESH_DELAY = 5000L
+        private const val REFRESH_DELAY = 3000L
     }
 }

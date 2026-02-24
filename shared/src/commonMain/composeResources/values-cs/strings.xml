@@ -165,6 +165,13 @@
     <string name="hardware_motherboard">Základní deska</string>
     <string name="hardware_network_interfaces">Síťové rozhraní</string>
     <string name="hardware_power_sources">Zdroje energie</string>
+    <string name="hardware_printers">Tiskárny</string>
+    <string name="hardware_printers_status">Stav: %1$s\nVýchozí: %2$s\nLokální: %3$s\nPort: %4$s</string>
+    <string name="hardware_printers_status_idle">Nečinná</string>
+    <string name="hardware_printers_status_printing">Tisk</string>
+    <string name="hardware_printers_status_error">Chyba</string>
+    <string name="hardware_printers_status_offline">Offline</string>
+    <string name="hardware_printers_status_unknown">Neznámý</string>
 
     <string name="general">Obecné</string>
     <string name="temperature_unit">Jednotka teploty</string>

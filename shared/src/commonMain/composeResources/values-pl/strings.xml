@@ -172,6 +172,13 @@
     <string name="hardware_motherboard">Płyta główna</string>
     <string name="hardware_network_interfaces">Interfejsy sieciowe</string>
     <string name="hardware_power_sources">Źródła zasilania</string>
+    <string name="hardware_printers">Drukarki</string>
+    <string name="hardware_printers_status">Status: %1$s\nDomyślna: %2$s\nLokalna: %3$s\nPort: %4$s</string>
+    <string name="hardware_printers_status_idle">Bezczynna</string>
+    <string name="hardware_printers_status_printing">Drukowanie</string>
+    <string name="hardware_printers_status_error">Błąd</string>
+    <string name="hardware_printers_status_offline">Offline</string>
+    <string name="hardware_printers_status_unknown">Nieznany</string>
 
     <!--Prefs-->
     <string name="general">Ogólne</string>

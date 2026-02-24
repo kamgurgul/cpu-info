@@ -165,6 +165,13 @@
     <string name="hardware_motherboard">Motherboard</string>
     <string name="hardware_network_interfaces">Netzwerkschnittstellen</string>
     <string name="hardware_power_sources">Stromquellen</string>
+    <string name="hardware_printers">Drucker</string>
+    <string name="hardware_printers_status">Status: %1$s\nStandard: %2$s\nLokal: %3$s\nAnschluss: %4$s</string>
+    <string name="hardware_printers_status_idle">Bereit</string>
+    <string name="hardware_printers_status_printing">Druckt</string>
+    <string name="hardware_printers_status_error">Fehler</string>
+    <string name="hardware_printers_status_offline">Offline</string>
+    <string name="hardware_printers_status_unknown">Unbekannt</string>
 
     <string name="general">Allgemein</string>
     <string name="temperature_unit">Temperatureinheit</string>

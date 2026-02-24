@@ -213,6 +213,13 @@
     <string name="hardware_camera_orientation_format" translatable="false">\t\t%1$s</string>
     <string name="hardware_sound_card_format" translatable="false">\t%1$s %2$s</string>
     <string name="hardware_camera_lens_format" translatable="false">\t\t%1$s</string>
+    <string name="hardware_printers">Printers</string>
+    <string name="hardware_printers_status">Status: %1$s\nDefault: %2$s\nLocal: %3$s\nPort: %4$s</string>
+    <string name="hardware_printers_status_idle">Idle</string>
+    <string name="hardware_printers_status_printing">Printing</string>
+    <string name="hardware_printers_status_error">Error</string>
+    <string name="hardware_printers_status_offline">Offline</string>
+    <string name="hardware_printers_status_unknown">Unknown</string>
 
     <!--Prefs-->
     <string name="general">General</string>

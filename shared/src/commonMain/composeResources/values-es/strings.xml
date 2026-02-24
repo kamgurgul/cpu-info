@@ -171,6 +171,13 @@
     <string name="hardware_motherboard">Placa base</string>
     <string name="hardware_network_interfaces">Interfaces de red</string>
     <string name="hardware_power_sources">Fuentes de alimentación</string>
+    <string name="hardware_printers">Impresoras</string>
+    <string name="hardware_printers_status">Estado: %1$s\nPredeterminada: %2$s\nLocal: %3$s\nPuerto: %4$s</string>
+    <string name="hardware_printers_status_idle">Inactiva</string>
+    <string name="hardware_printers_status_printing">Imprimiendo</string>
+    <string name="hardware_printers_status_error">Error</string>
+    <string name="hardware_printers_status_offline">Sin conexión</string>
+    <string name="hardware_printers_status_unknown">Desconocido</string>
 
     <!--Prefs-->
     <string name="general">General</string>
