@@ -57,15 +57,20 @@ fun CpuNavigationSuiteScaffold(
 
 object CpuNavigationSuiteScaffoldDefault {
 
+    private const val NOT_SELECTED_ALPHA = 0.7f
+
     @Composable
     fun itemColors() =
         NavigationItemColors(
             selectedIconColor = MaterialTheme.colorScheme.onSecondary,
             selectedTextColor = MaterialTheme.colorScheme.onPrimary,
             selectedIndicatorColor = MaterialTheme.colorScheme.secondary,
-            unselectedIconColor = MaterialTheme.colorScheme.surfaceVariant,
-            unselectedTextColor = MaterialTheme.colorScheme.surfaceVariant,
-            disabledIconColor = MaterialTheme.colorScheme.onPrimary,
-            disabledTextColor = MaterialTheme.colorScheme.onPrimary,
+            unselectedIconColor =
+                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = NOT_SELECTED_ALPHA),
+            unselectedTextColor =
+                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = NOT_SELECTED_ALPHA),
+            disabledIconColor =
+                MaterialTheme.colorScheme.onPrimary.copy(alpha = NOT_SELECTED_ALPHA),
+            disabledTextColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = NOT_SELECTED_ALPHA),
         )
 }
