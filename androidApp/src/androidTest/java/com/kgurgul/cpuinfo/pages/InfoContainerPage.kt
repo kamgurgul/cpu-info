@@ -15,9 +15,23 @@
  */
 package com.kgurgul.cpuinfo.pages
 
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.cpu
+import com.kgurgul.cpuinfo.ui.components.TEST_TAG_CPU_TOP_APP_BAR
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.compose.resources.getString
 
-class InfoContainerPage(private val composeContent: ComposeContentTestRule) {
+class InfoContainerPage(composeContent: ComposeContentTestRule) {
 
-    fun assertViewDisplayed() {}
+    private val toolbarTitle = composeContent.onNodeWithTag(TEST_TAG_CPU_TOP_APP_BAR)
+    private val cpuTab = composeContent.onNodeWithText(runBlocking { getString(Res.string.cpu) })
+
+    fun assertViewDisplayed() {
+        toolbarTitle.assertIsDisplayed()
+        cpuTab.assertIsDisplayed()
+    }
 }

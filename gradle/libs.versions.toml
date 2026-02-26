@@ -23,7 +23,7 @@ composeLifecycle = "2.9.6"
 composeMultiplatform = "1.10.1"
 composeMaterial3 = "1.9.0"
 composeNavigation = "2.9.2"
-composeUiTest = "1.10.3"
+composeUiTest = "1.10.4"
 dependencyUpdate = "0.53.0"
 horologist = "0.7.15"
 imageio = "3.13.1"
@@ -37,7 +37,6 @@ kotlinxImmutable = "0.4.0"
 kotlinxSerialization = "1.10.0"
 kover = "0.9.7"
 ktfmt = "0.61"
-ksp = "2.3.6"
 licenses = "3.1.1"
 oshi = "6.10.0"
 profileinstaller = "1.4.1"
@@ -115,7 +114,6 @@ compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMu
 dependencyUpdate = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdate" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 licenses = { id = "com.github.jk1.dependency-license-report", version.ref = "licenses" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

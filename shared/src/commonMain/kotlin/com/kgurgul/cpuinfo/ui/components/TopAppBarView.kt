@@ -31,6 +31,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -149,9 +150,11 @@ private fun CpuTopAppBar(
         colors = colors,
         windowInsets = windowInsets,
         scrollBehavior = scrollBehavior,
-        modifier = modifier,
+        modifier = modifier.testTag(TEST_TAG_CPU_TOP_APP_BAR),
     )
 }
+
+const val TEST_TAG_CPU_TOP_APP_BAR = "CpuTopAppBar"
 
 @Preview
 @Composable

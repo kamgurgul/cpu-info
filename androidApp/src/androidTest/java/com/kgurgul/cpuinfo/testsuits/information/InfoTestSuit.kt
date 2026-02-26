@@ -26,5 +26,8 @@ class InfoTestSuit : BaseTestSuit() {
 
     private val infoContainerPage = InfoContainerPage(androidComposeRule)
 
-    @Test fun checkInfoTabs() {}
+    @Test
+    fun checkInitialScreenDisplayed() {
+        infoContainerPage.assertViewDisplayed()
+    }
 }

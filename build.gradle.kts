@@ -12,7 +12,6 @@ plugins {
     alias(libs.plugins.dependencyUpdate)
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.kover)
-    alias(libs.plugins.ksp) apply false
     alias(libs.plugins.androidTest) apply false
     alias(libs.plugins.baselineprofile) apply false
     alias(libs.plugins.compose.compiler) apply false

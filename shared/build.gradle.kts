@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.kover)
     alias(libs.plugins.licenses)
     alias(libs.plugins.serialization)
