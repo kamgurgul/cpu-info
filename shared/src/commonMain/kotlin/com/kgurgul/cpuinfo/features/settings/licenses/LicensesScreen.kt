@@ -47,6 +47,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.kgurgul.cpuinfo.domain.model.License
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.action_not_supported
@@ -89,7 +90,7 @@ fun LicensesScreen(uiState: LicensesViewModel.UiState, onNavigateBackClicked: ()
             PrimaryTopAppBar(
                 title = stringResource(Res.string.licenses),
                 navigationIcon = {
-                    IconButton(onClick = onNavigateBackClicked) {
+                    IconButton(onClick = dropUnlessResumed { onNavigateBackClicked() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = stringResource(Res.string.back),

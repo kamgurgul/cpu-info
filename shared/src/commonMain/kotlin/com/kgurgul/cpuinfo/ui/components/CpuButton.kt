@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.ic_thrash
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -54,7 +55,7 @@ fun FilledButton(
     iconContentDescription: String? = null,
 ) {
     Button(
-        onClick = onClick,
+        onClick = dropUnlessResumed { onClick() },
         enabled = enabled,
         contentPadding =
             if (iconResource != null) {
@@ -94,7 +95,7 @@ fun FilledButton(
     content: @Composable RowScope.() -> Unit,
 ) {
     Button(
-        onClick = onClick,
+        onClick = dropUnlessResumed { onClick() },
         enabled = enabled,
         colors = colors,
         elevation = elevation,

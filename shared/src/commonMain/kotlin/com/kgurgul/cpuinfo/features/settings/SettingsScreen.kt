@@ -57,6 +57,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.dropUnlessResumed
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -104,7 +105,9 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object SettingsRoute {
 
-    @SerialName(NavigationConst.SETTINGS) @Serializable data object List
+    @SerialName(NavigationConst.SETTINGS)
+    @Serializable
+    data object List
 
     @SerialName(NavigationConst.SETTINGS + "_" + NavigationConst.LICENSES)
     @Serializable
@@ -280,7 +283,7 @@ private fun SettingsItem(
         modifier =
             Modifier.fillMaxWidth()
                 .clip(MaterialTheme.shapes.large)
-                .clickable(onClick = onClick)
+                .clickable(onClick = dropUnlessResumed { onClick() })
                 .padding(vertical = spacingMedium)
                 .padding(start = spacingLarge),
     ) {
@@ -332,10 +335,12 @@ private fun TemperatureUnitDialog(
                             horizontalArrangement = Arrangement.spacedBy(spacingMedium),
                             modifier =
                                 Modifier.fillMaxWidth()
-                                    .clickable {
-                                        onOptionClicked(option)
-                                        onDismissRequest()
-                                    }
+                                    .clickable(
+                                        onClick = dropUnlessResumed {
+                                            onOptionClicked(option)
+                                            onDismissRequest()
+                                        }
+                                    )
                                     .padding(vertical = spacingSmall),
                         ) {
                             RadioButton(
@@ -387,10 +392,12 @@ private fun ThemeDialog(
                             horizontalArrangement = Arrangement.spacedBy(spacingMedium),
                             modifier =
                                 Modifier.fillMaxWidth()
-                                    .clickable {
-                                        onOptionClicked(option)
-                                        onDismissRequest()
-                                    }
+                                    .clickable(
+                                        onClick = dropUnlessResumed {
+                                            onOptionClicked(option)
+                                            onDismissRequest()
+                                        }
+                                    )
                                     .padding(vertical = spacingSmall),
                         ) {
                             RadioButton(

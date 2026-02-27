@@ -73,6 +73,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.dropUnlessResumed
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -436,7 +437,9 @@ private fun ApplicationItem(
         modifier =
             Modifier.fillMaxWidth()
                 .background(color = MaterialTheme.colorScheme.background)
-                .clickable(onClick = { onAppClicked(appData.packageName) })
+                .clickable(
+                    onClick = dropUnlessResumed{ onAppClicked(appData.packageName) }
+                )
                 .padding(spacingSmall),
     ) {
         AsyncImage(
@@ -519,7 +522,9 @@ private fun NativeLibsDialog(
                             style = MaterialTheme.typography.bodyMedium,
                             modifier =
                                 Modifier.fillMaxWidth()
-                                    .clickable { onNativeLibNameClicked(item) }
+                                    .clickable(
+                                        onClick = dropUnlessResumed { onNativeLibNameClicked(item) }
+                                    )
                                     .padding(vertical = spacingMedium),
                         )
                     }
