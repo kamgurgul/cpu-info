@@ -437,9 +437,7 @@ private fun ApplicationItem(
         modifier =
             Modifier.fillMaxWidth()
                 .background(color = MaterialTheme.colorScheme.background)
-                .clickable(
-                    onClick = dropUnlessResumed{ onAppClicked(appData.packageName) }
-                )
+                .clickable(onClick = dropUnlessResumed { onAppClicked(appData.packageName) })
                 .padding(spacingSmall),
     ) {
         AsyncImage(

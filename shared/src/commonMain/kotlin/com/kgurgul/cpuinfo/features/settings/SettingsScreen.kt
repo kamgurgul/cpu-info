@@ -105,9 +105,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable
 data object SettingsRoute {
 
-    @SerialName(NavigationConst.SETTINGS)
-    @Serializable
-    data object List
+    @SerialName(NavigationConst.SETTINGS) @Serializable data object List
 
     @SerialName(NavigationConst.SETTINGS + "_" + NavigationConst.LICENSES)
     @Serializable
@@ -336,10 +334,11 @@ private fun TemperatureUnitDialog(
                             modifier =
                                 Modifier.fillMaxWidth()
                                     .clickable(
-                                        onClick = dropUnlessResumed {
-                                            onOptionClicked(option)
-                                            onDismissRequest()
-                                        }
+                                        onClick =
+                                            dropUnlessResumed {
+                                                onOptionClicked(option)
+                                                onDismissRequest()
+                                            }
                                     )
                                     .padding(vertical = spacingSmall),
                         ) {
@@ -393,10 +392,11 @@ private fun ThemeDialog(
                             modifier =
                                 Modifier.fillMaxWidth()
                                     .clickable(
-                                        onClick = dropUnlessResumed {
-                                            onOptionClicked(option)
-                                            onDismissRequest()
-                                        }
+                                        onClick =
+                                            dropUnlessResumed {
+                                                onOptionClicked(option)
+                                                onDismissRequest()
+                                            }
                                     )
                                     .padding(vertical = spacingSmall),
                         ) {
