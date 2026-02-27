@@ -24,7 +24,7 @@ jobs:
       - name: Generate code coverage
         run: './gradlew shared:koverXmlReport'
       - name: Upload test coverage
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: code-coverage.xml
           path: shared/build/coverage-report/result.xml
@@ -65,14 +65,14 @@ jobs:
           KEYSTORE_PATH: keystore.jks
         run: './gradlew ${{ matrix.format.command }}'
       - name: Upload Build
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: 'app-release.${{ matrix.format.type }}'
           path: >-
             wearOsApp/build/outputs/${{ matrix.format.output }}/release/*.${{
             matrix.format.type }}
       - name: Upload mapping folder
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: 'mapping-${{ matrix.format.type }}'
           path: wearOsApp/build/outputs/mapping/
@@ -90,11 +90,11 @@ jobs:
           git tag wear-${{ github.event.inputs.version }}
           git push origin wear-${{ github.event.inputs.version }}
       - name: Download APK
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: app-release.apk
       - name: Download APK mapping
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: mapping-apk
           path: mapping-apk
@@ -102,11 +102,11 @@ jobs:
         run: |
           zip -r mapping-apk.zip mapping-apk/
       - name: Download AAB
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: app-release.aab
       - name: Download AAB mapping
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: mapping-aab
           path: mapping-aab

@@ -22,7 +22,7 @@ jobs:
       - name: Generate code coverage
         run: ./gradlew shared:koverXmlReport
       - name: Upload test coverage
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: code-coverage.xml
           path: shared/build/coverage-report/result.xml
