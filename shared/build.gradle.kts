@@ -18,7 +18,7 @@ version = "1.0"
 kotlin {
     jvmToolchain(17)
 
-    androidLibrary {
+    android {
         namespace = "com.kgurgul.cpuinfo.shared"
         compileSdk = AndroidVersions.COMPILE_SDK
         minSdk = AndroidVersions.MIN_SDK
