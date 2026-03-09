@@ -1,0 +1,16 @@
+CPU Info provide main information about hardware and software of your device:
+- CPU specification (with current frequency on specific cores)
+- GPU specification
+- RAM and storage state (internal, external and SD card)
+- Display metrics
+- Android OS details
+- Sensors data
+- Battery status
+- WiFi and Bluetooth mac address (on older Androids)
+- Audio card info
+- Native libraries used in another applications
+- CPU and battery temperature monitor
+- Installed applications
+- Running processes (on older Androids)
+
+All issues and ideas can be posted on Github.

@@ -1,0 +1,2 @@
+- Fix https://github.com/kamgurgul/cpu-info/issues/490
+- Add fastlane metadata
