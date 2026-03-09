@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi
 import com.kgurgul.cpuinfo.R
 import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
+import com.kgurgul.cpuinfo.utils.formatHz
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -71,7 +72,7 @@ class CpuTileService : TileService(), CoroutineScope, KoinComponent {
         refreshingJob = launch {
             while (true) {
                 val load = getAverageCPUFreq()
-                qsTile.label = "Avg ${load}MHz"
+                qsTile.label = "Avg ${formatHz(load)}"
                 qsTile.icon = getLoadIcon(load)
                 qsTile.updateTile()
                 delay(REFRESHING_DELAY_MS)
