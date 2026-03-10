@@ -286,16 +286,40 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             )
             functionsList.add(
                 ItemValue.ValueResource(
-                    "Wi-Fi 5Ghz",
-                    getYesNoStringResource(wifiManager.is5GHzBandSupported),
-                )
-            )
-            functionsList.add(
-                ItemValue.ValueResource(
                     "Wi-Fi P2P",
                     getYesNoStringResource(wifiManager.isP2pSupported),
                 )
             )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                functionsList.add(
+                    ItemValue.ValueResource(
+                        "Wi-Fi 2.4GHz",
+                        getYesNoStringResource(wifiManager.is24GHzBandSupported),
+                    )
+                )
+            }
+            functionsList.add(
+                ItemValue.ValueResource(
+                    "Wi-Fi 5GHz",
+                    getYesNoStringResource(wifiManager.is5GHzBandSupported),
+                )
+            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                functionsList.add(
+                    ItemValue.ValueResource(
+                        "Wi-Fi 6GHz (6E)",
+                        getYesNoStringResource(wifiManager.is6GHzBandSupported),
+                    )
+                )
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                functionsList.add(
+                    ItemValue.ValueResource(
+                        "Wi-Fi 60GHz",
+                        getYesNoStringResource(wifiManager.is60GHzBandSupported),
+                    )
+                )
+            }
         }
 
         try {
@@ -314,7 +338,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             File(filePath).readLines().firstOrNull()?.let {
                 functionsList.add(ItemValue.NameResource(Res.string.wifi_mac, it))
             }
-        } catch (ignored: Exception) {}
+        } catch (_: Exception) {}
 
         // IR
         val irManager =
