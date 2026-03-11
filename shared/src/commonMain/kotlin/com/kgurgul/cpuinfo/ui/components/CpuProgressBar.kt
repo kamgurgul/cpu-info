@@ -60,7 +60,8 @@ fun CpuProgressBar(
     minMaxValues: Pair<String, String>? = null,
     prefixImageRes: DrawableResource? = null,
     textColor: Color = MaterialTheme.colorScheme.onBackground,
-    progressColor: Color = MaterialTheme.colorScheme.tertiary,
+    progressColor: Color = MaterialTheme.colorScheme.tertiaryFixed,
+    backgroundColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     progressHeight: Dp = 16.dp,
     titleTextStyle: TextStyle = MaterialTheme.typography.titleSmall,
 ) {
@@ -69,10 +70,7 @@ fun CpuProgressBar(
         Spacer(modifier = Modifier.requiredSize(spacingSmall))
         Box(
             modifier =
-                Modifier.background(
-                        color = MaterialTheme.colorScheme.surfaceVariant,
-                        shape = MaterialTheme.shapes.small,
-                    )
+                Modifier.background(color = backgroundColor, shape = MaterialTheme.shapes.small)
                     .padding(spacingXSmall)
         ) {
             var currentProgress by rememberSaveable { mutableFloatStateOf(0f) }

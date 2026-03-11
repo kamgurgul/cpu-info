@@ -84,16 +84,20 @@ class HostActivity : ComponentActivity() {
                     dynamicColor && darkTheme -> {
                         val dynamicDarkColors = dynamicDarkColorScheme(LocalContext.current)
                         DarkColors.copy(
-                            secondary = dynamicDarkColors.surfaceContainerHighest,
-                            onSecondary = dynamicDarkColors.onSurface,
+                            secondary = dynamicDarkColors.secondaryFixed,
+                            onSecondary = dynamicDarkColors.onSecondaryFixed,
+                            tertiaryFixed = dynamicDarkColors.tertiaryFixed,
+                            onTertiaryFixed = dynamicDarkColors.onTertiaryFixed,
                         )
                     }
 
                     dynamicColor && !darkTheme -> {
                         val dynamicLightColors = dynamicLightColorScheme(LocalContext.current)
                         LightColors.copy(
-                            secondary = dynamicLightColors.surfaceContainerHighest,
-                            onSecondary = dynamicLightColors.onSurface,
+                            secondary = dynamicLightColors.secondaryFixed,
+                            onSecondary = dynamicLightColors.onSecondaryFixed,
+                            tertiaryFixed = dynamicLightColors.tertiaryFixed,
+                            onTertiaryFixed = dynamicLightColors.onTertiaryFixed,
                         )
                     }
 

@@ -220,7 +220,7 @@ private fun SettingsList(
                 Text(
                     text = stringResource(Res.string.general),
                     style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.tertiary,
+                    color = MaterialTheme.colorScheme.tertiaryFixed,
                 )
                 Spacer(modifier = Modifier.requiredSize(spacingMedium))
             }
@@ -243,7 +243,7 @@ private fun SettingsList(
                 Text(
                     text = stringResource(Res.string.settings_others),
                     style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.tertiary,
+                    color = MaterialTheme.colorScheme.tertiaryFixed,
                 )
                 Spacer(modifier = Modifier.requiredSize(spacingMedium))
             }
@@ -347,7 +347,7 @@ private fun TemperatureUnitDialog(
                                 onClick = null,
                                 colors =
                                     RadioButtonDefaults.colors(
-                                        selectedColor = MaterialTheme.colorScheme.tertiary
+                                        selectedColor = MaterialTheme.colorScheme.tertiaryFixed
                                     ),
                             )
                             Text(
@@ -405,7 +405,7 @@ private fun ThemeDialog(
                                 onClick = null,
                                 colors =
                                     RadioButtonDefaults.colors(
-                                        selectedColor = MaterialTheme.colorScheme.tertiary
+                                        selectedColor = MaterialTheme.colorScheme.tertiaryFixed
                                     ),
                             )
                             Text(
