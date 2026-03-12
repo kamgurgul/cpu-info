@@ -221,6 +221,26 @@
     <string name="hardware_printers_status_offline">Offline</string>
     <string name="hardware_printers_status_unknown">Unknown</string>
 
+    <!--Cellular-->
+    <string name="cellular">Cellular</string>
+    <string name="cellular_phone_type">Phone type</string>
+    <string name="cellular_operator">Operator</string>
+    <string name="cellular_sim_operator">SIM operator</string>
+    <string name="cellular_sim_state">SIM state</string>
+    <string name="cellular_sim_ready">Ready</string>
+    <string name="cellular_sim_absent">Absent</string>
+    <string name="cellular_sim_locked">Locked</string>
+    <string name="cellular_sim_network_locked">Network locked</string>
+    <string name="cellular_network_country">Network country</string>
+    <string name="cellular_sim_country">SIM country</string>
+    <string name="cellular_data_state">Data state</string>
+    <string name="cellular_data_connected">Connected</string>
+    <string name="cellular_data_connecting">Connecting</string>
+    <string name="cellular_data_disconnected">Disconnected</string>
+    <string name="cellular_data_suspended">Suspended</string>
+    <string name="cellular_network_type">Network type</string>
+    <string name="cellular_sim_count">SIM count</string>
+
     <!--Prefs-->
     <string name="general">General</string>
     <string name="temperature_unit">Temperature unit</string>

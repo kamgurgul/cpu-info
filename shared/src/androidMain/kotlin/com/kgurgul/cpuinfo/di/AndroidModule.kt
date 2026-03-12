@@ -23,6 +23,7 @@ import android.hardware.SensorManager
 import android.hardware.camera2.CameraManager
 import android.net.wifi.WifiManager
 import android.os.storage.StorageManager
+import android.telephony.TelephonyManager
 import android.view.WindowManager
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
@@ -48,6 +49,7 @@ val androidModule = module {
     single { androidContext().getSystemService(Context.WIFI_SERVICE) as WifiManager }
     single { androidContext().getSystemService(Context.STORAGE_SERVICE) as StorageManager }
     single { androidContext().getSystemService(Context.CAMERA_SERVICE) as CameraManager }
+    single { androidContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager }
     single {
         PreferenceDataStoreFactory.create(
             corruptionHandler =

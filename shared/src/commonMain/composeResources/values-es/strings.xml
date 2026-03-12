@@ -179,6 +179,26 @@
     <string name="hardware_printers_status_offline">Sin conexión</string>
     <string name="hardware_printers_status_unknown">Desconocido</string>
 
+    <!--Cellular-->
+    <string name="cellular">Red móvil</string>
+    <string name="cellular_phone_type">Tipo de teléfono</string>
+    <string name="cellular_operator">Operador</string>
+    <string name="cellular_sim_operator">Operador SIM</string>
+    <string name="cellular_sim_state">Estado SIM</string>
+    <string name="cellular_sim_ready">Lista</string>
+    <string name="cellular_sim_absent">Ausente</string>
+    <string name="cellular_sim_locked">Bloqueada</string>
+    <string name="cellular_sim_network_locked">Bloqueo de red</string>
+    <string name="cellular_network_country">País de red</string>
+    <string name="cellular_sim_country">País SIM</string>
+    <string name="cellular_data_state">Estado de datos</string>
+    <string name="cellular_data_connected">Conectado</string>
+    <string name="cellular_data_connecting">Conectando</string>
+    <string name="cellular_data_disconnected">Desconectado</string>
+    <string name="cellular_data_suspended">Suspendido</string>
+    <string name="cellular_network_type">Tipo de red</string>
+    <string name="cellular_sim_count">Número de SIM</string>
+
     <!--Prefs-->
     <string name="general">General</string>
     <string name="temperature_unit">Unidad de temperatura</string>

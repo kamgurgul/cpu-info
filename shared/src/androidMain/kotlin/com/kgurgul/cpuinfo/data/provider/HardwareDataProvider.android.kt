@@ -27,6 +27,7 @@ import android.hardware.camera2.CameraManager
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
+import android.telephony.TelephonyManager
 import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.shared.Res
@@ -50,6 +51,24 @@ import com.kgurgul.cpuinfo.shared.camera_lens_number
 import com.kgurgul.cpuinfo.shared.cameras
 import com.kgurgul.cpuinfo.shared.capacity
 import com.kgurgul.cpuinfo.shared.card
+import com.kgurgul.cpuinfo.shared.cellular
+import com.kgurgul.cpuinfo.shared.cellular_data_connected
+import com.kgurgul.cpuinfo.shared.cellular_data_connecting
+import com.kgurgul.cpuinfo.shared.cellular_data_disconnected
+import com.kgurgul.cpuinfo.shared.cellular_data_state
+import com.kgurgul.cpuinfo.shared.cellular_data_suspended
+import com.kgurgul.cpuinfo.shared.cellular_network_country
+import com.kgurgul.cpuinfo.shared.cellular_network_type
+import com.kgurgul.cpuinfo.shared.cellular_operator
+import com.kgurgul.cpuinfo.shared.cellular_phone_type
+import com.kgurgul.cpuinfo.shared.cellular_sim_absent
+import com.kgurgul.cpuinfo.shared.cellular_sim_count
+import com.kgurgul.cpuinfo.shared.cellular_sim_country
+import com.kgurgul.cpuinfo.shared.cellular_sim_locked
+import com.kgurgul.cpuinfo.shared.cellular_sim_network_locked
+import com.kgurgul.cpuinfo.shared.cellular_sim_operator
+import com.kgurgul.cpuinfo.shared.cellular_sim_ready
+import com.kgurgul.cpuinfo.shared.cellular_sim_state
 import com.kgurgul.cpuinfo.shared.charging_type
 import com.kgurgul.cpuinfo.shared.front
 import com.kgurgul.cpuinfo.shared.hardware_ac
@@ -92,6 +111,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
     private val contentResolver: ContentResolver by inject()
     private val wifiManager: WifiManager by inject()
     private val cameraManager: CameraManager by inject()
+    private val telephonyManager: TelephonyManager by inject()
 
     actual suspend fun getData(): List<ItemValue> {
         return buildList {
@@ -106,6 +126,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             add(ItemValue.NameResource(Res.string.sound_card, ""))
             addAll(getSoundCardInfo())
             addAll(getWirelessInfo())
+            addAll(getCellularInfo())
             addAll(getUsbInfo())
         }
     }
@@ -209,6 +230,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             BatteryManager.BATTERY_HEALTH_UNKNOWN -> Res.string.battery_unknown
             BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE ->
                 Res.string.battery_unspecified_failure
+
             else -> Res.string.battery_unknown
         }
     }
@@ -338,7 +360,8 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             File(filePath).readLines().firstOrNull()?.let {
                 functionsList.add(ItemValue.NameResource(Res.string.wifi_mac, it))
             }
-        } catch (_: Exception) {}
+        } catch (_: Exception) {
+        }
 
         // IR
         val irManager =
@@ -349,6 +372,187 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
         )
 
         return functionsList
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getCellularInfo(): List<ItemValue> {
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+            return emptyList()
+        }
+
+        return buildList {
+            add(ItemValue.NameResource(Res.string.cellular, ""))
+
+            // Phone type
+            @Suppress("DEPRECATION") val phoneType = when (telephonyManager.phoneType) {
+                TelephonyManager.PHONE_TYPE_GSM -> "GSM"
+                TelephonyManager.PHONE_TYPE_CDMA -> "CDMA"
+                TelephonyManager.PHONE_TYPE_SIP -> "SIP"
+                else -> null
+            }
+            if (phoneType != null) {
+                add(ItemValue.NameResource(Res.string.cellular_phone_type, phoneType))
+            }
+
+            // Network operator
+            val operatorName = telephonyManager.networkOperatorName
+            if (!operatorName.isNullOrEmpty()) {
+                add(ItemValue.NameResource(Res.string.cellular_operator, operatorName))
+            }
+
+            // SIM operator
+            val simOperatorName = telephonyManager.simOperatorName
+            if (!simOperatorName.isNullOrEmpty()) {
+                add(ItemValue.NameResource(Res.string.cellular_sim_operator, simOperatorName))
+            }
+
+            // SIM state
+            val simStateRes = when (telephonyManager.simState) {
+                TelephonyManager.SIM_STATE_READY -> Res.string.cellular_sim_ready
+                TelephonyManager.SIM_STATE_ABSENT -> Res.string.cellular_sim_absent
+                TelephonyManager.SIM_STATE_PIN_REQUIRED,
+                TelephonyManager.SIM_STATE_PUK_REQUIRED -> Res.string.cellular_sim_locked
+
+                TelephonyManager.SIM_STATE_NETWORK_LOCKED ->
+                    Res.string.cellular_sim_network_locked
+
+                else -> Res.string.unknown
+            }
+            add(ItemValue.NameValueResource(Res.string.cellular_sim_state, simStateRes))
+
+            // Network country
+            val networkCountry = telephonyManager.networkCountryIso
+            if (!networkCountry.isNullOrEmpty()) {
+                add(
+                    ItemValue.NameResource(
+                        Res.string.cellular_network_country,
+                        networkCountry.uppercase(),
+                    )
+                )
+            }
+
+            // SIM country
+            val simCountry = telephonyManager.simCountryIso
+            if (!simCountry.isNullOrEmpty()) {
+                add(
+                    ItemValue.NameResource(
+                        Res.string.cellular_sim_country,
+                        simCountry.uppercase(),
+                    )
+                )
+            }
+
+            // MCC/MNC
+            val networkOperator = telephonyManager.networkOperator
+            if (!networkOperator.isNullOrEmpty() && networkOperator.length >= 5) {
+                add(ItemValue.Text("MCC", networkOperator.substring(0, 3)))
+                add(ItemValue.Text("MNC", networkOperator.substring(3)))
+            }
+
+            // Data state
+            val dataStateRes = when (telephonyManager.dataState) {
+                TelephonyManager.DATA_CONNECTED -> Res.string.cellular_data_connected
+                TelephonyManager.DATA_CONNECTING -> Res.string.cellular_data_connecting
+                TelephonyManager.DATA_DISCONNECTED -> Res.string.cellular_data_disconnected
+                TelephonyManager.DATA_SUSPENDED -> Res.string.cellular_data_suspended
+                else -> Res.string.unknown
+            }
+            add(ItemValue.NameValueResource(Res.string.cellular_data_state, dataStateRes))
+
+            // Network type (requires READ_PHONE_STATE on API 30-32,
+            // auto-granted READ_BASIC_PHONE_STATE on API 33+)
+            try {
+                val networkType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    telephonyManager.dataNetworkType
+                } else {
+                    @Suppress("DEPRECATION")
+                    telephonyManager.networkType
+                }
+                val networkTypeName = getNetworkTypeName(networkType)
+                if (networkTypeName != null) {
+                    add(
+                        ItemValue.NameResource(
+                            Res.string.cellular_network_type,
+                            networkTypeName,
+                        )
+                    )
+                }
+            } catch (_: SecurityException) {
+                // READ_PHONE_STATE not granted
+            }
+
+            // SIM count (dual SIM)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                add(
+                    ItemValue.NameResource(
+                        Res.string.cellular_sim_count,
+                        telephonyManager.activeModemCount.toString(),
+                    )
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                add(
+                    ItemValue.NameResource(
+                        Res.string.cellular_sim_count,
+                        telephonyManager.phoneCount.toString(),
+                    )
+                )
+            }
+
+            // eSIM support
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                add(
+                    ItemValue.ValueResource(
+                        "eSIM",
+                        getYesNoStringResource(
+                            packageManager.hasSystemFeature(
+                                PackageManager.FEATURE_TELEPHONY_EUICC
+                            )
+                        ),
+                    )
+                )
+            }
+
+            // 5G NR support
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                add(
+                    ItemValue.ValueResource(
+                        "5G",
+                        getYesNoStringResource(
+                            packageManager.hasSystemFeature(
+                                "android.hardware.telephony.radio.access.nr"
+                            )
+                        ),
+                    )
+                )
+            }
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun getNetworkTypeName(networkType: Int): String? {
+        return when (networkType) {
+            TelephonyManager.NETWORK_TYPE_GPRS -> "GPRS (2G)"
+            TelephonyManager.NETWORK_TYPE_EDGE -> "EDGE (2G)"
+            TelephonyManager.NETWORK_TYPE_UMTS -> "UMTS (3G)"
+            TelephonyManager.NETWORK_TYPE_CDMA -> "CDMA (2G)"
+            TelephonyManager.NETWORK_TYPE_EVDO_0 -> "EVDO Rev.0 (3G)"
+            TelephonyManager.NETWORK_TYPE_EVDO_A -> "EVDO Rev.A (3G)"
+            TelephonyManager.NETWORK_TYPE_1xRTT -> "1xRTT (2G)"
+            TelephonyManager.NETWORK_TYPE_HSDPA -> "HSDPA (3G)"
+            TelephonyManager.NETWORK_TYPE_HSUPA -> "HSUPA (3G)"
+            TelephonyManager.NETWORK_TYPE_HSPA -> "HSPA (3G)"
+            TelephonyManager.NETWORK_TYPE_IDEN -> "iDEN (2G)"
+            TelephonyManager.NETWORK_TYPE_EVDO_B -> "EVDO Rev.B (3G)"
+            TelephonyManager.NETWORK_TYPE_LTE -> "LTE (4G)"
+            TelephonyManager.NETWORK_TYPE_EHRPD -> "eHRPD (3G)"
+            TelephonyManager.NETWORK_TYPE_HSPAP -> "HSPA+ (3G)"
+            TelephonyManager.NETWORK_TYPE_GSM -> "GSM (2G)"
+            TelephonyManager.NETWORK_TYPE_TD_SCDMA -> "TD-SCDMA (3G)"
+            TelephonyManager.NETWORK_TYPE_IWLAN -> "IWLAN"
+            TelephonyManager.NETWORK_TYPE_NR -> "NR (5G)"
+            else -> null
+        }
     }
 
     private fun getUsbInfo(): List<ItemValue> {

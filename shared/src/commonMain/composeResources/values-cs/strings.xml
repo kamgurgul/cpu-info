@@ -173,6 +173,26 @@
     <string name="hardware_printers_status_offline">Offline</string>
     <string name="hardware_printers_status_unknown">Neznámý</string>
 
+    <!--Cellular-->
+    <string name="cellular">Mobilní síť</string>
+    <string name="cellular_phone_type">Typ telefonu</string>
+    <string name="cellular_operator">Operátor</string>
+    <string name="cellular_sim_operator">Operátor SIM</string>
+    <string name="cellular_sim_state">Stav SIM</string>
+    <string name="cellular_sim_ready">Připravena</string>
+    <string name="cellular_sim_absent">Chybí</string>
+    <string name="cellular_sim_locked">Zamčena</string>
+    <string name="cellular_sim_network_locked">Síťový zámek</string>
+    <string name="cellular_network_country">Země sítě</string>
+    <string name="cellular_sim_country">Země SIM</string>
+    <string name="cellular_data_state">Stav dat</string>
+    <string name="cellular_data_connected">Připojeno</string>
+    <string name="cellular_data_connecting">Připojování</string>
+    <string name="cellular_data_disconnected">Odpojeno</string>
+    <string name="cellular_data_suspended">Pozastaveno</string>
+    <string name="cellular_network_type">Typ sítě</string>
+    <string name="cellular_sim_count">Počet SIM</string>
+
     <string name="general">Obecné</string>
     <string name="temperature_unit">Jednotka teploty</string>
     <string name="pref_theme_dark">Tmavý</string>
