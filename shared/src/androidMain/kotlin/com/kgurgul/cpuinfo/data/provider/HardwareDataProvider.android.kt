@@ -360,8 +360,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             File(filePath).readLines().firstOrNull()?.let {
                 functionsList.add(ItemValue.NameResource(Res.string.wifi_mac, it))
             }
-        } catch (_: Exception) {
-        }
+        } catch (_: Exception) {}
 
         // IR
         val irManager =
@@ -384,12 +383,14 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             add(ItemValue.NameResource(Res.string.cellular, ""))
 
             // Phone type
-            @Suppress("DEPRECATION") val phoneType = when (telephonyManager.phoneType) {
-                TelephonyManager.PHONE_TYPE_GSM -> "GSM"
-                TelephonyManager.PHONE_TYPE_CDMA -> "CDMA"
-                TelephonyManager.PHONE_TYPE_SIP -> "SIP"
-                else -> null
-            }
+            @Suppress("DEPRECATION")
+            val phoneType =
+                when (telephonyManager.phoneType) {
+                    TelephonyManager.PHONE_TYPE_GSM -> "GSM"
+                    TelephonyManager.PHONE_TYPE_CDMA -> "CDMA"
+                    TelephonyManager.PHONE_TYPE_SIP -> "SIP"
+                    else -> null
+                }
             if (phoneType != null) {
                 add(ItemValue.NameResource(Res.string.cellular_phone_type, phoneType))
             }
@@ -407,17 +408,18 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             }
 
             // SIM state
-            val simStateRes = when (telephonyManager.simState) {
-                TelephonyManager.SIM_STATE_READY -> Res.string.cellular_sim_ready
-                TelephonyManager.SIM_STATE_ABSENT -> Res.string.cellular_sim_absent
-                TelephonyManager.SIM_STATE_PIN_REQUIRED,
-                TelephonyManager.SIM_STATE_PUK_REQUIRED -> Res.string.cellular_sim_locked
+            val simStateRes =
+                when (telephonyManager.simState) {
+                    TelephonyManager.SIM_STATE_READY -> Res.string.cellular_sim_ready
+                    TelephonyManager.SIM_STATE_ABSENT -> Res.string.cellular_sim_absent
+                    TelephonyManager.SIM_STATE_PIN_REQUIRED,
+                    TelephonyManager.SIM_STATE_PUK_REQUIRED -> Res.string.cellular_sim_locked
 
-                TelephonyManager.SIM_STATE_NETWORK_LOCKED ->
-                    Res.string.cellular_sim_network_locked
+                    TelephonyManager.SIM_STATE_NETWORK_LOCKED ->
+                        Res.string.cellular_sim_network_locked
 
-                else -> Res.string.unknown
-            }
+                    else -> Res.string.unknown
+                }
             add(ItemValue.NameValueResource(Res.string.cellular_sim_state, simStateRes))
 
             // Network country
@@ -434,12 +436,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             // SIM country
             val simCountry = telephonyManager.simCountryIso
             if (!simCountry.isNullOrEmpty()) {
-                add(
-                    ItemValue.NameResource(
-                        Res.string.cellular_sim_country,
-                        simCountry.uppercase(),
-                    )
-                )
+                add(ItemValue.NameResource(Res.string.cellular_sim_country, simCountry.uppercase()))
             }
 
             // MCC/MNC
@@ -450,32 +447,28 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
             }
 
             // Data state
-            val dataStateRes = when (telephonyManager.dataState) {
-                TelephonyManager.DATA_CONNECTED -> Res.string.cellular_data_connected
-                TelephonyManager.DATA_CONNECTING -> Res.string.cellular_data_connecting
-                TelephonyManager.DATA_DISCONNECTED -> Res.string.cellular_data_disconnected
-                TelephonyManager.DATA_SUSPENDED -> Res.string.cellular_data_suspended
-                else -> Res.string.unknown
-            }
+            val dataStateRes =
+                when (telephonyManager.dataState) {
+                    TelephonyManager.DATA_CONNECTED -> Res.string.cellular_data_connected
+                    TelephonyManager.DATA_CONNECTING -> Res.string.cellular_data_connecting
+                    TelephonyManager.DATA_DISCONNECTED -> Res.string.cellular_data_disconnected
+                    TelephonyManager.DATA_SUSPENDED -> Res.string.cellular_data_suspended
+                    else -> Res.string.unknown
+                }
             add(ItemValue.NameValueResource(Res.string.cellular_data_state, dataStateRes))
 
             // Network type (requires READ_PHONE_STATE on API 30-32,
             // auto-granted READ_BASIC_PHONE_STATE on API 33+)
             try {
-                val networkType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    telephonyManager.dataNetworkType
-                } else {
-                    @Suppress("DEPRECATION")
-                    telephonyManager.networkType
-                }
+                val networkType =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        telephonyManager.dataNetworkType
+                    } else {
+                        @Suppress("DEPRECATION") telephonyManager.networkType
+                    }
                 val networkTypeName = getNetworkTypeName(networkType)
                 if (networkTypeName != null) {
-                    add(
-                        ItemValue.NameResource(
-                            Res.string.cellular_network_type,
-                            networkTypeName,
-                        )
-                    )
+                    add(ItemValue.NameResource(Res.string.cellular_network_type, networkTypeName))
                 }
             } catch (_: SecurityException) {
                 // READ_PHONE_STATE not granted
@@ -505,9 +498,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                     ItemValue.ValueResource(
                         "eSIM",
                         getYesNoStringResource(
-                            packageManager.hasSystemFeature(
-                                PackageManager.FEATURE_TELEPHONY_EUICC
-                            )
+                            packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY_EUICC)
                         ),
                     )
                 )
