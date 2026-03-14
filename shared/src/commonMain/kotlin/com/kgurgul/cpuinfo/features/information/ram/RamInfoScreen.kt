@@ -35,6 +35,7 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.available_memory
 import com.kgurgul.cpuinfo.shared.threshold
 import com.kgurgul.cpuinfo.shared.total_memory
+import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -89,6 +90,14 @@ fun RamInfoScreen(uiState: RamInfoViewModel.UiState) {
                             isLastItem = ramData.additionalData.isEmpty(),
                         )
                     }
+                }
+                item(key = "__progress") {
+                    val usedPercentage = (100 - ramData.availablePercentage) / 100f
+                    CpuProgressBar(
+                        progress = usedPercentage,
+                        minMaxValues =
+                            Utils.convertBytesToMega(0L) to Utils.convertBytesToMega(ramData.total),
+                    )
                 }
                 ramData.additionalData.forEachIndexed { index, item ->
                     item {

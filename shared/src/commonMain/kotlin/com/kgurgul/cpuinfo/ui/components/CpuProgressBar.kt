@@ -54,9 +54,9 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CpuProgressBar(
-    label: String,
     progress: Float,
     modifier: Modifier = Modifier,
+    label: String? = null,
     minMaxValues: Pair<String, String>? = null,
     prefixImageRes: DrawableResource? = null,
     textColor: Color = MaterialTheme.colorScheme.onBackground,
@@ -66,8 +66,10 @@ fun CpuProgressBar(
     titleTextStyle: TextStyle = MaterialTheme.typography.titleSmall,
 ) {
     Column(modifier = modifier) {
-        Text(text = label, style = titleTextStyle, color = textColor)
-        Spacer(modifier = Modifier.requiredSize(spacingSmall))
+        if (label != null) {
+            Text(text = label, style = titleTextStyle, color = textColor)
+            Spacer(modifier = Modifier.requiredSize(spacingSmall))
+        }
         Box(
             modifier =
                 Modifier.background(color = backgroundColor, shape = MaterialTheme.shapes.small)
