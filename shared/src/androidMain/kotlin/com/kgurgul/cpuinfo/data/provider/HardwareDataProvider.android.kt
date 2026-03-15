@@ -34,14 +34,27 @@ import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.amount
 import com.kgurgul.cpuinfo.shared.back
 import com.kgurgul.cpuinfo.shared.battery
+import com.kgurgul.cpuinfo.shared.battery_charge_counter
+import com.kgurgul.cpuinfo.shared.battery_charge_time_remaining
+import com.kgurgul.cpuinfo.shared.battery_charging
 import com.kgurgul.cpuinfo.shared.battery_cold
+import com.kgurgul.cpuinfo.shared.battery_current_avg
+import com.kgurgul.cpuinfo.shared.battery_current_now
+import com.kgurgul.cpuinfo.shared.battery_cycle_count
 import com.kgurgul.cpuinfo.shared.battery_dead
+import com.kgurgul.cpuinfo.shared.battery_dock
+import com.kgurgul.cpuinfo.shared.battery_full
 import com.kgurgul.cpuinfo.shared.battery_good
 import com.kgurgul.cpuinfo.shared.battery_health
+import com.kgurgul.cpuinfo.shared.battery_not_charging
 import com.kgurgul.cpuinfo.shared.battery_overheat
 import com.kgurgul.cpuinfo.shared.battery_overvoltage
+import com.kgurgul.cpuinfo.shared.battery_present
+import com.kgurgul.cpuinfo.shared.battery_state
 import com.kgurgul.cpuinfo.shared.battery_unknown
+import com.kgurgul.cpuinfo.shared.battery_unplugged
 import com.kgurgul.cpuinfo.shared.battery_unspecified_failure
+import com.kgurgul.cpuinfo.shared.battery_wireless
 import com.kgurgul.cpuinfo.shared.bluetooth
 import com.kgurgul.cpuinfo.shared.bluetooth_le
 import com.kgurgul.cpuinfo.shared.bluetooth_mac
@@ -191,29 +204,137 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                 functionsList.add(ItemValue.NameResource(Res.string.technology, technology))
             }
 
-            // Are we charging / is charged?
+            // Battery present
+            val isPresent = batteryStatus.getBooleanExtra(BatteryManager.EXTRA_PRESENT, true)
+            functionsList.add(
+                ItemValue.NameValueResource(
+                    Res.string.battery_present,
+                    getYesNoStringResource(isPresent),
+                )
+            )
+
+            // Battery status
             val status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+            if (status != -1) {
+                val statusRes =
+                    when (status) {
+                        BatteryManager.BATTERY_STATUS_CHARGING -> Res.string.battery_charging
+                        BatteryManager.BATTERY_STATUS_DISCHARGING -> Res.string.battery_unplugged
+                        BatteryManager.BATTERY_STATUS_FULL -> Res.string.battery_full
+                        BatteryManager.BATTERY_STATUS_NOT_CHARGING ->
+                            Res.string.battery_not_charging
+                        else -> Res.string.battery_unknown
+                    }
+                functionsList.add(ItemValue.NameValueResource(Res.string.battery_state, statusRes))
+            }
+
+            // Are we charging / is charged?
             val isCharging =
-                status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                    status == BatteryManager.BATTERY_STATUS_FULL
+                batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1).let {
+                    it == BatteryManager.BATTERY_STATUS_CHARGING ||
+                        it == BatteryManager.BATTERY_STATUS_FULL
+                }
 
             // How we charging?
             val chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
-            val usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB
-            val acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC
 
-            val charging = getYesNoStringResource(isCharging)
-            functionsList.add(ItemValue.NameValueResource(Res.string.is_charging, charging))
+            functionsList.add(
+                ItemValue.NameValueResource(
+                    Res.string.is_charging,
+                    getYesNoStringResource(isCharging),
+                )
+            )
             if (isCharging) {
                 val chargingType =
-                    when {
-                        usbCharge -> Res.string.hardware_usb
-                        acCharge -> Res.string.hardware_ac
-                        else -> Res.string.unknown
+                    when (chargePlug) {
+                        BatteryManager.BATTERY_PLUGGED_USB -> Res.string.hardware_usb
+                        BatteryManager.BATTERY_PLUGGED_AC -> Res.string.hardware_ac
+                        BatteryManager.BATTERY_PLUGGED_WIRELESS -> Res.string.battery_wireless
+                        else -> {
+                            if (
+                                Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE &&
+                                    chargePlug == BatteryManager.BATTERY_PLUGGED_DOCK
+                            ) {
+                                Res.string.battery_dock
+                            } else {
+                                Res.string.unknown
+                            }
+                        }
                     }
                 functionsList.add(
                     ItemValue.NameValueResource(Res.string.charging_type, chargingType)
                 )
+            }
+
+            // Cycle count (API 34+)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                val cycleCount = batteryStatus.getIntExtra(BatteryManager.EXTRA_CYCLE_COUNT, -1)
+                if (cycleCount >= 0) {
+                    functionsList.add(
+                        ItemValue.NameResource(
+                            Res.string.battery_cycle_count,
+                            cycleCount.toString(),
+                        )
+                    )
+                }
+            }
+        }
+
+        val batteryManager = appContext.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
+        if (batteryManager != null) {
+            // Current now
+            val currentNow =
+                batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
+            if (currentNow != Int.MIN_VALUE && currentNow != 0) {
+                functionsList.add(
+                    ItemValue.NameResource(
+                        Res.string.battery_current_now,
+                        "${currentNow / 1000.0}mA",
+                    )
+                )
+            }
+
+            // Current average
+            val currentAvg =
+                batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_AVERAGE)
+            if (currentAvg != Int.MIN_VALUE && currentAvg != 0) {
+                functionsList.add(
+                    ItemValue.NameResource(
+                        Res.string.battery_current_avg,
+                        "${currentAvg / 1000.0}mA",
+                    )
+                )
+            }
+
+            // Charge counter (remaining charge)
+            val chargeCounter =
+                batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)
+            if (chargeCounter != Int.MIN_VALUE && chargeCounter > 0) {
+                functionsList.add(
+                    ItemValue.NameResource(
+                        Res.string.battery_charge_counter,
+                        "${chargeCounter / 1000.0}mAh",
+                    )
+                )
+            }
+
+            // Charge time remaining (API 28+)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val chargeTimeRemaining = batteryManager.computeChargeTimeRemaining()
+                if (chargeTimeRemaining > 0) {
+                    val minutes = chargeTimeRemaining / 1000 / 60
+                    val hours = minutes / 60
+                    val remainingMinutes = minutes % 60
+                    val timeString =
+                        if (hours > 0) {
+                            "${hours}h ${remainingMinutes}m"
+                        } else {
+                            "${remainingMinutes}m"
+                        }
+                    functionsList.add(
+                        ItemValue.NameResource(Res.string.battery_charge_time_remaining, timeString)
+                    )
+                }
             }
         }
 

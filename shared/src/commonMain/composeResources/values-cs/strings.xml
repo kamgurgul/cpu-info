@@ -159,6 +159,14 @@
     <string name="battery_unplugged">Odpojeno</string>
     <string name="battery_charging">Nabíjení</string>
     <string name="battery_full">Plně nabitá</string>
+    <string name="battery_not_charging">Nenabíjí se</string>
+    <string name="battery_present">Přítomna</string>
+    <string name="battery_dock">Dok</string>
+    <string name="battery_current_now">Aktuální proud</string>
+    <string name="battery_current_avg">Průměrný proud</string>
+    <string name="battery_charge_counter">Zbývající náboj</string>
+    <string name="battery_charge_time_remaining">Čas do nabití</string>
+    <string name="battery_cycle_count">Počet cyklů</string>
     <string name="ir_emitter">IR vysílač</string>
     <string name="hardware_microphones">Mikrofony</string>
     <string name="hardware_computer_system">Počítačový systém</string>

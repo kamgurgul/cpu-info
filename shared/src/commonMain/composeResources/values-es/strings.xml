@@ -165,6 +165,14 @@
     <string name="battery_unplugged">Desconectada</string>
     <string name="battery_charging">Cargando</string>
     <string name="battery_full">Completa</string>
+    <string name="battery_not_charging">Sin carga</string>
+    <string name="battery_present">Presente</string>
+    <string name="battery_dock">Base</string>
+    <string name="battery_current_now">Corriente actual</string>
+    <string name="battery_current_avg">Corriente promedio</string>
+    <string name="battery_charge_counter">Carga restante</string>
+    <string name="battery_charge_time_remaining">Tiempo hasta carga completa</string>
+    <string name="battery_cycle_count">Ciclos de carga</string>
     <string name="ir_emitter">Emisor IR</string>
     <string name="hardware_microphones">Micrófonos</string>
     <string name="hardware_computer_system">Sistema informático</string>
