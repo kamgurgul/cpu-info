@@ -1,0 +1,6 @@
+* Fix tile issue #490
+* Add more Wi-Fi info #92
+* Use Material You colors for progress #376
+* Add progress bar for RAM #448
+* Add more batter info #86
+* Libs update
