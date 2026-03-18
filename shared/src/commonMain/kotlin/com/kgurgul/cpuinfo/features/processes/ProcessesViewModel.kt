@@ -43,13 +43,12 @@ class ProcessesViewModel(
 ) : ViewModel() {
 
     val searchQuery = savedStateHandle.getStateFlow(key = SEARCH_QUERY_KEY, initialValue = "")
-    private val debouncedSearchQueryFlow =
-        searchQuery.mapLatest { query ->
-            if (query.isNotEmpty()) {
-                delay(SEARCH_DEBOUNCE_MS)
-            }
-            query
+    private val debouncedSearchQueryFlow = searchQuery.mapLatest { query ->
+        if (query.isNotEmpty()) {
+            delay(SEARCH_DEBOUNCE_MS)
         }
+        query
+    }
     val uiStateFlow =
         userPreferencesRepository.userPreferencesFlow
             .flatMapLatest { userPreferences ->

@@ -41,10 +41,9 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
 
     actual fun getSensorData(): Flow<List<SensorData>> = callbackFlow {
         val sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL)
-        val initialData =
-            sensorList.map {
-                SensorData(id = it.getUniqueId(), name = TextResource.Text(it.name), value = " ")
-            }
+        val initialData = sensorList.map {
+            SensorData(id = it.getUniqueId(), name = TextResource.Text(it.name), value = " ")
+        }
         trySend(initialData)
         val sensorListener =
             object : SensorEventListener {
