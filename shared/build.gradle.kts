@@ -136,17 +136,20 @@ kotlin {
             }
         }
 
-        commonTest.dependencies {
-            implementation(kotlin("test"))
-            implementation(kotlin("test-common"))
-            implementation(kotlin("test-annotations-common"))
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
 
-            implementation(libs.kotlinx.coroutines.test)
-            implementation(libs.turbine)
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.turbine)
+            }
         }
 
         val desktopTest by getting {
             dependencies {
+                implementation(kotlin("test-junit"))
                 implementation(libs.jetbrains.compose.uiTest)
             }
         }

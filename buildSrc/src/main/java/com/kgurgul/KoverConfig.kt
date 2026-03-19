@@ -24,6 +24,9 @@ object KoverConfig {
             "com.kgurgul.cpuinfo.ui",
             "com.kgurgul.cpuinfo.*.model*",
             "com.kgurgul.cpuinfo.*.models*",
+            "com.kgurgul.cpuinfo.appinitializers",
+            "com.kgurgul.cpuinfo.di",
+            "com.kgurgul.cpuinfo.utils.navigation",
         )
     val excludedClasses =
         listOf(
