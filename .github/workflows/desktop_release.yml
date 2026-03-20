@@ -44,6 +44,38 @@ jobs:
         with:
           name: CPU.Info-${{ github.event.inputs.version }}.msi
           path: desktopApp/build/compose/binaries/main-release/msi/*.msi
+      - name: Install MSIX Packaging Tool
+        run: |
+          winget install --id Microsoft.MSIXPackagingTool --accept-source-agreements --accept-package-agreements
+        shell: pwsh
+      - name: Create MSIX conversion template
+        run: |
+          $msiPath = (Get-ChildItem -Path "desktopApp/build/compose/binaries/main-release/msi/*.msi" | Select-Object -First 1).FullName
+          @"
+          <MsixPackagingToolTemplate
+            xmlns="http://schemas.microsoft.com/appx/msixpackagingtool/template/2018">
+            <Installer Path="$msiPath" />
+            <PackageInformation
+              PackageName="${{ secrets.MSIX_PACKAGE_NAME }}"
+              PackageDisplayName="${{ secrets.MSIX_PACKAGE_DISPLAY_NAME }}"
+              PublisherName="${{ secrets.MSIX_PUBLISHER_NAME }}"
+              PublisherDisplayName="${{ secrets.MSIX_PUBLISHER_DISPLAY_NAME }}"
+              Version="${{ github.event.inputs.version }}"
+            />
+            <SaveLocation PackagePath="${{ github.workspace }}\output" />
+          </MsixPackagingToolTemplate>
+          "@ | Out-File -FilePath template.xml -Encoding utf8
+        shell: pwsh
+      - name: Convert MSI to MSIX
+        run: |
+          New-Item -ItemType Directory -Force -Path output
+          MsixPackagingTool.exe create-package --template template.xml
+        shell: pwsh
+      - name: Upload MSIX
+        uses: actions/upload-artifact@v7
+        with:
+          name: CPU.Info-${{ github.event.inputs.version }}.msix
+          path: output/*.msix
 
   build_linux_x64_uber_jar:
     needs: code_quality
@@ -212,6 +244,10 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: CPU.Info-${{ github.event.inputs.version }}.msi
+      - name: Download MSIX
+        uses: actions/download-artifact@v8
+        with:
+          name: CPU.Info-${{ github.event.inputs.version }}.msix
       - name: Download Linux x64 Uber JAR
         uses: actions/download-artifact@v8
         with:
@@ -243,7 +279,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: "*.msi, *.jar, *.dmg"
+          artifacts: "*.msi, *.msix, *.jar, *.dmg"
           draft: true
           name: "[JVM] ${{ github.event.inputs.version }}"
           tag: jvm-${{ github.event.inputs.version }}
