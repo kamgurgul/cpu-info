@@ -60,7 +60,7 @@ jobs:
               PackageDisplayName="${{ secrets.MSIX_PACKAGE_DISPLAY_NAME }}"
               PublisherName="${{ secrets.MSIX_PUBLISHER_NAME }}"
               PublisherDisplayName="${{ secrets.MSIX_PUBLISHER_DISPLAY_NAME }}"
-              Version="${{ github.event.inputs.version }}"
+              Version="${{ github.event.inputs.version }}.0"
             />
             <SaveLocation PackagePath="${{ github.workspace }}\output" />
           </MsixPackagingToolTemplate>
