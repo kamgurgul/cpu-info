@@ -25,7 +25,8 @@ jobs:
         run: ./gradlew spotlessCheck
   build_msi:
     needs: code_quality
-    runs-on: windows-latest
+    runs-on: windows-2022
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v6
       - name: Set up JDK 17
@@ -46,7 +47,41 @@ jobs:
           path: desktopApp/build/compose/binaries/main-release/msi/*.msi
       - name: Install MSIX Packaging Tool
         run: |
-          winget install --id Microsoft.MSIXPackagingTool --accept-source-agreements --accept-package-agreements
+          $attempts = 3
+          for ($i = 1; $i -le $attempts; $i++) {
+            winget install --id Microsoft.MSIXPackagingTool --accept-source-agreements --accept-package-agreements
+            $pkg = Get-AppxPackage Microsoft.MSIXPackagingTool -ErrorAction SilentlyContinue
+            if ($pkg) { break }
+            if ($i -eq $attempts) {
+              Write-Error "MSIX Packaging Tool installation failed after $attempts attempts."
+              exit 1
+            }
+            Start-Sleep -Seconds 20
+          }
+          $tool = Get-Command MsixPackagingTool.exe -ErrorAction SilentlyContinue
+          $pkg = Get-AppxPackage Microsoft.MSIXPackagingTool -ErrorAction SilentlyContinue
+          if (-not $tool -and -not $pkg) {
+            Write-Error "MSIX Packaging Tool is not available after installation."
+            exit 1
+          }
+        shell: pwsh
+      - name: Validate MSIX inputs
+        run: |
+          $msi = Get-ChildItem -Path "desktopApp/build/compose/binaries/main-release/msi/*.msi" | Select-Object -First 1
+          if (-not $msi) {
+            Write-Error "MSI artifact was not found. Cannot run required MSIX conversion."
+            exit 1
+          }
+          $requiredSecrets = @(
+            "${{ secrets.MSIX_PACKAGE_NAME }}",
+            "${{ secrets.MSIX_PACKAGE_DISPLAY_NAME }}",
+            "${{ secrets.MSIX_PUBLISHER_NAME }}",
+            "${{ secrets.MSIX_PUBLISHER_DISPLAY_NAME }}"
+          )
+          if ($requiredSecrets | Where-Object { [string]::IsNullOrWhiteSpace($_) }) {
+            Write-Error "One or more MSIX_* secrets are missing. MSIX conversion is required for this workflow."
+            exit 1
+          }
         shell: pwsh
       - name: Create MSIX conversion template
         run: |
@@ -67,9 +102,39 @@ jobs:
           "@ | Out-File -FilePath template.xml -Encoding utf8
         shell: pwsh
       - name: Convert MSI to MSIX
+        id: convert_msix
+        timeout-minutes: 30
         run: |
           New-Item -ItemType Directory -Force -Path output
-          MsixPackagingTool.exe create-package --template template.xml
+          $attempts = 2
+          for ($i = 1; $i -le $attempts; $i++) {
+            MsixPackagingTool.exe create-package --template template.xml
+            if ($LASTEXITCODE -eq 0) { break }
+            if ($i -eq $attempts) {
+              Write-Error "MSIX conversion failed after $attempts attempts."
+              exit 1
+            }
+            Start-Sleep -Seconds 30
+          }
+        shell: pwsh
+      - name: Show MSIX Packaging Tool logs on failure
+        if: failure()
+        run: |
+          $logPath = Join-Path $env:LOCALAPPDATA "Packages\Microsoft.MSIXPackagingTool_8wekyb3d8bbwe\LocalState\DiagOutputDir\Logs\Log.txt"
+          if (Test-Path $logPath) {
+            Write-Host "MSIX Packaging Tool log: $logPath"
+            Get-Content $logPath -Tail 400
+          } else {
+            Write-Warning "MSIX Packaging Tool log not found at expected path: $logPath"
+          }
+        shell: pwsh
+      - name: Assert MSIX artifact exists
+        run: |
+          $msix = Get-ChildItem -Path "output/*.msix" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $msix) {
+            Write-Error "MSIX conversion finished without producing an .msix file."
+            exit 1
+          }
         shell: pwsh
       - name: Upload MSIX
         uses: actions/upload-artifact@v7
