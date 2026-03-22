@@ -25,7 +25,7 @@ jobs:
         run: ./gradlew spotlessCheck
   build_msi:
     needs: code_quality
-    runs-on: windows-2022
+    runs-on: windows-2025
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v6
