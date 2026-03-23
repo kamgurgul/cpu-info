@@ -25,8 +25,7 @@ jobs:
         run: ./gradlew spotlessCheck
   build_msi:
     needs: code_quality
-    runs-on: windows-2022
-    timeout-minutes: 90
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v6
       - name: Set up JDK 17
@@ -47,41 +46,7 @@ jobs:
           path: desktopApp/build/compose/binaries/main-release/msi/*.msi
       - name: Install MSIX Packaging Tool
         run: |
-          $attempts = 3
-          for ($i = 1; $i -le $attempts; $i++) {
-            winget install --id Microsoft.MSIXPackagingTool --accept-source-agreements --accept-package-agreements
-            $pkg = Get-AppxPackage Microsoft.MSIXPackagingTool -ErrorAction SilentlyContinue
-            if ($pkg) { break }
-            if ($i -eq $attempts) {
-              Write-Error "MSIX Packaging Tool installation failed after $attempts attempts."
-              exit 1
-            }
-            Start-Sleep -Seconds 20
-          }
-          $tool = Get-Command MsixPackagingTool.exe -ErrorAction SilentlyContinue
-          $pkg = Get-AppxPackage Microsoft.MSIXPackagingTool -ErrorAction SilentlyContinue
-          if (-not $tool -and -not $pkg) {
-            Write-Error "MSIX Packaging Tool is not available after installation."
-            exit 1
-          }
-        shell: pwsh
-      - name: Validate MSIX inputs
-        run: |
-          $msi = Get-ChildItem -Path "desktopApp/build/compose/binaries/main-release/msi/*.msi" | Select-Object -First 1
-          if (-not $msi) {
-            Write-Error "MSI artifact was not found. Cannot run required MSIX conversion."
-            exit 1
-          }
-          $requiredSecrets = @(
-            "${{ secrets.MSIX_PACKAGE_NAME }}",
-            "${{ secrets.MSIX_PACKAGE_DISPLAY_NAME }}",
-            "${{ secrets.MSIX_PUBLISHER_NAME }}",
-            "${{ secrets.MSIX_PUBLISHER_DISPLAY_NAME }}"
-          )
-          if ($requiredSecrets | Where-Object { [string]::IsNullOrWhiteSpace($_) }) {
-            Write-Error "One or more MSIX_* secrets are missing. MSIX conversion is required for this workflow."
-            exit 1
-          }
+          winget install --id Microsoft.MSIXPackagingTool --accept-source-agreements --accept-package-agreements
         shell: pwsh
       - name: Create MSIX conversion template
         run: |
@@ -106,7 +71,7 @@ jobs:
         timeout-minutes: 30
         run: |
           New-Item -ItemType Directory -Force -Path output
-          $attempts = 2
+          $attempts = 3
           for ($i = 1; $i -le $attempts; $i++) {
             MsixPackagingTool.exe create-package --template template.xml
             if ($LASTEXITCODE -eq 0) { break }
@@ -114,7 +79,6 @@ jobs:
               Write-Error "MSIX conversion failed after $attempts attempts."
               exit 1
             }
-            Start-Sleep -Seconds 30
           }
         shell: pwsh
       - name: Show MSIX Packaging Tool logs on failure
@@ -184,9 +148,16 @@ jobs:
           name: CPU-Info-macos-arm64-${{ github.event.inputs.version }}-release.jar
           path: desktopApp/build/compose/jars/*.jar
 
-  build_mac_arm64_dmg:
+  build_mac_dmg:
     needs: code_quality
-    runs-on: macos-26
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        include:
+          - runner: macos-26
+            arch: arm64
+          - runner: macos-15-intel
+            arch: x64
     steps:
       - uses: actions/checkout@v6
 
@@ -219,7 +190,7 @@ jobs:
       - name: Create path variables
         id: path_variables
         run: |
-          name="CPU-Info-arm64-${{ github.event.inputs.version }}.dmg"
+          name="CPU-Info-${{ matrix.arch }}-${{ github.event.inputs.version }}.dmg"
           path="desktopApp/build/compose/binaries/main-release/dmg/CPU-Info-${{ github.event.inputs.version }}.dmg"
           echo "RELEASE_NAME=$name" >> $GITHUB_ENV
           echo "RELEASE_PATH=$path" >> $GITHUB_ENV
@@ -236,63 +207,19 @@ jobs:
           MAC_APPSTORE_TEAM_ID: ${{ secrets.MAC_APPSTORE_TEAM_ID }}
           RELEASE_PATH: ${{ env.RELEASE_PATH }}
 
-      - name: Upload DMG
-        uses: actions/upload-artifact@v7
-        with:
-          name: ${{ env.RELEASE_NAME }}
-          path: ${{ env.RELEASE_PATH }}
-
-  build_mac_x64_dmg:
-    needs: code_quality
-    runs-on: macos-15-intel
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: set up JDK 18
-        uses: actions/setup-java@v5
-        with:
-          distribution: 'zulu'
-          java-version: 18
-          cache: gradle
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
-        with:
-          gradle-home-cache-cleanup: true
-          cache-encryption-key: ${{ secrets.GRADLE_CACHE_ENCRYPTION_KEY }}
-
-      - name: Cache KMP tooling
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/.konan
-          key: ${{ runner.os }}-v1-${{ hashFiles('*.versions.toml') }}
-
-      - name: Import certs
-        uses: apple-actions/import-codesign-certs@v6
-        with:
-          p12-file-base64: ${{ secrets.MAC_NOTARIZATION_CERT }}
-          p12-password: ${{ secrets.MAC_NOTARIZATION_CERT_PASS }}
-
-      - name: Create path variables
-        id: path_variables
+      - name: Show notarization logs on failure
+        if: failure()
         run: |
-          name="CPU-Info-x64-${{ github.event.inputs.version }}.dmg"
-          path="desktopApp/build/compose/binaries/main-release/dmg/CPU-Info-${{ github.event.inputs.version }}.dmg"
-          echo "RELEASE_NAME=$name" >> $GITHUB_ENV
-          echo "RELEASE_PATH=$path" >> $GITHUB_ENV
-
-      - name: Create and notarize DMG
-        run: |
-          ./gradlew desktopApp:notarizeReleaseDmg -PmacOsNotarization=true \
-          -Pcompose.desktop.mac.notarization.appleID=$MAC_NOTARIZATION_ID \
-          -Pcompose.desktop.mac.notarization.password=$MAC_NOTARIZATION_PWD \
-          -Pcompose.desktop.mac.notarization.teamID=$MAC_APPSTORE_TEAM_ID
-        env:
-          MAC_NOTARIZATION_ID: ${{ secrets.MAC_NOTARIZATION_ID }}
-          MAC_NOTARIZATION_PWD: ${{ secrets.MAC_NOTARIZATION_PWD }}
-          MAC_APPSTORE_TEAM_ID: ${{ secrets.MAC_APPSTORE_TEAM_ID }}
-          RELEASE_PATH: ${{ env.RELEASE_PATH }}
+          echo "=== notarizeReleaseDmg stdout logs ==="
+          find desktopApp/build/compose/logs/notarizeReleaseDmg -name "*-out.txt" 2>/dev/null | sort | while read f; do
+            echo "--- $f ---"
+            cat "$f"
+          done
+          echo "=== notarizeReleaseDmg stderr logs ==="
+          find desktopApp/build/compose/logs/notarizeReleaseDmg -name "*-err.txt" 2>/dev/null | sort | while read f; do
+            echo "--- $f ---"
+            cat "$f"
+          done
 
       - name: Upload DMG
         uses: actions/upload-artifact@v7
@@ -301,7 +228,7 @@ jobs:
           path: ${{ env.RELEASE_PATH }}
 
   tag_and_create_release:
-    needs: [ build_msi, build_linux_x64_uber_jar, build_mac_arm64_dmg, build_mac_x64_dmg, build_mac_uber_jar ]
+    needs: [ build_msi, build_linux_x64_uber_jar, build_mac_dmg, build_mac_uber_jar ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
