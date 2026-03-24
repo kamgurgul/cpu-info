@@ -16,7 +16,7 @@ jobs:
           distribution: 'corretto'
           cache: gradle
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
+        uses: gradle/actions/setup-gradle@v6
       - name: Unit tests
         run: ./gradlew allTests
       - name: Generate code coverage
