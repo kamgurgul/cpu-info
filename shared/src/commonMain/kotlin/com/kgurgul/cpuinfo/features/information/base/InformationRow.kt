@@ -32,7 +32,7 @@ fun InformationRow(
 ) {
     val contentColor =
         if (value.isEmpty()) {
-            MaterialTheme.colorScheme.tertiary
+            MaterialTheme.colorScheme.tertiaryFixed
         } else {
             MaterialTheme.colorScheme.onBackground
         }
