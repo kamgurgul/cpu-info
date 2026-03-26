@@ -86,8 +86,6 @@ class HostActivity : ComponentActivity() {
                         DarkColors.copy(
                             secondary = dynamicDarkColors.secondaryFixed,
                             onSecondary = dynamicDarkColors.onSecondaryFixed,
-                            tertiaryFixed = dynamicDarkColors.tertiaryFixed,
-                            onTertiaryFixed = dynamicDarkColors.onTertiaryFixed,
                         )
                     }
 
@@ -96,8 +94,6 @@ class HostActivity : ComponentActivity() {
                         LightColors.copy(
                             secondary = dynamicLightColors.secondaryFixed,
                             onSecondary = dynamicLightColors.onSecondaryFixed,
-                            tertiaryFixed = dynamicLightColors.tertiaryFixed,
-                            onTertiaryFixed = dynamicLightColors.onTertiaryFixed,
                         )
                     }
 
