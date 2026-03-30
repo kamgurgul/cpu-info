@@ -35,6 +35,7 @@ import com.kgurgul.cpuinfo.shared.available_memory
 import com.kgurgul.cpuinfo.shared.ram
 import com.kgurgul.cpuinfo.shared.threshold
 import com.kgurgul.cpuinfo.shared.total_memory
+import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.wear.ui.components.WearCpuChip
 import org.jetbrains.compose.resources.stringResource
@@ -88,6 +89,14 @@ fun WearRamInfoScreen(uiState: RamInfoViewModel.UiState) {
                             secondaryLabel = Utils.convertBytesToMega(ramData.threshold),
                         )
                     }
+                }
+                item(key = "__progress") {
+                    val usedPercentage = (100 - ramData.availablePercentage) / 100f
+                    CpuProgressBar(
+                        progress = usedPercentage,
+                        minMaxValues =
+                            Utils.convertBytesToMega(0L) to Utils.convertBytesToMega(ramData.total),
+                    )
                 }
             }
         }

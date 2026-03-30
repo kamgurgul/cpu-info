@@ -29,6 +29,7 @@ import com.kgurgul.cpuinfo.shared.available_memory
 import com.kgurgul.cpuinfo.shared.threshold
 import com.kgurgul.cpuinfo.shared.total_memory
 import com.kgurgul.cpuinfo.tv.ui.components.TvListItem
+import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.components.ItemValueRow
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.Utils
@@ -75,6 +76,16 @@ fun TvRamInfoScreen(uiState: RamInfoViewModel.UiState) {
                             value = Utils.convertBytesToMega(ramData.threshold),
                         )
                     }
+                }
+            }
+            item(key = "__progress") {
+                val usedPercentage = (100 - ramData.availablePercentage) / 100f
+                TvListItem {
+                    CpuProgressBar(
+                        progress = usedPercentage,
+                        minMaxValues =
+                            Utils.convertBytesToMega(0L) to Utils.convertBytesToMega(ramData.total),
+                    )
                 }
             }
         }
