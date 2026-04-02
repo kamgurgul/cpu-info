@@ -72,9 +72,11 @@ class CpuTileService : TileService(), CoroutineScope, KoinComponent {
         refreshingJob = launch {
             while (true) {
                 val load = getAverageCPUFreq()
-                qsTile.label = "Avg ${formatHz(load)}"
-                qsTile.icon = getLoadIcon(load)
-                qsTile.updateTile()
+                qsTile?.run {
+                    label = "Avg ${formatHz(load)}"
+                    icon = getLoadIcon(load)
+                    updateTile()
+                }
                 delay(REFRESHING_DELAY_MS)
             }
         }
