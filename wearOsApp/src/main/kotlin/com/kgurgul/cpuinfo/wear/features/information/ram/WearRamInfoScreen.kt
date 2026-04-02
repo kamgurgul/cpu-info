@@ -96,6 +96,8 @@ fun WearRamInfoScreen(uiState: RamInfoViewModel.UiState) {
                         progress = usedPercentage,
                         minMaxValues =
                             Utils.convertBytesToMega(0L) to Utils.convertBytesToMega(ramData.total),
+                        textColor = MaterialTheme.colors.onBackground,
+                        progressColor = MaterialTheme.colors.secondaryVariant,
                     )
                 }
             }
