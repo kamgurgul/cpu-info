@@ -36,7 +36,7 @@ actual class ProcessesProvider actual constructor() : KoinComponent, IProcessesP
                 ppid = it.parentProcessID.toString(),
                 niceness = it.priority.toString(),
                 user = it.user,
-                rss = it.residentSetSize.toString(),
+                rss = it.residentMemory.toString(),
                 vsize = it.virtualSize.toString(),
             )
         }
