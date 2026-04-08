@@ -15,6 +15,7 @@
  */
 package com.kgurgul.cpuinfo.features.information.storage
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.invoke
@@ -41,6 +42,7 @@ class StorageInfoViewModel(private val storageDataObservable: StorageDataObserva
         storageDataObservable.invoke()
     }
 
+    @Stable
     data class UiState(
         val isInitializing: Boolean = true,
         val storageItems: ImmutableList<StorageItem> = persistentListOf(),

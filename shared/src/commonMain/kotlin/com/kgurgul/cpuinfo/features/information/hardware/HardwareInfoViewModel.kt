@@ -15,6 +15,7 @@
  */
 package com.kgurgul.cpuinfo.features.information.hardware
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
@@ -47,6 +48,7 @@ class HardwareInfoViewModel(
         getHardwareDataInteractor()
     }
 
+    @Stable
     data class UiState(
         val isInitializing: Boolean = true,
         val hardwareItems: ImmutableList<ItemValue> = persistentListOf(),

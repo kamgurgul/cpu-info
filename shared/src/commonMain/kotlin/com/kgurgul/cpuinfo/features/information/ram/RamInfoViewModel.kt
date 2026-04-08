@@ -15,6 +15,7 @@
  */
 package com.kgurgul.cpuinfo.features.information.ram
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.model.RamData
@@ -34,5 +35,5 @@ class RamInfoViewModel(ramDataObservable: RamDataObservable) : ViewModel() {
             .map { UiState(isInitializing = false, ramData = it) }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
-    data class UiState(val isInitializing: Boolean = true, val ramData: RamData? = null)
+    @Stable data class UiState(val isInitializing: Boolean = true, val ramData: RamData? = null)
 }

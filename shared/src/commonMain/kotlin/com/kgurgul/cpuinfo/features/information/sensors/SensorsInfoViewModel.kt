@@ -15,6 +15,7 @@
  */
 package com.kgurgul.cpuinfo.features.information.sensors
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.model.SensorData
@@ -56,6 +57,7 @@ class SensorsInfoViewModel(sensorsDataObservable: SensorsDataObservable) : ViewM
             .map { UiState(isInitializing = false, sensors = it.toImmutableList()) }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
+    @Stable
     data class UiState(
         val isInitializing: Boolean = true,
         val sensors: ImmutableList<SensorData> = persistentListOf(),

@@ -15,6 +15,7 @@
  */
 package com.kgurgul.cpuinfo.features.information.gpu
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.model.ItemValue
@@ -40,6 +41,7 @@ class GpuInfoViewModel(private val gpuDataObservable: GpuDataObservable) : ViewM
         gpuDataObservable(GpuDataObservable.Params(glVendor, glRenderer, glExtensions))
     }
 
+    @Stable
     data class UiState(
         val isInitializing: Boolean = true,
         val gpuData: ImmutableList<ItemValue> = persistentListOf(),
