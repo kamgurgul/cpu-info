@@ -41,7 +41,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HardwareInfoScreen(viewModel: HardwareInfoViewModel = koinViewModel()) {
-    registerPowerPlugListener(onRefresh = viewModel::refreshHardwareInfo)
+    RegisterPowerPlugListener(onRefresh = viewModel::refreshHardwareInfo)
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     HardwareInfoScreen(uiState = uiState)
 }
@@ -76,7 +76,7 @@ fun HardwareInfoScreen(uiState: HardwareInfoViewModel.UiState) {
     }
 }
 
-@Composable expect fun registerPowerPlugListener(onRefresh: () -> Unit)
+@Composable expect fun RegisterPowerPlugListener(onRefresh: () -> Unit)
 
 @Preview
 @Composable

@@ -28,14 +28,14 @@ import com.kgurgul.cpuinfo.domain.model.getName
 import com.kgurgul.cpuinfo.domain.model.getValue
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
 import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoViewModel
-import com.kgurgul.cpuinfo.features.information.hardware.registerPowerPlugListener
+import com.kgurgul.cpuinfo.features.information.hardware.RegisterPowerPlugListener
 import com.kgurgul.cpuinfo.tv.ui.components.TvListItem
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun TvHardwareInfoScreen(viewModel: HardwareInfoViewModel = koinViewModel()) {
-    registerPowerPlugListener(onRefresh = viewModel::refreshHardwareInfo)
+    RegisterPowerPlugListener(onRefresh = viewModel::refreshHardwareInfo)
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     TvHardwareInfoScreen(uiState = uiState)
 }

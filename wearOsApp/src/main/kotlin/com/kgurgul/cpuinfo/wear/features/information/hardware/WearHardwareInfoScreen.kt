@@ -35,7 +35,7 @@ import com.kgurgul.cpuinfo.domain.model.getKey
 import com.kgurgul.cpuinfo.domain.model.getName
 import com.kgurgul.cpuinfo.domain.model.getValue
 import com.kgurgul.cpuinfo.features.information.hardware.HardwareInfoViewModel
-import com.kgurgul.cpuinfo.features.information.hardware.registerPowerPlugListener
+import com.kgurgul.cpuinfo.features.information.hardware.RegisterPowerPlugListener
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.hardware
 import com.kgurgul.cpuinfo.wear.ui.components.WearCpuChip
@@ -44,7 +44,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun WearHardwareInfoScreen(viewModel: HardwareInfoViewModel = koinViewModel()) {
-    registerPowerPlugListener(onRefresh = viewModel::refreshHardwareInfo)
+    RegisterPowerPlugListener(onRefresh = viewModel::refreshHardwareInfo)
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
     WearHardwareInfoScreen(uiState = uiState)
 }

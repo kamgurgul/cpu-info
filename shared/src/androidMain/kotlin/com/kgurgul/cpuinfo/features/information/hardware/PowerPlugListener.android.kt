@@ -26,7 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.RECEIVER_EXPORTED
 
 @Composable
-actual fun registerPowerPlugListener(onRefresh: () -> Unit) {
+actual fun RegisterPowerPlugListener(onRefresh: () -> Unit) {
     val context = LocalContext.current
     DisposableEffect(context) {
         val filter =
