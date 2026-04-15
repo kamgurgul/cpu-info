@@ -1,0 +1,19 @@
+default_platform(:android)
+
+platform :android do
+  desc "Upload AAB to Google Play internal testing track"
+  lane :internal do |options|
+    upload_to_play_store(
+      track: 'internal',
+      aab: options[:aab],
+      package_name: 'com.kgurgul.cpuinfo',
+      json_key: options[:json_key],
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      release_status: 'draft'
+    )
+  end
+end

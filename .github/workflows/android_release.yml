@@ -114,6 +114,28 @@ jobs:
           name: mapping-${{ matrix.format.type }}
           path: androidApp/build/outputs/mapping/
 
+      - name: Set up Ruby
+        if: matrix.format.type == 'aab'
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+
+      - name: Install fastlane
+        if: matrix.format.type == 'aab'
+        run: gem install fastlane -NV
+
+      - name: Write Play Store service account JSON
+        if: matrix.format.type == 'aab'
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > play-service-account.json
+
+      - name: Upload AAB to Play Store internal track
+        if: matrix.format.type == 'aab'
+        run: |
+          AAB_PATH=$(ls androidApp/build/outputs/bundle/release/*.aab | head -n 1)
+          fastlane android internal aab:"$AAB_PATH" json_key:play-service-account.json
+
   release:
     needs: build
     permissions:
