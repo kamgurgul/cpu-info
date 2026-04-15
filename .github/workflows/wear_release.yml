@@ -80,7 +80,7 @@ jobs:
         if: matrix.format.type == 'aab'
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3'
+          ruby-version: '3.4.9'
       - name: Install fastlane
         if: matrix.format.type == 'aab'
         run: gem install fastlane -NV
