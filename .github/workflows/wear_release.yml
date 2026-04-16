@@ -93,7 +93,7 @@ jobs:
         if: matrix.format.type == 'aab'
         run: |
           AAB_PATH=$(ls wearOsApp/build/outputs/bundle/release/*.aab | head -n 1)
-          fastlane android internal aab:"$AAB_PATH" json_key:play-service-account.json
+          fastlane android internal aab:"$AAB_PATH" json_key:play-service-account.json track:wear:internal
   release:
     needs: build
     permissions:

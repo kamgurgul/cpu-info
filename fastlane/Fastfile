@@ -4,7 +4,7 @@ platform :android do
   desc "Upload AAB to Google Play internal testing track"
   lane :internal do |options|
     upload_to_play_store(
-      track: 'internal',
+      track: options[:track] || 'internal',
       aab: options[:aab],
       package_name: 'com.kgurgul.cpuinfo',
       json_key: options[:json_key],
