@@ -180,6 +180,7 @@
     <string name="hardware_printers_status_error">Chyba</string>
     <string name="hardware_printers_status_offline">Offline</string>
     <string name="hardware_printers_status_unknown">Neznámý</string>
+    <string name="hardware_hard_drives">Pevné disky</string>
 
     <!--Cellular-->
     <string name="cellular">Mobilní síť</string>

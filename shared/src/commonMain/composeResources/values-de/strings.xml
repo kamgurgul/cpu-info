@@ -180,6 +180,7 @@
     <string name="hardware_printers_status_error">Fehler</string>
     <string name="hardware_printers_status_offline">Offline</string>
     <string name="hardware_printers_status_unknown">Unbekannt</string>
+    <string name="hardware_hard_drives">Festplatten</string>
 
     <!--Cellular-->
     <string name="cellular">Mobilfunk</string>

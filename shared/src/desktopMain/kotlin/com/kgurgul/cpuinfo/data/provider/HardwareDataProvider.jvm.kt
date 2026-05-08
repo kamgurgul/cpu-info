@@ -20,6 +20,7 @@ import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.hardware_computer_system
 import com.kgurgul.cpuinfo.shared.hardware_firmware
+import com.kgurgul.cpuinfo.shared.hardware_hard_drives
 import com.kgurgul.cpuinfo.shared.hardware_motherboard
 import com.kgurgul.cpuinfo.shared.hardware_network_interfaces
 import com.kgurgul.cpuinfo.shared.hardware_power_sources
@@ -37,6 +38,7 @@ import com.kgurgul.cpuinfo.shared.serial
 import com.kgurgul.cpuinfo.shared.sound_card
 import com.kgurgul.cpuinfo.shared.temperature
 import com.kgurgul.cpuinfo.utils.ResourceUtils
+import com.kgurgul.cpuinfo.utils.Utils
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import oshi.SystemInfo
@@ -53,6 +55,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
         val hardware = systemInfo.hardware
         return buildList {
             addMainHardwareInfo(hardware)
+            addDiskInfo(hardware)
             addSoundCardInfo(hardware)
             addNetworkInfo(hardware)
             addPowerSourceInfo(hardware)
@@ -110,6 +113,27 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                 .trim()
         add(ItemValue.NameResource(Res.string.hardware_firmware, firmware))
         add(ItemValue.NameResource(Res.string.hardware_motherboard, motherboard))
+    }
+
+    private fun MutableList<ItemValue>.addDiskInfo(hardware: HardwareAbstractionLayer) {
+        if (hardware.diskStores.isNotEmpty()) {
+            add(ItemValue.NameResource(Res.string.hardware_hard_drives, ""))
+            hardware.diskStores.forEach { diskStore ->
+                val value =
+                    buildString {
+                            appendLine(diskStore.model.trim())
+                            appendLine(diskStore.diskType.trim())
+                            if (diskStore.serial.isNotEmpty()) {
+                                appendLine(diskStore.serial.trim())
+                            }
+                            if (diskStore.size > 0) {
+                                appendLine(Utils.humanReadableByteCount(diskStore.size))
+                            }
+                        }
+                        .trim()
+                add(ItemValue.Text(diskStore.name, value))
+            }
+        }
     }
 
     private fun MutableList<ItemValue>.addSoundCardInfo(hardware: HardwareAbstractionLayer) {
@@ -186,6 +210,7 @@ actual class HardwareDataProvider actual constructor() : KoinComponent {
                         Printer.PrinterStatus.IDLE -> Res.string.hardware_printers_status_idle
                         Printer.PrinterStatus.PRINTING ->
                             Res.string.hardware_printers_status_printing
+
                         Printer.PrinterStatus.ERROR -> Res.string.hardware_printers_status_error
                         Printer.PrinterStatus.OFFLINE -> Res.string.hardware_printers_status_offline
                         Printer.PrinterStatus.UNKNOWN -> Res.string.hardware_printers_status_unknown

@@ -187,6 +187,7 @@
     <string name="hardware_printers_status_error">Błąd</string>
     <string name="hardware_printers_status_offline">Offline</string>
     <string name="hardware_printers_status_unknown">Nieznany</string>
+    <string name="hardware_hard_drives">Dyski twarde</string>
 
     <!--Cellular-->
     <string name="cellular">Sieć komórkowa</string>

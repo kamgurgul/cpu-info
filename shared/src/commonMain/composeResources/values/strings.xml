@@ -229,6 +229,7 @@
     <string name="hardware_printers_status_error">Error</string>
     <string name="hardware_printers_status_offline">Offline</string>
     <string name="hardware_printers_status_unknown">Unknown</string>
+    <string name="hardware_hard_drives">Hard drives</string>
 
     <!--Cellular-->
     <string name="cellular">Cellular</string>

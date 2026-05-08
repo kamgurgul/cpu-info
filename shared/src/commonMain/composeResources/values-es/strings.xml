@@ -186,6 +186,7 @@
     <string name="hardware_printers_status_error">Error</string>
     <string name="hardware_printers_status_offline">Sin conexión</string>
     <string name="hardware_printers_status_unknown">Desconocido</string>
+    <string name="hardware_hard_drives">Discos duros</string>
 
     <!--Cellular-->
     <string name="cellular">Red móvil</string>
