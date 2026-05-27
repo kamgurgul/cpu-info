@@ -36,6 +36,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -63,8 +65,10 @@ import com.kgurgul.cpuinfo.shared.ic_battery
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.shared.no_temp_data
 import com.kgurgul.cpuinfo.shared.no_temp_data_admin_required
+import com.kgurgul.cpuinfo.shared.temp_admin_required_snackbar
 import com.kgurgul.cpuinfo.shared.temperature
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
+import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
@@ -108,9 +112,17 @@ fun TemperatureScreen(viewModel: TemperatureViewModel = koinViewModel()) {
 
 @Composable
 fun TemperatureScreen(uiState: TemperatureViewModel.UiState) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val adminRequiredMessage = stringResource(Res.string.temp_admin_required_snackbar)
+    LaunchedEffect(uiState.isAdminRequired) {
+        if (uiState.isAdminRequired) {
+            snackbarHostState.showSnackbar(adminRequiredMessage)
+        }
+    }
     Scaffold(
         topBar = { PrimaryTopAppBar(title = stringResource(Res.string.temperature)) },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
+        snackbarHost = { SnackbarHost(snackbarHostState) { data -> CpuSnackbar(data) } },
     ) { paddingValues ->
         CpuPullToRefreshBox(
             isRefreshing = uiState.isLoading,

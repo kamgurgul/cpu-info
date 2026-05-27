@@ -220,6 +220,7 @@
     <!--Temp-->
     <string name="no_temp_data">Lo siento, no puedo encontrar sensores de temperatura :-(</string>
     <string name="no_temp_data_admin_required">La lectura de los sensores de temperatura requiere privilegios de administrador. Por favor, ejecute la aplicación como administrador para acceder a los datos de temperatura.</string>
+    <string name="temp_admin_required_snackbar">Por favor, ejecute como administrador para obtener las temperaturas</string>
     <string name="temp_thermal_state">Estado térmico: %1$s</string>
     <string name="temp_thermal_state_nominal">Nominal</string>
     <string name="temp_thermal_state_fair">Aceptable</string>
