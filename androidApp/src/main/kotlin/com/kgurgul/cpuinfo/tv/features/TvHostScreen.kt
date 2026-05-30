@@ -82,7 +82,8 @@ fun TvHostScreen(uiState: HostViewModel.UiState) {
             Column(
                 modifier = Modifier.fillMaxHeight().padding(spacingMedium).selectableGroup(),
                 horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(spacingSmall, Alignment.CenterVertically),
+                verticalArrangement =
+                    Arrangement.spacedBy(spacingSmall, Alignment.CenterVertically),
             ) {
                 buildTopLevelRoutes(isApplicationsVisible = uiState.isApplicationSectionVisible)
                     .forEach { topLevelRoute ->

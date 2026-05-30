@@ -71,6 +71,7 @@ object CpuNavigationSuiteScaffoldDefault {
                 MaterialTheme.colorScheme.surfaceVariant.copy(alpha = NOT_SELECTED_ALPHA),
             disabledIconColor =
                 MaterialTheme.colorScheme.onPrimary.copy(alpha = NOT_SELECTED_ALPHA),
-            disabledTextColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = NOT_SELECTED_ALPHA),
+            disabledTextColor =
+                MaterialTheme.colorScheme.onPrimary.copy(alpha = NOT_SELECTED_ALPHA),
         )
 }
