@@ -19,6 +19,7 @@ import com.kgurgul.cpuinfo.data.provider.IRamDataProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.RamData
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 
@@ -46,7 +47,7 @@ class RamDataObservable(
                     additionalData = ramDataProvider.getAdditionalData(),
                 )
             )
-            delay(REFRESH_DELAY)
+            delay(REFRESH_DELAY.milliseconds)
         }
     }
 

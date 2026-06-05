@@ -25,6 +25,7 @@ import com.kgurgul.cpuinfo.utils.round1
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -66,7 +67,7 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
                     else -> emptyList()
                 }
             sensors.forEach { emit(it) }
-            delay(REFRESH_DELAY)
+            delay(REFRESH_DELAY.milliseconds)
         }
     }
 

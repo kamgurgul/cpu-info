@@ -19,6 +19,7 @@ import com.kgurgul.cpuinfo.data.provider.HardwareDataProvider
 import com.kgurgul.cpuinfo.domain.MutableInteractor
 import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
@@ -34,7 +35,7 @@ class GetHardwareDataInteractor(
     override fun createObservable(params: Unit) = flow {
         while (true) {
             emit(hardwareDataProvider.getData())
-            delay(REFRESH_DELAY)
+            delay(REFRESH_DELAY.milliseconds)
         }
     }
 

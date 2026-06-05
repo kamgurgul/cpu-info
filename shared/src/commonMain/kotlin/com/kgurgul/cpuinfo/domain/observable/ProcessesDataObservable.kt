@@ -20,6 +20,7 @@ import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.domain.model.SortOrder
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
@@ -42,7 +43,7 @@ class ProcessesDataObservable(
                     else -> processes
                 }
             )
-            delay(REFRESH_DELAY)
+            delay(REFRESH_DELAY.milliseconds)
         }
     }
 

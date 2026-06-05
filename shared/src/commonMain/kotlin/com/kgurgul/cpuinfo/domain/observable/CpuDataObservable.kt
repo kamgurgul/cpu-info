@@ -31,6 +31,7 @@ import com.kgurgul.cpuinfo.shared.cpu_l4
 import com.kgurgul.cpuinfo.shared.cpu_soc_name
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.Utils
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 
@@ -98,7 +99,7 @@ class CpuDataObservable(
                 }
             }
             emit(CpuData(cpuItems = cpuItems, frequencies = frequencies))
-            delay(REFRESH_DELAY)
+            delay(REFRESH_DELAY.milliseconds)
         }
     }
 

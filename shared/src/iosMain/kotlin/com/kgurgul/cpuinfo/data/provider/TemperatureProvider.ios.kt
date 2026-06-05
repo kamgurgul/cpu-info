@@ -25,6 +25,7 @@ import com.kgurgul.cpuinfo.shared.temp_thermal_state_fair
 import com.kgurgul.cpuinfo.shared.temp_thermal_state_nominal
 import com.kgurgul.cpuinfo.shared.temp_thermal_state_serious
 import com.kgurgul.cpuinfo.shared.unknown
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -61,7 +62,7 @@ actual class TemperatureProvider actual constructor() : ITemperatureProvider {
                     temperature = Float.NaN,
                 )
             )
-            delay(REFRESH_DELAY)
+            delay(REFRESH_DELAY.milliseconds)
         }
     }
 

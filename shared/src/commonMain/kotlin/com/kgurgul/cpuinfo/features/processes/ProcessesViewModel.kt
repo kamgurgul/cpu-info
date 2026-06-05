@@ -23,6 +23,7 @@ import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.domain.model.sortOrderFromBoolean
 import com.kgurgul.cpuinfo.domain.observable.ProcessesDataObservable
 import com.kgurgul.cpuinfo.domain.result.FilterProcessesInteractor
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -45,7 +46,7 @@ class ProcessesViewModel(
     val searchQuery = savedStateHandle.getStateFlow(key = SEARCH_QUERY_KEY, initialValue = "")
     private val debouncedSearchQueryFlow = searchQuery.mapLatest { query ->
         if (query.isNotEmpty()) {
-            delay(SEARCH_DEBOUNCE_MS)
+            delay(SEARCH_DEBOUNCE.milliseconds)
         }
         query
     }
@@ -101,4 +102,4 @@ class ProcessesViewModel(
 }
 
 private const val SEARCH_QUERY_KEY = "searchQuery"
-private const val SEARCH_DEBOUNCE_MS = 300L
+private const val SEARCH_DEBOUNCE = 300L

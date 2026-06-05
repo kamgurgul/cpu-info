@@ -19,6 +19,7 @@ import com.kgurgul.cpuinfo.data.provider.ITemperatureProvider
 import com.kgurgul.cpuinfo.domain.ImmutableInteractor
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -44,7 +45,7 @@ class TemperatureDataObservable(
         var hasReceivedData = false
 
         val timeoutJob = launch {
-            delay(LOADING_TIMEOUT)
+            delay(LOADING_TIMEOUT.milliseconds)
             if (!hasReceivedData) {
                 send(TemperatureResult(isLoading = false, items = emptyList()))
             }

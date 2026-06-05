@@ -182,8 +182,12 @@ compose.resources {
 }
 
 composeCompiler {
-    reportsDestination = layout.buildDirectory.dir("compose_compiler")
-    metricsDestination = layout.buildDirectory.dir("compose_compiler")
+    // Opt-in only: the Compose compiler metrics/reports writer crashes on Windows
+    // ("Invalid file path") under Kotlin 2.4.0. Enable with -PenableComposeCompilerReports=true.
+    if (providers.gradleProperty("enableComposeCompilerReports").orNull == "true") {
+        reportsDestination = layout.buildDirectory.dir("compose_compiler")
+        metricsDestination = layout.buildDirectory.dir("compose_compiler")
+    }
 }
 
 dependencies {

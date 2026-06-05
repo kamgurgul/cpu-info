@@ -24,6 +24,7 @@ import com.kgurgul.cpuinfo.data.provider.CpuDataProvider
 import com.kgurgul.cpuinfo.utils.IDispatchersProvider
 import com.kgurgul.cpuinfo.utils.formatHz
 import kotlin.coroutines.CoroutineContext
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
@@ -77,7 +78,7 @@ class CpuTileService : TileService(), CoroutineScope, KoinComponent {
                     icon = getLoadIcon(load)
                     updateTile()
                 }
-                delay(REFRESHING_DELAY_MS)
+                delay(REFRESHING_DELAY.milliseconds)
             }
         }
     }
@@ -124,6 +125,6 @@ class CpuTileService : TileService(), CoroutineScope, KoinComponent {
     }
 
     companion object {
-        private const val REFRESHING_DELAY_MS = 1000L
+        private const val REFRESHING_DELAY = 1000L
     }
 }

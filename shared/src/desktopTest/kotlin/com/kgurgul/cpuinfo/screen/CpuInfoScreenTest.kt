@@ -19,7 +19,7 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performScrollTo
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.kgurgul.cpuinfo.data.TestData
 import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoScreen
 import com.kgurgul.cpuinfo.features.information.cpu.CpuInfoViewModel

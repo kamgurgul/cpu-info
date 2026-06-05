@@ -33,6 +33,7 @@ import com.kgurgul.cpuinfo.shared.app_uninstall_error
 import com.kgurgul.cpuinfo.shared.cpu_open
 import com.kgurgul.cpuinfo.shared.cpu_uninstall
 import com.kgurgul.cpuinfo.utils.wrappers.Result
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -71,7 +72,7 @@ class ApplicationsViewModel(
     val searchQuery = savedStateHandle.getStateFlow(key = SEARCH_QUERY_KEY, initialValue = "")
     private val debouncedSearchQueryFlow = searchQuery.mapLatest { query ->
         if (query.isNotEmpty()) {
-            delay(SEARCH_DEBOUNCE_MS)
+            delay(SEARCH_DEBOUNCE.milliseconds)
         }
         query
     }
@@ -213,4 +214,4 @@ class ApplicationsViewModel(
 }
 
 private const val SEARCH_QUERY_KEY = "searchQuery"
-private const val SEARCH_DEBOUNCE_MS = 300L
+private const val SEARCH_DEBOUNCE = 300L
