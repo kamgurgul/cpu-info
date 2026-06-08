@@ -19,17 +19,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kgurgul.cpuinfo.domain.action.RamCleanupAction
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class InfoContainerViewModel(private val ramCleanupAction: RamCleanupAction) : ViewModel() {
 
-    private val _uiStateFlow = MutableStateFlow(UiState())
-    val uiStateFlow = _uiStateFlow.asStateFlow()
+    val uiStateFlow: StateFlow<UiState>
+        field = MutableStateFlow(UiState())
 
     fun onPageChanged(index: Int) {
-        _uiStateFlow.update {
+        uiStateFlow.update {
             it.copy(
                 isRamCleanupVisible =
                     ramCleanupAction.isCleanupActionAvailable() && index == RAM_POS
