@@ -10,7 +10,7 @@ jobs:
   code_quality:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
@@ -27,7 +27,7 @@ jobs:
     needs: code_quality
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
@@ -110,7 +110,7 @@ jobs:
     needs: code_quality
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
@@ -131,7 +131,7 @@ jobs:
     needs: code_quality
     runs-on: macos-26
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
@@ -159,7 +159,7 @@ jobs:
           - runner: macos-15-intel
             arch: x64
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: set up JDK 18
         uses: actions/setup-java@v5
@@ -231,7 +231,7 @@ jobs:
     needs: [ build_msi, build_linux_x64_uber_jar, build_mac_dmg, build_mac_uber_jar ]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Download MSI
         uses: actions/download-artifact@v8
         with:
