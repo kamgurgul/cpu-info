@@ -28,14 +28,13 @@ import kotlinx.coroutines.flow.stateIn
 
 class LicensesViewModel(getLicensesInteractor: GetLicensesInteractor) : ViewModel() {
 
-    val uiStateFlow =
-        flow {
-                emit(UiState(isLoading = true))
-                getLicensesInteractor(Unit)
-                    .onSuccess { emit(UiState(isLoading = false, licenses = it.toImmutableList())) }
-                    .onFailure { emit(UiState(isLoading = false, isError = true)) }
-            }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+    val uiStateFlow = flow {
+        emit(UiState(isLoading = true))
+        getLicensesInteractor(Unit)
+            .onSuccess { emit(UiState(isLoading = false, licenses = it.toImmutableList())) }
+            .onFailure { emit(UiState(isLoading = false, isError = true)) }
+    }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
 
     data class UiState(
         val isLoading: Boolean = false,

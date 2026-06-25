@@ -57,8 +57,10 @@ actual class SensorsInfoProvider actual constructor() : KoinComponent {
                 )
             }
             if (sensors.fanSpeeds.isNotEmpty()) {
-                val fanSpeeds =
-                    buildString { sensors.fanSpeeds.forEach { appendLine("${it}RPM") } }.trim()
+                val fanSpeeds = buildString {
+                    sensors.fanSpeeds.forEach { appendLine("${it}RPM") }
+                }
+                    .trim()
                 add(
                     SensorData(
                         id = FAN_SPEED_ID,

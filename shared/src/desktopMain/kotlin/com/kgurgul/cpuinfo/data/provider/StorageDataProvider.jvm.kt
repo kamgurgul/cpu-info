@@ -30,25 +30,25 @@ actual class StorageDataProvider actual constructor() : IStorageDataProvider, Ko
     actual override suspend fun getStorageInfo(): List<StorageItem> {
         val fileStores = systemInfo.operatingSystem.fileSystem.fileStores
         return buildList {
-                fileStores.forEach { osFileStore ->
-                    val label = buildString {
-                        if (!osFileStore.label.isNullOrEmpty()) {
-                            appendLine(osFileStore.label)
-                        }
-                        appendLine(osFileStore.name)
-                        appendLine(osFileStore.type)
+            fileStores.forEach { osFileStore ->
+                val label = buildString {
+                    if (!osFileStore.label.isNullOrEmpty()) {
+                        appendLine(osFileStore.label)
                     }
-                    add(
-                        StorageItem(
-                            id = osFileStore.uuid,
-                            label = TextResource.Text(label),
-                            iconDrawable = Res.drawable.ic_hard_drive,
-                            storageTotal = osFileStore.totalSpace,
-                            storageUsed = osFileStore.totalSpace - osFileStore.freeSpace,
-                        )
-                    )
+                    appendLine(osFileStore.name)
+                    appendLine(osFileStore.type)
                 }
+                add(
+                    StorageItem(
+                        id = osFileStore.uuid,
+                        label = TextResource.Text(label),
+                        iconDrawable = Res.drawable.ic_hard_drive,
+                        storageTotal = osFileStore.totalSpace,
+                        storageUsed = osFileStore.totalSpace - osFileStore.freeSpace,
+                    )
+                )
             }
+        }
             .distinctBy { it.id }
             .sortedBy { (it.label as? TextResource.Text)?.value }
     }
