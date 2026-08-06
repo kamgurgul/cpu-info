@@ -24,7 +24,6 @@ composeMultiplatform = "1.11.1"
 composeMaterial3 = "1.9.0"
 composeNavigation = "2.9.2"
 composeUiTest = "1.11.4"
-dependencyUpdate = "0.58.0"
 horologist = "0.7.15"
 imageio = "3.14.0"
 jna = "5.19.1"
@@ -111,7 +110,6 @@ androidTest = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineprofile" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
-dependencyUpdate = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdate" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 licenses = { id = "com.github.jk1.dependency-license-report", version.ref = "licenses" }
