@@ -43,7 +43,7 @@ kotlin {
         }
     }
 
-    jvm("desktop")
+    jvm()
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
@@ -92,7 +92,7 @@ kotlin {
             }
         }
 
-        val mobileMain by creating {
+        val mobileMain = create("mobileMain") {
             dependsOn(commonMain.get())
             dependencies {
                 implementation(libs.androidx.datastore.preferences)
@@ -116,7 +116,7 @@ kotlin {
             dependsOn(mobileMain)
         }
 
-        val desktopMain by getting {
+        jvmMain {
             dependsOn(mobileMain)
             dependencies {
                 implementation(compose.desktop.currentOs)
@@ -128,7 +128,7 @@ kotlin {
             }
         }
 
-        val wasmJsMain by getting {
+        wasmJsMain {
             dependencies {
                 implementation(libs.kotlinx.browser)
                 implementation(npm("cross-spawn", "7.0.6"))
@@ -136,7 +136,7 @@ kotlin {
             }
         }
 
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-common"))
@@ -147,14 +147,14 @@ kotlin {
             }
         }
 
-        val desktopTest by getting {
+        jvmTest {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation(libs.jetbrains.compose.uiTest)
             }
         }
 
-        getByName("androidHostTest") {
+        androidInstrumentedTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
