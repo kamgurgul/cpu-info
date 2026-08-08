@@ -154,7 +154,7 @@ kotlin {
             }
         }
 
-        androidInstrumentedTest {
+        getByName("androidHostTest") {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
