@@ -128,16 +128,3 @@ fun CpuTextField(
         )
     }
 }
-
-@Stable
-private fun TextFieldColors.cursorColor(isError: Boolean): Color =
-    if (isError) errorCursorColor else cursorColor
-
-@Stable
-private fun TextFieldColors.textColor(enabled: Boolean, isError: Boolean, focused: Boolean): Color =
-    when {
-        !enabled -> disabledTextColor
-        isError -> errorTextColor
-        focused -> focusedTextColor
-        else -> unfocusedTextColor
-    }

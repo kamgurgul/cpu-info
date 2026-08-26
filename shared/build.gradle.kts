@@ -52,6 +52,7 @@ kotlin {
                 enabled = false
             }
         }
+        binaries.executable()
     }
 
     applyDefaultHierarchyTemplate()

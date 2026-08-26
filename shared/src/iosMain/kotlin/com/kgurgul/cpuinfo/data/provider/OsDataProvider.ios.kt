@@ -63,9 +63,7 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
             )
 
             val locale = NSLocale.currentLocale.languageCode
-            if (locale != null) {
-                add(ItemValue.NameResource(Res.string.os_language, locale))
-            }
+            add(ItemValue.NameResource(Res.string.os_language, locale))
 
             val processInfo = NSProcessInfo.processInfo
             add(
