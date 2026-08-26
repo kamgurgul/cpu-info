@@ -71,6 +71,7 @@ kotlin {
 
         commonMain {
             dependencies {
+                implementation(libs.androidx.datastore.preferences.core)
                 api(libs.coil)
                 implementation(libs.jetbrains.compose.adaptive)
                 implementation(libs.jetbrains.compose.adaptive.navigationSuit)
@@ -93,12 +94,7 @@ kotlin {
             }
         }
 
-        val mobileMain = create("mobileMain") {
-            dependsOn(commonMain.get())
-            dependencies {
-                implementation(libs.androidx.datastore.preferences)
-            }
-        }
+        val mobileMain = create("mobileMain") { dependsOn(commonMain.get()) }
 
         androidMain {
             dependsOn(mobileMain)
@@ -107,6 +103,7 @@ kotlin {
                 api(libs.androidx.activity.compose)
                 implementation(libs.androidx.core)
                 api(libs.androidx.core.splashscreen)
+                implementation(libs.androidx.datastore.preferences)
                 api(libs.androidx.tv)
                 api(libs.koin.android)
                 implementation(libs.relinker)

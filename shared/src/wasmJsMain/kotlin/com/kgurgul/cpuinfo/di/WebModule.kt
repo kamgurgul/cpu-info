@@ -15,6 +15,23 @@
  */
 package com.kgurgul.cpuinfo.di
 
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
+import androidx.datastore.core.okio.WebLocalStorage
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.PreferencesSerializer
+import androidx.datastore.preferences.core.emptyPreferences
 import org.koin.dsl.module
 
-val webModule = module {}
+val webModule = module {
+    single {
+        PreferenceDataStoreFactory.create(
+            storage =
+                WebLocalStorage(
+                    serializer = PreferencesSerializer,
+                    name = "$USER_PREFERENCES_NAME.preferences_pb",
+                ),
+            corruptionHandler =
+                ReplaceFileCorruptionHandler(produceNewData = { emptyPreferences() }),
+        )
+    }
+}
