@@ -19,6 +19,8 @@
     <string name="action_not_supported">Aktion nicht verfügbar</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+    <string name="expand">Ausklappen</string>
+    <string name="collapse">Einklappen</string>
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
     <string name="refresh">Aktualisieren</string>
@@ -126,6 +128,17 @@
     <string name="os_cookies_enabled">Cookies aktiviert</string>
     <string name="os_pdf_viewer_enabled">PDF-Viewer aktiviert</string>
     <string name="os_history_length">Verlaufslänge</string>
+    <string name="os_security_patch">Sicherheitspatch-Ebene</string>
+    <string name="os_build_number">Build-Nummer</string>
+    <string name="os_build_fingerprint">Build-Fingerabdruck</string>
+    <string name="os_build_type">Build-Typ</string>
+    <string name="os_base_os">Basis-OS</string>
+    <string name="os_play_system_update">Google Play-Systemupdate</string>
+    <string name="os_media_performance_class">Medienleistungsklasse</string>
+    <string name="os_time_zone">Zeitzone</string>
+    <string name="os_user_apps">Benutzer-Apps</string>
+    <string name="os_system_apps">System-Apps</string>
+    <string name="os_system_features">Systemfunktionen (%1$s)</string>
 
     <string name="battery">Akku</string>
     <string name="wireless">Drahtlos</string>

@@ -20,6 +20,8 @@
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="expand">Expand</string>
+    <string name="collapse">Collapse</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="refresh">Refresh</string>
@@ -161,6 +163,19 @@
     <string name="os_cookies_enabled">Cookies enabled</string>
     <string name="os_pdf_viewer_enabled">PDF Viewer enabled</string>
     <string name="os_history_length">History length</string>
+    <string name="os_security_patch">Security patch level</string>
+    <string name="os_build_number">Build number</string>
+    <string name="os_build_fingerprint">Build fingerprint</string>
+    <string name="os_build_type">Build type</string>
+    <string name="os_base_os">Base OS</string>
+    <string name="os_treble" translatable="false">Project Treble</string>
+    <string name="os_seamless_updates" translatable="false">Seamless updates (A/B)</string>
+    <string name="os_play_system_update">Google Play system update</string>
+    <string name="os_media_performance_class">Media performance class</string>
+    <string name="os_time_zone">Time zone</string>
+    <string name="os_user_apps">User applications</string>
+    <string name="os_system_apps">System applications</string>
+    <string name="os_system_features">System features (%1$s)</string>
 
     <!--Hardware-->
     <string name="battery">Battery</string>

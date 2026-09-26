@@ -19,6 +19,8 @@
 
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
+    <string name="expand">Rozbalit</string>
+    <string name="collapse">Sbalit</string>
     <string name="ok">OK</string>
     <string name="cancel">Zrušit</string>
     <string name="refresh">Obnovit</string>
@@ -126,6 +128,17 @@
     <string name="os_cookies_enabled">Cookies povoleny</string>
     <string name="os_pdf_viewer_enabled">Prohlížeč PDF povolen</string>
     <string name="os_history_length">Délka historie</string>
+    <string name="os_security_patch">Úroveň bezpečnostní opravy</string>
+    <string name="os_build_number">Číslo sestavení</string>
+    <string name="os_build_fingerprint">Otisk sestavení</string>
+    <string name="os_build_type">Typ sestavení</string>
+    <string name="os_base_os">Základní OS</string>
+    <string name="os_play_system_update">Systémová aktualizace Google Play</string>
+    <string name="os_media_performance_class">Třída výkonu médií</string>
+    <string name="os_time_zone">Časové pásmo</string>
+    <string name="os_user_apps">Uživatelské aplikace</string>
+    <string name="os_system_apps">Systémové aplikace</string>
+    <string name="os_system_features">Systémové funkce (%1$s)</string>
 
     <string name="battery">Baterie</string>
     <string name="wireless">Bezdrátové připojení</string>

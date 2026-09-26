@@ -18,9 +18,11 @@ package com.kgurgul.cpuinfo.data.provider
 import android.annotation.SuppressLint
 import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.os.SystemClock
 import android.provider.Settings
 import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.shared.Res
@@ -34,7 +36,21 @@ import com.kgurgul.cpuinfo.shared.google_services_framework_id
 import com.kgurgul.cpuinfo.shared.kernel
 import com.kgurgul.cpuinfo.shared.manufacturer
 import com.kgurgul.cpuinfo.shared.model
+import com.kgurgul.cpuinfo.shared.os_base_os
+import com.kgurgul.cpuinfo.shared.os_build_fingerprint
+import com.kgurgul.cpuinfo.shared.os_build_number
+import com.kgurgul.cpuinfo.shared.os_build_type
 import com.kgurgul.cpuinfo.shared.os_language
+import com.kgurgul.cpuinfo.shared.os_media_performance_class
+import com.kgurgul.cpuinfo.shared.os_play_system_update
+import com.kgurgul.cpuinfo.shared.os_seamless_updates
+import com.kgurgul.cpuinfo.shared.os_security_patch
+import com.kgurgul.cpuinfo.shared.os_system_apps
+import com.kgurgul.cpuinfo.shared.os_system_features
+import com.kgurgul.cpuinfo.shared.os_system_uptime
+import com.kgurgul.cpuinfo.shared.os_time_zone
+import com.kgurgul.cpuinfo.shared.os_treble
+import com.kgurgul.cpuinfo.shared.os_user_apps
 import com.kgurgul.cpuinfo.shared.rooted
 import com.kgurgul.cpuinfo.shared.sdk
 import com.kgurgul.cpuinfo.shared.security_providers
@@ -44,11 +60,13 @@ import com.kgurgul.cpuinfo.shared.tab_os
 import com.kgurgul.cpuinfo.shared.version
 import com.kgurgul.cpuinfo.shared.vm
 import com.kgurgul.cpuinfo.utils.ResourceUtils
+import com.kgurgul.cpuinfo.utils.Utils
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.security.Security
 import java.util.Locale
+import java.util.TimeZone
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -62,7 +80,18 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
         return buildList {
             add(ItemValue.NameResource(Res.string.tab_os, "Android"))
             addAll(getBuildData())
-            add(ItemValue.NameResource(Res.string.os_language, Locale.getDefault().language))
+            addAll(getSystemPropertiesData())
+            getPlaySystemUpdateData()?.let { add(it) }
+            getMediaPerformanceClassData()?.let { add(it) }
+            add(ItemValue.NameResource(Res.string.os_language, Locale.getDefault().displayName))
+            add(ItemValue.NameResource(Res.string.os_time_zone, TimeZone.getDefault().id))
+            add(
+                ItemValue.NameResource(
+                    Res.string.os_system_uptime,
+                    Utils.formatUptime(SystemClock.elapsedRealtime() / 1000),
+                )
+            )
+            addAll(getApplicationsCountData())
             getAndroidIdData()?.let { add(it) }
             getGsfAndroidId()?.let { add(it) }
             add(
@@ -74,6 +103,7 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
             getDeviceEncryptionStatus()?.let { add(it) }
             add(getStrongBoxData())
             addAll(getSecurityData())
+            getSystemFeaturesData()?.let { add(it) }
         }
     }
 
@@ -83,7 +113,14 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
         return buildList {
             add(ItemValue.NameResource(Res.string.version, Build.VERSION.RELEASE))
             add(ItemValue.NameResource(Res.string.sdk, Build.VERSION.SDK_INT.toString()))
+            add(ItemValue.NameResource(Res.string.os_security_patch, Build.VERSION.SECURITY_PATCH))
             add(ItemValue.NameResource(Res.string.codename, Build.VERSION.CODENAME))
+            if (Build.VERSION.BASE_OS.isNotBlank()) {
+                add(ItemValue.NameResource(Res.string.os_base_os, Build.VERSION.BASE_OS))
+            }
+            add(ItemValue.NameResource(Res.string.os_build_number, Build.DISPLAY))
+            add(ItemValue.NameResource(Res.string.os_build_fingerprint, Build.FINGERPRINT))
+            add(ItemValue.NameResource(Res.string.os_build_type, Build.TYPE))
             add(ItemValue.NameResource(Res.string.bootloader, Build.BOOTLOADER))
             add(ItemValue.NameResource(Res.string.brand, Build.BRAND))
             add(ItemValue.NameResource(Res.string.model, Build.MODEL))
@@ -191,6 +228,105 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
         }
     }
 
+    /** Get Project Treble and seamless (A/B) updates support from system properties */
+    private fun getSystemPropertiesData(): List<ItemValue> {
+        return buildList {
+            getSystemProperty(PROP_TREBLE_ENABLED)?.let {
+                add(
+                    ItemValue.NameValueResource(
+                        Res.string.os_treble,
+                        ResourceUtils.getYesNoStringResource(it == "true"),
+                    )
+                )
+            }
+            getSystemProperty(PROP_AB_UPDATE)?.let {
+                add(
+                    ItemValue.NameValueResource(
+                        Res.string.os_seamless_updates,
+                        ResourceUtils.getYesNoStringResource(it == "true"),
+                    )
+                )
+            }
+        }
+    }
+
+    private fun getSystemProperty(key: String): String? {
+        var process: Process? = null
+        return try {
+            process = Runtime.getRuntime().exec(arrayOf("getprop", key))
+            BufferedReader(InputStreamReader(process.inputStream)).use { it.readLine()?.trim() }
+        } catch (t: Throwable) {
+            null
+        } finally {
+            process?.destroy()
+        }
+    }
+
+    /** Get Google Play system update (mainline modules) version */
+    private fun getPlaySystemUpdateData(): ItemValue? {
+        if (Build.VERSION.SDK_INT < 29) {
+            return null
+        }
+        val version = MODULE_METADATA_PACKAGES.firstNotNullOfOrNull { packageName ->
+            try {
+                packageManager.getPackageInfo(packageName, 0).versionName
+            } catch (e: PackageManager.NameNotFoundException) {
+                null
+            }
+        }
+        return version?.let { ItemValue.NameResource(Res.string.os_play_system_update, it) }
+    }
+
+    private fun getMediaPerformanceClassData(): ItemValue? {
+        if (Build.VERSION.SDK_INT < 31) {
+            return null
+        }
+        val performanceClass = Build.VERSION.MEDIA_PERFORMANCE_CLASS
+        return if (performanceClass > 0) {
+            ItemValue.NameResource(
+                Res.string.os_media_performance_class,
+                performanceClass.toString(),
+            )
+        } else {
+            null
+        }
+    }
+
+    /** Get amount of installed user and system applications */
+    @Suppress("DEPRECATION")
+    private fun getApplicationsCountData(): List<ItemValue> {
+        return try {
+            val (systemApps, userApps) =
+                packageManager.getInstalledApplications(0).partition {
+                    (it.flags and ApplicationInfo.FLAG_SYSTEM) != 0
+                }
+            listOf(
+                ItemValue.NameResource(Res.string.os_user_apps, userApps.size.toString()),
+                ItemValue.NameResource(Res.string.os_system_apps, systemApps.size.toString()),
+            )
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    /** Get list of system features supported by the device */
+    private fun getSystemFeaturesData(): ItemValue? {
+        val features = packageManager.systemAvailableFeatures.mapNotNull { it.name }.sorted()
+        return if (features.isNotEmpty()) {
+            ItemValue.Expandable(
+                header =
+                    ItemValue.FormattedNameResource(
+                        Res.string.os_system_features,
+                        listOf(features.size),
+                        "",
+                    ),
+                items = features.map { ItemValue.Text(it, "") },
+            )
+        } else {
+            null
+        }
+    }
+
     private fun getGsfAndroidId(): ItemValue? {
         val uri = Uri.parse("content://com.google.android.gsf.gservices")
         val idKey = "android_id"
@@ -226,5 +362,9 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
         private const val ENCRYPTION_STATUS_ACTIVE = "ACTIVE"
         private const val ENCRYPTION_STATUS_ACTIVE_PER_USER = "ACTIVE_PER_USER"
         private const val ENCRYPTION_STATUS_UNKNOWN = "UNKNOWN"
+        private const val PROP_TREBLE_ENABLED = "ro.treble.enabled"
+        private const val PROP_AB_UPDATE = "ro.build.ab_update"
+        private val MODULE_METADATA_PACKAGES =
+            listOf("com.google.android.modulemetadata", "com.android.modulemetadata")
     }
 }

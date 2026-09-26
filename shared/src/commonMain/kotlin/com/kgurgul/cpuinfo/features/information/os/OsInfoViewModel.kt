@@ -22,23 +22,39 @@ import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.domain.observable.GetOsDataInteractor
 import com.kgurgul.cpuinfo.domain.observe
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toImmutableSet
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 
 class OsInfoViewModel(getOsDataInteractor: GetOsDataInteractor) : ViewModel() {
 
+    private val expandedItemKeysFlow = MutableStateFlow<Set<String>>(emptySet())
+
     val uiStateFlow =
-        getOsDataInteractor
-            .observe()
-            .map { UiState(isInitializing = false, items = it.toImmutableList()) }
+        combine(getOsDataInteractor.observe(), expandedItemKeysFlow) { items, expandedItemKeys ->
+                UiState(
+                    isInitializing = false,
+                    items = items.toImmutableList(),
+                    expandedItemKeys = expandedItemKeys.toImmutableSet(),
+                )
+            }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), UiState())
+
+    fun onExpandableItemClick(key: String) {
+        expandedItemKeysFlow.update { if (key in it) it - key else it + key }
+    }
 
     @Stable
     data class UiState(
         val isInitializing: Boolean = true,
         val items: ImmutableList<ItemValue> = persistentListOf(),
+        val expandedItemKeys: ImmutableSet<String> = persistentSetOf(),
     )
 }

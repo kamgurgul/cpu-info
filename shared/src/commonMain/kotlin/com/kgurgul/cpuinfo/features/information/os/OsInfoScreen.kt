@@ -16,9 +16,11 @@
 package com.kgurgul.cpuinfo.features.information.os
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -32,22 +34,27 @@ import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.domain.model.getKey
 import com.kgurgul.cpuinfo.domain.model.getName
 import com.kgurgul.cpuinfo.domain.model.getValue
+import com.kgurgul.cpuinfo.features.information.base.ExpandableInformationRow
 import com.kgurgul.cpuinfo.features.information.base.InformationRow
+import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
+import com.kgurgul.cpuinfo.ui.components.ItemValueRow
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun OsInfoScreen(viewModel: OsInfoViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    OsInfoScreen(uiState = uiState)
+    OsInfoScreen(uiState = uiState, onExpandableItemClick = viewModel::onExpandableItemClick)
 }
 
 @Composable
-fun OsInfoScreen(uiState: OsInfoViewModel.UiState) {
+fun OsInfoScreen(uiState: OsInfoViewModel.UiState, onExpandableItemClick: (String) -> Unit) {
     CpuPullToRefreshBox(
         isRefreshing = uiState.isInitializing,
         onRefresh = {},
@@ -61,14 +68,45 @@ fun OsInfoScreen(uiState: OsInfoViewModel.UiState) {
             state = listState,
             modifier = Modifier.fillMaxSize(),
         ) {
-            itemsIndexed(uiState.items, key = { _, itemValue -> itemValue.getKey() }) {
-                index,
-                itemValue ->
-                InformationRow(
-                    title = itemValue.getName(),
-                    value = itemValue.getValue(),
-                    isLastItem = index == uiState.items.lastIndex,
-                )
+            uiState.items.forEachIndexed { index, itemValue ->
+                val key = itemValue.getKey()
+                val isLastItem = index == uiState.items.lastIndex
+                if (itemValue is ItemValue.Expandable) {
+                    val isExpanded = key in uiState.expandedItemKeys
+                    item {
+                        ExpandableInformationRow(
+                            title = itemValue.getName(),
+                            value = itemValue.getValue(),
+                            isExpanded = isExpanded,
+                            isLastItem = isLastItem && !isExpanded,
+                            onClick = { onExpandableItemClick(key) },
+                        )
+                    }
+                    if (isExpanded) {
+                        itemsIndexed(itemValue.items) { childIndex, childItemValue ->
+                            Column {
+                                ItemValueRow(
+                                    title = childItemValue.getName(),
+                                    value = childItemValue.getValue().ifEmpty { null },
+                                    modifier = Modifier.padding(start = spacingMedium),
+                                )
+                                if (!isLastItem || childIndex != itemValue.items.lastIndex) {
+                                    CpuDivider(modifier = Modifier.padding(top = spacingSmall))
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    item {
+                        Column {
+                            InformationRow(
+                                title = itemValue.getName(),
+                                value = itemValue.getValue(),
+                                isLastItem = isLastItem,
+                            )
+                        }
+                    }
+                }
             }
         }
         VerticalScrollbar(
@@ -86,8 +124,21 @@ fun OsInfoScreenPreview() {
             uiState =
                 OsInfoViewModel.UiState(
                     items =
-                        persistentListOf(ItemValue.Text("test", ""), ItemValue.Text("test", "test"))
-                )
+                        persistentListOf(
+                            ItemValue.Text("test", ""),
+                            ItemValue.Text("test2", "test"),
+                            ItemValue.Expandable(
+                                header = ItemValue.Text("expandable", "2"),
+                                items =
+                                    listOf(
+                                        ItemValue.Text("child1", ""),
+                                        ItemValue.Text("child2", ""),
+                                    ),
+                            ),
+                        ),
+                    expandedItemKeys = persistentSetOf("expandable"),
+                ),
+            onExpandableItemClick = {},
         )
     }
 }

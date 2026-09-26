@@ -17,10 +17,20 @@
 
 package com.kgurgul.cpuinfo.wear.features.information.os
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.lazy.items
+import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
@@ -31,11 +41,14 @@ import com.google.android.horologist.compose.layout.rememberResponsiveColumnStat
 import com.google.android.horologist.compose.material.ListHeaderDefaults.firstItemPadding
 import com.google.android.horologist.compose.material.ListHeaderDefaults.itemPadding
 import com.google.android.horologist.compose.material.ResponsiveListHeader
+import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.domain.model.getKey
 import com.kgurgul.cpuinfo.domain.model.getName
 import com.kgurgul.cpuinfo.domain.model.getValue
 import com.kgurgul.cpuinfo.features.information.os.OsInfoViewModel
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.collapse
+import com.kgurgul.cpuinfo.shared.expand
 import com.kgurgul.cpuinfo.shared.tab_os
 import com.kgurgul.cpuinfo.wear.ui.components.WearCpuChip
 import org.jetbrains.compose.resources.stringResource
@@ -44,11 +57,11 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun WearOsInfoScreen(viewModel: OsInfoViewModel = koinViewModel()) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    WearOsInfoScreen(uiState = uiState)
+    WearOsInfoScreen(uiState = uiState, onExpandableItemClick = viewModel::onExpandableItemClick)
 }
 
 @Composable
-fun WearOsInfoScreen(uiState: OsInfoViewModel.UiState) {
+fun WearOsInfoScreen(uiState: OsInfoViewModel.UiState, onExpandableItemClick: (String) -> Unit) {
     val columnState =
         rememberResponsiveColumnState(
             contentPadding =
@@ -67,13 +80,60 @@ fun WearOsInfoScreen(uiState: OsInfoViewModel.UiState) {
                     )
                 }
             }
-            items(uiState.items, key = { itemValue -> itemValue.getKey() }) { itemValue ->
-                if (itemValue.getValue().isEmpty()) {
-                    ResponsiveListHeader(contentPadding = itemPadding()) {
-                        Text(text = itemValue.getName(), color = MaterialTheme.colors.onBackground)
+            uiState.items.forEach { itemValue ->
+                val key = itemValue.getKey()
+                if (itemValue is ItemValue.Expandable) {
+                    val isExpanded = key in uiState.expandedItemKeys
+                    item {
+                        val arrowRotation by
+                            animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)
+                        WearCpuChip(
+                            onClick = { onExpandableItemClick(key) },
+                            colors = ChipDefaults.secondaryChipColors(),
+                        ) {
+                            Text(
+                                text = itemValue.getName(),
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.weight(1f).align(Alignment.CenterVertically),
+                            )
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowDown,
+                                contentDescription =
+                                    stringResource(
+                                        if (isExpanded) Res.string.collapse else Res.string.expand
+                                    ),
+                                modifier =
+                                    Modifier.size(ChipDefaults.IconSize)
+                                        .align(Alignment.CenterVertically)
+                                        .rotate(arrowRotation),
+                            )
+                        }
+                    }
+                    if (isExpanded) {
+                        items(itemValue.items) { childItemValue ->
+                            WearCpuChip(
+                                label = childItemValue.getName(),
+                                secondaryLabel = childItemValue.getValue(),
+                            )
+                        }
                     }
                 } else {
-                    WearCpuChip(label = itemValue.getName(), secondaryLabel = itemValue.getValue())
+                    item {
+                        if (itemValue.getValue().isEmpty()) {
+                            ResponsiveListHeader(contentPadding = itemPadding()) {
+                                Text(
+                                    text = itemValue.getName(),
+                                    color = MaterialTheme.colors.onBackground,
+                                )
+                            }
+                        } else {
+                            WearCpuChip(
+                                label = itemValue.getName(),
+                                secondaryLabel = itemValue.getValue(),
+                            )
+                        }
+                    }
                 }
             }
         }

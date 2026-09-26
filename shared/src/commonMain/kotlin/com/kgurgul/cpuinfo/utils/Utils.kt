@@ -66,4 +66,18 @@ object Utils {
 
         return "${formatted}MB"
     }
+
+    fun formatUptime(uptimeSeconds: Long): String {
+        val days = uptimeSeconds / 86400
+        val hours = (uptimeSeconds % 86400) / 3600
+        val minutes = (uptimeSeconds % 3600) / 60
+        val seconds = uptimeSeconds % 60
+
+        return when {
+            days > 0 -> "${days}d ${hours}h ${minutes}m ${seconds}s"
+            hours > 0 -> "${hours}h ${minutes}m ${seconds}s"
+            minutes > 0 -> "${minutes}m ${seconds}s"
+            else -> "${seconds}s"
+        }
+    }
 }

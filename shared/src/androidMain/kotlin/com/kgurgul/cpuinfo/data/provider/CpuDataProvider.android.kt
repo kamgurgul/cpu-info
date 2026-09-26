@@ -22,7 +22,7 @@ import java.io.RandomAccessFile
 actual class CpuDataProvider actual constructor() : ICpuDataProvider {
 
     actual override fun getAbi(): String {
-        return Build.SUPPORTED_ABIS[0]
+        return Build.SUPPORTED_ABIS.joinToString(separator = "\n")
     }
 
     actual override fun getNumberOfLogicalCores(): Int {

@@ -55,4 +55,19 @@ class UtilsTest {
         assertEquals("1.46MB", mega)
         assertEquals("1500MB", giga)
     }
+
+    @Test
+    fun uptimeFormatting() {
+        /* When */
+        val seconds = Utils.formatUptime(42L)
+        val minutes = Utils.formatUptime(3L * 60L + 5L)
+        val hours = Utils.formatUptime(2L * 3600L + 0L * 60L + 7L)
+        val days = Utils.formatUptime(3L * 86400L + 4L * 3600L + 5L * 60L + 6L)
+
+        /* Then */
+        assertEquals("42s", seconds)
+        assertEquals("3m 5s", minutes)
+        assertEquals("2h 0m 7s", hours)
+        assertEquals("3d 4h 5m 6s", days)
+    }
 }

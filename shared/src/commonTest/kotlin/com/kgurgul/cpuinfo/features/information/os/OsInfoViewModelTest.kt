@@ -24,6 +24,7 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.coroutines.test.runTest
 
 class OsInfoViewModelTest {
@@ -56,5 +57,20 @@ class OsInfoViewModelTest {
         val expectedUiState = OsInfoViewModel.UiState(isInitializing = false, items = items)
 
         viewModel.uiStateFlow.test { assertEquals(expectedUiState, awaitItem()) }
+    }
+
+    @Test
+    fun expandableItemClickTogglesExpandedState() = runTest {
+        val key = "key"
+
+        viewModel.uiStateFlow.test {
+            assertEquals(persistentSetOf(), awaitItem().expandedItemKeys)
+
+            viewModel.onExpandableItemClick(key)
+            assertEquals(persistentSetOf(key), awaitItem().expandedItemKeys)
+
+            viewModel.onExpandableItemClick(key)
+            assertEquals(persistentSetOf(), awaitItem().expandedItemKeys)
+        }
     }
 }

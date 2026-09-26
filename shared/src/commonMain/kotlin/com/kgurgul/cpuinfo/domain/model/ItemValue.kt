@@ -16,6 +16,7 @@
 package com.kgurgul.cpuinfo.domain.model
 
 import androidx.compose.runtime.Composable
+import com.kgurgul.cpuinfo.domain.model.ItemValue.Expandable
 import com.kgurgul.cpuinfo.domain.model.ItemValue.FormattedNameResource
 import com.kgurgul.cpuinfo.domain.model.ItemValue.FormattedNameValueResource
 import com.kgurgul.cpuinfo.domain.model.ItemValue.FormattedValueResource
@@ -53,6 +54,8 @@ sealed interface ItemValue {
         val args: List<Any>,
         val value: StringResource,
     ) : ItemValue
+
+    data class Expandable(val header: ItemValue, val items: List<ItemValue>) : ItemValue
 }
 
 fun ItemValue.getKey(): String {
@@ -64,6 +67,7 @@ fun ItemValue.getKey(): String {
         is FormattedNameResource -> nameFormat.toString()
         is FormattedValueResource -> name
         is FormattedNameValueResource -> nameFormat.toString()
+        is Expandable -> header.getKey()
     }
 }
 
@@ -77,6 +81,7 @@ fun ItemValue.getName(): String {
         is FormattedNameResource -> stringResource(nameFormat, *resolveArgs(args))
         is FormattedValueResource -> name
         is FormattedNameValueResource -> stringResource(nameFormat, *resolveArgs(args))
+        is Expandable -> header.getName()
     }
 }
 
@@ -90,6 +95,7 @@ fun ItemValue.getValue(): String {
         is FormattedNameResource -> value
         is FormattedValueResource -> stringResource(valueFormat, *resolveArgs(args))
         is FormattedNameValueResource -> stringResource(value)
+        is Expandable -> header.getValue()
     }
 }
 

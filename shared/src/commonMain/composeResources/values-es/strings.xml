@@ -18,6 +18,8 @@
 
     <string name="yes">Sí</string>
     <string name="no">No</string>
+    <string name="expand">Expandir</string>
+    <string name="collapse">Contraer</string>
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="refresh">Actualizar</string>
@@ -131,6 +133,17 @@
     <string name="os_cookies_enabled">Cookies habilitadas</string>
     <string name="os_pdf_viewer_enabled">Visor de PDF habilitado</string>
     <string name="os_history_length">Longitud del historial</string>
+    <string name="os_security_patch">Nivel de parche de seguridad</string>
+    <string name="os_build_number">Número de compilación</string>
+    <string name="os_build_fingerprint">Huella de compilación</string>
+    <string name="os_build_type">Tipo de compilación</string>
+    <string name="os_base_os">SO base</string>
+    <string name="os_play_system_update">Actualización del sistema de Google Play</string>
+    <string name="os_media_performance_class">Clase de rendimiento multimedia</string>
+    <string name="os_time_zone">Zona horaria</string>
+    <string name="os_user_apps">Aplicaciones de usuario</string>
+    <string name="os_system_apps">Aplicaciones del sistema</string>
+    <string name="os_system_features">Funciones del sistema (%1$s)</string>
 
     <!--Hardware-->
     <string name="battery">Batería</string>
