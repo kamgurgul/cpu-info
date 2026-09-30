@@ -24,9 +24,5 @@ expect class TemperatureProvider() : ITemperatureProvider {
 
     override fun getBatteryTemperature(): Float?
 
-    override fun findCpuTemperatureLocation(): String?
-
-    override fun getCpuTemperature(path: String): Float?
-
     override suspend fun isAdminRequired(): Boolean
 }

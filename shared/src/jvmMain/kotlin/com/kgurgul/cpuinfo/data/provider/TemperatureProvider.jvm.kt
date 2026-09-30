@@ -78,10 +78,6 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
             ?.toFloat()
     }
 
-    actual override fun findCpuTemperatureLocation(): String? = null
-
-    actual override fun getCpuTemperature(path: String): Float? = null
-
     actual override suspend fun isAdminRequired(): Boolean {
         return platformInfo.isWindows && !checkIsRunningAsAdmin()
     }

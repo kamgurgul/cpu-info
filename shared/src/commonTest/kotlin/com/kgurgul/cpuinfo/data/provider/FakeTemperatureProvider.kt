@@ -25,9 +25,5 @@ class FakeTemperatureProvider(
 
     override fun getBatteryTemperature(): Float? = null
 
-    override fun findCpuTemperatureLocation(): String? = null
-
-    override fun getCpuTemperature(path: String): Float? = null
-
     override suspend fun isAdminRequired(): Boolean = adminRequired
 }

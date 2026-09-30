@@ -31,6 +31,7 @@ import com.kgurgul.cpuinfo.shared.battery
 import com.kgurgul.cpuinfo.shared.cpu
 import com.kgurgul.cpuinfo.shared.ic_battery
 import com.kgurgul.cpuinfo.shared.ic_cpu_temp
+import com.kgurgul.cpuinfo.shared.temp_thermal_zone
 import com.kgurgul.cpuinfo.utils.round1
 import java.io.File
 import kotlin.time.Duration.Companion.milliseconds
@@ -41,6 +42,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.merge
+import org.jetbrains.compose.resources.DrawableResource
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -50,7 +52,7 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
     private val sensorManager: SensorManager by inject()
 
     private val mainTemperaturesFlow: Flow<TemperatureItem> = flow {
-        val cpuTempPath = findCpuTemperatureLocation()
+        val thermalSources = findThermalSources()
         while (true) {
             getBatteryTemperature()?.let {
                 emit(
@@ -62,13 +64,13 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
                     )
                 )
             }
-            cpuTempPath?.let { path ->
-                getCpuTemperature(path)?.let {
+            thermalSources.forEach { source ->
+                readTemperature(source.tempPath)?.let {
                     emit(
                         TemperatureItem(
-                            id = ID_CPU,
-                            icon = Res.drawable.ic_cpu_temp,
-                            name = TextResource.Resource(Res.string.cpu),
+                            id = source.id,
+                            icon = source.icon,
+                            name = source.name,
                             temperature = it,
                         )
                     )
@@ -119,73 +121,115 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
         return if (temp != null && temp != Int.MIN_VALUE) temp / 10f else null
     }
 
-    actual override fun findCpuTemperatureLocation(): String? {
-        for (location in CPU_TEMP_FILE_PATHS) {
-            try {
-                val temp = File(location).bufferedReader().use { it.readLine().toDoubleOrNull() }
-                val preParsedTemp = temp?.let { if (isTemperatureValid(it)) it else it / 1000.0 }
-                if (preParsedTemp != null && isTemperatureValid(preParsedTemp)) {
-                    return location
+    private fun findThermalSources(): List<ThermalSource> {
+        val sources =
+            findIndexedSources(THERMAL_ZONE_DIR, "temp", "type", ID_THERMAL_ZONE_OFFSET)
+                .ifEmpty { findIndexedSources(HWMON_DIR, "temp1_input", "name", ID_HWMON_OFFSET) }
+                .ifEmpty {
+                    findIndexedSources(
+                        VIRTUAL_THERMAL_ZONE_DIR,
+                        "temp",
+                        "type",
+                        ID_VIRTUAL_THERMAL_ZONE_OFFSET,
+                    )
                 }
-            } catch (e: Exception) {
-                // do nothing
-            }
+                .toMutableList()
+        if (
+            readFirstLine(MEDFIELD_HWMON_NAME_PATH).equals(MEDFIELD_CORETEMP, ignoreCase = true) &&
+                readTemperature(MEDFIELD_CORETEMP_PATH) != null
+        ) {
+            sources +=
+                ThermalSource(
+                    id = ID_CPU,
+                    icon = Res.drawable.ic_cpu_temp,
+                    name = TextResource.Resource(Res.string.cpu),
+                    tempPath = MEDFIELD_CORETEMP_PATH,
+                )
         }
-        return null
+        return sources
     }
 
-    /**
-     * Get temperature for CPU and if needed divided returned value by 1000 to get Celsius unit
-     *
-     * @return CPU temperature
-     */
-    actual override fun getCpuTemperature(path: String): Float? {
-        return File(path)
-            .bufferedReader()
-            .use { it.readLine().toDoubleOrNull() }
-            ?.let {
-                if (isTemperatureValid(it)) {
-                    it.toFloat()
-                } else {
-                    (it / 1000).toFloat()
-                }
-            }
+    private fun findIndexedSources(
+        dirPrefix: String,
+        tempFileName: String,
+        nameFileName: String,
+        idOffset: Int,
+    ): List<ThermalSource> =
+        (0 until MAX_SENSOR_INDEX).mapNotNull { index ->
+            val tempPath = "$dirPrefix$index/$tempFileName"
+            if (readTemperature(tempPath) == null) return@mapNotNull null
+            val type = readFirstLine("$dirPrefix$index/$nameFileName")
+            ThermalSource(
+                id = idOffset + index,
+                icon = getIconForType(type),
+                name =
+                    if (type.isNullOrEmpty()) {
+                        TextResource.Formatted(Res.string.temp_thermal_zone, listOf(index))
+                    } else {
+                        TextResource.Text(type)
+                    },
+                tempPath = tempPath,
+            )
+        }
+
+    private fun getIconForType(type: String?): DrawableResource {
+        val lowerType = type?.lowercase().orEmpty()
+        return when {
+            CPU_TYPE_KEYWORDS.any { lowerType.contains(it) } -> Res.drawable.ic_cpu_temp
+            BATTERY_TYPE_KEYWORDS.any { lowerType.contains(it) } -> Res.drawable.ic_battery
+            else -> Res.drawable.baseline_thermostat_24
+        }
     }
+
+    private fun readTemperature(path: String): Float? {
+        val raw = readFirstLine(path)?.toLongOrNull() ?: return null
+        val temp =
+            when {
+                raw <= 0 -> return null
+                raw > 1_500_000 -> if (raw > 20_000_000) return null else raw / 100_000f
+                raw > 15_000 -> if (raw > 200_000) return null else raw / 1000f
+                raw > 150 -> if (raw > 2000) return null else raw / 10f
+                else -> raw.toFloat()
+            }
+        return temp.round1()
+    }
+
+    private fun readFirstLine(path: String): String? =
+        try {
+            File(path).bufferedReader().use { it.readLine() }?.trim()
+        } catch (_: Exception) {
+            null
+        }
 
     private fun isTemperatureValid(temp: Double): Boolean = temp in -50.0..250.0
+
+    private data class ThermalSource(
+        val id: Int,
+        val icon: DrawableResource,
+        val name: TextResource,
+        val tempPath: String,
+    )
 
     companion object {
         private const val REFRESH_DELAY = 3000L
         private const val ID_BATTERY = -1
         private const val ID_CPU = -2
+        private const val ID_THERMAL_ZONE_OFFSET = 1000
+        private const val ID_HWMON_OFFSET = 2000
+        private const val ID_VIRTUAL_THERMAL_ZONE_OFFSET = 3000
+        private const val MAX_SENSOR_INDEX = 100
         private const val GOOGLE_GYRO_TEMPERATURE_SENSOR_TYPE = 65538
         private const val GOOGLE_PRESSURE_TEMPERATURE_SENSOR_TYPE = 65539
 
-        // Ugly but currently the easiest working solution is to search well known locations
-        // If you know better solution please refactor this :)
-        private val CPU_TEMP_FILE_PATHS =
-            listOf(
-                "/sys/devices/system/cpu/cpu0/cpufreq/cpu_temp",
-                "/sys/devices/system/cpu/cpu0/cpufreq/FakeShmoo_cpu_temp",
-                "/sys/class/thermal/thermal_zone0/temp",
-                "/sys/class/i2c-adapter/i2c-4/4-004c/temperature",
-                "/sys/devices/platform/tegra-i2c.3/i2c-4/4-004c/temperature",
-                "/sys/devices/platform/omap/omap_temp_sensor.0/temperature",
-                "/sys/devices/platform/tegra_tmon/temp1_input",
-                "/sys/kernel/debug/tegra_thermal/temp_tj",
-                "/sys/devices/platform/s5p-tmu/temperature",
-                "/sys/class/thermal/thermal_zone1/temp",
-                "/sys/class/hwmon/hwmon0/device/temp1_input",
-                "/sys/devices/virtual/thermal/thermal_zone1/temp",
-                "/sys/devices/virtual/thermal/thermal_zone0/temp",
-                "/sys/class/thermal/thermal_zone3/temp",
-                "/sys/class/thermal/thermal_zone4/temp",
-                "/sys/class/hwmon/hwmonX/temp1_input",
-                "/sys/devices/platform/s5p-tmu/curr_temp",
-                "/sys/htc/cpu_temp",
-                "/sys/devices/platform/tegra-i2c.3/i2c-4/4-004c/ext_temperature",
-                "/sys/devices/platform/tegra-tsensor/tsensor_temperature",
-            )
+        private const val THERMAL_ZONE_DIR = "/sys/class/thermal/thermal_zone"
+        private const val HWMON_DIR = "/sys/class/hwmon/hwmon"
+        private const val VIRTUAL_THERMAL_ZONE_DIR = "/sys/devices/virtual/thermal/thermal_zone"
+        private const val MEDFIELD_HWMON_NAME_PATH = "/sys/class/hwmon/hwmon0/device/name"
+        private const val MEDFIELD_CORETEMP_PATH = "/sys/class/hwmon/hwmon0/device/soc_temp_input"
+        private const val MEDFIELD_CORETEMP = "coretemp"
+
+        private val CPU_TYPE_KEYWORDS = listOf("cpu", "soc", "tsens", "core", "apc")
+        private val BATTERY_TYPE_KEYWORDS = listOf("batt", "bms")
 
         private val supportedSensors =
             listOf(
