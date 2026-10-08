@@ -159,6 +159,7 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
             val tempPath = "$dirPrefix$index/$tempFileName"
             if (readTemperature(tempPath) == null) return@mapNotNull null
             val type = readFirstLine("$dirPrefix$index/$nameFileName")
+            if (isNonTemperatureType(type)) return@mapNotNull null
             ThermalSource(
                 id = idOffset + index,
                 icon = getIconForType(type),
@@ -171,6 +172,15 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
                 tempPath = tempPath,
             )
         }
+
+    /**
+     * Some thermal zones (mostly on Qualcomm devices) expose non-temperature values, e.g. "socd"
+     * (state-of-charge depletion) or BCL battery current/voltage levels ("ibat-lvl0", "vbat-lvl1").
+     */
+    private fun isNonTemperatureType(type: String?): Boolean {
+        val lowerType = type?.lowercase() ?: return false
+        return NON_TEMPERATURE_TYPE_KEYWORDS.any { lowerType.contains(it) }
+    }
 
     private fun getIconForType(type: String?): DrawableResource {
         val lowerType = type?.lowercase().orEmpty()
@@ -230,6 +240,8 @@ actual class TemperatureProvider actual constructor() : KoinComponent, ITemperat
 
         private val CPU_TYPE_KEYWORDS = listOf("cpu", "soc", "tsens", "core", "apc")
         private val BATTERY_TYPE_KEYWORDS = listOf("batt", "bms")
+        private val NON_TEMPERATURE_TYPE_KEYWORDS =
+            listOf("socd", "ibat", "vbat", "vph", "bcl", "-lvl")
 
         private val supportedSensors =
             listOf(
