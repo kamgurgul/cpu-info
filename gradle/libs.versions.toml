@@ -1,6 +1,7 @@
 [versions]
 androidGradlePlugin = "9.4.1"
 androidxActivity = "1.13.0"
+androidxCarApp = "1.7.0"
 androidxArchCoreTesting = "2.2.0"
 androidxCore = "1.19.1"
 androidxCoreSpalshscreen = "1.2.0"
@@ -48,6 +49,8 @@ uiautomator = "2.4.0"
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidxArchCoreTesting" }
 androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+androidx-car-app = { module = "androidx.car.app:app", version.ref = "androidxCarApp" }
+androidx-car-app-projected = { module = "androidx.car.app:app-projected", version.ref = "androidxCarApp" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSpalshscreen" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastorePreferences" }

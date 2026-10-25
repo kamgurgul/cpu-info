@@ -120,6 +120,7 @@ licenseReport {
 }
 
 dependencies {
+    implementation(projects.androidAutoApp)
     implementation(projects.shared)
     implementation(libs.androidx.profileinstaller)
 

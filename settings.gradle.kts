@@ -23,6 +23,7 @@ plugins {
 
 include(":androidApp")
 include(":androidApp:baselineprofile")
+include(":androidAutoApp")
 include(":desktopApp")
 include(":native-android")
 include(":shared")
