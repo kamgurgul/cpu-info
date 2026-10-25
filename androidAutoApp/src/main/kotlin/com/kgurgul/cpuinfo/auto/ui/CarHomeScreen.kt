@@ -15,7 +15,9 @@
  */
 package com.kgurgul.cpuinfo.auto.ui
 
+import android.content.pm.PackageManager
 import androidx.car.app.CarContext
+import androidx.car.app.CarToast
 import androidx.car.app.Screen
 import androidx.car.app.model.Action
 import androidx.car.app.model.ItemList
@@ -27,6 +29,7 @@ import com.kgurgul.cpuinfo.auto.features.CarInfoCategory
 import com.kgurgul.cpuinfo.auto.features.CarInfoViewModel
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.app_name
+import com.kgurgul.cpuinfo.shared.car_check_phone
 import com.kgurgul.cpuinfo.shared.car_grant_permissions
 import com.kgurgul.cpuinfo.shared.car_grant_permissions_description
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -50,10 +53,20 @@ class CarHomeScreen(carContext: CarContext, private val viewModel: CarInfoViewMo
         }
         observeAsEvents(viewModel.events) { event ->
             when (event) {
-                is CarInfoViewModel.Event.RequestPermissions ->
+                is CarInfoViewModel.Event.RequestPermissions -> {
+                    // On Android Auto the permission dialog is displayed on the phone
+                    if (!isAutomotive()) {
+                        CarToast.makeText(
+                                carContext,
+                                getString(Res.string.car_check_phone),
+                                CarToast.LENGTH_LONG,
+                            )
+                            .show()
+                    }
                     carContext.requestPermissions(event.permissions) { _, _ ->
                         viewModel.onPermissionsResult()
                     }
+                }
             }
         }
     }
@@ -97,6 +110,9 @@ class CarHomeScreen(carContext: CarContext, private val viewModel: CarInfoViewMo
         }
         return builder.setSingleList(itemList.build()).build()
     }
+
+    private fun isAutomotive() =
+        carContext.packageManager.hasSystemFeature(PackageManager.FEATURE_AUTOMOTIVE)
 
     private suspend fun createContent(hasMissingPermissions: Boolean) =
         Content(

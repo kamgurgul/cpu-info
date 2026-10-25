@@ -39,8 +39,7 @@ android {
 
 dependencies {
     implementation(projects.shared)
-    implementation(libs.androidx.car.app)
-    implementation(libs.androidx.car.app.projected)
+    api(libs.androidx.car.app)
     implementation(libs.androidx.core)
     implementation(libs.jetbrains.compose.lifecycle.viewmodel)
     implementation(libs.kermit.kermit)

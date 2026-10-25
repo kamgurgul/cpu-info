@@ -121,6 +121,7 @@ licenseReport {
 
 dependencies {
     implementation(projects.androidAutoApp)
+    implementation(libs.androidx.car.app.projected)
     implementation(projects.shared)
     implementation(libs.androidx.profileinstaller)
 

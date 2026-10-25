@@ -13,4 +13,14 @@ CPU Info provide main information about hardware and software of your device:
 - Installed applications
 - Running processes (on older Androids)
 
+Android Auto and Android Automotive OS:
+- Car model, manufacturer and model year
+- Fuel types and EV connector types
+- Fuel and battery level, remaining range
+- Speed, odometer and toll card state
+- Car compass, accelerometer and gyroscope
+- Car App API level and host
+
+Car data is read only on your device and is never sent anywhere. Location permission is used only because Android Auto requires it to share car sensors (compass, accelerometer and gyroscope) with apps.
+
 All issues and ideas can be posted on Github.

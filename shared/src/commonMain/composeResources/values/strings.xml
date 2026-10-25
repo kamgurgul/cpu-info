@@ -320,9 +320,10 @@
     <string name="car_category_vehicle">Vehicle</string>
     <string name="car_category_energy">Energy</string>
     <string name="car_category_driving">Driving</string>
-    <string name="car_category_host">Android Auto</string>
+    <string name="car_category_host">Car app host</string>
     <string name="car_grant_permissions">Grant permissions</string>
-    <string name="car_grant_permissions_description">Required to read fuel, speed and mileage</string>
+    <string name="car_grant_permissions_description">Required to read fuel, speed, mileage and car sensors</string>
+    <string name="car_check_phone">Check your phone to grant permissions</string>
     <string name="car_manufacturer">Manufacturer</string>
     <string name="car_model">Model</string>
     <string name="car_model_year">Model year</string>
@@ -345,15 +346,15 @@
     <string name="car_value_unimplemented">Not supported by this car</string>
     <string name="car_value_unavailable">Unavailable</string>
     <string name="car_value_missing_permission">Permission required</string>
-    <string name="car_unit_percent">%1$s%%</string>
-    <string name="car_unit_km">%1$s km</string>
-    <string name="car_unit_mi">%1$s mi</string>
-    <string name="car_unit_m_s">%1$s m/s</string>
-    <string name="car_unit_km_h">%1$s km/h</string>
-    <string name="car_unit_mph">%1$s mph</string>
-    <string name="car_unit_degrees">%1$s°</string>
-    <string name="car_unit_m_s2">%1$s m/s²</string>
-    <string name="car_unit_rad_s">%1$s rad/s</string>
+    <string name="car_unit_percent" translatable="false">%1$s%</string>
+    <string name="car_unit_km" translatable="false">%1$s km</string>
+    <string name="car_unit_mi" translatable="false">%1$s mi</string>
+    <string name="car_unit_m_s" translatable="false">%1$s m/s</string>
+    <string name="car_unit_km_h" translatable="false">%1$s km/h</string>
+    <string name="car_unit_mph" translatable="false">%1$s mph</string>
+    <string name="car_unit_degrees" translatable="false">%1$s°</string>
+    <string name="car_unit_m_s2" translatable="false">%1$s m/s²</string>
+    <string name="car_unit_rad_s" translatable="false">%1$s rad/s</string>
     <string name="car_toll_card_valid">Valid</string>
     <string name="car_toll_card_invalid">Invalid</string>
     <string name="car_toll_card_not_inserted">Not inserted</string>
@@ -362,7 +363,7 @@
     <string name="car_fuel_diesel_1">Diesel #1</string>
     <string name="car_fuel_diesel_2">Diesel #2</string>
     <string name="car_fuel_biodiesel">Biodiesel</string>
-    <string name="car_fuel_e85">E85</string>
+    <string name="car_fuel_e85" translatable="false">E85</string>
     <string name="car_fuel_lpg">LPG</string>
     <string name="car_fuel_cng">CNG</string>
     <string name="car_fuel_lng">LNG</string>
@@ -371,14 +372,14 @@
     <string name="car_other">Other</string>
     <string name="car_connector_j1772">J1772 (Type 1)</string>
     <string name="car_connector_mennekes">Mennekes (Type 2)</string>
-    <string name="car_connector_chademo">CHAdeMO</string>
-    <string name="car_connector_combo_1">CCS1</string>
-    <string name="car_connector_combo_2">CCS2</string>
-    <string name="car_connector_tesla_roadster">Tesla Roadster</string>
-    <string name="car_connector_tesla_hpwc">Tesla HPWC</string>
-    <string name="car_connector_tesla_supercharger">Tesla Supercharger</string>
-    <string name="car_connector_gbt">GB/T AC</string>
-    <string name="car_connector_gbt_dc">GB/T DC</string>
+    <string name="car_connector_chademo" translatable="false">CHAdeMO</string>
+    <string name="car_connector_combo_1" translatable="false">CCS1</string>
+    <string name="car_connector_combo_2" translatable="false">CCS2</string>
+    <string name="car_connector_tesla_roadster" translatable="false">Tesla Roadster</string>
+    <string name="car_connector_tesla_hpwc" translatable="false">Tesla HPWC</string>
+    <string name="car_connector_tesla_supercharger" translatable="false">Tesla Supercharger</string>
+    <string name="car_connector_gbt" translatable="false">GB/T AC</string>
+    <string name="car_connector_gbt_dc" translatable="false">GB/T DC</string>
     <string name="car_connector_scame">Scame (Type 3)</string>
 
 </resources>

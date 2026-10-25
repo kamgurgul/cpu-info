@@ -50,6 +50,7 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidxArchCoreTesting" }
 androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
 androidx-car-app = { module = "androidx.car.app:app", version.ref = "androidxCarApp" }
+androidx-car-app-automotive = { module = "androidx.car.app:app-automotive", version.ref = "androidxCarApp" }
 androidx-car-app-projected = { module = "androidx.car.app:app-projected", version.ref = "androidxCarApp" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSpalshscreen" }
