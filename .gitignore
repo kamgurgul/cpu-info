@@ -21,3 +21,5 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 *.xcuserstate
+
+xcuserdata/
