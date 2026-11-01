@@ -19,6 +19,7 @@ object AndroidVersions {
 
     const val MIN_SDK = 24
     const val WEAR_MIN_SDK = 26
+    const val AUTOMOTIVE_MIN_SDK = 29
     const val TARGET_SDK = 37
     const val COMPILE_SDK = 37
 
@@ -29,6 +30,8 @@ object AndroidVersions {
     const val VERSION_CODE = VERSION_MAJOR * 10000 + VERSION_MINOR * 100 + VERSION_PATCH
     const val WEAR_VERSION_CODE =
         1000000 + VERSION_MAJOR * 10000 + VERSION_MINOR * 100 + VERSION_PATCH
+    const val AUTOMOTIVE_VERSION_CODE =
+        2000000 + VERSION_MAJOR * 10000 + VERSION_MINOR * 100 + VERSION_PATCH
     const val VERSION_NAME = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
     const val NDK_VERSION = "28.2.13676358"

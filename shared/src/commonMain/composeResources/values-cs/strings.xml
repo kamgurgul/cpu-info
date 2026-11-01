@@ -260,5 +260,53 @@
     <string name="search_clear">Vymazat</string>
     <string name="search_close">Zavřít</string>
 
+    <!-- Android Auto -->
+    <string name="car_category_vehicle">Vozidlo</string>
+    <string name="car_category_energy">Energie</string>
+    <string name="car_category_driving">Jízda</string>
+    <string name="car_category_host">Hostitel aplikace do auta</string>
+    <string name="car_grant_permissions">Udělit oprávnění</string>
+    <string name="car_grant_permissions_description">Vyžadováno pro čtení paliva, rychlosti, najetých kilometrů a senzorů vozidla</string>
+    <string name="car_check_phone">Udělte oprávnění v telefonu</string>
+    <string name="car_manufacturer">Výrobce</string>
+    <string name="car_model">Model</string>
+    <string name="car_model_year">Modelový rok</string>
+    <string name="car_fuel_types">Typy paliva</string>
+    <string name="car_ev_connectors">Nabíjecí konektory</string>
+    <string name="car_battery_level">Stav baterie</string>
+    <string name="car_fuel_level">Stav paliva</string>
+    <string name="car_energy_low">Nízká energie</string>
+    <string name="car_range_remaining">Zbývající dojezd</string>
+    <string name="car_speed">Rychlost</string>
+    <string name="car_raw_speed">Nezpracovaná rychlost</string>
+    <string name="car_odometer">Počítadlo kilometrů</string>
+    <string name="car_toll_card">Mýtná karta</string>
+    <string name="car_compass">Kompas (azimut, sklon, náklon)</string>
+    <string name="car_accelerometer">Akcelerometr (x, y, z)</string>
+    <string name="car_gyroscope">Gyroskop (x, y, z)</string>
+    <string name="car_app_api_level">Úroveň Car App API</string>
+    <string name="car_host">Hostitel</string>
+    <string name="car_value_loading">Načítání…</string>
+    <string name="car_value_unimplemented">Toto vozidlo nepodporuje</string>
+    <string name="car_value_unavailable">Nedostupné</string>
+    <string name="car_value_missing_permission">Vyžadováno oprávnění</string>
+    <string name="car_toll_card_valid">Platná</string>
+    <string name="car_toll_card_invalid">Neplatná</string>
+    <string name="car_toll_card_not_inserted">Nevložena</string>
+    <string name="car_fuel_unleaded">Bezolovnatý benzín</string>
+    <string name="car_fuel_leaded">Olovnatý benzín</string>
+    <string name="car_fuel_diesel_1">Nafta č. 1</string>
+    <string name="car_fuel_diesel_2">Nafta č. 2</string>
+    <string name="car_fuel_biodiesel">Bionafta</string>
+    <string name="car_fuel_lpg">LPG</string>
+    <string name="car_fuel_cng">CNG</string>
+    <string name="car_fuel_lng">LNG</string>
+    <string name="car_fuel_electric">Elektřina</string>
+    <string name="car_fuel_hydrogen">Vodík</string>
+    <string name="car_other">Jiné</string>
+    <string name="car_connector_j1772">J1772 (Typ 1)</string>
+    <string name="car_connector_mennekes">Mennekes (Typ 2)</string>
+    <string name="car_connector_scame">Scame (Typ 3)</string>
+
 </resources>
 

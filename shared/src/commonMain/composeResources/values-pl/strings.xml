@@ -269,4 +269,52 @@
     <string name="search_clear">Wyczyść</string>
     <string name="search_close">Zamknij</string>
 
+    <!-- Android Auto -->
+    <string name="car_category_vehicle">Pojazd</string>
+    <string name="car_category_energy">Energia</string>
+    <string name="car_category_driving">Jazda</string>
+    <string name="car_category_host">Host aplikacji samochodowej</string>
+    <string name="car_grant_permissions">Przyznaj uprawnienia</string>
+    <string name="car_grant_permissions_description">Wymagane do odczytu paliwa, prędkości, przebiegu i czujników samochodu</string>
+    <string name="car_check_phone">Sprawdź telefon, aby przyznać uprawnienia</string>
+    <string name="car_manufacturer">Producent</string>
+    <string name="car_model">Model</string>
+    <string name="car_model_year">Rok modelowy</string>
+    <string name="car_fuel_types">Rodzaje paliwa</string>
+    <string name="car_ev_connectors">Złącza ładowania</string>
+    <string name="car_battery_level">Poziom baterii</string>
+    <string name="car_fuel_level">Poziom paliwa</string>
+    <string name="car_energy_low">Niski poziom energii</string>
+    <string name="car_range_remaining">Pozostały zasięg</string>
+    <string name="car_speed">Prędkość</string>
+    <string name="car_raw_speed">Prędkość surowa</string>
+    <string name="car_odometer">Licznik przebiegu</string>
+    <string name="car_toll_card">Karta opłat drogowych</string>
+    <string name="car_compass">Kompas (azymut, pochylenie, przechył)</string>
+    <string name="car_accelerometer">Akcelerometr (x, y, z)</string>
+    <string name="car_gyroscope">Żyroskop (x, y, z)</string>
+    <string name="car_app_api_level">Poziom Car App API</string>
+    <string name="car_host">Host</string>
+    <string name="car_value_loading">Ładowanie…</string>
+    <string name="car_value_unimplemented">Nieobsługiwane przez ten samochód</string>
+    <string name="car_value_unavailable">Niedostępne</string>
+    <string name="car_value_missing_permission">Wymagane uprawnienie</string>
+    <string name="car_toll_card_valid">Ważna</string>
+    <string name="car_toll_card_invalid">Nieważna</string>
+    <string name="car_toll_card_not_inserted">Nie włożono</string>
+    <string name="car_fuel_unleaded">Benzyna bezołowiowa</string>
+    <string name="car_fuel_leaded">Benzyna ołowiowa</string>
+    <string name="car_fuel_diesel_1">Diesel nr 1</string>
+    <string name="car_fuel_diesel_2">Diesel nr 2</string>
+    <string name="car_fuel_biodiesel">Biodiesel</string>
+    <string name="car_fuel_lpg">LPG</string>
+    <string name="car_fuel_cng">CNG</string>
+    <string name="car_fuel_lng">LNG</string>
+    <string name="car_fuel_electric">Elektryczny</string>
+    <string name="car_fuel_hydrogen">Wodór</string>
+    <string name="car_other">Inne</string>
+    <string name="car_connector_j1772">J1772 (Typ 1)</string>
+    <string name="car_connector_mennekes">Mennekes (Typ 2)</string>
+    <string name="car_connector_scame">Scame (Typ 3)</string>
+
 </resources>
