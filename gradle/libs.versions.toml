@@ -40,7 +40,7 @@ licenses = "3.1.5"
 oshi = "7.7.3"
 profileinstaller = "1.4.1"
 relinker = "1.4.5"
-spotless = "8.10.4"
+spotless = "8.11.0"
 turbine = "1.2.1"
 uiautomator = "2.4.0"
 
