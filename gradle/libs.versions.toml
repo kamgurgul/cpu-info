@@ -42,7 +42,7 @@ profileinstaller = "1.4.1"
 relinker = "1.4.5"
 spotless = "8.10.4"
 turbine = "1.2.1"
-uiautomator = "2.4.0"
+uiautomator = "2.4.1"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
