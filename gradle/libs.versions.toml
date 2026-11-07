@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = "9.5.0"
+androidGradlePlugin = "9.5.1"
 androidxActivity = "1.13.0"
 androidxArchCoreTesting = "2.2.0"
 androidxCore = "1.19.1"
@@ -40,9 +40,9 @@ licenses = "3.1.5"
 oshi = "7.7.3"
 profileinstaller = "1.4.1"
 relinker = "1.4.5"
-spotless = "8.10.4"
+spotless = "8.11.0"
 turbine = "1.2.1"
-uiautomator = "2.4.0"
+uiautomator = "2.4.1"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
