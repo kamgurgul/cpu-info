@@ -269,4 +269,28 @@
     <string name="search_clear">Wyczyść</string>
     <string name="search_close">Zamknij</string>
 
+    <string name="apps_move_to_trash">Przenieś do Kosza</string>
+    <string name="apps_move_to_trash_confirm_message">Przenieść %1$s do Kosza? Pakiet aplikacji zostanie usunięty. Pliki pomocnicze, usługi i rozszerzenia mogą pozostać.</string>
+    <string name="app_uninstall_restart_required">Usuwanie zakończone. Uruchom ponownie komputer, aby dokończyć operację.</string>
+    <string name="app_uninstall_unconfirmed">Nie udało się potwierdzić usunięcia. Odśwież listę, aby sprawdzić.</string>
+    <string name="cpu_logical_cores">Rdzenie logiczne</string>
+    <string name="cpu_performance_cores">Rdzenie wydajnościowe</string>
+    <string name="cpu_efficiency_cores">Rdzenie energooszczędne</string>
+    <string name="cpu_cache_line_size">Rozmiar linii cache</string>
+    <string name="cpu_page_size">Rozmiar strony pamięci</string>
+    <string name="gpu_family">Rodzina GPU</string>
+    <string name="gpu_unified_memory">Pamięć zunifikowana</string>
+    <string name="gpu_raytracing">Raytracing</string>
+    <string name="gpu_max_threads_per_threadgroup">Maks. wątków w grupie</string>
+    <string name="screen_native_scale">Skala natywna</string>
+    <string name="screen_display_gamut">Gama kolorów</string>
+    <string name="screen_hdr_headroom">Zapas HDR (obecny / maks.)</string>
+    <string name="os_machine_id">Identyfikator urządzenia</string>
+    <string name="os_hostname">Nazwa hosta</string>
+    <string name="battery_low_power_mode">Tryb niskiego zużycia energii</string>
+    <string name="hardware_audio_sample_rate">Częstotliwość próbkowania</string>
+    <string name="hardware_audio_output_channels">Kanały wyjściowe</string>
+    <string name="sensors_pressure">Barometr</string>
+    <string name="sensors_altitude">Wysokość względna</string>
+    <string name="sensors_proximity">Czujnik zbliżeniowy</string>
 </resources>

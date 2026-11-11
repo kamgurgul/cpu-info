@@ -260,5 +260,29 @@
     <string name="search_clear">Vymazat</string>
     <string name="search_close">Zavřít</string>
 
+    <string name="apps_move_to_trash">Přesunout do koše</string>
+    <string name="apps_move_to_trash_confirm_message">Přesunout %1$s do koše? Balíček aplikace bude odstraněn. Podpůrné soubory, služby a rozšíření mohou zůstat.</string>
+    <string name="app_uninstall_restart_required">Odstranění dokončeno. Pro dokončení restartujte počítač.</string>
+    <string name="app_uninstall_unconfirmed">Odstranění se nepodařilo potvrdit. Ověřte stav obnovením seznamu.</string>
+    <string name="cpu_logical_cores">Logická jádra</string>
+    <string name="cpu_performance_cores">Výkonná jádra</string>
+    <string name="cpu_efficiency_cores">Úsporná jádra</string>
+    <string name="cpu_cache_line_size">Velikost řádku cache</string>
+    <string name="cpu_page_size">Velikost stránky</string>
+    <string name="gpu_family">Rodina GPU</string>
+    <string name="gpu_unified_memory">Sjednocená paměť</string>
+    <string name="gpu_raytracing">Raytracing</string>
+    <string name="gpu_max_threads_per_threadgroup">Max. vláken ve skupině</string>
+    <string name="screen_native_scale">Nativní měřítko</string>
+    <string name="screen_display_gamut">Barevný gamut</string>
+    <string name="screen_hdr_headroom">Rezerva HDR (aktuální / max.)</string>
+    <string name="os_machine_id">Identifikátor stroje</string>
+    <string name="os_hostname">Název hostitele</string>
+    <string name="battery_low_power_mode">Režim nízké spotřeby</string>
+    <string name="hardware_audio_sample_rate">Vzorkovací frekvence</string>
+    <string name="hardware_audio_output_channels">Výstupní kanály</string>
+    <string name="sensors_pressure">Barometr</string>
+    <string name="sensors_altitude">Relativní nadmořská výška</string>
+    <string name="sensors_proximity">Přiblížení</string>
 </resources>
 

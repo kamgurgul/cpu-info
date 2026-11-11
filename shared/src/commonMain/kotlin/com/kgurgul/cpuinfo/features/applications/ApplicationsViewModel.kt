@@ -23,6 +23,8 @@ import com.kgurgul.cpuinfo.data.local.IUserPreferencesRepository
 import com.kgurgul.cpuinfo.data.provider.IApplicationsDataProvider
 import com.kgurgul.cpuinfo.domain.action.IExternalAppAction
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import com.kgurgul.cpuinfo.domain.model.UninstallOutcome
+import com.kgurgul.cpuinfo.domain.model.UninstallTarget
 import com.kgurgul.cpuinfo.domain.model.sortOrderFromBoolean
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.result.FilterApplicationsInteractor
@@ -30,12 +32,18 @@ import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.app_open
 import com.kgurgul.cpuinfo.shared.app_uninstall_error
+import com.kgurgul.cpuinfo.shared.app_uninstall_restart_required
+import com.kgurgul.cpuinfo.shared.app_uninstall_unconfirmed
 import com.kgurgul.cpuinfo.shared.cpu_open
 import com.kgurgul.cpuinfo.shared.cpu_uninstall
+import com.kgurgul.cpuinfo.utils.CpuLogger
 import com.kgurgul.cpuinfo.utils.wrappers.Result
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableSet
+import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -103,6 +111,7 @@ class ApplicationsViewModel(
                     nativeLibs = localData.nativeLibs,
                     applications = filteredApplications.toImmutableList(),
                     snackbarMessage = localData.snackbarMessage,
+                    uninstallingTargets = localData.uninstallingTargets,
                     hasSystemAppsFiltering = applicationsDataProvider.hasSystemAppsFiltering(),
                     hasExpandedAppManagement =
                         applicationsDataProvider.hasExpandedAppManagementSupported(),
@@ -151,16 +160,40 @@ class ApplicationsViewModel(
         }
     }
 
-    fun onAppUninstallWithPathClicked(uninstallerPath: String) {
+    fun onDesktopAppUninstallClicked(target: UninstallTarget) {
+        if (target in localDataFlow.value.uninstallingTargets) return
+        localDataFlow.update {
+            it.copy(uninstallingTargets = it.uninstallingTargets.adding(target))
+        }
         viewModelScope.launch {
-            externalAppAction
-                .uninstallWithPath(uninstallerPath)
-                .onSuccess { onRefreshApplications() }
-                .onFailure {
-                    localDataFlow.update {
-                        it.copy(snackbarMessage = Res.string.app_uninstall_error)
+            try {
+                externalAppAction
+                    .uninstallDesktop(target)
+                    .onSuccess { outcome ->
+                        val message =
+                            when (outcome) {
+                                UninstallOutcome.REMOVED,
+                                UninstallOutcome.CANCELLED -> null
+
+                                UninstallOutcome.RESTART_REQUIRED ->
+                                    Res.string.app_uninstall_restart_required
+
+                                UninstallOutcome.UNCONFIRMED -> Res.string.app_uninstall_unconfirmed
+                            }
+                        localDataFlow.update { it.copy(snackbarMessage = message) }
+                        onRefreshApplications()
                     }
+                    .onFailure { error ->
+                        CpuLogger.e(error) { "Application removal failed" }
+                        localDataFlow.update {
+                            it.copy(snackbarMessage = Res.string.app_uninstall_error)
+                        }
+                    }
+            } finally {
+                localDataFlow.update {
+                    it.copy(uninstallingTargets = it.uninstallingTargets.removing(target))
                 }
+            }
         }
     }
 
@@ -196,6 +229,7 @@ class ApplicationsViewModel(
         val isDialogVisible: Boolean = false,
         val nativeLibs: ImmutableList<String> = persistentListOf(),
         val snackbarMessage: StringResource? = null,
+        val uninstallingTargets: PersistentSet<UninstallTarget> = persistentSetOf(),
     )
 
     @Stable
@@ -207,6 +241,7 @@ class ApplicationsViewModel(
         val nativeLibs: ImmutableList<String> = persistentListOf(),
         val applications: ImmutableList<ExtendedApplicationData> = persistentListOf(),
         val snackbarMessage: StringResource? = null,
+        val uninstallingTargets: ImmutableSet<UninstallTarget> = persistentSetOf(),
         val hasSystemAppsFiltering: Boolean = false,
         val hasExpandedAppManagement: Boolean = false,
         val hasManualRefresh: Boolean = false,

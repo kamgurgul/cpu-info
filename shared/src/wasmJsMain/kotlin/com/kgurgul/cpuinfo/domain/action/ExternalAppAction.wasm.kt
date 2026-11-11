@@ -15,6 +15,8 @@
  */
 package com.kgurgul.cpuinfo.domain.action
 
+import com.kgurgul.cpuinfo.domain.model.UninstallOutcome
+import com.kgurgul.cpuinfo.domain.model.UninstallTarget
 import org.koin.core.component.KoinComponent
 
 actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinComponent {
@@ -31,8 +33,10 @@ actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinCo
         return Result.success(Unit)
     }
 
-    actual override suspend fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
-        return Result.success(Unit)
+    actual override suspend fun uninstallDesktop(
+        target: UninstallTarget
+    ): Result<UninstallOutcome> {
+        return Result.failure(UnsupportedOperationException("Desktop removal is unavailable"))
     }
 
     actual override fun searchOnWeb(phrase: String): Result<Unit> {

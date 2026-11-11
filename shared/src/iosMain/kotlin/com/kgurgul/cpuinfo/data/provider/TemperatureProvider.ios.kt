@@ -24,46 +24,53 @@ import com.kgurgul.cpuinfo.shared.temp_thermal_state_critical
 import com.kgurgul.cpuinfo.shared.temp_thermal_state_fair
 import com.kgurgul.cpuinfo.shared.temp_thermal_state_nominal
 import com.kgurgul.cpuinfo.shared.temp_thermal_state_serious
-import com.kgurgul.cpuinfo.shared.unknown
-import kotlin.time.Duration.Companion.milliseconds
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.callbackFlow
+import platform.Foundation.NSNotificationCenter
+import platform.Foundation.NSOperationQueue
 import platform.Foundation.NSProcessInfo
 import platform.Foundation.NSProcessInfoThermalState
+import platform.Foundation.NSProcessInfoThermalStateDidChangeNotification
 import platform.Foundation.thermalState
 
 actual class TemperatureProvider actual constructor() : ITemperatureProvider {
 
-    actual override val sensorsFlow: Flow<TemperatureItem> = flow {
-        while (true) {
-            val thermalState =
-                when (NSProcessInfo.processInfo.thermalState) {
-                    NSProcessInfoThermalState.NSProcessInfoThermalStateNominal ->
-                        Res.string.temp_thermal_state_nominal
+    actual override val sensorsFlow: Flow<TemperatureItem> = callbackFlow {
+        trySend(createThermalStateItem())
+        val center = NSNotificationCenter.defaultCenter
+        val observer =
+            center.addObserverForName(
+                name = NSProcessInfoThermalStateDidChangeNotification,
+                `object` = null,
+                queue = NSOperationQueue.mainQueue,
+            ) {
+                trySend(createThermalStateItem())
+            }
+        awaitClose { center.removeObserver(observer) }
+    }
 
-                    NSProcessInfoThermalState.NSProcessInfoThermalStateFair ->
-                        Res.string.temp_thermal_state_fair
+    private fun createThermalStateItem(): TemperatureItem {
+        val thermalState =
+            when (NSProcessInfo.processInfo.thermalState) {
+                NSProcessInfoThermalState.NSProcessInfoThermalStateNominal ->
+                    Res.string.temp_thermal_state_nominal
 
-                    NSProcessInfoThermalState.NSProcessInfoThermalStateSerious ->
-                        Res.string.temp_thermal_state_serious
+                NSProcessInfoThermalState.NSProcessInfoThermalStateFair ->
+                    Res.string.temp_thermal_state_fair
 
-                    NSProcessInfoThermalState.NSProcessInfoThermalStateCritical ->
-                        Res.string.temp_thermal_state_critical
+                NSProcessInfoThermalState.NSProcessInfoThermalStateSerious ->
+                    Res.string.temp_thermal_state_serious
 
-                    else -> Res.string.unknown
-                }
-            emit(
-                TemperatureItem(
-                    id = ID_THERMAL_STATE,
-                    icon = Res.drawable.ic_temperature,
-                    name =
-                        TextResource.Formatted(Res.string.temp_thermal_state, listOf(thermalState)),
-                    temperature = Float.NaN,
-                )
-            )
-            delay(REFRESH_DELAY.milliseconds)
-        }
+                NSProcessInfoThermalState.NSProcessInfoThermalStateCritical ->
+                    Res.string.temp_thermal_state_critical
+            }
+        return TemperatureItem(
+            id = ID_THERMAL_STATE,
+            icon = Res.drawable.ic_temperature,
+            name = TextResource.Formatted(Res.string.temp_thermal_state, listOf(thermalState)),
+            temperature = Float.NaN,
+        )
     }
 
     actual override fun getBatteryTemperature(): Float? = null
@@ -71,7 +78,6 @@ actual class TemperatureProvider actual constructor() : ITemperatureProvider {
     actual override suspend fun isAdminRequired(): Boolean = false
 
     companion object {
-        private const val REFRESH_DELAY = 5000L
         private const val ID_THERMAL_STATE = 1000
     }
 }

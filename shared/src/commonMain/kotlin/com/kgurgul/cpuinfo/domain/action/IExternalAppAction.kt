@@ -15,6 +15,9 @@
  */
 package com.kgurgul.cpuinfo.domain.action
 
+import com.kgurgul.cpuinfo.domain.model.UninstallOutcome
+import com.kgurgul.cpuinfo.domain.model.UninstallTarget
+
 interface IExternalAppAction {
 
     fun launch(packageName: String): Result<Unit>
@@ -23,7 +26,7 @@ interface IExternalAppAction {
 
     fun uninstall(packageName: String): Result<Unit>
 
-    suspend fun uninstallWithPath(uninstallerPath: String): Result<Unit>
+    suspend fun uninstallDesktop(target: UninstallTarget): Result<UninstallOutcome>
 
     fun searchOnWeb(phrase: String): Result<Unit>
 }

@@ -16,5 +16,54 @@
 package com.kgurgul.cpuinfo.features.information.hardware
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import platform.Foundation.NSNotificationCenter
+import platform.Foundation.NSOperationQueue
+import platform.Foundation.NSProcessInfoPowerStateDidChangeNotification
+import platform.UIKit.UIDevice
+import platform.UIKit.UIDeviceBatteryLevelDidChangeNotification
+import platform.UIKit.UIDeviceBatteryStateDidChangeNotification
 
-@Composable actual fun RegisterPowerPlugListener(onRefresh: () -> Unit) {}
+@Composable
+actual fun RegisterPowerPlugListener(onRefresh: () -> Unit) {
+    val currentOnRefresh by rememberUpdatedState(onRefresh)
+    DisposableEffect(Unit) {
+        val device = UIDevice.currentDevice
+        val wasMonitoringEnabled = device.batteryMonitoringEnabled
+        device.batteryMonitoringEnabled = true
+        val center = NSNotificationCenter.defaultCenter
+        val mainQueue = NSOperationQueue.mainQueue
+        val stateObserver =
+            center.addObserverForName(
+                name = UIDeviceBatteryStateDidChangeNotification,
+                `object` = null,
+                queue = mainQueue,
+            ) {
+                currentOnRefresh()
+            }
+        val levelObserver =
+            center.addObserverForName(
+                name = UIDeviceBatteryLevelDidChangeNotification,
+                `object` = null,
+                queue = mainQueue,
+            ) {
+                currentOnRefresh()
+            }
+        val powerModeObserver =
+            center.addObserverForName(
+                name = NSProcessInfoPowerStateDidChangeNotification,
+                `object` = null,
+                queue = mainQueue,
+            ) {
+                currentOnRefresh()
+            }
+        onDispose {
+            center.removeObserver(stateObserver)
+            center.removeObserver(levelObserver)
+            center.removeObserver(powerModeObserver)
+            device.batteryMonitoringEnabled = wasMonitoringEnabled
+        }
+    }
+}

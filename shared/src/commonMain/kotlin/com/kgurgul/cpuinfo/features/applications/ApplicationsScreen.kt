@@ -15,10 +15,8 @@
  */
 package com.kgurgul.cpuinfo.features.applications
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,10 +41,9 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -69,22 +66,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.dropUnlessResumed
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.navDeepLink
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.kgurgul.cpuinfo.domain.model.ExtendedApplicationData
+import com.kgurgul.cpuinfo.domain.model.UninstallTarget
 import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.applications
+import com.kgurgul.cpuinfo.shared.apps_move_to_trash
+import com.kgurgul.cpuinfo.shared.apps_move_to_trash_confirm_message
 import com.kgurgul.cpuinfo.shared.apps_show_system_apps
 import com.kgurgul.cpuinfo.shared.apps_sort_order
 import com.kgurgul.cpuinfo.shared.apps_uninstall
@@ -98,50 +94,37 @@ import com.kgurgul.cpuinfo.shared.menu
 import com.kgurgul.cpuinfo.shared.native_libs
 import com.kgurgul.cpuinfo.shared.ok
 import com.kgurgul.cpuinfo.shared.refresh
-import com.kgurgul.cpuinfo.shared.search
 import com.kgurgul.cpuinfo.shared.settings
+import com.kgurgul.cpuinfo.ui.components.CpuActionToolbar
+import com.kgurgul.cpuinfo.ui.components.CpuActionToolbarContentPadding
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
-import com.kgurgul.cpuinfo.ui.components.CpuSearchTextField
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
 import com.kgurgul.cpuinfo.ui.components.CpuSwitchBox
+import com.kgurgul.cpuinfo.ui.components.CpuToolbarSearchItem
 import com.kgurgul.cpuinfo.ui.components.DraggableBox
 import com.kgurgul.cpuinfo.ui.components.FilledButton
-import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.rowActionIconSize
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
-import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
+import com.kgurgul.cpuinfo.utils.navigation.LocalNavigationBarPadding
+import com.kgurgul.cpuinfo.utils.navigation.contentPaddingWithNavigationBar
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object ApplicationsBaseRoute {
+data object ApplicationsRoute : NavKey
 
-    @SerialName(NavigationConst.APPLICATIONS) @Serializable data object ApplicationsRoute
-}
-
-fun NavGraphBuilder.applicationsScreen() {
-    navigation<ApplicationsBaseRoute>(
-        startDestination = ApplicationsBaseRoute.ApplicationsRoute,
-        deepLinks =
-            listOf(
-                navDeepLink<ApplicationsBaseRoute>(
-                    basePath = NavigationConst.BASE_URL + NavigationConst.APPLICATIONS
-                )
-            ),
-    ) {
-        composable<ApplicationsBaseRoute.ApplicationsRoute> { ApplicationsScreen() }
-    }
+fun EntryProviderScope<NavKey>.applicationsScreen() {
+    entry<ApplicationsRoute> { ApplicationsScreen() }
 }
 
 @Composable
@@ -157,7 +140,7 @@ fun ApplicationsScreen(viewModel: ApplicationsViewModel = koinViewModel()) {
         onNativeLibsDialogDismissed = viewModel::onNativeLibsDialogDismissed,
         onNativeLibNameClicked = viewModel::onNativeLibsNameClicked,
         onAppUninstallClicked = viewModel::onAppUninstallClicked,
-        onAppUninstallWithPathClicked = viewModel::onAppUninstallWithPathClicked,
+        onDesktopAppUninstallClicked = viewModel::onDesktopAppUninstallClicked,
         onAppSettingsClicked = viewModel::onAppSettingsClicked,
         onNativeLibsClicked = viewModel::onNativeLibsClicked,
         onSystemAppsSwitched = viewModel::onSystemAppsSwitched,
@@ -176,7 +159,7 @@ fun ApplicationsScreen(
     onNativeLibsDialogDismissed: () -> Unit,
     onNativeLibNameClicked: (nativeLibraryName: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
-    onAppUninstallWithPathClicked: (uninstallerPath: String) -> Unit,
+    onDesktopAppUninstallClicked: (target: UninstallTarget) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (libs: List<String>) -> Unit,
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
@@ -184,6 +167,7 @@ fun ApplicationsScreen(
     searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
 ) {
+    var showSearch by rememberSaveable { mutableStateOf(searchQuery.isNotEmpty()) }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -199,36 +183,49 @@ fun ApplicationsScreen(
         }
     }
     Scaffold(
-        topBar = {
-            TopBar(
+        contentWindowInsets =
+            WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal),
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.padding(bottom = LocalNavigationBarPadding.current),
+            ) { data ->
+                CpuSnackbar(data)
+            }
+        },
+    ) { innerPaddingModifier ->
+        Box(modifier = Modifier.fillMaxSize().padding(innerPaddingModifier)) {
+            CpuPullToRefreshBox(
+                isRefreshing = uiState.isLoading,
+                onRefresh = onRefreshApplications,
+                enabled = !uiState.hasManualRefresh,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                ApplicationsList(
+                    appList = uiState.applications,
+                    uninstallingTargets = uiState.uninstallingTargets,
+                    hasExpandedAppManagement = uiState.hasExpandedAppManagement,
+                    onAppClicked = onAppClicked,
+                    onAppUninstallClicked = onAppUninstallClicked,
+                    onDesktopAppUninstallClicked = onDesktopAppUninstallClicked,
+                    onAppSettingsClicked = onAppSettingsClicked,
+                    onNativeLibsClicked = onNativeLibsClicked,
+                )
+            }
+            ApplicationsToolbar(
+                showSearch = showSearch,
+                searchQuery = searchQuery,
+                onSearchQueryChanged = onSearchQueryChanged,
+                onSearchClicked = { showSearch = true },
+                onSearchClosed = { showSearch = false },
                 withSystemApps = uiState.withSystemApps,
                 onSystemAppsSwitched = onSystemAppsSwitched,
                 isSortAscending = uiState.isSortAscending,
                 onSortOrderChange = onSortOrderChange,
-                searchQuery = searchQuery,
-                onSearchQueryChanged = onSearchQueryChanged,
                 hasSystemAppsFiltering = uiState.hasSystemAppsFiltering,
                 hasManualRefresh = uiState.hasManualRefresh,
                 onRefresh = onRefreshApplications,
-            )
-        },
-        contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
-        snackbarHost = { SnackbarHost(snackbarHostState) { data -> CpuSnackbar(data) } },
-    ) { innerPaddingModifier ->
-        CpuPullToRefreshBox(
-            isRefreshing = uiState.isLoading,
-            onRefresh = onRefreshApplications,
-            enabled = !uiState.hasManualRefresh,
-            modifier = Modifier.fillMaxSize().padding(innerPaddingModifier),
-        ) {
-            ApplicationsList(
-                appList = uiState.applications,
-                hasExpandedAppManagement = uiState.hasExpandedAppManagement,
-                onAppClicked = onAppClicked,
-                onAppUninstallClicked = onAppUninstallClicked,
-                onAppUninstallWithPathClicked = onAppUninstallWithPathClicked,
-                onAppSettingsClicked = onAppSettingsClicked,
-                onNativeLibsClicked = onNativeLibsClicked,
+                modifier = Modifier.align(Alignment.TopEnd),
             )
         }
         NativeLibsDialog(
@@ -241,66 +238,39 @@ fun ApplicationsScreen(
 }
 
 @Composable
-private fun TopBar(
+private fun ApplicationsToolbar(
+    showSearch: Boolean,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
+    onSearchClicked: () -> Unit,
+    onSearchClosed: () -> Unit,
     withSystemApps: Boolean,
     onSystemAppsSwitched: (enabled: Boolean) -> Unit,
     isSortAscending: Boolean,
     onSortOrderChange: (ascending: Boolean) -> Unit,
-    searchQuery: String,
-    onSearchQueryChanged: (String) -> Unit,
     hasSystemAppsFiltering: Boolean,
     hasManualRefresh: Boolean,
     onRefresh: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var showMenu by remember { mutableStateOf(false) }
-    var showSearch by rememberSaveable { mutableStateOf(false) }
-    PrimaryTopAppBar(
-        title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                AnimatedVisibility(visible = !showSearch) {
-                    Text(
-                        text = stringResource(Res.string.applications),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.weight(1f),
-                ) {
-                    AnimatedVisibility(visible = showSearch) {
-                        CpuSearchTextField(
-                            searchQuery = searchQuery,
-                            onSearchQueryChanged = onSearchQueryChanged,
-                            onSearchClosed = { showSearch = false },
-                            modifier = Modifier.weight(1f),
-                        )
-                    }
-                    AnimatedVisibility(visible = !showSearch) {
-                        IconButton(onClick = { showSearch = true }) {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = stringResource(Res.string.search),
-                            )
-                        }
-                    }
-                }
+    CpuActionToolbar(modifier = modifier) {
+        CpuToolbarSearchItem(
+            showSearch = showSearch,
+            searchQuery = searchQuery,
+            onSearchQueryChanged = onSearchQueryChanged,
+            onSearchClicked = onSearchClicked,
+            onSearchClosed = onSearchClosed,
+        )
+        if (hasManualRefresh) {
+            IconButton(onClick = onRefresh) {
+                Icon(
+                    imageVector = Icons.Default.Refresh,
+                    contentDescription = stringResource(Res.string.refresh),
+                )
             }
-        },
-        actions = {
-            if (hasManualRefresh) {
-                IconButton(onClick = onRefresh) {
-                    Icon(
-                        imageVector = Icons.Default.Refresh,
-                        contentDescription = stringResource(Res.string.refresh),
-                    )
-                }
-            }
+        }
+        Box {
             IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
@@ -327,7 +297,10 @@ private fun TopBar(
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     },
-                    onClick = { onSortOrderChange(!isSortAscending) },
+                    onClick = {
+                        onSortOrderChange(!isSortAscending)
+                        showMenu = false
+                    },
                     trailingIcon = {
                         val icon =
                             if (isSortAscending) {
@@ -339,17 +312,18 @@ private fun TopBar(
                     },
                 )
             }
-        },
-    )
+        }
+    }
 }
 
 @Composable
 private fun ApplicationsList(
     appList: ImmutableList<ExtendedApplicationData>,
+    uninstallingTargets: Set<UninstallTarget>,
     hasExpandedAppManagement: Boolean,
     onAppClicked: (packageName: String) -> Unit,
     onAppUninstallClicked: (id: String) -> Unit,
-    onAppUninstallWithPathClicked: (uninstallerPath: String) -> Unit,
+    onDesktopAppUninstallClicked: (target: UninstallTarget) -> Unit,
     onAppSettingsClicked: (id: String) -> Unit,
     onNativeLibsClicked: (libs: List<String>) -> Unit,
 ) {
@@ -358,7 +332,12 @@ private fun ApplicationsList(
         val listState = rememberLazyListState()
         var revealedCardId: String? by rememberSaveable { mutableStateOf(null) }
         val density = LocalDensity.current
-        LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            state = listState,
+            contentPadding =
+                contentPaddingWithNavigationBar(additionalTop = CpuActionToolbarContentPadding),
+            modifier = Modifier.fillMaxSize(),
+        ) {
             itemsIndexed(items = appList, key = { _, item -> item.packageName }) { index, item ->
                 val isRevealed by remember { derivedStateOf { revealedCardId == item.packageName } }
                 DraggableBox(
@@ -397,6 +376,7 @@ private fun ApplicationsList(
                     content = {
                         ApplicationItem(
                             appData = item,
+                            isUninstalling = item.uninstallTarget in uninstallingTargets,
                             onAppClicked = onAppClicked,
                             onNativeLibsClicked = onNativeLibsClicked,
                             onUninstallClicked = { appToUninstall = item },
@@ -419,7 +399,7 @@ private fun ApplicationsList(
         appToUninstall = appToUninstall,
         onDismiss = { appToUninstall = null },
         onConfirm = { app ->
-            app.uninstallerPath?.let { onAppUninstallWithPathClicked(it) }
+            app.uninstallTarget?.let { onDesktopAppUninstallClicked(it) }
             appToUninstall = null
         },
     )
@@ -428,6 +408,7 @@ private fun ApplicationsList(
 @Composable
 private fun ApplicationItem(
     appData: ExtendedApplicationData,
+    isUninstalling: Boolean,
     onAppClicked: (packageName: String) -> Unit,
     onNativeLibsClicked: (libs: List<String>) -> Unit,
     onUninstallClicked: () -> Unit,
@@ -458,7 +439,7 @@ private fun ApplicationItem(
                         color = MaterialTheme.colorScheme.onBackground,
                     )
                     Text(
-                        text = appData.packageName,
+                        text = appData.displayIdentifier,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
@@ -488,14 +469,28 @@ private fun ApplicationItem(
             Spacer(modifier = Modifier.size(spacingXSmall))
             IconButton(
                 onClick = onUninstallClicked,
+                enabled = !isUninstalling,
                 modifier = Modifier.requiredSize(rowActionIconSize),
             ) {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_thrash),
-                    contentDescription = stringResource(Res.string.apps_uninstall),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(spacingSmall),
-                )
+                if (isUninstalling) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(20.dp),
+                        strokeWidth = 2.dp,
+                        color = MaterialTheme.colorScheme.tertiaryFixed,
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(Res.drawable.ic_thrash),
+                        contentDescription =
+                            stringResource(
+                                if (appData.uninstallTarget is UninstallTarget.MacBundle)
+                                    Res.string.apps_move_to_trash
+                                else Res.string.apps_uninstall
+                            ),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(spacingSmall),
+                    )
+                }
             }
         }
     }
@@ -529,7 +524,10 @@ private fun NativeLibsDialog(
                 }
             },
             confirmButton = {
-                Button(onClick = onDismissRequest) { Text(text = stringResource(Res.string.ok)) }
+                FilledButton(
+                    text = stringResource(Res.string.ok),
+                    onClick = onDismissRequest,
+                )
             },
         )
     }
@@ -542,14 +540,24 @@ private fun UninstallConfirmationDialog(
     onConfirm: (ExtendedApplicationData) -> Unit,
 ) {
     if (appToUninstall != null) {
+        val isTrash = appToUninstall.uninstallTarget is UninstallTarget.MacBundle
         AlertDialog(
             onDismissRequest = onDismiss,
-            title = { Text(text = stringResource(Res.string.apps_uninstall_confirm_title)) },
+            title = {
+                Text(
+                    text =
+                        stringResource(
+                            if (isTrash) Res.string.apps_move_to_trash
+                            else Res.string.apps_uninstall_confirm_title
+                        )
+                )
+            },
             text = {
                 Text(
                     text =
                         stringResource(
-                            Res.string.apps_uninstall_confirm_message,
+                            if (isTrash) Res.string.apps_move_to_trash_confirm_message
+                            else Res.string.apps_uninstall_confirm_message,
                             appToUninstall.name,
                         ),
                     style = MaterialTheme.typography.bodyMedium,
@@ -557,7 +565,11 @@ private fun UninstallConfirmationDialog(
             },
             confirmButton = {
                 FilledButton(
-                    text = stringResource(Res.string.apps_uninstall),
+                    text =
+                        stringResource(
+                            if (isTrash) Res.string.apps_move_to_trash
+                            else Res.string.apps_uninstall
+                        ),
                     onClick = { onConfirm(appToUninstall) },
                     colors =
                         ButtonDefaults.buttonColors(
@@ -602,7 +614,7 @@ private fun ApplicationsScreenPreview() {
             onNativeLibNameClicked = {},
             onAppSettingsClicked = {},
             onAppUninstallClicked = {},
-            onAppUninstallWithPathClicked = {},
+            onDesktopAppUninstallClicked = {},
             onNativeLibsClicked = {},
             onSystemAppsSwitched = {},
             onSortOrderChange = {},

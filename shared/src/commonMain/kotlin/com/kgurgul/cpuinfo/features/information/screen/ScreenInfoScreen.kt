@@ -16,7 +16,6 @@
 package com.kgurgul.cpuinfo.features.information.screen
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,6 +36,7 @@ import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import com.kgurgul.cpuinfo.utils.navigation.contentPaddingWithNavigationBar
 import kotlinx.collections.immutable.persistentListOf
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -56,7 +56,7 @@ fun ScreenInfoScreen(uiState: ScreenInfoViewModel.UiState) {
     ) {
         val listState = rememberLazyListState()
         LazyColumn(
-            contentPadding = PaddingValues(spacingSmall),
+            contentPadding = contentPaddingWithNavigationBar(spacingSmall),
             verticalArrangement = Arrangement.spacedBy(spacingSmall),
             state = listState,
             modifier = Modifier.fillMaxSize(),

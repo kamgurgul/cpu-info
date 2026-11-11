@@ -19,7 +19,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -36,7 +35,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -58,10 +56,8 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.dropUnlessResumed
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.navDeepLink
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.kgurgul.cpuinfo.domain.model.DarkThemeConfig
 import com.kgurgul.cpuinfo.features.settings.licenses.LicensesScreen
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
@@ -79,22 +75,22 @@ import com.kgurgul.cpuinfo.shared.pref_theme_choose
 import com.kgurgul.cpuinfo.shared.pref_theme_dark
 import com.kgurgul.cpuinfo.shared.pref_theme_default
 import com.kgurgul.cpuinfo.shared.pref_theme_light
-import com.kgurgul.cpuinfo.shared.settings
 import com.kgurgul.cpuinfo.shared.settings_about
 import com.kgurgul.cpuinfo.shared.settings_others
 import com.kgurgul.cpuinfo.shared.temperature_unit
-import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
+import com.kgurgul.cpuinfo.ui.components.FilledButton
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.iconDefaultSize
 import com.kgurgul.cpuinfo.ui.theme.spacingLarge
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import com.kgurgul.cpuinfo.utils.navigation.LocalNavigationBarPadding
 import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
+import com.kgurgul.cpuinfo.utils.navigation.contentPaddingWithNavigationBar
 import com.kgurgul.cpuinfo.utils.safeOpenUri
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.getString
@@ -103,44 +99,17 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object SettingsRoute {
+data object SettingsRoute : NavKey
 
-    @SerialName(NavigationConst.SETTINGS) @Serializable data object List
+@Serializable
+data object LicensesRoute : NavKey
 
-    @SerialName(NavigationConst.SETTINGS + "_" + NavigationConst.LICENSES)
-    @Serializable
-    data object Licenses
-}
-
-fun NavGraphBuilder.settingsScreen(
+fun EntryProviderScope<NavKey>.settingsScreen(
     onLicensesClicked: () -> Unit,
     onNavigateBackClicked: () -> Unit,
 ) {
-    navigation<SettingsRoute>(
-        startDestination = SettingsRoute.List,
-        deepLinks =
-            listOf(
-                navDeepLink<SettingsRoute>(
-                    basePath = NavigationConst.BASE_URL + NavigationConst.SETTINGS
-                )
-            ),
-    ) {
-        composable<SettingsRoute.List> { SettingsScreen(onLicensesClicked = onLicensesClicked) }
-        composable<SettingsRoute.Licenses>(
-            deepLinks =
-                listOf(
-                    navDeepLink<SettingsRoute>(
-                        basePath =
-                            NavigationConst.BASE_URL +
-                                NavigationConst.SETTINGS +
-                                "/" +
-                                NavigationConst.LICENSES
-                    )
-                )
-        ) {
-            LicensesScreen(onNavigateBackClicked = onNavigateBackClicked)
-        }
-    }
+    entry<SettingsRoute> { SettingsScreen(onLicensesClicked = onLicensesClicked) }
+    entry<LicensesRoute> { LicensesScreen(onNavigateBackClicked = onNavigateBackClicked) }
 }
 
 @Composable
@@ -165,9 +134,14 @@ fun SettingsScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     Scaffold(
-        topBar = { PrimaryTopAppBar(title = stringResource(Res.string.settings)) },
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-        contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.padding(bottom = LocalNavigationBarPadding.current),
+            )
+        },
+        contentWindowInsets =
+            WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal),
     ) { paddingValues ->
         var isTemperatureDialogVisible by remember { mutableStateOf(false) }
         var isThemeDialogVisible by remember { mutableStateOf(false) }
@@ -215,7 +189,10 @@ private fun SettingsList(
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         val listState = rememberLazyListState()
-        LazyColumn(contentPadding = PaddingValues(spacingMedium), state = listState) {
+        LazyColumn(
+            contentPadding = contentPaddingWithNavigationBar(spacingMedium),
+            state = listState,
+        ) {
             item(key = "__generalHeader") {
                 Text(
                     text = stringResource(Res.string.general),
@@ -360,9 +337,10 @@ private fun TemperatureUnitDialog(
                 }
             },
             confirmButton = {
-                Button(onClick = onDismissRequest) {
-                    Text(text = stringResource(Res.string.cancel))
-                }
+                FilledButton(
+                    text = stringResource(Res.string.cancel),
+                    onClick = onDismissRequest,
+                )
             },
         )
     }
@@ -418,9 +396,10 @@ private fun ThemeDialog(
                 }
             },
             confirmButton = {
-                Button(onClick = onDismissRequest) {
-                    Text(text = stringResource(Res.string.cancel))
-                }
+                FilledButton(
+                    text = stringResource(Res.string.cancel),
+                    onClick = onDismissRequest,
+                )
             },
         )
     }

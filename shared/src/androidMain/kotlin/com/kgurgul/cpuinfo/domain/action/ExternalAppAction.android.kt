@@ -19,6 +19,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import com.kgurgul.cpuinfo.domain.model.UninstallOutcome
+import com.kgurgul.cpuinfo.domain.model.UninstallTarget
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -59,9 +61,10 @@ actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinCo
         return runCatching { context.startActivity(uninstallIntent) }
     }
 
-    actual override suspend fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
-        // Android doesn't use path-based uninstallation, use standard uninstall instead
-        return Result.success(Unit)
+    actual override suspend fun uninstallDesktop(
+        target: UninstallTarget
+    ): Result<UninstallOutcome> {
+        return Result.failure(UnsupportedOperationException("Desktop removal is unavailable"))
     }
 
     actual override fun searchOnWeb(phrase: String): Result<Unit> {

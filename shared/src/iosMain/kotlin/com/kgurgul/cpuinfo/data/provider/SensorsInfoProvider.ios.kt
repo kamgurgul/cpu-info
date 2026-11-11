@@ -19,10 +19,13 @@ import com.kgurgul.cpuinfo.domain.model.SensorData
 import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.sensors_acceleration
+import com.kgurgul.cpuinfo.shared.sensors_altitude
 import com.kgurgul.cpuinfo.shared.sensors_attitude
 import com.kgurgul.cpuinfo.shared.sensors_gravity
 import com.kgurgul.cpuinfo.shared.sensors_magnetic_field
+import com.kgurgul.cpuinfo.shared.sensors_pressure
 import com.kgurgul.cpuinfo.shared.sensors_rotation_rate
+import com.kgurgul.cpuinfo.utils.round2
 import com.kgurgul.cpuinfo.utils.round4
 import kotlinx.cinterop.CValue
 import kotlinx.cinterop.useContents
@@ -31,6 +34,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import platform.CoreMotion.CMAcceleration
+import platform.CoreMotion.CMAltimeter
 import platform.CoreMotion.CMAttitude
 import platform.CoreMotion.CMAttitudeReferenceFrameXMagneticNorthZVertical
 import platform.CoreMotion.CMDeviceMotion
@@ -43,15 +47,29 @@ import platform.Foundation.NSOperationQueue
 actual class SensorsInfoProvider actual constructor() {
 
     private val queue = NSOperationQueue.mainQueue
-    private val manager = CMMotionManager().apply { deviceMotionUpdateInterval = 100.0 / 1000.0 }
+    private val manager =
+        CMMotionManager().apply {
+            deviceMotionUpdateInterval = UPDATE_INTERVAL_SECONDS
+            magnetometerUpdateInterval = UPDATE_INTERVAL_SECONDS
+        }
+    private val altimeter = CMAltimeter()
 
     actual fun getSensorData(): Flow<List<SensorData>> = callbackFlow {
-        startProvidingAccelerometerData(channel)
+        startProvidingDeviceMotionData(channel)
+        startProvidingMagnetometerData(channel)
+        startProvidingAltimeterData(channel)
 
-        awaitClose { manager.stopDeviceMotionUpdates() }
+        awaitClose {
+            manager.stopDeviceMotionUpdates()
+            manager.stopMagnetometerUpdates()
+            if (CMAltimeter.isRelativeAltitudeAvailable()) {
+                altimeter.stopRelativeAltitudeUpdates()
+            }
+        }
     }
 
-    private fun startProvidingAccelerometerData(channel: SendChannel<List<SensorData>>) {
+    private fun startProvidingDeviceMotionData(channel: SendChannel<List<SensorData>>) {
+        if (!manager.isDeviceMotionAvailable()) return
         manager.startDeviceMotionUpdatesUsingReferenceFrame(
             referenceFrame = CMAttitudeReferenceFrameXMagneticNorthZVertical,
             toQueue = queue,
@@ -60,6 +78,57 @@ actual class SensorsInfoProvider actual constructor() {
                 return@startDeviceMotionUpdatesUsingReferenceFrame
             }
             motion?.let { channel.trySend(it.toSensorData()) }
+        }
+    }
+
+    private fun startProvidingMagnetometerData(channel: SendChannel<List<SensorData>>) {
+        if (!manager.isMagnetometerAvailable()) return
+        manager.startMagnetometerUpdatesToQueue(queue) { magnetometerData, error ->
+            if (error != null) {
+                return@startMagnetometerUpdatesToQueue
+            }
+            magnetometerData?.let { data ->
+                val value =
+                    data.magneticField.useContents {
+                        "X=${x.round4()}μT  Y=${y.round4()}μT  Z=${z.round4()}μT"
+                    }
+                channel.trySend(
+                    listOf(
+                        SensorData(
+                            id = ID_MAGNETIC_FIELD,
+                            name = TextResource.Resource(Res.string.sensors_magnetic_field),
+                            value = value,
+                        )
+                    )
+                )
+            }
+        }
+    }
+
+    private fun startProvidingAltimeterData(channel: SendChannel<List<SensorData>>) {
+        if (!CMAltimeter.isRelativeAltitudeAvailable()) return
+        altimeter.startRelativeAltitudeUpdatesToQueue(queue) { altitudeData, error ->
+            if (error != null) {
+                return@startRelativeAltitudeUpdatesToQueue
+            }
+            altitudeData?.let { data ->
+                val pressureHpa = (data.pressure.doubleValue * 10.0).round2()
+                val relativeAltitudeM = data.relativeAltitude.doubleValue.round2()
+                channel.trySend(
+                    listOf(
+                        SensorData(
+                            id = ID_PRESSURE,
+                            name = TextResource.Resource(Res.string.sensors_pressure),
+                            value = "${pressureHpa}hPa",
+                        ),
+                        SensorData(
+                            id = ID_ALTITUDE,
+                            name = TextResource.Resource(Res.string.sensors_altitude),
+                            value = "${relativeAltitudeM}m",
+                        ),
+                    )
+                )
+            }
         }
     }
 
@@ -112,11 +181,13 @@ actual class SensorsInfoProvider actual constructor() {
     }
 
     private fun convertRotationRate(rotationRate: CValue<CMRotationRate>): String {
-        return rotationRate.useContents { "X=${x.round4()}  Y=${y.round4()}  Z=${z.round4()}" }
+        return rotationRate.useContents {
+            "X=${x.round4()}rad/s  Y=${y.round4()}rad/s  Z=${z.round4()}rad/s"
+        }
     }
 
     private fun convertMagneticField(magneticField: CMMagneticField): String {
-        return with(magneticField) { "X=${x.round4()}  Y=${y.round4()}  Z=${z.round4()}" }
+        return with(magneticField) { "X=${x.round4()}μT  Y=${y.round4()}μT  Z=${z.round4()}μT" }
     }
 
     private fun convertAttitude(attitude: CMAttitude): String {
@@ -126,10 +197,13 @@ actual class SensorsInfoProvider actual constructor() {
     }
 
     companion object {
+        private const val UPDATE_INTERVAL_SECONDS = 100.0 / 1000.0
         private const val ID_ACCELERATION = "ID_ACCELERATION"
         private const val ID_GRAVITY = "ID_GRAVITY"
         private const val ID_ROTATION_RATE = "ID_ROTATION_RATE"
         private const val ID_MAGNETIC_FIELD = "ID_MAGNETIC_FIELD"
         private const val ID_ATTITUDE = "ID_ATTITUDE"
+        private const val ID_PRESSURE = "ID_PRESSURE"
+        private const val ID_ALTITUDE = "ID_ALTITUDE"
     }
 }

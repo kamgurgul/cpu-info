@@ -18,7 +18,6 @@ package com.kgurgul.cpuinfo.features.settings.licenses
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -30,10 +29,6 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -61,10 +56,14 @@ import com.kgurgul.cpuinfo.shared.licenses_webpage
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.FilledButton
-import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
+import com.kgurgul.cpuinfo.ui.components.NavigationIconButton
+import com.kgurgul.cpuinfo.ui.components.SurfaceTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
+import com.kgurgul.cpuinfo.utils.navigation.LocalNavigationBarPadding
+import com.kgurgul.cpuinfo.utils.navigation.NativeNavigationButtonType
+import com.kgurgul.cpuinfo.utils.navigation.contentPaddingWithNavigationBar
 import com.kgurgul.cpuinfo.utils.safeOpenUri
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
@@ -87,19 +86,23 @@ fun LicensesScreen(uiState: LicensesViewModel.UiState, onNavigateBackClicked: ()
     val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
-            PrimaryTopAppBar(
+            SurfaceTopAppBar(
                 title = stringResource(Res.string.licenses),
                 navigationIcon = {
-                    IconButton(onClick = dropUnlessResumed { onNavigateBackClicked() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                            contentDescription = stringResource(Res.string.back),
-                        )
-                    }
+                    NavigationIconButton(
+                        type = NativeNavigationButtonType.BACK,
+                        contentDescription = stringResource(Res.string.back),
+                        onClick = dropUnlessResumed { onNavigateBackClicked() },
+                    )
                 },
             )
         },
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.padding(bottom = LocalNavigationBarPadding.current),
+            )
+        },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
     ) { paddingValues ->
         CpuPullToRefreshBox(
@@ -112,7 +115,7 @@ fun LicensesScreen(uiState: LicensesViewModel.UiState, onNavigateBackClicked: ()
                 val listState = rememberLazyListState()
                 LazyColumn(
                     state = listState,
-                    contentPadding = PaddingValues(spacingMedium),
+                    contentPadding = contentPaddingWithNavigationBar(spacingMedium),
                     verticalArrangement = Arrangement.spacedBy(spacingMedium),
                 ) {
                     itemsIndexed(uiState.licenses, key = { _, item -> item.moduleName }) {

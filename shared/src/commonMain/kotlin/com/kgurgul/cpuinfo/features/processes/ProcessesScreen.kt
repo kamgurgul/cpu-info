@@ -15,17 +15,14 @@
  */
 package com.kgurgul.cpuinfo.features.processes
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -36,10 +33,6 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -48,57 +41,38 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.navDeepLink
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.kgurgul.cpuinfo.domain.model.ProcessItem
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.apps_sort_order
-import com.kgurgul.cpuinfo.shared.processes
-import com.kgurgul.cpuinfo.shared.search
+import com.kgurgul.cpuinfo.ui.components.CpuActionToolbar
+import com.kgurgul.cpuinfo.ui.components.CpuActionToolbarContentPadding
 import com.kgurgul.cpuinfo.ui.components.CpuDivider
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
-import com.kgurgul.cpuinfo.ui.components.CpuSearchTextField
-import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
+import com.kgurgul.cpuinfo.ui.components.CpuToolbarSearchItem
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
 import com.kgurgul.cpuinfo.utils.Utils
-import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
+import com.kgurgul.cpuinfo.utils.navigation.contentPaddingWithNavigationBar
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object ProcessesBaseRoute {
+data object ProcessesRoute : NavKey
 
-    @SerialName(NavigationConst.PROCESSES) @Serializable data object ProcessesRoute
-}
-
-fun NavGraphBuilder.processesScreen() {
-    navigation<ProcessesBaseRoute>(
-        startDestination = ProcessesBaseRoute.ProcessesRoute,
-        deepLinks =
-            listOf(
-                navDeepLink<ProcessesBaseRoute>(
-                    basePath = NavigationConst.BASE_URL + NavigationConst.PROCESSES
-                )
-            ),
-    ) {
-        composable<ProcessesBaseRoute.ProcessesRoute> { ProcessesScreen() }
-    }
+fun EntryProviderScope<NavKey>.processesScreen() {
+    entry<ProcessesRoute> { ProcessesScreen() }
 }
 
 @Composable
@@ -120,104 +94,62 @@ fun ProcessesScreen(
     searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
 ) {
+    var showSearch by rememberSaveable { mutableStateOf(searchQuery.isNotEmpty()) }
     Scaffold(
-        topBar = {
-            ProcessesTopBar(
-                isSortAscending = uiState.isSortAscending,
-                onSortOrderChange = onSortOrderChange,
+        contentWindowInsets =
+            WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal)
+    ) { paddingValues ->
+        Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+            CpuPullToRefreshBox(
+                isRefreshing = uiState.isLoading,
+                onRefresh = {},
+                enabled = false,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                ProcessList(processes = uiState.processes)
+            }
+            ProcessesToolbar(
+                showSearch = showSearch,
                 searchQuery = searchQuery,
                 onSearchQueryChanged = onSearchQueryChanged,
+                onSearchClicked = { showSearch = true },
+                onSearchClosed = { showSearch = false },
+                isSortAscending = uiState.isSortAscending,
+                onSortOrderChange = onSortOrderChange,
+                modifier = Modifier.align(Alignment.TopEnd),
             )
-        },
-        contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
-    ) { paddingValues ->
-        CpuPullToRefreshBox(
-            isRefreshing = uiState.isLoading,
-            onRefresh = {},
-            enabled = false,
-            modifier = Modifier.fillMaxSize().padding(paddingValues),
-        ) {
-            ProcessList(processes = uiState.processes)
         }
     }
 }
 
 @Composable
-private fun ProcessesTopBar(
-    isSortAscending: Boolean,
-    onSortOrderChange: (ascending: Boolean) -> Unit,
+private fun ProcessesToolbar(
+    showSearch: Boolean,
     searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
+    onSearchClicked: () -> Unit,
+    onSearchClosed: () -> Unit,
+    isSortAscending: Boolean,
+    onSortOrderChange: (ascending: Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    var showMenu by remember { mutableStateOf(false) }
-    var showSearch by rememberSaveable { mutableStateOf(false) }
-    PrimaryTopAppBar(
-        title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                AnimatedVisibility(visible = !showSearch) {
-                    Text(
-                        text = stringResource(Res.string.processes),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.weight(1f),
-                ) {
-                    AnimatedVisibility(visible = showSearch) {
-                        CpuSearchTextField(
-                            searchQuery = searchQuery,
-                            onSearchQueryChanged = onSearchQueryChanged,
-                            onSearchClosed = { showSearch = false },
-                            modifier = Modifier.weight(1f),
-                        )
-                    }
-                    AnimatedVisibility(visible = !showSearch) {
-                        IconButton(onClick = { showSearch = true }) {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = stringResource(Res.string.search),
-                            )
-                        }
-                    }
-                }
-            }
-        },
-        actions = {
-            IconButton(onClick = { showMenu = !showMenu }) {
-                Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
-            }
-            DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
-                DropdownMenuItem(
-                    text = {
-                        Text(
-                            text = stringResource(Res.string.apps_sort_order),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                    },
-                    onClick = {
-                        onSortOrderChange(!isSortAscending)
-                        showMenu = false
-                    },
-                    trailingIcon = {
-                        val icon =
-                            if (isSortAscending) {
-                                Icons.Default.KeyboardArrowDown
-                            } else {
-                                Icons.Default.KeyboardArrowUp
-                            }
-                        Icon(imageVector = icon, contentDescription = null)
-                    },
-                )
-            }
-        },
-    )
+    CpuActionToolbar(modifier = modifier) {
+        CpuToolbarSearchItem(
+            showSearch = showSearch,
+            searchQuery = searchQuery,
+            onSearchQueryChanged = onSearchQueryChanged,
+            onSearchClicked = onSearchClicked,
+            onSearchClosed = onSearchClosed,
+        )
+        IconButton(onClick = { onSortOrderChange(!isSortAscending) }) {
+            Icon(
+                imageVector =
+                    if (isSortAscending) Icons.Default.KeyboardArrowDown
+                    else Icons.Default.KeyboardArrowUp,
+                contentDescription = stringResource(Res.string.apps_sort_order),
+            )
+        }
+    }
 }
 
 @Composable
@@ -225,7 +157,11 @@ private fun ProcessList(processes: ImmutableList<ProcessItem>, modifier: Modifie
     Box(modifier = Modifier.fillMaxSize()) {
         val listState = rememberLazyListState()
         LazyColumn(
-            contentPadding = PaddingValues(spacingSmall),
+            contentPadding =
+                contentPaddingWithNavigationBar(
+                    spacingSmall,
+                    additionalTop = CpuActionToolbarContentPadding,
+                ),
             state = listState,
             modifier = modifier,
         ) {

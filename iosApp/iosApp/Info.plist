@@ -48,5 +48,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>NSMotionUsageDescription</key>
+    <string>Motion data is used to display live readings from the device motion sensors.</string>
 </dict>
 </plist>

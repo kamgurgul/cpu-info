@@ -35,6 +35,7 @@ fun ItemValueRow(
     modifier: Modifier = Modifier,
     value: String? = null,
     contentColor: Color = MaterialTheme.colorScheme.onBackground,
+    valueColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
 ) {
     SelectionContainer {
         Row(modifier = Modifier.fillMaxWidth().then(modifier)) {
@@ -50,7 +51,7 @@ fun ItemValueRow(
                 Text(
                     text = it,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = contentColor.copy(alpha = .7f),
+                    color = valueColor,
                     modifier = Modifier.weight(.6f),
                 )
             }

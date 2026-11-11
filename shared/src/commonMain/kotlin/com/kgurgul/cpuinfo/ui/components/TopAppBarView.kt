@@ -74,66 +74,6 @@ fun SurfaceTopAppBar(
 }
 
 @Composable
-private fun defaultTopAppColors() =
-    TopAppBarDefaults.topAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primary,
-        scrolledContainerColor = MaterialTheme.colorScheme.primary,
-        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-        titleContentColor = MaterialTheme.colorScheme.onPrimary,
-        actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
-    )
-
-@Composable
-fun PrimaryTopAppBar(
-    modifier: Modifier = Modifier,
-    title: String? = null,
-    navigationIcon: @Composable (() -> Unit)? = null,
-    actions: @Composable RowScope.() -> Unit = {},
-    windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
-    scrollBehavior: TopAppBarScrollBehavior? = null,
-) {
-    CpuTopAppBar(
-        title =
-            if (title != null) {
-                {
-                    Text(
-                        text = title,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                }
-            } else null,
-        navigationIcon = navigationIcon,
-        actions = actions,
-        colors = defaultTopAppColors(),
-        windowInsets = windowInsets,
-        scrollBehavior = scrollBehavior,
-        modifier = modifier,
-    )
-}
-
-@Composable
-fun PrimaryTopAppBar(
-    modifier: Modifier = Modifier,
-    title: (@Composable () -> Unit)? = null,
-    navigationIcon: @Composable (() -> Unit)? = null,
-    actions: @Composable RowScope.() -> Unit = {},
-    windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
-    scrollBehavior: TopAppBarScrollBehavior? = null,
-) {
-    CpuTopAppBar(
-        title = title,
-        navigationIcon = navigationIcon,
-        actions = actions,
-        colors = defaultTopAppColors(),
-        windowInsets = windowInsets,
-        scrollBehavior = scrollBehavior,
-        modifier = modifier,
-    )
-}
-
-@Composable
 private fun CpuTopAppBar(
     colors: TopAppBarColors,
     modifier: Modifier = Modifier,
@@ -162,22 +102,6 @@ fun TopAppBarPreview() {
     CpuInfoTheme {
         Column {
             SurfaceTopAppBar(
-                title = "Title",
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null,
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = {}) {
-                        Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
-                    }
-                },
-            )
-            PrimaryTopAppBar(
                 title = "Title",
                 navigationIcon = {
                     IconButton(onClick = {}) {

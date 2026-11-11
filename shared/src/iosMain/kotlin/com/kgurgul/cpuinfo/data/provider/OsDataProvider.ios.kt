@@ -17,13 +17,18 @@ package com.kgurgul.cpuinfo.data.provider
 
 import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.shared.Res
+import com.kgurgul.cpuinfo.shared.kernel
 import com.kgurgul.cpuinfo.shared.model
 import com.kgurgul.cpuinfo.shared.os_active_processors
+import com.kgurgul.cpuinfo.shared.os_build_number
 import com.kgurgul.cpuinfo.shared.os_device_name
+import com.kgurgul.cpuinfo.shared.os_hostname
 import com.kgurgul.cpuinfo.shared.os_jailbroken
 import com.kgurgul.cpuinfo.shared.os_language
+import com.kgurgul.cpuinfo.shared.os_machine_id
 import com.kgurgul.cpuinfo.shared.os_multitasking_supported
 import com.kgurgul.cpuinfo.shared.os_system_uptime
+import com.kgurgul.cpuinfo.shared.os_time_zone
 import com.kgurgul.cpuinfo.shared.os_total_processors
 import com.kgurgul.cpuinfo.shared.os_vendor_identifier
 import com.kgurgul.cpuinfo.shared.tab_os
@@ -34,21 +39,47 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import platform.Foundation.NSLocale
 import platform.Foundation.NSProcessInfo
+import platform.Foundation.NSTimeZone
 import platform.Foundation.currentLocale
 import platform.Foundation.languageCode
+import platform.Foundation.localTimeZone
 import platform.UIKit.UIDevice
 
 actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponent {
 
     private val iosSoftwareDataProvider: IosSoftwareDataProvider by inject()
+    private val cpuDataNativeProvider: CpuDataNativeProvider by inject()
 
     actual override suspend fun getData(): List<ItemValue> {
         return buildList {
             val device = UIDevice.currentDevice
+            val processInfo = NSProcessInfo.processInfo
             add(ItemValue.NameResource(Res.string.tab_os, safeObjCString(device.systemName)))
             add(ItemValue.NameResource(Res.string.version, safeObjCString(device.systemVersion)))
+            val buildVersion = safeObjCString(processInfo.operatingSystemVersionString)
+            if (buildVersion.isNotEmpty()) {
+                add(ItemValue.NameResource(Res.string.os_build_number, buildVersion))
+            }
             add(ItemValue.NameResource(Res.string.model, safeObjCString(device.model)))
+            val machineId = cpuDataNativeProvider.getMachineIdentifier()
+            if (machineId.isNotEmpty()) {
+                add(ItemValue.NameResource(Res.string.os_machine_id, machineId))
+            }
             add(ItemValue.NameResource(Res.string.os_device_name, safeObjCString(device.name)))
+            val kernelInfo =
+                "${cpuDataNativeProvider.sysctlString("kern.ostype")} ${
+                    cpuDataNativeProvider.sysctlString(
+                        "kern.osrelease"
+                    )
+                }"
+                    .trim()
+            if (kernelInfo.isNotEmpty()) {
+                add(ItemValue.NameResource(Res.string.kernel, kernelInfo))
+            }
+            val hostName = safeObjCString(processInfo.hostName)
+            if (hostName.isNotEmpty()) {
+                add(ItemValue.NameResource(Res.string.os_hostname, hostName))
+            }
 
             add(
                 ItemValue.NameValueResource(
@@ -65,8 +96,11 @@ actual class OsDataProvider actual constructor() : IOsDataProvider, KoinComponen
 
             val locale = NSLocale.currentLocale.languageCode
             add(ItemValue.NameResource(Res.string.os_language, locale))
+            val timeZoneName = safeObjCString(NSTimeZone.localTimeZone.name)
+            if (timeZoneName.isNotEmpty()) {
+                add(ItemValue.NameResource(Res.string.os_time_zone, timeZoneName))
+            }
 
-            val processInfo = NSProcessInfo.processInfo
             add(
                 ItemValue.NameResource(
                     Res.string.os_system_uptime,

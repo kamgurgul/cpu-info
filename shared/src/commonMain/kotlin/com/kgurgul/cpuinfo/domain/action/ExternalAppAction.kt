@@ -15,6 +15,9 @@
  */
 package com.kgurgul.cpuinfo.domain.action
 
+import com.kgurgul.cpuinfo.domain.model.UninstallOutcome
+import com.kgurgul.cpuinfo.domain.model.UninstallTarget
+
 expect class ExternalAppAction() : IExternalAppAction {
 
     override fun launch(packageName: String): Result<Unit>
@@ -23,7 +26,7 @@ expect class ExternalAppAction() : IExternalAppAction {
 
     override fun uninstall(packageName: String): Result<Unit>
 
-    override suspend fun uninstallWithPath(uninstallerPath: String): Result<Unit>
+    override suspend fun uninstallDesktop(target: UninstallTarget): Result<UninstallOutcome>
 
     override fun searchOnWeb(phrase: String): Result<Unit>
 }

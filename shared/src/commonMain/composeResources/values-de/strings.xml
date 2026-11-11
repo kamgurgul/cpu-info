@@ -260,4 +260,28 @@
     <string name="search_clear">Löschen</string>
     <string name="search_close">Schließen</string>
 
+    <string name="apps_move_to_trash">In den Papierkorb verschieben</string>
+    <string name="apps_move_to_trash_confirm_message">%1$s in den Papierkorb verschieben? Das App-Paket wird entfernt. Supportdateien, Dienste und Erweiterungen können verbleiben.</string>
+    <string name="app_uninstall_restart_required">Entfernung abgeschlossen. Starten Sie Ihren Computer neu, um den Vorgang abzuschließen.</string>
+    <string name="app_uninstall_unconfirmed">Die Entfernung konnte nicht bestätigt werden. Aktualisieren Sie die Liste zur Überprüfung.</string>
+    <string name="cpu_logical_cores">Logische Kerne</string>
+    <string name="cpu_performance_cores">Leistungskerne</string>
+    <string name="cpu_efficiency_cores">Effizienzkerne</string>
+    <string name="cpu_cache_line_size">Cache-Line-Größe</string>
+    <string name="cpu_page_size">Seitengröße</string>
+    <string name="gpu_family">GPU-Familie</string>
+    <string name="gpu_unified_memory">Gemeinsamer Speicher</string>
+    <string name="gpu_raytracing">Raytracing</string>
+    <string name="gpu_max_threads_per_threadgroup">Max. Threads pro Threadgruppe</string>
+    <string name="screen_native_scale">Native Skalierung</string>
+    <string name="screen_display_gamut">Farbraum</string>
+    <string name="screen_hdr_headroom">HDR-Spielraum (aktuell / max.)</string>
+    <string name="os_machine_id">Maschinenkennung</string>
+    <string name="os_hostname">Hostname</string>
+    <string name="battery_low_power_mode">Stromsparmodus</string>
+    <string name="hardware_audio_sample_rate">Abtastrate</string>
+    <string name="hardware_audio_output_channels">Ausgangskanäle</string>
+    <string name="sensors_pressure">Barometer</string>
+    <string name="sensors_altitude">Relative Höhe</string>
+    <string name="sensors_proximity">Näherungssensor</string>
 </resources>

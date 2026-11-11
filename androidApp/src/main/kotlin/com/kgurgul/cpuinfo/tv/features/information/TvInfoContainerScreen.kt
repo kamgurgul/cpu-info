@@ -47,10 +47,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.navDeepLink
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import androidx.tv.material3.Tab
 import androidx.tv.material3.TabRow
 import androidx.tv.material3.TabRowDefaults
@@ -75,28 +73,14 @@ import com.kgurgul.cpuinfo.tv.features.information.sensors.TvSensorsInfoScreen
 import com.kgurgul.cpuinfo.tv.features.information.storage.TvStorageInfoScreen
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
-import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object TvInformationBaseRoute {
+data object TvInformationRoute : NavKey
 
-    @Serializable object TvInformationRoute
-}
-
-fun NavGraphBuilder.tvInformationScreen() {
-    navigation<TvInformationBaseRoute>(
-        startDestination = TvInformationBaseRoute.TvInformationRoute,
-        deepLinks =
-            listOf(
-                navDeepLink<TvInformationBaseRoute>(
-                    basePath = NavigationConst.BASE_URL + NavigationConst.INFORMATION
-                )
-            ),
-    ) {
-        composable<TvInformationBaseRoute.TvInformationRoute> { TvInfoContainerScreen() }
-    }
+fun EntryProviderScope<NavKey>.tvInformationScreen() {
+    entry<TvInformationRoute> { TvInfoContainerScreen() }
 }
 
 @Composable
@@ -124,7 +108,9 @@ private fun InfoContainer(
 ) {
     val tabTitles = (0 until INFO_PAGE_AMOUNT).map { getTabTitle(position = it) }
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
-    Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()).then(modifier)) {
+    Column(modifier = Modifier
+        .padding(top = paddingValues.calculateTopPadding())
+        .then(modifier)) {
         TabRow(
             selectedTabIndex = selectedTabIndex,
             indicator = { tabPositions, doesTabRowHaveFocus ->
@@ -136,7 +122,10 @@ private fun InfoContainer(
                 )
             },
             modifier =
-                Modifier.align(Alignment.CenterHorizontally).focusRestorer().padding(spacingMedium),
+                Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .focusRestorer()
+                    .padding(spacingMedium),
         ) {
             tabTitles.forEachIndexed { index, tab ->
                 key(index) {

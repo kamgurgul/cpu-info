@@ -4,6 +4,7 @@ import com.kgurgul.AndroidVersions
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.serialization)
     id("kotlin-parcelize")
 }
 
@@ -93,7 +94,7 @@ dependencies {
     implementation(projects.shared)
     implementation(libs.androidx.wear.foundation)
     implementation(libs.androidx.wear.material)
-    implementation(libs.androidx.wear.navigation)
+    implementation(libs.androidx.wear.navigation3)
     implementation(libs.horologist.compose.layout)
     implementation(libs.horologist.compose.material)
 }

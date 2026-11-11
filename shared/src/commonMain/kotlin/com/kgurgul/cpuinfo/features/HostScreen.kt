@@ -15,33 +15,36 @@
  */
 package com.kgurgul.cpuinfo.features
 
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteItem
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.kgurgul.cpuinfo.features.applications.ApplicationsBaseRoute
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
+import com.kgurgul.cpuinfo.features.applications.ApplicationsRoute
 import com.kgurgul.cpuinfo.features.applications.applicationsScreen
-import com.kgurgul.cpuinfo.features.information.InformationBaseRoute
+import com.kgurgul.cpuinfo.features.information.InformationRoute
 import com.kgurgul.cpuinfo.features.information.informationScreen
-import com.kgurgul.cpuinfo.features.processes.ProcessesBaseRoute
+import com.kgurgul.cpuinfo.features.processes.ProcessesRoute
 import com.kgurgul.cpuinfo.features.processes.processesScreen
+import com.kgurgul.cpuinfo.features.settings.LicensesRoute
 import com.kgurgul.cpuinfo.features.settings.SettingsRoute
 import com.kgurgul.cpuinfo.features.settings.settingsScreen
-import com.kgurgul.cpuinfo.features.temperature.TemperaturesBaseRoute
+import com.kgurgul.cpuinfo.features.temperature.TemperaturesRoute
 import com.kgurgul.cpuinfo.features.temperature.temperaturesScreen
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.applications
@@ -57,7 +60,15 @@ import com.kgurgul.cpuinfo.shared.temp
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffold
 import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffoldDefault
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import com.kgurgul.cpuinfo.utils.navigation.LocalNativeNavigation
+import com.kgurgul.cpuinfo.utils.navigation.LocalNavigationBarPadding
+import com.kgurgul.cpuinfo.utils.navigation.NativeNavigation
+import com.kgurgul.cpuinfo.utils.navigation.NativeNavigationTab
+import com.kgurgul.cpuinfo.utils.navigation.NavigationState
+import com.kgurgul.cpuinfo.utils.navigation.Navigator
 import com.kgurgul.cpuinfo.utils.navigation.TopLevelRoute
+import com.kgurgul.cpuinfo.utils.navigation.navTransitionSpecs
+import com.kgurgul.cpuinfo.utils.navigation.toEntries
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -65,86 +76,124 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun HostScreen(
     viewModel: HostViewModel = koinViewModel(),
-    navController: NavHostController = rememberNavController(),
+    navigationState: NavigationState = rememberHostNavigationState(),
 ) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    HostScreen(uiState = uiState, navController = navController)
+    HostScreen(
+        uiState = uiState,
+        navigationState = navigationState,
+    )
 }
 
 @Composable
 fun HostScreen(
     uiState: HostViewModel.UiState,
-    navController: NavHostController = rememberNavController(),
+    navigationState: NavigationState = rememberHostNavigationState(),
 ) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
+    val navigator = remember(navigationState) { Navigator(navigationState) }
+    val entryProvider =
+        remember(navigator) {
+            entryProvider<NavKey> {
+                informationScreen()
+                applicationsScreen()
+                processesScreen()
+                temperaturesScreen()
+                settingsScreen(
+                    onLicensesClicked = { navigator.navigate(LicensesRoute) },
+                    onNavigateBackClicked = { navigator.goBack() },
+                )
+            }
+        }
+    val topLevelRoutes =
+        buildTopLevelRoutes(
+            isProcessesVisible = uiState.isProcessSectionVisible,
+            isApplicationsVisible = uiState.isApplicationSectionVisible,
+        )
+    val navTransitions = navTransitionSpecs(navigator.isBottomBarNavigation)
+    val content =
+        @Composable {
+            NavDisplay(
+                entries = navigationState.toEntries(entryProvider),
+                onBack = { navigator.goBack() },
+                transitionSpec = navTransitions.transitionSpec,
+                popTransitionSpec = navTransitions.popTransitionSpec,
+                predictivePopTransitionSpec = navTransitions.predictivePopTransitionSpec,
+            )
+        }
+    val nativeNavigation = LocalNativeNavigation.current
+    if (nativeNavigation != null) {
+        NativeNavigationHost(
+            nativeNavigation = nativeNavigation,
+            topLevelRoutes = topLevelRoutes,
+            selectedRoute = navigationState.topLevelRoute,
+            onRouteSelected = { navigator.navigate(it, fromBottomBar = true) },
+            content = content,
+        )
+        return
+    }
     val itemColors = CpuNavigationSuiteScaffoldDefault.itemColors()
     CpuNavigationSuiteScaffold(
         navigationItems = {
-            buildTopLevelRoutes(
-                    isProcessesVisible = uiState.isProcessSectionVisible,
-                    isApplicationsVisible = uiState.isApplicationSectionVisible,
+            topLevelRoutes.forEach { topLevelRoute ->
+                NavigationSuiteItem(
+                    icon = {
+                        Icon(
+                            painter = painterResource(topLevelRoute.icon),
+                            contentDescription = stringResource(topLevelRoute.name),
+                        )
+                    },
+                    label = {
+                        Text(
+                            text = stringResource(topLevelRoute.name),
+                            style = MaterialTheme.typography.labelSmall,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    },
+                    selected = topLevelRoute.route == navigationState.topLevelRoute,
+                    onClick = { navigator.navigate(topLevelRoute.route, fromBottomBar = true) },
+                    colors = itemColors,
                 )
-                .forEach { topLevelRoute ->
-                    NavigationSuiteItem(
-                        icon = {
-                            Icon(
-                                painter = painterResource(topLevelRoute.icon),
-                                contentDescription = stringResource(topLevelRoute.name),
-                            )
-                        },
-                        label = {
-                            Text(
-                                text = stringResource(topLevelRoute.name),
-                                style = MaterialTheme.typography.labelSmall,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                        },
-                        selected =
-                            currentDestination?.hierarchy?.any {
-                                it.hasRoute(topLevelRoute.route::class)
-                            } == true,
-                        onClick = {
-                            navController.navigate(topLevelRoute.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        colors = itemColors,
-                    )
-                }
-        }
-    ) {
-        NavHost(
-            navController = navController,
-            startDestination = InformationBaseRoute,
-            enterTransition = { fadeIn() },
-            exitTransition = { fadeOut() },
-            popEnterTransition = { fadeIn() },
-            popExitTransition = { fadeOut() },
-        ) {
-            informationScreen()
-            applicationsScreen()
-            processesScreen()
-            temperaturesScreen()
-            settingsScreen(
-                onLicensesClicked = { navController.navigate(SettingsRoute.Licenses) },
-                onNavigateBackClicked = { navController.popBackStack() },
-            )
-        }
+            }
+        },
+        content = content,
+    )
+}
+
+/** Host for the platforms which render the navigation bar on their own above the content. */
+@Composable
+private fun NativeNavigationHost(
+    nativeNavigation: NativeNavigation,
+    topLevelRoutes: List<TopLevelRoute<NavKey>>,
+    selectedRoute: NavKey,
+    onRouteSelected: (NavKey) -> Unit,
+    content: @Composable () -> Unit,
+) {
+    val tabs = topLevelRoutes.map {
+        NativeNavigationTab(route = it.route, title = stringResource(it.name))
+    }
+    val currentOnRouteSelected by rememberUpdatedState(onRouteSelected)
+    LaunchedEffect(nativeNavigation, tabs, selectedRoute) {
+        nativeNavigation.setTabs(
+            tabs = tabs,
+            selectedRoute = selectedRoute,
+            onTabSelected = { currentOnRouteSelected(it) },
+        )
+    }
+    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.primary)) {
+        CompositionLocalProvider(
+            LocalNavigationBarPadding provides nativeNavigation.bottomBarHeight,
+            content = content,
+        )
     }
 }
 
 private fun buildTopLevelRoutes(isProcessesVisible: Boolean, isApplicationsVisible: Boolean) =
-    buildList {
+    buildList<TopLevelRoute<NavKey>> {
         add(
             TopLevelRoute(
                 name = Res.string.hardware,
-                route = InformationBaseRoute,
+                route = InformationRoute,
                 icon = Res.drawable.ic_cpu,
             )
         )
@@ -152,7 +201,7 @@ private fun buildTopLevelRoutes(isProcessesVisible: Boolean, isApplicationsVisib
             add(
                 TopLevelRoute(
                     name = Res.string.applications,
-                    route = ApplicationsBaseRoute,
+                    route = ApplicationsRoute,
                     icon = Res.drawable.ic_android,
                 )
             )
@@ -161,7 +210,7 @@ private fun buildTopLevelRoutes(isProcessesVisible: Boolean, isApplicationsVisib
             add(
                 TopLevelRoute(
                     name = Res.string.processes,
-                    route = ProcessesBaseRoute,
+                    route = ProcessesRoute,
                     icon = Res.drawable.ic_process,
                 )
             )
@@ -169,7 +218,7 @@ private fun buildTopLevelRoutes(isProcessesVisible: Boolean, isApplicationsVisib
         add(
             TopLevelRoute(
                 name = Res.string.temp,
-                route = TemperaturesBaseRoute,
+                route = TemperaturesRoute,
                 icon = Res.drawable.ic_temperature,
             )
         )

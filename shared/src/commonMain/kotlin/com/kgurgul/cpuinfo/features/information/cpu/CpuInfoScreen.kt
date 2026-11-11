@@ -16,7 +16,6 @@
 package com.kgurgul.cpuinfo.features.information.cpu
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -45,6 +44,7 @@ import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.formatHz
+import com.kgurgul.cpuinfo.utils.navigation.contentPaddingWithNavigationBar
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -64,7 +64,7 @@ fun CpuInfoScreen(uiState: CpuInfoViewModel.UiState) {
     ) {
         val listState = rememberLazyListState()
         LazyColumn(
-            contentPadding = PaddingValues(spacingSmall),
+            contentPadding = contentPaddingWithNavigationBar(spacingSmall),
             verticalArrangement = Arrangement.spacedBy(spacingSmall),
             state = listState,
             modifier = Modifier.fillMaxSize().testTag(CpuInfoScreenTestTags.LAZY_COLUMN),

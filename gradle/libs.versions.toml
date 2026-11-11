@@ -22,7 +22,7 @@ composeIconsExtended = "1.7.3"
 composeLifecycle = "2.11.0"
 composeMultiplatform = "1.12.2"
 composeMaterial3 = "1.12.0-alpha03"
-composeNavigation = "2.10.0"
+composeNavigation3 = "1.2.0"
 composeUiTest = "1.12.1"
 horologist = "0.7.15"
 imageio = "3.15.3"
@@ -64,7 +64,7 @@ androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiaut
 androidx-tv = { module = "androidx.tv:tv-material", version.ref = "androidxTv" }
 androidx-wear-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "androidxWear" }
 androidx-wear-material = { module = "androidx.wear.compose:compose-material3", version.ref = "androidxWear" }
-androidx-wear-navigation = { module = "androidx.wear.compose:compose-navigation", version.ref = "androidxWear" }
+androidx-wear-navigation3 = { module = "androidx.wear.compose:compose-navigation3", version.ref = "androidxWear" }
 coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "composeUiTest" }
 compose-ui-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "composeUiTest" }
@@ -77,9 +77,10 @@ jetbrains-compose-componentsResources = { module = "org.jetbrains.compose.compon
 jetbrains-compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeMultiplatform" }
 jetbrains-compose-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "composeLifecycle" }
 jetbrains-compose-lifecycle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "composeLifecycle" }
+jetbrains-compose-lifecycle-viewmodel-navigation3 = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "composeLifecycle" }
 jetbrains-compose-material-iconsExtended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "composeIconsExtended" }
 jetbrains-compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "composeMaterial3" }
-jetbrains-compose-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
+jetbrains-compose-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "composeNavigation3" }
 jetbrains-compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
 jetbrains-compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
 jetbrains-compose-uiTest = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "composeMultiplatform" }

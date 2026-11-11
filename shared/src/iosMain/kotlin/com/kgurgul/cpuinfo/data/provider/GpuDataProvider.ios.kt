@@ -18,20 +18,81 @@ package com.kgurgul.cpuinfo.data.provider
 import com.kgurgul.cpuinfo.domain.model.ItemValue
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.gles_version
+import com.kgurgul.cpuinfo.shared.gpu_family
+import com.kgurgul.cpuinfo.shared.gpu_max_threads_per_threadgroup
+import com.kgurgul.cpuinfo.shared.gpu_raytracing
+import com.kgurgul.cpuinfo.shared.gpu_unified_memory
 import com.kgurgul.cpuinfo.shared.metal_version
+import com.kgurgul.cpuinfo.shared.vram
+import com.kgurgul.cpuinfo.utils.ResourceUtils
+import com.kgurgul.cpuinfo.utils.Utils
 import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.useContents
 import platform.EAGL.EAGLContext
 import platform.EAGL.kEAGLRenderingAPIOpenGLES3
 import platform.Metal.MTLCreateSystemDefaultDevice
+import platform.Metal.MTLDeviceProtocol
+import platform.Metal.MTLGPUFamilyApple1
+import platform.Metal.MTLGPUFamilyApple2
+import platform.Metal.MTLGPUFamilyApple3
+import platform.Metal.MTLGPUFamilyApple4
+import platform.Metal.MTLGPUFamilyApple5
+import platform.Metal.MTLGPUFamilyApple6
+import platform.Metal.MTLGPUFamilyApple7
+import platform.Metal.MTLGPUFamilyApple8
+import platform.Metal.MTLGPUFamilyApple9
+import platform.Metal.MTLGPUFamilyMac2
 import platform.Metal.MTLGPUFamilyMetal3
 
 actual class GpuDataProvider actual constructor() : IGpuDataProvider {
 
     actual override suspend fun getData(): List<ItemValue> {
         return buildList {
-            val metalVersion = getMetalVersion()
-            if (metalVersion.isNotEmpty()) {
-                add(ItemValue.NameResource(Res.string.metal_version, metalVersion))
+            val metalDevice = MTLCreateSystemDefaultDevice()
+            if (metalDevice != null) {
+                val deviceName = safeObjCString(metalDevice.name)
+                if (deviceName.isNotEmpty()) {
+                    add(ItemValue.Text(deviceName, ""))
+                }
+                val metalVersion = getMetalVersion(metalDevice)
+                if (metalVersion.isNotEmpty()) {
+                    add(ItemValue.NameResource(Res.string.metal_version, metalVersion))
+                }
+                val gpuFamily = getMetalGpuFamily(metalDevice)
+                if (gpuFamily.isNotEmpty()) {
+                    add(ItemValue.NameResource(Res.string.gpu_family, gpuFamily))
+                }
+                val recommendedVram = metalDevice.recommendedMaxWorkingSetSize.toLong()
+                if (recommendedVram > 0L) {
+                    add(
+                        ItemValue.NameResource(
+                            Res.string.vram,
+                            Utils.humanReadableByteCount(recommendedVram),
+                        )
+                    )
+                }
+                add(
+                    ItemValue.NameValueResource(
+                        Res.string.gpu_unified_memory,
+                        ResourceUtils.getYesNoStringResource(metalDevice.hasUnifiedMemory),
+                    )
+                )
+                add(
+                    ItemValue.NameValueResource(
+                        Res.string.gpu_raytracing,
+                        ResourceUtils.getYesNoStringResource(metalDevice.supportsRaytracing),
+                    )
+                )
+                val maxThreads =
+                    metalDevice.maxThreadsPerThreadgroup.useContents {
+                        "${width} x ${height} x ${depth}"
+                    }
+                add(
+                    ItemValue.NameResource(
+                        Res.string.gpu_max_threads_per_threadgroup,
+                        maxThreads,
+                    )
+                )
             }
             val glVersion = getGlEsVersion()
             if (glVersion.isNotEmpty()) {
@@ -51,17 +112,27 @@ actual class GpuDataProvider actual constructor() : IGpuDataProvider {
         }
     }
 
-    private fun getMetalVersion(): String {
-        return memScoped {
-            val mtlCreateSystemDefaultDevice = MTLCreateSystemDefaultDevice()
-            val isMetal3Supported =
-                mtlCreateSystemDefaultDevice?.supportsFamily(MTLGPUFamilyMetal3) ?: false
-            val isMetal2Supported = mtlCreateSystemDefaultDevice != null
-            when {
-                isMetal3Supported -> "3"
-                isMetal2Supported -> "2"
-                else -> ""
-            }
+    private fun getMetalVersion(device: MTLDeviceProtocol): String {
+        val isMetal3Supported = device.supportsFamily(MTLGPUFamilyMetal3)
+        return if (isMetal3Supported) "3" else "2"
+    }
+
+    private fun getMetalGpuFamily(device: MTLDeviceProtocol): String {
+        return when {
+            device.supportsFamily(MTLGPUFamilyApple9) -> "Apple 9"
+            device.supportsFamily(MTLGPUFamilyApple8) -> "Apple 8"
+            device.supportsFamily(MTLGPUFamilyApple7) -> "Apple 7"
+            device.supportsFamily(MTLGPUFamilyApple6) -> "Apple 6"
+            device.supportsFamily(MTLGPUFamilyApple5) -> "Apple 5"
+            device.supportsFamily(MTLGPUFamilyApple4) -> "Apple 4"
+            device.supportsFamily(MTLGPUFamilyApple3) -> "Apple 3"
+            device.supportsFamily(MTLGPUFamilyApple2) -> "Apple 2"
+            device.supportsFamily(MTLGPUFamilyApple1) -> "Apple 1"
+            device.supportsFamily(MTLGPUFamilyMac2) -> "Mac 2"
+            else -> ""
         }
     }
+
+    @Suppress("USELESS_CAST")
+    private fun safeObjCString(value: String): String = (value as Any?)?.toString() ?: ""
 }

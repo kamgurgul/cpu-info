@@ -22,11 +22,16 @@ import com.kgurgul.cpuinfo.data.local.FakeUserPreferencesRepository
 import com.kgurgul.cpuinfo.data.provider.FakeApplicationsDataProvider
 import com.kgurgul.cpuinfo.data.provider.FakePackageNameProvider
 import com.kgurgul.cpuinfo.domain.action.FakeExternalAppAction
+import com.kgurgul.cpuinfo.domain.model.UninstallOutcome
+import com.kgurgul.cpuinfo.domain.model.UninstallTarget
 import com.kgurgul.cpuinfo.domain.observable.ApplicationsDataObservable
 import com.kgurgul.cpuinfo.domain.result.FilterApplicationsInteractor
 import com.kgurgul.cpuinfo.domain.result.GetPackageNameInteractor
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.app_open
+import com.kgurgul.cpuinfo.shared.app_uninstall_error
+import com.kgurgul.cpuinfo.shared.app_uninstall_restart_required
+import com.kgurgul.cpuinfo.shared.app_uninstall_unconfirmed
 import com.kgurgul.cpuinfo.shared.cpu_open
 import com.kgurgul.cpuinfo.shared.cpu_uninstall
 import com.kgurgul.cpuinfo.utils.CoroutineTestSuit
@@ -34,10 +39,14 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 
 class ApplicationsViewModelTest {
@@ -355,6 +364,84 @@ class ApplicationsViewModelTest {
             assertEquals(expectedUiStates[0], awaitItem())
             viewModel.onSearchQueryChanged("app3")
             assertEquals(expectedUiStates[1], awaitItem())
+        }
+    }
+
+    @Test
+    fun desktopRemovalTracksProgressAndPreventsDuplicateLaunches() = runTest {
+        val target = UninstallTarget.MacBundle("/Applications/Example.app")
+        val completion = CompletableDeferred<Result<UninstallOutcome>>()
+        fakeExternalAppAction.desktopUninstall = { completion.await() }
+        viewModel.uiStateFlow.test {
+            awaitItem()
+            viewModel.onDesktopAppUninstallClicked(target)
+            viewModel.onDesktopAppUninstallClicked(target)
+            runCurrent()
+            assertEquals(1, fakeExternalAppAction.desktopUninstallCalls)
+            assertTrue(target in expectMostRecentItem().uninstallingTargets)
+            completion.complete(Result.success(UninstallOutcome.REMOVED))
+            runCurrent()
+            assertFalse(target in expectMostRecentItem().uninstallingTargets)
+        }
+    }
+
+    @Test
+    fun desktopRemovalReportsRestartAndUnconfirmedOutcomes() = runTest {
+        val target = UninstallTarget.MacBundle("/Applications/Example.app")
+        viewModel.uiStateFlow.test {
+            awaitItem()
+            for ((outcome, message) in
+            listOf(
+                UninstallOutcome.RESTART_REQUIRED to Res.string.app_uninstall_restart_required,
+                UninstallOutcome.UNCONFIRMED to Res.string.app_uninstall_unconfirmed,
+                UninstallOutcome.CANCELLED to null,
+            )) {
+                fakeExternalAppAction.desktopUninstall = { Result.success(outcome) }
+                viewModel.onDesktopAppUninstallClicked(target)
+                runCurrent()
+                val state = expectMostRecentItem()
+                assertEquals(message, state.snackbarMessage)
+                assertTrue(state.uninstallingTargets.isEmpty())
+            }
+        }
+    }
+
+    @Test
+    fun desktopRemovalFailureClearsProgressAndAllowsRetry() = runTest {
+        val target = UninstallTarget.MacBundle("/Applications/Example.app")
+        fakeExternalAppAction.desktopUninstall = {
+            Result.failure(IllegalStateException("Permission denied"))
+        }
+        viewModel.uiStateFlow.test {
+            awaitItem()
+            viewModel.onDesktopAppUninstallClicked(target)
+            runCurrent()
+            val failed = expectMostRecentItem()
+            assertEquals(Res.string.app_uninstall_error, failed.snackbarMessage)
+            assertTrue(failed.uninstallingTargets.isEmpty())
+            fakeExternalAppAction.desktopUninstall = { Result.success(UninstallOutcome.CANCELLED) }
+            viewModel.onDesktopAppUninstallClicked(target)
+            runCurrent()
+            assertEquals(2, fakeExternalAppAction.desktopUninstallCalls)
+            assertNull(expectMostRecentItem().snackbarMessage)
+        }
+    }
+
+    @Test
+    fun successfulDesktopRemovalRefreshesTheInventory() = runTest {
+        val app = TestData.extendedApplicationsData.first()
+        fakeApplicationsDataProvider.installedApplications = listOf(app)
+        fakeExternalAppAction.desktopUninstall = {
+            fakeApplicationsDataProvider.installedApplications = emptyList()
+            Result.success(UninstallOutcome.REMOVED)
+        }
+        viewModel.uiStateFlow.test {
+            assertEquals(listOf(app), awaitItem().applications)
+            viewModel.onDesktopAppUninstallClicked(
+                UninstallTarget.MacBundle("/Applications/Example.app")
+            )
+            runCurrent()
+            assertTrue(expectMostRecentItem().applications.isEmpty())
         }
     }
 }

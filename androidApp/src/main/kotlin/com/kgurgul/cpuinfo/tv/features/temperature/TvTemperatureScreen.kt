@@ -46,10 +46,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.navDeepLink
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.features.temperature.TemperatureFormatter
@@ -60,7 +58,6 @@ import com.kgurgul.cpuinfo.shared.no_temp_data_admin_required
 import com.kgurgul.cpuinfo.tv.ui.components.TvListItem
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
-import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
@@ -69,23 +66,10 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object TvTemperaturesBaseRoute {
+data object TvTemperaturesRoute : NavKey
 
-    @Serializable data object TvTemperaturesRoute
-}
-
-fun NavGraphBuilder.tvTemperaturesScreen() {
-    navigation<TvTemperaturesBaseRoute>(
-        startDestination = TvTemperaturesBaseRoute.TvTemperaturesRoute,
-        deepLinks =
-            listOf(
-                navDeepLink<TvTemperaturesBaseRoute>(
-                    basePath = NavigationConst.BASE_URL + NavigationConst.TEMPERATURES
-                )
-            ),
-    ) {
-        composable<TvTemperaturesBaseRoute.TvTemperaturesRoute> { TvTemperatureScreen() }
-    }
+fun EntryProviderScope<NavKey>.tvTemperaturesScreen() {
+    entry<TvTemperaturesRoute> { TvTemperatureScreen() }
 }
 
 @Composable
@@ -120,7 +104,10 @@ private fun TvTemperatureList(
     temperatureFormatter: TemperatureFormatter,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(modifier = Modifier.fillMaxSize().padding(spacingMedium).then(modifier)) {
+    LazyColumn(modifier = Modifier
+        .fillMaxSize()
+        .padding(spacingMedium)
+        .then(modifier)) {
         items(items = temperatureItems, key = { item -> item.id }) { item ->
             TvTemperatureItem(item = item, temperatureFormatter = temperatureFormatter)
         }
@@ -168,7 +155,10 @@ private fun TvTemperatureItem(item: TemperatureItem, temperatureFormatter: Tempe
 private fun TvEmptyTemperatureList(isAdminRequired: Boolean, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize().padding(spacingMedium).then(modifier),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(spacingMedium)
+            .then(modifier),
     ) {
         Text(
             text =

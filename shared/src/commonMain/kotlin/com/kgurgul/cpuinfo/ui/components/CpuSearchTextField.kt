@@ -15,12 +15,10 @@
  */
 package com.kgurgul.cpuinfo.ui.components
 
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -38,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
@@ -58,6 +57,7 @@ fun CpuSearchTextField(
     onSearchQueryChanged: (String) -> Unit,
     onSearchClosed: () -> Unit,
     modifier: Modifier = Modifier,
+    trailingIconAlpha: Float = 1f,
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -77,6 +77,7 @@ fun CpuSearchTextField(
                 imageVector = Icons.Default.Search,
                 contentDescription = stringResource(Res.string.search),
                 tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(start = 8.dp),
             )
         },
         trailingIcon = {
@@ -87,7 +88,9 @@ fun CpuSearchTextField(
                     } else {
                         onSearchClosed()
                     }
-                }
+                },
+                enabled = trailingIconAlpha > 0.5f,
+                modifier = Modifier.size(40.dp).graphicsLayer { alpha = trailingIconAlpha },
             ) {
                 Icon(
                     imageVector = Icons.Default.Close,
@@ -105,7 +108,7 @@ fun CpuSearchTextField(
         modifier =
             modifier
                 .fillMaxWidth()
-                .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
+                .height(40.dp)
                 .focusRequester(focusRequester)
                 .onKeyEvent {
                     if (it.key == Key.Enter) {
@@ -129,6 +132,7 @@ fun CpuSearchTextField(
             ),
         maxLines = 1,
         singleLine = true,
+        minHeight = 40.dp,
     )
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
 }

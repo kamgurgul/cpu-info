@@ -52,10 +52,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.navDeepLink
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.kgurgul.cpuinfo.data.local.FakeUserPreferencesRepository
 import com.kgurgul.cpuinfo.domain.model.TemperatureItem
 import com.kgurgul.cpuinfo.domain.model.TextResource
@@ -66,42 +64,27 @@ import com.kgurgul.cpuinfo.shared.ic_cpu_temp
 import com.kgurgul.cpuinfo.shared.no_temp_data
 import com.kgurgul.cpuinfo.shared.no_temp_data_admin_required
 import com.kgurgul.cpuinfo.shared.temp_admin_required_snackbar
-import com.kgurgul.cpuinfo.shared.temperature
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.CpuSnackbar
-import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
-import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
+import com.kgurgul.cpuinfo.utils.navigation.LocalNavigationBarPadding
+import com.kgurgul.cpuinfo.utils.navigation.contentPaddingWithNavigationBar
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object TemperaturesBaseRoute {
+data object TemperaturesRoute : NavKey
 
-    @SerialName(NavigationConst.TEMPERATURES) @Serializable data object TemperaturesRoute
-}
-
-fun NavGraphBuilder.temperaturesScreen() {
-    navigation<TemperaturesBaseRoute>(
-        startDestination = TemperaturesBaseRoute.TemperaturesRoute,
-        deepLinks =
-            listOf(
-                navDeepLink<TemperaturesBaseRoute>(
-                    basePath = NavigationConst.BASE_URL + NavigationConst.TEMPERATURES
-                )
-            ),
-    ) {
-        composable<TemperaturesBaseRoute.TemperaturesRoute> { TemperatureScreen() }
-    }
+fun EntryProviderScope<NavKey>.temperaturesScreen() {
+    entry<TemperaturesRoute> { TemperatureScreen() }
 }
 
 @Composable
@@ -120,9 +103,16 @@ fun TemperatureScreen(uiState: TemperatureViewModel.UiState) {
         }
     }
     Scaffold(
-        topBar = { PrimaryTopAppBar(title = stringResource(Res.string.temperature)) },
-        contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
-        snackbarHost = { SnackbarHost(snackbarHostState) { data -> CpuSnackbar(data) } },
+        contentWindowInsets =
+            WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal),
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.padding(bottom = LocalNavigationBarPadding.current),
+            ) { data ->
+                CpuSnackbar(data)
+            }
+        },
     ) { paddingValues ->
         CpuPullToRefreshBox(
             isRefreshing = uiState.isLoading,
@@ -149,7 +139,11 @@ private fun TemperatureList(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         val listState = rememberLazyListState()
-        LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            state = listState,
+            contentPadding = contentPaddingWithNavigationBar(),
+            modifier = Modifier.fillMaxSize(),
+        ) {
             items(items = temperatureItems, key = { item -> item.id }) { item ->
                 TemperatureItem(item = item, temperatureFormatter = temperatureFormatter)
             }

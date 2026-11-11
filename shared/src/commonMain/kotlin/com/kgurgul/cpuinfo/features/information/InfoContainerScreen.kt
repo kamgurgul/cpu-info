@@ -15,7 +15,6 @@
  */
 package com.kgurgul.cpuinfo.features.information
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -37,6 +36,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -55,10 +55,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.navDeepLink
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.ANDROID_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.CPU_POS
 import com.kgurgul.cpuinfo.features.information.InfoContainerViewModel.Companion.GPU_POS
@@ -86,33 +84,19 @@ import com.kgurgul.cpuinfo.shared.screen
 import com.kgurgul.cpuinfo.shared.sensors
 import com.kgurgul.cpuinfo.shared.storage
 import com.kgurgul.cpuinfo.shared.tab_os
+import com.kgurgul.cpuinfo.ui.components.CpuActionToolbar
+import com.kgurgul.cpuinfo.ui.components.CpuActionToolbarContentPadding
 import com.kgurgul.cpuinfo.ui.components.HorizontalScrollbar
-import com.kgurgul.cpuinfo.ui.components.PrimaryTopAppBar
-import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.coroutines.launch
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object InformationBaseRoute {
+data object InformationRoute : NavKey
 
-    @SerialName(NavigationConst.INFORMATION) @Serializable data object InformationRoute
-}
-
-fun NavGraphBuilder.informationScreen() {
-    navigation<InformationBaseRoute>(
-        startDestination = InformationBaseRoute.InformationRoute,
-        deepLinks =
-            listOf(
-                navDeepLink<InformationBaseRoute>(
-                    basePath = NavigationConst.BASE_URL + NavigationConst.INFORMATION
-                )
-            ),
-    ) {
-        composable<InformationBaseRoute.InformationRoute> { InfoContainerScreen() }
-    }
+fun EntryProviderScope<NavKey>.informationScreen() {
+    entry<InformationRoute> { InfoContainerScreen() }
 }
 
 @Composable
@@ -132,30 +116,14 @@ fun InfoContainerScreen(
     onPageChanged: (Int) -> Unit,
 ) {
     Scaffold(
-        topBar = {
-            PrimaryTopAppBar(
-                title = stringResource(Res.string.hardware),
-                actions = {
-                    AnimatedVisibility(
-                        visible = uiState.isRamCleanupVisible,
-                        enter = fadeIn(),
-                        exit = fadeOut(),
-                    ) {
-                        IconButton(onClick = onRamCleanupClicked) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = stringResource(Res.string.running_gc),
-                            )
-                        }
-                    }
-                },
-            )
-        },
-        contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
+        contentWindowInsets =
+            WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal)
     ) { paddingValues ->
         InfoContainer(
             paddingValues = paddingValues,
             onPageChanged = onPageChanged,
+            isRamCleanupVisible = uiState.isRamCleanupVisible,
+            onRamCleanupClicked = onRamCleanupClicked,
             modifier = Modifier.fillMaxSize(),
         )
     }
@@ -164,6 +132,8 @@ fun InfoContainerScreen(
 @Composable
 private fun InfoContainer(
     paddingValues: PaddingValues,
+    isRamCleanupVisible: Boolean,
+    onRamCleanupClicked: () -> Unit,
     onPageChanged: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -173,9 +143,14 @@ private fun InfoContainer(
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page -> onPageChanged(page) }
     }
-    Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()).then(modifier)) {
+    Column(modifier = modifier) {
         val scrollState = rememberScrollState()
-        Box(modifier = Modifier.background(MaterialTheme.colorScheme.primary).fillMaxWidth()) {
+        Box(
+            modifier =
+                Modifier.background(MaterialTheme.colorScheme.surface)
+                    .padding(top = paddingValues.calculateTopPadding())
+                    .fillMaxWidth()
+        ) {
             SecondaryScrollableTabRow(
                 selectedTabIndex = pagerState.currentPage,
                 edgePadding =
@@ -184,11 +159,11 @@ private fun InfoContainer(
                         paddingValues.calculateEndPadding(LayoutDirection.Ltr),
                     ),
                 divider = {},
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface,
                 indicator = {
                     SecondaryIndicator(
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier.tabIndicatorOffset(pagerState.currentPage),
                     )
                 },
@@ -212,27 +187,53 @@ private fun InfoContainer(
             )
         }
 
-        HorizontalPager(
-            state = pagerState,
-            pageContent = {
-                when (it) {
-                    CPU_POS -> CpuInfoScreen()
-                    GPU_POS -> GpuInfoScreen()
-                    RAM_POS -> RamInfoScreen()
-                    STORAGE_POS -> StorageInfoScreen()
-                    SCREEN_POS -> ScreenInfoScreen()
-                    ANDROID_POS -> OsInfoScreen()
-                    HARDWARE_POS -> HardwareInfoScreen()
-                    SENSORS_POS -> SensorsInfoScreen()
-                    else -> throw IllegalArgumentException("Unknown position")
+        HorizontalDivider()
+
+        Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            HorizontalPager(
+                state = pagerState,
+                pageContent = {
+                    when (it) {
+                        CPU_POS -> CpuInfoScreen()
+                        GPU_POS -> GpuInfoScreen()
+                        RAM_POS ->
+                            RamInfoScreen(
+                                topContentPadding =
+                                    if (isRamCleanupVisible) CpuActionToolbarContentPadding
+                                    else 0.dp
+                            )
+
+                        STORAGE_POS -> StorageInfoScreen()
+                        SCREEN_POS -> ScreenInfoScreen()
+                        ANDROID_POS -> OsInfoScreen()
+                        HARDWARE_POS -> HardwareInfoScreen()
+                        SENSORS_POS -> SensorsInfoScreen()
+                        else -> throw IllegalArgumentException("Unknown position")
+                    }
+                },
+                modifier =
+                    Modifier.padding(
+                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                    ),
+            )
+
+            androidx.compose.animation.AnimatedVisibility(
+                visible = isRamCleanupVisible,
+                enter = fadeIn(),
+                exit = fadeOut(),
+                modifier = Modifier.align(Alignment.TopEnd),
+            ) {
+                CpuActionToolbar {
+                    IconButton(onClick = onRamCleanupClicked) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = stringResource(Res.string.running_gc),
+                        )
+                    }
                 }
-            },
-            modifier =
-                Modifier.padding(
-                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                    end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-                ),
-        )
+            }
+        }
     }
 }
 

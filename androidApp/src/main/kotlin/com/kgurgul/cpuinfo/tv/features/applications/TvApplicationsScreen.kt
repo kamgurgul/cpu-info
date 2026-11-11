@@ -74,10 +74,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.navDeepLink
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import androidx.tv.material3.Icon
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
@@ -109,7 +107,6 @@ import com.kgurgul.cpuinfo.ui.components.CpuTextField
 import com.kgurgul.cpuinfo.ui.theme.spacingMedium
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.ui.theme.spacingXSmall
-import com.kgurgul.cpuinfo.utils.navigation.NavigationConst
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
@@ -118,23 +115,10 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
-data object TvApplicationsBaseRoute {
+data object TvApplicationsRoute : NavKey
 
-    @Serializable data object TvApplicationsRoute
-}
-
-fun NavGraphBuilder.tvApplicationsScreen() {
-    navigation<TvApplicationsBaseRoute>(
-        startDestination = TvApplicationsBaseRoute.TvApplicationsRoute,
-        deepLinks =
-            listOf(
-                navDeepLink<TvApplicationsBaseRoute>(
-                    basePath = NavigationConst.BASE_URL + NavigationConst.APPLICATIONS
-                )
-            ),
-    ) {
-        composable<TvApplicationsBaseRoute.TvApplicationsRoute> { TvApplicationsScreen() }
-    }
+fun EntryProviderScope<NavKey>.tvApplicationsScreen() {
+    entry<TvApplicationsRoute> { TvApplicationsScreen() }
 }
 
 @Composable
@@ -204,7 +188,9 @@ fun TvApplicationsScreen(
             isRefreshing = uiState.isLoading,
             enabled = false,
             onRefresh = { onRefreshApplications() },
-            modifier = Modifier.fillMaxSize().padding(innerPaddingModifier),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPaddingModifier),
         ) {
             ApplicationsList(
                 appList = uiState.applications,
@@ -236,7 +222,9 @@ private fun TopBar(
     BackHandler(enabled = showSearch) { showSearch = false }
     Row(
         horizontalArrangement = Arrangement.spacedBy(spacingMedium, Alignment.End),
-        modifier = Modifier.fillMaxWidth().padding(spacingMedium),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(spacingMedium),
     ) {
         AnimatedVisibility(visible = showSearch) {
             SearchTextField(
@@ -297,7 +285,9 @@ private fun ApplicationsList(
     appList: ImmutableList<ExtendedApplicationData>,
     onAppClicked: (packageName: String) -> Unit,
 ) {
-    LazyColumn(modifier = Modifier.fillMaxSize().padding(spacingMedium)) {
+    LazyColumn(modifier = Modifier
+        .fillMaxSize()
+        .padding(spacingMedium)) {
         items(items = appList, key = { item -> item.packageName }) { item ->
             TvListItem(
                 onClick = { onAppClicked(item.packageName) },
@@ -445,7 +435,8 @@ private fun SearchTextField(
         },
         onValueChange = { if ("\n" !in it) onSearchQueryChanged(it) },
         modifier =
-            Modifier.fillMaxWidth()
+            Modifier
+                .fillMaxWidth()
                 .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
                 .padding(spacingSmall)
                 .focusRequester(focusRequester)

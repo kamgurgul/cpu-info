@@ -61,6 +61,11 @@
     <string name="cpu_l3" translatable="false">L3 cache</string>
     <string name="cpu_l4" translatable="false">L4 cache</string>
     <string name="cpu_abi" translatable="false">ABI</string>
+    <string name="cpu_logical_cores">Logical cores</string>
+    <string name="cpu_performance_cores">Performance cores</string>
+    <string name="cpu_efficiency_cores">Efficiency cores</string>
+    <string name="cpu_cache_line_size">Cache line size</string>
+    <string name="cpu_page_size">Page size</string>
 
     <!--Apps-->
     <string name="app_open">Cannot open this application</string>
@@ -84,6 +89,10 @@
     <string name="version">Version</string>
     <string name="renderer">Renderer</string>
     <string name="extensions">Extensions</string>
+    <string name="gpu_family">GPU family</string>
+    <string name="gpu_unified_memory">Unified memory</string>
+    <string name="gpu_raytracing">Raytracing</string>
+    <string name="gpu_max_threads_per_threadgroup">Max threads per threadgroup</string>
 
     <!--RAM-->
     <string name="total_memory">Total memory</string>
@@ -125,6 +134,9 @@
     <string name="screen_color_depth">Color depth</string>
     <string name="screen_pixel_depth">Pixel depth</string>
     <string name="screen_density_dpi">Density DPI</string>
+    <string name="screen_native_scale">Native scale</string>
+    <string name="screen_display_gamut">Display gamut</string>
+    <string name="screen_hdr_headroom">HDR headroom (current / max)</string>
 
     <!--OS-->
     <string name="codename">Codename</string>
@@ -176,6 +188,8 @@
     <string name="os_user_apps">User applications</string>
     <string name="os_system_apps">System applications</string>
     <string name="os_system_features">System features (%1$s)</string>
+    <string name="os_machine_id">Machine identifier</string>
+    <string name="os_hostname">Hostname</string>
 
     <!--Hardware-->
     <string name="battery">Battery</string>
@@ -221,6 +235,9 @@
     <string name="battery_charge_counter">Remaining charge</string>
     <string name="battery_charge_time_remaining">Time until full</string>
     <string name="battery_cycle_count">Cycle count</string>
+    <string name="battery_low_power_mode">Low power mode</string>
+    <string name="hardware_audio_sample_rate">Sample rate</string>
+    <string name="hardware_audio_output_channels">Output channels</string>
     <string name="ir_emitter">IR Emitter</string>
     <string name="hardware_microphones">Microphones</string>
     <string name="hardware_computer_system">Computer system</string>
@@ -299,6 +316,9 @@
     <string name="sensors_rotation_rate">Rotation rate</string>
     <string name="sensors_magnetic_field">Magnetic field</string>
     <string name="sensors_attitude">Attitude</string>
+    <string name="sensors_pressure">Barometer</string>
+    <string name="sensors_altitude">Relative altitude</string>
+    <string name="sensors_proximity">Proximity</string>
 
     <!-- Settings -->
     <string name="settings_others">Others</string>
@@ -316,4 +336,8 @@
     <string name="search_clear">Clear</string>
     <string name="search_close">Close</string>
 
+    <string name="apps_move_to_trash">Move to Trash</string>
+    <string name="apps_move_to_trash_confirm_message">Move %1$s to Trash? This removes the app bundle. Support files, services, and extensions may remain.</string>
+    <string name="app_uninstall_restart_required">Removal completed. Restart your computer to finish.</string>
+    <string name="app_uninstall_unconfirmed">Removal could not be confirmed. Refresh the list to check.</string>
 </resources>

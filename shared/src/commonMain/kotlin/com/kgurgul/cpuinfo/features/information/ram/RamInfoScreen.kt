@@ -16,7 +16,6 @@
 package com.kgurgul.cpuinfo.features.information.ram
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,6 +25,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.RamData
 import com.kgurgul.cpuinfo.domain.model.getName
@@ -41,17 +42,18 @@ import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import com.kgurgul.cpuinfo.utils.Utils
+import com.kgurgul.cpuinfo.utils.navigation.contentPaddingWithNavigationBar
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun RamInfoScreen(viewModel: RamInfoViewModel = koinViewModel()) {
+fun RamInfoScreen(viewModel: RamInfoViewModel = koinViewModel(), topContentPadding: Dp = 0.dp) {
     val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
-    RamInfoScreen(uiState = uiState)
+    RamInfoScreen(uiState = uiState, topContentPadding = topContentPadding)
 }
 
 @Composable
-fun RamInfoScreen(uiState: RamInfoViewModel.UiState) {
+fun RamInfoScreen(uiState: RamInfoViewModel.UiState, topContentPadding: Dp = 0.dp) {
     CpuPullToRefreshBox(
         isRefreshing = uiState.isInitializing,
         onRefresh = {},
@@ -60,7 +62,11 @@ fun RamInfoScreen(uiState: RamInfoViewModel.UiState) {
     ) {
         val listState = rememberLazyListState()
         LazyColumn(
-            contentPadding = PaddingValues(spacingSmall),
+            contentPadding =
+                contentPaddingWithNavigationBar(
+                    spacingSmall,
+                    additionalTop = topContentPadding,
+                ),
             verticalArrangement = Arrangement.spacedBy(spacingSmall),
             state = listState,
             modifier = Modifier.fillMaxSize(),

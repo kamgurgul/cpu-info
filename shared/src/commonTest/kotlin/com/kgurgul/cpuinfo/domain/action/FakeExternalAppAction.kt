@@ -15,7 +15,15 @@
  */
 package com.kgurgul.cpuinfo.domain.action
 
+import com.kgurgul.cpuinfo.domain.model.UninstallOutcome
+import com.kgurgul.cpuinfo.domain.model.UninstallTarget
+
 class FakeExternalAppAction : IExternalAppAction {
+
+    var desktopUninstallCalls = 0
+    var desktopUninstall: suspend (UninstallTarget) -> Result<UninstallOutcome> = {
+        Result.success(UninstallOutcome.REMOVED)
+    }
 
     var isLaunchSuccess = true
 
@@ -28,7 +36,7 @@ class FakeExternalAppAction : IExternalAppAction {
     var isUninstallCalled = false
         private set
 
-    var isUninstallWithPathCalled = false
+    var isDesktopUninstallCalled = false
         private set
 
     var isSearchOnWebCalled = false
@@ -49,9 +57,10 @@ class FakeExternalAppAction : IExternalAppAction {
         return Result.success(Unit)
     }
 
-    override suspend fun uninstallWithPath(uninstallerPath: String): Result<Unit> {
-        isUninstallWithPathCalled = true
-        return Result.success(Unit)
+    override suspend fun uninstallDesktop(target: UninstallTarget): Result<UninstallOutcome> {
+        isDesktopUninstallCalled = true
+        desktopUninstallCalls++
+        return desktopUninstall(target)
     }
 
     override fun searchOnWeb(phrase: String): Result<Unit> {
@@ -61,11 +70,13 @@ class FakeExternalAppAction : IExternalAppAction {
 
     fun reset() {
         isLaunchSuccess = true
+        desktopUninstallCalls = 0
+        desktopUninstall = { Result.success(UninstallOutcome.REMOVED) }
 
         isLaunchCalled = false
         isOpenSettingsCalled = false
         isUninstallCalled = false
-        isUninstallWithPathCalled = false
+        isDesktopUninstallCalled = false
         isSearchOnWebCalled = false
     }
 }

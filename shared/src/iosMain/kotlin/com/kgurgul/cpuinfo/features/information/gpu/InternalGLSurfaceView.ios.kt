@@ -16,5 +16,33 @@
 package com.kgurgul.cpuinfo.features.information.gpu
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import kotlinx.cinterop.ByteVar
+import kotlinx.cinterop.reinterpret
+import kotlinx.cinterop.toKString
+import platform.EAGL.EAGLContext
+import platform.EAGL.kEAGLRenderingAPIOpenGLES2
+import platform.EAGL.kEAGLRenderingAPIOpenGLES3
+import platform.gles2.GL_EXTENSIONS
+import platform.gles2.GL_RENDERER
+import platform.gles2.GL_VENDOR
+import platform.gles2.glGetString
 
-@Composable actual fun InternalGLSurfaceView(onGlInfoReceived: (String, String, String) -> Unit) {}
+@Composable
+actual fun InternalGLSurfaceView(onGlInfoReceived: (String, String, String) -> Unit) {
+    LaunchedEffect(Unit) {
+        val previousContext = EAGLContext.currentContext()
+        val context =
+            runCatching { EAGLContext(kEAGLRenderingAPIOpenGLES3) }.getOrNull()
+                ?: runCatching { EAGLContext(kEAGLRenderingAPIOpenGLES2) }.getOrNull()
+        if (context != null && EAGLContext.setCurrentContext(context)) {
+            val vendor = glGetString(GL_VENDOR.toUInt())?.reinterpret<ByteVar>()?.toKString() ?: ""
+            val renderer =
+                glGetString(GL_RENDERER.toUInt())?.reinterpret<ByteVar>()?.toKString() ?: ""
+            val extensions =
+                glGetString(GL_EXTENSIONS.toUInt())?.reinterpret<ByteVar>()?.toKString() ?: ""
+            EAGLContext.setCurrentContext(previousContext)
+            onGlInfoReceived(vendor, renderer, extensions)
+        }
+    }
+}

@@ -15,6 +15,7 @@
  */
 package com.kgurgul.cpuinfo.tv
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -60,15 +61,28 @@ class TvActivity : ComponentActivity() {
 
         setContent {
             val darkTheme = shouldUseDarkTheme(uiState)
-            val systemBarScrim = (if (darkTheme) darkPrimary else lightPrimary).toArgb()
             DisposableEffect(darkTheme) {
+                val statusBarStyle =
+                    if (darkTheme) {
+                        SystemBarStyle.dark(Color.TRANSPARENT)
+                    } else {
+                        SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+                    }
+                val systemBarStyle =
+                    if (darkTheme) {
+                        SystemBarStyle.dark(darkPrimary.toArgb())
+                    } else {
+                        SystemBarStyle.light(lightPrimary.toArgb(), darkPrimary.toArgb())
+                    }
                 enableEdgeToEdge(
-                    statusBarStyle = SystemBarStyle.dark(systemBarScrim),
-                    navigationBarStyle = SystemBarStyle.dark(systemBarScrim),
+                    statusBarStyle = statusBarStyle,
+                    navigationBarStyle = systemBarStyle,
                 )
                 onDispose {}
             }
-            CpuInfoTheme(useDarkTheme = darkTheme) { TvHostScreen(viewModel = viewModel) }
+            CpuInfoTheme(useDarkTheme = darkTheme) {
+                TvHostScreen(viewModel = viewModel, deepLinkUri = intent?.dataString)
+            }
         }
     }
 }

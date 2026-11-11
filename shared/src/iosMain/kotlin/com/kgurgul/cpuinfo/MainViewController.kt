@@ -14,20 +14,43 @@
  * limitations under the License.
  */
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.window.ComposeUIViewController
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.features.HostScreen
 import com.kgurgul.cpuinfo.features.HostViewModel
 import com.kgurgul.cpuinfo.ui.shouldUseDarkTheme
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
+import com.kgurgul.cpuinfo.utils.navigation.IosNativeNavigation
+import com.kgurgul.cpuinfo.utils.navigation.IosNativeNavigationRenderer
+import com.kgurgul.cpuinfo.utils.navigation.LocalNativeNavigation
 import org.koin.compose.viewmodel.koinViewModel
 
-fun MainViewController() = ComposeUIViewController { IOSComposeApp() }
+/**
+ * @param nativeNavigationRenderer renderer of the native navigation elements (Liquid Glass) or null
+ *   when all navigation elements should be drawn by Compose
+ */
+fun MainViewController(nativeNavigationRenderer: IosNativeNavigationRenderer?) =
+    ComposeUIViewController {
+        IOSComposeApp(nativeNavigationRenderer = nativeNavigationRenderer)
+    }
 
 @Composable
-fun IOSComposeApp(hostViewModel: HostViewModel = koinViewModel()) {
+fun IOSComposeApp(
+    nativeNavigationRenderer: IosNativeNavigationRenderer?,
+    hostViewModel: HostViewModel = koinViewModel(),
+) {
     val uiState by hostViewModel.uiStateFlow.collectAsStateWithLifecycle()
     val darkTheme = shouldUseDarkTheme(uiState)
-    CpuInfoTheme(useDarkTheme = darkTheme) { HostScreen(hostViewModel) }
+    val nativeNavigation =
+        remember(nativeNavigationRenderer) { nativeNavigationRenderer?.let(::IosNativeNavigation) }
+    LaunchedEffect(nativeNavigation, darkTheme) { nativeNavigation?.setDarkTheme(darkTheme) }
+    CpuInfoTheme(useDarkTheme = darkTheme) {
+        CompositionLocalProvider(LocalNativeNavigation provides nativeNavigation) {
+            HostScreen(viewModel = hostViewModel)
+        }
+    }
 }

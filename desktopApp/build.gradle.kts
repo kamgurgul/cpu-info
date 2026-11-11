@@ -43,6 +43,7 @@ compose.desktop {
                     .toBoolean()
                 appStore = isAppStoreRelease
                 if (isAppStoreRelease) {
+                    jvmArgs("-Dcpuinfo.desktopUninstallEnabled=false")
                     provisioningProfile.set(project.file("embedded.provisionprofile"))
                     runtimeProvisioningProfile.set(project.file("runtime.provisionprofile"))
                     entitlementsFile.set(project.file("entitlements.plist"))
