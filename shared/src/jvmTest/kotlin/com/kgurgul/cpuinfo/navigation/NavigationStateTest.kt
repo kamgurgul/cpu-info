@@ -40,17 +40,13 @@ import kotlinx.serialization.modules.polymorphic
 @OptIn(ExperimentalTestApi::class)
 class NavigationStateTest {
 
-    @Serializable
-    private data object Home : NavKey
+    @Serializable private data object Home : NavKey
 
-    @Serializable
-    private data object Tab : NavKey
+    @Serializable private data object Tab : NavKey
 
-    @Serializable
-    private data object TabDetails : NavKey
+    @Serializable private data object TabDetails : NavKey
 
-    @Serializable
-    private data object Unknown : NavKey
+    @Serializable private data object Unknown : NavKey
 
     private val configuration = SavedStateConfiguration {
         serializersModule = SerializersModule {

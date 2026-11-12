@@ -92,8 +92,7 @@ import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-@Serializable
-data object InformationRoute : NavKey
+@Serializable data object InformationRoute : NavKey
 
 fun EntryProviderScope<NavKey>.informationScreen() {
     entry<InformationRoute> { InfoContainerScreen() }

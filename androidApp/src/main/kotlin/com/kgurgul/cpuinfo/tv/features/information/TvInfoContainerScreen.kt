@@ -76,8 +76,7 @@ import com.kgurgul.cpuinfo.ui.theme.spacingSmall
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 
-@Serializable
-data object TvInformationRoute : NavKey
+@Serializable data object TvInformationRoute : NavKey
 
 fun EntryProviderScope<NavKey>.tvInformationScreen() {
     entry<TvInformationRoute> { TvInfoContainerScreen() }
@@ -108,9 +107,7 @@ private fun InfoContainer(
 ) {
     val tabTitles = (0 until INFO_PAGE_AMOUNT).map { getTabTitle(position = it) }
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
-    Column(modifier = Modifier
-        .padding(top = paddingValues.calculateTopPadding())
-        .then(modifier)) {
+    Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()).then(modifier)) {
         TabRow(
             selectedTabIndex = selectedTabIndex,
             indicator = { tabPositions, doesTabRowHaveFocus ->
@@ -122,10 +119,7 @@ private fun InfoContainer(
                 )
             },
             modifier =
-                Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .focusRestorer()
-                    .padding(spacingMedium),
+                Modifier.align(Alignment.CenterHorizontally).focusRestorer().padding(spacingMedium),
         ) {
             tabTitles.forEachIndexed { index, tab ->
                 key(index) {

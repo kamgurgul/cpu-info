@@ -87,9 +87,9 @@ class WindowsUninstallerTest {
             assertEquals(
                 "/x $product /norestart",
                 windowsUninstallCommand(
-                    entry.copy(uninstallCommand = command),
-                    "C:\\Windows\\System32",
-                )
+                        entry.copy(uninstallCommand = command),
+                        "C:\\Windows\\System32",
+                    )
                     .parameters,
             )
         }
@@ -130,13 +130,13 @@ class WindowsUninstallerTest {
     @Test
     fun unsafeOrAmbiguousCommandsAreRejected() {
         for (command in
-        listOf(
-            "remove.exe /s",
-            "cmd /c del something",
-            "\"C:\\App\\remove.exe",
-            "C:\\App\\remove.exe\nwhoami",
-            "MsiExec.exe /I$product MSIPATCHREMOVE={PATCH}",
-        )) {
+            listOf(
+                "remove.exe /s",
+                "cmd /c del something",
+                "\"C:\\App\\remove.exe",
+                "C:\\App\\remove.exe\nwhoami",
+                "MsiExec.exe /I$product MSIPATCHREMOVE={PATCH}",
+            )) {
             assertFailsWith<IllegalArgumentException> {
                 windowsUninstallCommand(
                     entry.copy(uninstallCommand = command),
@@ -183,11 +183,11 @@ class WindowsUninstallerTest {
     @Test
     fun cancellationAndRestartArePreserved() = runTest {
         for (outcome in
-        listOf(
-            UninstallOutcome.CANCELLED,
-            UninstallOutcome.RESTART_REQUIRED,
-            UninstallOutcome.UNCONFIRMED,
-        )) {
+            listOf(
+                UninstallOutcome.CANCELLED,
+                UninstallOutcome.RESTART_REQUIRED,
+                UninstallOutcome.UNCONFIRMED,
+            )) {
             val registry = FakeRegistry(entry)
             assertEquals(outcome, WindowsUninstaller(registry) { outcome }.uninstall(target))
             assertTrue(registry.checkedTargets.isEmpty())

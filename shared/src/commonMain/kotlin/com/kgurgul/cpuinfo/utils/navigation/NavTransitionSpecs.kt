@@ -30,7 +30,7 @@ class NavTransitionSpecs(
     val transitionSpec: AnimatedContentTransitionScope<Scene<NavKey>>.() -> ContentTransform,
     val popTransitionSpec: AnimatedContentTransitionScope<Scene<NavKey>>.() -> ContentTransform,
     val predictivePopTransitionSpec:
-    AnimatedContentTransitionScope<Scene<NavKey>>.(swipeEdge: Int) -> ContentTransform,
+        AnimatedContentTransitionScope<Scene<NavKey>>.(swipeEdge: Int) -> ContentTransform,
 )
 
 /** Cross fade between destinations, the transition the app has always used. */

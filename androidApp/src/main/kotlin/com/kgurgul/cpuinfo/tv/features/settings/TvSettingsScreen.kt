@@ -60,8 +60,7 @@ import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-@Serializable
-data object TvSettingsRoute : NavKey
+@Serializable data object TvSettingsRoute : NavKey
 
 fun EntryProviderScope<NavKey>.tvSettingsScreen() {
     entry<TvSettingsRoute> { TvSettingsScreen() }
@@ -147,8 +146,7 @@ private fun SettingsItem(title: String, subtitle: String, onClick: () -> Unit) {
     TvListItem(onClick = onClick) {
         Column(
             modifier =
-                Modifier
-                    .fillMaxWidth()
+                Modifier.fillMaxWidth()
                     .padding(vertical = spacingMedium)
                     .padding(start = spacingLarge)
         ) {
@@ -193,9 +191,7 @@ private fun TemperatureUnitDialog(
                         ) {
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(spacingMedium),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = spacingSmall),
+                                modifier = Modifier.fillMaxWidth().padding(vertical = spacingSmall),
                             ) {
                                 RadioButton(
                                     selected = option == currentSelection,
@@ -251,9 +247,7 @@ private fun ThemeDialog(
                         ) {
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(spacingMedium),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = spacingSmall),
+                                modifier = Modifier.fillMaxWidth().padding(vertical = spacingSmall),
                             ) {
                                 RadioButton(
                                     selected = option == currentSelection,

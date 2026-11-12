@@ -120,8 +120,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-@Serializable
-data object ApplicationsRoute : NavKey
+@Serializable data object ApplicationsRoute : NavKey
 
 fun EntryProviderScope<NavKey>.applicationsScreen() {
     entry<ApplicationsRoute> { ApplicationsScreen() }

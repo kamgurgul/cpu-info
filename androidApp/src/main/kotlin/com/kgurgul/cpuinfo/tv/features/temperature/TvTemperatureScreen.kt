@@ -65,8 +65,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-@Serializable
-data object TvTemperaturesRoute : NavKey
+@Serializable data object TvTemperaturesRoute : NavKey
 
 fun EntryProviderScope<NavKey>.tvTemperaturesScreen() {
     entry<TvTemperaturesRoute> { TvTemperatureScreen() }
@@ -104,10 +103,7 @@ private fun TvTemperatureList(
     temperatureFormatter: TemperatureFormatter,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(modifier = Modifier
-        .fillMaxSize()
-        .padding(spacingMedium)
-        .then(modifier)) {
+    LazyColumn(modifier = Modifier.fillMaxSize().padding(spacingMedium).then(modifier)) {
         items(items = temperatureItems, key = { item -> item.id }) { item ->
             TvTemperatureItem(item = item, temperatureFormatter = temperatureFormatter)
         }
@@ -155,10 +151,7 @@ private fun TvTemperatureItem(item: TemperatureItem, temperatureFormatter: Tempe
 private fun TvEmptyTemperatureList(isAdminRequired: Boolean, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(spacingMedium)
-            .then(modifier),
+        modifier = Modifier.fillMaxSize().padding(spacingMedium).then(modifier),
     ) {
         Text(
             text =

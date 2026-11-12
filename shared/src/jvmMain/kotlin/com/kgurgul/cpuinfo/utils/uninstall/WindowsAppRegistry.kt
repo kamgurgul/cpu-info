@@ -69,7 +69,7 @@ internal class NativeWindowsAppRegistry : WindowsAppRegistry {
                 // HKCU\Software is shared between views; enumerating it twice duplicates apps.
                 if (
                     hive == UninstallTarget.Hive.CURRENT_USER &&
-                    view == UninstallTarget.RegistryView.REGISTRY_32
+                        view == UninstallTarget.RegistryView.REGISTRY_32
                 )
                     continue
                 val root = UninstallTarget.WindowsRegistry(hive, view, "")

@@ -98,11 +98,9 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-@Serializable
-data object SettingsRoute : NavKey
+@Serializable data object SettingsRoute : NavKey
 
-@Serializable
-data object LicensesRoute : NavKey
+@Serializable data object LicensesRoute : NavKey
 
 fun EntryProviderScope<NavKey>.settingsScreen(
     onLicensesClicked: () -> Unit,

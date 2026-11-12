@@ -80,8 +80,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-@Serializable
-data object TemperaturesRoute : NavKey
+@Serializable data object TemperaturesRoute : NavKey
 
 fun EntryProviderScope<NavKey>.temperaturesScreen() {
     entry<TemperaturesRoute> { TemperatureScreen() }

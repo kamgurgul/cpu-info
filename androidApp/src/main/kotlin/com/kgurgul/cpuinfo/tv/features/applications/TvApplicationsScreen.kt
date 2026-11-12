@@ -114,8 +114,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-@Serializable
-data object TvApplicationsRoute : NavKey
+@Serializable data object TvApplicationsRoute : NavKey
 
 fun EntryProviderScope<NavKey>.tvApplicationsScreen() {
     entry<TvApplicationsRoute> { TvApplicationsScreen() }
@@ -188,9 +187,7 @@ fun TvApplicationsScreen(
             isRefreshing = uiState.isLoading,
             enabled = false,
             onRefresh = { onRefreshApplications() },
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPaddingModifier),
+            modifier = Modifier.fillMaxSize().padding(innerPaddingModifier),
         ) {
             ApplicationsList(
                 appList = uiState.applications,
@@ -222,9 +219,7 @@ private fun TopBar(
     BackHandler(enabled = showSearch) { showSearch = false }
     Row(
         horizontalArrangement = Arrangement.spacedBy(spacingMedium, Alignment.End),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(spacingMedium),
+        modifier = Modifier.fillMaxWidth().padding(spacingMedium),
     ) {
         AnimatedVisibility(visible = showSearch) {
             SearchTextField(
@@ -285,9 +280,7 @@ private fun ApplicationsList(
     appList: ImmutableList<ExtendedApplicationData>,
     onAppClicked: (packageName: String) -> Unit,
 ) {
-    LazyColumn(modifier = Modifier
-        .fillMaxSize()
-        .padding(spacingMedium)) {
+    LazyColumn(modifier = Modifier.fillMaxSize().padding(spacingMedium)) {
         items(items = appList, key = { item -> item.packageName }) { item ->
             TvListItem(
                 onClick = { onAppClicked(item.packageName) },
@@ -435,8 +428,7 @@ private fun SearchTextField(
         },
         onValueChange = { if ("\n" !in it) onSearchQueryChanged(it) },
         modifier =
-            Modifier
-                .fillMaxWidth()
+            Modifier.fillMaxWidth()
                 .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
                 .padding(spacingSmall)
                 .focusRequester(focusRequester)

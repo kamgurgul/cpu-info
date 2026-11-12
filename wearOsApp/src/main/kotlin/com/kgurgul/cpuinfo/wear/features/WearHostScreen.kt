@@ -76,23 +76,17 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
 sealed interface WearRoute : NavKey {
-    @Serializable
-    data object Menu : WearRoute
+    @Serializable data object Menu : WearRoute
 
-    @Serializable
-    data object Information : WearRoute
+    @Serializable data object Information : WearRoute
 
-    @Serializable
-    data object Applications : WearRoute
+    @Serializable data object Applications : WearRoute
 
-    @Serializable
-    data object Temperature : WearRoute
+    @Serializable data object Temperature : WearRoute
 
-    @Serializable
-    data object Settings : WearRoute
+    @Serializable data object Settings : WearRoute
 
-    @Serializable
-    data object TemperatureUnitPicker : WearRoute
+    @Serializable data object TemperatureUnitPicker : WearRoute
 }
 
 private val wearSavedStateConfiguration = SavedStateConfiguration {
@@ -208,8 +202,7 @@ fun MenuScreen(
                             painter = painterResource(Res.drawable.ic_cpu),
                             contentDescription = null,
                             modifier =
-                                Modifier
-                                    .size(ChipDefaults.IconSize)
+                                Modifier.size(ChipDefaults.IconSize)
                                     .wrapContentSize(align = Alignment.Center),
                         )
                     },
@@ -225,8 +218,7 @@ fun MenuScreen(
                                 painter = painterResource(Res.drawable.ic_android),
                                 contentDescription = null,
                                 modifier =
-                                    Modifier
-                                        .size(ChipDefaults.IconSize)
+                                    Modifier.size(ChipDefaults.IconSize)
                                         .wrapContentSize(align = Alignment.Center),
                             )
                         },
@@ -242,8 +234,7 @@ fun MenuScreen(
                             painter = painterResource(Res.drawable.ic_temperature),
                             contentDescription = null,
                             modifier =
-                                Modifier
-                                    .size(ChipDefaults.IconSize)
+                                Modifier.size(ChipDefaults.IconSize)
                                     .wrapContentSize(align = Alignment.Center),
                         )
                     },
@@ -258,8 +249,7 @@ fun MenuScreen(
                             painter = painterResource(Res.drawable.ic_settings),
                             contentDescription = null,
                             modifier =
-                                Modifier
-                                    .size(ChipDefaults.IconSize)
+                                Modifier.size(ChipDefaults.IconSize)
                                     .wrapContentSize(align = Alignment.Center),
                         )
                     },

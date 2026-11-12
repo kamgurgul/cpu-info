@@ -172,9 +172,9 @@ actual class CpuDataNativeProvider actual constructor() : ICpuDataNativeProvider
             machine.startsWith("iPhone15,") || machine == "iPhone14,7" || machine == "iPhone14,8" ->
                 if (
                     machine == "iPhone15,2" ||
-                    machine == "iPhone15,3" ||
-                    machine == "iPhone15,4" ||
-                    machine == "iPhone15,5"
+                        machine == "iPhone15,3" ||
+                        machine == "iPhone15,4" ||
+                        machine == "iPhone15,5"
                 ) {
                     "Apple A16 Bionic"
                 } else {

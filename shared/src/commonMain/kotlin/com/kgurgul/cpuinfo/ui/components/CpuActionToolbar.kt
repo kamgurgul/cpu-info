@@ -97,11 +97,11 @@ fun RowScope.CpuToolbarSearchItem(
         }
     }
     val expandProgress by
-    animateFloatAsState(
-        targetValue = if (showSearch) 1f else 0f,
-        animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing),
-        label = "searchExpandProgress",
-    )
+        animateFloatAsState(
+            targetValue = if (showSearch) 1f else 0f,
+            animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing),
+            label = "searchExpandProgress",
+        )
     Box(
         contentAlignment = Alignment.CenterStart,
         modifier =

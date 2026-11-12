@@ -124,10 +124,7 @@ fun TvHostScreen(uiState: HostViewModel.UiState, deepLinkUri: String? = null) {
         modifier = Modifier.background(MaterialTheme.colorScheme.background),
         drawerContent = {
             Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(spacingMedium)
-                    .selectableGroup(),
+                modifier = Modifier.fillMaxHeight().padding(spacingMedium).selectableGroup(),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement =
                     Arrangement.spacedBy(spacingSmall, Alignment.CenterVertically),

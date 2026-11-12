@@ -391,11 +391,11 @@ class ApplicationsViewModelTest {
         viewModel.uiStateFlow.test {
             awaitItem()
             for ((outcome, message) in
-            listOf(
-                UninstallOutcome.RESTART_REQUIRED to Res.string.app_uninstall_restart_required,
-                UninstallOutcome.UNCONFIRMED to Res.string.app_uninstall_unconfirmed,
-                UninstallOutcome.CANCELLED to null,
-            )) {
+                listOf(
+                    UninstallOutcome.RESTART_REQUIRED to Res.string.app_uninstall_restart_required,
+                    UninstallOutcome.UNCONFIRMED to Res.string.app_uninstall_unconfirmed,
+                    UninstallOutcome.CANCELLED to null,
+                )) {
                 fakeExternalAppAction.desktopUninstall = { Result.success(outcome) }
                 viewModel.onDesktopAppUninstallClicked(target)
                 runCurrent()
