@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 private val defaultTextStyle = TextStyle.Default
+private val baselineTypography = Typography()
 
 val CpuInfoTypography =
     Typography(
@@ -30,6 +31,8 @@ val CpuInfoTypography =
                 fontWeight = FontWeight.Medium,
                 lineHeight = 24.sp,
             ),
+        titleSmall = baselineTypography.titleSmall.copy(fontWeight = FontWeight.SemiBold),
+        bodyMedium = baselineTypography.bodyMedium.copy(fontWeight = FontWeight.Medium),
         labelSmall =
             defaultTextStyle.copy(
                 fontSize = 10.sp,
