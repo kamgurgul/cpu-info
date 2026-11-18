@@ -18,7 +18,6 @@ package com.kgurgul.cpuinfo.utils.navigation
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpRect
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavKey
@@ -29,6 +28,23 @@ import com.kgurgul.cpuinfo.features.settings.SettingsRoute
 import com.kgurgul.cpuinfo.features.temperature.TemperaturesRoute
 
 data class IosNativeTab(val title: String, val systemImageName: String)
+
+/**
+ * Space the native bars take at each edge of the window, see [NativeNavigationInsets]. In points.
+ *
+ * @param areBarsVertical whether UIKit lays the bars out down a side of the window, e.g. on iPhone
+ *   Duo
+ * @param navigationBarBottom bottom of the system navigation bar while it runs along the top,
+ *   `null` otherwise
+ */
+data class IosNativeBarsInsets(
+    val left: Double,
+    val top: Double,
+    val right: Double,
+    val bottom: Double,
+    val areBarsVertical: Boolean,
+    val navigationBarBottom: Double?,
+)
 
 /**
  * Implemented by the iOS app. Renders navigation elements using UIKit components (Liquid Glass)
@@ -42,8 +58,8 @@ interface IosNativeNavigationRenderer {
 
     fun setOnTabSelectedListener(listener: (Int) -> Unit)
 
-    /** [listener] receives the height of the bottom area covered by the tab bar. */
-    fun setOnTabBarHeightChangedListener(listener: (Double) -> Unit)
+    /** [listener] receives the space covered by the bars, whenever it changes. */
+    fun setOnBarsInsetsChangedListener(listener: (IosNativeBarsInsets) -> Unit)
 
     fun setButton(
         id: String,
@@ -57,20 +73,48 @@ interface IosNativeNavigationRenderer {
         onClick: () -> Unit,
     )
 
+    /**
+     * Shows the button in the system navigation bar, see [NativeNavigation.setNavigationBarButton].
+     */
+    fun setNavigationBarButton(
+        id: String,
+        systemImageName: String,
+        accessibilityLabel: String,
+        isTop: Boolean,
+        onClick: () -> Unit,
+    )
+
     fun removeButton(id: String)
+
+    /**
+     * Shows the title in the system navigation bar, see [NativeNavigation.setNavigationBarTitle].
+     */
+    fun setNavigationBarTitle(id: String, title: String, isTop: Boolean)
+
+    fun removeNavigationBarTitle(id: String)
 }
 
 /** Bridge between Compose and [IosNativeNavigationRenderer]. */
 class IosNativeNavigation(private val renderer: IosNativeNavigationRenderer) : NativeNavigation {
 
-    override var bottomBarHeight: Dp by mutableStateOf(0.dp)
+    override var insets: NativeNavigationInsets by mutableStateOf(NativeNavigationInsets())
         private set
 
     private var tabRoutes: List<NavKey> = emptyList()
     private var onTabSelected: (NavKey) -> Unit = {}
 
     init {
-        renderer.setOnTabBarHeightChangedListener { bottomBarHeight = it.dp }
+        renderer.setOnBarsInsetsChangedListener {
+            insets =
+                NativeNavigationInsets(
+                    left = it.left.dp,
+                    top = it.top.dp,
+                    right = it.right.dp,
+                    bottom = it.bottom.dp,
+                    areBarsVertical = it.areBarsVertical,
+                    navigationBarBottom = it.navigationBarBottom?.dp,
+                )
+        }
         renderer.setOnTabSelectedListener { index ->
             tabRoutes.getOrNull(index)?.let { onTabSelected(it) }
         }
@@ -106,11 +150,7 @@ class IosNativeNavigation(private val renderer: IosNativeNavigationRenderer) : N
     ) {
         renderer.setButton(
             id = id,
-            systemImageName =
-                when (type) {
-                    NativeNavigationButtonType.BACK -> "chevron.backward"
-                    NativeNavigationButtonType.CLOSE -> "xmark"
-                },
+            systemImageName = type.systemImageName,
             accessibilityLabel = contentDescription,
             x = boundsInWindow.left.value.toDouble(),
             y = boundsInWindow.top.value.toDouble(),
@@ -121,9 +161,40 @@ class IosNativeNavigation(private val renderer: IosNativeNavigationRenderer) : N
         )
     }
 
+    override fun setNavigationBarButton(
+        id: String,
+        type: NativeNavigationButtonType,
+        contentDescription: String,
+        isTop: Boolean,
+        onClick: () -> Unit,
+    ) {
+        renderer.setNavigationBarButton(
+            id = id,
+            systemImageName = type.systemImageName,
+            accessibilityLabel = contentDescription,
+            isTop = isTop,
+            onClick = onClick,
+        )
+    }
+
     override fun removeButton(id: String) {
         renderer.removeButton(id)
     }
+
+    override fun setNavigationBarTitle(id: String, title: String, isTop: Boolean) {
+        renderer.setNavigationBarTitle(id = id, title = title, isTop = isTop)
+    }
+
+    override fun removeNavigationBarTitle(id: String) {
+        renderer.removeNavigationBarTitle(id)
+    }
+
+    private val NativeNavigationButtonType.systemImageName: String
+        get() =
+            when (this) {
+                NativeNavigationButtonType.BACK -> "chevron.backward"
+                NativeNavigationButtonType.CLOSE -> "xmark"
+            }
 
     /** SF Symbols used for the tabs */
     private val NavKey.systemImageName: String

@@ -141,7 +141,18 @@ private val defaultNavTransitionSpecs =
         },
     )
 
+/**
+ * Cross fades between tabs, but a back swipe never switches tabs on iOS, it pops the stack even
+ * right after a bottom bar tap, so it keeps the slide following the finger.
+ */
+private val bottomBarNavTransitionSpecs =
+    NavTransitionSpecs(
+        transitionSpec = fadeNavTransitionSpecs.transitionSpec,
+        popTransitionSpec = fadeNavTransitionSpecs.popTransitionSpec,
+        predictivePopTransitionSpec = defaultNavTransitionSpecs.predictivePopTransitionSpec,
+    )
+
 actual fun navTransitionSpecs(isBottomBarNavigation: Boolean): NavTransitionSpecs =
-    if (isBottomBarNavigation) fadeNavTransitionSpecs else defaultNavTransitionSpecs
+    if (isBottomBarNavigation) bottomBarNavTransitionSpecs else defaultNavTransitionSpecs
 
 internal actual val exitThroughStartRoute: Boolean = false

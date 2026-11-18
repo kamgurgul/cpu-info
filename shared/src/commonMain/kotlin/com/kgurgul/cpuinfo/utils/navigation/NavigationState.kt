@@ -127,6 +127,7 @@ fun NavigationState.toEntries(
                 listOf(
                     rememberSaveableStateHolderNavEntryDecorator<NavKey>(),
                     rememberViewModelStoreNavEntryDecorator(),
+                    remember { navEntryKeyNavEntryDecorator() },
                 )
             rememberDecoratedNavEntries(
                 backStack = stack,

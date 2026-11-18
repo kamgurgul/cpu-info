@@ -17,7 +17,13 @@ package com.kgurgul.cpuinfo.features
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -62,11 +68,13 @@ import com.kgurgul.cpuinfo.ui.components.CpuNavigationSuiteScaffoldDefault
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.utils.navigation.LocalNativeNavigation
 import com.kgurgul.cpuinfo.utils.navigation.LocalNavigationBarPadding
+import com.kgurgul.cpuinfo.utils.navigation.LocalTopEntryKey
 import com.kgurgul.cpuinfo.utils.navigation.NativeNavigation
 import com.kgurgul.cpuinfo.utils.navigation.NativeNavigationTab
 import com.kgurgul.cpuinfo.utils.navigation.NavigationState
 import com.kgurgul.cpuinfo.utils.navigation.Navigator
 import com.kgurgul.cpuinfo.utils.navigation.TopLevelRoute
+import com.kgurgul.cpuinfo.utils.navigation.fullScreenBackGesture
 import com.kgurgul.cpuinfo.utils.navigation.navTransitionSpecs
 import com.kgurgul.cpuinfo.utils.navigation.toEntries
 import org.jetbrains.compose.resources.painterResource
@@ -112,13 +120,17 @@ fun HostScreen(
     val navTransitions = navTransitionSpecs(navigator.isBottomBarNavigation)
     val content =
         @Composable {
-            NavDisplay(
-                entries = navigationState.toEntries(entryProvider),
-                onBack = { navigator.goBack() },
-                transitionSpec = navTransitions.transitionSpec,
-                popTransitionSpec = navTransitions.popTransitionSpec,
-                predictivePopTransitionSpec = navTransitions.predictivePopTransitionSpec,
-            )
+            val entries = navigationState.toEntries(entryProvider)
+            CompositionLocalProvider(LocalTopEntryKey provides entries.lastOrNull()?.contentKey) {
+                NavDisplay(
+                    modifier = Modifier.fillMaxSize().fullScreenBackGesture(),
+                    entries = entries,
+                    onBack = { navigator.goBack() },
+                    transitionSpec = navTransitions.transitionSpec,
+                    popTransitionSpec = navTransitions.popTransitionSpec,
+                    predictivePopTransitionSpec = navTransitions.predictivePopTransitionSpec,
+                )
+            }
         }
     val nativeNavigation = LocalNativeNavigation.current
     if (nativeNavigation != null) {
@@ -160,7 +172,13 @@ fun HostScreen(
     )
 }
 
-/** Host for the platforms which render the navigation bar on their own above the content. */
+/**
+ * Host for the platforms which render the navigation bar on their own above the content. The bottom
+ * of the bar is handed to the screens as [LocalNavigationBarPadding], so they can scroll under it,
+ * a bar the platform moved to a side or to the top is reserved. While the bars run down a side,
+ * e.g. on iPhone Duo, the screens also keep clear of the safe area at the sides, so nothing of them
+ * is drawn behind the bars.
+ */
 @Composable
 private fun NativeNavigationHost(
     nativeNavigation: NativeNavigation,
@@ -180,11 +198,28 @@ private fun NativeNavigationHost(
             onTabSelected = { currentOnRouteSelected(it) },
         )
     }
+    val insets = nativeNavigation.insets
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.primary)) {
-        CompositionLocalProvider(
-            LocalNavigationBarPadding provides nativeNavigation.bottomBarHeight,
-            content = content,
-        )
+        Box(
+            modifier =
+                Modifier.fillMaxSize()
+                    .then(
+                        if (insets.areBarsVertical) {
+                            Modifier.background(MaterialTheme.colorScheme.background)
+                                .windowInsetsPadding(
+                                    WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)
+                                )
+                        } else {
+                            Modifier
+                        }
+                    )
+                    .absolutePadding(left = insets.left, top = insets.top, right = insets.right)
+        ) {
+            CompositionLocalProvider(
+                LocalNavigationBarPadding provides insets.bottom,
+                content = content,
+            )
+        }
     }
 }
 

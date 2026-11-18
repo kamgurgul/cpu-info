@@ -46,7 +46,7 @@ val fadeNavTransitionSpecs =
  *
  * Android, Desktop and Web always cross fade. iOS cross fades only when the navigation was
  * triggered by the bottom navigation bar and otherwise uses native-feeling iOS push/pop
- * transitions.
+ * transitions. A back swipe on iOS always slides, as it follows the finger.
  *
  * @param isBottomBarNavigation see [Navigator.isBottomBarNavigation].
  */
