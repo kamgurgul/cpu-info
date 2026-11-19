@@ -19,6 +19,15 @@ kotlin {
 compose.desktop {
     application {
         mainClass = "com.kgurgul.cpuinfo.MainKt"
+        // Use full JDK with jmods (required by ProGuard and jpackage), independent of Gradle JDK.
+        // Android Studio's bundled JBR doesn't ship jmods, which breaks release builds.
+        javaHome = javaToolchains
+            .launcherFor { languageVersion = JavaLanguageVersion.of(17) }
+            .get()
+            .metadata
+            .installationPath
+            .asFile
+            .absolutePath
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Pkg, TargetFormat.Msi, TargetFormat.Deb)
