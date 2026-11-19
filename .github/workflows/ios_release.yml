@@ -79,6 +79,7 @@ jobs:
             PRODUCT_BUNDLE_IDENTIFIER="${{ secrets.IOS_BUNDLE_ID }}" \
             CODE_SIGN_STYLE="Manual" \
             CODE_SIGN_IDENTITY="Apple Distribution" \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
             PROVISIONING_PROFILE_SPECIFIER="${{ secrets.IOS_DIST_PROVISIONING_PROFILE_NAME }}" \
             archive
       - name: "Generate ExportOptions.plist"
