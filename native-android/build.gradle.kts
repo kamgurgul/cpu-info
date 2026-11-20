@@ -5,7 +5,12 @@ plugins {
 }
 
 android {
-    compileSdk = AndroidVersions.COMPILE_SDK
+    compileSdk {
+        version =
+            release(AndroidVersions.COMPILE_SDK) {
+                minorApiLevel = AndroidVersions.COMPILE_SDK_MINOR
+            }
+    }
     namespace = "com.kgurgul.cpuinfo.nativelib"
 
     defaultConfig {

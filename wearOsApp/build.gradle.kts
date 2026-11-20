@@ -13,7 +13,12 @@ kotlin {
 }
 
 android {
-    compileSdk = AndroidVersions.COMPILE_SDK
+    compileSdk {
+        version =
+            release(AndroidVersions.COMPILE_SDK) {
+                minorApiLevel = AndroidVersions.COMPILE_SDK_MINOR
+            }
+    }
 
     defaultConfig {
         applicationId = "com.kgurgul.cpuinfo"

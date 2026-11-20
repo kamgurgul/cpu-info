@@ -20,7 +20,12 @@ kotlin {
 
     android {
         namespace = "com.kgurgul.cpuinfo.shared"
-        compileSdk = AndroidVersions.COMPILE_SDK
+        compileSdk {
+            version =
+                release(AndroidVersions.COMPILE_SDK) {
+                    minorApiLevel = AndroidVersions.COMPILE_SDK_MINOR
+                }
+        }
         minSdk = AndroidVersions.MIN_SDK
 
         androidResources {
