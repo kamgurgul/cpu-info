@@ -64,6 +64,9 @@ actual class ExternalAppAction actual constructor() : IExternalAppAction, KoinCo
                 throw e
             } catch (e: Exception) {
                 Result.failure(e)
+            } catch (e: LinkageError) {
+                // Broken native bindings (e.g. UnsatisfiedLinkError) must surface, not vanish.
+                Result.failure(e)
             }
         }
 

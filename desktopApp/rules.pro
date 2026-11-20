@@ -10,6 +10,9 @@
 # JNA - keep all classes and suppress reflection notes
 -keep class com.sun.jna.** { *; }
 -dontnote com.sun.jna.**
+# JNA binds native functions by method name and structures by field name
+-keep interface * extends com.sun.jna.Library { *; }
+-keep class * extends com.sun.jna.Structure { *; }
 
 # WindowsExeIconDecoder - JNA interfaces must be kept with original names
 -keep class com.kgurgul.cpuinfo.utils.WindowsExeIconDecoder { *; }

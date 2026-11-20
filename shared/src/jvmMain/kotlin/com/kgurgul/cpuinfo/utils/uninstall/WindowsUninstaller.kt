@@ -20,15 +20,15 @@ import com.kgurgul.cpuinfo.domain.model.UninstallTarget
 import com.sun.jna.Native
 import com.sun.jna.platform.win32.Kernel32
 import com.sun.jna.platform.win32.Kernel32Util
+import com.sun.jna.platform.win32.KnownFolders
 import com.sun.jna.platform.win32.Ole32
 import com.sun.jna.platform.win32.Shell32
+import com.sun.jna.platform.win32.Shell32Util
 import com.sun.jna.platform.win32.ShellAPI
 import com.sun.jna.platform.win32.Win32Exception
 import com.sun.jna.platform.win32.WinBase
 import com.sun.jna.platform.win32.WinError
 import com.sun.jna.ptr.IntByReference
-import com.sun.jna.win32.StdCallLibrary
-import com.sun.jna.win32.W32APIOptions
 import java.io.File
 import java.io.IOException
 import kotlinx.coroutines.delay
@@ -138,15 +138,11 @@ internal class WindowsUninstaller(
 }
 
 private suspend fun launchWindowsUninstaller(entry: WindowsAppEntry): UninstallOutcome {
-    val systemPath = CharArray(WINDOWS_MAX_PATH)
-    val size = SystemDirectoryApi.instance.GetSystemDirectory(systemPath, systemPath.size)
-    check(size > 0 && size < systemPath.size) { "Cannot locate the Windows system directory" }
+    // Use JNA's own bindings: ProGuard renames methods of app-declared JNA interfaces.
+    val systemDirectory = Shell32Util.getKnownFolderPath(KnownFolders.FOLDERID_System)
+    check(systemDirectory.isNotBlank()) { "Cannot locate the Windows system directory" }
     val command =
-        windowsUninstallCommand(
-            entry,
-            String(systemPath, 0, size),
-            Kernel32Util::expandEnvironmentStrings,
-        )
+        windowsUninstallCommand(entry, systemDirectory, Kernel32Util::expandEnvironmentStrings)
     require(File(command.executable).isFile) { "Uninstaller does not exist: ${command.executable}" }
     val execution =
         ShellAPI.SHELLEXECUTEINFO().apply {
@@ -161,7 +157,8 @@ private suspend fun launchWindowsUninstaller(entry: WindowsAppEntry): UninstallO
     val comResult = Ole32.INSTANCE.CoInitializeEx(null, Ole32.COINIT_APARTMENTTHREADED)
     try {
         if (!Shell32.INSTANCE.ShellExecuteEx(execution)) {
-            val error = Kernel32.INSTANCE.GetLastError()
+            // JNA captures the error right after the call; a separate GetLastError call may not.
+            val error = Native.getLastError()
             if (error == WinError.ERROR_CANCELLED) return UninstallOutcome.CANCELLED
             throw Win32Exception(error)
         }
@@ -187,20 +184,5 @@ private suspend fun launchWindowsUninstaller(entry: WindowsAppEntry): UninstallO
         } ?: UninstallOutcome.UNCONFIRMED
     } finally {
         Kernel32.INSTANCE.CloseHandle(process)
-    }
-}
-
-private const val WINDOWS_MAX_PATH = 260
-
-private interface SystemDirectoryApi : StdCallLibrary {
-    fun GetSystemDirectory(buffer: CharArray, size: Int): Int
-
-    companion object {
-        val instance: SystemDirectoryApi =
-            Native.load(
-                "kernel32",
-                SystemDirectoryApi::class.java,
-                W32APIOptions.UNICODE_OPTIONS,
-            )
     }
 }
