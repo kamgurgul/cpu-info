@@ -15,156 +15,109 @@
  */
 package com.kgurgul.cpuinfo.data.provider
 
+import android.app.usage.StorageStatsManager
+import android.content.Context
+import android.os.Build
 import android.os.Environment
+import android.os.storage.StorageManager
+import android.os.storage.StorageVolume
 import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.domain.model.TextResource
 import com.kgurgul.cpuinfo.shared.Res
-import com.kgurgul.cpuinfo.shared.baseline_folder_24
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
 import com.kgurgul.cpuinfo.shared.baseline_sd_storage_24
-import com.kgurgul.cpuinfo.shared.external
 import com.kgurgul.cpuinfo.shared.internal
 import com.kgurgul.cpuinfo.utils.CpuLogger
-import java.io.BufferedReader
-import java.io.DataInputStream
 import java.io.File
-import java.io.FileInputStream
-import java.io.InputStreamReader
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-actual class StorageDataProvider actual constructor() : IStorageDataProvider {
+actual class StorageDataProvider actual constructor() : IStorageDataProvider, KoinComponent {
 
-    actual override suspend fun getStorageInfo(): List<StorageItem> {
-        return listOfNotNull(getInternalStorage(), getExternalStorage(), getSdCardStorage())
+    private val context: Context by inject()
+    private val storageManager: StorageManager by inject()
+
+    actual override suspend fun getStorageInfo(): List<StorageItem> = buildList {
+        val internal = getInternalStorage()
+        internal?.let(::add)
+        for ((volume, directory) in getMountedVolumes()) {
+            // The emulated primary volume lives on /data, so it would duplicate internal storage
+            if (internal != null && volume.isPrimary && volume.isEmulated && volume.uuid == null) {
+                continue
+            }
+            getVolumeStorage(directory, TextResource.Text(volume.getDescription(context)))
+                ?.let(::add)
+        }
     }
 
     private fun getInternalStorage(): StorageItem? {
-        val dataDir = Environment.getDataDirectory()
-        val storageTotal = dataDir.totalSpace
-        val availableSpace = dataDir.usableSpace // Use StorageManager
-        val storageUsed = storageTotal - availableSpace
-        return if (storageTotal > 0) {
-            StorageItem(
-                id = "0",
-                label = TextResource.Resource(Res.string.internal),
-                iconDrawable = Res.drawable.baseline_folder_special_24,
-                storageTotal = storageTotal,
-                storageUsed = storageUsed,
-            )
-        } else {
-            null
-        }
-    }
-
-    private fun getExternalStorage(): StorageItem? {
-        return if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-            val dataDir = Environment.getExternalStorageDirectory()
-            val storageTotal = dataDir.totalSpace
-            val availableSpace = dataDir.usableSpace // Use StorageManager
-            val storageUsed = storageTotal - availableSpace
-            if (storageTotal > 0) {
-                StorageItem(
-                    id = "1",
-                    label = TextResource.Resource(Res.string.external),
-                    iconDrawable = Res.drawable.baseline_folder_24,
-                    storageTotal = storageTotal,
-                    storageUsed = storageUsed,
-                )
-            } else {
-                null
-            }
-        } else {
-            null
-        }
-    }
-
-    private fun getSdCardStorage(): StorageItem? {
-        getExternalSDMounts().firstOrNull()?.let { sdCardPath ->
-            if (sdCardPath.isNotEmpty()) {
-                val truncatedPath =
-                    if (sdCardPath.contains(":")) {
-                        sdCardPath.substring(0, sdCardPath.indexOf(":"))
-                    } else {
-                        sdCardPath
-                    }
-                val externalFilePath = File(truncatedPath)
-                if (externalFilePath.exists()) {
-                    val storageTotal = externalFilePath.totalSpace
-                    val availableSpace = externalFilePath.usableSpace // Use StorageManager
-                    val storageUsed = storageTotal - availableSpace
-                    return if (storageTotal > 0) {
-                        StorageItem(
-                            id = "2",
-                            label = TextResource.Resource(Res.string.external),
-                            iconDrawable = Res.drawable.baseline_sd_storage_24,
-                            storageTotal = storageTotal,
-                            storageUsed = storageUsed,
-                        )
-                    } else {
-                        null
-                    }
-                }
-            }
-        }
-        return null
+        val dataDirectory = Environment.getDataDirectory()
+        val (total, available) =
+            getInternalStorageStats() ?: (dataDirectory.totalSpace to dataDirectory.usableSpace)
+        if (total <= 0) return null
+        return StorageItem(
+            id = dataDirectory.absolutePath,
+            label = TextResource.Resource(Res.string.internal),
+            iconDrawable = Res.drawable.baseline_folder_special_24,
+            storageTotal = total,
+            storageUsed = total - available,
+        )
     }
 
     /**
-     * And there the magic starts :) TBH I'm not so sure that this is the only good solution but
-     * from my testing it is the working one for most of the phones.
+     * Returns total and free bytes of the whole internal storage, matching the values presented in
+     * the system settings. Unlike statfs on /data, the total includes the system partitions.
      */
-    private fun getExternalSDMounts(): List<String> {
-        val sdDirList = mutableListOf<String>()
-        try {
-            val dis = DataInputStream(FileInputStream("/proc/mounts"))
-            val br = BufferedReader(InputStreamReader(dis))
-            val externalDir = Environment.getExternalStorageDirectory().path
-            while (true) {
-                val strLine = br.readLine()
-                if (strLine == null) {
-                    break
-                } else if (
-                    !(strLine.contains("asec") ||
-                        strLine.contains("legacy") ||
-                        strLine.contains("Android/obb"))
-                ) {
-                    if (
-                        strLine.startsWith("/dev/block/vold/") ||
-                            strLine.startsWith("/dev/block/sd") ||
-                            strLine.startsWith("/dev/fuse") ||
-                            strLine.startsWith("/mnt/media_rw")
-                    ) {
-                        val lineElements =
-                            strLine
-                                .split(" ".toRegex())
-                                .dropLastWhile { it.isEmpty() }
-                                .toTypedArray()
-                        val path = File(lineElements[1])
-                        if (
-                            (path.exists() || path.isDirectory || path.canWrite()) &&
-                                path.exists() &&
-                                // && path.canRead()
-                                !path.path.contains("/system") &&
-                                !sdDirList.contains(lineElements[1]) &&
-                                lineElements[1] != externalDir &&
-                                lineElements[1] != "/storage/emulated" &&
-                                !sdDirList.any {
-                                    it.endsWith(
-                                        lineElements[1].substring(
-                                            lineElements[1].lastIndexOf("/"),
-                                            lineElements[1].length,
-                                        )
-                                    )
-                                }
-                        ) {
-                            sdDirList.add(lineElements[1])
-                        }
-                    }
-                }
-            }
-            dis.close()
+    private fun getInternalStorageStats(): Pair<Long, Long>? {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return null
+        return try {
+            val statsManager =
+                context.getSystemService(StorageStatsManager::class.java) ?: return null
+            val total = statsManager.getTotalBytes(StorageManager.UUID_DEFAULT)
+            val free = statsManager.getFreeBytes(StorageManager.UUID_DEFAULT)
+            if (total > 0 && free in 0..total) total to free else null
         } catch (e: Exception) {
-            CpuLogger.e(e) { "Cannot read mounts" }
+            CpuLogger.w(e) { "Cannot read internal storage stats" }
+            null
         }
-        return sdDirList
+    }
+
+    /**
+     * Returns mounted shared storage volumes with a directory that can be used to query their size.
+     * App-specific directories cover the primary storage and SD cards on every API level. Since API
+     * 30 volume roots are also available, which adds volumes without app-specific directories, e.g.
+     * USB drives.
+     */
+    private fun getMountedVolumes(): List<Pair<StorageVolume, File>> {
+        val appDirectories =
+            context.getExternalFilesDirs(null).filterNotNull().mapNotNull { directory ->
+                storageManager.getStorageVolume(directory)?.let { volume -> volume to directory }
+            }
+        val volumes =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val knownRoots = appDirectories.mapNotNull { (volume, _) -> volume.directory }
+                appDirectories +
+                    storageManager.storageVolumes.mapNotNull { volume ->
+                        volume.directory?.takeIf { it !in knownRoots }?.let { volume to it }
+                    }
+            } else {
+                appDirectories
+            }
+        return volumes.filter { (volume, _) ->
+            volume.state == Environment.MEDIA_MOUNTED ||
+                volume.state == Environment.MEDIA_MOUNTED_READ_ONLY
+        }
+    }
+
+    private fun getVolumeStorage(directory: File, label: TextResource): StorageItem? {
+        val total = directory.totalSpace
+        if (total <= 0) return null
+        return StorageItem(
+            id = directory.absolutePath,
+            label = label,
+            iconDrawable = Res.drawable.baseline_sd_storage_24,
+            storageTotal = total,
+            storageUsed = total - directory.usableSpace,
+        )
     }
 }

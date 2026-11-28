@@ -23,4 +23,9 @@ data class StorageItem(
     val iconDrawable: DrawableResource,
     val storageTotal: Long,
     val storageUsed: Long,
-)
+) {
+    val storageAvailable: Long?
+        get() =
+            if (storageTotal > 0 && storageUsed in 0..storageTotal) storageTotal - storageUsed
+            else null
+}

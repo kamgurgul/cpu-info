@@ -30,17 +30,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kgurgul.cpuinfo.domain.model.StorageItem
 import com.kgurgul.cpuinfo.domain.model.TextResource
-import com.kgurgul.cpuinfo.domain.model.asString
 import com.kgurgul.cpuinfo.shared.Res
 import com.kgurgul.cpuinfo.shared.baseline_folder_special_24
-import com.kgurgul.cpuinfo.ui.components.CpuProgressBar
 import com.kgurgul.cpuinfo.ui.components.CpuPullToRefreshBox
 import com.kgurgul.cpuinfo.ui.components.VerticalScrollbar
 import com.kgurgul.cpuinfo.ui.theme.CpuInfoTheme
 import com.kgurgul.cpuinfo.ui.theme.spacingSmall
-import com.kgurgul.cpuinfo.utils.Utils
 import com.kgurgul.cpuinfo.utils.navigation.contentPaddingWithNavigationBar
-import kotlin.math.roundToInt
 import kotlinx.collections.immutable.persistentListOf
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -67,30 +63,9 @@ fun StorageInfoScreen(uiState: StorageInfoViewModel.UiState) {
             modifier = Modifier.fillMaxSize(),
         ) {
             items(uiState.storageItems, key = { it.id }) { storageItem ->
-                val label = buildString {
-                    val notFormattedLabel = storageItem.label.asString().trim()
-                    if (notFormattedLabel.isNotEmpty()) {
-                        append(notFormattedLabel)
-                        append(": ")
-                    }
-                }
-                val totalReadable = Utils.humanReadableByteCount(storageItem.storageTotal)
-                val usedReadable = Utils.humanReadableByteCount(storageItem.storageUsed)
-                val progress =
-                    if (storageItem.storageTotal != 0L)
-                        storageItem.storageUsed.toFloat() / storageItem.storageTotal.toFloat()
-                    else 0f
-                val usedPercent = (progress * 100.0).roundToInt()
-                val storageDesc = "$label$usedReadable / $totalReadable ($usedPercent%)"
-                val minMaxValues =
-                    Utils.humanReadableByteCount(0) to
-                        Utils.humanReadableByteCount(storageItem.storageTotal)
-                CpuProgressBar(
-                    label = storageDesc,
-                    progress = progress,
+                StorageUsageBar(
+                    storageItem = storageItem,
                     progressHeight = 32.dp,
-                    prefixImageRes = storageItem.iconDrawable,
-                    minMaxValues = minMaxValues,
                 )
             }
         }

@@ -70,8 +70,9 @@
     <string name="ram_physical_memory_info">Kapazität: %1$s\nTaktfrequenz: %2$d\nHersteller: %3$s\nSpeichertyp: %4$s\nTeilenummer: %5$s\nSeriennummer: %6$s</string>
 
     <string name="internal">Intern</string>
-    <string name="external">Extern</string>
-    <string name="storage_estimated">Geschätzt</string>
+    <string name="browser_storage_quota">Geschätztes Speicherlimit für diese Website</string>
+    <string name="storage_usage_summary">%1$s von %2$s belegt (%3$s)\n%4$s verfügbar</string>
+    <string name="storage_usage_unavailable">Keine Angaben zur Speicherbelegung verfügbar</string>
 
     <string name="screen_class">Bildschirmklasse</string>
     <string name="small">Klein</string>

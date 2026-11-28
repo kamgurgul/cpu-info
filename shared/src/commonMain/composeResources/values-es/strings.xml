@@ -73,8 +73,9 @@
 
     <!--Storage-->
     <string name="internal">Interno</string>
-    <string name="external">Externo</string>
-    <string name="storage_estimated">Estimado</string>
+    <string name="browser_storage_quota">Cuota de almacenamiento estimada para este sitio</string>
+    <string name="storage_usage_summary">En uso: %1$s de %2$s (%3$s)\nDisponible: %4$s</string>
+    <string name="storage_usage_unavailable">No hay información sobre el uso del almacenamiento</string>
 
     <!--Screen-->
     <string name="screen_class">Clase de pantalla</string>

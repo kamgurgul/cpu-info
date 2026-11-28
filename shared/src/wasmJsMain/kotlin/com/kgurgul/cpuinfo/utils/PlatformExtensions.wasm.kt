@@ -44,9 +44,12 @@ external fun getUsedHeapSize(): Int
 
 external fun getTotalHeapSize(): Int
 
-external fun getTotalStorage(): Promise<JsBigInt>
+external interface BrowserStorageEstimate : JsAny {
+    val quota: Double
+    val usage: Double
+}
 
-external fun getUsedStorage(): Promise<JsBigInt>
+external fun getStorageEstimate(): Promise<BrowserStorageEstimate>
 
 external fun isPdfViewerEnabled(): Boolean
 

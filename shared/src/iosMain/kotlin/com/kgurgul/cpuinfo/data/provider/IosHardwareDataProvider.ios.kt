@@ -19,7 +19,9 @@ interface IosHardwareDataProvider {
 
     fun getAvailableMemory(): Long
 
+    /** Returns the total disk space in bytes or 0 when it cannot be determined. */
     fun getTotalDiskSpaceInBytes(): Long
 
+    /** Returns the free disk space in bytes or -1 when it cannot be determined. */
     fun getFreeDiskSpaceInBytes(): Long
 }

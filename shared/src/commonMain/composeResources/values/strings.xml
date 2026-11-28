@@ -103,8 +103,9 @@
 
     <!--Storage-->
     <string name="internal">Internal</string>
-    <string name="external">External</string>
-    <string name="storage_estimated">Estimated</string>
+    <string name="browser_storage_quota">Estimated site storage quota</string>
+    <string name="storage_usage_summary">%1$s of %2$s used (%3$s)\n%4$s available</string>
+    <string name="storage_usage_unavailable">Storage usage unavailable</string>
 
     <!--Screen-->
     <string name="screen_class">Screen class</string>

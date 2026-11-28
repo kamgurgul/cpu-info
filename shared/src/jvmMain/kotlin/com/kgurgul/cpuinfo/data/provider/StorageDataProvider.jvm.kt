@@ -28,28 +28,42 @@ actual class StorageDataProvider actual constructor() : IStorageDataProvider, Ko
     private val systemInfo: SystemInfo by inject()
 
     actual override suspend fun getStorageInfo(): List<StorageItem> {
-        val fileStores = systemInfo.operatingSystem.fileSystem.fileStores
-        return buildList {
-            fileStores.forEach { osFileStore ->
-                val label = buildString {
-                    if (!osFileStore.label.isNullOrEmpty()) {
-                        appendLine(osFileStore.label)
-                    }
-                    appendLine(osFileStore.name)
-                    appendLine(osFileStore.type)
-                }
-                add(
+        return systemInfo.operatingSystem.fileSystem.fileStores
+            .filter { it.totalSpace > 0 }
+            .map { fileStore ->
+                val label =
+                    fileStoreLabel(
+                        label = fileStore.label,
+                        name = fileStore.name,
+                        type = fileStore.type,
+                        mount = fileStore.mount,
+                    )
+                label to
                     StorageItem(
-                        id = osFileStore.uuid,
+                        id = fileStore.mount.ifBlank { fileStore.uuid },
                         label = TextResource.Text(label),
                         iconDrawable = Res.drawable.ic_hard_drive,
-                        storageTotal = osFileStore.totalSpace,
-                        storageUsed = osFileStore.totalSpace - osFileStore.freeSpace,
+                        storageTotal = fileStore.totalSpace,
+                        storageUsed = fileStore.totalSpace - fileStore.usableSpace,
                     )
-                )
             }
-        }
+            .sortedBy { (label, _) -> label }
+            .map { (_, storageItem) -> storageItem }
             .distinctBy { it.id }
-            .sortedBy { (it.label as? TextResource.Text)?.value }
     }
+}
+
+/**
+ * Builds a label with the volume name in the first line and the remaining details in the second
+ * one. OSHI often reports the same value for several fields (e.g. label and name on macOS), so
+ * duplicates are skipped.
+ */
+internal fun fileStoreLabel(label: String?, name: String?, type: String?, mount: String?): String {
+    val title = label?.trim()?.takeIf { it.isNotEmpty() } ?: name?.trim().orEmpty()
+    val details =
+        listOf(name, type, mount)
+            .mapNotNull { value -> value?.trim()?.takeIf { it.isNotEmpty() && it != title } }
+            .distinct()
+            .joinToString(separator = " • ")
+    return listOf(title, details).filter { it.isNotEmpty() }.joinToString(separator = "\n")
 }

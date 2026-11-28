@@ -14,22 +14,16 @@ function getTotalHeapSize() {
     }
 }
 
-async function getTotalStorage() {
-    if ("storage" in navigator && "estimate" in navigator.storage) {
-        const { usage, quota } = await navigator.storage.estimate();
-        return BigInt(quota);
-    } else {
-        return BigInt(-1);
+async function getStorageEstimate() {
+    try {
+        const estimate = await navigator.storage?.estimate?.();
+        if (Number.isSafeInteger(estimate?.quota) && Number.isSafeInteger(estimate?.usage)) {
+            return estimate;
+        }
+    } catch {
+        // Storage estimation is unavailable, e.g. blocked by the browser
     }
-}
-
-async function getUsedStorage() {
-    if ("storage" in navigator && "estimate" in navigator.storage) {
-        const { usage, quota } = await navigator.storage.estimate();
-        return BigInt(usage);
-    } else {
-        return BigInt(-1);
-    }
+    return { quota: -1, usage: -1 };
 }
 
 function isPdfViewerEnabled() {

@@ -33,18 +33,16 @@ actual class StorageDataProvider actual constructor() : IStorageDataProvider, Ko
 
     private fun getInternalStorage(): StorageItem? {
         val storageTotal = iosHardwareDataProvider.getTotalDiskSpaceInBytes()
+        if (storageTotal <= 0) return null
         val availableSpace = iosHardwareDataProvider.getFreeDiskSpaceInBytes()
-        val storageUsed = storageTotal - availableSpace
-        return if (storageTotal > 0) {
-            StorageItem(
-                id = "0",
-                label = TextResource.Resource(Res.string.internal),
-                iconDrawable = Res.drawable.ic_hard_drive,
-                storageTotal = storageTotal,
-                storageUsed = storageUsed,
-            )
-        } else {
-            null
-        }
+        return StorageItem(
+            id = "0",
+            label = TextResource.Resource(Res.string.internal),
+            iconDrawable = Res.drawable.ic_hard_drive,
+            storageTotal = storageTotal,
+            // Unknown free space is reported as a negative usage, which is rendered as unavailable
+            storageUsed =
+                if (availableSpace in 0..storageTotal) storageTotal - availableSpace else -1,
+        )
     }
 }
